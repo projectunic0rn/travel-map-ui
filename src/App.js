@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
+import PropTypes from 'prop-types';
+
 import './App.css';
 
 function App() {
@@ -21,6 +23,10 @@ function App() {
       </header>
     </div>
   );
+}
+
+App.propTypes = {
+  foo: PropTypes.string
 }
 
 export default App;
