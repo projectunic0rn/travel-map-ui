@@ -8,7 +8,7 @@ export default function Nav() {
       <div className="container">
         <div className="left-side">
           <NavLink exact to="/">Home</NavLink>
-          <NavLink exact to="/profile/">Profile Page</NavLink>
+          <NavLink to="/profile/">Profile Page</NavLink>
         </div>
         <span className="logo">LOGO</span>
         <span className="right-side">
