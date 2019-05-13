@@ -1,11 +1,15 @@
 $container: 1600px;
 @import './scss/colors';
 @import './components/Nav/Nav';
+@import './pages/Profile/Profile';
 
 * {
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
 body {
   background: $bg2;
   margin: 0;
@@ -21,6 +25,12 @@ code {
     monospace;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .container {
   max-width: $container;
   margin: 0 auto;
@@ -33,4 +43,8 @@ code {
   width: $l;
   background-color: #333;
   display: inline-block;
+}
+
+.page .container {
+  height: calc(100vh - 100px);
 }

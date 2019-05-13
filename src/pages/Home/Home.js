@@ -2,6 +2,10 @@ import React from 'react';
 
 export default function Home() {
   return (
-    <h1>Home</h1>
+    <div className="page">
+      <div className="container">
+        <h1 style="margin: 0">Home</h1>
+      </div>
+    </div>
   );
 }
