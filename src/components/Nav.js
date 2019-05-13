@@ -9,7 +9,7 @@ export default function Nav() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/page2/">Page 2</Link>
+          <Link to="/profile/">Profile Page</Link>
         </li>
       </ul>
     </nav>
