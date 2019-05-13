@@ -6,6 +6,8 @@ import Nav from './Nav';
 import Home from './Home';
 import Page2 from './Page2';
 
+import './App.scss';
+
 function App() {
   return (
     <Router>
