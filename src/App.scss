@@ -1,6 +1,6 @@
 $container: 1600px;
 @import './scss/colors';
-@import './components/Nav';
+@import './components/Nav/Nav';
 
 * {
   box-sizing: border-box;
@@ -24,4 +24,13 @@ code {
 .container {
   max-width: $container;
   margin: 0 auto;
+}
+
+.user-avatar {
+  $l: 62px;
+  border-radius: 50%;
+  height: $l;
+  width: $l;
+  background-color: #333;
+  display: inline-block;
 }

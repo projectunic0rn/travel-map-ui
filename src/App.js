@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Nav from './components/Nav';
+import Nav from './components/Nav/Nav';
 import Home from './pages/Home/Home';
 import Profile from './pages/Profile/Profile';
 
