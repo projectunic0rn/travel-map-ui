@@ -1,0 +1,51 @@
+$container: 1600px;
+@import './scss/colors';
+@import './components/Nav/Nav';
+@import './pages/Profile/Profile';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+body {
+  background: $bg2;
+  margin: 0;
+  font-family: "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.container {
+  max-width: $container;
+  margin: 0 auto;
+}
+
+.user-avatar {
+  $l: 62px;
+  border-radius: 50%;
+  height: $l;
+  width: $l;
+  background-color: #333;
+  display: inline-block;
+}
+
+.page .container {
+  height: calc(100vh - 100px);
+  padding: 20px;
+}

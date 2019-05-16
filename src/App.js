@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Nav from './Nav';
-import Home from './Home';
-import Page2 from './Page2';
+import Nav from './components/Nav/Nav';
+import Home from './pages/Home/Home';
+import Profile from './pages/Profile/Profile';
+
+import './App.scss';
 
 function App() {
   return (
     <Router>
       <Nav />
       <Route path="/" exact component={Home} />
-      <Route path="/page2/" component={Page2} />
+      <Route path="/profile/" component={Profile} />
     </Router>
   );
 }

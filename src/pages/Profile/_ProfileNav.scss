@@ -1,0 +1,16 @@
+.content-nav {
+  a {
+    color: #B7BFCC;
+    font-size: 24px;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: lowercase;
+    font-weight: 300;
+    letter-spacing: 1px;
+    padding: 8px 0;
+    margin: 8px 20px 0;
+    &.active {
+      border-bottom: 4px solid #A7E1FF
+    }
+  }
+}
