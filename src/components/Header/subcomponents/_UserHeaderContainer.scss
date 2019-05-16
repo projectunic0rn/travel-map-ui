@@ -11,6 +11,9 @@
     height: 62px;
     text-decoration: none;
   }
+  .user-avatar {
+    margin-right: 8px;
+  }
   @media screen and (max-width: 767px) {
     a .header-username {
       display: none;
