@@ -5,3 +5,20 @@ $bg2: #525B6A;
 $bg3: #656F80;
 $navbar-bg: #F8F8FC;
 $grey: #A7A7A7;
+
+// tag colors
+
+$tag-green: #D1DCDB;
+$tag-blue: #C2D7E5;
+$tag-yellow: #F2E9D2;
+$tag-red: #ECD7DB;
+$tag-colors:(
+  green: $tag-green,
+  blue: $tag-blue,
+  yellow: $tag-yellow,
+  red: $tag-red,
+  violet: violet
+);
+
+
+$sidebar-background: #F8F8FC;
