@@ -1,6 +1,6 @@
 $container: 1600px;
 @import './scss/colors';
-@import './components/Nav/Nav';
+@import './components/Header/Header';
 @import './pages/Profile/Profile';
 
 * {
@@ -48,4 +48,8 @@ code {
 .page .container {
   height: calc(100vh - 100px);
   padding: 20px;
+}
+
+.display-none {
+  display: none;
 }
