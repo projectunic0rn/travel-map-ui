@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
+import Landing from './pages/Landing/Landing';
 import Profile from './pages/Profile/Profile';
 import HamburgerMenuDropdown from "./components/Header/subcomponents/HamburgerMenuDropdown";
 
@@ -13,9 +14,17 @@ const { useState } = React;
 
 function App() {
   const [showHamburgerDropdown, handleHamburgerClick] = useState(0);
+  const [userLoggedIn, handleUserLogin] = useState(0);
   function handleHamburgerResponse(val) {
     handleHamburgerClick(val);
   }
+
+  if (!userLoggedIn) {
+    return (
+      <Landing handleUserLogin={handleUserLogin}/>
+    )
+  }
+
   return (
     <Router>
       <Header handleHamburgerClick = {handleHamburgerResponse} showHamburgerDropdown = {showHamburgerDropdown}/>

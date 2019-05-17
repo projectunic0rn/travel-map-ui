@@ -1,0 +1,339 @@
+@import "./subcomponents/LoginForm";
+
+.landing-container {
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  margin: 0 auto;
+  left: 0%;
+  background-image: url("./images/Mt_Cook.jpg");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 2.5%;
+}
+
+.landing-motto {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0px auto;
+  margin-bottom: 20px;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 36px;
+  color: $off-white;
+  font-weight: 300;
+  align-items: center;
+  & > span {
+    display: inline-block;
+    color: $off-white;
+    font-weight: 300;
+  }
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 83px;
+    margin: 0px;
+  }
+}
+
+.rotating-word-container {
+  display: flex;
+  height: 83px;
+}
+
+.sliding-words {
+  display: inline;
+  text-indent: 8px;
+  span {
+    animation: topToBottom 12.5s linear infinite 0s;
+    -ms-animation: topToBottom 12.5s linear infinite 0s;
+    -webkit-animation: topToBottom 12.5s linear infinite 0s;
+    color: $primary-blue;
+    font-weight: 400;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    padding: 0 20px;
+  }
+  span:nth-child(2) {
+    animation-delay: 2.5s;
+    -ms-animation-delay: 2.5s;
+    -webkit-animation-delay: 2.5s;
+  }
+  span:nth-child(3) {
+    animation-delay: 5s;
+    -ms-animation-delay: 5s;
+    -webkit-animation-delay: 5s;
+  }
+  span:nth-child(4) {
+    animation-delay: 7.5s;
+    -ms-animation-delay: 7.5s;
+    -webkit-animation-delay: 7.5s;
+  }
+  span:nth-child(5) {
+    animation-delay: 10s;
+    -ms-animation-delay: 10s;
+    -webkit-animation-delay: 10s;
+  }
+}
+
+.rotating-word-width {
+  display: none;
+  will-change: transform;
+  transition: transform 1s ease 0s, width 1s ease 0s;
+  margin-right: 0px;
+  p {
+    transform: translateY(0px);
+    background: none;
+    span {
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: opacity 1.2s ease, padding 0.8s linear;
+      margin: 0 20px;
+      transition: transform 3s ease 1s, width 3s ease 1s;
+    }
+  }
+}
+
+.landing-places {
+  display: flex;
+  justify-content: center;
+  transform: translateY(-32px);
+}
+
+.motto-line-two {
+  border-bottom: 1px solid white;
+  margin: 0 20px;
+}
+
+/*topToBottom Animation*/
+@keyframes topToBottom {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 0;
+    -moz-transform: translateY(-50px);
+  }
+  10% {
+    opacity: 1;
+    -moz-transform: translateY(0px);
+  }
+  25% {
+    opacity: 1;
+    -moz-transform: translateY(0px);
+  }
+  30% {
+    opacity: 0;
+    -moz-transform: translateY(50px);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes topToBottom {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 0;
+    -moz-transform: translateY(-50px);
+  }
+  10% {
+    opacity: 1;
+    -moz-transform: translateY(0px);
+  }
+  25% {
+    opacity: 1;
+    -moz-transform: translateY(0px);
+  }
+  30% {
+    opacity: 0;
+    -moz-transform: translateY(50px);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes topToBottom {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+  }
+  10% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+  }
+  25% {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+  }
+  30% {
+    opacity: 0;
+    -webkit-transform: translateY(50px);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-ms-keyframes topToBottom {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 0;
+    -ms-transform: translateY(-50px);
+  }
+  10% {
+    opacity: 1;
+    -ms-transform: translateY(0px);
+  }
+  25% {
+    opacity: 1;
+    -ms-transform: translateY(0px);
+  }
+  30% {
+    opacity: 0;
+    -ms-transform: translateY(50px);
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .landing-motto {
+    max-width: 500px;
+    font-size: 40px;
+  }
+  .rotating-word-width {
+    margin-right: 90px;
+  }
+  .motto-line-two {
+    height: 60px;
+  }
+  @media (min-height: 600px) {
+    .landing-motto {
+      color: $dark-grey;
+      & > span {
+        color: $dark-grey;
+      }
+    }
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .landing-motto {
+    font-size: 42px;
+    max-width: 800px;
+  }
+  .rotating-word-width {
+    display: inline-block;
+    margin-right: 110px;
+  }
+  .rotating-word-container {
+    display: inline;
+  }
+  .landing-places {
+    display: inline;
+    transform: translateY(0);
+  }
+  .motto-line-two {
+    height: 60px;
+  }
+  @media (min-height: 600px) {
+    .landing-motto {
+      color: $dark-grey;
+      & > span {
+        color: $dark-grey;
+      }
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .landing-motto {
+    font-size: 54px;
+    max-width: 1000px;
+  }
+  .rotating-word-width {
+    display: inline-block;
+    margin-right: 140px;
+  }
+  .rotating-word-container {
+    display: inline;
+  }
+  .landing-places {
+    display: inline;
+    transform: translateY(0);
+  }
+  .motto-line-two {
+    height: 83px;
+  }
+  @media (min-height: 600px) {
+    .landing-motto {
+      color: $dark-grey;
+      & > span {
+        color: $dark-grey;
+      }
+    }
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .landing-container {
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    margin: 0 auto;
+    left: 0%;
+    background-image: url("./images/Mt_Cook.jpg");
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 2.5%;
+  }
+  .landing-motto {
+    font-size: 72px;
+    max-width: 1600px;
+  }
+  .rotating-word-width {
+    margin-right: 200px;
+  }
+  .motto-line-two {
+    height: 100px;
+  }
+  @media (min-height: 600px) {
+    .landing-motto {
+      color: $dark-grey;
+      & > span {
+        color: $dark-grey;
+      }
+    }
+  }
+}
