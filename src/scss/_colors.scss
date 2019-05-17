@@ -6,6 +6,8 @@ $bg2: #525B6A;
 $bg3: #656F80;
 $navbar-bg: #F8F8FC;
 $grey: #A7A7A7;
+$dark-grey: #6E7377;
+
 $primary-blue: #73A7C3;
 $primary-green: #96B1A8;
 $primary-yellow: #DBC071;
@@ -14,3 +16,20 @@ $light-blue: #C2D7E5;
 $light-green: #D1DCDB;
 $light-yellow: #F2E9D2;
 $light-red: #ECD7DB;
+
+// tag colors
+
+$tag-green: #D1DCDB;
+$tag-blue: #C2D7E5;
+$tag-yellow: #F2E9D2;
+$tag-red: #ECD7DB;
+$tag-colors:(
+  green: $tag-green,
+  blue: $tag-blue,
+  yellow: $tag-yellow,
+  red: $tag-red,
+  violet: violet
+);
+
+$link-color: #B7BFCC;
+$sidebar-background: #F8F8FC;

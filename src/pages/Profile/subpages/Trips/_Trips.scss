@@ -1,0 +1,72 @@
+.content-trips-page {
+  display: grid;
+  grid-template-columns: [sidebar] 180px [content] auto;
+  .sidebar-filter {
+    padding-top: 20px;
+    border-right: 1px solid rgba(black, 0.2);
+    a {
+      display: block;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 300;
+      color: $link-color;
+      letter-spacing: 3px;
+      text-align: right;
+      padding: 10px 20px;
+      transition: .2s linear all;
+      &.active, &:hover {
+        color: white;
+      }
+    }
+  }
+  .content-results {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 85px);
+    grid-gap: 10px;
+    .result-country {
+      display: grid;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 1px 1px 1px rgba(#000, 0.16);
+      grid-template-columns: [country-icon] 80px 50px auto auto [year] 25px;
+      overflow: hidden;
+      .country-icon {
+        border-radius: 5px;
+        background: $dark-grey;
+        width: 50px;
+        height: 50px;
+        grid-row: 1/3;
+        align-self: center;
+        justify-self: center;
+      }
+      .country-name {
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #6E7377;
+        grid-column: 2/5;
+        justify-self: left;
+        align-self: center;
+        font-weight: 600;
+      }
+      .year {
+        width: 25px;
+        background: $tag-red;
+        grid-column: 5;
+        grid-row: 1/3;
+        height: 100%;
+        span {
+          color: darken($tag-red, 20%);
+          font-weight: bold;
+          display: block;
+          transform: rotate(90deg);
+          transform-origin: 11px 11px;
+          width: 85px;
+          height: 22px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

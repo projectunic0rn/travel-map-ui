@@ -1,5 +1,5 @@
 .sidebar {
-  background: #F8F8FC;
+  background: $sidebar-background;
   grid-row: 1/3;
   border-radius: 4px;
   display: flex;
@@ -68,21 +68,12 @@
       display: inline-block;
       box-shadow: 1px 1px 1px rgba(#000, 0.16);
     }
-    .tag-green {
-      background: #D1DCDB;
-      color: #96B1A8;
-    }
-    .tag-blue {
-      background: #C2D7E5;
-      color: #73A7C3;
-    }
-    .tag-yellow {
-      background: #F2E9D2;
-      color: #DDC479;
-    }
-    .tag-red {
-      background: #ECD7DB;
-      color: #D18A8D;
+
+    @each $key,$val in $tag-colors {
+      .tag-#{$key} {
+        background: $val;
+        color: darken($val, 30%);
+      }
     }
   }
 }

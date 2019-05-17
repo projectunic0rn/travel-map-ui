@@ -24,6 +24,7 @@ function App() {
         handleHamburgerClick = {handleHamburgerResponse}
       />
       <Route path="/" exact component={Home} />
+      {/* TODO: highlight trips when visiting /profile? or redirect /profile page to /profile/trips or use /profile/trips here instead */}
       <Route path="/profile/" component={Profile} />
     </Router>
   );
