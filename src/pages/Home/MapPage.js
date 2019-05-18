@@ -35,36 +35,36 @@ class MapPage extends Component {
               <ZoomableGroup center={this.state.center} zoom={this.state.zoom}>
                 <Geographies geography={jsonData}>
                   {(geographies, projection) =>
-                    geographies.map((geography) => {
-                      let countryColoring = {
-                        fill: "#6E7377",
-                        stroke: "rgb(100,100,100)",
-                        strokeWidth: 0.75,
-                        outline: "none"
-                      };
-                      return (
-                        <Geography
-                          key={geography.id}
-                          geography={geography}
-                          projection={projection}
-                          style={{
-                            default: countryColoring,
-                            hover: {
-                              fill: "rgb(180, 180, 180)",
-                              stroke: "rgb(180, 180, 180)",
-                              strokeWidth: 0.75,
-                              outline: "none"
-                            },
-                            pressed: {
-                              fill: "#FF5722",
-                              stroke: "#607D8B",
-                              strokeWidth: 0.75,
-                              outline: "none"
-                            }
-                          }}
-                        />
-                      );
-                    })
+                    geographies.map(
+                      (geography, i) =>
+                        geography.id !== "ATA" && (
+                          <Geography
+                            key={i}
+                            geography={geography}
+                            projection={projection}
+                            style={{
+                              default: {
+                                fill: "#6E7377",
+                                stroke: "rgb(100, 100, 100)",
+                                strokeWidth: 0.75,
+                                outline: "none"
+                              },
+                              hover: {
+                                fill: "rgb(180, 180, 180)",
+                                stroke: "rgb(180, 180, 180)",
+                                strokeWidth: 0.75,
+                                outline: "none",
+                              },
+                              pressed: {
+                                fill: "#a7e1ff",
+                                stroke: "#a7e1ff",
+                                strokeWidth: 0.75,
+                                outline: "none"
+                              }
+                            }}
+                          />
+                        )
+                    )
                   }
                 </Geographies>
               </ZoomableGroup>
