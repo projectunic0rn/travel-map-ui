@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import LoginForm from './subcomponents/LoginForm';
+import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import LandingForm from "./subcomponents/LandingForm";
 
 class Landing extends Component {
   constructor(props) {
@@ -48,64 +49,30 @@ class Landing extends Component {
   render() {
     return (
       <div className="landing-container">
-        <div className="landing-motto">
-          <span>
-            The world is full of
-            <span className="rotating-word-container">
-              <div className="sliding-words">
-                <span id = 'interesting'>interesting</span>
-                <span id = 'diverse'>diverse</span>
-                <span id = 'exciting'>exciting</span>
-                <span id = 'unique'>unique</span>
-                <span id = 'beautiful'>beautiful</span>
-              </div>
-              <div
-                className="rotating-word-width"
-                style={{ width: this.state.widths[this.state.wordIndex] }}
-              >
-                <p>
-                  <span>{this.state.placeWords[this.state.wordIndex]}</span>
-                </p>
-              </div>
-            </span>
-            <span className= 'landing-places'>places.</span>
+        <div className="landing-motto-container">
+          <span>the world is full of</span>
+          <span className="rotating-word">beautiful</span>
+          <span>places.</span>
+          <span className="landing-motto-two">
+            <span>explore</span> and <span>share</span> them.
           </span>
-        </div>
-        <div className="landing-motto">
-          <p>
-            <span className="motto-line-two">explore</span> &{" "}
-            <span className="motto-line-two">share</span> them.
-          </p>
-        </div>
-        <div className="form">
-          <div className="tabs">
-            <ul className="tab-group">
-              <li className={this.isActive("loginTab")}>
-                <a className="login-a" onClick={this.setActive} id="loginTab">
-                  Log In
-                </a>
-              </li>
-              <li className={this.isActive("signUpTab")}>
-                <a className="login-a" onClick={this.setActive} id="signUpTab">
-                  Sign Up
-                </a>
-              </li>
-            </ul>
+          <div className="border-bar-container">
+            <span className="landing-green-bar" />
+            <span className="landing-red-bar" />
+            <span className="landing-blue-bar" />
+            <span className="landing-yellow-bar" />
           </div>
-          <div className = 'landing-form'>
-            <LoginForm />
-          </div>
-          {/* <div className="tab-content">
-          {activeTab === "loginTab" ? (
-            <LoginForm loginRedirect={this.loginRedirect} />
-          ) : (
-            <SignUpForm />
-          )}
-        </div> */}
+        </div>
+        <div className="landing-form-container">
+          <LandingForm handleUserLogin = {this.props.handleUserLogin}/>
         </div>
       </div>
     );
   }
+}
+
+Landing.propTypes = {
+  handleUserLogin: PropTypes.func
 }
 
 export default Landing;

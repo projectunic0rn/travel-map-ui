@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Header from './components/Header/Header';
-import Home from './pages/Home/Home';
-import Landing from './pages/Landing/Landing';
-import Profile from './pages/Profile/Profile';
+import Header from "./components/Header/Header";
+import Home from "./pages/Home/Home";
+import Landing from "./pages/Landing/Landing";
+import Profile from "./pages/Profile/Profile";
 import HamburgerMenuDropdown from "./components/Header/subcomponents/HamburgerMenuDropdown";
 
-import './App.scss';
+import "./App.scss";
 
 const { useState } = React;
 
@@ -21,16 +21,25 @@ function App() {
 
   if (!userLoggedIn) {
     return (
-      <Landing handleUserLogin={handleUserLogin}/>
-    )
+      <Router>
+        <Landing handleUserLogin={handleUserLogin} />
+      </Router>
+    );
   }
 
   return (
     <Router>
-      <Header handleHamburgerClick = {handleHamburgerResponse} showHamburgerDropdown = {showHamburgerDropdown}/>
+      <Header
+        handleHamburgerClick={handleHamburgerResponse}
+        showHamburgerDropdown={showHamburgerDropdown}
+      />
       <HamburgerMenuDropdown
-        className={showHamburgerDropdown ? "hamburger-dropdown-container" : "display-none"}
-        handleHamburgerClick = {handleHamburgerResponse}
+        className={
+          showHamburgerDropdown
+            ? "hamburger-dropdown-container"
+            : "display-none"
+        }
+        handleHamburgerClick={handleHamburgerResponse}
       />
       <Route path="/" exact component={Home} />
       {/* TODO: highlight trips when visiting /profile? or redirect /profile page to /profile/trips or use /profile/trips here instead */}
@@ -40,7 +49,7 @@ function App() {
 }
 
 App.propTypes = {
-  foo: PropTypes.string,
+  foo: PropTypes.string
 };
 
 export default App;
