@@ -25,5 +25,5 @@ export default function NavLinks(props) {
 
 NavLinks.propTypes = {
   handleHamburgerClick: PropTypes.func, 
-  showHamburgerDropdown: PropTypes.bool
+  showHamburgerDropdown: PropTypes.number
 };
