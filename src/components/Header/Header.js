@@ -24,5 +24,5 @@ export default function Header(props) {
 
 Header.propTypes = {
   handleHamburgerClick: PropTypes.func, 
-  showHamburgerDropdown: PropTypes.bool
+  showHamburgerDropdown: PropTypes.number
 }

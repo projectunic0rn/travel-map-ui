@@ -1,5 +1,11 @@
 # Travel Map Frontend
 
+## Getting Started
+
+1. clone this repo
+2. run `yarn install`
+3. run `yarn start`
+
 ## Description
 Full-screen, modern map which lets you see where you and your friends have been or plan to go in the world.
 
@@ -10,5 +16,6 @@ Full-screen, modern map which lets you see where you and your friends have been 
 
 ## To-do List
 
+* implement backend
 * implement running tests on push or commit
 * Add more todos

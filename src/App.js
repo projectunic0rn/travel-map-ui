@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Header from "./components/Header/Header";
-import Home from "./pages/Home/Home";
 import Landing from "./pages/Landing/Landing";
-import Profile from "./pages/Profile/Profile";
+import MapPage from './pages/Home/MapPage';
+import Profile from './pages/Profile/Profile';
 import HamburgerMenuDropdown from "./components/Header/subcomponents/HamburgerMenuDropdown";
 
 import "./App.scss";
@@ -41,7 +41,7 @@ function App() {
         }
         handleHamburgerClick={handleHamburgerResponse}
       />
-      <Route path="/" exact component={Home} />
+      <Route path="/" exact component={MapPage} />
       {/* TODO: highlight trips when visiting /profile? or redirect /profile page to /profile/trips or use /profile/trips here instead */}
       <Route path="/profile/" component={Profile} />
     </Router>
