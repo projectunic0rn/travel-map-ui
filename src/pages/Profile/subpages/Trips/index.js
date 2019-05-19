@@ -1,5 +1,9 @@
 import React from 'react';
 import CountryResult from './CountryResult';
+import AllTimingsIcon from '../../../../icons/AllTimingsIcon';
+import PastIcon from '../../../../icons/PastIcon';
+import FutureIcon from '../../../../icons/FutureIcon';
+import LiveIcon from '../../../../icons/LiveIcon';
 
 export default function Trips() {
   let fakeresults = [
@@ -50,11 +54,10 @@ export default function Trips() {
   return (
     <div className="content content-trips-page">
       <div className="sidebar-filter">
-        <a href="#" className="active">all types</a>
-        <a href="#">past</a>
-        <a href="#">future</a>
-        <a href="#">lived</a>
-        <a href="#">live</a>
+        <a href="#" className="active"><AllTimingsIcon /> all types</a>
+        <a href="#"><PastIcon /> past</a>
+        <a href="#"><FutureIcon /> future</a>
+        <a href="#"><LiveIcon /> live</a>
       </div>
       <div className="content-results">
         {
