@@ -2,13 +2,16 @@
 @import "./subcomponents/SignupForm";
 
 .landing-container {
-  position: fixed;
+  position: absolute;
+  z-index: 4;
   top: 0%;
   width: 100%;
+  height: 100vh;
+  overflow: hidden;
   margin: 0 auto;
   left: 0%;
-  height: 100vh;
   padding-top: 2.5%;
+  background: $bg2;
   .landing-motto-container {
     display: flex;
     flex-direction: column;
@@ -52,8 +55,56 @@
       }
     }
   }
+
+  @-webkit-keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes fade  {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   .rotating-word {
     font-weight: 700;
     color: #e1b377;
+    animation: fade 5s infinite;
+    animation-delay: -0.5s;
   }
 }

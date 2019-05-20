@@ -14,7 +14,16 @@ function SignupForm(props) {
         />
         <label htmlFor="username">username</label>
       </div>
-
+      <div className="field">
+        <input
+          type="text"
+          required
+          name="fullname"
+          id="fullname"
+          placeholder="enter your full name"
+        />
+        <label htmlFor="fullname">full name</label>
+      </div>
       <div className="field">
         <input
           type="email"

@@ -1,11 +1,12 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import SignupForm from './SignupForm';
+import PropTypes from "prop-types";
+import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
 
 const { useState } = React;
 
 function LandingForm(props) {
-  const [formActive, handleFormSwitch] = useState(1);
+  const [formActive, handleFormSwitch] = useState(0);
   return (
     <div className="landing-form">
       <div className="landing-choice-container">
@@ -32,7 +33,17 @@ function LandingForm(props) {
         </span>
       </div>
       <div className="landing-form-content">
-        {formActive ? <SignupForm handleUserLogin = {props.handleUserLogin} handleFormSwitch = {() => handleFormSwitch(0)}/> : null}
+        {formActive ? (
+          <SignupForm
+            handleUserLogin={props.handleUserLogin}
+            handleFormSwitch={() => handleFormSwitch(0)}
+          />
+        ) : (
+          <LoginForm
+            handleUserLogin={props.handleUserLogin}
+            handleFormSwitch={() => handleFormSwitch(1)}
+          />
+        )}
       </div>
     </div>
   );
@@ -40,6 +51,6 @@ function LandingForm(props) {
 
 LandingForm.propTypes = {
   handleUserLogin: PropTypes.func
-}
+};
 
 export default LandingForm;

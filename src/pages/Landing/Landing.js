@@ -1,14 +1,22 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import {
+  ComposableMap,
+  ZoomableGroup,
+  Geographies,
+  Geography
+} from "react-simple-maps";
+import jsonData from "../../world-topo-min.json";
+
 import LandingForm from "./subcomponents/LandingForm";
+
+const placeWords = ["interesting", "diverse", "exciting", "unique", "beautiful"];
 
 class Landing extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeTab: "loginTab",
-      placeWords: ["interesting", "diverse", "exciting", "unique", "beautiful"],
-      widths: [182, 82, 94, 66, 122],
       wordIndex: 0
     };
 
@@ -18,11 +26,9 @@ class Landing extends Component {
 
   componentWillMount() {
     localStorage.clear();
-    setTimeout(() => {
       setInterval(() => {
         this.changeWordIndex();
-      }, 2500);
-    }, 600);
+      }, 5000);
   }
 
   setActive(event) {
@@ -37,7 +43,7 @@ class Landing extends Component {
 
   changeWordIndex() {
     let wordIndex = this.state.wordIndex;
-    if (wordIndex === this.state.placeWords.length - 1) {
+    if (wordIndex === placeWords.length - 1) {
       wordIndex = -1;
     }
     wordIndex++;
@@ -47,11 +53,63 @@ class Landing extends Component {
   }
 
   render() {
+    const { wordIndex } = this.state;
     return (
       <div className="landing-container">
+        <ComposableMap
+          projectionConfig={{
+            scale: 205
+          }}
+          width={980}
+          height={600}
+          style={{
+            width: "100%",
+            height: "auto", 
+            position: "absolute",
+            "z-index": "-1",
+            transform: "translateY(-36px)"
+          }}
+        >
+          <ZoomableGroup center={this.state.center} zoom={this.state.zoom} disablePanning = {true}>
+            <Geographies geography={jsonData}>
+              {(geographies, projection) =>
+                geographies.map(
+                  (geography, i) =>
+                    geography.id !== "ATA" && (
+                      <Geography
+                        key={i}
+                        geography={geography}
+                        projection={projection}
+                        style={{
+                          default: {
+                            fill: "#4b5463",
+                            stroke: "#4b5463",
+                            strokeWidth: 0.75,
+                            outline: "none"
+                          },
+                          hover: {
+                            fill: "#4b5463",
+                            stroke: "#4b5463",
+                            strokeWidth: 0.75,
+                            outline: "none"
+                          },
+                          pressed: {
+                            fill: "#4b5463",
+                            stroke: "#4b5463",
+                            strokeWidth: 0.75,
+                            outline: "none"
+                          }
+                        }}
+                      />
+                    )
+                )
+              }
+            </Geographies>
+          </ZoomableGroup>
+        </ComposableMap>
         <div className="landing-motto-container">
           <span>the world is full of</span>
-          <span className="rotating-word">beautiful</span>
+          <span className="rotating-word">{placeWords[wordIndex]}</span>
           <span>places.</span>
           <span className="landing-motto-two">
             <span>explore</span> and <span>share</span> them.
@@ -64,7 +122,7 @@ class Landing extends Component {
           </div>
         </div>
         <div className="landing-form-container">
-          <LandingForm handleUserLogin = {this.props.handleUserLogin}/>
+          <LandingForm handleUserLogin={this.props.handleUserLogin} />
         </div>
       </div>
     );
@@ -73,6 +131,6 @@ class Landing extends Component {
 
 Landing.propTypes = {
   handleUserLogin: PropTypes.func
-}
+};
 
 export default Landing;
