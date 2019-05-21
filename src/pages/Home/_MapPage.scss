@@ -1,0 +1,12 @@
+.map-container {
+  display: flex;
+  height: calc(100% - 30px);
+  width: 80vw;
+  margin: 0 auto;
+  .map {
+    width: 100%;
+    max-width: 80vw;
+    margin: 0 0 0 0;
+    height: calc(100% - 30px);
+  }
+}

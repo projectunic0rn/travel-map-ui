@@ -22,6 +22,6 @@ export default function HamburgerMenu(props) {
   }
 
   HamburgerMenu.propTypes = {
-    showHamburger: PropTypes.bool, 
+    showHamburger: PropTypes.number, 
     handleHamburgerClick: PropTypes.func
   }
