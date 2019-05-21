@@ -66,7 +66,7 @@ class Landing extends Component {
             width: "100%",
             height: "auto", 
             position: "absolute",
-            "z-index": "-1",
+            "zIndex": "-1",
             transform: "translateY(-36px)"
           }}
         >

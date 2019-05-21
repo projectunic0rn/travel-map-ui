@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
-import MapPage from './pages/Home/MapPage';
-import Profile from './pages/Profile/Profile';
+import MapPage from "./pages/Home/MapPage";
+import Profile from "./pages/Profile/Profile";
 import HamburgerMenuDropdown from "./components/Header/subcomponents/HamburgerMenuDropdown";
 
 import "./App.scss";
