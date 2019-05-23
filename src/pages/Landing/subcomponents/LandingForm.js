@@ -35,7 +35,7 @@ function LandingForm(props) {
       <div className="landing-form-content">
         {formActive ? (
           <SignupForm
-            handleUserLogin={props.handleUserLogin}
+            handleUserLogin={() => props.handleUserLogin()}
             handleFormSwitch={() => handleFormSwitch(0)}
           />
         ) : (

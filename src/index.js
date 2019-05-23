@@ -5,8 +5,17 @@ import { ApolloProvider } from "react-apollo";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-const client = new ApolloClient({
-    uri: "https://travel-map-241002.appspot.com/graphql"
+   
+  const token = localStorage.getItem("token");
+  const client = new ApolloClient({
+    uri: "https://travel-map-241002.appspot.com/graphql",
+    request: operation => {
+      operation.setContext({
+          headers: {
+              Authorization: (token) ? `bearer ${token}` : ""
+          },
+      });
+  }
   });
 
 ReactDOM.render(

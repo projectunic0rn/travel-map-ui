@@ -17,11 +17,14 @@ function App() {
   function handleHamburgerResponse(val) {
     handleHamburgerClick(val);
   }
+  function handleUserLoggingIn(val) {
+    handleUserLogin(val);
+  }
 
   if (!userLoggedIn) {
     return (
       <Router>
-        <Landing handleUserLogin={handleUserLogin} />
+        <Landing handleUserLogin={handleUserLoggingIn} />
       </Router>
     );
   }

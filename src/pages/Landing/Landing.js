@@ -122,7 +122,7 @@ class Landing extends Component {
           </div>
         </div>
         <div className="landing-form-container">
-          <LandingForm handleUserLogin={this.props.handleUserLogin} />
+          <LandingForm handleUserLogin={() => this.props.handleUserLogin(1)} />
         </div>
       </div>
     );

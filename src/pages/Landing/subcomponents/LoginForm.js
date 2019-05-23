@@ -19,7 +19,12 @@ class LoginForm extends Component {
       username: ""
     };
   }
-  confirmLogin() {
+  async confirmLogin(data) {
+    this._saveUserData(data.loginUser.token);
+    this.props.handleUserLogin();
+  }
+  _saveUserData(token) {
+    localStorage.setItem("token", token);
   }
   render() {
     const { username, password } = this.state;

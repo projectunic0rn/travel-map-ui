@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Mutation } from "react-apollo";
+import { Mutation, compose, graphql } from "react-apollo";
 import gql from "graphql-tag";
-
 
 const SIGNUP_MUTATION = gql`
   mutation registerUser(
@@ -19,6 +18,9 @@ const SIGNUP_MUTATION = gql`
     ) {
       token
     }
+    loginUser(username: $username, password: $password) {
+      token
+    }
   }
 `;
 
@@ -32,8 +34,11 @@ class SignupForm extends Component {
       fullName: ""
     };
   }
-  confirmSignup() {
-
+  async confirmSignup(data) {
+    this._saveUserData(data.loginUser.token)
+  }
+  _saveUserData(token) {
+    localStorage.setItem("token", token);
   }
   render() {
     const { username, fullName, password, email } = this.state;
@@ -111,4 +116,5 @@ SignupForm.propTypes = {
   handleUserLogin: PropTypes.func
 };
 
-export default SignupForm;
+export default compose(
+  graphql(SIGNUP_MUTATION, { name: 'signupUserMutation'}))(SignupForm);
