@@ -1,0 +1,22 @@
+.map-info-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 200px;
+    transform: translate(-80px, -200px);
+    .map-info-country {
+        font-size: 48px;
+        font-weight: 300;
+        letter-spacing: 8px;
+        color: #DCDCDC;
+        text-transform: uppercase;
+    }
+    .map-info-capital {
+        font-size: 28px;
+        font-weight: 100;
+        color: #969696;
+        .map-info-capital-icon {
+            margin-right: 8px;
+        }
+    }
+}

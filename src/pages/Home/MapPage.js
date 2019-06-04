@@ -6,12 +6,20 @@ import {
   Geography
 } from "react-simple-maps";
 import jsonData from "../../world-topo-min.json";
+import MapInfoContainer from './subcomponents/MapInfoContainer';
 
 const MapPage = () => {
 
-  let [center] = useState([0, 20]);
-  let [zoom] = useState(1);
+  const [center] = useState([0, 20]);
+  const [zoom] = useState(1);
+  const [countryName, handleCountryName] = useState("country");
+  const [capitalName, handleCapitalName] = useState("Capital");
   
+  function countryInfo(geography) {
+    handleCountryName(geography.properties.name);
+    handleCapitalName(geography.properties.capital);
+  }
+
   return (
     <div className="map-container">
       <div className="map">
@@ -37,6 +45,7 @@ const MapPage = () => {
                           key={i}
                           geography={geography}
                           projection={projection}
+                          onMouseEnter={() => countryInfo(geography)}
                           style={{
                             default: {
                               fill: "#6E7377",
@@ -64,6 +73,7 @@ const MapPage = () => {
               </Geographies>
             </ZoomableGroup>
           </ComposableMap>
+          <MapInfoContainer countryName = {countryName} capitalName = {capitalName}/>
         </div>
       </div>
     </div>
