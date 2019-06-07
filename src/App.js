@@ -7,7 +7,7 @@ import MapPage from "./pages/Home/MapPage";
 import Profile from "./pages/Profile/Profile";
 import HamburgerMenuDropdown from "./components/Header/subcomponents/HamburgerMenuDropdown";
 
-import "./App.scss";
+import "./_App.scss";
 
 const { useState } = React;
 

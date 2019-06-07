@@ -7,7 +7,7 @@ import * as serviceWorker from "./serviceWorker";
 
 
   const client = new ApolloClient({
-    uri: "https://travel-map-241002.appspot.com/graphql",
+    uri: "https://travel-map-api.herokuapp.com/graphql",
     request: async operation => {
     {
       const token = await localStorage.getItem('token');
