@@ -1,9 +1,17 @@
 .map-info-container {
+    position: absolute;
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 100%;
     height: 200px;
-    transform: translate(-80px, -200px);
+    z-index: -1;
+    @media (min-width: "1200px") {
+        width: 300px;
+        transform: translate(-80px, -200px);
+    }
+    @media (min-width: "1800px") {
+        transform: translate(-80px, -400px);
+    }
     .map-info-country {
         font-size: 48px;
         font-weight: 300;
@@ -19,4 +27,4 @@
             margin-right: 8px;
         }
     }
-}
+} 
