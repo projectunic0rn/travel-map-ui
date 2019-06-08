@@ -5,9 +5,19 @@ import { ApolloProvider } from "react-apollo";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-
+let clientUrl = '';
+switch(process.env.NODE_ENV) {
+  case "development":
+    clientUrl = "https://travel-map-api-dev.herokuapp.com/graphql"
+    break;
+  case "test":
+    clientUrl = "https://travel-map-api-staging.herokuapp.com/graphql"
+    break;
+  case "production":
+    clientUrl = "https://travel-map-api-prod.herokuapp.com/graphql"
+}
   const client = new ApolloClient({
-    uri: "https://travel-map-api.herokuapp.com/graphql",
+    uri: clientUrl,
     request: async operation => {
     {
       const token = await localStorage.getItem('token');
