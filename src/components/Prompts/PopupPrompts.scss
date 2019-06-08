@@ -1,0 +1,33 @@
+@import './ClickedCountry/ClickedCountryContainer.scss';
+
+.popup-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    min-height: calc(100vh - 101px);
+  }
+  
+  .popup-overlay {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    min-height: calc(100vh - 101px);
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .popup-card-container {
+    z-index: 2;
+    width: 320px;
+    height: 400px;
+    margin: 0 auto;
+    border-radius: 4px;
+    background: rgb(248, 248, 252);
+    box-shadow: 0 1px 2px 1px rgba(0,0, 0, 0.16);
+    @media (min-height: 780px) {
+        height: 600px
+    }
+  }

@@ -7,13 +7,17 @@ import {
 } from "react-simple-maps";
 import jsonData from "../../world-topo-min.json";
 import MapInfoContainer from "./subcomponents/MapInfoContainer";
+import PopupPrompt from "../../components/Prompts/PopupPrompt";
+import ClickedCountryContainer from "../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 
 const MapPage = () => {
   const [center] = useState([0, 20]);
   const [zoom] = useState(1);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
+  const [clickedCountry, handleGeography] = useState(0);
   const [clickedCountries, addCountry] = useState([]);
+  const [activePopup, showPopup] = useState(0);
 
   function countryInfo(geography) {
     handleCountryName(geography.properties.name);
@@ -21,17 +25,19 @@ const MapPage = () => {
   }
 
   function handleClickedCountry(geography) {
-    let countryArray = clickedCountries;
-    if (countryArray.includes(geography.id)) {
-      countryArray.splice(countryArray.indexOf(geography.id), 1);
-    } else {
-      countryArray.push(geography.id);
-    }
-    addCountry(countryArray);
+    showPopup(1);
+    handleGeography(geography);
   }
 
   function computedStyles(geography) {
-    const isCountryIncluded = clickedCountries.includes(geography.id);
+    let isCountryIncluded = false;
+    let countryTiming = null;
+    for (let i in clickedCountries) {
+      if (clickedCountries[i].countryId === geography.id) {
+        isCountryIncluded = true;
+        countryTiming = clickedCountries[i].tripTiming;
+      }
+    }
     let countryStyles = {
       default: {
         fill: "#6E7377",
@@ -54,9 +60,31 @@ const MapPage = () => {
     };
 
     if (isCountryIncluded) {
-      countryStyles.default.fill = "#CB7678";
+      switch (countryTiming) {
+        case 0:
+          countryStyles.default.fill = "#CB7678";
+          break;
+        case 1:
+          countryStyles.default.fill = "#73A7C3";
+          break;
+        case 2:
+          countryStyles.default.fill = "#96B1A8";
+          break;
+        default:
+          countryStyles.default.fill = "black";
+      }
     }
     return countryStyles;
+  }
+
+  function handleTripTimingHelper(timing) {
+    showPopup(0);
+    let countryArray = clickedCountries;
+    countryArray.push({
+      countryId: clickedCountry.id,
+      tripTiming: timing
+    });
+    addCountry(countryArray);
   }
 
   return (
@@ -96,6 +124,17 @@ const MapPage = () => {
             countryName={countryName}
             capitalName={capitalName}
           />
+          {activePopup ? (
+            <PopupPrompt
+              activePopup={activePopup}
+              showPopup={showPopup}
+              component={ClickedCountryContainer}
+              componentProps={{
+                countryInfo: clickedCountry,
+                handleTripTiming: handleTripTimingHelper
+              }}
+            />
+          ) : null}
         </div>
       </div>
     </div>
