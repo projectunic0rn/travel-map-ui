@@ -3,8 +3,8 @@
 ## Getting Started
 
 1. clone this repo
-2. run `yarn install`
-3. run `yarn start`
+2. run `npm install`
+3. run `npm start`
 
 ## Description
 Full-screen, modern map which lets you see where you and your friends have been or plan to go in the world.
