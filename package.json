@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.3.1",
+    "eslint-plugin-flowtype": "^3.9.1",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
     "graphql": "^14.3.0",
     "graphql-tag": "^2.10.1",
     "node-sass": "^4.12.0",
@@ -12,7 +15,7 @@
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.0.1",
     "react-simple-maps": "^0.12.1"
   },
   "scripts": {
@@ -44,7 +47,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-import": "^2.17.3",
     "husky": "^2.2.0"
   }
 }
