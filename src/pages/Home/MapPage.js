@@ -61,7 +61,6 @@ const MapPage = () => {
 
   return (
     <div className="map-container">
-        <h1>hello</h1>
       <div className="map">
         <div>
           <ComposableMap
