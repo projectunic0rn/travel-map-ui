@@ -6,7 +6,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 let clientUrl = '';
-switch(process.env.NODE_ENV) {
+switch(process.env.RUNTIME_ENV) {
   case "development":
     clientUrl = "https://travel-map-api-dev.herokuapp.com/graphql"
     break;
@@ -17,7 +17,7 @@ switch(process.env.NODE_ENV) {
     clientUrl = "https://travel-map-api-prod.herokuapp.com/graphql"
 }
 
-console.log("RUNNING ON " + process.env.NODE_ENV )
+console.log("RUNNING ON " + process.env.RUNTIME_ENV )
   const client = new ApolloClient({
     uri: clientUrl,
     request: async operation => {
