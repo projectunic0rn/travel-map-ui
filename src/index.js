@@ -9,14 +9,14 @@ require('dotenv').config();
 
 let clientUrl = '';
 switch(process.env.NODE_ENV) {
+  case "development":
+    clientUrl = "https://travel-map-api-dev.herokuapp.com/graphql"
+    break;
   case "test":
     clientUrl = "https://travel-map-api-staging.herokuapp.com/graphql"
     break;
   case "production":
     clientUrl = "https://travel-map-api-prod.herokuapp.com/graphql"
-  case "development":
-    clientUrl = "https://travel-map-api-dev.herokuapp.com/graphql"
-    break;
 }
 
 console.log("RUNNING ON " + process.env.NODE_ENV )
