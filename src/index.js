@@ -4,20 +4,22 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+require('dotenv').config();
+
 
 let clientUrl = '';
-switch(process.env.RUNTIME_ENV) {
-  case "development":
-    clientUrl = "https://travel-map-api-dev.herokuapp.com/graphql"
-    break;
+switch(process.env.NODE_ENV) {
   case "test":
     clientUrl = "https://travel-map-api-staging.herokuapp.com/graphql"
     break;
   case "production":
     clientUrl = "https://travel-map-api-prod.herokuapp.com/graphql"
+  case "development":
+    clientUrl = "https://travel-map-api-dev.herokuapp.com/graphql"
+    break;
 }
 
-console.log("RUNNING ON " + process.env.RUNTIME_ENV )
+console.log("RUNNING ON " + process.env.NODE_ENV )
   const client = new ApolloClient({
     uri: clientUrl,
     request: async operation => {
