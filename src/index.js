@@ -16,6 +16,8 @@ switch(process.env.NODE_ENV) {
   case "production":
     clientUrl = "https://travel-map-api-prod.herokuapp.com/graphql"
 }
+
+console.log("RUNNING ON " + process.NODE_ENV )
   const client = new ApolloClient({
     uri: clientUrl,
     request: async operation => {
