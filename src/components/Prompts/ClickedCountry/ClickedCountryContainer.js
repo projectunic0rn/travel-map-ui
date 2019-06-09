@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ClickedCountryTiming from "./ClickedCountryTiming";
 
 function ClickedCountryContainer(props) {
-  const [promptPosition, handlePromptPositionChange] = useState(0);
-
-  handlePromptPositionChange();
-
   return (
     <div className="clicked-country-container">
       <div className="clicked-country-header" />
@@ -24,9 +20,10 @@ function ClickedCountryContainer(props) {
           0: (
             <ClickedCountryTiming
               handleTripTiming={props.customProps.handleTripTiming}
+              previousTrips={props.customProps.previousTrips}
             />
           )
-        }[promptPosition]
+        }[0]
       }
     </div>
   );

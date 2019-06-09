@@ -15,8 +15,8 @@ const MapPage = () => {
   const [zoom] = useState(1);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  const [clickedCountry, handleGeography] = useState(0);
-  const [clickedCountries, addCountry] = useState([]);
+  const [clickedCountry, handleNewCountry] = useState(0);
+  const [clickedCountryArray, addCountry] = useState([]);
   const [activePopup, showPopup] = useState(0);
 
   function countryInfo(geography) {
@@ -26,16 +26,16 @@ const MapPage = () => {
 
   function handleClickedCountry(geography) {
     showPopup(1);
-    handleGeography(geography);
+    handleNewCountry(geography);
   }
 
   function computedStyles(geography) {
     let isCountryIncluded = false;
     let countryTiming = null;
-    for (let i in clickedCountries) {
-      if (clickedCountries[i].countryId === geography.id) {
+    for (let i in clickedCountryArray) {
+      if (clickedCountryArray[i].countryId === geography.id) {
         isCountryIncluded = true;
-        countryTiming = clickedCountries[i].tripTiming;
+        countryTiming = clickedCountryArray[i].tripTiming;
       }
     }
     let countryStyles = {
@@ -79,12 +79,22 @@ const MapPage = () => {
 
   function handleTripTimingHelper(timing) {
     showPopup(0);
-    let countryArray = clickedCountries;
+    let countryArray = clickedCountryArray;
     countryArray.push({
       countryId: clickedCountry.id,
       tripTiming: timing
     });
     addCountry(countryArray);
+  }
+
+  function checkForPreviousTrips(geography) {
+    let previousTrips = false;
+    for (let i in clickedCountryArray) {
+      if (clickedCountryArray[i].countryId === geography.id) {
+        previousTrips = true;
+      }
+    }
+    return previousTrips
   }
 
   return (
@@ -131,7 +141,8 @@ const MapPage = () => {
               component={ClickedCountryContainer}
               componentProps={{
                 countryInfo: clickedCountry,
-                handleTripTiming: handleTripTimingHelper
+                handleTripTiming: handleTripTimingHelper,
+                previousTrips: checkForPreviousTrips(clickedCountry)
               }}
             />
           ) : null}
