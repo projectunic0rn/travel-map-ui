@@ -25,7 +25,9 @@
     "lint": "eslint src"
   },
   "husky": {
-    "hooks": {}
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"}
   },
   "browserslist": {
     "production": [

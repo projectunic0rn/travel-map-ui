@@ -6,8 +6,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 require('dotenv').config()
 
-
-
 let clientUrl = '';
 if (process.env.REACT_APP_PROD_API_URL != null) {
   clientUrl = process.env.REACT_APP_PROD_API_URL;
@@ -16,8 +14,6 @@ if (process.env.REACT_APP_PROD_API_URL != null) {
 } else {
   clientUrl = process.env.REACT_APP_DEV_API_URL;
 }
-
-console.log(clientUrl)
   const client = new ApolloClient({
     uri: clientUrl,
     request: async operation => {
