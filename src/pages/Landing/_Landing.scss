@@ -1,0 +1,110 @@
+@import "./subcomponents/LandingForm";
+@import "./subcomponents/SignupForm";
+
+.landing-container {
+  position: absolute;
+  z-index: 4;
+  top: 0%;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0 auto;
+  left: 0%;
+  padding-top: 2.5%;
+  background: $bg2;
+  .landing-motto-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 400px;
+    padding-left: 80px;
+    padding-top: 80px;
+    font-family: "Orator Std", sans-serif;
+    font-size: 48px;
+    line-height: 80px;
+    color: rgb(248, 248, 252);
+    .landing-motto-two {
+      margin-top: 80px;
+      color: #8f949b;
+      width: 572px;
+    }
+    span {
+      span {
+        font-family: "Segoe UI", sans-serif;
+        font-weight: 100;
+        color: rgb(248, 248, 252);
+      }
+    }
+    .border-bar-container {
+      display: flex;
+      .landing-green-bar {
+        width: 143px;
+        border-bottom: 4px solid #788a8c;
+      }
+      .landing-red-bar {
+        width: 143px;
+        border-bottom: 4px solid #936c74;
+      }
+      .landing-blue-bar {
+        width: 143px;
+        border-bottom: 4px solid #67859a;
+      }
+      .landing-yellow-bar {
+        width: 143px;
+        border-bottom: 4px solid #9b8b55;
+      }
+    }
+  }
+
+  @-webkit-keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-moz-keyframes fade  {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-o-keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .rotating-word {
+    font-weight: 700;
+    color: #e1b377;
+    animation: fade 5s infinite;
+    animation-delay: -0.5s;
+  }
+}
