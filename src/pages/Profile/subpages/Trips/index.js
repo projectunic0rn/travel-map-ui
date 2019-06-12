@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import _ from 'lodash';
 import CountryResult from './CountryResult';
 import AllTimingsIcon from '../../../../icons/AllTimingsIcon';
 import PastIcon from '../../../../icons/PastIcon';
@@ -9,24 +10,27 @@ export default function Trips() {
   let fakeresults = [
     {
       id: 1,
-      name: 'China',
+      name: 'Past',
       days: 10,
       city: 20,
-      year: 2005
+      year: 2005,
+      state: 'past'
     },
     {
       id: 2,
-      name: 'Else',
+      name: 'Future',
       days: 11,
       city: 21,
-      year: 2006
+      year: 2026,
+      state: 'future'
     },
     {
       id: 3,
-      name: 'Some',
+      name: 'Live',
       days: 12,
       city: 22,
-      year: 2007
+      year: 2007,
+      state: 'live'
     },
     {
       id: 4,
@@ -50,18 +54,30 @@ export default function Trips() {
       year: 2007
     }
   ];
-  // fakeresults = [...gfakeresults, ...fakeresults, ...fakeresults];
+
+  const [results, setResults] = useState(fakeresults);
+  const [filterState, setFilterState] = useState('');
+
+  function filter(state) {
+    setFilterState(state);
+    if (!state) {
+      return setResults(fakeresults);
+    }
+    const r = _.filter(fakeresults, { state });
+    return setResults(r);
+  }
+
   return (
     <div className="content content-trips-page">
       <div className="sidebar-filter">
-        <a href="#" className="active"><AllTimingsIcon /> all types</a>
-        <a href="#"><PastIcon /> past</a>
-        <a href="#"><FutureIcon /> future</a>
-        <a href="#"><LiveIcon /> live</a>
+        <a href="#" onClick={() => filter()} className={!filterState ? 'active' : ''}><AllTimingsIcon /> all types</a>
+        <a href="#" onClick={() => filter('past')} className={filterState === 'past' ? 'active' : ''}><PastIcon /> past</a>
+        <a href="#" onClick={() => filter('future')} className={filterState === 'future' ? 'active' : ''}><FutureIcon /> future</a>
+        <a href="#" onClick={() => filter('live')} className={filterState === 'live' ? 'active' : ''}><LiveIcon /> live</a>
       </div>
       <div className="content-results">
         {
-          fakeresults.map(country => (
+          results.map(country => (
             <CountryResult
               key={country.id}
               name={country.name}
