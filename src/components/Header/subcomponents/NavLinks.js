@@ -10,10 +10,10 @@ export default function NavLinks(props) {
   return (
     <div className="nav-menu-container">
       <NavLink exact to="/">
-        Friends
-      </NavLink>
-      <NavLink exact to="/personal">
         Personal
+      </NavLink>
+      <NavLink exact to="/friends">
+        Friends
       </NavLink>
       <NavLink to="/profile/">Profile</NavLink>
       <div className = 'nav-hamburger'>
