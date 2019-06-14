@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
 import LogoutIcon from "../../../icons/LogoutIcon";
 import PersonIcon from "../../../icons/PersonIcon";
 import SettingsIcon from "../../../icons/SettingsIcon";
@@ -28,6 +30,10 @@ function useComponentVisible(initialIsVisible) {
 
 function UsernameDropdown(props) {
   const { ref, isComponentVisible } = useComponentVisible(true);
+  function logoutClicked() {
+    localStorage.removeItem("token");
+    props.handleUserLogout(0);
+  }
   if (!isComponentVisible) {
     props.onClickOut();
   }
@@ -37,18 +43,19 @@ function UsernameDropdown(props) {
         <div className="username-dropdown-container">
           <span className="username-dropdown-triangle" />
           <ul className="username-dropdown-links">
-            <li className="ud-link">
-              <PersonIcon />
-              Profile
-            </li>
-            <li className="ud-link">
-              <SettingsIcon />
-              Settings
-            </li>
-            <li className="ud-link">
-              <LogoutIcon />
-              Logout
-            </li>
+            <Link to="/profile" className="ud-link">
+                <PersonIcon />
+                Profile
+            </Link>
+            <Link to="/profile" className="ud-link">
+                <SettingsIcon />
+                Settings
+            </Link>
+            <Link to="/" onClick={logoutClicked} className="ud-link">
+                <LogoutIcon />
+                Logout
+
+            </Link>
           </ul>
         </div>
       )}
@@ -57,7 +64,8 @@ function UsernameDropdown(props) {
 }
 
 UsernameDropdown.propTypes = {
-  onClickOut: PropTypes.func
+  onClickOut: PropTypes.func,
+  handleUserLogout: PropTypes.func
 };
 
 export default UsernameDropdown;

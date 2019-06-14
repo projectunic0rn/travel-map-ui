@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import PropTypes from "prop-types";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import UsernameDropdown from "./UsernameDropdown";
 
@@ -13,7 +14,7 @@ const GET_LOGGEDIN_USER_QUERY = gql`
   }
 `;
 
-function UserHeaderContainer() {
+function UserHeaderContainer(props) {
   const [dropdown, handleDropdownClick] = useState(0);
   return (
     <Query query={GET_LOGGEDIN_USER_QUERY}>
@@ -22,7 +23,7 @@ function UserHeaderContainer() {
         if (error) return `Error! ${error}`;
         return (
           <div className="user-header-container">
-            <a href="#" className="user-link">
+            <div className="user-link">
               <span
                 className="header-username"
                 onMouseOver={() => handleDropdownClick(1)}
@@ -30,15 +31,22 @@ function UserHeaderContainer() {
                 {data.getLoggedInUser.username}
               </span>
               {dropdown ? (
-                <UsernameDropdown onClickOut={() => handleDropdownClick(0)} />
+                <UsernameDropdown
+                  onClickOut={() => handleDropdownClick(0)}
+                  handleUserLogout={props.handleUserLogout}
+                />
               ) : null}
               <UserAvatar />
-            </a>
+            </div>
           </div>
         );
       }}
     </Query>
   );
 }
+
+UserHeaderContainer.propTypes = {
+  handleUserLogout: PropTypes.func
+};
 
 export default UserHeaderContainer;
