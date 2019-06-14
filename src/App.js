@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
@@ -49,9 +48,5 @@ function App() {
     </Router>
   );
 }
-
-App.propTypes = {
-  foo: PropTypes.string
-};
 
 export default App;
