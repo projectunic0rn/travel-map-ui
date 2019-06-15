@@ -38,12 +38,6 @@ class LoginForm extends Component {
       text: 'Your credentials were invalid'    })
   }
 
-  changeButtonText(text) {
-    this.setState({
-      buttonText: text
-    })
-
-  }
   render() {
     const { username, password } = this.state;
     const { handleFormSwitch } = this.state;
@@ -82,8 +76,7 @@ class LoginForm extends Component {
           {(mutation, { loading}) => (
             <div>
                 <button className="login-button" onClick={mutation}>
-                  { !loading && 'Login'}
-                  { loading && "Logging in"}
+                  { !loading ? 'Login' : "Logging in"}
                </button>
             </div>
           
