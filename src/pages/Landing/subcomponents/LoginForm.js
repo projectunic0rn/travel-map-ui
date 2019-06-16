@@ -1,7 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import Swal from 'sweetalert2'
+
+
 
 const LOGIN_MUTATION = gql`
   mutation loginUser($username: String!, $password: String!) {
@@ -16,7 +19,8 @@ class LoginForm extends Component {
     super(props);
     this.state = {
       password: "",
-      username: ""
+      username: "",
+      buttonText: "login"
     };
   }
   async confirmLogin(data) {
@@ -26,11 +30,19 @@ class LoginForm extends Component {
   _saveUserData(token) {
     localStorage.setItem("token", token);
   }
+
+  handleInvalidCredentials() {
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: 'Your credentials were invalid'    })
+  }
+
   render() {
     const { username, password } = this.state;
     const { handleFormSwitch } = this.state;
     return (
-      <form className="signup-form" action="">
+      <form className="signup-form" action="" onSubmit={(e) => e.preventDefault()}>
         <div className="field">
           <input
             type="text"
@@ -49,7 +61,7 @@ class LoginForm extends Component {
             required
             onChange={e => this.setState({ password: e.target.value })}
             name="password"
-            minLength="6"
+            minLength="4"
             id="password"
             placeholder="enter a password"
           />
@@ -59,11 +71,15 @@ class LoginForm extends Component {
           mutation={LOGIN_MUTATION}
           variables={{ username, password }}
           onCompleted={data => this.confirmLogin(data)}
+          onError={() => this.handleInvalidCredentials()}
         >
-          {mutation => (
-            <span className="login-button" onClick={mutation}>
-              login
-            </span>
+          {(mutation, { loading}) => (
+            <div>
+                <button className="login-button" onClick={mutation}>
+                  { !loading ? 'Login' : "Logging in"}
+               </button>
+            </div>
+          
           )}
         </Mutation>
         <span className="form-switch">

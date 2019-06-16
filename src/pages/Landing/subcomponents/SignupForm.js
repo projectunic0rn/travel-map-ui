@@ -45,7 +45,7 @@ class SignupForm extends Component {
     const { username, fullName, password, email } = this.state;
     const { handleFormSwitch } = this.props;
     return (
-      <form className="signup-form" action="">
+      <form className="signup-form" action="" onSubmit={(e) => e.preventDefault()}>
         <div className="field">
           <input
             type="text"
@@ -86,7 +86,7 @@ class SignupForm extends Component {
             required
             onChange={e => this.setState({ password: e.target.value })}
             name="password"
-            minLength="6"
+            minLength="4"
             id="password"
             placeholder="enter a password"
           />
@@ -98,9 +98,9 @@ class SignupForm extends Component {
           onCompleted={data => this.confirmSignup(data)}
         >
           {mutation => (
-            <span className="login-button" onClick={mutation}>
+            <button className="login-button" onClick={mutation}>
               sign up
-            </span>
+            </button>
           )}
         </Mutation>
         <span className="form-switch">
