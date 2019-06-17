@@ -14,11 +14,13 @@
   .user-avatar {
     margin-right: 8px;
   }
-  @media screen and (max-width: 767px) {
-    a .header-username {
-      display: none;
-    }
-  }
+}
+.username-dropdown-container {
+  display: none;
+}
+
+.header-username {
+  display: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -38,5 +40,8 @@
       font-weight: 600;
       color: #1f272e;
     }
+  }
+  .username-dropdown-container {
+    display: block;
   }
 }

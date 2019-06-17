@@ -1,5 +1,6 @@
 .username-dropdown-container {
   position: absolute;
+  z-index: 1000;
   top: 80px;
   right: 0%;
   width: 212px;
@@ -30,6 +31,7 @@
     align-items: center;
     flex: 1;
     list-style-type: none;
+    text-decoration: none;
     color: #6e7377;
     &:hover {
       color: #f8f8fc;

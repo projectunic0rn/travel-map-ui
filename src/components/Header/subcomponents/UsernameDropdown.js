@@ -42,7 +42,7 @@ function UsernameDropdown(props) {
       {isComponentVisible && (
         <div className="username-dropdown-container">
           <span className="username-dropdown-triangle" />
-          <ul className="username-dropdown-links">
+          <ul className="username-dropdown-links" onClick={props.onClickOut}>
             <Link to="/profile" className="ud-link">
                 <PersonIcon />
                 Profile
@@ -54,7 +54,6 @@ function UsernameDropdown(props) {
             <Link to="/" onClick={logoutClicked} className="ud-link">
                 <LogoutIcon />
                 Logout
-
             </Link>
           </ul>
         </div>
