@@ -76,7 +76,7 @@ class LoginForm extends Component {
           {(mutation, { loading}) => (
             <div>
                 <button className="login-button" onClick={mutation}>
-                  { !loading ? 'Login' : "Logging in.."}
+                  { !loading ? 'Login' : "Logging in..."}
                </button>
             </div>
           
