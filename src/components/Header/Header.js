@@ -16,7 +16,7 @@ export default function Header(props) {
           <span className="site-title">Site name</span>
         </div>
         <NavLinks handleHamburgerClick = {handleHamburgerResponse} showHamburgerDropdown = {props.showHamburgerDropdown}/>
-        <UserHeaderContainer />
+        <UserHeaderContainer handleUserLogout={props.handleUserLogout} />
       </div>
     </header>
   );
@@ -24,5 +24,6 @@ export default function Header(props) {
 
 Header.propTypes = {
   handleHamburgerClick: PropTypes.func, 
-  showHamburgerDropdown: PropTypes.number
+  showHamburgerDropdown: PropTypes.number,
+  handleUserLogout: PropTypes.func
 }

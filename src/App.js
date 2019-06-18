@@ -33,6 +33,7 @@ function App() {
       <Header
         handleHamburgerClick={handleHamburgerResponse}
         showHamburgerDropdown={showHamburgerDropdown}
+        handleUserLogout={handleUserLoggingIn}
       />
       <HamburgerMenuDropdown
         className={
