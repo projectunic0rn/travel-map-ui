@@ -4,7 +4,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
 const ADD_PLACE_VISITED_MUTATION = gql`
-  mutation addPlaceVisited($country: String!, $city: String!) {
+  mutation addPlaceVisited($country: Int!, $city: Int!) {
     addPlaceVisited(country: $country, city: $city) {
       id
       country
@@ -13,7 +13,7 @@ const ADD_PLACE_VISITED_MUTATION = gql`
 `;
 
 const ADD_PLACE_VISITING_MUTATION = gql`
-  mutation addPlaceVisiting($country: String!, $city: String!) {
+  mutation addPlaceVisiting($country: Int!, $city: Int!) {
     addPlaceVisiting(country: $country, city: $city) {
       id
       country
@@ -22,7 +22,7 @@ const ADD_PLACE_VISITING_MUTATION = gql`
 `;
 
 const ADD_PLACE_LIVING_MUTATION = gql`
-  mutation addPlaceLiving($country: String!, $city: String!) {
+  mutation addPlaceLiving($country: Int!, $city: Int!) {
     addPlaceLiving(country: $country, city: $city) {
       id
       country
@@ -74,8 +74,8 @@ function ClickedCountryTiming(props) {
 ClickedCountryTiming.propTypes = {
   handleTripTiming: PropTypes.func,
   previousTrips: PropTypes.bool,
-  country: PropTypes.string,
-  city: PropTypes.string
+  country: PropTypes.number,
+  city: PropTypes.number
 };
 
 export default ClickedCountryTiming;

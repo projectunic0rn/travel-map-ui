@@ -21,8 +21,8 @@ function ClickedCountryContainer(props) {
             <ClickedCountryTiming
               handleTripTiming={props.customProps.handleTripTiming}
               previousTrips={props.customProps.previousTrips}
-              country={props.customProps.countryInfo.properties.name}
-              city="Barcelona"
+              country={props.customProps.countryInfo.id}
+              city={0}
             />
           )
         }[0]
