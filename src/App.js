@@ -12,7 +12,7 @@ const { useState } = React;
 
 function App() {
   const [showHamburgerDropdown, handleHamburgerClick] = useState(0);
-  const [userLoggedIn, handleUserLogin] = useState(0);
+  const [userLoggedIn, handleUserLogin] = useState(1);
   function handleHamburgerResponse(val) {
     handleHamburgerClick(val);
   }
