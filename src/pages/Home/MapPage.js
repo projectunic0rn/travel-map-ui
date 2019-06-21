@@ -122,7 +122,7 @@ const MapPage = () => {
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
-    if (userData.Places_visited.length != 0) {
+    if (userData != null && userData.Places_visited.length != 0) {
       for (let i = 0; i < userData.Places_visited.length; i++) {
         countryArray.push({
           countryId: userData.Places_visited[i].country,
@@ -130,7 +130,7 @@ const MapPage = () => {
         });
       }
     }
-    if (userData.Places_visiting.length != 0) {
+    if (userData != null && userData.Places_visiting.length != 0) {
       for (let i = 0; i < userData.Places_visiting.length; i++) {
         countryArray.push({
           countryId: userData.Places_visiting[i].country,
@@ -138,7 +138,7 @@ const MapPage = () => {
         });
       }
     }
-    if (userData.Place_living !== null) {
+    if ( userData != null && userData.Place_living !== null) {
       countryArray.push({
         countryId: userData.Place_living.country,
         tripTiming: 2
