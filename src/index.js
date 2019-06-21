@@ -4,7 +4,6 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import io from 'socket.io-client';
 
 
 require('dotenv').config();
@@ -30,17 +29,6 @@ if (process.env.REACT_APP_PROD_API_URL != null) {
   }}
   });
 
-const socket = io('https://travel-map-socket-service.herokuapp.com/');
-var clientId = '';
-
-socket.on('client-id', (data) => {
-  localStorage.setItem("client-id", data);
-})
-
-// need to test if this is working on hosted version
-socket.on("new-friend-request", (data) => {
-  console.log(data)
-})
 
 
 
