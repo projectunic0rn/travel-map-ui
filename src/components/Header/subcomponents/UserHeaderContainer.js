@@ -17,7 +17,7 @@ const GET_LOGGEDIN_USER_QUERY = gql`
 function UserHeaderContainer(props) {
   const [dropdown, handleDropdownClick] = useState(0);
   return (
-    <Query query={GET_LOGGEDIN_USER_QUERY} pollInterval={200}>
+    <Query query={GET_LOGGEDIN_USER_QUERY} notifyOnNetworkStatusChange fetchPolicy={'cache-and-network'}>
       {({ loading, error, data}) => {
         if (loading) return null;
         if (error) return `Error! ${error}`;

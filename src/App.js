@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
+import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
 import HamburgerMenuDropdown from "./components/Header/subcomponents/HamburgerMenuDropdown";
 
@@ -44,6 +45,7 @@ function App() {
         handleHamburgerClick={handleHamburgerResponse}
       />
       <Route path="/" exact component={MapPage} />
+      <Route path="/friends" component={FriendMapPage} />
       {/* TODO: highlight trips when visiting /profile? or redirect /profile page to /profile/trips or use /profile/trips here instead */}
       <Route path="/profile/" component={Profile} />
     </Router>
