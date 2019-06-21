@@ -17,6 +17,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
     "react-simple-maps": "^0.12.1",
+    "socket.io-client": "^2.2.0",
     "sweetalert2": "^8.12.1"
   },
   "scripts": {

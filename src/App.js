@@ -5,8 +5,8 @@ import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import Profile from "./pages/Profile/Profile";
 import HamburgerMenuDropdown from "./components/Header/subcomponents/HamburgerMenuDropdown";
-
 import "./_App.scss";
+import socket from "./socket";
 
 const { useState } = React;
 
@@ -27,6 +27,9 @@ function App() {
       </Router>
     );
   }
+  socket.on('new-friend-request', (data) => {
+    alert(data.senderData.username + " has sent you a friend request!")
+  })
 
   return (
     <Router>
