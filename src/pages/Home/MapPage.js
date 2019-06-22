@@ -11,6 +11,7 @@ import jsonData from "../../world-topo-min.json";
 import MapInfoContainer from "./subcomponents/MapInfoContainer";
 import PopupPrompt from "../../components/Prompts/PopupPrompt";
 import ClickedCountryContainer from "../../components/Prompts/ClickedCountry/ClickedCountryContainer";
+import MapSearch from "./subcomponents/MapSearch";
 
 const GET_USER_COUNTRIES = gql`
   query {
@@ -156,6 +157,7 @@ const MapPage = () => {
         return (
           <div className="map-container">
             <div className="map">
+              <MapSearch handleClickedCountry = {handleClickedCountry}/>
               <div>
                 <ComposableMap
                   projectionConfig={{
