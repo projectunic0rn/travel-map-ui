@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import Swal from 'sweetalert2'
+import socket from "../../../socket";
+
+
 
 
 
@@ -29,6 +32,9 @@ class LoginForm extends Component {
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
+    if (token) {
+      socket.emit("user-connected", token)
+    }
   }
 
   handleInvalidCredentials() {
