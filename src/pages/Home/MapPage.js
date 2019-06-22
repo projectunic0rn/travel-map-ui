@@ -34,8 +34,17 @@ const GET_USER_COUNTRIES = gql`
 `;
 
 const MapPage = () => {
-  const [center] = useState([0, 20]);
-  const [zoom] = useState(1);
+  const [center, handleChangeCenter] = useState([0, 20]);
+  const [zoom, handleChangeZoom] = useState(1);
+  const continents = [
+    { name: "Europe", coordinates: [16.5417, 47.3769] },
+    { name: "West Asia", coordinates: [103.8198, 1.3521] },
+    { name: "North America", coordinates: [-92.4194, 37.7749] },
+    { name: "Oceania", coordinates: [151.2093, -20.8688] },
+    { name: "Africa", coordinates: [23.3792, 6.5244] },
+    { name: "South America", coordinates: [-58.3816, -20.6037] },
+    { name: "East Asia", coordinates: [121.4737, 31.2304] }
+  ];
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [clickedCountry, handleNewCountry] = useState(0);
@@ -48,6 +57,7 @@ const MapPage = () => {
   }
 
   function handleClickedCountry(geography) {
+    countryInfo(geography);
     showPopup(1);
     handleNewCountry(geography);
   }
@@ -139,7 +149,7 @@ const MapPage = () => {
         });
       }
     }
-    if ( userData != null && userData.Place_living !== null) {
+    if (userData != null && userData.Place_living !== null) {
       countryArray.push({
         countryId: userData.Place_living.country,
         tripTiming: 2
@@ -148,8 +158,24 @@ const MapPage = () => {
     addCountry(countryArray);
   }
 
+  function handleContinentClick(evt) {
+    const continentId = evt.target.getAttribute("data-continent");
+    const continentClicked = continents[continentId];
+    handleChangeCenter(continentClicked.coordinates);
+    handleChangeZoom(2);
+  }
+
+  function handleMapReset(){
+    handleChangeCenter([0, 20]);
+    handleChangeZoom(1);
+  }
+
   return (
-    <Query query={GET_USER_COUNTRIES} notifyOnNetworkStatusChange fetchPolicy={'cache-and-network'}>
+    <Query
+      query={GET_USER_COUNTRIES}
+      notifyOnNetworkStatusChange
+      fetchPolicy={"cache-and-network"}
+    >
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return `Error! ${error}`;
@@ -157,7 +183,7 @@ const MapPage = () => {
         return (
           <div className="map-container">
             <div className="map">
-              <MapSearch handleClickedCountry = {handleClickedCountry}/>
+              <MapSearch handleClickedCountry={handleClickedCountry} />
               <div>
                 <ComposableMap
                   projectionConfig={{
@@ -204,6 +230,21 @@ const MapPage = () => {
                     }}
                   />
                 ) : null}
+              </div>
+              <div className="continent-container">
+                <button className="continent-button" onClick={handleMapReset}>{"World"}</button>
+                {continents.map((continent, i) => {
+                  return (
+                    <button
+                      key={i}
+                      className="continent-button"
+                      data-continent={i}
+                      onClick={handleContinentClick}
+                    >
+                      {continent.name}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>

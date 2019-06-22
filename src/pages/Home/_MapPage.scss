@@ -1,8 +1,9 @@
-@import './subcomponents/MapInfoContainer';
-@import './subcomponents/MapSearch';
+@import "./subcomponents/MapInfoContainer";
+@import "./subcomponents/MapSearch";
 
 .map-container {
   display: flex;
+  flex-direction: column;
   height: calc(100% - 30px);
   width: 80vw;
   margin: 0 auto;
@@ -11,5 +12,26 @@
     max-width: 80vw;
     margin: 0 0 0 0;
     height: calc(100% - 30px);
+    .continent-container {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+      @media screen and (min-width: 2400px) {
+        transform: translateY(-60px);
+      }
+      button {
+        background: none;
+        border: none;
+        font-size: 18px;
+        font-family: "Segoe UI", sans-serif;
+        color: rgb(232, 232, 232);
+        &:hover {
+          color: $grey;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+    }
   }
 }

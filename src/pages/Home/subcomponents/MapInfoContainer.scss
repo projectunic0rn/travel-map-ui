@@ -4,7 +4,7 @@
     flex-direction: column;
     width: 100%;
     height: 200px;
-    z-index: -1;
+    z-index: 1;
     @media (min-width: "1200px") {
         width: 300px;
         transform: translate(-80px, -200px);
