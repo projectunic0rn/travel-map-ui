@@ -12,6 +12,7 @@ import MapInfoContainer from "./subcomponents/MapInfoContainer";
 import PopupPrompt from "../../components/Prompts/PopupPrompt";
 import ClickedCountryContainer from "../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapSearch from "./subcomponents/MapSearch";
+import MapScorecard from "./subcomponents/MapScorecard";
 
 const GET_USER_COUNTRIES = gql`
   query {
@@ -49,8 +50,9 @@ const MapPage = () => {
   const [capitalName, handleCapitalName] = useState("Capital");
   const [clickedCountry, handleNewCountry] = useState(0);
   const [clickedCountryArray, addCountry] = useState([]);
+  const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
+  const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [activePopup, showPopup] = useState(0);
-
   function countryInfo(geography) {
     handleCountryName(geography.properties.name);
     handleCapitalName(geography.properties.capital);
@@ -95,13 +97,19 @@ const MapPage = () => {
     if (isCountryIncluded) {
       switch (countryTiming) {
         case 0:
-          countryStyles.default.fill = "#CB7678";
+          if (activeTimings[0]) {
+            countryStyles.default.fill = "#CB7678";
+          }
           break;
         case 1:
-          countryStyles.default.fill = "#73A7C3";
+          if (activeTimings[1]) {
+            countryStyles.default.fill = "#73A7C3";
+          }
           break;
         case 2:
-          countryStyles.default.fill = "#96B1A8";
+          if (activeTimings[2]) {
+            countryStyles.default.fill = "#96B1A8";
+          }
           break;
         default:
           countryStyles.default.fill = "black";
@@ -113,10 +121,27 @@ const MapPage = () => {
   function handleTripTimingHelper(timing) {
     showPopup(0);
     let countryArray = clickedCountryArray;
+    let pastCount = tripTimingCounts[0];
+    let futureCount = tripTimingCounts[1];
+    let liveCount = tripTimingCounts[2];
     countryArray.push({
       countryId: clickedCountry.id,
       tripTiming: timing
     });
+    switch (timing) {
+      case 0:
+        pastCount++;
+        break;
+      case 1:
+        futureCount++;
+        break;
+      case 2:
+        liveCount++;
+        break;
+      default:
+        break;
+    }
+    handleTripTiming([pastCount, futureCount, liveCount]);
     addCountry(countryArray);
   }
 
@@ -133,27 +158,54 @@ const MapPage = () => {
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
-    if (userData != null && userData.Places_visited.length != 0) {
+    let pastCount = tripTimingCounts[0];
+    let futureCount = tripTimingCounts[1];
+    let liveCount = tripTimingCounts[2];
+    if (userData != null && userData.Places_visited.length !== 0) {
       for (let i = 0; i < userData.Places_visited.length; i++) {
-        countryArray.push({
-          countryId: userData.Places_visited[i].country,
-          tripTiming: 0
-        });
+        if (
+          !countryArray.some(country => {
+            return country.countryId === userData.Places_visited[i].country;
+          })
+        ) {
+          countryArray.push({
+            countryId: userData.Places_visited[i].country,
+            tripTiming: 0
+          });
+          pastCount++;
+          handleTripTiming([pastCount, futureCount, liveCount]);
+        }
       }
     }
-    if (userData != null && userData.Places_visiting.length != 0) {
+    if (userData != null && userData.Places_visiting.length !== 0) {
       for (let i = 0; i < userData.Places_visiting.length; i++) {
-        countryArray.push({
-          countryId: userData.Places_visiting[i].country,
-          tripTiming: 1
-        });
+        if (
+          !countryArray.some(country => {
+            return country.countryId === userData.Places_visiting[i].country;
+          })
+        ) {
+          countryArray.push({
+            countryId: userData.Places_visiting[i].country,
+            tripTiming: 1
+          });
+          futureCount++;
+          handleTripTiming([pastCount, futureCount, liveCount]);
+        }
       }
     }
     if (userData != null && userData.Place_living !== null) {
-      countryArray.push({
-        countryId: userData.Place_living.country,
-        tripTiming: 2
-      });
+      if (
+        !countryArray.some(country => {
+          return country.countryId === userData.Place_living.country;
+        })
+      ) {
+        countryArray.push({
+          countryId: userData.Place_living.country,
+          tripTiming: 2
+        });
+        liveCount++;
+        handleTripTiming([pastCount, futureCount, liveCount]);
+      }
     }
     addCountry(countryArray);
   }
@@ -165,9 +217,13 @@ const MapPage = () => {
     handleChangeZoom(2);
   }
 
-  function handleMapReset(){
+  function handleMapReset() {
     handleChangeCenter([0, 20]);
     handleChangeZoom(1);
+  }
+
+  function handleActiveTimings(timings) {
+    handleTimingCheckbox(timings);
   }
 
   return (
@@ -218,6 +274,11 @@ const MapPage = () => {
                   countryName={countryName}
                   capitalName={capitalName}
                 />
+                <MapScorecard
+                  tripTimingCounts={tripTimingCounts}
+                  activeTimings={activeTimings}
+                  sendActiveTimings={handleActiveTimings}
+                />
                 {activePopup ? (
                   <PopupPrompt
                     activePopup={activePopup}
@@ -232,7 +293,9 @@ const MapPage = () => {
                 ) : null}
               </div>
               <div className="continent-container">
-                <button className="continent-button" onClick={handleMapReset}>{"World"}</button>
+                <button className="continent-button" onClick={handleMapReset}>
+                  {"World"}
+                </button>
                 {continents.map((continent, i) => {
                   return (
                     <button
