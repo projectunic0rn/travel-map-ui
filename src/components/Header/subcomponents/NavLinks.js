@@ -15,7 +15,7 @@ export default function NavLinks(props) {
       <NavLink exact to="/friends">
         Friends
       </NavLink>
-      <NavLink to="/profile/">Profile</NavLink>
+      <NavLink exact to="/profile/">Profile</NavLink>
       <div className = 'nav-hamburger'>
         <HamburgerMenu handleHamburgerClick = {handleHamburgerClick} showHamburger = {props.showHamburgerDropdown}/>
       </div>

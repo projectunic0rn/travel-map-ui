@@ -13,7 +13,7 @@ export default function Header(props) {
       <div className="header-content">
         <div className="site-logo-container">
           <SiteLogo />
-          <span className="site-title">Site name</span>
+          <span className="site-title">geornal</span>
         </div>
         <NavLinks handleHamburgerClick = {handleHamburgerResponse} showHamburgerDropdown = {props.showHamburgerDropdown}/>
         <UserHeaderContainer handleUserLogout={props.handleUserLogout} />
