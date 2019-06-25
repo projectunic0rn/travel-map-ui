@@ -1,51 +1,14 @@
 import React, { useState } from "react";
-import {
-  ComposableMap,
-  ZoomableGroup,
-  Geographies,
-  Geography
-} from "react-simple-maps";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import jsonData from "../../world-topo-min.json";
+import { GET_LOGGEDIN_USER_COUNTRIES } from "../../GraphQL";
 import MapInfoContainer from "./subcomponents/MapInfoContainer";
 import PopupPrompt from "../../components/Prompts/PopupPrompt";
 import ClickedCountryContainer from "../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapSearch from "./subcomponents/MapSearch";
 import MapScorecard from "./subcomponents/MapScorecard";
-
-const GET_USER_COUNTRIES = gql`
-  query {
-    getLoggedInUser {
-      id
-      Places_visited {
-        id
-        country
-      }
-      Places_visiting {
-        id
-        country
-      }
-      Place_living {
-        id
-        country
-      }
-    }
-  }
-`;
+import CountryMap from "./subcomponents/CountryMap";
 
 const MapPage = () => {
-  const [center, handleChangeCenter] = useState([0, 20]);
-  const [zoom, handleChangeZoom] = useState(1);
-  const continents = [
-    { name: "Europe", coordinates: [16.5417, 47.3769] },
-    { name: "West Asia", coordinates: [103.8198, 1.3521] },
-    { name: "North America", coordinates: [-92.4194, 37.7749] },
-    { name: "Oceania", coordinates: [151.2093, -20.8688] },
-    { name: "Africa", coordinates: [23.3792, 6.5244] },
-    { name: "South America", coordinates: [-58.3816, -20.6037] },
-    { name: "East Asia", coordinates: [121.4737, 31.2304] }
-  ];
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [clickedCountry, handleNewCountry] = useState(0);
@@ -53,6 +16,7 @@ const MapPage = () => {
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [activePopup, showPopup] = useState(0);
+
   function countryInfo(geography) {
     handleCountryName(geography.properties.name);
     handleCapitalName(geography.properties.capital);
@@ -62,60 +26,6 @@ const MapPage = () => {
     countryInfo(geography);
     showPopup(1);
     handleNewCountry(geography);
-  }
-
-  function computedStyles(geography) {
-    let isCountryIncluded = false;
-    let countryTiming = null;
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
-        isCountryIncluded = true;
-        countryTiming = clickedCountryArray[i].tripTiming;
-      }
-    }
-    let countryStyles = {
-      default: {
-        fill: "#6E7377",
-        stroke: "rgb(100, 100, 100)",
-        strokeWidth: 0.75,
-        outline: "none"
-      },
-      hover: {
-        fill: "rgb(180, 180, 180)",
-        stroke: "rgb(180, 180, 180)",
-        strokeWidth: 0.75,
-        outline: "none"
-      },
-      pressed: {
-        fill: "#a7e1ff",
-        stroke: "#a7e1ff",
-        strokeWidth: 0.75,
-        outline: "none"
-      }
-    };
-
-    if (isCountryIncluded) {
-      switch (countryTiming) {
-        case 0:
-          if (activeTimings[0]) {
-            countryStyles.default.fill = "#CB7678";
-          }
-          break;
-        case 1:
-          if (activeTimings[1]) {
-            countryStyles.default.fill = "#73A7C3";
-          }
-          break;
-        case 2:
-          if (activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          }
-          break;
-        default:
-          countryStyles.default.fill = "black";
-      }
-    }
-    return countryStyles;
   }
 
   function handleTripTimingHelper(timing) {
@@ -210,25 +120,13 @@ const MapPage = () => {
     addCountry(countryArray);
   }
 
-  function handleContinentClick(evt) {
-    const continentId = evt.target.getAttribute("data-continent");
-    const continentClicked = continents[continentId];
-    handleChangeCenter(continentClicked.coordinates);
-    handleChangeZoom(2);
-  }
-
-  function handleMapReset() {
-    handleChangeCenter([0, 20]);
-    handleChangeZoom(1);
-  }
-
   function handleActiveTimings(timings) {
     handleTimingCheckbox(timings);
   }
 
   return (
     <Query
-      query={GET_USER_COUNTRIES}
+      query={GET_LOGGEDIN_USER_COUNTRIES}
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
     >
@@ -241,35 +139,12 @@ const MapPage = () => {
             <div className="map">
               <MapSearch handleClickedCountry={handleClickedCountry} />
               <div>
-                <ComposableMap
-                  projectionConfig={{
-                    scale: 205
-                  }}
-                  width={980}
-                  height={551}
-                  style={{
-                    width: "100%",
-                    height: "auto"
-                  }}
-                >
-                  <ZoomableGroup center={center} zoom={zoom}>
-                    <Geographies geography={jsonData} disableOptimization>
-                      {(geographies, projection) =>
-                        geographies.map((geography, i) => (
-                          <Geography
-                            key={i}
-                            cacheId={i}
-                            geography={geography}
-                            projection={projection}
-                            onMouseEnter={() => countryInfo(geography)}
-                            onClick={() => handleClickedCountry(geography)}
-                            style={computedStyles(geography)}
-                          />
-                        ))
-                      }
-                    </Geographies>
-                  </ZoomableGroup>
-                </ComposableMap>
+                <CountryMap
+                  countryInfo={countryInfo}
+                  handleClickedCountry={handleClickedCountry}
+                  clickedCountryArray={clickedCountryArray}
+                  activeTimings={activeTimings}
+                />
                 <MapInfoContainer
                   countryName={countryName}
                   capitalName={capitalName}
@@ -291,23 +166,6 @@ const MapPage = () => {
                     }}
                   />
                 ) : null}
-              </div>
-              <div className="continent-container">
-                <button className="continent-button" onClick={handleMapReset}>
-                  {"World"}
-                </button>
-                {continents.map((continent, i) => {
-                  return (
-                    <button
-                      key={i}
-                      className="continent-button"
-                      data-continent={i}
-                      onClick={handleContinentClick}
-                    >
-                      {continent.name}
-                    </button>
-                  );
-                })}
               </div>
             </div>
           </div>

@@ -1,34 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { ADD_PLACE_LIVING, ADD_PLACE_VISITED, ADD_PLACE_VISITING } from '../../../GraphQL';
 
-const ADD_PLACE_VISITED_MUTATION = gql`
-  mutation addPlaceVisited($country: Int!, $city: Int!) {
-    addPlaceVisited(country: $country, city: $city) {
-      id
-      country
-    }
-  }
-`;
 
-const ADD_PLACE_VISITING_MUTATION = gql`
-  mutation addPlaceVisiting($country: Int!, $city: Int!) {
-    addPlaceVisiting(country: $country, city: $city) {
-      id
-      country
-    }
-  }
-`;
-
-const ADD_PLACE_LIVING_MUTATION = gql`
-  mutation addPlaceLiving($country: Int!, $city: Int!) {
-    addPlaceLiving(country: $country, city: $city) {
-      id
-      country
-    }
-  }
-`;
 
 function ClickedCountryTiming(props) {
   const { country, city } = props;
@@ -38,7 +13,7 @@ function ClickedCountryTiming(props) {
   return (
     <div className="clicked-country-timing-container">
       <Mutation
-        mutation={ADD_PLACE_VISITED_MUTATION}
+        mutation={ADD_PLACE_VISITED}
         variables={{ country, city }}
         onCompleted={data => handleAddCountry(data, 0)}
       >
@@ -47,7 +22,7 @@ function ClickedCountryTiming(props) {
         )}
       </Mutation>
       <Mutation
-        mutation={ADD_PLACE_VISITING_MUTATION}
+        mutation={ADD_PLACE_VISITING}
         variables={{ country, city }}
         onCompleted={data => handleAddCountry(data, 1)}
       >
@@ -56,7 +31,7 @@ function ClickedCountryTiming(props) {
         )}
       </Mutation>
       <Mutation
-        mutation={ADD_PLACE_LIVING_MUTATION}
+        mutation={ADD_PLACE_LIVING}
         variables={{ country, city }}
         onCompleted={data => handleAddCountry(data, 2)}
       >

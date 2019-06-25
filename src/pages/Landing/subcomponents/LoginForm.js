@@ -1,21 +1,9 @@
 import React, { Component, } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import Swal from 'sweetalert2'
 import socket from "../../../socket";
-
-
-
-
-
-const LOGIN_MUTATION = gql`
-  mutation loginUser($username: String!, $password: String!) {
-    loginUser(username: $username, password: $password) {
-      token
-    }
-  }
-`;
+import { LOGIN_USER } from '../../../GraphQL';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -74,7 +62,7 @@ class LoginForm extends Component {
           <label htmlFor="password">password</label>
         </div>
         <Mutation
-          mutation={LOGIN_MUTATION}
+          mutation={LOGIN_USER}
           variables={{ username, password }}
           onCompleted={data => this.confirmLogin(data)}
           onError={() => this.handleInvalidCredentials()}
