@@ -31,7 +31,7 @@ function App() {
     alert(data.senderData.username + " has sent you a friend request!")
   })
 
-  socket.on('new-trip', (username) => {
+  socket.on('trip-created', (username) => {
     alert(username + " has created a new trip!")
   });
 
