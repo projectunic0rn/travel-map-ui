@@ -31,6 +31,10 @@ function App() {
     alert(data.senderData.username + " has sent you a friend request!")
   })
 
+  socket.on('new-trip', (username) => {
+    alert(username + " has created a new trip!")
+  });
+
   return (
     <Router>
       <Header
