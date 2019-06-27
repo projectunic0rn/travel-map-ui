@@ -1,20 +1,23 @@
 .username-dropdown-container {
   position: absolute;
   z-index: 1000;
-  top: 80px;
+  top: 60px;
   right: 0%;
   width: 212px;
   height: 184px;
   background: #e6e6f0;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  @media (min-width: 1560px) {
+    margin-right: calc((100% - 1560px)/2);
+  }
 }
 
 .username-dropdown-triangle {
   position: absolute;
   width: 0;
   height: 0;
-  transform: translate(90px, -10px);
+  transform: translate(120px, -10px);
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-bottom: 10px solid #e6e6f0;
