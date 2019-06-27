@@ -10,7 +10,7 @@ import jsonData from "../../world-topo-min.json";
 
 import LandingForm from "./subcomponents/LandingForm";
 
-const placeWords = ["interesting", "diverse", "exciting", "unique", "beautiful"];
+const placeWords = ["INTERESTING", "DIVERSE", "EXCITING", "UNIQUE", "BEAUTIFUL"];
 
 class Landing extends Component {
   constructor(props) {
@@ -108,9 +108,9 @@ class Landing extends Component {
           </ZoomableGroup>
         </ComposableMap>
         <div className="landing-motto-container">
-          <span>the world is full of</span>
+          <span>THE WORLD IS FULL OF</span>
           <span className="rotating-word">{placeWords[wordIndex]}</span>
-          <span>places.</span>
+          <span>PLACES.</span>
           <span className="landing-motto-two">
             <span>explore</span> and <span>share</span> them.
           </span>
