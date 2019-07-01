@@ -1,6 +1,7 @@
 @import "./subcomponents/MapInfoContainer";
 @import "./subcomponents/MapSearch";
 @import "./subcomponents/MapScorecard";
+@import "./subcomponents/CityMap";
 
 .map-container {
   display: flex;
@@ -12,6 +13,16 @@
     max-width: 80vw;
     margin: 0 0 0 0;
     height: calc(100% - 30px);
+    .map-header-container {
+      display: flex;
+      align-items: center;
+      .map-header-button {
+        flex: 1;
+      }
+      .map-header-filler {
+        flex: 1;
+      }
+    }
     .continent-container {
       display: flex;
       justify-content: center;
