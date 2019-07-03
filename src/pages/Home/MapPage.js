@@ -142,11 +142,13 @@ const MapPage = () => {
               <div className="map-header-container">
                 <div className="map-header-button">
                   <button onClick={() => handleMapTypeChange(!cityOrCountry)}>
-                    See {cityOrCountry ? "Country Map" : "City Map"}
+                    Go to {cityOrCountry ? "Country Map" : "City Map"}
                   </button>
                 </div>
-                <MapSearch handleClickedCountry={handleClickedCountry}
-                cityOrCountry={cityOrCountry}/>
+                <MapSearch
+                  handleClickedCountry={handleClickedCountry}
+                  cityOrCountry={cityOrCountry}
+                />
                 <div className="map-header-filler" />
               </div>
               <div>
@@ -161,16 +163,19 @@ const MapPage = () => {
                   />
                 )}
                 {cityOrCountry ? null : (
-                  <MapInfoContainer
-                    countryName={countryName}
-                    capitalName={capitalName}
-                  />
+                  <>
+                    <MapInfoContainer
+                      countryName={countryName}
+                      capitalName={capitalName}
+                    />
+
+                    <MapScorecard
+                      tripTimingCounts={tripTimingCounts}
+                      activeTimings={activeTimings}
+                      sendActiveTimings={handleActiveTimings}
+                    />
+                  </>
                 )}
-                <MapScorecard
-                  tripTimingCounts={tripTimingCounts}
-                  activeTimings={activeTimings}
-                  sendActiveTimings={handleActiveTimings}
-                />
                 {activePopup ? (
                   <PopupPrompt
                     activePopup={activePopup}
