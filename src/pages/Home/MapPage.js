@@ -7,8 +7,10 @@ import ClickedCountryContainer from "../../components/Prompts/ClickedCountry/Cli
 import MapSearch from "./subcomponents/MapSearch";
 import MapScorecard from "./subcomponents/MapScorecard";
 import CountryMap from "./subcomponents/CountryMap";
+import CityMap from "./subcomponents/CityMap";
 
 const MapPage = () => {
+  const [cityOrCountry, handleMapTypeChange] = useState(1);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [clickedCountry, handleNewCountry] = useState(0);
@@ -137,23 +139,43 @@ const MapPage = () => {
         return (
           <div className="map-container">
             <div className="map">
-              <MapSearch handleClickedCountry={handleClickedCountry} />
-              <div>
-                <CountryMap
-                  countryInfo={countryInfo}
+              <div className="map-header-container">
+                <div className="map-header-button">
+                  <button onClick={() => handleMapTypeChange(!cityOrCountry)}>
+                    Go to {cityOrCountry ? "Country Map" : "City Map"}
+                  </button>
+                </div>
+                <MapSearch
                   handleClickedCountry={handleClickedCountry}
-                  clickedCountryArray={clickedCountryArray}
-                  activeTimings={activeTimings}
+                  cityOrCountry={cityOrCountry}
                 />
-                <MapInfoContainer
-                  countryName={countryName}
-                  capitalName={capitalName}
-                />
-                <MapScorecard
-                  tripTimingCounts={tripTimingCounts}
-                  activeTimings={activeTimings}
-                  sendActiveTimings={handleActiveTimings}
-                />
+                <div className="map-header-filler" />
+              </div>
+              <div>
+                {cityOrCountry ? (
+                  <CityMap />
+                ) : (
+                  <CountryMap
+                    countryInfo={countryInfo}
+                    handleClickedCountry={handleClickedCountry}
+                    clickedCountryArray={clickedCountryArray}
+                    activeTimings={activeTimings}
+                  />
+                )}
+                {cityOrCountry ? null : (
+                  <>
+                    <MapInfoContainer
+                      countryName={countryName}
+                      capitalName={capitalName}
+                    />
+
+                    <MapScorecard
+                      tripTimingCounts={tripTimingCounts}
+                      activeTimings={activeTimings}
+                      sendActiveTimings={handleActiveTimings}
+                    />
+                  </>
+                )}
                 {activePopup ? (
                   <PopupPrompt
                     activePopup={activePopup}
