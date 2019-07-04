@@ -33,6 +33,8 @@ export default function MapSearch(props) {
       props.handleClickedCountry(countryList[countryIdIndex]);
     }
   }
+  let placeHolderText;
+  (props.cityOrCountry) ? placeHolderText = 'Type a city...' : placeHolderText = 'Type a country...'
   return (
     <div className="map-search-container">
       <input
@@ -41,7 +43,7 @@ export default function MapSearch(props) {
         type="text"
         list="country-choice"
         name="country-search"
-        placeholder="Type a country..."
+        placeholder={placeHolderText}
         onKeyUp={e => handleSearchEnter(e)}
       />
       <datalist name="country-choice" id="country-choice">
@@ -55,5 +57,6 @@ export default function MapSearch(props) {
 MapSearch.propTypes = {
   countryName: PropTypes.string,
   capitalName: PropTypes.string,
-  handleClickedCountry: PropTypes.func
+  handleClickedCountry: PropTypes.func,
+  cityOrCountry: PropTypes.bool
 };
