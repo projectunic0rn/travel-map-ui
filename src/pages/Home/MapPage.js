@@ -26,6 +26,7 @@ const MapPage = () => {
     countryInfo(geography);
     showPopup(1);
     handleNewCountry(geography);
+    console.log(geography.id)
   }
 
   function handleTripTimingHelper(timing) {
