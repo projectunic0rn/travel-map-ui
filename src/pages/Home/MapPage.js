@@ -126,6 +126,8 @@ const MapPage = () => {
     handleTimingCheckbox(timings);
   }
 
+  let relativeOrAbsolute = cityOrCountry ? {position: "absolute", left: "calc(50% - 500px)"} : {position: "relative"};
+
   return (
     <Query
       query={GET_LOGGEDIN_USER_COUNTRIES}
@@ -139,21 +141,30 @@ const MapPage = () => {
         return (
           <div className="map-container">
             <div className="map">
-              <div className="map-header-container">
+              <div
+                className="map-header-container"
+                style={relativeOrAbsolute }
+              >
+                {" "}
+                :
                 <div className="map-header-button">
                   <button onClick={() => handleMapTypeChange(!cityOrCountry)}>
                     Go to {cityOrCountry ? "Country Map" : "City Map"}
                   </button>
                 </div>
-                <MapSearch
-                  handleClickedCountry={handleClickedCountry}
-                  cityOrCountry={cityOrCountry}
-                />
+                {cityOrCountry ? (
+                  <div className="map-header-filler" />
+                ) : (
+                  <MapSearch
+                    handleClickedCountry={handleClickedCountry}
+                    cityOrCountry={cityOrCountry}
+                  />
+                )}
                 <div className="map-header-filler" />
               </div>
               <div>
                 {cityOrCountry ? (
-                  <CityMap />
+                  <CityMap  />
                 ) : (
                   <CountryMap
                     countryInfo={countryInfo}

@@ -5,6 +5,7 @@
 
 .map-container {
   display: flex;
+  justify-content: center;
   height: calc(100% - 30px);
   width: 80vw;
   margin: 0 auto;
@@ -19,14 +20,16 @@
     .map-header-container {
       display: flex;
       max-width: 1000px;
+      width: 1000px;
       margin: 0 auto;
       align-items: center;
       .map-header-button {
         flex: 1;
+        z-index: 2000;
         button {
           width: 200px;
           height: 40px;
-          background: none;
+          background: #3f4b57;
           border: none;
           border-radius: 24px;
           box-shadow: 0 1px 1px 1px #3f4b57;
@@ -43,6 +46,7 @@
       }
       .map-header-filler {
         flex: 1;
+        height: 72px;
       }
     }
     .continent-container {

@@ -1,6 +1,63 @@
 .city-map-container {
-    position: absolute;
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  left: 0;
+}
+
+.mapboxgl-ctrl-top-left {
+    top: 5px !important;
+  left: calc(50% - 206px)!important;
+}
+
+.mapboxgl-ctrl-geocoder {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  width: 396px;
+  height: 40px;
+  margin: 16px auto 16px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.15);
+  background: #3f4b57;
+  label {
+    text-transform: none;
+    transform: translate(-20px, -4px);
+  }
+  input {
     display: flex;
-    width: 100vw;
-    left: 0;
+    align-items: center;
+    width: 360px;
+    height: 36px;
+    border-bottom: none;
+    font-size: 24px;
+    font-family: "Segoe UI";
+    font-weight: 100;
+    line-height: 1.5em;
+    border: 0;
+    padding: 6px 45px;
+    -webkit-appearance: none;
+    border-radius: 0;
+    cursor: text;
+    background: none;
+    color: rgb(168, 168, 172);
+
+    &:focus {
+      outline: 0;
+    }
+  }
+ 
+  .mapboxgl-ctrl-geocoder--icon-search {
+      width: 28px;
+      height: 28px;
+    fill: rgb(210, 210, 210);
+  }
+  .mapboxgl-ctrl-geocoder--pin-right {
+      button {
+          background: none;
+          border: none;
+          fill: rgb(220, 220, 220);
+      }
+  }
 }

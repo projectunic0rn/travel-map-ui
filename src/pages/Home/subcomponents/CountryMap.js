@@ -89,8 +89,23 @@ const CountryMap = props => {
     return countryStyles;
   }
 
+function handleZoomIn() {
+  handleChangeZoom(zoom+1);
+}
+
+function handleZoomOut() {
+  handleChangeZoom(zoom-1);
+}
+
+function handleMoveEnd(newCenter) {
+  console.log("New center: ", newCenter);
+  console.log("Zoom: ", zoom)
+}
+
   return (
     <>
+    <button onClick={handleZoomIn}>+</button>
+    <button onClick={handleZoomOut}>-</button>
       <ComposableMap
         projectionConfig={{
           scale: 205
@@ -102,7 +117,8 @@ const CountryMap = props => {
           height: "auto"
         }}
       >
-        <ZoomableGroup center={center} zoom={zoom}>
+        <ZoomableGroup center={center} zoom={zoom}
+  onMoveEnd={handleMoveEnd}>
           <Geographies geography={jsonData} disableOptimization>
             {(geographies, projection) =>
               geographies.map((geography, i) => (
