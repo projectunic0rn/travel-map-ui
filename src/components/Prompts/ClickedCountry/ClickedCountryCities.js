@@ -70,12 +70,12 @@ class ClickedCountryCities extends Component {
     });
   }
 
-  handleMarkerClick(e) {
-    console.log(e);
+  handleMarkerClick(city, i) {
+    console.log('show tooltip');
   }
 
   handleNewMarkers(markers) {
-    let markerDisplay = markers.map(city => {
+    let markerDisplay = markers.map((city, i) => {
       return (
         <Marker
           key={city.result.id}
@@ -83,7 +83,7 @@ class ClickedCountryCities extends Component {
           offsetTop={-12.5}
           latitude={city.result.center[1]}
           longitude={city.result.center[0]}
-          onClick={this.handleMarkerClick}
+          captureClick={false}
         >
           <svg
             key={"svg" + city.result.id}
@@ -93,7 +93,7 @@ class ClickedCountryCities extends Component {
             xmlns="http://www.w3.org/2000/svg"
           >
             <circle
-              onClick={this.handleMarkerClick}
+              onMouseOver={() => this.handleMarkerClick(city.result, i)}
               key={"circle" + city.result.id}
               cx="50"
               cy="50"

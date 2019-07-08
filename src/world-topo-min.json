@@ -62700,6 +62700,7 @@
           "id": 24,
           "properties": {
             "name": "Bolivia",
+            "ISO2": "BO",
             "continent": "SouthAmerica",
             "color": "#aec7e8",
             "capital": "La Paz"
@@ -62729,6 +62730,7 @@
           "id": 27,
           "properties": {
             "name": "Brazil",
+            "ISO2": "BR",
             "color": "#ff7f0e",
             "continent": "SouthAmerica",
             "capital": "Brasilia"
@@ -62987,6 +62989,7 @@
           "id": 41,
           "properties": {
             "name": "Chile",
+            "ISO2": "CL",
             "color": "#ff7f0e",
             "continent": "SouthAmerica",
             "capital": "Santiago"
@@ -63083,6 +63086,7 @@
           "id": 43,
           "properties": {
             "name": "Colombia",
+            "ISO2": "CO",
             "color": "#ffbb78",
             "continent": "SouthAmerica",
             "capital": "Bogota"
@@ -63312,6 +63316,7 @@
           "id": 58,
           "properties": {
             "name": "Ecuador",
+            "ISO2": "EC",
             "continent": "SouthAmerica",
             "color": "#2ca02c",
             "capital": "Quito"
@@ -63483,7 +63488,8 @@
           "arcs": [ [ -309, 724, 725 ] ],
           "id": 73,
           "properties": {
-            "name": "French Guyana",
+            "name": "French Guiana",
+            "ISO2": "GF",
             "color": "#d62728",
             "continent": "Africa", 
             "capital": "Cayenne"
@@ -63770,6 +63776,7 @@
           "id": 83,
           "properties": {
             "name": "Guyana",
+            "ISO2": "GY",
             "continent": "SouthAmerica",
             "color": "#ffbb78", 
             "capital": "Georgetown"
@@ -65066,6 +65073,7 @@
           "id": 154,
           "properties": {
             "name": "Peru",
+            "ISO2": "PE",
             "color": "#98df8a", 
             "continent": "SouthAmerica", 
             "capital": "Lima"
@@ -65648,6 +65656,7 @@
           "id": 186,
           "properties": {
             "name": "Suriname",
+            "ISO2": "SR",
             "color": "#2ca02c", 
             "continent": "Africa", 
             "capital": "Paramaribo"
@@ -66115,6 +66124,7 @@
           "id": 211,
           "properties": {
             "name": "Venezuela",
+            "ISO2": "VE",
             "color": "#2ca02c", 
             "continent": "SouthAmerica", 
             "capital": "Caracas"
