@@ -8,13 +8,15 @@ import MapSearch from "./subcomponents/MapSearch";
 import MapScorecard from "./subcomponents/MapScorecard";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
+import ClickedCityContainer from "../../components/Prompts/ClickedCity/ClickedCityContainer";
 
 const MapPage = () => {
-  const [cityOrCountry, handleMapTypeChange] = useState(1);
+  const [cityOrCountry, handleMapTypeChange] = useState(0);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [clickedCountry, handleNewCountry] = useState(0);
   const [clickedCountryArray, addCountry] = useState([]);
+  const [clickedCity, handleNewCity] = useState(null);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [activePopup, showPopup] = useState(0);
@@ -30,8 +32,14 @@ const MapPage = () => {
     handleNewCountry(geography);
   }
 
+  function handleTypedCity(city) {
+    console.log(city);
+    handleNewCity(city);
+    showPopup(1);
+  }
+
   function handleTripTimingHelper(timing) {
-    showPopup(0);
+    //showPopup(0);
     let countryArray = clickedCountryArray;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -126,7 +134,9 @@ const MapPage = () => {
     handleTimingCheckbox(timings);
   }
 
-  let relativeOrAbsolute = cityOrCountry ? {position: "absolute", left: "calc(50% - 500px)"} : {position: "relative"};
+  let relativeOrAbsolute = cityOrCountry
+    ? { position: "absolute", left: "calc(50% - 500px)" }
+    : { position: "relative" };
 
   return (
     <Query
@@ -141,12 +151,7 @@ const MapPage = () => {
         return (
           <div className="map-container">
             <div className="map">
-              <div
-                className="map-header-container"
-                style={relativeOrAbsolute }
-              >
-                {" "}
-                :
+              <div className="map-header-container" style={relativeOrAbsolute}>
                 <div className="map-header-button">
                   <button onClick={() => handleMapTypeChange(!cityOrCountry)}>
                     Go to {cityOrCountry ? "Country Map" : "City Map"}
@@ -164,7 +169,7 @@ const MapPage = () => {
               </div>
               <div>
                 {cityOrCountry ? (
-                  <CityMap  />
+                  <CityMap handleTypedCity={handleTypedCity} />
                 ) : (
                   <CountryMap
                     countryInfo={countryInfo}
@@ -188,16 +193,29 @@ const MapPage = () => {
                   </>
                 )}
                 {activePopup ? (
-                  <PopupPrompt
-                    activePopup={activePopup}
-                    showPopup={showPopup}
-                    component={ClickedCountryContainer}
-                    componentProps={{
-                      countryInfo: clickedCountry,
-                      handleTripTiming: handleTripTimingHelper,
-                      previousTrips: checkForPreviousTrips(clickedCountry)
-                    }}
-                  />
+                  cityOrCountry ? (
+                    <PopupPrompt
+                      activePopup={activePopup}
+                      showPopup={showPopup}
+                      component={ClickedCityContainer}
+                      componentProps={{
+                        cityInfo: clickedCity,
+                        handleTripTiming: handleTripTimingHelper,
+                        previousTrips: checkForPreviousTrips(clickedCountry)
+                      }}
+                    />
+                  ) : (
+                    <PopupPrompt
+                      activePopup={activePopup}
+                      showPopup={showPopup}
+                      component={ClickedCountryContainer}
+                      componentProps={{
+                        countryInfo: clickedCountry,
+                        handleTripTiming: handleTripTimingHelper,
+                        previousTrips: checkForPreviousTrips(clickedCountry)
+                      }}
+                    />
+                  )
                 ) : null}
               </div>
             </div>

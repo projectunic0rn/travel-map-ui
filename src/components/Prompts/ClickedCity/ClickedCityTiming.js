@@ -5,11 +5,12 @@ import { ADD_PLACE_LIVING, ADD_PLACE_VISITED, ADD_PLACE_VISITING } from '../../.
 
 
 
-function ClickedCountryTiming(props) {
+function ClickedCityTiming(props) {
   const { country, cities } = props;
+  console.log(cities);
+  console.log(country);
   function handleAddCountry(data, timing) {
     props.handleTripTiming(timing)
-    props.handlePageChange();
   }
   return (
     <div className="clicked-country-timing-container">
@@ -47,12 +48,11 @@ function ClickedCountryTiming(props) {
   );
 }
 
-ClickedCountryTiming.propTypes = {
+ClickedCityTiming.propTypes = {
   handleTripTiming: PropTypes.func,
-  handlePageChange: PropTypes.func,
   previousTrips: PropTypes.bool,
   country: PropTypes.number,
   cities: PropTypes.number
 };
 
-export default ClickedCountryTiming;
+export default ClickedCityTiming;

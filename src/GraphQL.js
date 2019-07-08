@@ -32,8 +32,8 @@ export const GET_LOGGEDIN_USER = gql`
 
 //MUTATIONS
 export const ADD_PLACE_VISITED = gql`
-  mutation addPlaceVisited($country: Int!, $city: Int!) {
-    addPlaceVisited(country: $country, city: $city) {
+  mutation addPlaceVisited($country: Float!, $cities: [Float!]!) {
+    addPlaceVisited(country: $country, cities: $cities) {
       id
       country
     }

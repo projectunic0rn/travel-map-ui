@@ -62160,6 +62160,7 @@
           "id": 10,
           "properties": {
             "name": "Aruba",
+            "ISO2": "AW",
             "continent": "NorthAmerica",
             "color": "#1f77b4", 
             "capital": "Oranjestad"
@@ -62171,6 +62172,7 @@
           "id": 1,
           "properties": {
             "name": "Afghanistan",
+            "ISO2": "AF",
             "color": "#1f77b4",
             "continent":  "Asia", 
             "capital": "Kabul"
@@ -62265,6 +62267,7 @@
           "id": 8,
           "properties": {
             "name": "Argentina",
+            "ISO2": "AR",
             "color": "#1f77b4",
             "continent":  "SouthAmerica", 
             "capital": "Buenos Aires"
@@ -65240,6 +65243,7 @@
           "id": 153,
           "properties": {
             "name": "Paraguay",
+            "ISO2": "PY",
             "color": "#ffbb78", 
             "continent": "SouthAmerica", 
             "capital": "Asuncion"
@@ -65954,6 +65958,7 @@
           "id": 208,
           "properties": {
             "name": "Uruguay",
+            "ISO2": "UY",
             "color": "#ffbb78", 
             "continent": "SouthAmerica", 
             "capital": "Montevideo"

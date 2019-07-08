@@ -1,19 +1,20 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
+import { countryConsts } from "../../../CountryConsts";
 
-class CityMap extends Component {
+class ClickedCountryCities extends Component {
   constructor(props) {
     super(props);
     this.state = {
       viewport: {
         width: 400,
         height: 400,
-        latitude: 0,
-        longitude: 0,
-        zoom: 1.5
+        latitude: countryConsts[this.props.countryIndex].coordinates[0],
+        longitude: countryConsts[this.props.countryIndex].coordinates[0],
+        zoom: countryConsts[this.props.countryIndex].zoom
       },
       markers: [],
       markerDisplay: null,
@@ -22,9 +23,6 @@ class CityMap extends Component {
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
     this.handleViewportChange = this.handleViewportChange.bind(this);
-    this.handleGeocoderViewportChange = this.handleGeocoderViewportChange.bind(
-      this
-    );
     this.handleMapMovement = this.handleMapMovement.bind(this);
     this.handleOnResult = this.handleOnResult.bind(this);
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
@@ -34,6 +32,19 @@ class CityMap extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.resize);
     this.resize();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.countryIndex !== prevProps.countryIndex) {
+      let viewport = this.state.viewport;
+      viewport.latitude = countryConsts[this.props.countryIndex].coordinates[0];
+      viewport.longitude =
+        countryConsts[this.props.countryIndex].coordinates[1];
+      viewport.zoom = countryConsts[this.props.countryIndex].zoom;
+      this.setState({
+        viewport: viewport
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -53,19 +64,14 @@ class CityMap extends Component {
     });
   }
 
-  handleGeocoderViewportChange(viewport) {
-    const geocoderDefaultOverrides = { transitionDuration: 1000 };
-
-    return this.handleViewportChange({
-      ...viewport,
-      ...geocoderDefaultOverrides
-    });
-  }
-
   handleMapMovement(newBounds) {
     this.setState({
       bounds: newBounds
     });
+  }
+
+  handleMarkerClick(e) {
+    console.log(e);
   }
 
   handleNewMarkers(markers) {
@@ -77,15 +83,22 @@ class CityMap extends Component {
           offsetTop={-12.5}
           latitude={city.result.center[1]}
           longitude={city.result.center[0]}
+          onClick={this.handleMarkerClick}
         >
           <svg
-            key={'svg' + city.result.id}
+            key={"svg" + city.result.id}
             height={10}
             width={10}
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <circle key={'circle' + city.result.id} cx="50" cy="50" r="50" />
+            <circle
+              onClick={this.handleMarkerClick}
+              key={"circle" + city.result.id}
+              cx="50"
+              cy="50"
+              r="50"
+            />
           </svg>
         </Marker>
       );
@@ -93,6 +106,7 @@ class CityMap extends Component {
     this.setState({
       markerDisplay: markerDisplay
     });
+    this.props.handleTypedCity();
   }
 
   handleOnResult(event) {
@@ -102,7 +116,6 @@ class CityMap extends Component {
       markers: markers
     });
     this.handleNewMarkers(markers);
-    this.props.handleTypedCity(event);
   }
 
   _onWebGLInitialized(gl) {
@@ -111,10 +124,11 @@ class CityMap extends Component {
 
   render() {
     const { viewport, markerDisplay } = this.state;
+    console.log(this.state.viewport);
     return (
-      <div className="city-map-container">
+      <div className="city-choosing-container">
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/cjxh021qj111t1co3fae7eaqh"}
+          mapStyle={"mapbox://styles/mvance43776/cjxtn4tww8i0l1cqmkui7xl32"}
           ref={this.mapRef}
           {...viewport}
           mapboxApiAccessToken={
@@ -126,13 +140,13 @@ class CityMap extends Component {
           <Geocoder
             mapRef={this.mapRef}
             onResult={this.handleOnResult}
-            onViewportChange={this.handleGeocoderViewportChange}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
-            position="top-left"
+            position="top-right"
             types={"place"}
             placeholder={"Type a city..."}
+            countries={this.props.countryISO}
           />
         </MapGL>
       </div>
@@ -140,8 +154,11 @@ class CityMap extends Component {
   }
 }
 
-CityMap.propTypes = {
+ClickedCountryCities.propTypes = {
+  country: PropTypes.number,
+  countryISO: PropTypes.string,
+  countryIndex: PropTypes.number,
   handleTypedCity: PropTypes.func
-}
+};
 
-export default CityMap;
+export default ClickedCountryCities;
