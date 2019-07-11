@@ -30,8 +30,10 @@ function ClickedCityContainer(props) {
             <ClickedCityTiming
               handleTripTiming={props.customProps.handleTripTiming}
               previousTrips={props.customProps.previousTrips}
-              cities={[parseInt(props.customProps.cityInfo.result.id.slice(7), 10)]}
-              country={parseInt(props.customProps.cityInfo.result.context[context].id.slice(8, 14))}
+              cityId={[parseInt(props.customProps.cityInfo.result.id.slice(7), 10)]}
+              city={props.customProps.cityInfo.result.text}
+              country={countryName}
+              countryId={parseInt(props.customProps.cityInfo.result.context[context].id.slice(8, 14))}
             />
           )
         }[0]

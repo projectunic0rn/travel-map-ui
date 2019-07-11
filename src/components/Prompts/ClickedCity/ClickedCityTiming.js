@@ -6,18 +6,17 @@ import { ADD_PLACE_LIVING, ADD_PLACE_VISITED, ADD_PLACE_VISITING } from '../../.
 
 
 function ClickedCityTiming(props) {
-  const { country, cities } = props;
-  console.log(cities);
-  console.log(country);
-  function handleAddCountry(data, timing) {
+  const { country, city, countryISO, countryId, cityId } = props;
+console.log(props)
+  function handleAddCity(data, timing) {
     props.handleTripTiming(timing)
   }
   return (
     <div className="clicked-country-timing-container">
       <Mutation
         mutation={ADD_PLACE_VISITED}
-        variables={{ country, cities }}
-        onCompleted={data => handleAddCountry(data, 0)}
+        variables={{ country, city }}
+        onCompleted={data => handleAddCity(data, 0)}
       >
         {(mutation) => (
           <span onClick={mutation}>I visited here</span>
@@ -25,8 +24,8 @@ function ClickedCityTiming(props) {
       </Mutation>
       <Mutation
         mutation={ADD_PLACE_VISITING}
-        variables={{ country, cities }}
-        onCompleted={data => handleAddCountry(data, 1)}
+        variables={{ country, city, countryISO, countryId, cityId }}
+        onCompleted={data => handleAddCity(data, 1)}
       >
         {(mutation) => (
           <span onClick={mutation}>I plan to visit here</span>
@@ -34,8 +33,8 @@ function ClickedCityTiming(props) {
       </Mutation>
       <Mutation
         mutation={ADD_PLACE_LIVING}
-        variables={{ country, cities }}
-        onCompleted={data => handleAddCountry(data, 2)}
+        variables={{ country, city }}
+        onCompleted={data => handleAddCity(data, 2)}
       >
         {(mutation) => (
           <span onClick={mutation}>I live here currently</span>
@@ -51,8 +50,11 @@ function ClickedCityTiming(props) {
 ClickedCityTiming.propTypes = {
   handleTripTiming: PropTypes.func,
   previousTrips: PropTypes.bool,
-  country: PropTypes.number,
-  cities: PropTypes.number
+  country: PropTypes.string,
+  city: PropTypes.string, 
+  countryId: PropTypes.number, 
+  cityId: PropTypes.number, 
+  countryISO: PropTypes.string
 };
 
 export default ClickedCityTiming;

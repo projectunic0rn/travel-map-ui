@@ -41,8 +41,20 @@ export const ADD_PLACE_VISITED = gql`
 `;
 
 export const ADD_PLACE_VISITING = gql`
-  mutation addPlaceVisiting($country: Int!, $city: Int!) {
-    addPlaceVisiting(country: $country, city: $city) {
+  mutation addPlaceVisiting(
+    $country: String!
+    $countryId: Int!
+    $countryISO: String!
+    $city: String
+    $cityId: Int!
+  ) {
+    addPlaceVisiting(
+      country: $country
+      countryId: $countryId
+      countryISO: $countryISO
+      city: $city, 
+      cityId: $cityId
+    ) {
       id
       country
     }
@@ -67,22 +79,22 @@ export const LOGIN_USER = gql`
 `;
 
 export const SIGNUP_USER = gql`
-mutation registerUser(
-  $username: String!
-  $fullName: String!
-  $email: String!
-  $password: String!
-) {
-  registerUser(
-    username: $username
-    full_name: $fullName
-    email: $email
-    password: $password
+  mutation registerUser(
+    $username: String!
+    $fullName: String!
+    $email: String!
+    $password: String!
   ) {
-    token
+    registerUser(
+      username: $username
+      full_name: $fullName
+      email: $email
+      password: $password
+    ) {
+      token
+    }
+    loginUser(username: $username, password: $password) {
+      token
+    }
   }
-  loginUser(username: $username, password: $password) {
-    token
-  }
-}
 `;
