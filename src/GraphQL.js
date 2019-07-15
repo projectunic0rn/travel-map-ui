@@ -12,6 +12,12 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       Places_visiting {
         id
         country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
       }
       Place_living {
         id
@@ -41,22 +47,14 @@ export const ADD_PLACE_VISITED = gql`
 `;
 
 export const ADD_PLACE_VISITING = gql`
-  mutation addPlaceVisiting(
-    $country: String!
-    $countryId: Int!
-    $countryISO: String!
-    $city: String
-    $cityId: Int!
-  ) {
-    addPlaceVisiting(
-      country: $country
-      countryId: $countryId
-      countryISO: $countryISO
-      city: $city, 
-      cityId: $cityId
-    ) {
+  mutation addPlaceVisiting($country: Country!, $cities: [City!]) {
+    addPlaceVisiting(country: $country, cities: $cities) {
       id
       country
+      city
+      cityId
+      city_latitude
+      city_longitude
     }
   }
 `;

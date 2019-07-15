@@ -16,6 +16,7 @@ const MapPage = () => {
   const [capitalName, handleCapitalName] = useState("Capital");
   const [clickedCountry, handleNewCountry] = useState(0);
   const [clickedCountryArray, addCountry] = useState([]);
+  const [clickedCityArray, addCity] = useState([]);
   const [clickedCity, handleNewCity] = useState(null);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
@@ -33,7 +34,6 @@ const MapPage = () => {
   }
 
   function handleTypedCity(city) {
-    console.log(city);
     handleNewCity(city);
     showPopup(1);
   }
@@ -65,6 +65,20 @@ const MapPage = () => {
     addCountry(countryArray);
   }
 
+  function handleTripTimingCityHelper(city, timing) {
+    //showPopup(0);
+    console.log(city);
+    let cityArray = clickedCityArray;
+    cityArray.push({
+      city: city.city,
+      cityId: city.cityId,
+      latitude: city.city_latitude/1000000,
+      longitude: city.city_longitude/1000000,
+      tripTiming: timing
+    });
+    addCity(cityArray);
+  }
+
   function checkForPreviousTrips(geography) {
     let previousTrips = false;
     for (let i in clickedCountryArray) {
@@ -76,6 +90,7 @@ const MapPage = () => {
   }
 
   function handleLoadedCountries(data) {
+    console.log(data);
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
     let pastCount = tripTimingCounts[0];
@@ -101,11 +116,11 @@ const MapPage = () => {
       for (let i = 0; i < userData.Places_visiting.length; i++) {
         if (
           !countryArray.some(country => {
-            return country.countryId === userData.Places_visiting[i].country;
+            return country.countryId === userData.Places_visiting[i].countryId;
           })
         ) {
           countryArray.push({
-            countryId: userData.Places_visiting[i].country,
+            countryId: userData.Places_visiting[i].countryId,
             tripTiming: 1
           });
           futureCount++;
@@ -169,7 +184,7 @@ const MapPage = () => {
               </div>
               <div>
                 {cityOrCountry ? (
-                  <CityMap handleTypedCity={handleTypedCity} />
+                  <CityMap handleTypedCity={handleTypedCity} cityArray ={clickedCityArray} tripData = {data.getLoggedInUser}/>
                 ) : (
                   <CountryMap
                     countryInfo={countryInfo}
@@ -200,7 +215,7 @@ const MapPage = () => {
                       component={ClickedCityContainer}
                       componentProps={{
                         cityInfo: clickedCity,
-                        handleTripTiming: handleTripTimingHelper,
+                        handleTripTiming: handleTripTimingCityHelper,
                         previousTrips: checkForPreviousTrips(clickedCountry)
                       }}
                     />

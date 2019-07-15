@@ -5,13 +5,16 @@ import ClickedCityTiming from "./ClickedCityTiming";
 function ClickedCityContainer(props) {
     console.log(props);
     let countryName;
+    let countryISO;
     let context;
     if (props.customProps.cityInfo.result.context[1] !== undefined) {
         context = 1;
         countryName = props.customProps.cityInfo.result.context[1]['text_en-US'];
+        countryISO = props.customProps.cityInfo.result.context[1]['short_code'].toUpperCase();
     } else {
         context = 0;
         countryName = props.customProps.cityInfo.result.context[0]['text_en-US'];
+        countryISO = props.customProps.cityInfo.result.context[0]['short_code'].toUpperCase();
     }
   return (
     <div className="clicked-country-container">
@@ -30,9 +33,12 @@ function ClickedCityContainer(props) {
             <ClickedCityTiming
               handleTripTiming={props.customProps.handleTripTiming}
               previousTrips={props.customProps.previousTrips}
-              cityId={[parseInt(props.customProps.cityInfo.result.id.slice(7), 10)]}
+              cityId={parseFloat(props.customProps.cityInfo.result.properties.wikidata.slice(1), 10)}
               city={props.customProps.cityInfo.result.text}
-              country={countryName}
+              clickedCountry={countryName}
+              countryISO = {countryISO}
+              latitude= {props.customProps.cityInfo.result.center[1]*1000000}
+              longitude= {props.customProps.cityInfo.result.center[0]*1000000}
               countryId={parseInt(props.customProps.cityInfo.result.context[context].id.slice(8, 14))}
             />
           )

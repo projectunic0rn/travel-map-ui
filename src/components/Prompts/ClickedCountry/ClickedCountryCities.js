@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
+import { Mutation } from "react-apollo";
+import { ADD_PLACE_VISITING } from "../../../GraphQL";
 import { countryConsts } from "../../../CountryConsts";
 
 class ClickedCountryCities extends Component {
@@ -18,6 +20,12 @@ class ClickedCountryCities extends Component {
       },
       markers: [],
       markerDisplay: null,
+      cities: [],
+      country: {
+        country: this.props.country,
+        countryId: this.props.countryId,
+        countryISO: this.props.countryISO
+      },
       gl: null
     };
     this.mapRef = React.createRef();
@@ -71,7 +79,7 @@ class ClickedCountryCities extends Component {
   }
 
   handleMarkerClick(city, i) {
-    console.log('show tooltip');
+    console.log("show tooltip");
   }
 
   handleNewMarkers(markers) {
@@ -111,9 +119,18 @@ class ClickedCountryCities extends Component {
 
   handleOnResult(event) {
     let markers = this.state.markers;
+    let cities = this.state.cities;
+    let cityArrayElement = {
+      city: event.result.text,
+      cityId: parseFloat(event.result.properties.wikidata.slice(1), 10),
+      city_latitude: event.result.center[1]*1000000,
+      city_longitude: event.result.center[0]*1000000
+    };
+    cities.push(cityArrayElement);
     markers.push(event);
     this.setState({
-      markers: markers
+      markers,
+      cities
     });
     this.handleNewMarkers(markers);
   }
@@ -123,10 +140,16 @@ class ClickedCountryCities extends Component {
   }
 
   render() {
-    const { viewport, markerDisplay } = this.state;
-    console.log(this.state.viewport);
+    const { viewport, markerDisplay, country, cities } = this.state;
     return (
       <div className="city-choosing-container">
+        <Mutation mutation={ADD_PLACE_VISITING} variables={{ country, cities }}>
+          {mutation => (
+            <button className="submit-cities" onClick={mutation}>
+              Upload
+            </button>
+          )}
+        </Mutation>
         <MapGL
           mapStyle={"mapbox://styles/mvance43776/cjxtn4tww8i0l1cqmkui7xl32"}
           ref={this.mapRef}
@@ -155,7 +178,8 @@ class ClickedCountryCities extends Component {
 }
 
 ClickedCountryCities.propTypes = {
-  country: PropTypes.number,
+  country: PropTypes.string,
+  countryId: PropTypes.number,
   countryISO: PropTypes.string,
   countryIndex: PropTypes.number,
   handleTypedCity: PropTypes.func

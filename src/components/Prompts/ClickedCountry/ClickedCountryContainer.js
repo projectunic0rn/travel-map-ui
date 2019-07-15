@@ -98,7 +98,8 @@ function ClickedCountryContainer(props) {
           ),
           1: (
             <ClickedCountryCities
-              country={props.customProps.countryInfo.id}
+              country={props.customProps.countryInfo.properties.name}
+              countryId={props.customProps.countryInfo.id}
               countryISO={props.customProps.countryInfo.properties.ISO2}
               countryIndex={countryIndex}
               handleTypedCity={handleTypedCity}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
@@ -17,7 +17,9 @@ class CityMap extends Component {
       },
       markers: [],
       markerDisplay: null,
-      gl: null
+      gl: null,
+      tripTimingCounts: [0, 0, 0],
+      clickedCityArray: this.props.cityArray
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -29,11 +31,14 @@ class CityMap extends Component {
     this.handleOnResult = this.handleOnResult.bind(this);
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
     this.handleNewMarkers = this.handleNewMarkers.bind(this);
+    this.handleLoadedMarkers = this.handleLoadedMarkers.bind(this);
+    this.handleLoadedCities = this.handleLoadedCities.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
     this.resize();
+    this.handleLoadedCities(this.props.tripData);
   }
 
   componentWillUnmount() {
@@ -69,8 +74,9 @@ class CityMap extends Component {
   }
 
   handleNewMarkers(markers) {
-    let markerDisplay = markers.map(city => {
-      return (
+    let markerDisplay =this.state.markerDisplay;
+    markers.map(city => {
+      markerDisplay.push(
         <Marker
           key={city.result.id}
           offsetLeft={-5}
@@ -79,16 +85,59 @@ class CityMap extends Component {
           longitude={city.result.center[0]}
         >
           <svg
-            key={'svg' + city.result.id}
+            key={"svg" + city.result.id}
             height={10}
             width={10}
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <circle key={'circle' + city.result.id} cx="50" cy="50" r="50" />
+            <circle key={"circle" + city.result.id} cx="50" cy="50" r="50" />
           </svg>
         </Marker>
       );
+    });
+    this.setState({
+      markerDisplay
+    });
+  }
+
+  handleLoadedMarkers(markers) {
+    let markerDisplay = markers.map(city => {
+      if (city.city !== undefined) {
+        let color = "red";
+        switch(city.tripTiming) {
+          case 0: 
+            color = "rgba(203, 118, 120, 0.75)";
+            break;
+          case 1: 
+            color = "rgba(115, 167, 195, 0.75)";
+            break;
+          case 2: 
+            color = "rgba(150, 177, 168, 0.75)";
+            break;
+          default: 
+          break;
+        }
+        return (
+          <Marker
+            key={city.cityId}
+            offsetLeft={-5}
+            offsetTop={-12.5}
+            latitude={city.latitude}
+            longitude={city.longitude}
+          >
+            <svg
+              key={"svg" + city.cityId}
+              height={10}
+              width={10}
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle style={{fill: color}} key={"circle" + city.cityId} cx="50" cy="50" r="50" />
+            </svg>
+          </Marker>
+        );
+      }
     });
     this.setState({
       markerDisplay: markerDisplay
@@ -109,7 +158,77 @@ class CityMap extends Component {
     this.setState({ gl: gl });
   }
 
+  handleLoadedCities(data) {
+    const { tripTimingCounts, clickedCityArray } = this.state;
+    let pastCount = tripTimingCounts[0];
+    let futureCount = tripTimingCounts[1];
+    let liveCount = tripTimingCounts[2];
+    if (data != null && data.Places_visited.length !== 0) {
+      for (let i = 0; i < data.Places_visited.length; i++) {
+        if (
+          !clickedCityArray.some(city => {
+            return city.cityId === data.Places_visited[i].cityId;
+          })
+        ) {
+          if (data.Places_visited[i].cityId !== undefined) {
+            clickedCityArray.push({
+              cityId: data.Places_visited[i].cityId,
+              city: data.Places_visited[i].city,
+              latitude: data.Places_visited[i].city_latitude / 1000000,
+              longitude: data.Places_visited[i].city_longitude / 1000000,
+              tripTiming: 0
+            });
+            pastCount++;
+          }
+        }
+      }
+    }
+    if (data != null && data.Places_visiting.length !== 0) {
+      for (let i = 0; i < data.Places_visiting.length; i++) {
+        if (
+          !clickedCityArray.some(city => {
+            return city.cityId === data.Places_visiting[i].cityId;
+          })
+        ) {
+          clickedCityArray.push({
+            cityId: data.Places_visiting[i].cityId,
+            city: data.Places_visiting[i].city,
+            latitude: data.Places_visiting[i].city_latitude / 1000000,
+            longitude: data.Places_visiting[i].city_longitude / 1000000,
+            tripTiming: 1
+          });
+          futureCount++;
+        }
+      }
+    }
+    if (data != null && data.Place_living !== null) {
+      if (
+        !clickedCityArray.some(city => {
+          return city.cityId === data.Place_living.cityId;
+        })
+      ) {
+        clickedCityArray.push({
+          cityId: data.Place_living.cityId,
+          city: data.Place_living.city,
+          latitude: data.Place_living.city_latitude / 1000000,
+          longitude: data.Place_living.city_longitude / 1000000,
+          tripTiming: 2
+        });
+        liveCount++;
+      }
+    }
+    this.setState(
+      {
+        clickedCityArray
+      },
+      () => this.handleLoadedMarkers(clickedCityArray)
+    );
+  }
+
   render() {
+    console.log(this.props.tripData);
+    console.log(this.state.markerDisplay)
+    console.log(this.state.clickedCityArray);
     const { viewport, markerDisplay } = this.state;
     return (
       <div className="city-map-container">
@@ -141,7 +260,9 @@ class CityMap extends Component {
 }
 
 CityMap.propTypes = {
-  handleTypedCity: PropTypes.func
-}
+  handleTypedCity: PropTypes.func,
+  tripData: PropTypes.array,
+  cityArray: PropTypes.array
+};
 
 export default CityMap;

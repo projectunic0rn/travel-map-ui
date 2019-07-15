@@ -65916,7 +65916,8 @@
           ],
           "id": 526,
           "properties": {
-            "name": "Taiwan, Province of China",
+            "name": "Taiwan",
+            "capital": "Taipei",
             "color": "#1f77b4"
           }
         },
@@ -66081,6 +66082,7 @@
           "id": 207,
           "properties": {
             "name": "United States",
+            "ISO2": "US",
             "color": "#ffbb78", 
             "continent": "NorthAmerica", 
             "capital": "Washington D.C."
