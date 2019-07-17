@@ -69,7 +69,7 @@ ClickedCityTiming.propTypes = {
   longitude: PropTypes.number, 
   latitude: PropTypes.number,
   cityId: PropTypes.number, 
-  countryISO: PropTypes.string
+  countryISO: PropTypes.string,
 };
 
 export default ClickedCityTiming;

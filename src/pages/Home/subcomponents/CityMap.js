@@ -262,7 +262,7 @@ class CityMap extends Component {
 CityMap.propTypes = {
   handleTypedCity: PropTypes.func,
   tripData: PropTypes.array,
-  cityArray: PropTypes.array
+  cityArray: PropTypes.array, 
 };
 
 export default CityMap;

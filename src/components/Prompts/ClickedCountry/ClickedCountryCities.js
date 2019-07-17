@@ -15,17 +15,23 @@ class ClickedCountryCities extends Component {
         width: 400,
         height: 400,
         latitude: countryConsts[this.props.countryIndex].coordinates[0],
-        longitude: countryConsts[this.props.countryIndex].coordinates[0],
+        longitude: countryConsts[this.props.countryIndex].coordinates[1],
         zoom: countryConsts[this.props.countryIndex].zoom
       },
       markers: [],
       markerDisplay: null,
-      cities: [],
+      cities: [{
+        city: "",
+        cityId: 0,
+        city_latitude: 0,
+        city_longitude: 0
+      }],
       country: {
         country: this.props.country,
         countryId: this.props.countryId,
         countryISO: this.props.countryISO
       },
+      style: {},
       gl: null
     };
     this.mapRef = React.createRef();
@@ -40,6 +46,23 @@ class ClickedCountryCities extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.resize);
     this.resize();
+    let style = "";
+    switch (this.props.timing) {
+      case 0:
+        style = { color: "#cb7678", background: "#ecd7db" };
+        break;
+      case 1:
+        style = { color: "#73a7c3", background: "#c2d7e5" };
+        break;
+      case 2:
+        style = { color: "#96b1a8", background: "#d1dcdb" };
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      style
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -106,6 +129,7 @@ class ClickedCountryCities extends Component {
               cx="50"
               cy="50"
               r="50"
+              style={{ fill: "rgba(115, 167, 195, 0.75)" }}
             />
           </svg>
         </Marker>
@@ -123,8 +147,8 @@ class ClickedCountryCities extends Component {
     let cityArrayElement = {
       city: event.result.text,
       cityId: parseFloat(event.result.properties.wikidata.slice(1), 10),
-      city_latitude: event.result.center[1]*1000000,
-      city_longitude: event.result.center[0]*1000000
+      city_latitude: event.result.center[1] * 1000000,
+      city_longitude: event.result.center[0] * 1000000
     };
     cities.push(cityArrayElement);
     markers.push(event);
@@ -140,12 +164,17 @@ class ClickedCountryCities extends Component {
   }
 
   render() {
-    const { viewport, markerDisplay, country, cities } = this.state;
+    const { viewport, markerDisplay, country, cities, style } = this.state;
+    console.log(viewport);
     return (
       <div className="city-choosing-container">
-        <Mutation mutation={ADD_PLACE_VISITING} variables={{ country, cities }}>
+        <Mutation
+          mutation={ADD_PLACE_VISITING}
+          variables={{ country, cities }}
+          onCompleted={this.props.updateMap}
+        >
           {mutation => (
-            <button className="submit-cities" onClick={mutation}>
+            <button className="submit-cities" style={style} onClick={mutation}>
               Upload
             </button>
           )}
@@ -181,8 +210,10 @@ ClickedCountryCities.propTypes = {
   country: PropTypes.string,
   countryId: PropTypes.number,
   countryISO: PropTypes.string,
-  countryIndex: PropTypes.number,
-  handleTypedCity: PropTypes.func
+  countryIndex: PropTypes.string,
+  handleTypedCity: PropTypes.func,
+  timing: PropTypes.number,
+  updateMap: PropTypes.func
 };
 
 export default ClickedCountryCities;

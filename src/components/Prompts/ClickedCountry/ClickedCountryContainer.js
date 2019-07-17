@@ -10,40 +10,85 @@ import jsonData from "../../../world-topo-min.json";
 import ClickedCountryTiming from "./ClickedCountryTiming";
 import ClickedCountryCities from "./ClickedCountryCities";
 import CityIcon from "../../../icons/CityIcon";
-import { countryConsts } from '../../../CountryConsts';
+import { countryConsts } from "../../../CountryConsts";
 
 function ClickedCountryContainer(props) {
-  const [page, handlePage] = useState(1);
+  const [page, handlePage] = useState(0);
   const [countryIndex, handleCountryIndex] = useState(0);
   const [cityCount, handleCityCount] = useState(0);
+  const [timing, handleTiming] = useState(0);
   useEffect(() => {
     for (let i in countryConsts) {
-      if (countryConsts[i].country === props.customProps.countryInfo.properties.name) {
+      if (
+        countryConsts[i].country ===
+        props.customProps.countryInfo.properties.name
+      ) {
         handleCountryIndex(i);
       }
     }
   }, []);
-  function handlePageChange() {
-    handlePage(1);
+  function handlePageChange(page) {
+    handlePage(page);
   }
   function handleTypedCity() {
     let cityCountNew = cityCount;
     cityCountNew++;
-    handleCityCount(cityCountNew)
+    handleCityCount(cityCountNew);
+  }
+  function handleTripTiming(timing) {
+    handleTiming(timing);
+  }
+  function updateMap(){
+    props.customProps.handleTripTiming(timing);
+  }
+
+  let popupWidth = "320px";
+  switch (page) {
+    case 0:
+      break;
+    case 1:
+      popupWidth = "640px";
+      break;
+    default:
+      break;
+  }
+  let headerText = "";
+  let headerStyle = "";
+  switch (timing) {
+    case 0:
+      headerText = "Which cities did you visit?";
+      headerStyle = { width: "600px", background: "#ECD7DB", color: "#CB7678" };
+      break;
+    case 1:
+      headerText = "Which cities will you visit?";
+      headerStyle = { width: "600px", background: "#c2d7e5", color: "#73a7c3" };
+      break;
+    case 2:
+      headerText = "Which city do you live in?";
+      headerStyle = { width: "600px", background: "#d1dcdb", color: "#96b1a8" };
+      break;
+    default:
+      break;
   }
   return (
-    <div className="clicked-country-container">
+    <div
+      className="clicked-country-container"
+      style={{ "maxWidth": popupWidth }}
+    >
       {page === 1 ? (
         <div
           className="clicked-country-header"
-          style={{ width: "600px", background: "#ECD7DB", color: "#CB7678" }}
+          style={headerStyle}
         >
-          Which cities did you visit?
+          {headerText}
         </div>
       ) : (
         <div className="clicked-country-header" />
       )}
-      <div className="clicked-country-info" style={page === 1 ? {"minHeight": "60px"} : null}>
+      <div
+        className="clicked-country-info"
+        style={page === 1 ? { minHeight: "60px" } : null}
+      >
         <div className="clicked-country-info-names">
           <span>{props.customProps.countryInfo.properties.name}</span>
           <span>
@@ -89,11 +134,10 @@ function ClickedCountryContainer(props) {
         {
           0: (
             <ClickedCountryTiming
-              handleTripTiming={props.customProps.handleTripTiming}
+              handleTripTiming={handleTripTiming}
               handlePageChange={handlePageChange}
               previousTrips={props.customProps.previousTrips}
               country={props.customProps.countryInfo.id}
-              cities={[0]}
             />
           ),
           1: (
@@ -103,6 +147,8 @@ function ClickedCountryContainer(props) {
               countryISO={props.customProps.countryInfo.properties.ISO2}
               countryIndex={countryIndex}
               handleTypedCity={handleTypedCity}
+              timing={timing}
+              updateMap={updateMap}
             />
           )
         }[page]
