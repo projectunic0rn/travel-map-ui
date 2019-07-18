@@ -63313,7 +63313,7 @@
             [ [ 649 ] ],
             [ [ 650, 651, -568 ] ]
           ],
-          "id": 58,
+          "id": 100232,
           "properties": {
             "name": "Ecuador",
             "ISO2": "EC",
@@ -63563,9 +63563,10 @@
             [ [ 770 ] ],
             [ [ 771 ] ]
           ],
-          "id": 206,
+          "id": 177378,
           "properties": {
-            "name": "United Kingdom",
+            "name": "England",
+            "ISO2": "GB-ENG",
             "color": "#1f77b4",
             "continent": "Europe", 
             "capital": "London"
@@ -64150,9 +64151,10 @@
               [ 1092 ]
             ]
           ],
-          "id": 96,
+          "id": 474798,
           "properties": {
             "name": "Italy",
+            "ISO2": "IT",
             "continent": "Europe",
             "color": "#2ca02c", 
             "capital": "Rome"
@@ -64161,9 +64163,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1093 ] ],
-          "id": 97,
+          "id": 859601,
           "properties": {
             "name": "Jamaica",
+            "ISO2": "JM",
             "continent": "NorthAmerica",
             "color": "#1f77b4", 
             "capital": "Kingston"
@@ -65070,7 +65073,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ -289, -506, 1386, -651, -567, -313 ] ],
-          "id": 154,
+          "id": 810436,
           "properties": {
             "name": "Peru",
             "ISO2": "PE",
@@ -65237,9 +65240,10 @@
             [ [ 1481 ] ],
             [ [ -678, 1482 ] ]
           ],
-          "id": 157,
+          "id": 156844,
           "properties": {
             "name": "Portugal",
+            "ISO2": "PT",
             "color": "#ff7f0e", 
             "continent": "Europe", 
             "capital": "Lisbon"
@@ -66079,9 +66083,9 @@
             [ [ 1812 ] ],
             [ [ -427, 1813, -372, 1814 ] ]
           ],
-          "id": 207,
+          "id": 905300,
           "properties": {
-            "name": "United States",
+            "name": "United States of America",
             "ISO2": "US",
             "color": "#ffbb78", 
             "continent": "NorthAmerica", 

@@ -13,6 +13,9 @@ import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
+/* Need to make it so that duplicate country trips do not count as multiple
+scorecard values */
+
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
@@ -30,13 +33,14 @@ const CountryMap = props => {
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [activePopup, showPopup] = useState(0);
-  const [tripTimingCounts, handleTripTiming] = useState(props.tripTimingCounts);
+  const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
 
   useEffect(() => {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
+    console.log(clickedCountryArray)
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].tripTiming === 0) {
         pastCount++;
@@ -248,11 +252,8 @@ const CountryMap = props => {
 };
 
 CountryMap.propTypes = {
-  countryInfo: PropTypes.func,
   handleClickedCountry: PropTypes.func,
   clickedCountryArray: PropTypes.array,
-  activeTimings: PropTypes.array,
-  tripTimingCounts: PropTypes.array,
   handleMapTypeChange: PropTypes.func
 };
 

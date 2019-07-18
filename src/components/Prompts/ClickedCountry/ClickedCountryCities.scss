@@ -31,6 +31,7 @@
   top: 5px !important;
   left: calc(50% - 206px) !important;
   min-height: 80px;
+  z-index: 2001;
 
   .mapboxgl-ctrl-geocoder {
     position: absolute;
