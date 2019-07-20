@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { ADD_PLACE_LIVING, ADD_PLACE_VISITED, ADD_PLACE_VISITING } from '../../../GraphQL';
-import CityMap from "../../../pages/Home/subcomponents/CityMap";
 
 
 

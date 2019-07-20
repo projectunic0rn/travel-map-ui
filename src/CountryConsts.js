@@ -564,4 +564,44 @@ export const countryConsts = [
         zoom: 4.24,
         coordinates: [13.05, 121.49]
     },
+    {
+        country: "Indonesia",
+        zoom: 3.15,
+        coordinates: [0.88, 117.4]
+    },
+    {
+        country: "Papua New Guinea",
+        zoom: 4.25,
+        coordinates: [-6.09, 148.3]
+    },
+    {
+        country: "Solomon Islands",
+        zoom: 5.34,
+        coordinates: [-7.93, 158.74]
+    },
+    {
+        country: "Australia",
+        zoom: 2.9,
+        coordinates: [-26.49, 133.60]
+    },
+    {
+        country: "New Zealand",
+        zoom: 4,
+        coordinates: [-40.2, 170.79]
+    },
+    {
+        country: "Fiji",
+        zoom: 5.88,
+        coordinates: [-17.62, 179.23]
+    },
+    {
+        country: "New Caledonia",
+        zoom: 5.88,
+        coordinates: [-21.29, 165.81]
+    },
+    {
+        country: "Vanuatu",
+        zoom: 5.33,
+        coordinates: [-16.08, 168.57]
+    },
 ]

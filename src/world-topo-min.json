@@ -62169,7 +62169,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1, 2, 3, 4, 5, 6 ] ],
-          "id": 1,
+          "id": 165632,
           "properties": {
             "name": "Afghanistan",
             "ISO2": "AF",
@@ -62204,9 +62204,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 15, 16, 17, 18, 19 ] ],
-          "id": 2,
+          "id": 118434,
           "properties": {
             "name": "Albania",
+            "ISO2": "AL",
             "continent": "Europe",
             "color": "#1f77b4", 
             "capital": "Tirana"
@@ -62264,7 +62265,7 @@
             [ [ 38 ] ],
             [ [ 39, 40, 41, 42, 43, 44 ] ]
           ],
-          "id": 8,
+          "id": 101928,
           "properties": {
             "name": "Argentina",
             "ISO2": "AR",
@@ -62282,9 +62283,10 @@
               [ 51 ]
             ]
           ],
-          "id": 9,
+          "id": 816505,
           "properties": {
             "name": "Armenia",
+            "ISO2": "AM",
             "continent": "Europe",
             "color": "#1f77b4", 
             "capital": "Yerevan"
@@ -62488,9 +62490,10 @@
             [ [ 201 ] ],
             [ [ 202 ] ]
           ],
-          "id": 11,
+          "id": 305068,
           "properties": {
             "name": "Australia",
+            "ISO2": "AU",
             "color": "#1f77b4",
             "continent": "Australia", 
             "capital": "Canberra"
@@ -62499,9 +62502,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 203, 204, 205, 206, 207, 208, 209, 210, 211 ] ],
-          "id": 12,
+          "id": 906629,
           "properties": {
             "name": "Austria",
+            "ISO2": "AT",
             "color": "#1f77b4",
             "continent": "Europe", 
             "capital": "Vienna"
@@ -62540,9 +62544,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 223, 224, 225, 226, 227, 228, 229 ] ],
-          "id": 19,
+          "id": 213630,
           "properties": {
             "name": "Belgium",
+            "ISO2": "BE",
             "color": "#1f77b4",
             "continent": "Europe", 
             "capital": "Brussels"
@@ -62581,9 +62586,10 @@
             [ [ 245 ] ],
             [ [ 246, 247, 248 ] ]
           ],
-          "id": 16,
+          "id": 887043,
           "properties": {
             "name": "Bangladesh",
+            "ISO2": "BD",
             "color": "#1f77b4",
             "continent": "Asia",
             "capital": "Dhaka"
@@ -62592,9 +62598,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 249, 250, 251, 252, 253, 254 ] ],
-          "id": 30,
+          "id": 630815,
           "properties": {
             "name": "Bulgaria",
+            "ISO2": "BG",
             "continent": "Europe",
             "color": "#1f77b4",
             "capital": "Sofia"
@@ -62630,9 +62637,10 @@
             [ [ 269 ] ],
             [ [ 270 ] ]
           ],
-          "id": 14,
+          "id": 992328,
           "properties": {
-            "name": "Bahamas",
+            "name": "The Bahamas",
+            "ISO2": "BS",
             "continent": "NorthAmerica",
             "color": "#1f77b4",
             "capital": "Nassau"
@@ -62641,9 +62649,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 271, 272, 273, 274, 275 ] ],
-          "id": 25,
+          "id": 380691,
           "properties": {
             "name": "Bosnia and Herzegovina",
+            "ISO2": "BA",
             "color": "#1f77b4",
             "continent": "Europe",
             "capital": "Sarajevo"
@@ -62660,9 +62669,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 276, 277, 278, 279, 280 ] ],
-          "id": 18,
+          "id": 156626,
           "properties": {
             "name": "Belarus",
+            "ISO2": "BY",
             "continent": "Europe",
             "color": "#1f77b4",
             "capital": "Minsk"
@@ -62675,9 +62685,10 @@
             [ [ 282 ] ],
             [ [ 283, 284, 285 ] ]
           ],
-          "id": 20,
+          "id": 133757,
           "properties": {
             "name": "Belize",
+            "ISO2": "BZ",
             "continent": "NorthAmerica",
             "color": "#1f77b4",
             "capital": "Belmopan"
@@ -62697,7 +62708,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ -45, 287, 288, 289, 290 ] ],
-          "id": 24,
+          "id": 118391,
           "properties": {
             "name": "Bolivia",
             "ISO2": "BO",
@@ -62727,7 +62738,7 @@
             [ [ 306 ] ],
             [ [ 307, 308, 309, 310, -41, 311, -290, 312, 313, 314, 315 ] ]
           ],
-          "id": 27,
+          "id": 124474,
           "properties": {
             "name": "Brazil",
             "ISO2": "BR",
@@ -62753,9 +62764,10 @@
             [ [ 317 ] ],
             [ [ 318, 319 ] ]
           ],
-          "id": 29,
+          "id": 101066,
           "properties": {
             "name": "Brunei",
+            "ISO2": "BN",
             "color": "#1f77b4", 
             "continent": "Asia",
             "capital": "Bandar Seri Begawan"
@@ -62932,9 +62944,10 @@
             [ [ 468 ] ],
             [ [ 469 ] ]
           ],
-          "id": 36,
+          "id": 428227,
           "properties": {
             "name": "Canada",
+            "ISO2": "CA",
             "color": "#1f77b4",
             "continent": "NorthAmerica",
             "capital": "Ottawa"
@@ -62943,9 +62956,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 470, -207, 471, 472, 473, -209 ] ],
-          "id": 189,
+          "id": 147966,
           "properties": {
             "name": "Switzerland",
+            "ISO2": "CH",
             "color": "#aec7e8",
             "continent": "Europe",
             "capital": "Bern"
@@ -62986,7 +63000,7 @@
             [ [ 503 ] ],
             [ [ -44, 504, 505, -288 ] ]
           ],
-          "id": 41,
+          "id": 583487,
           "properties": {
             "name": "Chile",
             "ISO2": "CL",
@@ -63012,9 +63026,10 @@
             [ [ 517 ] ],
             [ [ 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, -321, 528, 529, 530, 531, 532, 533, 534, -7, 535, 536, 537, 538, 539, 540 ] ]
           ],
-          "id": 42,
+          "id": 177139,
           "properties": {
-            "name": "China",
+            "name": "People's Republic of China",
+            "ISO2": "CN",
             "color": "#aec7e8",
             "continent": "Asia",
             "capital": "Beijing"
@@ -63026,9 +63041,10 @@
             [ [ 541, 542 ] ],
             [ [ -238, 543, 544, 545, 546, 547 ] ]
           ],
-          "id": 48,
+          "id": 950912,
           "properties": {
-            "name": "Côte d'Ivoire",
+            "name": "Ivory Coast",
+            "ISO2": "CI",
             "color": "#ff7f0e",
             "continent": "Africa",
             "capital": "Yamoussoukro"
@@ -63083,7 +63099,7 @@
             [ [ 564 ] ],
             [ [ 565, -314, 566, 567, 568, 569, 570 ] ]
           ],
-          "id": 43,
+          "id": 890889,
           "properties": {
             "name": "Colombia",
             "ISO2": "CO",
@@ -63130,9 +63146,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 582, 583, 584, 585 ] ],
-          "id": 47,
+          "id": 116800,
           "properties": {
             "name": "Costa Rica",
+            "ISO2": "CR",
             "continent": "NorthAmerica",
             "color": "#1f77b4",
             "capital": "San Jose"
@@ -63149,9 +63166,10 @@
             [ [ 591 ] ],
             [ [ 592 ] ]
           ],
-          "id": 50,
+          "id": 391320,
           "properties": {
             "name": "Cuba",
+            "ISO2": "CU",
             "continent": "NorthAmerica",
             "color": "#1f77b4",
             "capital": "Havana"
@@ -63206,9 +63224,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 599, -211, 600, 601 ] ],
-          "id": 53,
+          "id": 701240,
           "properties": {
             "name": "Czech Republic",
+            "ISO2": "CZ",
             "color": "#aec7e8",
             "continent": "Europe",
             "capital": "Prague"
@@ -63224,9 +63243,10 @@
             [ [ 607, -601, -210, -474, 608, 609, -224, 610, 611, 612, 613 ] ],
             [ [ 614 ] ]
           ],
-          "id": 73,
+          "id": 107432,
           "properties": {
             "name": "Germany",
+            "ISO2": "DE",
             "color": "#ff7f0e",
             "continent": "Europe",
             "capital": "Berlin"
@@ -63270,9 +63290,10 @@
             [ [ 630 ] ],
             [ [ -613, 631 ] ]
           ],
-          "id": 54,
+          "id": 123993,
           "properties": {
             "name": "Denmark",
+            "ISO2": "DK",
             "color": "#ffbb78",
             "continent": "Europe",
             "capital": "Copenhagen"
@@ -63281,9 +63302,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 632, 633 ] ],
-          "id": 57,
+          "id": 328320,
           "properties": {
             "name": "Dominican Republic",
+            "ISO2": "DO",
             "continent": "NorthAmerica",
             "color": "#1f77b4", 
             "capital": "Santo Domingo"
@@ -63325,9 +63347,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 652, 653, 654, 655, 656, 657 ] ],
-          "id": 59,
+          "id": 146327,
           "properties": {
             "name": "Egypt",
+            "ISO2": "EG",
             "color": "#1f77b4",
             "continent": "Africa",
             "capital": "Cairo"
@@ -63364,9 +63387,10 @@
             [ [ 673 ] ],
             [ [ 674, -25, 675, 676, 677, 678 ] ]
           ],
-          "id": 179,
+          "id": 884982,
           "properties": {
             "name": "Spain",
+            "ISO2": "ES",
             "color": "#aec7e8",
             "continent": "Europe",
             "capital": "Madrid"
@@ -63380,9 +63404,10 @@
             [ [ 681 ] ],
             [ [ 682, 683, 684 ] ]
           ],
-          "id": 63,
+          "id": 582795,
           "properties": {
             "name": "Estonia",
+            "ISO2": "EE",
             "continent": "Europe",
             "color": "#1f77b4",
             "capital": "Tallinn"
@@ -63411,9 +63436,10 @@
             [ [ 696 ] ],
             [ [ 697, 698, 699, 700 ] ]
           ],
-          "id": 67,
+          "id": 817706,
           "properties": {
             "name": "Finland",
+            "ISO2": "FI",
             "color": "#1f77b4",
             "continent": "Europe", 
             "capital": "Helsinki"
@@ -63475,9 +63501,10 @@
             [ [ 731 ] ],
             [ [ 732, -609, -473, 733, 734, 735, 736, -676, -24, -675, 737, -226 ] ]
           ],
-          "id": 68,
+          "id": 975953,
           "properties": {
             "name": "France",
+            "ISO2": "FR",
             "color": "#ffbb78",
             "continent": "Europe", 
             "capital": "Paris"
@@ -63566,7 +63593,7 @@
           "id": 177378,
           "properties": {
             "name": "England",
-            "ISO2": "GB-ENG",
+            "ISO2": "GB",
             "color": "#1f77b4",
             "continent": "Europe", 
             "capital": "London"
@@ -63575,9 +63602,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -50, 772, 773, 774, -217 ] ],
-          "id": 72,
+          "id": 118147,
           "properties": {
             "name": "Georgia",
+            "ISO2": "GE",
             "continent": "Europe",
             "color": "#ff7f0e", 
             "capital": "Tbilisi"
@@ -63701,9 +63729,10 @@
             [ [ 834 ] ],
             [ [ -17, 835, -251, 836, 837 ] ]
           ],
-          "id": 76,
+          "id": 116840,
           "properties": {
             "name": "Greece",
+            "ISO2": "GR",
             "continent": "Europe",
             "color": "#aec7e8", 
             "capital": "Athens"
@@ -63741,9 +63770,10 @@
             [ [ 854 ] ],
             [ [ 855 ] ]
           ],
-          "id": 77,
+          "id": 510373,
           "properties": {
             "name": "Greenland",
+            "ISO2": "GL",
             "continent": "NorthAmerica",
             "color": "#1f77b4", 
             "capital": "Nuuk"
@@ -63752,9 +63782,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 856, 857, 858, 859, -284, 860 ] ],
-          "id": 80,
+          "id": 834046,
           "properties": {
             "name": "Guatemala",
+            "ISO2": "GT",
             "continent": "NorthAmerica",
             "color": "#aec7e8", 
             "capital": "Guatemala City"
@@ -63774,7 +63805,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ -316, 862, 863, 864 ] ],
-          "id": 83,
+          "id": 638413,
           "properties": {
             "name": "Guyana",
             "ISO2": "GY",
@@ -63814,9 +63845,10 @@
             [ [ 873 ] ],
             [ [ 874 ] ]
           ],
-          "id": 85,
+          "id": 144736,
           "properties": {
             "name": "Honduras",
+            "ISO2": "HN",
             "continent": "NorthAmerica",
             "color": "#ff7f0e", 
             "capital": "Tegucigalpa"
@@ -63835,9 +63867,10 @@
             [ [ 883 ] ],
             [ [ 884, -276, 885, 886, 887 ] ]
           ],
-          "id": 49,
+          "id": 142467,
           "properties": {
             "name": "Croatia",
+            "ISO2": "HR",
             "continent": "Europe",
             "color": "#aec7e8", 
             "capital": "Zagreb"
@@ -63850,9 +63883,10 @@
             [ [ -633, 889 ] ],
             [ [ 890 ] ]
           ],
-          "id": 84,
+          "id": 145039,
           "properties": {
             "name": "Haiti",
+            "ISO2": "HT",
             "continent": "NorthAmerica",
             "color": "#aec7e8", 
             "capital": "Port au Prince"
@@ -63861,9 +63895,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 891, 892, -888, 893, -204, 894, 895 ] ],
-          "id": 87,
+          "id": 101041,
           "properties": {
             "name": "Hungary",
+            "ISO2": "HU",
             "continent": "Europe",
             "color": "#ff7f0e", 
             "capital": "Budapest"
@@ -64005,9 +64040,10 @@
             [ [ 1032 ] ],
             [ [ 1033 ] ]
           ],
-          "id": 90,
+          "id": 294597,
           "properties": {
             "name": "Indonesia",
+            "ISO2": "ID",
             "continent": "Asia",
             "color": "#1f77b4", 
             "capital": "Jakarta"
@@ -64081,9 +64117,10 @@
             [ [ 1057 ] ],
             [ [ -753, 1058 ] ]
           ],
-          "id": 93,
+          "id": 157975,
           "properties": {
             "name": "Ireland",
+            "ISO2": "IE",
             "continent": "Europe",
             "color": "#aec7e8", 
             "capital": "Ireland"
@@ -64095,9 +64132,10 @@
             [ [ 1059 ] ],
             [ [ -47, -216, 1060, 1061, 1062, 1063, 1064, 1065, 1066, 1067, -213 ] ]
           ],
-          "id": 91,
+          "id": 652244,
           "properties": {
             "name": "Iran",
+            "ISO2": "IR",
             "continent": "Asia",
             "color": "#ff7f0e", 
             "capital": "Tehran"
@@ -64106,9 +64144,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1068, 1069, 1070, 1071, 1072, -1067, 1073 ] ],
-          "id": 92,
+          "id": 159355,
           "properties": {
             "name": "Iraq",
+            "ISO2": "IQ",
             "continent": "Asia",
             "color": "#ffbb78", 
             "capital": "Baghdad"
@@ -64117,9 +64156,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1074 ] ],
-          "id": 88,
+          "id": 702356,
           "properties": {
             "name": "Iceland",
+            "ISO2": "IS",
             "continent": "Europe",
             "color": "#1f77b4", 
             "capital": "Reykjavik"
@@ -64128,9 +64168,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1075, 1076, 1077, -653, 1078, 1079, 1080, 1081, 1082 ] ],
-          "id": 95,
+          "id": 146242,
           "properties": {
             "name": "Israel",
+            "ISO2": "IL",
             "continent": "Asia",
             "color": "#aec7e8",
             "capital": "Tel Aviv"
@@ -64230,9 +64271,10 @@
             [ [ 1130 ] ],
             [ [ 1131 ] ]
           ],
-          "id": 98,
+          "id": 122085,
           "properties": {
             "name": "Japan",
+            "ISO2": "JP",
             "continent": "Asia",
             "color": "#1f77b4", 
             "capital": "Tokyo"
@@ -64299,9 +64341,10 @@
             [ [ 1152 ] ],
             [ [ 1153, 1154, 1155, 1156 ] ]
           ],
-          "id": 34,
+          "id": 620909,
           "properties": {
             "name": "Cambodia",
+            "ISO2": "KH",
             "continent": "Asia",
             "color": "#1f77b4", 
             "capital": "Phnom Penh"
@@ -64355,9 +64398,10 @@
             [ [ 1175 ] ],
             [ [ 1176, 1177 ] ]
           ],
-          "id": 104,
+          "id": 703134,
           "properties": {
             "name": "South Korea",
+            "ISO2": "KR",
             "continent": "Asia",
             "color": "#1f77b4", 
             "capital": "Seoul"
@@ -64366,9 +64410,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -20, 1178, 1179, 1180 ] ],
-          "id": 105,
+          "id": 104252,
           "properties": {
             "name": "Kosovo",
+            "ISO2": "RS",
             "continent": "Europe",
             "color": "#d62728", 
             "capital": "Pristina"
@@ -64402,9 +64447,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1187, -1081, 1188 ] ],
-          "id": 110,
+          "id": 159886,
           "properties": {
             "name": "Lebanon",
+            "ISO2": "LB",
             "continent": "Asia",
             "color": "#ff7f0e", 
             "capital": "Beirut"
@@ -64424,9 +64470,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1191, 1192, 1193, -635, 1194, 1195, -656 ] ],
-          "id": 113,
+          "id": 140282,
           "properties": {
             "name": "Libya",
+            "ISO2": "LY",
             "continent": "Africa",
             "color": "#aec7e8", 
             "capital": "Tripoli"
@@ -64446,9 +64493,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -208, -471 ] ],
-          "id": 114,
+          "id": 107430,
           "properties": {
             "name": "Liechtenstein",
+            "ISO2": "LI",
             "continent": "Europe",
             "color": "#ff7f0e", 
             "capital": "Vaduz"
@@ -64461,9 +64509,10 @@
             [ [ 1198 ] ],
             [ [ 1199 ] ]
           ],
-          "id": 180,
+          "id": 102481,
           "properties": {
             "name": "Sri Lanka",
+            "ISO2": "LK",
             "continent": "Asia",
             "color": "#1f77b4", 
             "capital": "Colombo"
@@ -64486,9 +64535,10 @@
             [ [ 1201, 1202 ] ],
             [ [ -279, 1203, 1204, 1205, 1206 ] ]
           ],
-          "id": 115,
+          "id": 103699,
           "properties": {
             "name": "Lithuania",
+            "ISO2": "LT",
             "continent": "Europe",
             "color": "#aec7e8", 
             "capital": "Vilnius"
@@ -64508,9 +64558,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -280, -1207, 1207, -684, 1208 ] ],
-          "id": 109,
+          "id": 111933,
           "properties": {
             "name": "Latvia",
+            "ISO2": "LV",
             "continent": "Europe",
             "color": "#ff7f0e", 
             "capital": "Riga"
@@ -64541,9 +64592,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -640, 1212, 1213 ] ],
-          "id": 134,
+          "id": 118773,
           "properties": {
             "name": "Morocco",
+            "ISO2": "MA",
             "continent": "Africa",
             "color": "#aec7e8", 
             "capital": "Rabat"
@@ -64563,9 +64615,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1215, 1216 ] ],
-          "id": 130,
+          "id": 798575,
           "properties": {
             "name": "Moldova",
+            "ISO2": "MD",
             "color": "#1f77b4", 
             "capital": "Chisinau", 
             "continent": "Europe"
@@ -64578,9 +64631,10 @@
             [ [ 1218 ] ],
             [ [ 1219 ] ]
           ],
-          "id": 119,
+          "id": 173248,
           "properties": {
             "name": "Madagascar",
+            "ISO2": "MG",
             "continent": "Africa",
             "color": "#1f77b4", 
             "capital": "Antananarivo"
@@ -64618,9 +64672,10 @@
             [ [ 1234 ] ],
             [ [ -285, -860, 1235, 1236, 1237 ] ]
           ],
-          "id": 128,
+          "id": 189187,
           "properties": {
             "name": "Mexico",
+            "ISO2": "MX",
             "continent": "NorthAmerica",
             "color": "#ff7f0e", 
             "capital": "Mexico City"
@@ -64705,9 +64760,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -1179, -19, 1263, -877, -273, 1264 ] ],
-          "id": 133,
+          "id": 743501,
           "properties": {
             "name": "Montenegro",
+            "ISO2": "ME",
             "continent": "Europe",
             "color": "#ff7f0e", 
             "capital": "Podgorica"
@@ -64763,9 +64819,10 @@
             [ [ 1282 ] ],
             [ [ 1283, 1284, 1285, -638, -1243 ] ]
           ],
-          "id": 126,
+          "id": 956917,
           "properties": {
             "name": "Mauritania",
+            "ISO2": "MR",
             "continent": "Africa",
             "color": "#98df8a", 
             "capital": "Nouakchott"
@@ -64819,9 +64876,10 @@
             [ [ -1030, 1297, -319, 1298, 1299 ] ],
             [ [ 1300 ] ]
           ],
-          "id": 121,
+          "id": 115871,
           "properties": {
             "name": "Malaysia",
+            "ISO2": "MY",
             "continent": "Asia",
             "color": "#aec7e8", 
             "capital": "Kuala Lumpur"
@@ -64892,9 +64950,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -585, 1315, -870, 1316 ] ],
-          "id": 143,
+          "id": 143122,
           "properties": {
             "name": "Nicaragua",
+            "ISO2": "NI",
             "color": "#ffbb78", 
             "continent": "NorthAmerica", 
             "capital": "Managua"
@@ -64922,9 +64981,10 @@
             [ [ 1326 ] ],
             [ [ 1327 ] ]
           ],
-          "id": 140,
+          "id": 934951,
           "properties": {
             "name": "Netherlands",
+            "ISO2": "NL",
             "color": "#ffbb78", 
             "continent": "Europe", 
             "capital": "Amsterdam"
@@ -64966,9 +65026,10 @@
             [ [ 1360 ] ],
             [ [ 1361 ] ]
           ],
-          "id": 147,
+          "id": 160200,
           "properties": {
             "name": "Norway",
+            "ISO2": "NO",
             "color": "#aec7e8", 
             "continent": "Europe", 
             "capital": "Oslo"
@@ -65010,9 +65071,10 @@
             [ [ 1371 ] ],
             [ [ 1372 ] ]
           ],
-          "id": 142,
+          "id": 103016,
           "properties": {
             "name": "New Zealand",
+            "ISO2": "NZ",
             "color": "#1f77b4", 
             "continent": "Oceania", 
             "capital": "Wellington"
@@ -65037,9 +65099,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -1052, 1379, -1065, -2, -535, -1133 ] ],
-          "id": 149,
+          "id": 834347,
           "properties": {
             "name": "Pakistan",
+            "ISO2": "PK",
             "color": "#2ca02c", 
             "continent": "Asia", 
             "capital": "Islamabad"
@@ -65053,9 +65116,10 @@
             [ [ 1382 ] ],
             [ [ -570, 1383, -583, 1384 ] ]
           ],
-          "id": 151,
+          "id": 110602,
           "properties": {
             "name": "Panama",
+            "ISO2": "PA",
             "color": "#2ca02c", 
             "continent": "NorthAmerica", 
             "capital": "Panama City"
@@ -65134,9 +65198,10 @@
             [ [ 1433 ] ],
             [ [ 1434 ] ]
           ],
-          "id": 155,
+          "id": 314440,
           "properties": {
             "name": "Philippines",
+            "ISO2": "PH",
             "color": "#1f77b4", 
             "continent": "Asia", 
             "capital": "Manila"
@@ -65183,9 +65248,10 @@
             [ [ 1462 ] ],
             [ [ 1463 ] ]
           ],
-          "id": 152,
+          "id": 135694,
           "properties": {
             "name": "Papua New Guinea",
+            "ISO2": "PG",
             "color": "#1f77b4", 
             "continent": "Oceania", 
             "capital": "Port Moresby"
@@ -65194,9 +65260,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -1204, -278, 1464, 1465, -602, -608, 1466, -603, 1467, 1468 ] ],
-          "id": 156,
+          "id": 581153,
           "properties": {
             "name": "Poland",
+            "ISO2": "PL",
             "color": "#ffbb78", 
             "continent": "Europe", 
             "capital": "Warsaw"
@@ -65209,9 +65276,10 @@
             [ [ 1470 ] ],
             [ [ 1471 ] ]
           ],
-          "id": 158,
+          "id": 225029,
           "properties": {
             "name": "Puerto Rico",
+            "ISO2": "PR",
             "color": "#1f77b4", 
             "continent": "NorthAmerica", 
             "capital": "San Juan"
@@ -65220,9 +65288,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1472, 1473, -1177, 1474, -519 ] ],
-          "id": 103,
+          "id": 848183,
           "properties": {
             "name": "North Korea",
+            "ISO2": "KP",
             "color": "#ff7f0e", 
             "continent": "Asia", 
             "capital": "Pyongyang"
@@ -65252,7 +65321,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ -40, -291, -312 ] ],
-          "id": 153,
+          "id": 966147,
           "properties": {
             "name": "Paraguay",
             "ISO2": "PY",
@@ -65312,9 +65381,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -254, 1497, -892, 1498, -1217, 1499, 1500 ] ],
-          "id": 160,
+          "id": 142519,
           "properties": {
             "name": "Romania",
+            "ISO2": "RO",
             "color": "#ffbb78", 
             "continent": "Europe", 
             "capital": "Bucharest"
@@ -65420,9 +65490,10 @@
             [ [ 1600 ] ],
             [ [ 1601 ] ]
           ],
-          "id": 161,
+          "id": 100080,
           "properties": {
             "name": "Russia",
+            "ISO2": "RU",
             "color": "#2ca02c", 
             "continent": "Asia", 
             "capital": "Moscow"
@@ -65581,9 +65652,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -858, -872, 1645 ] ],
-          "id": 60,
+          "id": 143955,
           "properties": {
             "name": "El Salvador",
+            "ISO2": "SV",
             "color": "#ffbb78", 
             "continent": "NorthAmerica", 
             "capital": "San Salvador"
@@ -65632,9 +65704,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -1498, -253, -1241, -1180, -1265, -272, -885, -893 ] ],
-          "id": 168,
+          "id": 535232,
           "properties": {
             "name": "Serbia",
+            "ISO2": "RS",
             "color": "#2ca02c", 
             "continent": "Europe", 
             "capital": "Belgrade"
@@ -65657,7 +65730,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ -308, -865, 1653, -725 ] ],
-          "id": 186,
+          "id": 878800,
           "properties": {
             "name": "Suriname",
             "ISO2": "SR",
@@ -65669,9 +65742,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -895, -212, -600, -1466, 1654 ] ],
-          "id": 173,
+          "id": 101832,
           "properties": {
             "name": "Slovakia",
+            "ISO2": "SK",
             "color": "#2ca02c", 
             "continent": "Europe", 
             "capital": "Bratislava"
@@ -65680,9 +65754,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -1091, -205, -894, -887, 1655 ] ],
-          "id": 174,
+          "id": 863070,
           "properties": {
             "name": "Slovenia",
+            "ISO2": "SI",
             "color": "#98df8a", 
             "continent": "Europe", 
             "capital": "Ljubljana"
@@ -65698,9 +65773,10 @@
             [ [ 1660 ] ],
             [ [ -1350, -700, 1661 ] ]
           ],
-          "id": 188,
+          "id": 878509,
           "properties": {
             "name": "Sweden",
+            "ISO2": "SE",
             "color": "#ff7f0e", 
             "continent": "Europe", 
             "capital": "Stockholm"
@@ -65742,9 +65818,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -1097, -1082, -1188, 1665, 1666, -1072 ] ],
-          "id": 190,
+          "id": 895503,
           "properties": {
             "name": "Syria",
+            "ISO2": "SY",
             "color": "#98df8a", 
             "continent": "Asia", 
             "capital": "Damascus"
@@ -65801,9 +65878,10 @@
             [ [ 1679 ] ],
             [ [ -1185, -1154, 1680, -1296, 1681, -1262 ] ]
           ],
-          "id": 193,
+          "id": 802347,
           "properties": {
             "name": "Thailand",
+            "ISO2": "TH",
             "color": "#2ca02c", 
             "continent": "Asia", 
             "capital": "Bangkok"
@@ -65904,9 +65982,10 @@
             [ [ -773, -49, -214, -1068, -1073, -1667, 1699 ] ],
             [ [ -837, -250, 1700 ] ]
           ],
-          "id": 199,
+          "id": 483360,
           "properties": {
             "name": "Turkey",
+            "ISO2": "TR",
             "color": "#d62728", 
             "continent": "Asia", 
             "capital": "Ankara"
@@ -65918,11 +65997,13 @@
             [ [ 1701 ] ],
             [ [ 1702 ] ]
           ],
-          "id": 526,
+          "id": 631660,
           "properties": {
             "name": "Taiwan",
+            "ISO2": "TW",
             "capital": "Taipei",
-            "color": "#1f77b4"
+            "color": "#1f77b4",
+            "continent": "Asia"
           }
         },
         {
@@ -65958,9 +66039,10 @@
             [ [ 1709 ] ],
             [ [ -1500, -1216, -1499, -896, -1655, -1465, -277, -1570, 1710 ] ]
           ],
-          "id": 204,
+          "id": 652576,
           "properties": {
             "name": "Ukraine",
+            "ISO2": "UA",
             "color": "#98df8a", 
             "continent": "Europe", 
             "capital": "Kiev"
@@ -66099,9 +66181,10 @@
             [ [ -1152 ] ],
             [ [ -1149, -1684, -5, -1687, -1138 ] ]
           ],
-          "id": 209,
+          "id": 147006,
           "properties": {
             "name": "Uzbekistan",
+            "ISO2": "UZ",
             "color": "#98df8a", 
             "continent": "Asia", 
             "capital": "Tashkent"
@@ -66127,7 +66210,7 @@
             [ [ 1819 ] ],
             [ [ -863, -315, -566, 1820 ] ]
           ],
-          "id": 211,
+          "id": 595872,
           "properties": {
             "name": "Venezuela",
             "ISO2": "VE",
@@ -66174,9 +66257,10 @@
             [ [ 1831 ] ],
             [ [ -1156, -1187, -525, 1832 ] ]
           ],
-          "id": 212,
+          "id": 117741,
           "properties": {
             "name": "Vietnam",
+            "ISO2": "VN",
             "color": "#ffbb78", 
             "continent": "Asia", 
             "capital": "Hanoi"
@@ -66259,9 +66343,10 @@
               [ 1858 ]
             ]
           ],
-          "id": 177,
+          "id": 135426,
           "properties": {
             "name": "South Africa",
+            "ISO2": "ZA",
             "color": "#ff7f0e", 
             "continent": "Africa", 
             "capital": "Pretoria"

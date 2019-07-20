@@ -62,7 +62,7 @@ const MapPage = () => {
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
     >
-      {({ loading, error, data }) => {
+      {({ loading, error, data, refetch }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return `Error! ${error}`;
         handleLoadedCountries(data);
@@ -79,6 +79,7 @@ const MapPage = () => {
                   <CountryMap
                     clickedCountryArray={clickedCountryArray}
                     handleMapTypeChange={handleMapTypeChange}
+                    refetch={refetch}
                   />
                 )}
               </div>

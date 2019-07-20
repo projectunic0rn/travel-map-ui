@@ -236,7 +236,8 @@ const CountryMap = props => {
             componentProps={{
               countryInfo: clickedCountry,
               handleTripTiming: handleTripTimingHelper,
-              previousTrips: checkForPreviousTrips(clickedCountry)
+              previousTrips: checkForPreviousTrips(clickedCountry),
+              refetch: props.refetch
             }}
           />
         ) : null}
@@ -254,7 +255,8 @@ const CountryMap = props => {
 CountryMap.propTypes = {
   handleClickedCountry: PropTypes.func,
   clickedCountryArray: PropTypes.array,
-  handleMapTypeChange: PropTypes.func
+  handleMapTypeChange: PropTypes.func,
+  refetch: PropTypes.func
 };
 
 export default CountryMap;

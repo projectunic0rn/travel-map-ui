@@ -103,6 +103,7 @@ class ClickedCountryCities extends Component {
 
   handleMarkerClick(city, i) {
     console.log("show tooltip");
+    console.log(city)
   }
 
   handleNewMarkers(markers) {
@@ -111,7 +112,7 @@ class ClickedCountryCities extends Component {
         <Marker
           key={city.result.id}
           offsetLeft={-5}
-          offsetTop={-12.5}
+          offsetTop={-10}
           latitude={city.result.center[1]}
           longitude={city.result.center[0]}
           captureClick={false}

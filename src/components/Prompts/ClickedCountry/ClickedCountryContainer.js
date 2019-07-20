@@ -40,6 +40,7 @@ function ClickedCountryContainer(props) {
   }
   function updateMap(){
     props.customProps.handleTripTiming(timing);
+    props.customProps.refetch();
   }
 
   let popupWidth = "320px";

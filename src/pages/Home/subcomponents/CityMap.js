@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker } from "react-map-gl";
+import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
@@ -28,7 +28,8 @@ class CityMap extends Component {
       clickedCityArray: [],
       activeTimings: [1, 1, 1],
       loading: true,
-      activePopup: false
+      activePopup: false,
+      cityTooltip: null
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -48,6 +49,7 @@ class CityMap extends Component {
       this
     );
     this.handleTripTiming = this.handleTripTiming.bind(this);
+    this._renderPopup = this._renderPopup.bind(this);
   }
 
   componentDidMount() {
@@ -106,6 +108,8 @@ class CityMap extends Component {
                 key={city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
+                offsetLeft={-5}
+                offsetTop={-10}
               >
                 <svg
                   key={"svg" + city.cityId}
@@ -132,6 +136,8 @@ class CityMap extends Component {
                 key={city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
+                offsetLeft={-5}
+                offsetTop={-10}
               >
                 <svg
                   key={"svg" + city.cityId}
@@ -141,6 +147,7 @@ class CityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
+                    onMouseOver={() => this.setState({ cityTooltip: city })}
                     style={{ fill: color }}
                     key={"circle" + city.cityId}
                     cx="50"
@@ -159,6 +166,8 @@ class CityMap extends Component {
                 key={city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
+                offsetLeft={-5}
+                offsetTop={-10}
               >
                 <svg
                   key={"svg" + city.cityId}
@@ -192,6 +201,7 @@ class CityMap extends Component {
   }
 
   handleOnResult(event) {
+    console.log(event)
     let markers = this.state.markers;
     markers.push(event);
     this.setState({
@@ -295,9 +305,12 @@ class CityMap extends Component {
   }
 
   handleTripTiming(city, timing) {
-    this.setState({
-      loading: true
-    }, () => this.handleTripTimingCityHelper(city, timing))
+    this.setState(
+      {
+        loading: true
+      },
+      () => this.handleTripTimingCityHelper(city, timing)
+    );
   }
 
   handleTripTimingCityHelper(city, timing) {
@@ -324,8 +337,8 @@ class CityMap extends Component {
         markerPastDisplay.push(
           <Marker
             key={city.cityId}
-            latitude={ city.city_latitude / 1000000}
-            longitude={ city.city_longitude / 1000000}
+            latitude={city.city_latitude / 1000000}
+            longitude={city.city_longitude / 1000000}
           >
             <svg
               key={"svg" + city.cityId}
@@ -359,8 +372,8 @@ class CityMap extends Component {
         markerFutureDisplay.push(
           <Marker
             key={city.cityId}
-            latitude={ city.city_latitude / 1000000}
-            longitude={ city.city_longitude / 1000000}
+            latitude={city.city_latitude / 1000000}
+            longitude={city.city_longitude / 1000000}
           >
             <svg
               key={"svg" + city.cityId}
@@ -388,43 +401,65 @@ class CityMap extends Component {
         });
         break;
       case 2:
-          liveCount++;
-          tripTimingCounts[1] = liveCount;
-          color = "rgba(150, 177, 168, 0.75)";
-          markerLiveDisplay.push(
-            <Marker
-              key={city.cityId}
-              latitude={ city.city_latitude / 1000000}
-              longitude={ city.city_longitude / 1000000}
+        liveCount++;
+        tripTimingCounts[1] = liveCount;
+        color = "rgba(150, 177, 168, 0.75)";
+        markerLiveDisplay.push(
+          <Marker
+            key={city.cityId}
+            latitude={city.city_latitude / 1000000}
+            longitude={city.city_longitude / 1000000}
+          >
+            <svg
+              key={"svg" + city.cityId}
+              height={10}
+              width={10}
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                key={"svg" + city.cityId}
-                height={10}
-                width={10}
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  style={{ fill: color }}
-                  key={"circle" + city.cityId}
-                  cx="50"
-                  cy="50"
-                  r="50"
-                />
-              </svg>
-            </Marker>
-          );
-          this.setState({
-            clickedCityArray,
-            activePopup: false,
-            tripTimingCounts,
-            markerLiveDisplay,
-            loading: 0
-          });
-          break;
+              <circle
+                style={{ fill: color }}
+                key={"circle" + city.cityId}
+                cx="50"
+                cy="50"
+                r="50"
+              />
+            </svg>
+          </Marker>
+        );
+        this.setState({
+          clickedCityArray,
+          activePopup: false,
+          tripTimingCounts,
+          markerLiveDisplay,
+          loading: 0
+        });
+        break;
       default:
         break;
     }
+  }
+
+  _renderPopup() {
+    const { cityTooltip } = this.state;
+    return (
+      cityTooltip && (
+        <Popup
+          className="city-map-tooltip"
+          tipSize={5}
+          anchor="top"
+          longitude={cityTooltip.longitude}
+          latitude={cityTooltip.latitude}
+          closeOnClick={false}
+          style={{
+            background: "rgba(115, 167, 195, 0.75)",
+            color: "rgb(248, 248, 252)"
+          }}
+        >
+          {cityTooltip.city}
+        </Popup>
+      )
+    );
   }
 
   render() {
@@ -467,6 +502,7 @@ class CityMap extends Component {
             {this.state.activeTimings[0] ? markerPastDisplay : null}
             {this.state.activeTimings[1] ? markerFutureDisplay : null}
             {this.state.activeTimings[2] ? markerLiveDisplay : null}
+            {this._renderPopup()}
             <Geocoder
               mapRef={this.mapRef}
               onResult={this.handleOnResult}
