@@ -12,6 +12,12 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       Places_visiting {
         id
         country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
       }
       Place_living {
         id
@@ -32,8 +38,8 @@ export const GET_LOGGEDIN_USER = gql`
 
 //MUTATIONS
 export const ADD_PLACE_VISITED = gql`
-  mutation addPlaceVisited($country: Int!, $city: Int!) {
-    addPlaceVisited(country: $country, city: $city) {
+  mutation addPlaceVisited($country: Float!, $cities: [Float!]!) {
+    addPlaceVisited(country: $country, cities: $cities) {
       id
       country
     }
@@ -41,10 +47,14 @@ export const ADD_PLACE_VISITED = gql`
 `;
 
 export const ADD_PLACE_VISITING = gql`
-  mutation addPlaceVisiting($country: Int!, $city: Int!) {
-    addPlaceVisiting(country: $country, city: $city) {
+  mutation addPlaceVisiting($country: Country!, $cities: [City!]) {
+    addPlaceVisiting(country: $country, cities: $cities) {
       id
       country
+      city
+      cityId
+      city_latitude
+      city_longitude
     }
   }
 `;
@@ -67,22 +77,22 @@ export const LOGIN_USER = gql`
 `;
 
 export const SIGNUP_USER = gql`
-mutation registerUser(
-  $username: String!
-  $fullName: String!
-  $email: String!
-  $password: String!
-) {
-  registerUser(
-    username: $username
-    full_name: $fullName
-    email: $email
-    password: $password
+  mutation registerUser(
+    $username: String!
+    $fullName: String!
+    $email: String!
+    $password: String!
   ) {
-    token
+    registerUser(
+      username: $username
+      full_name: $fullName
+      email: $email
+      password: $password
+    ) {
+      token
+    }
+    loginUser(username: $username, password: $password) {
+      token
+    }
   }
-  loginUser(username: $username, password: $password) {
-    token
-  }
-}
 `;

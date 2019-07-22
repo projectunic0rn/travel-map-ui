@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   ComposableMap,
   ZoomableGroup,
@@ -7,10 +7,17 @@ import {
   Geography
 } from "react-simple-maps";
 import jsonData from "../../../world-topo-min.json";
+import MapSearch from "./MapSearch";
+import PopupPrompt from "../../../components/Prompts/PopupPrompt";
+import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
+import MapScorecard from "./MapScorecard";
+import MapInfoContainer from "./MapInfoContainer";
+
+/* Need to make it so that duplicate country trips do not count as multiple
+scorecard values */
 
 const CountryMap = props => {
-  const { clickedCountryArray, activeTimings } = props;
-    const [center, handleChangeCenter] = useState([0, 20]);
+  const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
     { name: "Europe", coordinates: [16.5417, 47.3769] },
@@ -21,7 +28,29 @@ const CountryMap = props => {
     { name: "South America", coordinates: [-58.3816, -20.6037] },
     { name: "East Asia", coordinates: [121.4737, 31.2304] }
   ];
-  
+  const [clickedCountry, handleNewCountry] = useState(0);
+  const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
+  const [countryName, handleCountryName] = useState("country");
+  const [capitalName, handleCapitalName] = useState("Capital");
+  const [activePopup, showPopup] = useState(0);
+  const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
+  const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
+
+  useEffect(() => {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    for (let i in clickedCountryArray) {
+      if (clickedCountryArray[i].tripTiming === 0) {
+        pastCount++;
+      } else if (clickedCountryArray[i].tripTiming === 1) {
+        futureCount++;
+      } else if (clickedCountryArray[i].tripTiming === 2) {
+        liveCount++;
+      }
+    }
+    handleTripTiming([pastCount, futureCount, liveCount])
+  }, []);
 
   function handleContinentClick(evt) {
     const continentId = evt.target.getAttribute("data-continent");
@@ -89,23 +118,68 @@ const CountryMap = props => {
     return countryStyles;
   }
 
-function handleZoomIn() {
-  handleChangeZoom(zoom+1);
-}
+  function handleClickedCountry(geography) {
+    countryInfo(geography);
+    showPopup(1);
+    handleNewCountry(geography);
+  }
 
-function handleZoomOut() {
-  handleChangeZoom(zoom-1);
-}
+  function countryInfo(geography) {
+    handleCountryName(geography.properties.name);
+    handleCapitalName(geography.properties.capital);
+  }
 
-function handleMoveEnd(newCenter) {
-  console.log("New center: ", newCenter);
-  console.log("Zoom: ", zoom)
-}
+  function handleTripTimingHelper(timing) {
+    let countryArray = clickedCountryArray;
+    let pastCount = tripTimingCounts[0];
+    let futureCount = tripTimingCounts[1];
+    let liveCount = tripTimingCounts[2];
+    countryArray.push({
+      countryId: clickedCountry.id,
+      tripTiming: timing
+    });
+    switch (timing) {
+      case 0:
+        pastCount++;
+        break;
+      case 1:
+        futureCount++;
+        break;
+      case 2:
+        liveCount++;
+        break;
+      default:
+        break;
+    }
+    handleTripTiming([pastCount, futureCount, liveCount]);
+    addCountry(countryArray);
+  }
+
+  function checkForPreviousTrips(geography) {
+    let previousTrips = false;
+    for (let i in clickedCountryArray) {
+      if (clickedCountryArray[i].countryId === geography.id) {
+        previousTrips = true;
+      }
+    }
+    return previousTrips;
+  }
+
+  function handleActiveTimings(timings) {
+    handleTimingCheckbox(timings);
+  }
 
   return (
     <>
-    <button onClick={handleZoomIn}>+</button>
-    <button onClick={handleZoomOut}>-</button>
+      <div className="map-header-container" style={{ position: "relative" }}>
+        <div className="map-header-button">
+          <button onClick={() => props.handleMapTypeChange(1)}>
+            Go to City Map
+          </button>
+        </div>
+        <MapSearch handleClickedCountry={handleClickedCountry} />
+        <div className="map-header-filler" />
+      </div>
       <ComposableMap
         projectionConfig={{
           scale: 205
@@ -117,8 +191,7 @@ function handleMoveEnd(newCenter) {
           height: "auto"
         }}
       >
-        <ZoomableGroup center={center} zoom={zoom}
-  onMoveEnd={handleMoveEnd}>
+        <ZoomableGroup center={center} zoom={zoom}>
           <Geographies geography={jsonData} disableOptimization>
             {(geographies, projection) =>
               geographies.map((geography, i) => (
@@ -127,9 +200,9 @@ function handleMoveEnd(newCenter) {
                   cacheId={i}
                   geography={geography}
                   projection={projection}
-                  onMouseEnter={() => props.countryInfo(geography)}
-                  onClick={() => props.handleClickedCountry(geography)}
-                 style={computedStyles(geography)}
+                  onMouseEnter={() => countryInfo(geography)}
+                  onClick={() => handleClickedCountry(geography)}
+                  style={computedStyles(geography)}
                 />
               ))
             }
@@ -153,15 +226,35 @@ function handleMoveEnd(newCenter) {
           );
         })}
       </div>
+      {activePopup ? (
+          <PopupPrompt
+            activePopup={activePopup}
+            showPopup={showPopup}
+            component={ClickedCountryContainer}
+            componentProps={{
+              countryInfo: clickedCountry,
+              handleTripTiming: handleTripTimingHelper,
+              previousTrips: checkForPreviousTrips(clickedCountry),
+              refetch: props.refetch
+            }}
+          />
+        ) : null}
+      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+
+      <MapScorecard
+        tripTimingCounts={tripTimingCounts}
+        activeTimings={activeTimings}
+        sendActiveTimings={handleActiveTimings}
+      />
     </>
   );
 };
 
 CountryMap.propTypes = {
-    countryInfo: PropTypes.func,
-    handleClickedCountry: PropTypes.func,
-    clickedCountryArray: PropTypes.array,
-    activeTimings: PropTypes.array
-}
+  handleClickedCountry: PropTypes.func,
+  clickedCountryArray: PropTypes.array,
+  handleMapTypeChange: PropTypes.func,
+  refetch: PropTypes.func
+};
 
 export default CountryMap;

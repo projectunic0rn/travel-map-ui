@@ -1,11 +1,22 @@
+.city-map-scorecard .map-scorecard-container {
+  @media (min-width: "1200px") {
+    transform: translate(-80px, 440px);
+  }
+  @media (min-width: "1800px") {
+    transform: translate(-80px, 540px);
+  }
+}
+
 .map-scorecard-container {
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 160px;
+  min-width: 160px;
+  max-width: 200px;
   height: 120px;
   padding: 8px;
   border-radius: 8px;
+  border: none;
   background: #3f4b57;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
   transform: translate(-80px, -140px);
@@ -41,7 +52,6 @@
       vertical-align: middle;
       transform: translate3d(0, 0, 0);
       font-size: 24px;
-      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.15);
       &:first-child {
         position: relative;
         width: 20px;
@@ -90,3 +100,4 @@
     }
   }
 }
+
