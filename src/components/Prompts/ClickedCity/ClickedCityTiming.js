@@ -18,9 +18,7 @@ function ClickedCityTiming(props) {
     city_latitude: latitude, 
     city_longitude: longitude 
   }
-console.log(props)
   function handleAddCity(data, timing) {
-    console.log(data, timing)
     props.handleTripTiming(data.addPlaceVisiting[0], timing)
   }
   return (

@@ -53,7 +53,6 @@ class CityMap extends Component {
   }
 
   componentDidMount() {
-    console.log("city map mounted");
     window.addEventListener("resize", this.resize);
     this.resize();
     this.handleLoadedCities(this.props.tripData);
@@ -92,7 +91,6 @@ class CityMap extends Component {
   }
 
   handleLoadedMarkers(markers) {
-    console.log("handle loaded markers");
     let markerPastDisplay = this.state.markerPastDisplay;
     let markerFutureDisplay = this.state.markerFutureDisplay;
     let markerLiveDisplay = this.state.markerLiveDisplay;
@@ -201,7 +199,6 @@ class CityMap extends Component {
   }
 
   handleOnResult(event) {
-    console.log(event)
     let markers = this.state.markers;
     markers.push(event);
     this.setState({
@@ -222,7 +219,6 @@ class CityMap extends Component {
   }
 
   handleLoadedCities(data) {
-    console.log("handle loaded cities");
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -281,7 +277,6 @@ class CityMap extends Component {
         liveCount++;
       }
     }
-    console.log([pastCount, futureCount, liveCount]);
     this.setState(
       {
         clickedCityArray,
@@ -463,8 +458,6 @@ class CityMap extends Component {
   }
 
   render() {
-    console.log(this.state);
-    console.log(this.props);
     const {
       viewport,
       markerPastDisplay,

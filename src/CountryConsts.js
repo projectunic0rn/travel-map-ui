@@ -135,7 +135,7 @@ export const countryConsts = [
         coordinates: [24.51, -101.85]
     },
     {
-        country: "United States",
+        country: "United States of America",
         zoom: 1.75,
         coordinates: [54.27, -109.98]
     },

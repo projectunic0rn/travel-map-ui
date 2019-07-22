@@ -3,22 +3,28 @@ import PropTypes from "prop-types";
 import ClickedCityTiming from "./ClickedCityTiming";
 
 function ClickedCityContainer(props) {
-  console.log(props);
   let countryName;
   let countryISO;
   let context;
-  if (props.customProps.cityInfo.result.context[1] !== undefined) {
-    context = 1;
-    countryName = props.customProps.cityInfo.result.context[1]["text_en-US"];
-    countryISO = props.customProps.cityInfo.result.context[1][
-      "short_code"
-    ].toUpperCase();
+  let cityId;
+  for (let i in props.customProps.cityInfo.result.context) {
+    if (props.customProps.cityInfo.result.context[i].id.slice(0, 7) === "country") {
+      context = i;
+      countryName = props.customProps.cityInfo.result.context[i]["text_en-US"];
+      countryISO = props.customProps.cityInfo.result.context[i][
+        "short_code"
+      ].toUpperCase();
+    }
+  }
+  if (props.customProps.cityInfo.result.properties.wikidata !== undefined) {
+    cityId = parseFloat(
+      props.customProps.cityInfo.result.properties.wikidata.slice(1),
+      10
+    )
   } else {
-    context = 0;
-    countryName = props.customProps.cityInfo.result.context[0]["text_en-US"];
-    countryISO = props.customProps.cityInfo.result.context[0][
-      "short_code"
-    ].toUpperCase();
+    cityId = parseFloat(props.customProps.cityInfo.result.id.slice(10, 16),
+    10
+  )
   }
   return (
     <div className="clicked-country-container">
@@ -36,10 +42,7 @@ function ClickedCityContainer(props) {
               refetch={props.customProps.refetch}
               handleTripTiming={props.customProps.handleTripTiming}
               previousTrips={props.customProps.previousTrips}
-              cityId={parseFloat(
-                props.customProps.cityInfo.result.properties.wikidata.slice(1),
-                10
-              )}
+              cityId={cityId}
               city={props.customProps.cityInfo.result.text}
               clickedCountry={countryName}
               countryISO={countryISO}

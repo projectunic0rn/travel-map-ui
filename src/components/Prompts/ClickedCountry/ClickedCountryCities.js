@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker } from "react-map-gl";
+import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import { Mutation } from "react-apollo";
 import { ADD_PLACE_VISITING } from "../../../GraphQL";
@@ -18,8 +18,8 @@ class ClickedCountryCities extends Component {
         longitude: countryConsts[this.props.countryIndex].coordinates[1],
         zoom: countryConsts[this.props.countryIndex].zoom
       },
-      markers: [],
       markerDisplay: null,
+      markerIndex:  null,
       cities: [{
         city: "",
         cityId: 0,
@@ -32,7 +32,8 @@ class ClickedCountryCities extends Component {
         countryISO: this.props.countryISO
       },
       style: {},
-      gl: null
+      gl: null,
+      cityTooltip: null
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -41,6 +42,7 @@ class ClickedCountryCities extends Component {
     this.handleOnResult = this.handleOnResult.bind(this);
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
     this.handleNewMarkers = this.handleNewMarkers.bind(this);
+    this._renderPopup = this._renderPopup.bind(this);
   }
 
   componentDidMount() {
@@ -101,32 +103,27 @@ class ClickedCountryCities extends Component {
     });
   }
 
-  handleMarkerClick(city, i) {
-    console.log("show tooltip");
-    console.log(city)
-  }
-
   handleNewMarkers(markers) {
     let markerDisplay = markers.map((city, i) => {
       return (
         <Marker
-          key={city.result.id}
+          key={city.cityId}
           offsetLeft={-5}
           offsetTop={-10}
-          latitude={city.result.center[1]}
-          longitude={city.result.center[0]}
+          latitude={city.city_latitude/1000000}
+          longitude={city.city_longitude/1000000}
           captureClick={false}
         >
           <svg
-            key={"svg" + city.result.id}
+            key={"svg" + city.cityId}
             height={10}
             width={10}
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
           >
             <circle
-              onMouseOver={() => this.handleMarkerClick(city.result, i)}
-              key={"circle" + city.result.id}
+              onMouseOver={() => this.setState({ cityTooltip: city, markerIndex: i })}
+              key={"circle" + city.cityId}
               cx="50"
               cy="50"
               r="50"
@@ -143,7 +140,6 @@ class ClickedCountryCities extends Component {
   }
 
   handleOnResult(event) {
-    let markers = this.state.markers;
     let cities = this.state.cities;
     let cityArrayElement = {
       city: event.result.text,
@@ -152,16 +148,36 @@ class ClickedCountryCities extends Component {
       city_longitude: event.result.center[0] * 1000000
     };
     cities.push(cityArrayElement);
-    markers.push(event);
     this.setState({
-      markers,
       cities
     });
-    this.handleNewMarkers(markers);
+    this.handleNewMarkers(cities);
   }
 
   _onWebGLInitialized(gl) {
     this.setState({ gl: gl });
+  }
+
+  _renderPopup() {
+    const { cityTooltip } = this.state;
+    return (
+      cityTooltip && (
+        <Popup
+          className="city-map-tooltip"
+          tipSize={5}
+          anchor="top"
+          longitude={cityTooltip.city_longitude/1000000}
+          latitude={cityTooltip.city_latitude/1000000}
+          closeOnClick={false}
+          style={{
+            background: "rgba(115, 167, 195, 0.75)",
+            color: "rgb(248, 248, 252)"
+          }}
+        >
+          {cityTooltip.city}
+        </Popup>
+      )
+    );
   }
 
   render() {
@@ -190,6 +206,7 @@ class ClickedCountryCities extends Component {
           onViewportChange={this.handleViewportChange}
         >
           {markerDisplay}
+          {this._renderPopup()}
           <Geocoder
             mapRef={this.mapRef}
             onResult={this.handleOnResult}
@@ -211,7 +228,7 @@ ClickedCountryCities.propTypes = {
   country: PropTypes.string,
   countryId: PropTypes.number,
   countryISO: PropTypes.string,
-  countryIndex: PropTypes.string,
+  countryIndex: PropTypes.number,
   handleTypedCity: PropTypes.func,
   timing: PropTypes.number,
   updateMap: PropTypes.func

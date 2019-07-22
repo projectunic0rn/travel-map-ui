@@ -40,7 +40,6 @@ const CountryMap = props => {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
-    console.log(clickedCountryArray)
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].tripTiming === 0) {
         pastCount++;
@@ -120,7 +119,6 @@ const CountryMap = props => {
   }
 
   function handleClickedCountry(geography) {
-    console.log("handle clicked country: country map");
     countryInfo(geography);
     showPopup(1);
     handleNewCountry(geography);

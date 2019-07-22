@@ -9,7 +9,6 @@ const MapPage = () => {
   const [clickedCountryArray, addCountry] = useState([]);
 
   function handleLoadedCountries(data) {
-    console.log(data);
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
     if (userData != null && userData.Places_visited.length !== 0) {
