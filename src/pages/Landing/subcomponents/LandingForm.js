@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-
-const { useState } = React;
 
 function LandingForm(props) {
   const [formActive, handleFormSwitch] = useState(0);
