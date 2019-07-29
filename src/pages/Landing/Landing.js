@@ -10,7 +10,15 @@ import jsonData from "../../world-topo-min.json";
 
 import LandingForm from "./subcomponents/LandingForm";
 
-const placeWords = ["INTERESTING", "DIVERSE", "EXCITING", "UNIQUE", "BEAUTIFUL"];
+import backgroundMap from "../../images/background-map.png";
+
+const placeWords = [
+  "INTERESTING",
+  "DIVERSE",
+  "EXCITING",
+  "UNIQUE",
+  "BEAUTIFUL"
+];
 
 class Landing extends Component {
   constructor(props) {
@@ -26,9 +34,9 @@ class Landing extends Component {
 
   componentWillMount() {
     localStorage.clear();
-      setInterval(() => {
-        this.changeWordIndex();
-      }, 5000);
+    setInterval(() => {
+      this.changeWordIndex();
+    }, 5000);
   }
 
   setActive(event) {
@@ -56,7 +64,10 @@ class Landing extends Component {
     const { wordIndex } = this.state;
     return (
       <div className="landing-container">
-        <ComposableMap
+        <div className="img-container">
+          <img className="background-map" src={backgroundMap} alt="" />
+        </div>
+        {/* <ComposableMap
           projectionConfig={{
             scale: 205
           }}
@@ -64,13 +75,17 @@ class Landing extends Component {
           height={600}
           style={{
             width: "100%",
-            height: "auto", 
+            height: "auto",
             position: "absolute",
-            "zIndex": "-1",
-            transform: "translateY(-36px)"
+            zIndex: "-1"
+            // transform: "translateY(-36px)"
           }}
         >
-          <ZoomableGroup center={this.state.center} zoom={this.state.zoom} disablePanning = {true}>
+          <ZoomableGroup
+            center={this.state.center}
+            zoom={this.state.zoom}
+            disablePanning={true}
+          >
             <Geographies geography={jsonData}>
               {(geographies, projection) =>
                 geographies.map(
@@ -82,20 +97,20 @@ class Landing extends Component {
                         projection={projection}
                         style={{
                           default: {
-                            fill: "#4b5463",
-                            stroke: "#4b5463",
+                            // fill: "#4b5463",
+                            // stroke: "#4b5463",
                             strokeWidth: 0.75,
                             outline: "none"
                           },
                           hover: {
-                            fill: "#4b5463",
-                            stroke: "#4b5463",
+                            // fill: "#4b5463",
+                            // stroke: "#4b5463",
                             strokeWidth: 0.75,
                             outline: "none"
                           },
                           pressed: {
-                            fill: "#4b5463",
-                            stroke: "#4b5463",
+                            // fill: "#4b5463",
+                            // stroke: "#4b5463",
                             strokeWidth: 0.75,
                             outline: "none"
                           }
@@ -106,7 +121,7 @@ class Landing extends Component {
               }
             </Geographies>
           </ZoomableGroup>
-        </ComposableMap>
+        </ComposableMap> */}
         <div className="landing-motto-container">
           <span>THE WORLD IS FULL OF</span>
           <span className="rotating-word">{placeWords[wordIndex]}</span>
@@ -121,9 +136,9 @@ class Landing extends Component {
             <span className="landing-yellow-bar" />
           </div>
         </div>
-        <div className="landing-form-container">
+        {/* <div className="landing-form-container">
           <LandingForm handleUserLogin={() => this.props.handleUserLogin(1)} />
-        </div>
+        </div> */}
       </div>
     );
   }

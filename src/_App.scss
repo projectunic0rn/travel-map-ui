@@ -1,24 +1,25 @@
 $container: 1600px;
-@import './scss/colors';
-@import './components/Header/Header';
-@import './pages/Profile/Profile';
-@import './pages/Landing/Landing';
-@import './pages/Home/MapPage';
-@import './components/Prompts/PopupPrompts.scss';
+@import "./scss/colors";
+@import "./components/Header/Header";
+@import "./pages/Profile/Profile";
+@import "./pages/Landing/Landing";
+@import "./pages/Home/MapPage";
+@import "./components/Prompts/PopupPrompts.scss";
 
 * {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 body {
+  overflow-x: hidden;
   background: $bg2;
   margin: 0;
-  font-family: "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
