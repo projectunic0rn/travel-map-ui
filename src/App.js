@@ -8,7 +8,7 @@ import "./_App.scss";
 import socket from "./socket";
 
 function App() {
-  const [userLoggedIn, handleUserLogin] = useState(0);
+  const [userLoggedIn, handleUserLogin] = useState(false);
 
   function handleUserLoggingIn(val) {
     handleUserLogin(val);
@@ -32,7 +32,10 @@ function App() {
 
   return (
     <Router>
-      <Header handleUserLogout={handleUserLoggingIn} />
+      <Header
+        handleUserLogout={handleUserLoggingIn}
+        userLoggedIn={userLoggedIn}
+      />
       <Route path="/" exact component={MapPage} />
       {/* TODO: highlight trips when visiting /profile? or redirect /profile page to /profile/trips or use /profile/trips here instead */}
       <Route path="/profile/" component={Profile} />

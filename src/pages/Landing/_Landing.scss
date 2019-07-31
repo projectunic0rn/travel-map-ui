@@ -7,7 +7,6 @@
   position: relative;
   .img-container {
     height: 600px;
-    outline: 1px solid blue;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,7 +17,6 @@
     }
   }
   .landing-motto-container {
-    outline: 1px solid red;
     position: absolute;
     top: 0;
     display: flex;
@@ -122,7 +120,6 @@
 
 @media screen and (max-width: 700px) {
   .landing-container {
-    // width: 100%;
     .landing-motto-container {
       width: 100%;
       margin: 0;
