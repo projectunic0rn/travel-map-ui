@@ -4,7 +4,7 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import { Mutation } from "react-apollo";
-import { ADD_PLACE_VISITING } from "../../../GraphQL";
+import { ADD_PLACE_VISITING, ADD_PLACE_VISITED } from "../../../GraphQL";
 import { countryConsts } from "../../../CountryConsts";
 
 class ClickedCountryCities extends Component {
@@ -104,6 +104,17 @@ class ClickedCountryCities extends Component {
   }
 
   handleNewMarkers(markers) {
+    let fill = "";
+    switch(this.props.timing) {
+      case 0: 
+        fill = "rgba(203, 118, 120, 0.75)";
+        break;
+      case 1:
+        fill = "rgba(115, 167, 195, 0.75)";
+        break;
+      default: 
+      break;
+    }
     let markerDisplay = markers.map((city, i) => {
       return (
         <Marker
@@ -127,7 +138,7 @@ class ClickedCountryCities extends Component {
               cx="50"
               cy="50"
               r="50"
-              style={{ fill: "rgba(115, 167, 195, 0.75)" }}
+              style={{ fill: fill}}
             />
           </svg>
         </Marker>
@@ -182,11 +193,22 @@ class ClickedCountryCities extends Component {
 
   render() {
     const { viewport, markerDisplay, country, cities, style } = this.state;
+    let mutationType = "";
+    switch(this.props.timing) {
+      case 0:
+        mutationType = ADD_PLACE_VISITED;
+        break;
+      case 1:
+        mutationType = ADD_PLACE_VISITING;
+        break;
+      default:
+        break;
+    }
     console.log(viewport);
     return (
       <div className="city-choosing-container">
         <Mutation
-          mutation={ADD_PLACE_VISITING}
+          mutation={mutationType}
           variables={{ country, cities }}
           onCompleted={this.props.updateMap}
         >
