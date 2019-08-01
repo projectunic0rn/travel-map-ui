@@ -94,23 +94,22 @@ class CityMap extends Component {
     let markerPastDisplay = this.state.markerPastDisplay;
     let markerFutureDisplay = this.state.markerFutureDisplay;
     let markerLiveDisplay = this.state.markerLiveDisplay;
-
     markers.map(city => {
       if (city.city !== undefined) {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
-            color = "rgba(203, 118, 120, 0.75)";
+            color = "rgba(203, 118, 120, 0.5)";
             markerPastDisplay.push(
               <Marker
-                key={city.cityId}
+                key={city.id}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
               >
                 <svg
-                  key={"svg" + city.cityId}
+                  key={"svg" + city.id}
                   height={10}
                   width={10}
                   viewBox="0 0 100 100"
@@ -118,7 +117,7 @@ class CityMap extends Component {
                 >
                   <circle
                     style={{ fill: color }}
-                    key={"circle" + city.cityId}
+                    key={"circle" + city.id}
                     cx="50"
                     cy="50"
                     r="50"
@@ -128,17 +127,17 @@ class CityMap extends Component {
             );
             break;
           case 1:
-            color = "rgba(115, 167, 195, 0.75)";
+            color = "rgba(115, 167, 195, 0.5)";
             markerFutureDisplay.push(
               <Marker
-                key={city.cityId}
+                key={city.id}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
               >
                 <svg
-                  key={"svg" + city.cityId}
+                  key={"svg" + city.id}
                   height={10}
                   width={10}
                   viewBox="0 0 100 100"
@@ -147,7 +146,7 @@ class CityMap extends Component {
                   <circle
                     onMouseOver={() => this.setState({ cityTooltip: city })}
                     style={{ fill: color }}
-                    key={"circle" + city.cityId}
+                    key={"circle" + city.id}
                     cx="50"
                     cy="50"
                     r="50"
@@ -161,14 +160,14 @@ class CityMap extends Component {
             color = "rgba(150, 177, 168, 0.75)";
             markerLiveDisplay.push(
               <Marker
-                key={city.cityId}
+                key={city.id}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
               >
                 <svg
-                  key={"svg" + city.cityId}
+                  key={"svg" + city.id}
                   height={10}
                   width={10}
                   viewBox="0 0 100 100"
@@ -176,7 +175,7 @@ class CityMap extends Component {
                 >
                   <circle
                     style={{ fill: color }}
-                    key={"circle" + city.cityId}
+                    key={"circle" + city.id}
                     cx="50"
                     cy="50"
                     r="50"
@@ -219,38 +218,31 @@ class CityMap extends Component {
   }
 
   handleLoadedCities(data) {
+    console.log(data);
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
     if (data != null && data.Places_visited.length !== 0) {
       for (let i = 0; i < data.Places_visited.length; i++) {
-        if (
-          !clickedCityArray.some(city => {
-            return city.cityId === data.Places_visited[i].cityId;
-          })
-        ) {
-          if (data.Places_visited[i].cityId !== undefined) {
-            clickedCityArray.push({
-              cityId: data.Places_visited[i].cityId,
-              city: data.Places_visited[i].city,
-              latitude: data.Places_visited[i].city_latitude / 1000000,
-              longitude: data.Places_visited[i].city_longitude / 1000000,
-              tripTiming: 0
-            });
-            pastCount++;
-          }
+        if (data.Places_visited[i].cityId !== undefined) {
+          clickedCityArray.push({
+            id: data.Places_visited[i].id,
+            cityId: data.Places_visited[i].cityId,
+            city: data.Places_visited[i].city,
+            latitude: data.Places_visited[i].city_latitude / 1000000,
+            longitude: data.Places_visited[i].city_longitude / 1000000,
+            tripTiming: 0
+          });
+          pastCount++;
         }
       }
     }
     if (data != null && data.Places_visiting.length !== 0) {
       for (let i = 0; i < data.Places_visiting.length; i++) {
-        if (
-          !clickedCityArray.some(city => {
-            return city.cityId === data.Places_visiting[i].cityId;
-          })
-        ) {
+        if (data.Places_visiting[i].cityId !== undefined) {
           clickedCityArray.push({
+            id: data.Places_visiting[i].id,
             cityId: data.Places_visiting[i].cityId,
             city: data.Places_visiting[i].city,
             latitude: data.Places_visiting[i].city_latitude / 1000000,
@@ -268,6 +260,7 @@ class CityMap extends Component {
         })
       ) {
         clickedCityArray.push({
+          id: data.Place_living.id,
           cityId: data.Place_living.cityId,
           city: data.Place_living.city,
           latitude: data.Place_living.city_latitude / 1000000,
@@ -331,12 +324,12 @@ class CityMap extends Component {
         color = "rgba(203, 118, 120, 0.75)";
         markerPastDisplay.push(
           <Marker
-            key={city.cityId}
+            key={city.id}
             latitude={city.city_latitude / 1000000}
             longitude={city.city_longitude / 1000000}
           >
             <svg
-              key={"svg" + city.cityId}
+              key={"svg" + city.id}
               height={10}
               width={10}
               viewBox="0 0 100 100"
@@ -344,7 +337,7 @@ class CityMap extends Component {
             >
               <circle
                 style={{ fill: color }}
-                key={"circle" + city.cityId}
+                key={"circle" + city.id}
                 cx="50"
                 cy="50"
                 r="50"
@@ -366,12 +359,12 @@ class CityMap extends Component {
         color = "rgba(115, 167, 195, 0.75)";
         markerFutureDisplay.push(
           <Marker
-            key={city.cityId}
+            key={city.id}
             latitude={city.city_latitude / 1000000}
             longitude={city.city_longitude / 1000000}
           >
             <svg
-              key={"svg" + city.cityId}
+              key={"svg" + city.id}
               height={10}
               width={10}
               viewBox="0 0 100 100"
@@ -379,7 +372,7 @@ class CityMap extends Component {
             >
               <circle
                 style={{ fill: color }}
-                key={"circle" + city.cityId}
+                key={"circle" + city.id}
                 cx="50"
                 cy="50"
                 r="50"
@@ -401,12 +394,12 @@ class CityMap extends Component {
         color = "rgba(150, 177, 168, 0.75)";
         markerLiveDisplay.push(
           <Marker
-            key={city.cityId}
+            key={city.id}
             latitude={city.city_latitude / 1000000}
             longitude={city.city_longitude / 1000000}
           >
             <svg
-              key={"svg" + city.cityId}
+              key={"svg" + city.id}
               height={10}
               width={10}
               viewBox="0 0 100 100"
@@ -414,7 +407,7 @@ class CityMap extends Component {
             >
               <circle
                 style={{ fill: color }}
-                key={"circle" + city.cityId}
+                key={"circle" + city.id}
                 cx="50"
                 cy="50"
                 r="50"
