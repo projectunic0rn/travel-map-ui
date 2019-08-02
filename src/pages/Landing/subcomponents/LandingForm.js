@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
-function LandingForm({ handleUserLogin }) {
+function LandingForm({ handleUserLogin, setFormIsOpen }) {
   const [formActive, handleFormSwitch] = useState(false);
   return (
     <div className="landing-form">
@@ -33,11 +33,12 @@ function LandingForm({ handleUserLogin }) {
       <div className="landing-form-content">
         {formActive ? (
           <SignupForm
-            handleUserLogin={() => handleUserLogin()}
+            handleUserLogin={handleUserLogin}
             handleFormSwitch={() => handleFormSwitch(false)}
           />
         ) : (
           <LoginForm
+            setFormIsOpen={setFormIsOpen}
             handleUserLogin={handleUserLogin}
             handleFormSwitch={() => handleFormSwitch(false)}
           />

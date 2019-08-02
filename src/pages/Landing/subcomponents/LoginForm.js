@@ -16,7 +16,8 @@ class LoginForm extends Component {
   }
   async confirmLogin(data) {
     this._saveUserData(data.loginUser.token);
-    this.props.handleUserLogin();
+    this.props.handleUserLogin(true);
+    this.props.setFormIsOpen(false);
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
@@ -35,7 +36,7 @@ class LoginForm extends Component {
 
   render() {
     const { username, password } = this.state;
-    const { handleFormSwitch } = this.state;
+    const { handleFormSwitch } = this.props;
     return (
       <form
         className="signup-form"

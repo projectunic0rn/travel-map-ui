@@ -4,8 +4,13 @@ import PropTypes from "prop-types";
 import NavLinks from "./subcomponents/NavLinks";
 import SiteLogo from "./subcomponents/SiteLogo";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
+import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
-export default function Header({ handleUserLogout, userLoggedIn }) {
+export default function Header({
+  handleUserLogout,
+  userLoggedIn,
+  handleUserLogin
+}) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
   let [formIsOpen, setFormIsOpen] = useState(false);
 
@@ -46,7 +51,8 @@ export default function Header({ handleUserLogout, userLoggedIn }) {
             </div>
             {formIsOpen ? (
               <LandingForm
-                handleUserLogin={() => console.log("Login pressed")}
+                setFormIsOpen={setFormIsOpen}
+                handleUserLogin={handleUserLogin}
               />
             ) : (
               ""
@@ -61,7 +67,6 @@ export default function Header({ handleUserLogout, userLoggedIn }) {
             ? "hamburger-dropdown-container"
             : "display-none"
         }
-        // onClick={() => handleHamburgerResponse(false)}
       >
         <NavLinks
           userLoggedIn={userLoggedIn}
@@ -75,5 +80,6 @@ export default function Header({ handleUserLogout, userLoggedIn }) {
 
 Header.propTypes = {
   handleUserLogout: PropTypes.func,
-  handleUserLogout: PropTypes.bool
+  userLoggedIn: PropTypes.bool,
+  handleUserLogin: PropTypes.func
 };

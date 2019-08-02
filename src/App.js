@@ -10,15 +10,11 @@ import socket from "./socket";
 function App() {
   const [userLoggedIn, handleUserLogin] = useState(false);
 
-  function handleUserLoggingIn(val) {
-    handleUserLogin(val);
-  }
-
   if (!userLoggedIn) {
     return (
       <Router>
-        <Header />
-        <Landing handleUserLogin={handleUserLoggingIn} />
+        <Header handleUserLogin={handleUserLogin}  />
+        <Landing />
       </Router>
     );
   }
@@ -32,10 +28,7 @@ function App() {
 
   return (
     <Router>
-      <Header
-        handleUserLogout={handleUserLoggingIn}
-        userLoggedIn={userLoggedIn}
-      />
+      <Header handleUserLogout={handleUserLogin} userLoggedIn={userLoggedIn} />
       <Route path="/" exact component={MapPage} />
       {/* TODO: highlight trips when visiting /profile? or redirect /profile page to /profile/trips or use /profile/trips here instead */}
       <Route path="/profile/" component={Profile} />
