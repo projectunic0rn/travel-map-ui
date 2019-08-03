@@ -7,7 +7,8 @@ import CityMap from "./subcomponents/CityMap";
 const MapPage = () => {
   const [cityOrCountry, handleMapTypeChange] = useState(0);
   const [clickedCountryArray, addCountry] = useState([]);
-
+  const [tripData, handleTripData] = useState([]);
+  
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
@@ -54,12 +55,38 @@ const MapPage = () => {
     addCountry(countryArray);
   }
 
+  function deleteCity(cityId, timing) {
+    let cityIndex = null;
+    let tripDataType = null;
+    switch(timing) {
+      case 0: 
+      tripDataType = tripData.Places_visited;
+      break;
+      case 1: 
+      tripDataType = tripData.Places_visiting;
+      break;
+      default:
+        break;
+    }
+    tripDataType.find((city, i) => {
+      if (city.id == cityId) {
+        cityIndex = i;
+        return true;
+      } else {
+        return false;
+      }
+    });
+    tripDataType.splice(cityIndex, 1);
+    handleTripData(tripData);
+  }
+
   return (
     <Query
       query={GET_LOGGEDIN_USER_COUNTRIES}
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
+      onCompleted={data => handleTripData(data.getLoggedInUser)}
     >
       {({ loading, error, data, refetch }) => {
         if (loading) return <div>Loading...</div>;
@@ -71,8 +98,9 @@ const MapPage = () => {
               <div>
                 {cityOrCountry ? (
                   <CityMap
-                    tripData={data.getLoggedInUser}
+                    tripData={tripData}
                     handleMapTypeChange={handleMapTypeChange}
+                    deleteCity={deleteCity}
                   />
                 ) : (
                   <CountryMap

@@ -8,8 +8,9 @@
   background: #e6e6f0;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+
   @media (min-width: 1560px) {
-    margin-right: calc((100% - 1560px)/2);
+    margin-right: calc((100% - 1560px) / 2);
   }
 }
 

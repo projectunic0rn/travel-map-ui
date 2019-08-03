@@ -1,9 +1,16 @@
-.landing-form-container {
-    position: fixed;
+.landing-form {
+  position: absolute;
+  top: 60px;
+  opacity: 1;
+  background: rgba(37, 41, 49, 1) !important;
+  z-index: 10;
+  @media (max-width: 765px) {
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .landing-form-container {
     display: flex;
-    top: 0%;
-    right: 10%;
-    width: 30%;
-    height: 50%;
     min-height: 540px;
+  }
 }

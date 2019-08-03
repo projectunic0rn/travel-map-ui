@@ -8,6 +8,7 @@
   list-style: none;
   margin: 0;
   a {
+    cursor: pointer;
     display: none;
     font-size: 16px;
     text-transform: uppercase;
@@ -20,7 +21,7 @@
     border-bottom: 4px solid $off-white;
     &.active {
       color: #6e7377;
-      border-bottom: solid 4px #A7E1FF;
+      border-bottom: solid 4px #a7e1ff;
     }
     &:hover {
       color: #6e7377;
@@ -34,7 +35,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 765px) {
   .nav-menu-container {
     order: 2;
     justify-content: center;

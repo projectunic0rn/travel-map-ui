@@ -15,7 +15,7 @@ class SignupForm extends Component {
   }
   async confirmSignup(data) {
     this._saveUserData(data.loginUser.token)
-    this.props.handleUserLogin();
+    this.props.handleUserLogin(true);
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
@@ -62,6 +62,7 @@ class SignupForm extends Component {
           <input
             type="password"
             data-ng-model="password"
+            autoComplete="on"
             required
             onChange={e => this.setState({ password: e.target.value })}
             name="password"
