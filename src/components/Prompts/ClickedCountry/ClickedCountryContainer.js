@@ -26,13 +26,17 @@ function ClickedCountryContainer(props) {
         handleCountryIndex(i);
       }
     }
-  }, []);
+  }, [props.customProps.countryInfo.properties.name]);
   function handlePageChange(page) {
     handlePage(page);
   }
-  function handleTypedCity() {
+  function handleTypedCity(type) {
     let cityCountNew = cityCount;
-    cityCountNew++;
+    if (type) {
+      cityCountNew++;
+    } else {
+      cityCountNew--;
+    }
     handleCityCount(cityCountNew);
   }
   function handleTripTiming(timing) {

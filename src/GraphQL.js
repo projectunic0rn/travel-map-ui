@@ -69,11 +69,27 @@ export const ADD_PLACE_VISITING = gql`
   }
 `;
 
+export const REMOVE_PLACE_VISITING = gql`
+  mutation removePlaceVisiting($placeVisitingId: Int!) {
+    removePlaceVisiting(placeVisitingId: $placeVisitingId) {
+      id
+    }
+  }
+`;
+
 export const ADD_PLACE_LIVING = gql`
   mutation addPlaceLiving($country: Int!, $city: Int!) {
     addPlaceLiving(country: $country, city: $city) {
       id
       country
+    }
+  }
+`;
+
+export const REMOVE_PLACE_VISITED = gql`
+  mutation removePlaceVisited($placeVisitedId: Int!) {
+    removePlaceVisited(placeVisitedId: $placeVisitedId) {
+      id
     }
   }
 `;

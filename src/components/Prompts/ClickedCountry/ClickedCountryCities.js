@@ -6,6 +6,7 @@ import Geocoder from "react-map-gl-geocoder";
 import { Mutation } from "react-apollo";
 import { ADD_PLACE_VISITING, ADD_PLACE_VISITED } from "../../../GraphQL";
 import { countryConsts } from "../../../CountryConsts";
+import TrashIcon from "../../../icons/TrashIcon";
 
 class ClickedCountryCities extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class ClickedCountryCities extends Component {
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
     this.handleNewMarkers = this.handleNewMarkers.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
+    this.deleteCity = this.deleteCity.bind(this);
   }
 
   componentDidMount() {
@@ -103,7 +105,7 @@ class ClickedCountryCities extends Component {
     });
   }
 
-  handleNewMarkers(markers) {
+  handleNewMarkers(markers, type) {
     let fill = "";
     switch(this.props.timing) {
       case 0: 
@@ -147,7 +149,7 @@ class ClickedCountryCities extends Component {
     this.setState({
       markerDisplay: markerDisplay
     });
-    this.props.handleTypedCity();
+    type ? this.props.handleTypedCity(1) : this.props.handleTypedCity(0);
   }
 
   handleOnResult(event) {
@@ -162,7 +164,7 @@ class ClickedCountryCities extends Component {
     this.setState({
       cities
     });
-    this.handleNewMarkers(cities);
+    this.handleNewMarkers(cities, 1);
   }
 
   _onWebGLInitialized(gl) {
@@ -174,6 +176,7 @@ class ClickedCountryCities extends Component {
     return (
       cityTooltip && (
         <Popup
+          key={cityTooltip.cityId}
           className="city-map-tooltip"
           tipSize={5}
           anchor="top"
@@ -186,9 +189,29 @@ class ClickedCountryCities extends Component {
           }}
         >
           {cityTooltip.city}
+          <TrashIcon
+            cityKey={cityTooltip.cityId}
+            trashClicked={this.deleteCity}
+          />
         </Popup>
       )
     );
+  }
+
+  deleteCity(cityId) {
+    let cities = this.state.cities;
+    let cityIndex = null;
+    cities.find((city, i) => {
+      if (city.cityId === cityId) {
+        cityIndex = i;
+        return true;
+      } else {
+        return false;
+      }
+    });
+    cities.splice(cityIndex, 1);
+    this.setState({ cities, cityTooltip: null });
+    this.handleNewMarkers(cities, 0);
   }
 
   render() {

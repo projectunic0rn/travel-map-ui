@@ -50,7 +50,7 @@ const CountryMap = props => {
       }
     }
     handleTripTiming([pastCount, futureCount, liveCount])
-  }, []);
+  }, [clickedCountryArray]);
 
   function handleContinentClick(evt) {
     const continentId = evt.target.getAttribute("data-continent");
