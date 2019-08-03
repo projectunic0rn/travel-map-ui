@@ -8,10 +8,6 @@ import {
 } from "react-simple-maps";
 import jsonData from "../../world-topo-min.json";
 
-import LandingForm from "./subcomponents/LandingForm";
-
-import backgroundMap from "../../images/background-map.png";
-
 const placeWords = [
   "INTERESTING",
   "DIVERSE",
@@ -64,9 +60,61 @@ class Landing extends Component {
     const { wordIndex } = this.state;
     return (
       <div className="landing-container">
-        <div className="img-container">
-          <img className="background-map" src={backgroundMap} alt="" />
-        </div>
+        <ComposableMap
+          projectionConfig={{
+            scale: 205
+          }}
+          width={980}
+          height={600}
+          style={{
+            width: "100%",
+            height: "auto",
+            position: "absolute",
+            zIndex: "-1",
+            transform: "translateY(-36px)"
+          }}
+        >
+          <ZoomableGroup
+            center={this.state.center}
+            zoom={this.state.zoom}
+            disablePanning={true}
+          >
+            <Geographies geography={jsonData}>
+              {(geographies, projection) =>
+                geographies.map(
+                  (geography, i) =>
+                    geography.id !== "ATA" && (
+                      <Geography
+                        key={i}
+                        geography={geography}
+                        projection={projection}
+                        style={{
+                          default: {
+                            fill: "#4b5463",
+                            stroke: "#4b5463",
+                            strokeWidth: 0.75,
+                            outline: "none"
+                          },
+                          hover: {
+                            fill: "#4b5463",
+                            stroke: "#4b5463",
+                            strokeWidth: 0.75,
+                            outline: "none"
+                          },
+                          pressed: {
+                            fill: "#4b5463",
+                            stroke: "#4b5463",
+                            strokeWidth: 0.75,
+                            outline: "none"
+                          }
+                        }}
+                      />
+                    )
+                )
+              }
+            </Geographies>
+          </ZoomableGroup>
+        </ComposableMap>
         <div className="landing-motto-container">
           <span>THE WORLD IS FULL OF</span>
           <span className="rotating-word">{placeWords[wordIndex]}</span>
