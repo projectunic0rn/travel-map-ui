@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
+import { Mutation } from "react-apollo";
+import { REMOVE_PLACE_VISITING, REMOVE_PLACE_VISITED } from "../../../GraphQL";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
+import TrashIcon from "../../../icons/TrashIcon";
 
 class CityMap extends Component {
   constructor(props) {
@@ -29,7 +32,9 @@ class CityMap extends Component {
       activeTimings: [1, 1, 1],
       loading: true,
       activePopup: false,
-      cityTooltip: null
+      cityTooltip: null,
+      placeVisitingId: null,
+      placeVisitedId: null
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -50,6 +55,7 @@ class CityMap extends Component {
     );
     this.handleTripTiming = this.handleTripTiming.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
+    this.deleteCity = this.deleteCity.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +66,27 @@ class CityMap extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.resize);
+  }
+
+  deleteCity(cityId, timing) {
+    let tripTimingCounts = this.state.tripTimingCounts;
+    let clickedCityArray = this.state.clickedCityArray;
+    let cityIndex = null;
+    clickedCityArray.find((city, i) => {
+      if (city.id == cityId) {
+        cityIndex = i;
+        return true;
+      } else {
+        return false;
+      }
+    });
+    clickedCityArray.splice(cityIndex, 1);
+    tripTimingCounts[timing]--;
+    this.props.deleteCity(cityId, timing);
+    this.setState(
+      { tripTimingCounts, clickedCityArray, cityTooltip: null },
+      () => this.handleLoadedMarkers(this.state.clickedCityArray)
+    );
   }
 
   resize() {
@@ -91,8 +118,8 @@ class CityMap extends Component {
   }
 
   handleLoadedMarkers(markers) {
-    let markerPastDisplay = this.state.markerPastDisplay;
-    let markerFutureDisplay = this.state.markerFutureDisplay;
+    let markerPastDisplay = [];
+    let markerFutureDisplay = [];
     let markerLiveDisplay = this.state.markerLiveDisplay;
     markers.map(city => {
       if (city.city !== undefined) {
@@ -116,6 +143,12 @@ class CityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
+                    onMouseOver={() =>
+                      this.setState({
+                        cityTooltip: city,
+                        placeVisitedId: city.id
+                      })
+                    }
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -144,7 +177,12 @@ class CityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() => this.setState({ cityTooltip: city })}
+                    onMouseOver={() =>
+                      this.setState({
+                        cityTooltip: city,
+                        placeVisitingId: city.id
+                      })
+                    }
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -188,6 +226,7 @@ class CityMap extends Component {
             break;
         }
       }
+      return null;
     });
     this.setState({
       markerPastDisplay,
@@ -218,7 +257,6 @@ class CityMap extends Component {
   }
 
   handleLoadedCities(data) {
-    console.log(data);
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -429,7 +467,20 @@ class CityMap extends Component {
   }
 
   _renderPopup() {
-    const { cityTooltip } = this.state;
+    const { cityTooltip, placeVisitedId, placeVisitingId } = this.state;
+    let setMutation = null;
+    if (cityTooltip !== null) {
+      switch (cityTooltip.tripTiming) {
+        case 0:
+          setMutation = REMOVE_PLACE_VISITED;
+          break;
+        case 1:
+          setMutation = REMOVE_PLACE_VISITING;
+          break;
+        default:
+          break;
+      }
+    }
     return (
       cityTooltip && (
         <Popup
@@ -445,6 +496,17 @@ class CityMap extends Component {
           }}
         >
           {cityTooltip.city}
+          <Mutation
+            mutation={setMutation}
+            variables={(cityTooltip.tripTiming === 0) ? { placeVisitedId } : { placeVisitingId }}
+            onCompleted={() =>
+              this.deleteCity(cityTooltip.id, cityTooltip.tripTiming)
+            }
+          >
+            {mutation => (
+              <TrashIcon cityKey={cityTooltip.cityId} trashClicked={mutation} />
+            )}
+          </Mutation>
         </Popup>
       )
     );
@@ -527,7 +589,8 @@ class CityMap extends Component {
 
 CityMap.propTypes = {
   tripData: PropTypes.array,
-  handleMapTypeChange: PropTypes.func
+  handleMapTypeChange: PropTypes.func,
+  deleteCity: PropTypes.func
 };
 
 export default CityMap;

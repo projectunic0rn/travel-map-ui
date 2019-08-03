@@ -58,6 +58,7 @@ class LoginForm extends Component {
           <input
             type="password"
             data-ng-model="password"
+            autoComplete="on"
             required
             onChange={(e) => this.setState({ password: e.target.value })}
             name="password"

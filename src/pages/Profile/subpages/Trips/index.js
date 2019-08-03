@@ -1,54 +1,54 @@
-import React, { useState } from 'react';
-import _ from 'lodash';
-import CountryResult from './CountryResult';
-import AllTimingsIcon from '../../../../icons/AllTimingsIcon';
-import PastIcon from '../../../../icons/PastIcon';
-import FutureIcon from '../../../../icons/FutureIcon';
-import LiveIcon from '../../../../icons/LiveIcon';
+import React, { useState } from "react";
+import _ from "lodash";
+import CountryResult from "./CountryResult";
+import AllTimingsIcon from "../../../../icons/AllTimingsIcon";
+import PastIcon from "../../../../icons/PastIcon";
+import FutureIcon from "../../../../icons/FutureIcon";
+import LiveIcon from "../../../../icons/LiveIcon";
 
 export default function Trips() {
   let fakeresults = [
     {
       id: 1,
-      name: 'Past',
+      name: "Past",
       days: 10,
       city: 20,
       year: 2005,
-      state: 'past'
+      state: "past"
     },
     {
       id: 2,
-      name: 'Future',
+      name: "Future",
       days: 11,
       city: 21,
       year: 2026,
-      state: 'future'
+      state: "future"
     },
     {
       id: 3,
-      name: 'Live',
+      name: "Live",
       days: 12,
       city: 22,
       year: 2007,
-      state: 'live'
+      state: "live"
     },
     {
       id: 4,
-      name: 'China',
+      name: "China",
       days: 10,
       city: 20,
       year: 2005
     },
     {
       id: 5,
-      name: 'Else',
+      name: "Else",
       days: 11,
       city: 21,
       year: 2006
     },
     {
       id: 6,
-      name: 'Some',
+      name: "Some",
       days: 12,
       city: 22,
       year: 2007
@@ -56,7 +56,7 @@ export default function Trips() {
   ];
 
   const [results, setResults] = useState(fakeresults);
-  const [filterState, setFilterState] = useState('');
+  const [filterState, setFilterState] = useState("");
 
   function filter(state) {
     setFilterState(state);
@@ -70,24 +70,42 @@ export default function Trips() {
   return (
     <div className="content content-trips-page">
       <div className="sidebar-filter">
-        <a href="#" onClick={() => filter()} className={!filterState ? 'active' : ''}><AllTimingsIcon /> all types</a>
-        <a href="#" onClick={() => filter('past')} className={filterState === 'past' ? 'active' : ''}><PastIcon /> past</a>
-        <a href="#" onClick={() => filter('future')} className={filterState === 'future' ? 'active' : ''}><FutureIcon /> future</a>
-        <a href="#" onClick={() => filter('live')} className={filterState === 'live' ? 'active' : ''}><LiveIcon /> live</a>
+        <button
+          onClick={() => filter()}
+          className={!filterState ? "active" : ""}
+        >
+          <AllTimingsIcon /> all types
+        </button>
+        <button
+          onClick={() => filter("past")}
+          className={filterState === "past" ? "active" : ""}
+        >
+          <PastIcon /> past
+        </button>
+        <button
+          onClick={() => filter("future")}
+          className={filterState === "future" ? "active" : ""}
+        >
+          <FutureIcon /> future
+        </button>
+        <button
+          onClick={() => filter("live")}
+          className={filterState === "live" ? "active" : ""}
+        >
+          <LiveIcon /> live
+        </button>{" "}
       </div>
       <div className="content-results">
-        {
-          results.map(country => (
-            <CountryResult
-              key={country.id}
-              name={country.name}
-              days={country.days}
-              city={country.city}
-              year={country.year}
-            />
-          ))
-        }
+        {results.map(country => (
+          <CountryResult
+            key={country.id}
+            name={country.name}
+            days={country.days}
+            city={country.city}
+            year={country.year}
+          />
+        ))}
       </div>
     </div>
-  )
+  );
 }

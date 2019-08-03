@@ -1,10 +1,11 @@
 $container: 1600px;
-@import "./scss/colors";
-@import "./components/Header/Header";
-@import "./pages/Profile/Profile";
-@import "./pages/Landing/Landing";
-@import "./pages/Home/MapPage";
-@import "./components/Prompts/PopupPrompts.scss";
+@import './scss/colors';
+@import './components/Header/Header';
+@import './pages/Profile/Profile';
+@import './pages/Landing/Landing';
+@import './pages/Home/MapPage';
+@import './components/Prompts/PopupPrompts.scss';
+@import './icons/Icons.scss';
 
 * {
   box-sizing: border-box;
