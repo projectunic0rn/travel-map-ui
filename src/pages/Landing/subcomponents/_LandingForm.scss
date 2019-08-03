@@ -9,6 +9,18 @@
     left: 50%;
     transform: translateX(-50%);
   }
+  .close-icon-container {
+    cursor: pointer;
+    .close-window-icon {
+      fill: white;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      border: 1px solid #fff;
+      border-radius: 4px;
+    }
+  }
+
   .landing-form-container {
     display: flex;
     min-height: 540px;
