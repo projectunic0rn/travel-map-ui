@@ -15,7 +15,7 @@ class SignupForm extends Component {
   }
   async confirmSignup(data) {
     this._saveUserData(data.loginUser.token)
-    this.props.handleUserLogin();
+    this.props.handleUserLogin(true);
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);

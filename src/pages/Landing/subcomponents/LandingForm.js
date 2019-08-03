@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
-const { useState } = React;
-
-function LandingForm(props) {
-  const [formActive, handleFormSwitch] = useState(0);
+function LandingForm({ handleUserLogin, setFormIsOpen }) {
+  const [formActive, handleFormSwitch] = useState(false);
   return (
     <div className="landing-form">
       <div className="landing-choice-container">
@@ -16,7 +14,7 @@ function LandingForm(props) {
               ? "landing-choice landing-choice-active"
               : "landing-choice"
           }
-          onClick={() => handleFormSwitch(0)}
+          onClick={() => handleFormSwitch(false)}
         >
           Login
         </span>
@@ -27,7 +25,7 @@ function LandingForm(props) {
               ? "landing-choice landing-choice-active"
               : "landing-choice"
           }
-          onClick={() => handleFormSwitch(1)}
+          onClick={() => handleFormSwitch(true)}
         >
           Sign Up
         </span>
@@ -35,13 +33,14 @@ function LandingForm(props) {
       <div className="landing-form-content">
         {formActive ? (
           <SignupForm
-            handleUserLogin={() => props.handleUserLogin()}
-            handleFormSwitch={() => handleFormSwitch(0)}
+            handleUserLogin={handleUserLogin}
+            handleFormSwitch={() => handleFormSwitch(false)}
           />
         ) : (
           <LoginForm
-            handleUserLogin={props.handleUserLogin}
-            handleFormSwitch={() => handleFormSwitch(1)}
+            setFormIsOpen={setFormIsOpen}
+            handleUserLogin={handleUserLogin}
+            handleFormSwitch={() => handleFormSwitch(false)}
           />
         )}
       </div>
