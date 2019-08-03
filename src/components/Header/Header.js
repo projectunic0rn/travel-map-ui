@@ -58,7 +58,7 @@ export default function Header({
               ""
             )}
           </div>
-          {/* <UserHeaderContainer handleUserLogout={handleUserLogout} /> */}
+          {userLoggedIn ? <UserHeaderContainer handleUserLogout={handleUserLogout} /> : null}
         </div>
       </header>
       <div
