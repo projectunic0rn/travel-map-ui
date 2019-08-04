@@ -1,6 +1,39 @@
 import gql from "graphql-tag";
 
 //QUERIES
+
+export const GET_ALL_USER_COUNTRIES = gql`
+  query {
+    users {
+      username
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+      Place_living {
+        id
+        country
+      }
+    }
+  }
+`;
+
 export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     getLoggedInUser {
