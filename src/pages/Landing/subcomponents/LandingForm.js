@@ -10,7 +10,7 @@ function LandingForm({ handleUserLogin, setFormIsOpen }) {
       <div className="landing-choice-container">
         <span
           className={
-            formActive === 0
+            formActive === false
               ? "landing-choice landing-choice-active"
               : "landing-choice"
           }
@@ -21,7 +21,7 @@ function LandingForm({ handleUserLogin, setFormIsOpen }) {
         <span style={{ color: "#747474" }}>or </span>
         <span
           className={
-            formActive === 1
+            formActive === true
               ? "landing-choice landing-choice-active"
               : "landing-choice"
           }
@@ -49,7 +49,8 @@ function LandingForm({ handleUserLogin, setFormIsOpen }) {
 }
 
 LandingForm.propTypes = {
-  handleUserLogin: PropTypes.func
+  handleUserLogin: PropTypes.func,
+  setFormIsOpen: PropTypes.func
 };
 
 export default LandingForm;

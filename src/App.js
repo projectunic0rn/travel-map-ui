@@ -8,7 +8,6 @@ import "./_App.scss";
 import socket from "./socket";
 
 function App() {
-  const [showHamburgerDropdown, handleHamburgerClick] = useState(false);
   const [userLoggedIn, handleUserLogin] = useState(false);
 
   if (!userLoggedIn) {

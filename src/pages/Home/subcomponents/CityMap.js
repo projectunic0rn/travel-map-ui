@@ -341,6 +341,9 @@ class CityMap extends Component {
 
   handleTripTimingCityHelper(city, timing) {
     let { clickedCityArray, tripTimingCounts } = this.state;
+    city.tripTiming = timing;
+    city.latitude = city.city_latitude / 1000000;
+    city.longitude = city.city_longitude / 1000000;
     clickedCityArray.push({
       city: city.city,
       cityId: city.cityId,
@@ -374,6 +377,12 @@ class CityMap extends Component {
               xmlns="http://www.w3.org/2000/svg"
             >
               <circle
+                onMouseOver={() =>
+                  this.setState({
+                    cityTooltip: city,
+                    placeVisitingId: city.id
+                  })
+                }
                 style={{ fill: color }}
                 key={"circle" + city.id}
                 cx="50"
@@ -409,6 +418,12 @@ class CityMap extends Component {
               xmlns="http://www.w3.org/2000/svg"
             >
               <circle
+                onMouseOver={() =>
+                  this.setState({
+                    cityTooltip: city,
+                    placeVisitedId: city.id
+                  })
+                }
                 style={{ fill: color }}
                 key={"circle" + city.id}
                 cx="50"
@@ -490,15 +505,15 @@ class CityMap extends Component {
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
-          style={{
-            background: "rgba(115, 167, 195, 0.75)",
-            color: "rgb(248, 248, 252)"
-          }}
         >
           {cityTooltip.city}
           <Mutation
             mutation={setMutation}
-            variables={(cityTooltip.tripTiming === 0) ? { placeVisitedId } : { placeVisitingId }}
+            variables={
+              cityTooltip.tripTiming === 0
+                ? { placeVisitedId }
+                : { placeVisitingId }
+            }
             onCompleted={() =>
               this.deleteCity(cityTooltip.id, cityTooltip.tripTiming)
             }
