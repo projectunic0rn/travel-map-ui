@@ -1,33 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
-const { useState } = React;
-
-function LandingForm(props) {
-  const [formActive, handleFormSwitch] = useState(0);
+function LandingForm({ handleUserLogin, setFormIsOpen }) {
+  const [formActive, handleFormSwitch] = useState(false);
   return (
     <div className="landing-form">
       <div className="landing-choice-container">
         <span
           className={
-            formActive === 0
+            formActive === false
               ? "landing-choice landing-choice-active"
               : "landing-choice"
           }
-          onClick={() => handleFormSwitch(0)}
+          onClick={() => handleFormSwitch(false)}
         >
           Login
         </span>
         <span style={{ color: "#747474" }}>or </span>
         <span
           className={
-            formActive === 1
+            formActive === true
               ? "landing-choice landing-choice-active"
               : "landing-choice"
           }
-          onClick={() => handleFormSwitch(1)}
+          onClick={() => handleFormSwitch(true)}
         >
           Sign Up
         </span>
@@ -35,13 +33,14 @@ function LandingForm(props) {
       <div className="landing-form-content">
         {formActive ? (
           <SignupForm
-            handleUserLogin={() => props.handleUserLogin()}
-            handleFormSwitch={() => handleFormSwitch(0)}
+            handleUserLogin={handleUserLogin}
+            handleFormSwitch={() => handleFormSwitch(false)}
           />
         ) : (
           <LoginForm
-            handleUserLogin={props.handleUserLogin}
-            handleFormSwitch={() => handleFormSwitch(1)}
+            setFormIsOpen={setFormIsOpen}
+            handleUserLogin={handleUserLogin}
+            handleFormSwitch={() => handleFormSwitch(false)}
           />
         )}
       </div>
@@ -50,7 +49,8 @@ function LandingForm(props) {
 }
 
 LandingForm.propTypes = {
-  handleUserLogin: PropTypes.func
+  handleUserLogin: PropTypes.func,
+  setFormIsOpen: PropTypes.func
 };
 
 export default LandingForm;

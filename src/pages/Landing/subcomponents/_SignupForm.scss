@@ -11,6 +11,7 @@
     margin-left: 20px;
     line-height: 20px;
     .landing-choice {
+      cursor: pointer;
       color: #747474;
       font-weight: 100;
       font-size: 20px;
@@ -31,97 +32,97 @@
     }
   }
 }
+.landing-form {
+  .signup-form {
+    margin: 2em 36px;
+  }
 
-.signup-form {
-  margin: 2em 36px;
-}
-
-.field {
-  display: flex;
-  flex-flow: column-reverse;
-  margin-bottom: 1em;
-}
-/**
+  .field {
+    display: flex;
+    flex-flow: column-reverse;
+    margin-bottom: 1em;
+  }
+  /**
   * Add a transition to the label and input.
   * I'm not even sure that touch-action: manipulation works on
   * inputs, but hey, it's new and cool and could remove the 
   * pesky delay.
   */
-label,
-input {
-  transition: all 0.2s;
-  touch-action: manipulation;
-}
+  label,
+  input {
+    transition: all 0.2s;
+    touch-action: manipulation;
+  }
 
-input {
-  font-size: 1.5em;
-  font-family: "Segoe UI";
-  font-weight: 100;
-  border: 0;
-  border-bottom: 0.5px solid #838589;
-  -webkit-appearance: none;
-  border-radius: 0;
-  padding: 0 0 4px 0 ;
-  cursor: text;
-  background: none;
-  color: rgb(168, 168, 172);
-}
+  input {
+    font-size: 1.5em;
+    font-family: "Segoe UI";
+    font-weight: 100;
+    border: 0;
+    border-bottom: 0.5px solid #838589;
+    -webkit-appearance: none;
+    border-radius: 0;
+    padding: 0 0 4px 0;
+    cursor: text;
+    background: none;
+    color: rgb(168, 168, 172);
+  }
 
-input:focus {
-  outline: 0;
-  border-bottom: 0.5px solid #ccc;
-}
+  input:focus {
+    outline: 0;
+    border-bottom: 0.5px solid #ccc;
+  }
 
-label {
-  font-weight: 100;
-  color: rgb(200, 200, 200);
-  text-transform: lowercase;
-  letter-spacing: 0.05em;
-}
-/**
+  label {
+    font-weight: 100;
+    color: rgb(200, 200, 200);
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+  }
+  /**
   * Translate down and scale the label up to cover the placeholder,
   * when following an input (with placeholder-shown support).
   * Also make sure the label is only on one row, at max 2/3rds of the
   * field—to make sure it scales properly and doesn't wrap.
   */
-input:placeholder-shown + label {
-  cursor: text;
-  max-width: 66.66%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transform-origin: left bottom;
-  transform: translate(0, 1.5rem) scale(1.25);
-}
-/**
+  input:placeholder-shown + label {
+    cursor: text;
+    max-width: 66.66%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform-origin: left bottom;
+    transform: translate(0, 1.5rem) scale(1.25);
+  }
+  /**
   * By default, the placeholder should be transparent. Also, it should 
   * inherit the transition.
   */
-::-webkit-input-placeholder {
-  opacity: 0;
-  transition: inherit;
-}
-/**
+  ::-webkit-input-placeholder {
+    opacity: 0;
+    transition: inherit;
+  }
+  /**
   * Show the placeholder when the input is focused.
   */
-input:focus::-webkit-input-placeholder {
-  opacity: 1;
-}
-/**
+  input:focus::-webkit-input-placeholder {
+    opacity: 1;
+  }
+  /**
   * When the element is focused, remove the label transform.
   * Also, do this when the placeholder is _not_ shown, i.e. when 
   * there's something in the input at all.
   */
-input:not(:placeholder-shown) + label,
-input:focus + label {
-  transform: translate(0, 0) scale(1);
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 10px;
-  cursor: pointer;
-}
+  input:not(:placeholder-shown) + label,
+  input:focus + label {
+    transform: translate(0, 0) scale(1);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 10px;
+    cursor: pointer;
+  }
 
-.login-button {
+  .login-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,7 +130,7 @@ input:focus + label {
     height: 60px;
     margin-top: 40px;
     border-radius: 8px;
-    background: #506E81;
+    background: #506e81;
     font-size: 20px;
     font-weight: 100;
     color: rgb(248, 248, 252);
@@ -137,9 +138,9 @@ input:focus + label {
     &:focus {
       outline: none;
     }
-}
+  }
 
-.form-switch {
+  .form-switch {
     display: flex;
     width: 100%;
     justify-content: center;
@@ -147,9 +148,11 @@ input:focus + label {
     height: 60px;
     color: rgb(120, 120, 120);
     span {
-        margin-left: 4px;
-        padding-bottom: 4px;
-        margin-top: 6px;
-        border-bottom: 1px solid #73A7C3;
+      cursor: pointer;
+      margin-left: 4px;
+      padding-bottom: 4px;
+      margin-top: 6px;
+      border-bottom: 1px solid #73a7c3;
     }
+  }
 }

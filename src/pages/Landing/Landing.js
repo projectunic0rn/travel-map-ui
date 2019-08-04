@@ -8,9 +8,13 @@ import {
 } from "react-simple-maps";
 import jsonData from "../../world-topo-min.json";
 
-import LandingForm from "./subcomponents/LandingForm";
-
-const placeWords = ["interesting", "diverse", "exciting", "unique", "beautiful"];
+const placeWords = [
+  "INTERESTING",
+  "DIVERSE",
+  "EXCITING",
+  "UNIQUE",
+  "BEAUTIFUL"
+];
 
 class Landing extends Component {
   constructor(props) {
@@ -26,9 +30,9 @@ class Landing extends Component {
 
   componentWillMount() {
     localStorage.clear();
-      setInterval(() => {
-        this.changeWordIndex();
-      }, 5000);
+    setInterval(() => {
+      this.changeWordIndex();
+    }, 5000);
   }
 
   setActive(event) {
@@ -64,13 +68,17 @@ class Landing extends Component {
           height={600}
           style={{
             width: "100%",
-            height: "auto", 
+            height: "auto",
             position: "absolute",
-            "zIndex": "-1",
+            zIndex: "-1",
             transform: "translateY(-36px)"
           }}
         >
-          <ZoomableGroup center={this.state.center} zoom={this.state.zoom} disablePanning = {true}>
+          <ZoomableGroup
+            center={this.state.center}
+            zoom={this.state.zoom}
+            disablePanning={true}
+          >
             <Geographies geography={jsonData}>
               {(geographies, projection) =>
                 geographies.map(
@@ -108,9 +116,9 @@ class Landing extends Component {
           </ZoomableGroup>
         </ComposableMap>
         <div className="landing-motto-container">
-          <span>the world is full of</span>
+          <span>THE WORLD IS FULL OF</span>
           <span className="rotating-word">{placeWords[wordIndex]}</span>
-          <span>places.</span>
+          <span>PLACES.</span>
           <span className="landing-motto-two">
             <span>explore</span> and <span>share</span> them.
           </span>
@@ -121,9 +129,9 @@ class Landing extends Component {
             <span className="landing-yellow-bar" />
           </div>
         </div>
-        <div className="landing-form-container">
+        {/* <div className="landing-form-container">
           <LandingForm handleUserLogin={() => this.props.handleUserLogin(1)} />
-        </div>
+        </div> */}
       </div>
     );
   }

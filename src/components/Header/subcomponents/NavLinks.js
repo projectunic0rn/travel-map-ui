@@ -1,29 +1,37 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import HamburgerMenu from './HamburgerMenu';
 
-export default function NavLinks(props) {
-  function handleHamburgerClick(val) {
-    props.handleHamburgerClick(val);
-  }
-  return (
-    <div className="nav-menu-container">
-      <NavLink exact to="/">
-        Personal
-      </NavLink>
-      <NavLink exact to="/friends">
-        Friends
-      </NavLink>
-      <NavLink to="/profile/">Profile</NavLink>
-      <div className = 'nav-hamburger'>
-        <HamburgerMenu handleHamburgerClick = {handleHamburgerClick} showHamburger = {props.showHamburgerDropdown}/>
+export default function NavLinks({
+  userLoggedIn,
+  toggleFormIsOpen,
+  formIsOpen
+}) {
+  if (userLoggedIn) {
+    return (
+      <Fragment>
+        <NavLink exact to="/">
+          Personal
+        </NavLink>
+        <NavLink exact to="/friends">
+          Friends
+        </NavLink>
+        <NavLink exact to="/profile/">
+          Profile
+        </NavLink>
+      </Fragment>
+    );
+  } else {
+    return (
+      <div>
+        <a onClick={toggleFormIsOpen} className={formIsOpen ? "active" : ""}>
+          Login
+        </a>
       </div>
-    </div>
-  );
+    );
+  }
 }
-
 NavLinks.propTypes = {
-  handleHamburgerClick: PropTypes.func, 
+  handleHamburgerClick: PropTypes.func,
   showHamburgerDropdown: PropTypes.number
 };

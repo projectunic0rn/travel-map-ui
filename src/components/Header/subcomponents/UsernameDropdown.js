@@ -43,11 +43,11 @@ function UsernameDropdown(props) {
         <div className="username-dropdown-container">
           <span className="username-dropdown-triangle" />
           <ul className="username-dropdown-links" onClick={props.onClickOut}>
-            <Link to="/profile" className="ud-link">
+            <Link to="/profile/" className="ud-link">
                 <PersonIcon />
                 Profile
             </Link>
-            <Link to="/profile" className="ud-link">
+            <Link to="/profile/settings" className="ud-link">
                 <SettingsIcon />
                 Settings
             </Link>

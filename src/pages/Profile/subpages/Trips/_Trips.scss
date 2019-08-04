@@ -2,20 +2,36 @@
   display: grid;
   grid-template-columns: [sidebar] 180px [content] auto;
   .sidebar-filter {
+    display: flex;
+    flex-direction: column;
+
     padding-top: 20px;
     border-right: 1px solid rgba(black, 0.2);
-    a {
-      display: block;
+    button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       text-decoration: none;
+      font-family: 'Segoe UI', sans-serif;
       font-size: 20px;
       font-weight: 300;
       color: $link-color;
       letter-spacing: 3px;
       text-align: right;
-      padding: 10px 20px;
-      transition: .2s linear all;
-      &.active, &:hover {
+      padding: 10px 10px;
+      transition: 0.2s linear all;
+      background: none;
+      border: none;
+      svg {
+        fill: #8792a4;
+      }
+      &.active,
+      &:hover {
         color: white;
+        outline: none;
+        svg {
+          fill: #a7e1ff;
+        }
       }
     }
   }
@@ -44,11 +60,37 @@
       .country-name {
         letter-spacing: 3px;
         text-transform: uppercase;
-        color: #6E7377;
+        color: #6e7377;
         grid-column: 2/5;
         justify-self: left;
         align-self: center;
         font-weight: 600;
+      }
+      .day-count {
+        display: flex;
+        align-items: center;
+        max-height: 24px;
+        color: #b1b1b1;
+        font-size: 17px;
+        font-weight: 550;
+        svg {
+          height: 20px;
+          margin-right: 4px;
+          fill: #dcdcdc;
+        }
+      }
+      .city-count {
+        display: flex;
+        align-items: center;
+        max-height: 24px;
+        color: #b1b1b1;
+        font-size: 17px;
+        font-weight: 550;
+        svg {
+          height: 20px;
+          margin-right: 4px;
+          fill: #dcdcdc;
+        }
       }
       .year {
         width: 25px;

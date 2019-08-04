@@ -1,28 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Mutation, compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
-
-const SIGNUP_MUTATION = gql`
-  mutation registerUser(
-    $username: String!
-    $fullName: String!
-    $email: String!
-    $password: String!
-  ) {
-    registerUser(
-      username: $username
-      full_name: $fullName
-      email: $email
-      password: $password
-    ) {
-      token
-    }
-    loginUser(username: $username, password: $password) {
-      token
-    }
-  }
-`;
+import { SIGNUP_USER } from '../../../GraphQL';
 
 class SignupForm extends Component {
   constructor(props) {
@@ -36,7 +15,7 @@ class SignupForm extends Component {
   }
   async confirmSignup(data) {
     this._saveUserData(data.loginUser.token)
-    this.props.handleUserLogin();
+    this.props.handleUserLogin(true);
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
@@ -83,6 +62,7 @@ class SignupForm extends Component {
           <input
             type="password"
             data-ng-model="password"
+            autoComplete="on"
             required
             onChange={e => this.setState({ password: e.target.value })}
             name="password"
@@ -93,7 +73,7 @@ class SignupForm extends Component {
           <label htmlFor="password">password</label>
         </div>
         <Mutation
-          mutation={SIGNUP_MUTATION}
+          mutation={SIGNUP_USER}
           variables={{ username, fullName, email, password }}
           onCompleted={data => this.confirmSignup(data)}
         >
@@ -118,4 +98,4 @@ SignupForm.propTypes = {
 };
 
 export default compose(
-  graphql(SIGNUP_MUTATION, { name: 'signupUserMutation'}))(SignupForm);
+  graphql(SIGNUP_USER, { name: 'signupUserMutation'}))(SignupForm);

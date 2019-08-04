@@ -1,24 +1,19 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import UsernameDropdown from "./UsernameDropdown";
-
-const GET_LOGGEDIN_USER_QUERY = gql`
-  query getLoggedInUser {
-    getLoggedInUser {
-      id
-      username
-    }
-  }
-`;
+import { GET_LOGGEDIN_USER } from "../../../GraphQL";
 
 function UserHeaderContainer(props) {
   const [dropdown, handleDropdownClick] = useState(0);
   return (
-    <Query query={GET_LOGGEDIN_USER_QUERY} notifyOnNetworkStatusChange fetchPolicy={'cache-and-network'}>
-      {({ loading, error, data}) => {
+    <Query
+      query={GET_LOGGEDIN_USER}
+      notifyOnNetworkStatusChange
+      fetchPolicy={"cache-and-network"}
+    >
+      {({ loading, error, data }) => {
         if (loading) return null;
         if (error) return `Error! ${error}`;
         return (

@@ -5,6 +5,7 @@ import { ApolloProvider } from "react-apollo";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+
 require('dotenv').config();
 
 let clientUrl = '';
@@ -27,6 +28,9 @@ if (process.env.REACT_APP_PROD_API_URL != null) {
       });
   }}
   });
+
+
+
 
 ReactDOM.render(
   <ApolloProvider client={client}>

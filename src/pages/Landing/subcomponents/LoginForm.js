@@ -1,18 +1,9 @@
-import React, { Component, } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import Swal from 'sweetalert2'
-
-
-
-const LOGIN_MUTATION = gql`
-  mutation loginUser($username: String!, $password: String!) {
-    loginUser(username: $username, password: $password) {
-      token
-    }
-  }
-`;
+import Swal from "sweetalert2";
+import socket from "../../../socket";
+import { LOGIN_USER } from "../../../GraphQL";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -25,29 +16,38 @@ class LoginForm extends Component {
   }
   async confirmLogin(data) {
     this._saveUserData(data.loginUser.token);
-    this.props.handleUserLogin();
+    this.props.handleUserLogin(true);
+    this.props.setFormIsOpen(false);
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
+    if (token) {
+      socket.emit("user-connected", token);
+    }
   }
 
   handleInvalidCredentials() {
     Swal.fire({
-      type: 'error',
-      title: 'Oops...',
-      text: 'Your credentials were invalid'    })
+      type: "error",
+      title: "Oops...",
+      text: "Your credentials were invalid"
+    });
   }
 
   render() {
     const { username, password } = this.state;
-    const { handleFormSwitch } = this.state;
+    const { handleFormSwitch } = this.props;
     return (
-      <form className="signup-form" action="" onSubmit={(e) => e.preventDefault()}>
+      <form
+        className="signup-form"
+        action=""
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div className="field">
           <input
             type="text"
             required
-            onChange={e => this.setState({ username: e.target.value })}
+            onChange={(e) => this.setState({ username: e.target.value })}
             name="username"
             id="username"
             placeholder="enter a username"
@@ -58,8 +58,9 @@ class LoginForm extends Component {
           <input
             type="password"
             data-ng-model="password"
+            autoComplete="on"
             required
-            onChange={e => this.setState({ password: e.target.value })}
+            onChange={(e) => this.setState({ password: e.target.value })}
             name="password"
             minLength="4"
             id="password"
@@ -68,22 +69,21 @@ class LoginForm extends Component {
           <label htmlFor="password">password</label>
         </div>
         <Mutation
-          mutation={LOGIN_MUTATION}
+          mutation={LOGIN_USER}
           variables={{ username, password }}
-          onCompleted={data => this.confirmLogin(data)}
+          onCompleted={(data) => this.confirmLogin(data)}
           onError={() => this.handleInvalidCredentials()}
         >
-          {(mutation, { loading}) => (
+          {(mutation, { loading }) => (
             <div>
-                <button className="login-button" onClick={mutation}>
-                  { !loading ? 'Login' : "Logging in..."}
-               </button>
+              <button className="login-button" onClick={mutation}>
+                {!loading ? "Login" : "Logging in..."}
+              </button>
             </div>
-          
           )}
         </Mutation>
         <span className="form-switch">
-          I need to make an account.{" "}
+          Don't have an account yet?{" "}
           <span onClick={handleFormSwitch}>Sign up</span>
         </span>
       </form>
