@@ -12,7 +12,7 @@ export default function Header({
   handleUserLogin
 }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(false);
+  let [formIsOpen, setFormIsOpen] = useState(true);
 
   function handleHamburgerResponse(val) {
     handleHamburgerClick(val);

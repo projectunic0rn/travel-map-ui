@@ -19,6 +19,10 @@ const placeWords = [
 class Landing extends Component {
   constructor(props) {
     super(props);
+
+    // declare it class-wide so that it can be demounted
+    this.wordIndexInterval = undefined;
+
     this.state = {
       activeTab: "loginTab",
       wordIndex: 0
@@ -30,9 +34,13 @@ class Landing extends Component {
 
   componentWillMount() {
     localStorage.clear();
-    setInterval(() => {
+    this.wordIndexInterval = setInterval(() => {
       this.changeWordIndex();
     }, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.wordIndexInterval);
   }
 
   setActive(event) {

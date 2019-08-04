@@ -13,7 +13,7 @@ function App() {
   if (!userLoggedIn) {
     return (
       <Router>
-        <Header handleUserLogin={handleUserLogin}  />
+        <Header handleUserLogin={handleUserLogin} />
         <Landing />
       </Router>
     );

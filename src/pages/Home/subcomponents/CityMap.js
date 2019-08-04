@@ -73,7 +73,7 @@ class CityMap extends Component {
     let clickedCityArray = this.state.clickedCityArray;
     let cityIndex = null;
     clickedCityArray.find((city, i) => {
-      if (city.id == cityId) {
+    if (city.id === cityId) {
         cityIndex = i;
         return true;
       } else {

@@ -1,3 +1,6 @@
+@import "./Sidebar/Sidebar";
+@import "./ProfileNav";
+@import "./subpages/Trips/Trips";
 
 .page-profile {
   .container {
@@ -6,14 +9,14 @@
     grid-template-rows: [nav] 70px [content] auto;
     grid-gap: 10px 20px;
     padding-bottom: 25px;
+    @media (max-width: 850px) {
+      grid-template-columns: [sidebar] 280px [content] auto;
+    }
   }
 
-  @import './Sidebar';
-  @import './ProfileNav';
-  @import "./subpages/Trips/Trips";
-
-  .content-nav, .content {
-    background: #656F80;
+  .content-nav,
+  .content {
+    background: #656f80;
     box-shadow: 1px 2px 1px rgba(#000, 0.16);
     border-radius: 4px;
   }
