@@ -5,7 +5,7 @@ import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
+import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -29,7 +29,8 @@ class FriendCityMap extends Component {
       activeTimings: [1, 1, 1],
       loading: true,
       activePopup: false,
-      cityTooltip: null
+      cityTooltip: null,
+      hoveredCityArray: null
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -46,6 +47,7 @@ class FriendCityMap extends Component {
     this.showPopup = this.showPopup.bind(this);
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
+    this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
   }
 
   componentDidMount() {
@@ -227,6 +229,7 @@ class FriendCityMap extends Component {
 
   handleLoadedCities(data) {
     const { tripTimingCounts, clickedCityArray } = this.state;
+    console.log(data);
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -241,6 +244,8 @@ class FriendCityMap extends Component {
               city: data[i].Places_visited[j].city,
               latitude: data[i].Places_visited[j].city_latitude / 1000000,
               longitude: data[i].Places_visited[j].city_longitude / 1000000,
+              country: data[i].Places_visited[j].country,
+              countryId: data[i].Places_visited[j].countryId,
               tripTiming: 0
             });
             pastCount++;
@@ -257,6 +262,8 @@ class FriendCityMap extends Component {
               city: data[i].Places_visiting[j].city,
               latitude: data[i].Places_visiting[j].city_latitude / 1000000,
               longitude: data[i].Places_visiting[j].city_longitude / 1000000,
+              country: data[i].Places_visiting[j].country,
+              countryId: data[i].Places_visiting[j].countryId,
               tripTiming: 1
             });
             futureCount++;
@@ -276,6 +283,8 @@ class FriendCityMap extends Component {
             city: data[i].Place_living.city,
             latitude: data[i].Place_living.city_latitude / 1000000,
             longitude: data[i].Place_living.city_longitude / 1000000,
+            country: data[i].Place_living.country,
+            countryId: data[i].Place_living.countryId,
             tripTiming: 2
           });
           liveCount++;
@@ -325,13 +334,20 @@ class FriendCityMap extends Component {
         >
           <div
             className="popup-text"
-            onClick={() => console.log("popup clicked")}
+            onClick={() => this.handleHoveredCityArray(hoveredCityArray)}
           >
             {cityTooltip.city}
           </div>
         </Popup>
       )
     );
+  }
+
+  handleHoveredCityArray(hoveredCityArray) {
+      this.setState({
+          activePopup: true,
+          hoveredCityArray
+      })
   }
 
   render() {
@@ -397,10 +413,9 @@ class FriendCityMap extends Component {
           <PopupPrompt
             activePopup={activePopup}
             showPopup={this.showPopup}
-            component={ClickedCityContainer}
+            component={FriendClickedCityContainer}
             componentProps={{
-              cityInfo: clickedCity,
-              handleTripTiming: this.handleTripTiming
+              hoveredCityArray: this.state.hoveredCityArray
             }}
           />
         ) : null}

@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function LiveIcon() {
+function LiveIcon(props) {
   return (
     <svg
-      className="live-icon"
+      className={props.className}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 17"
       width="20"
@@ -15,6 +16,11 @@ function LiveIcon() {
       />
     </svg>
   );
+}
+
+
+LiveIcon.propTypes = {
+  className: PropTypes.string
 }
 
 export default LiveIcon;
