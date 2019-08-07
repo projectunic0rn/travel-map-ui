@@ -33,9 +33,10 @@
   }
   
   .user-trip-title {
-    display: inline-block;
+    display: inline;
     position: relative;
-    margin: 12px -6px 8px 0;
+    text-align: center;
+    margin: 10px auto;
     font-weight: 600;
     font-size: 12px;
     color: #C8C8C8;

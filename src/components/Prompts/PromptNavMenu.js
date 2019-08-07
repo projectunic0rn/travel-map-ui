@@ -6,9 +6,12 @@ import PastIcon from '../../icons/PastIcon';
 import LiveIcon from '../../icons/LiveIcon';
 
 
-function SecondaryNavBar(props) {
-  const [navPosition, handleNavPositionChange] = useState(0);
-  console.log(navPosition)
+function PromptNavMenu(props) {
+  const [navPosition, handleNavPosition] = useState(0);
+  function handleNavPositionChange(position) {
+    handleNavPosition(position);
+    props.handleNavPosition(position);
+  }
   let classNames = [
     'secondary-nav-icon' +
       (navPosition === 0 ? ' secondary-nav-icon-all-active' : ''),
@@ -60,4 +63,8 @@ function SecondaryNavBar(props) {
   );
 }
 
-export default SecondaryNavBar;
+PromptNavMenu.propTypes = {
+  handleNavPosition: PropTypes.func
+}
+
+export default PromptNavMenu;
