@@ -28,11 +28,11 @@ function useComponentVisible(initialIsVisible) {
   return { ref, isComponentVisible, setIsComponentVisible };
 }
 
-function UsernameDropdown({ handleUserLogout, onClickOut }) {
+function UsernameDropdown({ setUserLoggedIn, onClickOut }) {
   const { ref, isComponentVisible } = useComponentVisible(true);
   function logoutClicked() {
     localStorage.removeItem("token");
-    handleUserLogout(false);
+    setUserLoggedIn(false);
   }
   if (!isComponentVisible) {
     onClickOut();
@@ -64,7 +64,7 @@ function UsernameDropdown({ handleUserLogout, onClickOut }) {
 
 UsernameDropdown.propTypes = {
   onClickOut: PropTypes.func,
-  handleUserLogout: PropTypes.func
+  setUserLoggedIn: PropTypes.func
 };
 
 export default UsernameDropdown;

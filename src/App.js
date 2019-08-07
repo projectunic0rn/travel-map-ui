@@ -1,25 +1,18 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useState, Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
+import socket from "./socket";
 
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import Profile from "./pages/Profile/Profile";
+import PageNotFound from "./components/common/PageNotFound";
 import "./_App.scss";
-import socket from "./socket";
 
 function App({ userAuthenticated }) {
-  const [userLoggedIn, handleUserLogin] = useState(userAuthenticated);
+  const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
 
-  if (!userLoggedIn) {
-    return (
-      <Router>
-        <Header handleUserLogin={handleUserLogin} />
-        <Landing />
-      </Router>
-    );
-  }
   socket.on("new-friend-request", (data) => {
     alert(data.senderData.username + " has sent you a friend request!");
   });
@@ -30,10 +23,18 @@ function App({ userAuthenticated }) {
 
   return (
     <Router>
-      <Header handleUserLogout={handleUserLogin} userLoggedIn={userLoggedIn} />
-      <Route exact path="/" component={MapPage} />
-      {/* TODO: highlight trips when visiting /profile? or redirect /profile page to /profile/trips or use /profile/trips here instead */}
-      <Route path="/profile/" component={Profile} />
+      <Header setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} />
+      {userLoggedIn ? (
+        <Fragment>
+          <Switch>
+            <Route exact path="/" component={MapPage} />
+            <Route path="/profile/" component={Profile} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </Fragment>
+      ) : (
+        <Landing />
+      )}
     </Router>
   );
 }

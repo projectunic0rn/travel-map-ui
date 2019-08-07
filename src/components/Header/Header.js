@@ -6,11 +6,7 @@ import SiteLogo from "./subcomponents/SiteLogo";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
-export default function Header({
-  handleUserLogout,
-  userLoggedIn,
-  handleUserLogin
-}) {
+export default function Header({ userLoggedIn, setUserLoggedIn }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
   let [formIsOpen, setFormIsOpen] = useState(userLoggedIn ? false : true);
 
@@ -45,14 +41,14 @@ export default function Header({
             {formIsOpen ? (
               <LandingForm
                 setFormIsOpen={setFormIsOpen}
-                handleUserLogin={handleUserLogin}
+                setUserLoggedIn={setUserLoggedIn}
               />
             ) : (
               ""
             )}
           </div>
           {userLoggedIn ? (
-            <UserHeaderContainer handleUserLogout={handleUserLogout} />
+            <UserHeaderContainer setUserLoggedIn={setUserLoggedIn} />
           ) : null}
         </div>
       </header>
@@ -74,7 +70,6 @@ export default function Header({
 }
 
 Header.propTypes = {
-  handleUserLogout: PropTypes.func,
   userLoggedIn: PropTypes.bool,
-  handleUserLogin: PropTypes.func
+  setUserLoggedIn: PropTypes.func
 };

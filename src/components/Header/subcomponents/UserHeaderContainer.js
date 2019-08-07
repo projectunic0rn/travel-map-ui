@@ -28,7 +28,7 @@ function UserHeaderContainer(props) {
               {dropdown ? (
                 <UsernameDropdown
                   onClickOut={() => handleDropdownClick(false)}
-                  handleUserLogout={props.handleUserLogout}
+                  setUserLoggedIn={props.setUserLoggedIn}
                 />
               ) : null}
               <UserAvatar />
@@ -41,7 +41,7 @@ function UserHeaderContainer(props) {
 }
 
 UserHeaderContainer.propTypes = {
-  handleUserLogout: PropTypes.func
+  setUserLoggedIn: PropTypes.func
 };
 
 export default UserHeaderContainer;
