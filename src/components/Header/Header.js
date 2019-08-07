@@ -12,15 +12,8 @@ export default function Header({
   handleUserLogin
 }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(true);
+  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn ? false : true);
 
-  function handleHamburgerResponse(val) {
-    handleHamburgerClick(val);
-  }
-
-  function toggleFormIsOpen() {
-    setFormIsOpen(!formIsOpen);
-  }
   return (
     <Fragment>
       <header className="header-container">
@@ -33,7 +26,7 @@ export default function Header({
             <NavLinks
               userLoggedIn={userLoggedIn}
               formIsOpen={formIsOpen}
-              toggleFormIsOpen={toggleFormIsOpen}
+              toggleFormIsOpen={setFormIsOpen}
             />
             <div className="nav-hamburger">
               <div
@@ -43,7 +36,7 @@ export default function Header({
                     : "hamburger-icon"
                 }
                 id="ham"
-                onClick={() => handleHamburgerResponse(!showHamburgerDropdown)}
+                onClick={() => handleHamburgerClick(!showHamburgerDropdown)}
               >
                 <span className="hamburger-a" />
                 <span className="hamburger-b" />
@@ -73,7 +66,7 @@ export default function Header({
         <NavLinks
           userLoggedIn={userLoggedIn}
           formIsOpen={formIsOpen}
-          toggleFormIsOpen={toggleFormIsOpen}
+          toggleFormIsOpen={setFormIsOpen}
         />
       </div>
     </Fragment>

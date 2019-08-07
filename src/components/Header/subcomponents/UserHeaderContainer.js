@@ -6,7 +6,7 @@ import UsernameDropdown from "./UsernameDropdown";
 import { GET_LOGGEDIN_USER } from "../../../GraphQL";
 
 function UserHeaderContainer(props) {
-  const [dropdown, handleDropdownClick] = useState(0);
+  const [dropdown, handleDropdownClick] = useState(false);
   return (
     <Query
       query={GET_LOGGEDIN_USER}
@@ -21,13 +21,13 @@ function UserHeaderContainer(props) {
             <div className="user-link">
               <span
                 className="header-username"
-                onMouseOver={() => handleDropdownClick(1)}
+                onMouseOver={() => handleDropdownClick(true)}
               >
                 {data.getLoggedInUser.username}
               </span>
               {dropdown ? (
                 <UsernameDropdown
-                  onClickOut={() => handleDropdownClick(0)}
+                  onClickOut={() => handleDropdownClick(false)}
                   handleUserLogout={props.handleUserLogout}
                 />
               ) : null}

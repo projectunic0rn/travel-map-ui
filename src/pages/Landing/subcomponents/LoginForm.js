@@ -83,7 +83,7 @@ class LoginForm extends Component {
           )}
         </Mutation>
         <span className="form-switch">
-          Don't have an acount yet?{" "}
+          Don't have an account yet?{" "}
           <span onClick={handleFormSwitch}>Sign up</span>
         </span>
       </form>

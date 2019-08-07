@@ -12,7 +12,7 @@ function useComponentVisible(initialIsVisible) {
   );
   const ref = useRef(null);
 
-  const handleClickOutside = event => {
+  const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setIsComponentVisible(false);
     }
@@ -28,32 +28,32 @@ function useComponentVisible(initialIsVisible) {
   return { ref, isComponentVisible, setIsComponentVisible };
 }
 
-function UsernameDropdown(props) {
+function UsernameDropdown({ handleUserLogout, onClickOut }) {
   const { ref, isComponentVisible } = useComponentVisible(true);
   function logoutClicked() {
     localStorage.removeItem("token");
-    props.handleUserLogout(0);
+    handleUserLogout(false);
   }
   if (!isComponentVisible) {
-    props.onClickOut();
+    onClickOut();
   }
   return (
     <div ref={ref}>
       {isComponentVisible && (
         <div className="username-dropdown-container">
           <span className="username-dropdown-triangle" />
-          <ul className="username-dropdown-links" onClick={props.onClickOut}>
+          <ul className="username-dropdown-links" onClick={onClickOut}>
             <Link to="/profile/" className="ud-link">
-                <PersonIcon />
-                Profile
+              <PersonIcon />
+              Profile
             </Link>
             <Link to="/profile/settings" className="ud-link">
-                <SettingsIcon />
-                Settings
+              <SettingsIcon />
+              Settings
             </Link>
             <Link to="/" onClick={logoutClicked} className="ud-link">
-                <LogoutIcon />
-                Logout
+              <LogoutIcon />
+              Logout
             </Link>
           </ul>
         </div>
