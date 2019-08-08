@@ -29,8 +29,9 @@ function App({ userAuthenticated }) {
         <Fragment>
           <Switch>
             <Route exact path="/" component={MapPage} />
-            <Route exact path="/friends" component = {FriendMapPage} />
+
             <Route path="/profile/" component={Profile} />
+            <Route path="/friends/" component={FriendMapPage} />
             <Route component={PageNotFound} />
           </Switch>
         </Fragment>
