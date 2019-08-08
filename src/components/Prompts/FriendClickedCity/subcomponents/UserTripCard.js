@@ -6,12 +6,12 @@ function UserTripCard(props) {
     <div className="user-trip-card">
       <div className="user-profile-image" />
       <div className="utc-user-info-container">
-        <span className="utc-username">{props.cityTrip.username}</span>
-        <span className="utc-duration"># days</span>
+        <span className="utc-username">{props.trip.username}</span>
+        <span className="utc-duration">{props.metricValue} {props.metric}</span>
       </div>
       <div
         className={
-          "utc-year-container utc-year-container-" + props.cityTrip.tripTiming
+          "utc-year-container utc-year-container-" + props.trip.tripTiming
         }
       >
         <p />
@@ -21,7 +21,9 @@ function UserTripCard(props) {
 }
 
 UserTripCard.propTypes = {
-  cityTrip: PropTypes.object
+  trip: PropTypes.object,
+  metricValue: PropTypes.number,
+  metric: PropTypes.string
 };
 
 export default UserTripCard;

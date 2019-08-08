@@ -22,7 +22,12 @@ function FriendClickedCityContainer(props) {
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
-              <UserTripCard cityTrip={city} key={i} />
+              <UserTripCard
+                trip={city}
+                key={i}
+                metric={"days"}
+                metricValue={0}
+              />
             </>
           );
         } else if (
@@ -34,11 +39,18 @@ function FriendClickedCityContainer(props) {
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
-              <UserTripCard cityTrip={city} key={i} />
+              <UserTripCard
+                trip={city}
+                key={i}
+                metric={"days"}
+                metricValue={0}
+              />
             </>
           );
         } else {
-          return <UserTripCard cityTrip={city} key={i} />;
+          return (
+            <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+          );
         }
       });
       break;
@@ -46,40 +58,36 @@ function FriendClickedCityContainer(props) {
       filteredHoveredCityArray = hoveredCityArray.filter(city => {
         return city.tripTiming === 0;
       });
-      userTripTitle = (
-        <div className="user-trip-title">
-          PAST
-        </div>
-      );
+      userTripTitle = <div className="user-trip-title">PAST</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
-        return <UserTripCard cityTrip={city} key={i} />;
+        return (
+          <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+        );
       });
       break;
     case 2:
       filteredHoveredCityArray = hoveredCityArray.filter(city => {
         return city.tripTiming === 1;
       });
-      userTripTitle = (
-        <div className="user-trip-title">
-          FUTURE
-        </div>
-      );
+      userTripTitle = <div className="user-trip-title">FUTURE</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
-        return <UserTripCard cityTrip={city} key={i} />;
+        return (
+          <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+        );
       });
       break;
     case 3:
       filteredHoveredCityArray = hoveredCityArray.filter(city => {
         return city.tripTiming === 2;
       });
-      userTripTitle = (
-        <div className="user-trip-title">
-          LIVE
-        </div>
-      );
+      userTripTitle = <div className="user-trip-title">LIVE</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
-        return <UserTripCard cityTrip={city} key={i} />;
+        return (
+          <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+        );
       });
+      break;
+    default:
       break;
   }
 
@@ -96,7 +104,10 @@ function FriendClickedCityContainer(props) {
         </div>
       </div>
       <PromptNavMenu handleNavPosition={handleNewNavPosition} />
-      {userTripTitle}{friendTrips}
+      <div className="friend-trip-container">
+        {userTripTitle}
+        {friendTrips}
+      </div>
     </div>
   );
 }

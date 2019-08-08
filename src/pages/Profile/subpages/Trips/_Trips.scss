@@ -8,11 +8,12 @@
     padding-top: 20px;
     border-right: 1px solid rgba(black, 0.2);
     button {
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
       text-decoration: none;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Segoe UI", sans-serif;
       font-size: 20px;
       font-weight: 300;
       color: $link-color;
@@ -38,10 +39,11 @@
   .content-results {
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 85px);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-rows: repeat(auto-fill, 85px);
     grid-gap: 10px;
     .result-country {
+      height: 85px;
       display: grid;
       background-color: #fff;
       border-radius: 4px;

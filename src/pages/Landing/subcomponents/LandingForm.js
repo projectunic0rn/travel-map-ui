@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import CloseWindowIcon from "../../../icons/CloseWindowIcon";
 
-function LandingForm({ handleUserLogin, setFormIsOpen }) {
+function LandingForm({ setUserLoggedIn, setFormIsOpen }) {
   const [formActive, handleFormSwitch] = useState(false);
   return (
     <div className="landing-form">
+      <div
+        onClick={() => setFormIsOpen(false)}
+        className="close-icon-container"
+      >
+        <CloseWindowIcon />
+      </div>
       <div className="landing-choice-container">
         <span
           className={
@@ -33,14 +41,14 @@ function LandingForm({ handleUserLogin, setFormIsOpen }) {
       <div className="landing-form-content">
         {formActive ? (
           <SignupForm
-            handleUserLogin={handleUserLogin}
+            setUserLoggedIn={setUserLoggedIn}
             handleFormSwitch={() => handleFormSwitch(false)}
           />
         ) : (
           <LoginForm
             setFormIsOpen={setFormIsOpen}
-            handleUserLogin={handleUserLogin}
-            handleFormSwitch={() => handleFormSwitch(false)}
+            setUserLoggedIn={setUserLoggedIn}
+            handleFormSwitch={() => handleFormSwitch(true)}
           />
         )}
       </div>
@@ -49,7 +57,7 @@ function LandingForm({ handleUserLogin, setFormIsOpen }) {
 }
 
 LandingForm.propTypes = {
-  handleUserLogin: PropTypes.func,
+  setUserLoggedIn: PropTypes.func,
   setFormIsOpen: PropTypes.func
 };
 
