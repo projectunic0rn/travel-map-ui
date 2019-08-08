@@ -1,0 +1,115 @@
+.navbar-secondary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: -10px 0 20px 0;
+    z-index: 2;
+  }
+  
+  .nav-icons {
+    position: relative;
+    min-width: 304px;
+    height: 45px;
+    background: rgb(235, 230, 230);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .secondary-nav-icon-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-2px);
+  }
+  
+  .secondary-nav-icon-container svg:hover {
+    cursor: pointer;
+  }
+  
+  .secondary-nav-icon-container-active {
+    background: rgb(248, 248, 252);
+    height: 52px;
+    border-radius: 25px;
+    box-shadow: 0 2px 6px 0 rgba(183, 183, 183, 0.42);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .secondary-nav-icon {
+    height: 24px;
+    fill: #b4b4b4;
+  }
+  
+  .secondary-nav-icon-all-active {
+    #Path_10 {
+      fill: #CB7678;
+    }
+    #Path_9 {
+      fill: #73A7C3;
+    }
+    #Path_11 {
+      fill: #DCB339;
+    }
+    #Path_8 {
+      fill: #96B1A8;
+    }
+  }
+  
+  .secondary-nav-icon-live-active {
+    fill: #bee5bf;
+  }
+  
+  .secondary-nav-icon-future-active {
+    fill: #73A7C3;
+  }
+
+  .secondary-nav-icon-past-active {
+    fill: #CB7678;
+  }
+  
+  .nav-icons i {
+    margin-left: 20px;
+  }
+  
+  .nav-icons div:nth-child(3) svg {
+    transform: translateX(2px);
+  }
+  
+  .nav-icon {
+    transform: scale(1.25);
+    color: rgb(160, 160, 160);
+    padding: 5px 10px;
+    margin: 5px 10px;
+    border-radius: 3px;
+    text-decoration: none !important;
+  }
+  
+  .nav-icon:hover {
+    background-color: rgb(160, 160, 160);
+    color: rgb(220, 220, 220);
+  }
+  
+  .nav-icons .icon-title {
+    position: absolute;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 10px;
+    top: -30px;
+    padding: 3px;
+    border-radius: 5px;
+    transition: 0.2s;
+    opacity: 0;
+    cursor: default;
+  }
+  
+  .nav-icon:hover + span {
+    opacity: 1;
+  }
+  
+  .icon-active {
+    background-color: rgb(160, 160, 160);
+    color: rgb(220, 220, 220);
+  }

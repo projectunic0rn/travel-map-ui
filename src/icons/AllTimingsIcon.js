@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function AllTimingsIcon() {
+function AllTimingsIcon(props) {
   return (
     <svg
-      className="all-timings-icon"
+      className={props.className}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24.775 24.811"
       width="24.775"
@@ -37,6 +38,10 @@ function AllTimingsIcon() {
       </g>
     </svg>
   );
+}
+
+AllTimingsIcon.propTypes = {
+  className: PropTypes.string
 }
 
 export default AllTimingsIcon;
