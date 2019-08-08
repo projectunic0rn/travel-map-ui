@@ -20,7 +20,7 @@ function PopupPrompt(props) {
 
 PopupPrompt.propTypes = {
     showPopup: PropTypes.func,
-    activePopup: PropTypes.number,
+    activePopup: PropTypes.bool,
     component: PropTypes.func,
     componentProps: PropTypes.object
 }

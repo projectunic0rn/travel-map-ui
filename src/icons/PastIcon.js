@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function PastIcon() {
+function PastIcon(props) {
   return (
     <svg
-      className="past-icon"
+      className={props.className}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 25 21.428"
       width="25"
@@ -15,6 +16,11 @@ function PastIcon() {
       />
     </svg>
   );
+}
+
+
+PastIcon.propTypes = {
+  className: PropTypes.string
 }
 
 export default PastIcon;

@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function FutureIcon() {
+function FutureIcon(props) {
   return (
     <svg
-      className="future-icon"
+      className={props.className}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 25 17.143"
       width="25"
@@ -15,6 +16,11 @@ function FutureIcon() {
       />
     </svg>
   );
+}
+
+
+FutureIcon.propTypes = {
+  className: PropTypes.string
 }
 
 export default FutureIcon;

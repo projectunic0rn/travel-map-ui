@@ -6,6 +6,7 @@ import socket from "./socket";
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
+import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
 import PageNotFound from "./components/common/PageNotFound";
 import "./_App.scss";
@@ -29,6 +30,7 @@ function App({ userAuthenticated }) {
           <Switch>
             <Route exact path="/" component={MapPage} />
             <Route path="/profile/" component={Profile} />
+            <Route path="/friends/" component={FriendMapPage} />
             <Route component={PageNotFound} />
           </Switch>
         </Fragment>
