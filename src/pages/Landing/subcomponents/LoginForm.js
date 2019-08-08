@@ -16,7 +16,7 @@ class LoginForm extends Component {
   }
   async confirmLogin(data) {
     this._saveUserData(data.loginUser.token);
-    this.props.handleUserLogin(true);
+    this.props.setUserLoggedIn(true);
     this.props.setFormIsOpen(false);
   }
   _saveUserData(token) {
@@ -93,7 +93,8 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   handleFormSwitch: PropTypes.func,
-  handleUserLogin: PropTypes.func
+  setUserLoggedIn: PropTypes.func,
+  setFormIsOpen: PropTypes.func
 };
 
 export default LoginForm;

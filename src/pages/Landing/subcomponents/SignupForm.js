@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Mutation, compose, graphql } from "react-apollo";
-import { SIGNUP_USER } from '../../../GraphQL';
+import { SIGNUP_USER } from "../../../GraphQL";
 
 class SignupForm extends Component {
   constructor(props) {
@@ -14,8 +14,8 @@ class SignupForm extends Component {
     };
   }
   async confirmSignup(data) {
-    this._saveUserData(data.loginUser.token)
-    this.props.handleUserLogin(true);
+    this._saveUserData(data.loginUser.token);
+    this.props.setUserLoggedIn(true);
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
@@ -24,12 +24,16 @@ class SignupForm extends Component {
     const { username, fullName, password, email } = this.state;
     const { handleFormSwitch } = this.props;
     return (
-      <form className="signup-form" action="" onSubmit={(e) => e.preventDefault()}>
+      <form
+        className="signup-form"
+        action=""
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div className="field">
           <input
             type="text"
             required
-            onChange={e => this.setState({ username: e.target.value })}
+            onChange={(e) => this.setState({ username: e.target.value })}
             name="username"
             id="username"
             placeholder="enter a username"
@@ -40,7 +44,7 @@ class SignupForm extends Component {
           <input
             type="text"
             required
-            onChange={e => this.setState({ fullName: e.target.value })}
+            onChange={(e) => this.setState({ fullName: e.target.value })}
             name="fullname"
             id="fullname"
             placeholder="enter your full name"
@@ -51,7 +55,7 @@ class SignupForm extends Component {
           <input
             type="email"
             required
-            onChange={e => this.setState({ email: e.target.value })}
+            onChange={(e) => this.setState({ email: e.target.value })}
             name="email"
             id="email"
             placeholder="enter your email address"
@@ -64,7 +68,7 @@ class SignupForm extends Component {
             data-ng-model="password"
             autoComplete="on"
             required
-            onChange={e => this.setState({ password: e.target.value })}
+            onChange={(e) => this.setState({ password: e.target.value })}
             name="password"
             minLength="4"
             id="password"
@@ -75,9 +79,9 @@ class SignupForm extends Component {
         <Mutation
           mutation={SIGNUP_USER}
           variables={{ username, fullName, email, password }}
-          onCompleted={data => this.confirmSignup(data)}
+          onCompleted={(data) => this.confirmSignup(data)}
         >
-          {mutation => (
+          {(mutation) => (
             <button className="login-button" onClick={mutation}>
               sign up
             </button>
@@ -94,8 +98,9 @@ class SignupForm extends Component {
 
 SignupForm.propTypes = {
   handleFormSwitch: PropTypes.func,
-  handleUserLogin: PropTypes.func
+  setUserLoggedIn: PropTypes.func
 };
 
-export default compose(
-  graphql(SIGNUP_USER, { name: 'signupUserMutation'}))(SignupForm);
+export default compose(graphql(SIGNUP_USER, { name: "signupUserMutation" }))(
+  SignupForm
+);

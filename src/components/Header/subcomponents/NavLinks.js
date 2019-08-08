@@ -1,6 +1,6 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 export default function NavLinks({
   userLoggedIn,
@@ -24,9 +24,13 @@ export default function NavLinks({
   } else {
     return (
       <div>
-        <a onClick={toggleFormIsOpen} className={formIsOpen ? "active" : ""}>
+        <Link
+          to="#"
+          onClick={toggleFormIsOpen}
+          className={formIsOpen ? "active" : ""}
+        >
           Login
-        </a>
+        </Link>
       </div>
     );
   }

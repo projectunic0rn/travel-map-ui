@@ -8,14 +8,14 @@ const MapPage = () => {
   const [cityOrCountry, handleMapTypeChange] = useState(0);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
-  
+
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
     if (userData != null && userData.Places_visited.length !== 0) {
       for (let i = 0; i < userData.Places_visited.length; i++) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return country.countryId === userData.Places_visited[i].country;
           })
         ) {
@@ -29,7 +29,7 @@ const MapPage = () => {
     if (userData != null && userData.Places_visiting.length !== 0) {
       for (let i = 0; i < userData.Places_visiting.length; i++) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return country.countryId === userData.Places_visiting[i].countryId;
           })
         ) {
@@ -42,7 +42,7 @@ const MapPage = () => {
     }
     if (userData != null && userData.Place_living !== null) {
       if (
-        !countryArray.some(country => {
+        !countryArray.some((country) => {
           return country.countryId === userData.Place_living.country;
         })
       ) {
@@ -58,18 +58,18 @@ const MapPage = () => {
   function deleteCity(cityId, timing) {
     let cityIndex = null;
     let tripDataType = null;
-    switch(timing) {
-      case 0: 
-      tripDataType = tripData.Places_visited;
-      break;
-      case 1: 
-      tripDataType = tripData.Places_visiting;
-      break;
+    switch (timing) {
+      case 0:
+        tripDataType = tripData.Places_visited;
+        break;
+      case 1:
+        tripDataType = tripData.Places_visiting;
+        break;
       default:
         break;
     }
     tripDataType.find((city, i) => {
-      if (city.id == cityId) {
+      if (city.id === cityId) {
         cityIndex = i;
         return true;
       } else {
@@ -86,7 +86,7 @@ const MapPage = () => {
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
-      onCompleted={data => handleTripData(data.getLoggedInUser)}
+      onCompleted={(data) => handleTripData(data.getLoggedInUser)}
     >
       {({ loading, error, data, refetch }) => {
         if (loading) return <div>Loading...</div>;
