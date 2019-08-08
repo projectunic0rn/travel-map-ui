@@ -6,21 +6,10 @@ import SiteLogo from "./subcomponents/SiteLogo";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
-export default function Header({
-  handleUserLogout,
-  userLoggedIn,
-  handleUserLogin
-}) {
+export default function Header({ userLoggedIn, setUserLoggedIn }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(true);
+  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn ? false : true);
 
-  function handleHamburgerResponse(val) {
-    handleHamburgerClick(val);
-  }
-
-  function toggleFormIsOpen() {
-    setFormIsOpen(!formIsOpen);
-  }
   return (
     <Fragment>
       <header className="header-container">
@@ -33,7 +22,7 @@ export default function Header({
             <NavLinks
               userLoggedIn={userLoggedIn}
               formIsOpen={formIsOpen}
-              toggleFormIsOpen={toggleFormIsOpen}
+              toggleFormIsOpen={setFormIsOpen}
             />
             <div className="nav-hamburger">
               <div
@@ -43,7 +32,7 @@ export default function Header({
                     : "hamburger-icon"
                 }
                 id="ham"
-                onClick={() => handleHamburgerResponse(!showHamburgerDropdown)}
+                onClick={() => handleHamburgerClick(!showHamburgerDropdown)}
               >
                 <span className="hamburger-a" />
                 <span className="hamburger-b" />
@@ -52,13 +41,15 @@ export default function Header({
             {formIsOpen ? (
               <LandingForm
                 setFormIsOpen={setFormIsOpen}
-                handleUserLogin={handleUserLogin}
+                setUserLoggedIn={setUserLoggedIn}
               />
             ) : (
               ""
             )}
           </div>
-          {userLoggedIn ? <UserHeaderContainer handleUserLogout={handleUserLogout} /> : null}
+          {userLoggedIn ? (
+            <UserHeaderContainer setUserLoggedIn={setUserLoggedIn} />
+          ) : null}
         </div>
       </header>
       <div
@@ -71,7 +62,7 @@ export default function Header({
         <NavLinks
           userLoggedIn={userLoggedIn}
           formIsOpen={formIsOpen}
-          toggleFormIsOpen={toggleFormIsOpen}
+          toggleFormIsOpen={setFormIsOpen}
         />
       </div>
     </Fragment>
@@ -79,7 +70,6 @@ export default function Header({
 }
 
 Header.propTypes = {
-  handleUserLogout: PropTypes.func,
   userLoggedIn: PropTypes.bool,
-  handleUserLogin: PropTypes.func
+  setUserLoggedIn: PropTypes.func
 };

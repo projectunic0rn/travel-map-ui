@@ -22,6 +22,9 @@
     &.active {
       color: #6e7377;
       border-bottom: solid 4px #a7e1ff;
+      &:hover {
+        border-bottom: solid 4px #a7e1ff;
+      }
     }
     &:hover {
       color: #6e7377;

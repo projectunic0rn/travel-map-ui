@@ -96,7 +96,7 @@ export default function Trips() {
         </button>{" "}
       </div>
       <div className="content-results">
-        {results.map(country => (
+        {results.map((country) => (
           <CountryResult
             key={country.id}
             name={country.name}

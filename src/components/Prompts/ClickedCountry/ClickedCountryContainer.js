@@ -42,7 +42,7 @@ function ClickedCountryContainer(props) {
   function handleTripTiming(timing) {
     handleTiming(timing);
   }
-  function updateMap(){
+  function updateMap() {
     props.customProps.handleTripTiming(timing);
     props.customProps.refetch();
   }
@@ -58,7 +58,7 @@ function ClickedCountryContainer(props) {
       break;
   }
   let headerText = "";
-  let headerStyle = "";
+  let headerStyle = {};
   switch (timing) {
     case 0:
       headerText = "Which cities did you visit?";
@@ -76,15 +76,9 @@ function ClickedCountryContainer(props) {
       break;
   }
   return (
-    <div
-      className="clicked-country-container"
-      style={{ "maxWidth": popupWidth }}
-    >
+    <div className="clicked-country-container" style={{ maxWidth: popupWidth }}>
       {page === 1 ? (
-        <div
-          className="clicked-country-header"
-          style={headerStyle}
-        >
+        <div className="clicked-country-header" style={headerStyle}>
           {headerText}
         </div>
       ) : (
