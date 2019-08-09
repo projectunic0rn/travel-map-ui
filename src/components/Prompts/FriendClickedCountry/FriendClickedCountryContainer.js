@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "../FriendClickedCity/subcomponents/UserTripCard";
+import PersonIcon from "../../../icons/PersonIcon";
 
 const userVisitTimings = ["PAST", "FUTURE", "LIVE"];
 
 function FriendClickedCountryContainer(props) {
   const [navPosition, handleNavPosition] = useState(0);
+  const [friendsWithTrips, handleFriendsWithTrips] = useState(0);
+  useEffect(() => {
+    let uniqueFriends = props.customProps.clickedCountryArray
+      .map(trip => trip.username)
+      .filter((value, index, self) => self.indexOf(value) === index);
+    handleFriendsWithTrips(uniqueFriends);
+  }, []);
   let clickedCountryArray = props.customProps.clickedCountryArray.sort(
     (cityA, cityB) =>
       cityA.tripTiming - cityB.tripTiming ||
@@ -156,7 +164,12 @@ function FriendClickedCountryContainer(props) {
   }
   return (
     <div className="clicked-country-container">
-      <div className="clicked-country-header" />
+      <div className="clicked-country-header">
+        <div className="clicked-country-info-value">
+          {friendsWithTrips.length}
+          <PersonIcon />
+        </div>
+      </div>
       <div className="clicked-country-info">
         <div className="clicked-country-info-names">
           <span>{props.customProps.countryName}</span>

@@ -422,7 +422,8 @@ class FriendCityMap extends Component {
             showPopup={this.showPopup}
             component={FriendClickedCityContainer}
             componentProps={{
-              hoveredCityArray: this.state.hoveredCityArray
+              hoveredCityArray: this.state.hoveredCityArray,
+              clickedCity: this.state.clickedCity
             }}
           />
         ) : null}

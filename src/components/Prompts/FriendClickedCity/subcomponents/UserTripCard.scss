@@ -9,6 +9,11 @@
     align-items: center;
     width: 100%;
     overflow-y: scroll;
+    p {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 20px;
+      color: rgb(120, 120, 124);
+    }
   }
 }
 
@@ -34,6 +39,7 @@
   .utc-user-info-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     flex: 1;
     height: 100%;
     margin-left: 8px;

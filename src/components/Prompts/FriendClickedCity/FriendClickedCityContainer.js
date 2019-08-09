@@ -1,12 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "./subcomponents/UserTripCard";
+import PersonIcon from "../../../icons/PersonIcon";
 
 const userVisitTimings = ["PAST", "FUTURE", "LIVE"];
 
 function FriendClickedCityContainer(props) {
   const [navPosition, handleNavPosition] = useState(0);
+  const [cityName, handleCityName] = useState(null);
+  const [countryName, handleCountryName] = useState(null);
+  const [friendsWithTrips, handleFriendsWithTrips] = useState(0);
+
+  useEffect(() => {
+    if (props.customProps.hoveredCityArray.length < 1) {
+      handleCityName(props.customProps.clickedCity.result["text_en-US"]);
+      for (let i in props.customProps.clickedCity.result.context) {
+        if (
+          props.customProps.clickedCity.result.context[i].id.slice(0, 7) ===
+          "country"
+        ) {
+          handleCountryName(
+            props.customProps.clickedCity.result.context[i]["text_en-US"]
+          );
+        }
+      }
+    } else {
+      handleCityName(props.customProps.hoveredCityArray[0].city);
+      handleCountryName(props.customProps.hoveredCityArray[0].country);
+      let uniqueFriends = props.customProps.hoveredCityArray
+        .map(trip => trip.username)
+        .filter((value, index, self) => self.indexOf(value) === index);
+      handleFriendsWithTrips(uniqueFriends);
+    }
+  }, []);
+
   let hoveredCityArray = props.customProps.hoveredCityArray.sort(
     (cityA, cityB) => cityA.tripTiming - cityB.tripTiming
   );
@@ -96,17 +124,26 @@ function FriendClickedCityContainer(props) {
   }
   return (
     <div className="clicked-country-container">
-      <div className="clicked-country-header" />
+      <div className="clicked-country-header">
+        {" "}
+        <div className="clicked-country-info-value">
+          {friendsWithTrips.length}
+          <PersonIcon />
+        </div>
+      </div>
       <div className="clicked-country-info">
         <div className="clicked-country-info-names">
-          <span>{props.customProps.hoveredCityArray[0].city}</span>
-          <span>Country: {props.customProps.hoveredCityArray[0].country}</span>
+          <span>{cityName}</span>
+          <span>{countryName}</span>
         </div>
       </div>
       <PromptNavMenu handleNavPosition={handleNewNavPosition} />
       <div className="friend-trip-container">
         {userTripTitle}
         {friendTrips}
+        {props.customProps.hoveredCityArray.length < 1 ? (
+          <p>Be the first to visit!</p>
+        ) : null}
       </div>
     </div>
   );
