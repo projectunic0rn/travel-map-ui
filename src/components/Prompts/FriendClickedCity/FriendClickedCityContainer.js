@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "./subcomponents/UserTripCard";
 import PersonIcon from "../../../icons/PersonIcon";
+import CalendarIcon from "../../../icons/CalendarIcon";
 
 const userVisitTimings = ["PAST", "FUTURE", "LIVE"];
 
@@ -53,7 +54,7 @@ function FriendClickedCityContainer(props) {
               <UserTripCard
                 trip={city}
                 key={i}
-                metric={"days"}
+                metric={<CalendarIcon />}
                 metricValue={0}
               />
             </>
@@ -70,14 +71,19 @@ function FriendClickedCityContainer(props) {
               <UserTripCard
                 trip={city}
                 key={i}
-                metric={"days"}
+                metric={<CalendarIcon />}
                 metricValue={0}
               />
             </>
           );
         } else {
           return (
-            <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+            <UserTripCard
+              trip={city}
+              key={i}
+              metric={<CalendarIcon />}
+              metricValue={0}
+            />
           );
         }
       });
@@ -89,7 +95,12 @@ function FriendClickedCityContainer(props) {
       userTripTitle = <div className="user-trip-title">PAST</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
         return (
-          <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+          <UserTripCard
+            trip={city}
+            key={i}
+            metric={<CalendarIcon />}
+            metricValue={0}
+          />
         );
       });
       break;
@@ -100,7 +111,12 @@ function FriendClickedCityContainer(props) {
       userTripTitle = <div className="user-trip-title">FUTURE</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
         return (
-          <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+          <UserTripCard
+            trip={city}
+            key={i}
+            metric={<CalendarIcon />}
+            metricValue={0}
+          />
         );
       });
       break;
@@ -111,7 +127,12 @@ function FriendClickedCityContainer(props) {
       userTripTitle = <div className="user-trip-title">LIVE</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
         return (
-          <UserTripCard trip={city} key={i} metric={"days"} metricValue={0} />
+          <UserTripCard
+            trip={city}
+            key={i}
+            metric={<CalendarIcon />}
+            metricValue={0}
+          />
         );
       });
       break;

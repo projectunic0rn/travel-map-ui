@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "../FriendClickedCity/subcomponents/UserTripCard";
 import PersonIcon from "../../../icons/PersonIcon";
+import CityIcon from "../../../icons/CityIcon";
 
 const userVisitTimings = ["PAST", "FUTURE", "LIVE"];
 
@@ -73,7 +74,7 @@ function FriendClickedCountryContainer(props) {
               <UserTripCard
                 trip={country}
                 key={i}
-                metric={"cities"}
+                metric={<CityIcon />}
                 metricValue={country.cities}
               />
             </>
@@ -90,7 +91,7 @@ function FriendClickedCountryContainer(props) {
               <UserTripCard
                 trip={country}
                 key={i}
-                metric={"cities"}
+                metric={<CityIcon />}
                 metricValue={country.cities}
               />
             </>
@@ -100,7 +101,7 @@ function FriendClickedCountryContainer(props) {
             <UserTripCard
               trip={country}
               key={i}
-              metric={"cities"}
+              metric={<CityIcon />}
               metricValue={country.cities}
             />
           );
@@ -149,7 +150,7 @@ function FriendClickedCountryContainer(props) {
           <UserTripCard
             trip={country}
             key={i}
-            metric={"cities"}
+            metric={<CityIcon />}
             metricValue={country.cities}
           />
         );
