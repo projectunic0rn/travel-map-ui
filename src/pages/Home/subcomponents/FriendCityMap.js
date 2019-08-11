@@ -208,17 +208,27 @@ class FriendCityMap extends Component {
   }
 
   handleOnResult(event) {
-    let markers = this.state.markers;
-    markers.push(event);
-    this.setState({
-      markers: markers
-    });
     this.handleTypedCity(event);
   }
 
-  handleTypedCity(city) {
+  handleTypedCity(typedCity) {
+    let hoveredCityArray = [];
+    if (typedCity.result.properties.wikidata !== undefined) {
+      hoveredCityArray = this.state.clickedCityArray.filter(
+        city =>
+          city.cityId ===
+          parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
+      );
+    } else {
+      hoveredCityArray = this.state.clickedCityArray.filter(
+        city =>
+          city.cityId ===
+          parseFloat(typedCity.result.result.id.slice(10, 16), 10)
+      );
+    }
     this.setState({
-      clickedCity: city,
+      clickedCity: typedCity,
+      hoveredCityArray,
       activePopup: true
     });
   }
@@ -229,7 +239,6 @@ class FriendCityMap extends Component {
 
   handleLoadedCities(data) {
     const { tripTimingCounts, clickedCityArray } = this.state;
-    console.log(data);
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -317,10 +326,9 @@ class FriendCityMap extends Component {
     const { cityTooltip, clickedCityArray } = this.state;
     let hoveredCityArray = [];
     if (cityTooltip !== null) {
-      hoveredCityArray = clickedCityArray.filter((city) => 
-        city.cityId == cityTooltip.cityId
+      hoveredCityArray = clickedCityArray.filter(
+        city => city.cityId == cityTooltip.cityId
       );
-      console.log(hoveredCityArray);
     }
     return (
       cityTooltip && (
@@ -344,10 +352,10 @@ class FriendCityMap extends Component {
   }
 
   handleHoveredCityArray(hoveredCityArray) {
-      this.setState({
-          activePopup: true,
-          hoveredCityArray
-      })
+    this.setState({
+      activePopup: true,
+      hoveredCityArray
+    });
   }
 
   render() {
@@ -357,8 +365,7 @@ class FriendCityMap extends Component {
       markerFutureDisplay,
       markerLiveDisplay,
       loading,
-      activePopup,
-      clickedCity
+      activePopup
     } = this.state;
     if (loading) return <div>Loading...</div>;
     return (
@@ -415,7 +422,8 @@ class FriendCityMap extends Component {
             showPopup={this.showPopup}
             component={FriendClickedCityContainer}
             componentProps={{
-              hoveredCityArray: this.state.hoveredCityArray
+              hoveredCityArray: this.state.hoveredCityArray,
+              clickedCity: this.state.clickedCity
             }}
           />
         ) : null}
@@ -426,8 +434,7 @@ class FriendCityMap extends Component {
 
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
-  handleMapTypeChange: PropTypes.func,
-  deleteCity: PropTypes.func
+  handleMapTypeChange: PropTypes.func
 };
 
 export default FriendCityMap;

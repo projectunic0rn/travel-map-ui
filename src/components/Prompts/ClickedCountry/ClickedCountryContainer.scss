@@ -13,6 +13,20 @@
     font-size: 24px;
     font-weight: 550;
     color: rgb(220, 220, 220);
+    .clicked-country-info-value {
+      display: flex;
+      justify-content: flex-end;
+      flex: 1;
+      font-size: 20px;
+      line-height: 34px;
+      font-weight: 550;
+      color: rgb(248, 248, 252);
+      margin-right: 12px;
+      padding-top: 3px;
+      .ud-link-icon {
+        fill: rgb(230, 230, 232);
+      }
+    }
   }
   .clicked-country-info {
     display: flex;

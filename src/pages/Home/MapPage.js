@@ -20,7 +20,7 @@ const MapPage = () => {
           })
         ) {
           countryArray.push({
-            countryId: userData.Places_visited[i].country,
+            countryId: userData.Places_visited[i].countryId,
             tripTiming: 0
           });
         }

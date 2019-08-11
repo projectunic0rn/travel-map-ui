@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
 import { GET_ALL_USER_COUNTRIES } from "../../GraphQL";
-import CountryMap from "./subcomponents/CountryMap";
+import FriendCountryMap from "./subcomponents/FriendCountryMap";
 import FriendCityMap from "./subcomponents/FriendCityMap";
 
 const FriendMapPage = () => {
@@ -22,7 +22,7 @@ const FriendMapPage = () => {
           ) {
             countryArray.push({
               username: userData.username,
-              countryId: userData.Places_visited[i].country,
+              countryId: userData.Places_visited[i].countryId,
               tripTiming: 0
             });
           }
@@ -107,11 +107,11 @@ const FriendMapPage = () => {
                   <FriendCityMap
                     tripData={tripData}
                     handleMapTypeChange={handleMapTypeChange}
-                    deleteCity={deleteCity}
                   />
                 ) : (
-                  <CountryMap
+                  <FriendCountryMap
                     clickedCountryArray={clickedCountryArray}
+                    tripData={tripData}
                     handleMapTypeChange={handleMapTypeChange}
                     refetch={refetch}
                   />
