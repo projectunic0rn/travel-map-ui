@@ -1,3 +1,22 @@
+.clicked-country-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 320px;
+  .friend-trip-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow-y: scroll;
+    p {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 20px;
+      color: rgb(120, 120, 124);
+    }
+  }
+}
+
 .user-trip-card {
     display: flex;
     align-items: center;
@@ -14,15 +33,17 @@
     height: 40px;
     margin-left: 12px;
     border: 1px solid black;
+    border-radius: 50%;
   }
   
   .utc-user-info-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     flex: 1;
     height: 100%;
     margin-left: 8px;
-    margin-top: 12px;
+    margin-top: 0px;
   }
   
   .user-trip-container {
@@ -55,7 +76,6 @@
   } 
   
   .utc-username {
-    margin-top: 6px;
     color: rgba(129, 130, 130, 1);
     font-size: 14px;
     font-weight: 600;
@@ -63,6 +83,16 @@
   
   .utc-duration {
     font-size: 14px;
+    fill: rgb(200, 200, 220);
+    color: rgb(80, 80, 80);
+    .city-icon {
+      height: 14px;
+      transform: translate(-2px, 1px);
+    }
+    .calendar-icon {
+      height: 14px;
+      transform: translate(-2px, 1px);
+    }
   }
   
   .utc-year-container {

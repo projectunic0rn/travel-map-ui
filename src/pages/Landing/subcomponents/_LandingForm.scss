@@ -12,12 +12,24 @@
   .close-icon-container {
     cursor: pointer;
     .close-window-icon {
-      fill: rgb(168, 168, 172);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgb(168, 168, 172);
       position: absolute;
       right: 10px;
       top: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
       border: 1px solid rgb(168, 168, 172);
-      border-radius: 4px;
+      span {
+        transform: translateY(-2px);
+      }
+      &:hover {
+        color: rgb(248, 248, 252);
+        border: 1px solid rgb(248, 248, 252);
+      }
     }
   }
 
