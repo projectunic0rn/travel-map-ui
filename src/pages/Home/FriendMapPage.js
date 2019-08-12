@@ -17,7 +17,7 @@ const FriendMapPage = () => {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
             !countryArray.some(country => {
-              return country.countryId === userData.Places_visited[i].country;
+              return country.countryId === userData.Places_visited[i].countryId;
             })
           ) {
             countryArray.push({
@@ -48,7 +48,7 @@ const FriendMapPage = () => {
       if (userData != null && userData.Place_living !== null) {
         if (
           !countryArray.some(country => {
-            return country.countryId === userData.Place_living.country;
+            return country.countryId === userData.Place_living.countryId;
           })
         ) {
           countryArray.push({
@@ -60,31 +60,6 @@ const FriendMapPage = () => {
       }
     }
     addCountry(countryArray);
-  }
-
-  function deleteCity(cityId, timing) {
-    let cityIndex = null;
-    let tripDataType = null;
-    switch (timing) {
-      case 0:
-        tripDataType = tripData.Places_visited;
-        break;
-      case 1:
-        tripDataType = tripData.Places_visiting;
-        break;
-      default:
-        break;
-    }
-    tripDataType.find((city, i) => {
-      if (city.id == cityId) {
-        cityIndex = i;
-        return true;
-      } else {
-        return false;
-      }
-    });
-    tripDataType.splice(cityIndex, 1);
-    handleTripData(tripData);
   }
 
   return (

@@ -263,7 +263,7 @@ class CityMap extends Component {
     let liveCount = tripTimingCounts[2];
     if (data != null && data.Places_visited.length !== 0) {
       for (let i = 0; i < data.Places_visited.length; i++) {
-        if (data.Places_visited[i].cityId !== undefined) {
+        if (data.Places_visited[i].cityId !== 0) {
           clickedCityArray.push({
             id: data.Places_visited[i].id,
             cityId: data.Places_visited[i].cityId,
@@ -278,7 +278,7 @@ class CityMap extends Component {
     }
     if (data != null && data.Places_visiting.length !== 0) {
       for (let i = 0; i < data.Places_visiting.length; i++) {
-        if (data.Places_visiting[i].cityId !== undefined) {
+        if (data.Places_visiting[i].cityId !== 0) {
           clickedCityArray.push({
             id: data.Places_visiting[i].id,
             cityId: data.Places_visiting[i].cityId,
@@ -537,6 +537,7 @@ class CityMap extends Component {
       activePopup,
       clickedCity
     } = this.state;
+    console.log(this.props)
     if (loading) return <div>Loading...</div>;
     return (
       <>
@@ -603,7 +604,7 @@ class CityMap extends Component {
 }
 
 CityMap.propTypes = {
-  tripData: PropTypes.array,
+  tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func
 };

@@ -160,7 +160,11 @@ class ClickedCountryCities extends Component {
       city_latitude: event.result.center[1] * 1000000,
       city_longitude: event.result.center[0] * 1000000
     };
-    cities.push(cityArrayElement);
+    if (cities[0].city === "") {
+      cities[0] = cityArrayElement;
+    } else {
+      cities.push(cityArrayElement);
+    }
     this.setState({
       cities
     });
