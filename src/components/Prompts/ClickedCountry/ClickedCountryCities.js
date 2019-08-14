@@ -4,7 +4,7 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import { Mutation } from "react-apollo";
-import { ADD_PLACE_VISITING, ADD_PLACE_VISITED } from "../../../GraphQL";
+import { ADD_PLACE_VISITING, ADD_PLACE_VISITED, ADD_PLACE_LIVING } from "../../../GraphQL";
 import { countryConsts } from "../../../CountryConsts";
 import TrashIcon from "../../../icons/TrashIcon";
 
@@ -21,12 +21,7 @@ class ClickedCountryCities extends Component {
       },
       markerDisplay: null,
       markerIndex:  null,
-      cities: [{
-        city: "",
-        cityId: 0,
-        city_latitude: 0,
-        city_longitude: 0
-      }],
+      cities: [],
       country: {
         country: this.props.country,
         countryId: this.props.countryId,
@@ -108,14 +103,14 @@ class ClickedCountryCities extends Component {
   handleNewMarkers(markers, type) {
     let fill = "";
     switch(this.props.timing) {
-      case 0: 
+      case 0:
         fill = "rgba(203, 118, 120, 0.75)";
         break;
       case 1:
         fill = "rgba(115, 167, 195, 0.75)";
         break;
-      default: 
-      break;
+      default:
+        break;
     }
     let markerDisplay = markers.map((city, i) => {
       return (
@@ -160,11 +155,8 @@ class ClickedCountryCities extends Component {
       city_latitude: event.result.center[1] * 1000000,
       city_longitude: event.result.center[0] * 1000000
     };
-    if (cities[0].city === "") {
-      cities[0] = cityArrayElement;
-    } else {
-      cities.push(cityArrayElement);
-    }
+
+    cities.push(cityArrayElement);
     this.setState({
       cities
     });
@@ -227,6 +219,9 @@ class ClickedCountryCities extends Component {
         break;
       case 1:
         mutationType = ADD_PLACE_VISITING;
+        break;
+      case 2:
+        mutationType = ADD_PLACE_LIVING;
         break;
       default:
         break;
