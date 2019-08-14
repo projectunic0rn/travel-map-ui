@@ -31,6 +31,7 @@ export default function MapScorecard({
     }
   }
 
+  // make the scorecard draggable
   useEffect(() => {
     let mouseDown = false;
 
@@ -43,16 +44,13 @@ export default function MapScorecard({
     let elOffsetX;
     let elOffsetY;
 
-    document.addEventListener("mousemove", trackMouse);
+    document.addEventListener("mousemove", mouseMoveEvent);
 
-    dragIcon.addEventListener("mousedown", trackMouseInEl);
+    dragIcon.addEventListener("mousedown", mouseDownEvent);
 
-    function trackMouseInEl(event) {
-      elOffsetX = event.offsetX;
-      elOffsetY = event.offsetY;
-    }
+    scorecardContainer.addEventListener("mouseup", mouseUpEvent);
 
-    function trackMouse(event) {
+    function mouseMoveEvent(event) {
       mouseX = event.pageX;
       mouseY = event.pageY;
 
@@ -60,17 +58,29 @@ export default function MapScorecard({
         scorecardContainer.style.transform = `translate(${mouseX -
           scorecardContainer.offsetLeft -
           elOffsetX -
-          164}px, ${mouseY - scorecardContainer.offsetTop - elOffsetY - 4}px)`;
+          164}px, ${mouseY - scorecardContainer.offsetTop - elOffsetY - 10}px)`;
       }
     }
 
-    dragIcon.addEventListener("mousedown", () => {
-      mouseDown = true;
-    });
+    function mouseDownEvent(event) {
+      // To make sure text on the screen is not highlightable when the scorecard is being dragged
+      document.querySelector("body").classList.add("noselect");
 
-    dragIcon.addEventListener("mouseup", () => {
+      mouseDown = true;
+      elOffsetX = event.offsetX;
+      elOffsetY = event.offsetY;
+    }
+
+    function mouseUpEvent() {
+      document.querySelector("body").classList.remove("noselect");
       mouseDown = false;
-    });
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", mouseMoveEvent);
+      dragIcon.removeEventListener("mousedown", mouseDownEvent);
+      scorecardContainer.removeEventListener("mouseup", mouseUpEvent);
+    };
   });
 
   return (

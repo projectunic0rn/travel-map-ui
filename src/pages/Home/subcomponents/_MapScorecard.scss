@@ -30,11 +30,11 @@
   }
 
   .drag-icon {
-    fill: white;
+    fill: $light-green;
     height: 30px;
     width: 30px;
     right: 5px;
-    top: 5px;
+    top: 10px;
     position: absolute;
     cursor: pointer;
     display: none;
