@@ -8,7 +8,8 @@ const MapPage = () => {
   const [cityOrCountry, handleMapTypeChange] = useState(0);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
-
+console.log(tripData);
+console.log(clickedCountryArray)
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
@@ -16,9 +17,11 @@ const MapPage = () => {
       for (let i = 0; i < userData.Places_visited.length; i++) {
         if (
           !countryArray.some((country) => {
-            return country.countryId === userData.Places_visited[i].country;
+            return (country.countryId === userData.Places_visited[i].countryId && 
+            country.tripTiming === 0);
           })
-        ) {
+        ) 
+        {
           countryArray.push({
             countryId: userData.Places_visited[i].countryId,
             tripTiming: 0
@@ -30,7 +33,8 @@ const MapPage = () => {
       for (let i = 0; i < userData.Places_visiting.length; i++) {
         if (
           !countryArray.some((country) => {
-            return country.countryId === userData.Places_visiting[i].countryId;
+            return (country.countryId === userData.Places_visiting[i].countryId && 
+            country.tripTiming === 1);
           })
         ) {
           countryArray.push({
@@ -43,7 +47,8 @@ const MapPage = () => {
     if (userData != null && userData.Place_living !== null) {
       if (
         !countryArray.some((country) => {
-          return country.countryId === userData.Place_living.country;
+          return country.countryId === userData.Place_living.countryId && 
+          country.tripTiming === 2;
         })
       ) {
         countryArray.push({

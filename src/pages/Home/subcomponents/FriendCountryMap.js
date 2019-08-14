@@ -32,19 +32,38 @@ const FriendCountryMap = props => {
   const [countryArray, handleCountryArray] = useState([]);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  const [activePopup, showPopup] = useState(0);
+  const [activePopup, showPopup] = useState(null);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
+  const [pastCountries, handlePastCountries] = useState([]);
+  const [futureCountries, handleFutureCountries] = useState([]);
+  const [liveCountries, handleLiveCountries] = useState([]);
 
   useEffect(() => {
     handleLoadedCountries(props.tripData);
-    loadScorecardTiming();
   }, []);
 
   function handleLoadedCountries(data) {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    let pastCountries = [];
+    let futureCountries = [];
+    let liveCountries = [];
     for (let i in data) {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
+          if (
+            !countryArray.some(country => {
+              return (
+                country.countryId === data[i].Places_visited[j].countryId &&
+                country.tripTiming === 0
+              );
+            })
+          ) {
+            pastCountries.push(data[i].Places_visited[j].countryId);
+            pastCount++;
+          }
           if (data[i].Places_visited[j].cityId !== undefined) {
             countryArray.push({
               id: data[i].Places_visited[j].id,
@@ -62,6 +81,17 @@ const FriendCountryMap = props => {
       }
       if (data != null && data[i].Places_visiting.length !== 0) {
         for (let j = 0; j < data[i].Places_visiting.length; j++) {
+          if (
+            !countryArray.some(country => {
+              return (
+                country.countryId === data[i].Places_visiting[j].countryId &&
+                country.tripTiming === 1
+              );
+            })
+          ) {
+            futureCountries.push(data[i].Places_visiting[j].countryId);
+            futureCount++;
+          }
           if (data[i].Places_visiting[j].cityId !== undefined) {
             countryArray.push({
               id: data[i].Places_visiting[j].id,
@@ -78,6 +108,17 @@ const FriendCountryMap = props => {
         }
       }
       if (data != null && data[i].Place_living !== null) {
+        if (
+          !countryArray.some(country => {
+            return (
+              country.countryId === data[i].Place_living.countryId &&
+              country.tripTiming === 2
+            );
+          })
+        ) {
+          liveCountries.push(data[i].Place_living.countryId);
+          liveCount++;
+        }
         if (
           !countryArray.some(city => {
             return city.cityId === data[i].Place_living.cityId;
@@ -98,22 +139,11 @@ const FriendCountryMap = props => {
       }
     }
     handleCountryArray(countryArray);
-  }
-
-  function loadScorecardTiming() {
-    let pastCount = 0;
-    let futureCount = 0;
-    let liveCount = 0;
-    for (let i in countryArray) {
-      if (countryArray[i].tripTiming === 0) {
-        pastCount++;
-      } else if (countryArray[i].tripTiming === 1) {
-        futureCount++;
-      } else if (countryArray[i].tripTiming === 2) {
-        liveCount++;
-      }
-    }
     handleTripTiming([pastCount, futureCount, liveCount]);
+    handlePastCountries(pastCountries);
+    handleFutureCountries(futureCountries);
+    handleLiveCountries(liveCountries);
+    console.log(pastCountries);
   }
 
   function handleContinentClick(evt) {
@@ -163,16 +193,40 @@ const FriendCountryMap = props => {
         case 0:
           if (activeTimings[0]) {
             countryStyles.default.fill = "#CB7678";
+          } else if (futureCountries.indexOf(geography.id) !== -1) {
+            if (activeTimings[1]) {
+              countryStyles.default.fill = "#73A7C3";
+            }
+          } else if (liveCountries.indexOf(geography.id) !== -1) {
+            if (activeTimings[2]) {
+              countryStyles.default.fill = "#96B1A8";
+            }
           }
           break;
         case 1:
           if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
+          } else if (pastCountries.indexOf(geography.id) !== -1) {
+            if (activeTimings[0]) {
+              countryStyles.default.fill = "#CB7678";
+            }
+          } else if (liveCountries.indexOf(geography.id) !== -1) {
+            if (activeTimings[2]) {
+              countryStyles.default.fill = "#96B1A8";
+            }
           }
           break;
         case 2:
           if (activeTimings[2]) {
             countryStyles.default.fill = "#96B1A8";
+          } else if (pastCountries.indexOf(geography.id) !== -1) {
+            if (activeTimings[0]) {
+              countryStyles.default.fill = "#CB7678";
+            }
+          } else if (futureCountries.indexOf(geography.id) !== -1) {
+            if (activeTimings[1]) {
+              countryStyles.default.fill = "#73A7C3";
+            }
           }
           break;
         default:
