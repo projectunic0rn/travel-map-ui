@@ -32,24 +32,36 @@ const CountryMap = props => {
   const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  const [activePopup, showPopup] = useState(0);
+  const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
+  const [pastCountries, handlePastCountries] = useState([]);
+  const [futureCountries, handleFutureCountries] = useState([]);
+  const [liveCountries, handleLiveCountries] = useState([]);
 
   useEffect(() => {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
+    let pastCountries = [];
+    let futureCountries = [];
+    let liveCountries = [];
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].tripTiming === 0) {
+        pastCountries.push(clickedCountryArray[i]);
         pastCount++;
       } else if (clickedCountryArray[i].tripTiming === 1) {
+        futureCountries.push(clickedCountryArray[i]);
         futureCount++;
       } else if (clickedCountryArray[i].tripTiming === 2) {
+        liveCountries.push(clickedCountryArray[i]);
         liveCount++;
       }
     }
-    handleTripTiming([pastCount, futureCount, liveCount])
+    handleTripTiming([pastCount, futureCount, liveCount]);
+    handlePastCountries(pastCountries);
+    handleFutureCountries(futureCountries);
+    handleLiveCountries(liveCountries);
   }, [clickedCountryArray]);
 
   function handleContinentClick(evt) {
@@ -99,20 +111,69 @@ const CountryMap = props => {
         case 0:
           if (activeTimings[0]) {
             countryStyles.default.fill = "#CB7678";
-          }
-          break;
+          } else if (
+            futureCountries.some(country => {
+              return country.countryId === geography.id;
+            })
+          ) {
+            if (activeTimings[1]) {
+              countryStyles.default.fill = "#73A7C3";
+            }
+          } else if (
+            liveCountries.some(country => {
+              return country.countryId === geography.id;
+            })
+          ) {
+            if (activeTimings[2]) {
+              countryStyles.default.fill = "#96B1A8";
+            }
+          } 
+            break;
         case 1:
           if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           }
+          else if (
+            pastCountries.some(country => {
+              return country.countryId === geography.id;
+            })
+          ) {
+            if (activeTimings[0]) {
+              countryStyles.default.fill = "#CB7678";
+            }
+          } else if (
+            liveCountries.some(country => {
+              return country.countryId === geography.id;
+            })
+          ) {
+            if (activeTimings[2]) {
+              countryStyles.default.fill = "#96B1A8";
+            }
+          } 
           break;
         case 2:
           if (activeTimings[2]) {
             countryStyles.default.fill = "#96B1A8";
+          } else if (
+            pastCountries.some(country => {
+              return country.countryId === geography.id;
+            })
+          ) {
+            if (activeTimings[0]) {
+              countryStyles.default.fill = "#CB7678";
+            }
+          } else if (
+            futureCountries.some(country => {
+              return country.countryId === geography.id;
+            })
+          ) {
+            if (activeTimings[1]) {
+              countryStyles.default.fill = "#73A7C3";
+            }
           }
           break;
         default:
-          countryStyles.default.fill = "black";
+          countryStyles.default.fill = "white";
       }
     }
     return countryStyles;
@@ -227,18 +288,18 @@ const CountryMap = props => {
         })}
       </div>
       {activePopup ? (
-          <PopupPrompt
-            activePopup={activePopup}
-            showPopup={showPopup}
-            component={ClickedCountryContainer}
-            componentProps={{
-              countryInfo: clickedCountry,
-              handleTripTiming: handleTripTimingHelper,
-              previousTrips: checkForPreviousTrips(clickedCountry),
-              refetch: props.refetch
-            }}
-          />
-        ) : null}
+        <PopupPrompt
+          activePopup={activePopup}
+          showPopup={showPopup}
+          component={ClickedCountryContainer}
+          componentProps={{
+            countryInfo: clickedCountry,
+            handleTripTiming: handleTripTimingHelper,
+            previousTrips: checkForPreviousTrips(clickedCountry),
+            refetch: props.refetch
+          }}
+        />
+      ) : null}
       <MapInfoContainer countryName={countryName} capitalName={capitalName} />
 
       <MapScorecard
