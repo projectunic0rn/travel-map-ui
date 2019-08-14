@@ -21,12 +21,27 @@
   background: #3f4b57;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
   transform: translate(-80px, -140px);
-  
+
   @media (min-width: "1200px") {
     transform: translate(-80px, -340px);
   }
   @media (min-width: "1800px") {
     transform: translate(-80px, -540px);
+  }
+
+  .drag-icon {
+    fill: white;
+    height: 30px;
+    width: 30px;
+    right: 5px;
+    top: 5px;
+    position: absolute;
+    cursor: pointer;
+    display: none;
+  }
+
+  &:hover > .drag-icon {
+    display: block;
   }
 
   .scorecard-checkbox-label {
@@ -101,4 +116,3 @@
     }
   }
 }
-
