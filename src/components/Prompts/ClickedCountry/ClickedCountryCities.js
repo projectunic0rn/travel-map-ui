@@ -4,7 +4,7 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import { Mutation } from "react-apollo";
-import { ADD_PLACE_VISITING, ADD_PLACE_VISITED } from "../../../GraphQL";
+import { ADD_PLACE_VISITING, ADD_PLACE_VISITED, ADD_PLACE_LIVING } from "../../../GraphQL";
 import { countryConsts } from "../../../CountryConsts";
 import TrashIcon from "../../../icons/TrashIcon";
 
@@ -113,6 +113,9 @@ class ClickedCountryCities extends Component {
         break;
       case 1:
         fill = "rgba(115, 167, 195, 0.75)";
+        break;
+      case 2:
+        fill = "rgba(150, 177, 168, 0.75)";
         break;
       default: 
       break;
@@ -227,6 +230,9 @@ class ClickedCountryCities extends Component {
         break;
       case 1:
         mutationType = ADD_PLACE_VISITING;
+        break;
+      case 2:
+        mutationType = ADD_PLACE_LIVING;
         break;
       default:
         break;
