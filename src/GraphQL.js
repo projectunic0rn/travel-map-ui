@@ -61,6 +61,12 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       Place_living {
         id
         country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
       }
     }
   }
