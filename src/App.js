@@ -1,7 +1,8 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import socket from "./socket";
+import Swal from "sweetalert2";
 
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
@@ -21,6 +22,10 @@ function App({ userAuthenticated }) {
   socket.on("trip-created", (username) => {
     alert(username + " has created a new trip!");
   });
+
+  useEffect(() => {
+    
+  })
 
   return (
     <Router>

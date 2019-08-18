@@ -1,13 +1,21 @@
-.city-map-container {
-  position: absolute;
-  display: flex;
-  width: 100vw;
-  left: 0;
+.map-container {
+  .city-map {
+    margin: 0 auto 0 auto;
+    display: flex;
+    width: 100vw;
+    position: relative;
+    .map-header-container {
+      .map-header-button {
+        position: absolute;
+        z-index: 1;
+        left: 10%;
+        top: 14px;
+      }
+    }
+  }
 }
 
-.mapboxgl-ctrl-top-left {
-  top: 5px !important;
-  left: calc(50% - 206px) !important;
+.mapboxgl-ctrl-top-right {
 }
 
 .mapboxgl-ctrl-geocoder {

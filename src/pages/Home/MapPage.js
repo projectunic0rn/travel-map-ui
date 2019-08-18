@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
+
+import MapSearch from "./subcomponents/MapSearch";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "../../GraphQL";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 
 const MapPage = () => {
-  const [cityOrCountry, handleMapTypeChange] = useState(0);
+  const [cityOrCountry, handleMapTypeChange] = useState(false);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
-console.log(tripData);
-console.log(clickedCountryArray)
+
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
@@ -17,11 +18,12 @@ console.log(clickedCountryArray)
       for (let i = 0; i < userData.Places_visited.length; i++) {
         if (
           !countryArray.some((country) => {
-            return (country.countryId === userData.Places_visited[i].countryId && 
-            country.tripTiming === 0);
+            return (
+              country.countryId === userData.Places_visited[i].countryId &&
+              country.tripTiming === 0
+            );
           })
-        ) 
-        {
+        ) {
           countryArray.push({
             countryId: userData.Places_visited[i].countryId,
             tripTiming: 0
@@ -33,8 +35,10 @@ console.log(clickedCountryArray)
       for (let i = 0; i < userData.Places_visiting.length; i++) {
         if (
           !countryArray.some((country) => {
-            return (country.countryId === userData.Places_visiting[i].countryId && 
-            country.tripTiming === 1);
+            return (
+              country.countryId === userData.Places_visiting[i].countryId &&
+              country.tripTiming === 1
+            );
           })
         ) {
           countryArray.push({
@@ -47,8 +51,10 @@ console.log(clickedCountryArray)
     if (userData != null && userData.Place_living !== null) {
       if (
         !countryArray.some((country) => {
-          return country.countryId === userData.Place_living.countryId && 
-          country.tripTiming === 2;
+          return (
+            country.countryId === userData.Place_living.countryId &&
+            country.tripTiming === 2
+          );
         })
       ) {
         countryArray.push({
@@ -99,22 +105,20 @@ console.log(clickedCountryArray)
         handleLoadedCountries(data);
         return (
           <div className="map-container">
-            <div className="map">
-              <div>
-                {cityOrCountry ? (
-                  <CityMap
-                    tripData={tripData}
-                    handleMapTypeChange={handleMapTypeChange}
-                    deleteCity={deleteCity}
-                  />
-                ) : (
-                  <CountryMap
-                    clickedCountryArray={clickedCountryArray}
-                    handleMapTypeChange={handleMapTypeChange}
-                    refetch={refetch}
-                  />
-                )}
-              </div>
+            <div className={cityOrCountry ? "city-map" : "country-map"}>
+              {cityOrCountry ? (
+                <CityMap
+                  tripData={tripData}
+                  handleMapTypeChange={handleMapTypeChange}
+                  deleteCity={deleteCity}
+                />
+              ) : (
+                <CountryMap
+                  clickedCountryArray={clickedCountryArray}
+                  handleMapTypeChange={handleMapTypeChange}
+                  refetch={refetch}
+                />
+              )}
             </div>
           </div>
         );

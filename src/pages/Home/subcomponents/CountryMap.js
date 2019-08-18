@@ -181,7 +181,7 @@ const CountryMap = props => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    showPopup(1);
+    showPopup(true);
     handleNewCountry(geography);
   }
 
@@ -232,7 +232,7 @@ const CountryMap = props => {
 
   return (
     <>
-      <div className="map-header-container" style={{ position: "relative" }}>
+      <div className="map-header-container">
         <div className="map-header-button">
           <button onClick={() => props.handleMapTypeChange(1)}>
             Go to City Map
@@ -270,6 +270,8 @@ const CountryMap = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+
       <div className="continent-container">
         <button className="continent-button" onClick={handleMapReset}>
           {"World"}
@@ -300,8 +302,6 @@ const CountryMap = props => {
           }}
         />
       ) : null}
-      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
-
       <MapScorecard
         tripTimingCounts={tripTimingCounts}
         activeTimings={activeTimings}

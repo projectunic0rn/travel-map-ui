@@ -73,7 +73,7 @@ class CityMap extends Component {
     let clickedCityArray = this.state.clickedCityArray;
     let cityIndex = null;
     clickedCityArray.find((city, i) => {
-    if (city.id === cityId) {
+      if (city.id === cityId) {
         cityIndex = i;
         return true;
       } else {
@@ -121,7 +121,7 @@ class CityMap extends Component {
     let markerPastDisplay = [];
     let markerFutureDisplay = [];
     let markerLiveDisplay = this.state.markerLiveDisplay;
-    markers.map(city => {
+    markers.map((city) => {
       if (city.city !== undefined) {
         let color = "red";
         switch (city.tripTiming) {
@@ -293,7 +293,7 @@ class CityMap extends Component {
     }
     if (data != null && data.Place_living !== null) {
       if (
-        !clickedCityArray.some(city => {
+        !clickedCityArray.some((city) => {
           return city.cityId === data.Place_living.cityId;
         })
       ) {
@@ -518,7 +518,7 @@ class CityMap extends Component {
               this.deleteCity(cityTooltip.id, cityTooltip.tripTiming)
             }
           >
-            {mutation => (
+            {(mutation) => (
               <TrashIcon cityKey={cityTooltip.cityId} trashClicked={mutation} />
             )}
           </Mutation>
@@ -537,21 +537,15 @@ class CityMap extends Component {
       activePopup,
       clickedCity
     } = this.state;
-    console.log(this.props)
     if (loading) return <div>Loading...</div>;
     return (
       <>
-        <div
-          className="map-header-container"
-          style={{ position: "absolute", left: "calc(50% - 500px)" }}
-        >
+        <div className="map-header-container">
           <div className="map-header-button">
-            <button onClick={() => this.props.handleMapTypeChange(0)}>
+            <button onClick={() => this.props.handleMapTypeChange(false)}>
               Go to Country Map
             </button>
           </div>
-          <div className="map-header-filler" />
-          <div className="map-header-filler" />
         </div>
         <div className="city-map-container">
           <MapGL
@@ -574,7 +568,7 @@ class CityMap extends Component {
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }
-              position="top-left"
+              position={window.innerWidth < 700 ? "top-right" : "center"}
               types={"place"}
               placeholder={"Type a city..."}
             />
