@@ -1,32 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-export default function MapScorecard(props) {
-  const [isPastActive, handlePastActive] = useState(props.activeTimings[0]);
-  const [isFutureActive, handleFutureActive] = useState(props.activeTimings[1]);
-  const [isLiveActive, handleLiveActive] = useState(props.activeTimings[2]);
-  const { tripTimingCounts } = props;
+import DragIcon from "../../../icons/DragIcon";
+
+export default function MapScorecard({
+  tripTimingCounts,
+  sendActiveTimings,
+  activeTimings
+}) {
+  const [isPastActive, handlePastActive] = useState(activeTimings[0]);
+  const [isFutureActive, handleFutureActive] = useState(activeTimings[1]);
+  const [isLiveActive, handleLiveActive] = useState(activeTimings[2]);
 
   function handleTimingClicked(timingCategory) {
     switch (timingCategory) {
       case 0:
-        props.sendActiveTimings([!isPastActive, isFutureActive, isLiveActive]);
+        sendActiveTimings([!isPastActive, isFutureActive, isLiveActive]);
         handlePastActive(!isPastActive);
         break;
       case 1:
-        props.sendActiveTimings([isPastActive, !isFutureActive, isLiveActive]);
+        sendActiveTimings([isPastActive, !isFutureActive, isLiveActive]);
         handleFutureActive(!isFutureActive);
         break;
       case 2:
-        props.sendActiveTimings([isPastActive, isFutureActive, !isLiveActive]);
+        sendActiveTimings([isPastActive, isFutureActive, !isLiveActive]);
         handleLiveActive(!isLiveActive);
         break;
       default:
         break;
     }
   }
+
+  // make the scorecard draggable
+  useEffect(() => {
+    let mouseDown = false;
+
+    let dragIcon = document.querySelector("#scorecard-drag-icon");
+    let scorecardContainer = document.querySelector(".map-scorecard-container");
+
+    let mouseX;
+    let mouseY;
+
+    let elOffsetX;
+    let elOffsetY;
+
+    document.addEventListener("mousemove", mouseMoveEvent);
+
+    dragIcon.addEventListener("mousedown", mouseDownEvent);
+
+    scorecardContainer.addEventListener("mouseup", mouseUpEvent);
+
+    function mouseMoveEvent(event) {
+      mouseX = event.pageX;
+      mouseY = event.pageY;
+
+      if (mouseDown) {
+        scorecardContainer.style.transform = `translate(${mouseX -
+          scorecardContainer.offsetLeft -
+          elOffsetX -
+          164}px, ${mouseY - scorecardContainer.offsetTop - elOffsetY - 10}px)`;
+      }
+    }
+
+    function mouseDownEvent(event) {
+      // To make sure text on the screen is not highlightable when the scorecard is being dragged
+      document.querySelector("body").classList.add("noselect");
+
+      mouseDown = true;
+      elOffsetX = event.offsetX;
+      elOffsetY = event.offsetY;
+    }
+
+    function mouseUpEvent() {
+      document.querySelector("body").classList.remove("noselect");
+      mouseDown = false;
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", mouseMoveEvent);
+      dragIcon.removeEventListener("mousedown", mouseDownEvent);
+      scorecardContainer.removeEventListener("mouseup", mouseUpEvent);
+    };
+  });
+
   return (
-    <div className="map-scorecard-container">
+    <div id="map-scorecard-container" className="map-scorecard-container">
+      <DragIcon id="scorecard-drag-icon" />
       <input
         className="scorecard-checkbox"
         id="past"
