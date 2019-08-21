@@ -21,12 +21,7 @@ class ClickedCountryCities extends Component {
       },
       markerDisplay: null,
       markerIndex:  null,
-      cities: [{
-        city: "",
-        cityId: 0,
-        city_latitude: 0,
-        city_longitude: 0
-      }],
+      cities: [],
       country: {
         country: this.props.country,
         countryId: this.props.countryId,
@@ -108,7 +103,7 @@ class ClickedCountryCities extends Component {
   handleNewMarkers(markers, type) {
     let fill = "";
     switch(this.props.timing) {
-      case 0: 
+      case 0:
         fill = "rgba(203, 118, 120, 0.75)";
         break;
       case 1:
@@ -163,11 +158,8 @@ class ClickedCountryCities extends Component {
       city_latitude: event.result.center[1] * 1000000,
       city_longitude: event.result.center[0] * 1000000
     };
-    if (cities[0].city === "") {
-      cities[0] = cityArrayElement;
-    } else {
-      cities.push(cityArrayElement);
-    }
+
+    cities.push(cityArrayElement);
     this.setState({
       cities
     });
