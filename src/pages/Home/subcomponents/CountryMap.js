@@ -35,33 +35,21 @@ const CountryMap = props => {
   const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
-  const [pastCountries, handlePastCountries] = useState([]);
-  const [futureCountries, handleFutureCountries] = useState([]);
-  const [liveCountries, handleLiveCountries] = useState([]);
 
   useEffect(() => {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
-    let pastCountries = [];
-    let futureCountries = [];
-    let liveCountries = [];
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].tripTiming === 0) {
-        pastCountries.push(clickedCountryArray[i]);
         pastCount++;
       } else if (clickedCountryArray[i].tripTiming === 1) {
-        futureCountries.push(clickedCountryArray[i]);
         futureCount++;
       } else if (clickedCountryArray[i].tripTiming === 2) {
-        liveCountries.push(clickedCountryArray[i]);
         liveCount++;
       }
     }
     handleTripTiming([pastCount, futureCount, liveCount]);
-    handlePastCountries(pastCountries);
-    handleFutureCountries(futureCountries);
-    handleLiveCountries(liveCountries);
   }, [clickedCountryArray]);
 
   function handleContinentClick(evt) {
@@ -79,10 +67,16 @@ const CountryMap = props => {
   function computedStyles(geography) {
     let isCountryIncluded = false;
     let countryTiming = null;
+    let countryTimingArray = [];
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].countryId === geography.id) {
         isCountryIncluded = true;
         countryTiming = clickedCountryArray[i].tripTiming;
+        if (
+          countryTimingArray.indexOf(clickedCountryArray[i].tripTiming) === -1
+        ) {
+          countryTimingArray.push(countryTiming);
+        }
       }
     }
     let countryStyles = {
@@ -105,75 +99,72 @@ const CountryMap = props => {
         outline: "none"
       }
     };
-
     if (isCountryIncluded) {
-      switch (countryTiming) {
-        case 0:
+      let countryTimingArraySorted = countryTimingArray.sort((a, b) => a - b);
+      switch (countryTimingArraySorted.join()) {
+        case "0":
           if (activeTimings[0]) {
             countryStyles.default.fill = "#CB7678";
-          } else if (
-            futureCountries.some(country => {
-              return country.countryId === geography.id;
-            })
-          ) {
-            if (activeTimings[1]) {
-              countryStyles.default.fill = "#73A7C3";
-            }
-          } else if (
-            liveCountries.some(country => {
-              return country.countryId === geography.id;
-            })
-          ) {
-            if (activeTimings[2]) {
-              countryStyles.default.fill = "#96B1A8";
-            }
-          } 
-            break;
-        case 1:
+          }
+          break;
+        case "1":
           if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           }
-          else if (
-            pastCountries.some(country => {
-              return country.countryId === geography.id;
-            })
-          ) {
-            if (activeTimings[0]) {
-              countryStyles.default.fill = "#CB7678";
-            }
-          } else if (
-            liveCountries.some(country => {
-              return country.countryId === geography.id;
-            })
-          ) {
-            if (activeTimings[2]) {
-              countryStyles.default.fill = "#96B1A8";
-            }
-          } 
           break;
-        case 2:
+        case "2":
           if (activeTimings[2]) {
             countryStyles.default.fill = "#96B1A8";
-          } else if (
-            pastCountries.some(country => {
-              return country.countryId === geography.id;
-            })
-          ) {
-            if (activeTimings[0]) {
-              countryStyles.default.fill = "#CB7678";
+          }
+          break;
+        case "0,1":
+          if (activeTimings[0] && activeTimings[1]) {
+            countryStyles.default.fill = "#a780cd";
+          } else if (activeTimings[0]) {
+            countryStyles.default.fill = "#CB7678";
+          } else if (activeTimings[1]) {
+            countryStyles.default.fill = "#73A7C3";
+          }
+          break;
+        case "0,2":
+          if (activeTimings[0] && activeTimings[2]) {
+            countryStyles.default.fill = "#DBC071";
+          } else if (activeTimings[0]) {
+            countryStyles.default.fill = "#CB7678";
+          } else if (activeTimings[2]) {
+            countryStyles.default.fill = "#96B1A8";
+          }
+          break;
+        case "1,2":
+          if (activeTimings[1] && activeTimings[2]) {
+            countryStyles.default.fill = "#dbf1f4";
+          } else if (activeTimings[1]) {
+            countryStyles.default.fill = "#73A7C3";
+          } else if (activeTimings[2]) {
+            countryStyles.default.fill = "#96B1A8";
+          }
+          break;
+        case "0,1,2":
+          if (activeTimings[0] && activeTimings[1]) {
+            if (activeTimings[2]) {
+              countryStyles.default.fill = "rgb(248, 248, 252)";
+            } else {
+              countryStyles.default.fill = "#a780cd";
             }
-          } else if (
-            futureCountries.some(country => {
-              return country.countryId === geography.id;
-            })
-          ) {
-            if (activeTimings[1]) {
-              countryStyles.default.fill = "#73A7C3";
-            }
+          } else if (activeTimings[0] && activeTimings[2]) {
+            countryStyles.default.fill = "#DBC071";
+          } else if (activeTimings[1] && activeTimings[2]) {
+            countryStyles.default.fill = "#dbf1f4";
+          } else if (activeTimings[0]) {
+            countryStyles.default.fill = "#DBC071";
+          } else if (activeTimings[1]) {
+            countryStyles.default.fill = "#73A7C3";
+          } else if (activeTimings[2]) {
+            countryStyles.default.fill = "#96B1A8";
           }
           break;
         default:
-          countryStyles.default.fill = "white";
+          break;
       }
     }
     return countryStyles;

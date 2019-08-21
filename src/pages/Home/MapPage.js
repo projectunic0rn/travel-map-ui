@@ -8,8 +8,6 @@ const MapPage = () => {
   const [cityOrCountry, handleMapTypeChange] = useState(0);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
-console.log(tripData);
-console.log(clickedCountryArray)
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;

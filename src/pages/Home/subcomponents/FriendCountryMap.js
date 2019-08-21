@@ -35,9 +35,6 @@ const FriendCountryMap = props => {
   const [activePopup, showPopup] = useState(null);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
-  const [pastCountries, handlePastCountries] = useState([]);
-  const [futureCountries, handleFutureCountries] = useState([]);
-  const [liveCountries, handleLiveCountries] = useState([]);
 
   useEffect(() => {
     handleLoadedCountries(props.tripData);
@@ -47,9 +44,6 @@ const FriendCountryMap = props => {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
-    let pastCountries = [];
-    let futureCountries = [];
-    let liveCountries = [];
     for (let i in data) {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
@@ -61,7 +55,6 @@ const FriendCountryMap = props => {
               );
             })
           ) {
-            pastCountries.push(data[i].Places_visited[j].countryId);
             pastCount++;
           }
           if (data[i].Places_visited[j].cityId !== undefined) {
@@ -89,7 +82,6 @@ const FriendCountryMap = props => {
               );
             })
           ) {
-            futureCountries.push(data[i].Places_visiting[j].countryId);
             futureCount++;
           }
           if (data[i].Places_visiting[j].cityId !== undefined) {
@@ -116,7 +108,6 @@ const FriendCountryMap = props => {
             );
           })
         ) {
-          liveCountries.push(data[i].Place_living.countryId);
           liveCount++;
         }
         if (
@@ -140,10 +131,6 @@ const FriendCountryMap = props => {
     }
     handleCountryArray(countryArray);
     handleTripTiming([pastCount, futureCount, liveCount]);
-    handlePastCountries(pastCountries);
-    handleFutureCountries(futureCountries);
-    handleLiveCountries(liveCountries);
-    console.log(pastCountries);
   }
 
   function handleContinentClick(evt) {
@@ -161,10 +148,14 @@ const FriendCountryMap = props => {
   function computedStyles(geography) {
     let isCountryIncluded = false;
     let countryTiming = null;
+    let countryTimingArray = [];
     for (let i in countryArray) {
       if (countryArray[i].countryId === geography.id) {
         isCountryIncluded = true;
         countryTiming = countryArray[i].tripTiming;
+        if (countryTimingArray.indexOf(countryArray[i].tripTiming) === -1) {
+          countryTimingArray.push(countryTiming);
+        }
       }
     }
     let countryStyles = {
@@ -189,48 +180,71 @@ const FriendCountryMap = props => {
     };
 
     if (isCountryIncluded) {
-      switch (countryTiming) {
-        case 0:
+      let countryTimingArraySorted = countryTimingArray.sort((a, b) => a - b);
+      switch (countryTimingArraySorted.join()) {
+        case "0":
           if (activeTimings[0]) {
             countryStyles.default.fill = "#CB7678";
-          } else if (futureCountries.indexOf(geography.id) !== -1) {
-            if (activeTimings[1]) {
-              countryStyles.default.fill = "#73A7C3";
-            }
-          } else if (liveCountries.indexOf(geography.id) !== -1) {
-            if (activeTimings[2]) {
-              countryStyles.default.fill = "#96B1A8";
-            }
           }
           break;
-        case 1:
+        case "1":
           if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
-          } else if (pastCountries.indexOf(geography.id) !== -1) {
-            if (activeTimings[0]) {
-              countryStyles.default.fill = "#CB7678";
-            }
-          } else if (liveCountries.indexOf(geography.id) !== -1) {
-            if (activeTimings[2]) {
-              countryStyles.default.fill = "#96B1A8";
-            }
           }
           break;
-        case 2:
+        case "2":
           if (activeTimings[2]) {
             countryStyles.default.fill = "#96B1A8";
-          } else if (pastCountries.indexOf(geography.id) !== -1) {
-            if (activeTimings[0]) {
-              countryStyles.default.fill = "#CB7678";
+          }
+          break;
+        case "0,1":
+          if (activeTimings[0] && activeTimings[1]) {
+            countryStyles.default.fill = "#a780cd";
+          } else if (activeTimings[0]) {
+            countryStyles.default.fill = "#CB7678";
+          } else if (activeTimings[1]) {
+            countryStyles.default.fill = "#73A7C3";
+          }
+          break;
+        case "0,2":
+          if (activeTimings[0] && activeTimings[2]) {
+            countryStyles.default.fill = "#DBC071";
+          } else if (activeTimings[0]) {
+            countryStyles.default.fill = "#CB7678";
+          } else if (activeTimings[2]) {
+            countryStyles.default.fill = "#96B1A8";
+          }
+          break;
+        case "1,2":
+          if (activeTimings[1] && activeTimings[2]) {
+            countryStyles.default.fill = "#dbf1f4";
+          } else if (activeTimings[1]) {
+            countryStyles.default.fill = "#73A7C3";
+          } else if (activeTimings[2]) {
+            countryStyles.default.fill = "#96B1A8";
+          }
+          break;
+        case "0,1,2":
+          if (activeTimings[0] && activeTimings[1]) {
+            if (activeTimings[2]) {
+              countryStyles.default.fill = "rgb(248, 248, 252)";
+            } else {
+              countryStyles.default.fill = "#a780cd";
             }
-          } else if (futureCountries.indexOf(geography.id) !== -1) {
-            if (activeTimings[1]) {
-              countryStyles.default.fill = "#73A7C3";
-            }
+          } else if (activeTimings[0] && activeTimings[2]) {
+            countryStyles.default.fill = "#DBC071";
+          } else if (activeTimings[1] && activeTimings[2]) {
+            countryStyles.default.fill = "#dbf1f4";
+          } else if (activeTimings[0]) {
+            countryStyles.default.fill = "#DBC071";
+          } else if (activeTimings[1]) {
+            countryStyles.default.fill = "#73A7C3";
+          } else if (activeTimings[2]) {
+            countryStyles.default.fill = "#96B1A8";
           }
           break;
         default:
-          countryStyles.default.fill = "black";
+          break;
       }
     }
     return countryStyles;
