@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
+
 import { Mutation } from "react-apollo";
 import { REMOVE_PLACE_VISITING, REMOVE_PLACE_VISITED } from "../../../GraphQL";
 import MapScorecard from "./MapScorecard";
@@ -14,6 +15,7 @@ class CityMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      windowWidth: undefined,
       viewport: {
         width: 400,
         height: 400,
@@ -59,6 +61,7 @@ class CityMap extends Component {
   }
 
   componentDidMount() {
+    this.setState({ windowWidth: window.innerWidth });
     window.addEventListener("resize", this.resize);
     this.resize();
     this.handleLoadedCities(this.props.tripData);
@@ -90,6 +93,7 @@ class CityMap extends Component {
   }
 
   resize() {
+    this.setState({ windowWidth: window.innerWidth });
     this.handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
@@ -546,8 +550,10 @@ class CityMap extends Component {
               Go to Country Map
             </button>
           </div>
+          
         </div>
         <div className="city-map-container">
+        
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/cjxh021qj111t1co3fae7eaqh"}
             ref={this.mapRef}
@@ -557,10 +563,6 @@ class CityMap extends Component {
             }
             onViewportChange={this.handleViewportChange}
           >
-            {this.state.activeTimings[0] ? markerPastDisplay : null}
-            {this.state.activeTimings[1] ? markerFutureDisplay : null}
-            {this.state.activeTimings[2] ? markerLiveDisplay : null}
-            {this._renderPopup()}
             <Geocoder
               mapRef={this.mapRef}
               onResult={this.handleOnResult}
@@ -568,10 +570,15 @@ class CityMap extends Component {
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }
-              position={window.innerWidth < 700 ? "top-right" : "center"}
+              position={"top-right"}
               types={"place"}
               placeholder={"Type a city..."}
             />
+           {this.state.activeTimings[0] ? markerPastDisplay : null}
+             {this.state.activeTimings[1] ? markerFutureDisplay : null}
+             {this.state.activeTimings[2] ? markerLiveDisplay : null}
+             {this._renderPopup()} 
+             
           </MapGL>
         </div>
         <div className="city-map-scorecard">

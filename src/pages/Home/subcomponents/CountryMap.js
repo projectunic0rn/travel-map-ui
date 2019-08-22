@@ -239,7 +239,7 @@ const CountryMap = props => {
           </button>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
-        <div className="map-header-filler" />
+        {/* <div className="map-header-filler" /> */}
       </div>
       <ComposableMap
         projectionConfig={{
