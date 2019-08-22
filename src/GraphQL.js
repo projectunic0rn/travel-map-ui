@@ -29,6 +29,12 @@ export const GET_ALL_USER_COUNTRIES = gql`
       Place_living {
         id
         country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
       }
     }
   }
@@ -61,6 +67,12 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       Place_living {
         id
         country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
       }
     }
   }
@@ -111,10 +123,25 @@ export const REMOVE_PLACE_VISITING = gql`
 `;
 
 export const ADD_PLACE_LIVING = gql`
-  mutation addPlaceLiving($country: Int!, $city: Int!) {
-    addPlaceLiving(country: $country, city: $city) {
+  mutation addPlaceLiving($country: Country!, $cities: [City!]) {
+    addPlaceLiving(country: $country, cities: $cities) {
       id
       country
+      city
+      cityId
+      city_latitude
+      city_longitude
+    }
+  }
+`;
+
+// This will depend on how the UI is laid out
+export const UPDATE_PLACE_LIVING = gql`
+  mutation updatePlaceLiving($country: Int!, $cities: Int!) {
+    updatePlaceLiving(country: $country, cities: $city) {
+      id
+      country
+      city
     }
   }
 `;

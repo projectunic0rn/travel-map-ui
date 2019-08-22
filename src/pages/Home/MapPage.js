@@ -10,7 +10,6 @@ const MapPage = () => {
   const [cityOrCountry, handleMapTypeChange] = useState(false);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
-
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.getLoggedInUser;
@@ -58,7 +57,7 @@ const MapPage = () => {
         })
       ) {
         countryArray.push({
-          countryId: userData.Place_living.country,
+          countryId: userData.Place_living.countryId,
           tripTiming: 2
         });
       }
@@ -75,6 +74,9 @@ const MapPage = () => {
         break;
       case 1:
         tripDataType = tripData.Places_visiting;
+        break;
+      case 2:
+        tripDataType = tripData.Places_living;
         break;
       default:
         break;

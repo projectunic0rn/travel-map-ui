@@ -53,7 +53,7 @@ const FriendMapPage = () => {
         ) {
           countryArray.push({
             username: userData.username,
-            countryId: userData.Place_living.country,
+            countryId: userData.Place_living.countryId,
             tripTiming: 2
           });
         }
