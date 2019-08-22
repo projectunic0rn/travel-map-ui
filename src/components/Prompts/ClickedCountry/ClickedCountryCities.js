@@ -109,8 +109,11 @@ class ClickedCountryCities extends Component {
       case 1:
         fill = "rgba(115, 167, 195, 0.75)";
         break;
-      default:
+      case 2:
+        fill = "rgba(150, 177, 168, 0.75)";
         break;
+      default: 
+      break;
     }
     let markerDisplay = markers.map((city, i) => {
       return (

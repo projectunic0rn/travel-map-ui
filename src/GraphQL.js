@@ -29,6 +29,12 @@ export const GET_ALL_USER_COUNTRIES = gql`
       Place_living {
         id
         country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
       }
     }
   }
@@ -61,6 +67,12 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       Place_living {
         id
         country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
       }
     }
   }
@@ -116,6 +128,9 @@ export const ADD_PLACE_LIVING = gql`
       id
       country
       city
+      cityId
+      city_latitude
+      city_longitude
     }
   }
 `;
