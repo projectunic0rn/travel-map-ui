@@ -550,10 +550,8 @@ class CityMap extends Component {
               Go to Country Map
             </button>
           </div>
-          
         </div>
         <div className="city-map-container">
-        
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/cjxh021qj111t1co3fae7eaqh"}
             ref={this.mapRef}

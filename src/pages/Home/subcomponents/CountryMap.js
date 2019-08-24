@@ -6,6 +6,7 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
+
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
@@ -16,7 +17,7 @@ import MapInfoContainer from "./MapInfoContainer";
 /* Need to make it so that duplicate country trips do not count as multiple
 scorecard values */
 
-const CountryMap = props => {
+const CountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -230,7 +231,6 @@ const CountryMap = props => {
           </button>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
-        {/* <div className="map-header-filler" /> */}
       </div>
       <ComposableMap
         projectionConfig={{
@@ -262,7 +262,6 @@ const CountryMap = props => {
         </ZoomableGroup>
       </ComposableMap>
       <MapInfoContainer countryName={countryName} capitalName={capitalName} />
-
       <div className="continent-container">
         <button className="continent-button" onClick={handleMapReset}>
           {"World"}

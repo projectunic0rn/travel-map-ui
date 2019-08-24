@@ -4,9 +4,9 @@ $container: 1600px;
 @import "./pages/Profile/Profile";
 @import "./pages/Landing/Landing";
 @import "./pages/Home/MapPage";
-@import "./components/Prompts/PopupPrompts.scss";
-@import "./components/common/PageNotFound";
-@import "./icons/Icons.scss";
+@import "./components/Prompts/PopupPrompts";
+@import "./components/common/common";
+@import "./icons/Icons";
 
 * {
   box-sizing: border-box;

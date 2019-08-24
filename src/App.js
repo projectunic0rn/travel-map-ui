@@ -9,7 +9,7 @@ import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
-import PageNotFound from "./components/common/PageNotFound";
+import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import "./_App.scss";
 
 function App({ userAuthenticated }) {

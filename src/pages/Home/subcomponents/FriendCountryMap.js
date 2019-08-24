@@ -16,7 +16,7 @@ import MapInfoContainer from "./MapInfoContainer";
 /* Need to make it so that duplicate country trips do not count as multiple
 scorecard values */
 
-const FriendCountryMap = props => {
+const FriendCountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -48,7 +48,7 @@ const FriendCountryMap = props => {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
           if (
-            !countryArray.some(country => {
+            !countryArray.some((country) => {
               return (
                 country.countryId === data[i].Places_visited[j].countryId &&
                 country.tripTiming === 0
@@ -75,7 +75,7 @@ const FriendCountryMap = props => {
       if (data != null && data[i].Places_visiting.length !== 0) {
         for (let j = 0; j < data[i].Places_visiting.length; j++) {
           if (
-            !countryArray.some(country => {
+            !countryArray.some((country) => {
               return (
                 country.countryId === data[i].Places_visiting[j].countryId &&
                 country.tripTiming === 1
@@ -101,7 +101,7 @@ const FriendCountryMap = props => {
       }
       if (data != null && data[i].Place_living !== null) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return (
               country.countryId === data[i].Place_living.countryId &&
               country.tripTiming === 2
@@ -111,7 +111,7 @@ const FriendCountryMap = props => {
           liveCount++;
         }
         if (
-          !countryArray.some(city => {
+          !countryArray.some((city) => {
             return city.cityId === data[i].Place_living.cityId;
           })
         ) {
@@ -253,7 +253,7 @@ const FriendCountryMap = props => {
   function handleClickedCountry(geography) {
     countryInfo(geography);
     let clickedCountryArray = countryArray.filter(
-      country => country.countryId === geography.id
+      (country) => country.countryId === geography.id
     );
     handleClickedCountryArray(clickedCountryArray);
     showPopup(1);
@@ -269,14 +269,13 @@ const FriendCountryMap = props => {
   }
   return (
     <>
-      <div className="map-header-container" style={{ position: "relative" }}>
+      <div className="map-header-container">
         <div className="map-header-button">
           <button onClick={() => props.handleMapTypeChange(1)}>
             Go to City Map
           </button>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
-        <div className="map-header-filler" />
       </div>
       <ComposableMap
         projectionConfig={{
@@ -307,6 +306,7 @@ const FriendCountryMap = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
       <div className="continent-container">
         <button className="continent-button" onClick={handleMapReset}>
           {"World"}
@@ -337,8 +337,6 @@ const FriendCountryMap = props => {
           }}
         />
       ) : null}
-      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
-
       <MapScorecard
         tripTimingCounts={tripTimingCounts}
         activeTimings={activeTimings}

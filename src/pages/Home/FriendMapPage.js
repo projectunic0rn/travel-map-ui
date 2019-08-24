@@ -76,8 +76,7 @@ const FriendMapPage = () => {
         handleLoadedCountries(data);
         return (
           <div className="map-container">
-            <div className="map">
-              <div>
+            <div className={cityOrCountry ? "city-map" : "country-map"}>
                 {cityOrCountry ? (
                   <FriendCityMap
                     tripData={tripData}
@@ -91,7 +90,6 @@ const FriendMapPage = () => {
                     refetch={refetch}
                   />
                 )}
-              </div>
             </div>
           </div>
         );
