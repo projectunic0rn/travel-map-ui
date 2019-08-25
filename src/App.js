@@ -10,6 +10,7 @@ import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
+import Loader from './components/common/Loader/Loader';
 import "./_App.scss";
 
 function App({ userAuthenticated }) {
@@ -57,6 +58,7 @@ function App({ userAuthenticated }) {
 
             <Route path="/profile/" component={Profile} />
             <Route path="/friends/" component={FriendMapPage} />
+            <Route path="/loader/" component={Loader} />
             <Route component={PageNotFound} />
           </Switch>
         </Fragment>

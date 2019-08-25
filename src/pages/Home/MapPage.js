@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
 
-import MapSearch from "./subcomponents/MapSearch";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "../../GraphQL";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
+import Loader from "../../components/common/Loader/Loader";
 
 const MapPage = () => {
   const [cityOrCountry, handleMapTypeChange] = useState(false);
@@ -102,7 +102,7 @@ const MapPage = () => {
       onCompleted={(data) => handleTripData(data.getLoggedInUser)}
     >
       {({ loading, error, data, refetch }) => {
-        if (loading) return <div>Loading...</div>;
+        if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
         handleLoadedCountries(data);
         return (

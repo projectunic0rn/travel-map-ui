@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { GET_ALL_USER_COUNTRIES } from "../../GraphQL";
 import FriendCountryMap from "./subcomponents/FriendCountryMap";
 import FriendCityMap from "./subcomponents/FriendCityMap";
+import Loader from "../../components/common/Loader/Loader";
 
 const FriendMapPage = () => {
   const [cityOrCountry, handleMapTypeChange] = useState(0);
@@ -71,7 +72,7 @@ const FriendMapPage = () => {
       onCompleted={data => handleTripData(data.users)}
     >
       {({ loading, error, data, refetch }) => {
-        if (loading) return <div>Loading...</div>;
+        if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
         handleLoadedCountries(data);
         return (
