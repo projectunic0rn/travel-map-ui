@@ -9,11 +9,20 @@
   height: calc(100% - 30px);
   width: 80vw;
   margin: 0 auto;
+  .country-map {
+    margin: 0px auto 0 auto;
+    max-width: 90vw;
+    position: relative;
+    .rsm-svg {
+      transform: translate(0, -20px);
+      @media screen and (min-width: 2000px) {
+        transform: translateY(-50px);
+      }
+    }
+  }
   .map {
     width: 100%;
-    max-width: 80vw;
-    margin: 0 0 0 0;
-    height: calc(100% - 30px);
+    height: calc(100% - 80px);
     &:focus {
       outline: none;
     }
@@ -41,6 +50,7 @@
           }
           &:hover {
             background: rgb(200, 200, 200);
+            color: #3f4b57;
           }
         }
       }
@@ -52,9 +62,10 @@
     .continent-container {
       display: flex;
       justify-content: center;
+      align-content: center;
       margin: 0 auto;
-      @media screen and (min-width: 2400px) {
-        transform: translateY(-60px);
+      @media screen and (min-width: 2000px) {
+        transform: translateY(-90px);
       }
       button {
         z-index: 2;
@@ -63,6 +74,9 @@
         font-size: 18px;
         font-family: "Segoe UI", sans-serif;
         color: rgb(232, 232, 232);
+        @media (max-width: 800px) {
+          font-size: 14px;
+        }
         &:hover {
           color: $grey;
         }
