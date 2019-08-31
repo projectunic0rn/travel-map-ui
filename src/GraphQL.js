@@ -123,7 +123,7 @@ export const REMOVE_PLACE_VISITING = gql`
 `;
 
 export const ADD_PLACE_LIVING = gql`
-  mutation addPlaceLiving($country: Country!, $cities: [City!]) {
+  mutation addPlaceLiving($country: Country!, $cities: City!) {
     addPlaceLiving(country: $country, cities: $cities) {
       id
       country

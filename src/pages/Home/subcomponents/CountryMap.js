@@ -232,6 +232,23 @@ const CountryMap = props => {
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />
       </div>
+      <div className="continent-container">
+        <button className="continent-button" onClick={handleMapReset}>
+          {"World"}
+        </button>
+        {continents.map((continent, i) => {
+          return (
+            <button
+              key={i}
+              className="continent-button"
+              data-continent={i}
+              onClick={handleContinentClick}
+            >
+              {continent.name}
+            </button>
+          );
+        })}
+      </div>
       <ComposableMap
         projectionConfig={{
           scale: 205
@@ -261,25 +278,14 @@ const CountryMap = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+      
+      <MapScorecard
+        tripTimingCounts={tripTimingCounts}
+        activeTimings={activeTimings}
+        sendActiveTimings={handleActiveTimings}
+      />
       <MapInfoContainer countryName={countryName} capitalName={capitalName} />
 
-      <div className="continent-container">
-        <button className="continent-button" onClick={handleMapReset}>
-          {"World"}
-        </button>
-        {continents.map((continent, i) => {
-          return (
-            <button
-              key={i}
-              className="continent-button"
-              data-continent={i}
-              onClick={handleContinentClick}
-            >
-              {continent.name}
-            </button>
-          );
-        })}
-      </div>
       {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
@@ -293,12 +299,6 @@ const CountryMap = props => {
           }}
         />
       ) : null}
-
-      <MapScorecard
-        tripTimingCounts={tripTimingCounts}
-        activeTimings={activeTimings}
-        sendActiveTimings={handleActiveTimings}
-      />
     </>
   );
 };

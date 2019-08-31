@@ -106,21 +106,19 @@ const MapPage = () => {
         return (
           <div className="map-container">
             <div className={cityOrCountry ? "map city-map" : "map country-map"}>
-              <div>
-                {cityOrCountry ? (
-                  <CityMap
-                    tripData={tripData}
-                    handleMapTypeChange={handleMapTypeChange}
-                    deleteCity={deleteCity}
-                  />
-                ) : (
-                  <CountryMap
-                    clickedCountryArray={clickedCountryArray}
-                    handleMapTypeChange={handleMapTypeChange}
-                    refetch={refetch}
-                  />
-                )}
-              </div>
+              {cityOrCountry ? (
+                <CityMap
+                  tripData={tripData}
+                  handleMapTypeChange={handleMapTypeChange}
+                  deleteCity={deleteCity}
+                />
+              ) : (
+                <CountryMap
+                  clickedCountryArray={clickedCountryArray}
+                  handleMapTypeChange={handleMapTypeChange}
+                  refetch={refetch}
+                />
+              )}
             </div>
           </div>
         );

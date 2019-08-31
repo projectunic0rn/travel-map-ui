@@ -21,7 +21,7 @@ class ClickedCountryCities extends Component {
       },
       markerDisplay: null,
       markerIndex:  null,
-      cities: [],
+      mapCities: [],
       country: {
         country: this.props.country,
         countryId: this.props.countryId,
@@ -151,7 +151,7 @@ class ClickedCountryCities extends Component {
   }
 
   handleOnResult(event) {
-    let cities = this.state.cities;
+    let cities = this.state.mapCities;
     let cityArrayElement = {
       city: event.result.text,
       cityId: parseFloat(event.result.properties.wikidata.slice(1), 10),
@@ -161,7 +161,7 @@ class ClickedCountryCities extends Component {
 
     cities.push(cityArrayElement);
     this.setState({
-      cities
+      mapCities: cities
     });
     this.handleNewMarkers(cities, 1);
   }
@@ -198,7 +198,7 @@ class ClickedCountryCities extends Component {
   }
 
   deleteCity(cityId) {
-    let cities = this.state.cities;
+    let cities = this.state.mapCities;
     let cityIndex = null;
     cities.find((city, i) => {
       if (city.cityId === cityId) {
@@ -209,27 +209,32 @@ class ClickedCountryCities extends Component {
       }
     });
     cities.splice(cityIndex, 1);
-    this.setState({ cities, cityTooltip: null });
+    this.setState({ mapCities: cities, cityTooltip: null });
     this.handleNewMarkers(cities, 0);
   }
 
   render() {
-    const { viewport, markerDisplay, country, cities, style } = this.state;
+    const { viewport, markerDisplay, country, mapCities, style } = this.state;
     let mutationType = "";
+    let cities = "";
     switch(this.props.timing) {
       case 0:
         mutationType = ADD_PLACE_VISITED;
+        cities = mapCities;
         break;
       case 1:
         mutationType = ADD_PLACE_VISITING;
+        cities = mapCities;
         break;
       case 2:
         mutationType = ADD_PLACE_LIVING;
+        cities = mapCities[0];
         break;
       default:
         break;
     }
     console.log(viewport);
+
     return (
       <div className="city-choosing-container">
         <Mutation
