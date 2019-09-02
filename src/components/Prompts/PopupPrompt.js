@@ -1,10 +1,11 @@
 import React from "react";
-import PropTypes from 'prop-types';
-
-
+import PropTypes from "prop-types";
 
 function PopupPrompt(props) {
-    const ShownComponent = props.component;
+  const ShownComponent = props.component;
+  function handleShowPopup() {
+    props.showPopup(0);
+  }
   return (
     <div className="popup-container">
       <div
@@ -12,17 +13,20 @@ function PopupPrompt(props) {
         onClick={() => props.showPopup(!props.activePopup)}
       />
       <div className="popup-card-container">
-        <ShownComponent customProps = {props.componentProps}/>
+        <ShownComponent
+          customProps={props.componentProps}
+          showPopup={handleShowPopup}
+        />
       </div>
     </div>
   );
 }
 
 PopupPrompt.propTypes = {
-    showPopup: PropTypes.func,
-    activePopup: PropTypes.bool,
-    component: PropTypes.func,
-    componentProps: PropTypes.object
-}
+  showPopup: PropTypes.func,
+  activePopup: PropTypes.bool,
+  component: PropTypes.func,
+  componentProps: PropTypes.object
+};
 
 export default PopupPrompt;

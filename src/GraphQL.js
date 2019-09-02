@@ -137,8 +137,8 @@ export const ADD_PLACE_LIVING = gql`
 
 // This will depend on how the UI is laid out
 export const UPDATE_PLACE_LIVING = gql`
-  mutation updatePlaceLiving($country: Int!, $cities: Int!) {
-    updatePlaceLiving(country: $country, cities: $city) {
+  mutation updatePlaceLiving($id: Int!, $country: Country!, $cities: City!) {
+    updatePlaceLiving(id: $id, country: $country, cities: $cities) {
       id
       country
       city

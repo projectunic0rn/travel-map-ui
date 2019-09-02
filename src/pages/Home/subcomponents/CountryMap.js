@@ -13,9 +13,6 @@ import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
-/* Need to make it so that duplicate country trips do not count as multiple
-scorecard values */
-
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
@@ -278,7 +275,7 @@ const CountryMap = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-      
+
       <MapScorecard
         tripTimingCounts={tripTimingCounts}
         activeTimings={activeTimings}
@@ -295,6 +292,7 @@ const CountryMap = props => {
             countryInfo: clickedCountry,
             handleTripTiming: handleTripTimingHelper,
             previousTrips: checkForPreviousTrips(clickedCountry),
+            tripData: props.tripData,
             refetch: props.refetch
           }}
         />
@@ -307,6 +305,7 @@ CountryMap.propTypes = {
   handleClickedCountry: PropTypes.func,
   clickedCountryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
+  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   refetch: PropTypes.func
 };
 

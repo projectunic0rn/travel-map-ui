@@ -148,6 +148,8 @@ function ClickedCountryContainer(props) {
               handleTypedCity={handleTypedCity}
               timing={timing}
               updateMap={updateMap}
+              tripData={props.customProps.tripData}
+              showPopup={props.showPopup}
             />
           )
         }[page]
@@ -158,7 +160,8 @@ function ClickedCountryContainer(props) {
 
 ClickedCountryContainer.propTypes = {
   customProps: PropTypes.object,
-  handleTripTiming: PropTypes.func
+  handleTripTiming: PropTypes.func,
+  showPopup: PropTypes.func
 };
 
 export default ClickedCountryContainer;

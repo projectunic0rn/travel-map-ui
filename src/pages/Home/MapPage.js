@@ -114,6 +114,7 @@ const MapPage = () => {
                 />
               ) : (
                 <CountryMap
+                  tripData={tripData}
                   clickedCountryArray={clickedCountryArray}
                   handleMapTypeChange={handleMapTypeChange}
                   refetch={refetch}
