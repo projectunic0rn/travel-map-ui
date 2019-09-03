@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-import { Query } from "react-apollo";
-import { GET_LOGGEDIN_USER_COUNTRIES } from "../../GraphQL";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 
-const MapPage = () => {
+const MapPage = props => {
   const [cityOrCountry, handleMapTypeChange] = useState(false);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
+  const [loaded, handleLoaded] = useState(false);
+
+  useEffect(() => {
+    handleTripData(props.context);
+    handleLoadedCountries(props.context);
+    handleLoaded(true);
+  }, []);
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
-    let userData = data.getLoggedInUser;
+    let userData = data;
     if (userData != null && userData.Places_visited.length !== 0) {
       for (let i = 0; i < userData.Places_visited.length; i++) {
         if (
@@ -90,42 +97,32 @@ const MapPage = () => {
     tripDataType.splice(cityIndex, 1);
     handleTripData(tripData);
   }
-
+  if (!loaded) return <div>Loading...</div>;
   return (
-    <Query
-      query={GET_LOGGEDIN_USER_COUNTRIES}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-      onCompleted={data => handleTripData(data.getLoggedInUser)}
-    >
-      {({ loading, error, data, refetch }) => {
-        if (loading) return <div>Loading...</div>;
-        if (error) return `Error! ${error}`;
-        handleLoadedCountries(data);
-        return (
-          <div className="map-container">
-            <div className={cityOrCountry ? "map city-map" : "map country-map"}>
-              {cityOrCountry ? (
-                <CityMap
-                  tripData={tripData}
-                  handleMapTypeChange={handleMapTypeChange}
-                  deleteCity={deleteCity}
-                />
-              ) : (
-                <CountryMap
-                  tripData={tripData}
-                  clickedCountryArray={clickedCountryArray}
-                  handleMapTypeChange={handleMapTypeChange}
-                  refetch={refetch}
-                />
-              )}
-            </div>
-          </div>
-        );
-      }}
-    </Query>
+    <div className="map-container">
+      <div className={cityOrCountry ? "map city-map" : "map country-map"}>
+        {cityOrCountry ? (
+          <CityMap
+            tripData={tripData}
+            handleMapTypeChange={handleMapTypeChange}
+            deleteCity={deleteCity}
+          />
+        ) : (
+          <CountryMap
+            tripData={tripData}
+            clickedCountryArray={clickedCountryArray}
+            handleMapTypeChange={handleMapTypeChange}
+            refetch={props.refetch}
+          />
+        )}
+      </div>
+    </div>
   );
 };
+
+MapPage.propTypes = {
+  context: PropTypes.object,
+  refetch: PropTypes.func
+}
 
 export default MapPage;

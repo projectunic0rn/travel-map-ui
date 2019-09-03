@@ -2,6 +2,12 @@ import React, { useState, Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
+import { Query } from "react-apollo";
+import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
+import {
+  ProfileProvider,
+  ProfileConsumer
+} from "./pages/Profile/ProfileContext";
 import socket from "./socket";
 
 import Header from "./components/Header/Header";
@@ -51,15 +57,33 @@ function App({ userAuthenticated }) {
     <Router>
       <Header setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} />
       {userLoggedIn ? (
-        <Fragment>
-          <Switch>
-            <Route exact path="/" component={MapPage} />
-
-            <Route path="/profile/" component={Profile} />
-            <Route path="/friends/" component={FriendMapPage} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </Fragment>
+        <Query
+          query={GET_LOGGEDIN_USER_COUNTRIES}
+          notifyOnNetworkStatusChange
+          fetchPolicy={"cache-and-network"}
+          partialRefetch={true}
+        >
+          {({ loading, error, data, refetch }) => {
+            if (loading) return <div>Loading...</div>;
+            if (error) return `Error! ${error}`;
+            return (
+              <ProfileProvider value={data}>
+                <Fragment>
+                  <ProfileConsumer>
+                    {context => (
+                      <Switch>
+                        <Route exact path="/" render={(props) => <MapPage {...props} context = {context.getLoggedInUser} refetch={refetch} />}/>
+                        <Route path="/profile/" render={(props) => <Profile {...props} context = {context.getLoggedInUser} />}/>
+                        <Route path="/friends/" component={FriendMapPage} />
+                        <Route component={PageNotFound} />
+                      </Switch>
+                    )}
+                  </ProfileConsumer>
+                </Fragment>
+              </ProfileProvider>
+            );
+          }}
+        </Query>
       ) : (
         <Landing />
       )}

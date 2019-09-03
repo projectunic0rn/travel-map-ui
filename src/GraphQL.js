@@ -87,6 +87,21 @@ export const GET_LOGGEDIN_USER = gql`
   }
 `;
 
+export const GET_PROFILE_BASICS = gql`
+  query {
+    user(id: 1) {
+      id
+      username
+      full_name
+      email
+      Interests {
+        id
+        name
+      }
+    }
+  }
+`;
+
 //MUTATIONS
 export const ADD_PLACE_VISITED = gql`
   mutation addPlaceVisited($country: Country!, $cities: [City!]) {
