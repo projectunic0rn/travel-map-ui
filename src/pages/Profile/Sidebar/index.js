@@ -6,6 +6,7 @@ import UserActivity from "./UserActivity";
 
 
 export default function Sidebar(props) {
+
   const fakeUser = {
     username: "username123",
     name: "Fake Name",
@@ -16,12 +17,7 @@ export default function Sidebar(props) {
     countryCount: 20,
     cityCount: 30
   };
-  let city = "City";
-  let country = "Country";
-  if (props.userData.Place_living !== null) {
-    city = props.userData.Place_living.city;
-    country = props.userData.Place_living.countryISO;
-  }
+
   return (
     <ProfileConsumer>
       {context => (
@@ -29,13 +25,13 @@ export default function Sidebar(props) {
           <UserDetails
             username={context.username}
             age={fakeUser.age}
-            city={city}
-            country={country}
+            city={props.city}
+            country={props.country}
           />
           <UserActivity
             friendCount={fakeUser.friendCount}
-            countryCount={fakeUser.countryCount}
-            cityCount={fakeUser.cityCount}
+            countryCount={props.countryCount}
+            cityCount={props.cityCount}
           />
           {/* TODO: move tags to component */}
           <div className="user-tags">
@@ -52,5 +48,8 @@ export default function Sidebar(props) {
 
 
 Sidebar.propTypes = {
-  userData: PropTypes.object
+  city: PropTypes.string,
+  country: PropTypes.string,
+  countryCount: PropTypes.number,
+  cityCount: PropTypes.number
 };

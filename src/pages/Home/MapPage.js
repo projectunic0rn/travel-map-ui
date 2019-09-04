@@ -106,6 +106,7 @@ const MapPage = props => {
             tripData={tripData}
             handleMapTypeChange={handleMapTypeChange}
             deleteCity={deleteCity}
+            refetch={props.refetch}
           />
         ) : (
           <CountryMap

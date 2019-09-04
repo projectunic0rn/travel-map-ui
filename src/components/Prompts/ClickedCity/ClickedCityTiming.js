@@ -39,6 +39,7 @@ function ClickedCityTiming(props) {
       default:
         break;
     }
+    props.refetch();
   }
   return (
     <div className="clicked-country-timing-container">
@@ -79,7 +80,8 @@ ClickedCityTiming.propTypes = {
   longitude: PropTypes.number,
   latitude: PropTypes.number,
   cityId: PropTypes.number,
-  countryISO: PropTypes.string
+  countryISO: PropTypes.string,
+  refetch: PropTypes.func
 };
 
 export default ClickedCityTiming;

@@ -597,7 +597,8 @@ class CityMap extends Component {
             component={ClickedCityContainer}
             componentProps={{
               cityInfo: clickedCity,
-              handleTripTiming: this.handleTripTiming
+              handleTripTiming: this.handleTripTiming,
+              refetch: this.props.refetch
             }}
           />
         ) : null}
@@ -609,7 +610,8 @@ class CityMap extends Component {
 CityMap.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
-  deleteCity: PropTypes.func
+  deleteCity: PropTypes.func,
+  refetch: PropTypes.func
 };
 
 export default CityMap;
