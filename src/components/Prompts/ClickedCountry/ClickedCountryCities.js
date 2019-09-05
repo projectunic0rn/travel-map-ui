@@ -48,6 +48,7 @@ class ClickedCountryCities extends Component {
     this.handleNewMarkers = this.handleNewMarkers.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.deleteCity = this.deleteCity.bind(this);
+    this.handleLivePopup = this.handleLivePopup.bind(this);
   }
 
   componentDidMount() {
@@ -175,38 +176,55 @@ class ClickedCountryCities extends Component {
         mapCities: cities
       },
       () => {
-        if (
-          this.props.timing === 2 &&
-          this.props.tripData.Place_living !== null
-        ) {
-          const swalParams = {
-            type: "question",
-            customClass: {
-              container: "live-swal-prompt"
-            },
-            text:
-              "You currently live in " +
-              this.props.tripData.Place_living.city +
-              ", " +
-              this.props.tripData.Place_living.countryISO +
-              ". Would you like to update this to " +
-              this.state.mapCities[0].city +
-              "?"
-          };
-          Swal.fire(swalParams).then(result => {
-            if (result.value) {
-              this.props.showPopup();
-              this.props.updateMap();
-            }
-          });
-          this.setState({
-            swalNotFired: false,
-            livePopup: true
-          });
-        }
+        this.handleLivePopup("city");
       }
     );
     this.handleNewMarkers(cities, 1);
+  }
+
+  handleLivePopup(type) {
+    if (this.props.timing === 2 && this.props.tripData.Place_living !== null) {
+      let popupText = "";
+      switch (type) {
+        case "city":
+          popupText =
+            "You currently live in " +
+            this.props.tripData.Place_living.city +
+            ", " +
+            this.props.tripData.Place_living.countryISO +
+            ". Would you like to update this to " +
+            this.state.mapCities[0].city +
+            "?";
+          break;
+        case "country":
+          popupText =
+            "You currently live in " +
+            this.props.tripData.Place_living.country +
+            ". Would you like to update this to " +
+            this.props.country +
+            "?";
+          break;
+        default:
+          break;
+      }
+      const swalParams = {
+        type: "question",
+        customClass: {
+          container: "live-swal-prompt"
+        },
+        text: popupText
+      };
+      Swal.fire(swalParams).then(result => {
+        if (result.value) {
+          this.props.showPopup();
+          this.props.updateMap();
+        }
+      });
+      this.setState({
+        swalNotFired: false,
+        livePopup: true
+      });
+    }
   }
 
   _onWebGLInitialized(gl) {
@@ -285,7 +303,12 @@ class ClickedCountryCities extends Component {
           onCompleted={this.props.updateMap}
         >
           {mutation => (
-            <button className="submit-cities" style={style} onClick={mutation}>
+            <button
+              className="submit-cities"
+              style={style}
+              onClick={mutation}
+              onMouseOver={() => this.handleLivePopup("country")}
+            >
               Upload
             </button>
           )}
@@ -317,7 +340,11 @@ class ClickedCountryCities extends Component {
           {this.state.livePopup ? (
             <CityLivedPopup
               country={this.state.country}
-              cities={this.state.mapCities[0]}
+              cities={
+                this.state.mapCities.length > 0
+                  ? this.state.mapCities[0]
+                  : { city: "", cityId: 0, city_latitude: 0, city_longitude: 0 }
+              }
               id={this.props.tripData.Place_living.id}
             />
           ) : null}
