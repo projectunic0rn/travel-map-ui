@@ -598,6 +598,7 @@ class CityMap extends Component {
             componentProps={{
               cityInfo: clickedCity,
               handleTripTiming: this.handleTripTiming,
+              tripData: this.props.tripData,
               refetch: this.props.refetch
             }}
           />
