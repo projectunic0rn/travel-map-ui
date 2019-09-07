@@ -38,7 +38,7 @@ const FriendCountryMap = props => {
 
   useEffect(() => {
     handleLoadedCountries(props.tripData);
-  }, []);
+  });
 
   function handleLoadedCountries(data) {
     let pastCount = 0;

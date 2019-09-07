@@ -12,10 +12,10 @@ function FriendClickedCountryContainer(props) {
   const [friendsWithTrips, handleFriendsWithTrips] = useState(0);
   useEffect(() => {
     let uniqueFriends = props.customProps.clickedCountryArray
-      .map(trip => trip.username)
+      .map((trip) => trip.username)
       .filter((value, index, self) => self.indexOf(value) === index);
     handleFriendsWithTrips(uniqueFriends);
-  }, []);
+  }, [props.customProps.clickedCountryArray]);
   let clickedCountryArray = props.customProps.clickedCountryArray.sort(
     (cityA, cityB) =>
       cityA.tripTiming - cityB.tripTiming ||
@@ -109,7 +109,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 1:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 0;
       });
       userTripTitle = <div className="user-trip-title">PAST</div>;
@@ -125,7 +125,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 2:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 1;
       });
       userTripTitle = <div className="user-trip-title">FUTURE</div>;
@@ -141,7 +141,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 3:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 2;
       });
       userTripTitle = <div className="user-trip-title">LIVE</div>;
