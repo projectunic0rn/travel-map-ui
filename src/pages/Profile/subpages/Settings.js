@@ -1,12 +1,25 @@
 import React from "react";
-import { Mutation } from "react-apollo";
+import PropTypes from "prop-types";
 
+import { Mutation } from "react-apollo";
 import { REMOVE_USER } from "../../../GraphQL";
 
-export default function Settings({ history }) {
+function Settings({ history }) {
   function onRemoveUser() {
     localStorage.removeItem("token");
     history.push("/");
+  }
+
+  function onRemoveUserClick(loading, mutation) {
+    if (!loading) {
+      let approval = window.confirm(
+        "You are about to delete your account, this cannot be undone. Are you sure?"
+      );
+      // TODO: Use context to set the userLoggedIn state to false
+      if (approval) {
+        return mutation();
+      }
+    }
   }
 
   return (
@@ -16,12 +29,12 @@ export default function Settings({ history }) {
         <Mutation
           mutation={REMOVE_USER}
           onCompleted={onRemoveUser}
-          onError={(err) => console.log(`Error: ${err}`)}
+          onError={(err) => alert("Unable to delete account" + err)}
         >
           {(mutation, { loading }) => (
             <div
               className={`delete-button ${loading ? "disabled" : ""}`}
-              onClick={mutation}
+              onClick={() => onRemoveUserClick(loading, mutation)}
             >
               Delete Account
             </div>
@@ -31,3 +44,9 @@ export default function Settings({ history }) {
     </div>
   );
 }
+
+Settings.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+export default Settings;

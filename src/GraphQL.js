@@ -184,9 +184,6 @@ export const SIGNUP_USER = gql`
 `;
 
 export const REMOVE_USER = gql`
-  # mutation removeUser($user_id: String!) {
-  #   removeUser(user_id: $user_id)
-  # }
   mutation {
     removeUser
   }
