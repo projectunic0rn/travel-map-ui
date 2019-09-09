@@ -5,8 +5,9 @@ import { UPDATE_PLACE_LIVING } from "../../../GraphQL";
 
 class DoMutation extends React.Component {
     componentDidMount() {
-      const { mutation } = this.props;
+      const { mutation, data } = this.props;
       mutation();
+      console.log(data);
     }
   
     render() {

@@ -100,7 +100,7 @@ function ClickedCityTiming(props) {
         onCompleted={data => handleAddCity(data, 2)}
       >
         {mutation => (
-          <span onClick={mutation} onMouseDown={() => evalLiveClick()}>
+          <span onClick={mutation} onMouseOver={() => evalLiveClick()}>
             I live here currently
           </span>
         )}

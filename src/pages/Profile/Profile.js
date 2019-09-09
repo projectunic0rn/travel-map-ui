@@ -60,7 +60,6 @@ export default function Profile(props) {
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return `Error! ${error}`;
-        console.log('querying')
         return (
           <div className="page page-profile">
             <ProfileProvider value={data.user}>

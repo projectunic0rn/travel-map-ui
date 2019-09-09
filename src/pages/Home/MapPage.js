@@ -81,21 +81,28 @@ const MapPage = props => {
         tripDataType = tripData.Places_visiting;
         break;
       case 2:
-        tripDataType = tripData.Places_living;
+        tripDataType = tripData.Place_living;
         break;
       default:
         break;
     }
-    tripDataType.find((city, i) => {
-      if (city.id === cityId) {
-        cityIndex = i;
-        return true;
-      } else {
-        return false;
+    if (timing === 0 || timing === 1) {
+      tripDataType.find((city, i) => {
+        if (city.id === cityId) {
+          cityIndex = i;
+          return true;
+        } else {
+          return false;
+        }
+      });
+      tripDataType.splice(cityIndex, 1);
+    } else {
+      if (tripDataType.id === cityId) {
+        tripData.Place_living = {};
       }
-    });
-    tripDataType.splice(cityIndex, 1);
+    }
     handleTripData(tripData);
+    props.refetch();
   }
   if (!loaded) return <div>Loading...</div>;
   return (
@@ -124,6 +131,6 @@ const MapPage = props => {
 MapPage.propTypes = {
   context: PropTypes.object,
   refetch: PropTypes.func
-}
+};
 
 export default MapPage;

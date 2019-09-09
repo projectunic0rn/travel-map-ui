@@ -132,7 +132,7 @@ export const ADD_PLACE_VISITING = gql`
 export const REMOVE_PLACE_VISITING = gql`
   mutation removePlaceVisiting($placeVisitingId: Int!) {
     removePlaceVisiting(placeVisitingId: $placeVisitingId) {
-      id
+      city
     }
   }
 `;
@@ -161,10 +161,18 @@ export const UPDATE_PLACE_LIVING = gql`
   }
 `;
 
+export const REMOVE_PLACE_LIVING = gql`
+  mutation removePlaceLiving($placeLivingId: Int!) {
+    removePlaceLiving(placeLivingId: $placeLivingId) {
+      city
+    }
+  }
+`;
+
 export const REMOVE_PLACE_VISITED = gql`
   mutation removePlaceVisited($placeVisitedId: Int!) {
     removePlaceVisited(placeVisitedId: $placeVisitedId) {
-      id
+      city
     }
   }
 `;
