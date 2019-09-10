@@ -185,6 +185,9 @@ export const SIGNUP_USER = gql`
 
 export const REMOVE_USER = gql`
   mutation {
-    removeUser
+    deleteUser {
+      id
+      username
+    }
   }
 `;

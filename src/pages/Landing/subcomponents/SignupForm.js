@@ -82,9 +82,9 @@ class SignupForm extends Component {
           variables={{ username, fullName, email, password }}
           onCompleted={(data) => this.confirmSignup(data)}
         >
-          {(mutation) => (
+          {(mutation, { loading }) => (
             <button className="login-button" onClick={mutation}>
-              sign up
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
           )}
         </Mutation>
