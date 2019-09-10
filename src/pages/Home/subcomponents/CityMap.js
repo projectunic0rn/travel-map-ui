@@ -3,8 +3,13 @@ import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
+
 import { Mutation } from "react-apollo";
-import { REMOVE_PLACE_VISITING, REMOVE_PLACE_VISITED } from "../../../GraphQL";
+import {
+  REMOVE_PLACE_VISITING,
+  REMOVE_PLACE_VISITED,
+  REMOVE_PLACE_LIVING
+} from "../../../GraphQL";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
@@ -14,6 +19,7 @@ class CityMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      windowWidth: undefined,
       viewport: {
         width: 400,
         height: 400,
@@ -34,7 +40,8 @@ class CityMap extends Component {
       activePopup: false,
       cityTooltip: null,
       placeVisitingId: null,
-      placeVisitedId: null
+      placeVisitedId: null,
+      placeLivingId: null
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -59,6 +66,7 @@ class CityMap extends Component {
   }
 
   componentDidMount() {
+    this.setState({ windowWidth: window.innerWidth });
     window.addEventListener("resize", this.resize);
     this.resize();
     this.handleLoadedCities(this.props.tripData);
@@ -73,7 +81,7 @@ class CityMap extends Component {
     let clickedCityArray = this.state.clickedCityArray;
     let cityIndex = null;
     clickedCityArray.find((city, i) => {
-    if (city.id === cityId) {
+      if (city.id === cityId) {
         cityIndex = i;
         return true;
       } else {
@@ -90,6 +98,7 @@ class CityMap extends Component {
   }
 
   resize() {
+    this.setState({ windowWidth: window.innerWidth });
     this.handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
@@ -122,7 +131,7 @@ class CityMap extends Component {
     let markerFutureDisplay = [];
     let markerLiveDisplay = this.state.markerLiveDisplay;
     markers.map(city => {
-      if (city.city !== undefined) {
+      if (city.city !== undefined && city.city !== "") {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
@@ -212,6 +221,12 @@ class CityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
+                    onMouseOver={() =>
+                      this.setState({
+                        cityTooltip: city,
+                        placeLivingId: city.id
+                      })
+                    }
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -482,7 +497,12 @@ class CityMap extends Component {
   }
 
   _renderPopup() {
-    const { cityTooltip, placeVisitedId, placeVisitingId } = this.state;
+    const {
+      cityTooltip,
+      placeVisitedId,
+      placeVisitingId,
+      placeLivingId
+    } = this.state;
     let setMutation = null;
     if (cityTooltip !== null) {
       switch (cityTooltip.tripTiming) {
@@ -491,6 +511,9 @@ class CityMap extends Component {
           break;
         case 1:
           setMutation = REMOVE_PLACE_VISITING;
+          break;
+        case 2:
+          setMutation = REMOVE_PLACE_LIVING;
           break;
         default:
           break;
@@ -512,7 +535,9 @@ class CityMap extends Component {
             variables={
               cityTooltip.tripTiming === 0
                 ? { placeVisitedId }
-                : { placeVisitingId }
+                : cityTooltip.tripTiming === 1
+                ? { placeVisitingId }
+                : { placeLivingId }
             }
             onCompleted={() =>
               this.deleteCity(cityTooltip.id, cityTooltip.tripTiming)
@@ -537,16 +562,12 @@ class CityMap extends Component {
       activePopup,
       clickedCity
     } = this.state;
-    console.log(this.props)
     if (loading) return <div>Loading...</div>;
     return (
       <>
-        <div
-          className="map-header-container"
-          style={{ position: "absolute", left: "calc(50% - 500px)" }}
-        >
+        <div className="map-header-container" style={{ position: "absolute" }}>
           <div className="map-header-button">
-            <button onClick={() => this.props.handleMapTypeChange(0)}>
+            <button onClick={() => this.props.handleMapTypeChange(false)}>
               Go to Country Map
             </button>
           </div>
@@ -563,10 +584,6 @@ class CityMap extends Component {
             }
             onViewportChange={this.handleViewportChange}
           >
-            {this.state.activeTimings[0] ? markerPastDisplay : null}
-            {this.state.activeTimings[1] ? markerFutureDisplay : null}
-            {this.state.activeTimings[2] ? markerLiveDisplay : null}
-            {this._renderPopup()}
             <Geocoder
               mapRef={this.mapRef}
               onResult={this.handleOnResult}
@@ -578,6 +595,10 @@ class CityMap extends Component {
               types={"place"}
               placeholder={"Type a city..."}
             />
+            {this.state.activeTimings[0] ? markerPastDisplay : null}
+            {this.state.activeTimings[1] ? markerFutureDisplay : null}
+            {this.state.activeTimings[2] ? markerLiveDisplay : null}
+            {this._renderPopup()}
           </MapGL>
         </div>
         <div className="city-map-scorecard">
@@ -594,7 +615,9 @@ class CityMap extends Component {
             component={ClickedCityContainer}
             componentProps={{
               cityInfo: clickedCity,
-              handleTripTiming: this.handleTripTiming
+              handleTripTiming: this.handleTripTiming,
+              tripData: this.props.tripData,
+              refetch: this.props.refetch
             }}
           />
         ) : null}
@@ -606,7 +629,8 @@ class CityMap extends Component {
 CityMap.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
-  deleteCity: PropTypes.func
+  deleteCity: PropTypes.func,
+  refetch: PropTypes.func
 };
 
 export default CityMap;

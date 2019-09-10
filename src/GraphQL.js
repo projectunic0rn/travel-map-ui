@@ -87,6 +87,21 @@ export const GET_LOGGEDIN_USER = gql`
   }
 `;
 
+export const GET_PROFILE_BASICS = gql`
+  query {
+    user(id: 1) {
+      id
+      username
+      full_name
+      email
+      Interests {
+        id
+        name
+      }
+    }
+  }
+`;
+
 //MUTATIONS
 export const ADD_PLACE_VISITED = gql`
   mutation addPlaceVisited($country: Country!, $cities: [City!]) {
@@ -117,13 +132,13 @@ export const ADD_PLACE_VISITING = gql`
 export const REMOVE_PLACE_VISITING = gql`
   mutation removePlaceVisiting($placeVisitingId: Int!) {
     removePlaceVisiting(placeVisitingId: $placeVisitingId) {
-      id
+      city
     }
   }
 `;
 
 export const ADD_PLACE_LIVING = gql`
-  mutation addPlaceLiving($country: Country!, $cities: [City!]) {
+  mutation addPlaceLiving($country: Country!, $cities: City!) {
     addPlaceLiving(country: $country, cities: $cities) {
       id
       country
@@ -137,10 +152,18 @@ export const ADD_PLACE_LIVING = gql`
 
 // This will depend on how the UI is laid out
 export const UPDATE_PLACE_LIVING = gql`
-  mutation updatePlaceLiving($country: Int!, $cities: Int!) {
-    updatePlaceLiving(country: $country, cities: $city) {
+  mutation updatePlaceLiving($id: Int!, $country: Country!, $cities: City!) {
+    updatePlaceLiving(id: $id, country: $country, cities: $cities) {
       id
       country
+      city
+    }
+  }
+`;
+
+export const REMOVE_PLACE_LIVING = gql`
+  mutation removePlaceLiving($placeLivingId: Int!) {
+    removePlaceLiving(placeLivingId: $placeLivingId) {
       city
     }
   }
@@ -149,7 +172,7 @@ export const UPDATE_PLACE_LIVING = gql`
 export const REMOVE_PLACE_VISITED = gql`
   mutation removePlaceVisited($placeVisitedId: Int!) {
     removePlaceVisited(placeVisitedId: $placeVisitedId) {
-      id
+      city
     }
   }
 `;

@@ -76,22 +76,20 @@ const FriendMapPage = () => {
         handleLoadedCountries(data);
         return (
           <div className="map-container">
-            <div className="map">
-              <div>
-                {cityOrCountry ? (
-                  <FriendCityMap
-                    tripData={tripData}
-                    handleMapTypeChange={handleMapTypeChange}
-                  />
-                ) : (
-                  <FriendCountryMap
-                    clickedCountryArray={clickedCountryArray}
-                    tripData={tripData}
-                    handleMapTypeChange={handleMapTypeChange}
-                    refetch={refetch}
-                  />
-                )}
-              </div>
+            <div className={cityOrCountry ? "map city-map" : "map country-map"}>
+              {cityOrCountry ? (
+                <FriendCityMap
+                  tripData={tripData}
+                  handleMapTypeChange={handleMapTypeChange}
+                />
+              ) : (
+                <FriendCountryMap
+                  clickedCountryArray={clickedCountryArray}
+                  tripData={tripData}
+                  handleMapTypeChange={handleMapTypeChange}
+                  refetch={refetch}
+                />
+              )}
             </div>
           </div>
         );

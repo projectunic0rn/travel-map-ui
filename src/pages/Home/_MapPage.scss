@@ -5,25 +5,42 @@
 
 .map-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   height: calc(100% - 30px);
   width: 80vw;
   margin: 0 auto;
+  .country-map {
+    margin: 0px auto 0 auto;
+    max-width: 90vw;
+    position: relative;
+    text-align: center;
+    .rsm-svg {
+      max-width: 1500px;
+      transform: translate(0, -30px);
+    }
+  }
   .map {
     width: 100%;
-    max-width: 80vw;
-    margin: 0 0 0 0;
-    height: calc(100% - 30px);
+    height: calc(100% - 400px);
     &:focus {
       outline: none;
     }
     .map-header-container {
       display: flex;
+      flex-direction: column;
       max-width: 1000px;
-      width: 1000px;
-      margin: 0 auto;
+      margin: 20px auto;
       align-items: center;
+      @media (min-width: 900px) {
+        flex-direction: row;
+        min-width: 900px;
+        margin: 0px auto;
+      }
       .map-header-button {
+        display: flex;
+        justify-content: center;
+        max-width: 267px;
         flex: 1;
         z-index: 2000;
         button {
@@ -41,6 +58,7 @@
           }
           &:hover {
             background: rgb(200, 200, 200);
+            color: #3f4b57;
           }
         }
       }
@@ -52,10 +70,8 @@
     .continent-container {
       display: flex;
       justify-content: center;
-      margin: 0 auto;
-      @media screen and (min-width: 2400px) {
-        transform: translateY(-60px);
-      }
+      align-content: center;
+      margin: 8px auto;
       button {
         z-index: 2;
         background: none;
@@ -63,6 +79,15 @@
         font-size: 18px;
         font-family: "Segoe UI", sans-serif;
         color: rgb(232, 232, 232);
+        @media (max-width: 1000px) {
+          font-size: 14px;
+        }
+        @media (max-width: 800px) {
+          font-size: 12px;
+        }
+        @media (max-width: 700px) {
+          font-size: 10px;
+        }
         &:hover {
           color: $grey;
         }

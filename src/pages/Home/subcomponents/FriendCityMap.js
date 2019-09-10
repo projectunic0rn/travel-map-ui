@@ -93,7 +93,7 @@ class FriendCityMap extends Component {
     let markerFutureDisplay = [];
     let markerLiveDisplay = this.state.markerLiveDisplay;
     markers.map(city => {
-      if (city.city !== undefined) {
+      if (city.city !== undefined && city.city !== "") {
         let color = "red";
         switch (city.tripTiming) {
           case 0:

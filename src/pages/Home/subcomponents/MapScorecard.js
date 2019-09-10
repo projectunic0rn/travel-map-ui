@@ -33,55 +33,53 @@ export default function MapScorecard({
 
   // make the scorecard draggable
   useEffect(() => {
-    let mouseDown = false;
-
-    let dragIcon = document.querySelector("#scorecard-drag-icon");
-    let scorecardContainer = document.querySelector(".map-scorecard-container");
-
-    let mouseX;
-    let mouseY;
-
-    let elOffsetX;
-    let elOffsetY;
-
-    document.addEventListener("mousemove", mouseMoveEvent);
-
-    dragIcon.addEventListener("mousedown", mouseDownEvent);
-
-    scorecardContainer.addEventListener("mouseup", mouseUpEvent);
-
-    function mouseMoveEvent(event) {
-      mouseX = event.pageX;
-      mouseY = event.pageY;
-
-      if (mouseDown) {
-        scorecardContainer.style.transform = `translate(${mouseX -
-          scorecardContainer.offsetLeft -
-          elOffsetX -
-          164}px, ${mouseY - scorecardContainer.offsetTop - elOffsetY - 10}px)`;
-      }
-    }
-
-    function mouseDownEvent(event) {
-      // To make sure text on the screen is not highlightable when the scorecard is being dragged
-      document.querySelector("body").classList.add("noselect");
-
-      mouseDown = true;
-      elOffsetX = event.offsetX;
-      elOffsetY = event.offsetY;
-    }
-
-    function mouseUpEvent() {
-      document.querySelector("body").classList.remove("noselect");
-      mouseDown = false;
-    }
-
-    return () => {
-      document.removeEventListener("mousemove", mouseMoveEvent);
-      dragIcon.removeEventListener("mousedown", mouseDownEvent);
-      scorecardContainer.removeEventListener("mouseup", mouseUpEvent);
-    };
+    dragElement(
+      document.querySelector(".map-scorecard-container"),
+      document.querySelector("#scorecard-drag-icon")
+    );
   });
+
+  function dragElement(elmnt, dragIcon) {
+    var pos1 = 0,
+      pos2 = 0,
+      pos3 = 0,
+      pos4 = 0;
+
+    dragIcon.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e) {
+      document.querySelector("body").classList.add("noselect");
+      e = e || window.event;
+      e.preventDefault();
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      e = e || window.event;
+      e.preventDefault();
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      elmnt.style.top = elmnt.offsetTop - pos2 + "px";
+      elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
+    }
+
+    function closeDragElement() {
+      document.querySelector("body").classList.remove("noselect");
+
+      // stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+  }
 
   return (
     <div id="map-scorecard-container" className="map-scorecard-container">

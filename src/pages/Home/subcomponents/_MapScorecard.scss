@@ -1,16 +1,29 @@
 .city-map-scorecard .map-scorecard-container {
-  transform: translate(-80px, 440px);
-  @media (min-width: "1200px") {
-    transform: translate(-80px, 440px);
+  transform: translate(25%, 740px);
+  @media (min-width: "750px") {
+    transform: translate(90%, 740px);
   }
-  @media (min-width: "1800px") {
-    transform: translate(-80px, 540px);
+  @media (min-width: "1080px") {
+    transform: translate(-80px, 740px);
+  }
+  @media (min-width: "1600px") {
+    transform: translate(-80px, 740px);
+    left: 15%;
+  }
+  @media (min-width: "2000px") {
+    transform: translate(-80px, 740px);
+    left: 25%;
+  }
+  @media (min-width: "2400px") {
+    transform: translate(-80px, 740px);
+    left: 35%;
   }
 }
 
 .map-scorecard-container {
   position: absolute;
   display: flex;
+  order: 2;
   flex-direction: column;
   min-width: 160px;
   max-width: 200px;
@@ -20,13 +33,10 @@
   border: none;
   background: #3f4b57;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
-  transform: translate(-80px, -140px);
-
-  @media (min-width: "1200px") {
-    transform: translate(-80px, -340px);
-  }
-  @media (min-width: "1800px") {
-    transform: translate(-80px, -540px);
+  transform: translate(-40px, 140px);
+  @media (min-width: "800px") {
+    order: 1;
+    transform: translate(-40px, -140px);
   }
 
   .drag-icon {
