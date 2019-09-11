@@ -14,6 +14,7 @@ class SignupForm extends Component {
     };
   }
   async confirmSignup(data) {
+    this.props.setFormIsOpen(false);
     this._saveUserData(data.loginUser.token);
     this.props.setUserLoggedIn(true);
   }

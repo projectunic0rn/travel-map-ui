@@ -54,5 +54,6 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
     "husky": "^2.2.0"
-  }
+  },
+  "proxy": "http://localhost:"
 }

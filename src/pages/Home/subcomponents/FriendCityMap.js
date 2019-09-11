@@ -327,7 +327,7 @@ class FriendCityMap extends Component {
     let hoveredCityArray = [];
     if (cityTooltip !== null) {
       hoveredCityArray = clickedCityArray.filter(
-        (city) => city.cityId == cityTooltip.cityId
+        city => city.cityId === cityTooltip.cityId
       );
     }
     return (

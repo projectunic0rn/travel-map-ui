@@ -182,3 +182,12 @@ export const SIGNUP_USER = gql`
     }
   }
 `;
+
+export const DELETE_USER = gql`
+  mutation {
+    deleteUser {
+      id
+      username
+    }
+  }
+`;
