@@ -183,8 +183,11 @@ export const SIGNUP_USER = gql`
   }
 `;
 
-export const REMOVE_USER = gql`
+export const DELETE_USER = gql`
   mutation {
-    removeUser
+    deleteUser {
+      id
+      username
+    }
   }
 `;

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Mutation } from "react-apollo";
-import { REMOVE_USER } from "../../../GraphQL";
+import { DELETE_USER } from "../../../GraphQL";
 
 function Settings({ history }) {
   function onRemoveUser() {
@@ -27,7 +27,7 @@ function Settings({ history }) {
       <div className="settings-container">
         <h1>Settings</h1>
         <Mutation
-          mutation={REMOVE_USER}
+          mutation={DELETE_USER}
           onCompleted={onRemoveUser}
           onError={(err) => alert("Unable to delete account" + err)}
         >
