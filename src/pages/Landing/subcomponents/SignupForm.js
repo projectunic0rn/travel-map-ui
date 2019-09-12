@@ -14,6 +14,7 @@ class SignupForm extends Component {
     };
   }
   async confirmSignup(data) {
+    this.props.setFormIsOpen(false);
     this._saveUserData(data.loginUser.token);
     this.props.setUserLoggedIn(true);
   }
@@ -81,9 +82,9 @@ class SignupForm extends Component {
           variables={{ username, fullName, email, password }}
           onCompleted={(data) => this.confirmSignup(data)}
         >
-          {(mutation) => (
+          {(mutation, { loading }) => (
             <button className="login-button" onClick={mutation}>
-              sign up
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
           )}
         </Mutation>
@@ -98,7 +99,8 @@ class SignupForm extends Component {
 
 SignupForm.propTypes = {
   handleFormSwitch: PropTypes.func,
-  setUserLoggedIn: PropTypes.func
+  setUserLoggedIn: PropTypes.func,
+  setFormIsOpen: PropTypes.func
 };
 
 export default compose(graphql(SIGNUP_USER, { name: "signupUserMutation" }))(

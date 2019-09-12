@@ -1,6 +1,8 @@
 @import "./Sidebar/Sidebar";
 @import "./ProfileNav";
+@import "./subpages/Settings";
 @import "./subpages/Trips/Trips";
+@import "./subpages/Friends/PotentialFriendCard.scss";
 
 .page-profile {
   .container {

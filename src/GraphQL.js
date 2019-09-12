@@ -40,6 +40,40 @@ export const GET_ALL_USER_COUNTRIES = gql`
   }
 `;
 
+export const GET_ALL_USER_INFO = gql`
+  query {
+    users {
+      id
+      username
+      full_name
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+      Place_living {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+    }
+  }
+`;
+
 export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     getLoggedInUser {
@@ -202,6 +236,15 @@ export const SIGNUP_USER = gql`
     }
     loginUser(username: $username, password: $password) {
       token
+    }
+  }
+`;
+
+export const REMOVE_USER = gql`
+  mutation {
+    deleteUser {
+      id
+      username
     }
   }
 `;

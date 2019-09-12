@@ -311,17 +311,18 @@ class CityMap extends Component {
         !clickedCityArray.some(city => {
           return city.cityId === data.Place_living.cityId;
         })
-      ) {
-        clickedCityArray.push({
-          id: data.Place_living.id,
-          cityId: data.Place_living.cityId,
-          city: data.Place_living.city,
-          latitude: data.Place_living.city_latitude / 1000000,
-          longitude: data.Place_living.city_longitude / 1000000,
-          tripTiming: 2
-        });
-        liveCount++;
-      }
+      )
+        if (data.Place_living.cityId !== 0) {
+          clickedCityArray.push({
+            id: data.Place_living.id,
+            cityId: data.Place_living.cityId,
+            city: data.Place_living.city,
+            latitude: data.Place_living.city_latitude / 1000000,
+            longitude: data.Place_living.city_longitude / 1000000,
+            tripTiming: 2
+          });
+          liveCount++;
+        }
     }
     this.setState(
       {
@@ -567,7 +568,7 @@ class CityMap extends Component {
       <>
         <div className="map-header-container" style={{ position: "absolute" }}>
           <div className="map-header-button">
-            <button onClick={() => this.props.handleMapTypeChange(false)}>
+            <button onClick={() => this.props.handleMapTypeChange(0)}>
               Go to Country Map
             </button>
           </div>

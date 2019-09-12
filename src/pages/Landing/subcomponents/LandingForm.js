@@ -41,6 +41,7 @@ function LandingForm({ setUserLoggedIn, setFormIsOpen }) {
       <div className="landing-form-content">
         {formActive ? (
           <SignupForm
+            setFormIsOpen={setFormIsOpen}
             setUserLoggedIn={setUserLoggedIn}
             handleFormSwitch={() => handleFormSwitch(false)}
           />

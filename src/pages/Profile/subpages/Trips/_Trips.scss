@@ -1,10 +1,10 @@
-.content-trips-page {
+.content-trips-page, .content-friends-page {
   display: grid;
   grid-template-columns: [sidebar] 180px [content] auto;
   .sidebar-filter {
     display: flex;
     flex-direction: column;
-
+    padding-left: 8px;
     padding-top: 20px;
     border-right: 1px solid rgba(black, 0.2);
     button {

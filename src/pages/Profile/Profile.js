@@ -8,13 +8,13 @@ import { ProfileProvider } from "./ProfileContext";
 import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import Trips from "./subpages/Trips";
-import Media from "./subpages/Media";
 import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
 export default function Profile(props) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
+  const [searchText, handleSearchText] = useState("");
   useEffect(() => {
     let userData = props.context;
     let cityArray = [0];
@@ -49,7 +49,7 @@ export default function Profile(props) {
     }
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
-  }, []);
+  }, [props.context]);
   return (
     <Query
       query={GET_PROFILE_BASICS}
@@ -72,17 +72,21 @@ export default function Profile(props) {
                   }
                   country={
                     props.context.Place_living !== null
-                      ? props.context.Place_living.country
+                      ? props.context.Place_living.countryISO
                       : "Country"
                   }
                   countryCount={countryArray.length - 1}
                   cityCount={cityArray.length - 1}
                 />
-                <ProfileNav />
-                <Route path="/profile/" exact component={Trips} />
+                <ProfileNav handleSearchText={handleSearchText} />
+                <Route path="/profile/" exact component={Friends} />
                 <Route path="/profile/trips" exact component={Trips} />
-                <Route path="/profile/media" exact component={Media} />
-                <Route path="/profile/friends" exact component={Friends} />
+                <Route
+                  path="/profile/friends"
+                  render={props => (
+                    <Friends {...props} searchText={searchText} />
+                  )}
+                />
                 <Route path="/profile/settings" exact component={Settings} />
               </div>
             </ProfileProvider>

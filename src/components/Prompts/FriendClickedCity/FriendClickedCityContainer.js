@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "./subcomponents/UserTripCard";
@@ -30,7 +30,7 @@ function FriendClickedCityContainer(props) {
       handleCityName(props.customProps.hoveredCityArray[0].city);
       handleCountryName(props.customProps.hoveredCityArray[0].country);
       let uniqueFriends = props.customProps.hoveredCityArray
-        .map(trip => trip.username)
+        .map((trip) => trip.username)
         .filter((value, index, self) => self.indexOf(value) === index);
       handleFriendsWithTrips(uniqueFriends);
     }
@@ -47,7 +47,7 @@ function FriendClickedCityContainer(props) {
       friendTrips = hoveredCityArray.map((city, i) => {
         if (i === 0) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
@@ -57,14 +57,14 @@ function FriendClickedCityContainer(props) {
                 metric={<CalendarIcon />}
                 metricValue={0}
               />
-            </>
+            </Fragment>
           );
         } else if (
           i !== 0 &&
           city.tripTiming !== hoveredCityArray[i - 1].tripTiming
         ) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
@@ -74,7 +74,7 @@ function FriendClickedCityContainer(props) {
                 metric={<CalendarIcon />}
                 metricValue={0}
               />
-            </>
+            </Fragment>
           );
         } else {
           return (
@@ -89,7 +89,7 @@ function FriendClickedCityContainer(props) {
       });
       break;
     case 1:
-      filteredHoveredCityArray = hoveredCityArray.filter(city => {
+      filteredHoveredCityArray = hoveredCityArray.filter((city) => {
         return city.tripTiming === 0;
       });
       userTripTitle = <div className="user-trip-title">PAST</div>;
@@ -105,7 +105,7 @@ function FriendClickedCityContainer(props) {
       });
       break;
     case 2:
-      filteredHoveredCityArray = hoveredCityArray.filter(city => {
+      filteredHoveredCityArray = hoveredCityArray.filter((city) => {
         return city.tripTiming === 1;
       });
       userTripTitle = <div className="user-trip-title">FUTURE</div>;
@@ -121,7 +121,7 @@ function FriendClickedCityContainer(props) {
       });
       break;
     case 3:
-      filteredHoveredCityArray = hoveredCityArray.filter(city => {
+      filteredHoveredCityArray = hoveredCityArray.filter((city) => {
         return city.tripTiming === 2;
       });
       userTripTitle = <div className="user-trip-title">LIVE</div>;

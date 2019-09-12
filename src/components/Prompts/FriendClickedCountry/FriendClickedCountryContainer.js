@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "../FriendClickedCity/subcomponents/UserTripCard";
@@ -12,10 +12,10 @@ function FriendClickedCountryContainer(props) {
   const [friendsWithTrips, handleFriendsWithTrips] = useState(0);
   useEffect(() => {
     let uniqueFriends = props.customProps.clickedCountryArray
-      .map(trip => trip.username)
+      .map((trip) => trip.username)
       .filter((value, index, self) => self.indexOf(value) === index);
     handleFriendsWithTrips(uniqueFriends);
-  }, []);
+  }, [props.customProps.clickedCountryArray]);
   let clickedCountryArray = props.customProps.clickedCountryArray.sort(
     (cityA, cityB) =>
       cityA.tripTiming - cityB.tripTiming ||
@@ -44,7 +44,7 @@ function FriendClickedCountryContainer(props) {
       clickedCountryArray[i].tripTiming ===
         clickedCountryArray[i - 1].tripTiming &&
       clickedCountryArray[i].city === ""
-    ) {
+    ) { void(0);
     } else if (clickedCountryArray[i].city === "") {
       userTripArray.push({
         username: clickedCountryArray[i].username,
@@ -67,7 +67,7 @@ function FriendClickedCountryContainer(props) {
       friendTrips = userTripArray.map((country, i) => {
         if (i === 0) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[country.tripTiming]}
               </div>
@@ -77,14 +77,14 @@ function FriendClickedCountryContainer(props) {
                 metric={<CityIcon />}
                 metricValue={country.cities}
               />
-            </>
+            </Fragment>
           );
         } else if (
           i !== 0 &&
           country.tripTiming !== userTripArray[i - 1].tripTiming
         ) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[country.tripTiming]}
               </div>
@@ -94,7 +94,7 @@ function FriendClickedCountryContainer(props) {
                 metric={<CityIcon />}
                 metricValue={country.cities}
               />
-            </>
+            </Fragment>
           );
         } else {
           return (
@@ -109,7 +109,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 1:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 0;
       });
       userTripTitle = <div className="user-trip-title">PAST</div>;
@@ -125,7 +125,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 2:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 1;
       });
       userTripTitle = <div className="user-trip-title">FUTURE</div>;
@@ -141,7 +141,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 3:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 2;
       });
       userTripTitle = <div className="user-trip-title">LIVE</div>;

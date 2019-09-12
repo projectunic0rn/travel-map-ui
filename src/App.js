@@ -20,6 +20,7 @@ import "./_App.scss";
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
+  const [mapPage, handleMapPageChange] = useState(0);
 
   socket.on("new-friend-request", data => {
     alert(data.senderData.username + " has sent you a friend request!");
@@ -72,8 +73,28 @@ function App({ userAuthenticated }) {
                   <ProfileConsumer>
                     {context => (
                       <Switch>
-                        <Route exact path="/" render={(props) => <MapPage {...props} context = {context.getLoggedInUser} refetch={refetch} />}/>
-                        <Route path="/profile/" render={(props) => <Profile {...props} context = {context.getLoggedInUser} />}/>
+                        <Route
+                          exact
+                          path="/"
+                          render={props => (
+                            <MapPage
+                              {...props}
+                              context={context.getLoggedInUser}
+                              refetch={refetch}
+                              mapPage={mapPage}
+                              handleMapPageChange={handleMapPageChange}
+                            />
+                          )}
+                        />
+                        <Route
+                          path="/profile/"
+                          render={props => (
+                            <Profile
+                              {...props}
+                              context={context.getLoggedInUser}
+                            />
+                          )}
+                        />
                         <Route path="/friends/" component={FriendMapPage} />
                         <Route component={PageNotFound} />
                       </Switch>
