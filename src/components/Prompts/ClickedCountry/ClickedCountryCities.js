@@ -3,10 +3,16 @@ import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
+import Swal from "sweetalert2";
 import { Mutation } from "react-apollo";
-import { ADD_PLACE_VISITING, ADD_PLACE_VISITED, ADD_PLACE_LIVING } from "../../../GraphQL";
+import {
+  ADD_PLACE_VISITING,
+  ADD_PLACE_VISITED,
+  ADD_PLACE_LIVING
+} from "../../../GraphQL";
 import { countryConsts } from "../../../CountryConsts";
 import TrashIcon from "../../../icons/TrashIcon";
+import CityLivedPopup from "./CityLivedPopup";
 
 class ClickedCountryCities extends Component {
   constructor(props) {
@@ -20,8 +26,8 @@ class ClickedCountryCities extends Component {
         zoom: countryConsts[this.props.countryIndex].zoom
       },
       markerDisplay: null,
-      markerIndex:  null,
-      cities: [],
+      markerIndex: null,
+      mapCities: [],
       country: {
         country: this.props.country,
         countryId: this.props.countryId,
@@ -29,7 +35,9 @@ class ClickedCountryCities extends Component {
       },
       style: {},
       gl: null,
-      cityTooltip: null
+      cityTooltip: null,
+      swalNotFired: true,
+      livePopup: false
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -40,6 +48,7 @@ class ClickedCountryCities extends Component {
     this.handleNewMarkers = this.handleNewMarkers.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.deleteCity = this.deleteCity.bind(this);
+    this.handleLivePopup = this.handleLivePopup.bind(this);
   }
 
   componentDidMount() {
@@ -102,7 +111,7 @@ class ClickedCountryCities extends Component {
 
   handleNewMarkers(markers, type) {
     let fill = "";
-    switch(this.props.timing) {
+    switch (this.props.timing) {
       case 0:
         fill = "rgba(203, 118, 120, 0.75)";
         break;
@@ -112,8 +121,8 @@ class ClickedCountryCities extends Component {
       case 2:
         fill = "rgba(150, 177, 168, 0.75)";
         break;
-      default: 
-      break;
+      default:
+        break;
     }
     let markerDisplay = markers.map((city, i) => {
       return (
@@ -121,8 +130,8 @@ class ClickedCountryCities extends Component {
           key={city.cityId}
           offsetLeft={-5}
           offsetTop={-10}
-          latitude={city.city_latitude/1000000}
-          longitude={city.city_longitude/1000000}
+          latitude={city.city_latitude / 1000000}
+          longitude={city.city_longitude / 1000000}
           captureClick={false}
         >
           <svg
@@ -133,12 +142,14 @@ class ClickedCountryCities extends Component {
             xmlns="http://www.w3.org/2000/svg"
           >
             <circle
-              onMouseOver={() => this.setState({ cityTooltip: city, markerIndex: i })}
+              onMouseOver={() =>
+                this.setState({ cityTooltip: city, markerIndex: i })
+              }
               key={"circle" + city.cityId}
               cx="50"
               cy="50"
               r="50"
-              style={{ fill: fill}}
+              style={{ fill: fill }}
             />
           </svg>
         </Marker>
@@ -151,7 +162,7 @@ class ClickedCountryCities extends Component {
   }
 
   handleOnResult(event) {
-    let cities = this.state.cities;
+    let cities = this.state.mapCities;
     let cityArrayElement = {
       city: event.result.text,
       cityId: parseFloat(event.result.properties.wikidata.slice(1), 10),
@@ -160,10 +171,60 @@ class ClickedCountryCities extends Component {
     };
 
     cities.push(cityArrayElement);
-    this.setState({
-      cities
-    });
+    this.setState(
+      {
+        mapCities: cities
+      },
+      () => {
+        this.handleLivePopup("city");
+      }
+    );
     this.handleNewMarkers(cities, 1);
+  }
+
+  handleLivePopup(type) {
+    if (this.props.timing === 2 && this.props.tripData.Place_living !== null) {
+      let popupText = "";
+      switch (type) {
+        case "city":
+          popupText =
+            "You currently live in " +
+            this.props.tripData.Place_living.city +
+            ", " +
+            this.props.tripData.Place_living.countryISO +
+            ". Would you like to update this to " +
+            this.state.mapCities[0].city +
+            "?";
+          break;
+        case "country":
+          popupText =
+            "You currently live in " +
+            this.props.tripData.Place_living.country +
+            ". Would you like to update this to " +
+            this.props.country +
+            "?";
+          break;
+        default:
+          break;
+      }
+      const swalParams = {
+        type: "question",
+        customClass: {
+          container: "live-swal-prompt"
+        },
+        text: popupText
+      };
+      Swal.fire(swalParams).then(result => {
+        if (result.value) {
+          this.props.showPopup();
+          this.props.updateMap();
+        }
+      });
+      this.setState({
+        swalNotFired: false,
+        livePopup: true
+      });
+    }
   }
 
   _onWebGLInitialized(gl) {
@@ -179,8 +240,8 @@ class ClickedCountryCities extends Component {
           className="city-map-tooltip"
           tipSize={5}
           anchor="top"
-          longitude={cityTooltip.city_longitude/1000000}
-          latitude={cityTooltip.city_latitude/1000000}
+          longitude={cityTooltip.city_longitude / 1000000}
+          latitude={cityTooltip.city_latitude / 1000000}
           closeOnClick={false}
           style={{
             background: "rgba(115, 167, 195, 0.75)",
@@ -198,7 +259,7 @@ class ClickedCountryCities extends Component {
   }
 
   deleteCity(cityId) {
-    let cities = this.state.cities;
+    let cities = this.state.mapCities;
     let cityIndex = null;
     cities.find((city, i) => {
       if (city.cityId === cityId) {
@@ -209,27 +270,31 @@ class ClickedCountryCities extends Component {
       }
     });
     cities.splice(cityIndex, 1);
-    this.setState({ cities, cityTooltip: null });
+    this.setState({ mapCities: cities, cityTooltip: null });
     this.handleNewMarkers(cities, 0);
   }
 
   render() {
-    const { viewport, markerDisplay, country, cities, style } = this.state;
+    const { viewport, markerDisplay, country, mapCities, style } = this.state;
     let mutationType = "";
-    switch(this.props.timing) {
+    let cities = "";
+    switch (this.props.timing) {
       case 0:
         mutationType = ADD_PLACE_VISITED;
+        cities = mapCities;
         break;
       case 1:
         mutationType = ADD_PLACE_VISITING;
+        cities = mapCities;
         break;
       case 2:
         mutationType = ADD_PLACE_LIVING;
+        cities = mapCities[0];
         break;
       default:
         break;
     }
-    console.log(viewport);
+
     return (
       <div className="city-choosing-container">
         <Mutation
@@ -238,7 +303,12 @@ class ClickedCountryCities extends Component {
           onCompleted={this.props.updateMap}
         >
           {mutation => (
-            <button className="submit-cities" style={style} onClick={mutation}>
+            <button
+              className="submit-cities"
+              style={style}
+              onClick={mutation}
+              onMouseOver={() => this.handleLivePopup("country")}
+            >
               Upload
             </button>
           )}
@@ -266,6 +336,19 @@ class ClickedCountryCities extends Component {
             countries={this.props.countryISO}
           />
         </MapGL>
+        <div className="city-lived-popup">
+          {this.state.livePopup ? (
+            <CityLivedPopup
+              country={this.state.country}
+              cities={
+                this.state.mapCities.length > 0
+                  ? this.state.mapCities[0]
+                  : { city: "", cityId: 0, city_latitude: 0, city_longitude: 0 }
+              }
+              id={this.props.tripData.Place_living.id}
+            />
+          ) : null}
+        </div>
       </div>
     );
   }
@@ -278,7 +361,9 @@ ClickedCountryCities.propTypes = {
   countryIndex: PropTypes.number,
   handleTypedCity: PropTypes.func,
   timing: PropTypes.number,
-  updateMap: PropTypes.func
+  updateMap: PropTypes.func,
+  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  showPopup: PropTypes.func
 };
 
 export default ClickedCountryCities;

@@ -48,6 +48,7 @@ function ClickedCityContainer(props) {
               countryISO={countryISO}
               latitude={props.customProps.cityInfo.result.center[1] * 1000000}
               longitude={props.customProps.cityInfo.result.center[0] * 1000000}
+              tripData={props.customProps.tripData}
               countryId={parseInt(
                 props.customProps.cityInfo.result.context[context].id.slice(
                   8,
@@ -64,7 +65,8 @@ function ClickedCityContainer(props) {
 
 ClickedCityContainer.propTypes = {
   customProps: PropTypes.object,
-  handleTripTiming: PropTypes.func
+  handleTripTiming: PropTypes.func,
+  tripData: PropTypes.array
 };
 
 export default ClickedCityContainer;

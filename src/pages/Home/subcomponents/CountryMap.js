@@ -14,10 +14,7 @@ import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
-/* Need to make it so that duplicate country trips do not count as multiple
-scorecard values */
-
-const CountryMap = (props) => {
+const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -232,6 +229,23 @@ const CountryMap = (props) => {
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
       </div>
+      <div className="continent-container">
+        <button className="continent-button" onClick={handleMapReset}>
+          {"World"}
+        </button>
+        {continents.map((continent, i) => {
+          return (
+            <button
+              key={i}
+              className="continent-button"
+              data-continent={i}
+              onClick={handleContinentClick}
+            >
+              {continent.name}
+            </button>
+          );
+        })}
+      </div>
       <ComposableMap
         projectionConfig={{
           scale: 205
@@ -261,24 +275,14 @@ const CountryMap = (props) => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+
+      <MapScorecard
+        tripTimingCounts={tripTimingCounts}
+        activeTimings={activeTimings}
+        sendActiveTimings={handleActiveTimings}
+      />
       <MapInfoContainer countryName={countryName} capitalName={capitalName} />
-      <div className="continent-container">
-        <button className="continent-button" onClick={handleMapReset}>
-          {"World"}
-        </button>
-        {continents.map((continent, i) => {
-          return (
-            <button
-              key={i}
-              className="continent-button"
-              data-continent={i}
-              onClick={handleContinentClick}
-            >
-              {continent.name}
-            </button>
-          );
-        })}
-      </div>
+
       {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
@@ -288,15 +292,11 @@ const CountryMap = (props) => {
             countryInfo: clickedCountry,
             handleTripTiming: handleTripTimingHelper,
             previousTrips: checkForPreviousTrips(clickedCountry),
+            tripData: props.tripData,
             refetch: props.refetch
           }}
         />
       ) : null}
-      <MapScorecard
-        tripTimingCounts={tripTimingCounts}
-        activeTimings={activeTimings}
-        sendActiveTimings={handleActiveTimings}
-      />
     </>
   );
 };
@@ -305,6 +305,7 @@ CountryMap.propTypes = {
   handleClickedCountry: PropTypes.func,
   clickedCountryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
+  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   refetch: PropTypes.func
 };
 

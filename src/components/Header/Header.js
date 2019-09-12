@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import NavLinks from "./subcomponents/NavLinks";
@@ -6,7 +6,7 @@ import SiteLogo from "./subcomponents/SiteLogo";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
-export default function Header({ userLoggedIn, setUserLoggedIn }) {
+export default function Header({ userLoggedIn }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
   let [formIsOpen, setFormIsOpen] = useState(userLoggedIn ? false : true);
 
@@ -20,7 +20,6 @@ export default function Header({ userLoggedIn, setUserLoggedIn }) {
           </div>
           <div className="nav-menu-container">
             <NavLinks
-              userLoggedIn={userLoggedIn}
               formIsOpen={formIsOpen}
               toggleFormIsOpen={setFormIsOpen}
             />
@@ -38,18 +37,9 @@ export default function Header({ userLoggedIn, setUserLoggedIn }) {
                 <span className="hamburger-b" />
               </div>
             </div>
-            {formIsOpen ? (
-              <LandingForm
-                setFormIsOpen={setFormIsOpen}
-                setUserLoggedIn={setUserLoggedIn}
-              />
-            ) : (
-              ""
-            )}
+            {formIsOpen ? <LandingForm setFormIsOpen={setFormIsOpen} /> : ""}
           </div>
-          {userLoggedIn ? (
-            <UserHeaderContainer setUserLoggedIn={setUserLoggedIn} />
-          ) : null}
+          {userLoggedIn ? <UserHeaderContainer /> : null}
         </div>
       </header>
       <div
@@ -59,11 +49,7 @@ export default function Header({ userLoggedIn, setUserLoggedIn }) {
             : "display-none"
         }
       >
-        <NavLinks
-          userLoggedIn={userLoggedIn}
-          formIsOpen={formIsOpen}
-          toggleFormIsOpen={setFormIsOpen}
-        />
+        <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} />
       </div>
     </Fragment>
   );

@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
+import Swal from "sweetalert2";
+
 import {
   ADD_PLACE_LIVING,
   ADD_PLACE_VISITED,
   ADD_PLACE_VISITING
 } from "../../../GraphQL";
+import CityLivedPopup from "../ClickedCountry/CityLivedPopup";
 
 function ClickedCityTiming(props) {
+  const [livePopup, handleLivePopup] = useState(false);
   const {
     clickedCountry,
     latitude,
@@ -15,7 +19,8 @@ function ClickedCityTiming(props) {
     city,
     countryISO,
     countryId,
-    cityId
+    cityId,
+    tripData
   } = props;
   let country = {
     country: clickedCountry,
@@ -36,10 +41,43 @@ function ClickedCityTiming(props) {
       case 1:
         props.handleTripTiming(data.addPlaceVisiting[0], timing);
         break;
+      case 2:
+        console.log(data);
+        props.handleTripTiming(data.addPlaceLiving, timing);
+        break;
       default:
         break;
     }
+    props.refetch();
   }
+  function evalLiveClick() {
+    if (tripData.Place_living !== null) {
+      let popupText =
+        "You currently live in " +
+        tripData.Place_living.city +
+        ", " +
+        tripData.Place_living.countryISO +
+        ". Would you like to update this to " +
+        city +
+        "?";
+
+      const swalParams = {
+        type: "question",
+        customClass: {
+          container: "live-swal-prompt"
+        },
+        text: popupText
+      };
+      Swal.fire(swalParams).then(result => {
+        if (result.value) {
+          //this.props.showPopup();
+          handleLivePopup(true);
+        }
+      });
+
+    }
+  }
+
   return (
     <div className="clicked-country-timing-container">
       <Mutation
@@ -61,10 +99,21 @@ function ClickedCityTiming(props) {
         variables={{ country, cities }}
         onCompleted={data => handleAddCity(data, 2)}
       >
-        {mutation => <span onClick={mutation}>I live here currently</span>}
+        {mutation => (
+          <span onClick={mutation} onMouseOver={() => evalLiveClick()}>
+            I live here currently
+          </span>
+        )}
       </Mutation>
       {props.previousTrips ? (
         <div className="previous-trips-button">delete trips</div>
+      ) : null}
+      {livePopup ? (
+        <CityLivedPopup
+          country={country}
+          cities={cities}
+          id={tripData.Place_living.id}
+        />
       ) : null}
     </div>
   );
@@ -79,7 +128,9 @@ ClickedCityTiming.propTypes = {
   longitude: PropTypes.number,
   latitude: PropTypes.number,
   cityId: PropTypes.number,
-  countryISO: PropTypes.string
+  countryISO: PropTypes.string,
+  refetch: PropTypes.func,
+  tripData: PropTypes.array
 };
 
 export default ClickedCityTiming;

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Mutation, compose, graphql } from "react-apollo";
+import { Mutation, graphql } from "react-apollo";
 import { SIGNUP_USER } from "../../../GraphQL";
+import UserContext from "../../../utils/UserContext";
 
 class SignupForm extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class SignupForm extends Component {
   async confirmSignup(data) {
     this.props.setFormIsOpen(false);
     this._saveUserData(data.loginUser.token);
-    this.props.setUserLoggedIn(true);
+    this.context.setUserLoggedIn(true);
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
@@ -82,9 +83,9 @@ class SignupForm extends Component {
           variables={{ username, fullName, email, password }}
           onCompleted={(data) => this.confirmSignup(data)}
         >
-          {(mutation) => (
+          {(mutation, { loading }) => (
             <button className="login-button" onClick={mutation}>
-              sign up
+              {loading ? "Singing Up..." : "Sign Up"}
             </button>
           )}
         </Mutation>
@@ -97,11 +98,11 @@ class SignupForm extends Component {
   }
 }
 
+SignupForm.contextType = UserContext;
+
 SignupForm.propTypes = {
   handleFormSwitch: PropTypes.func,
   setUserLoggedIn: PropTypes.func
 };
 
-export default compose(graphql(SIGNUP_USER, { name: "signupUserMutation" }))(
-  SignupForm
-);
+export default SignupForm;

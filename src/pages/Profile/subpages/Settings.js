@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { Mutation } from "react-apollo";
+
 import { DELETE_USER } from "../../../GraphQL";
+import { UserConsumer } from "../../../utils/UserContext";
 
 function Settings({ history }) {
   function onRemoveUser() {
@@ -10,12 +11,12 @@ function Settings({ history }) {
     history.push("/");
   }
 
-  function onRemoveUserClick(loading, mutation) {
+  function onRemoveUserClick(loading, mutation, setUserLoggedIn) {
     if (!loading) {
       let approval = window.confirm(
         "You are about to delete your account, this cannot be undone. Are you sure?"
       );
-      // TODO: Use context to set the userLoggedIn state to false
+      setUserLoggedIn(false);
       if (approval) {
         return mutation();
       }
@@ -23,25 +24,31 @@ function Settings({ history }) {
   }
 
   return (
-    <div className="content">
-      <div className="settings-container">
-        <h1>Settings</h1>
-        <Mutation
-          mutation={DELETE_USER}
-          onCompleted={onRemoveUser}
-          onError={(err) => alert("Unable to delete account" + err)}
-        >
-          {(mutation, { loading }) => (
-            <div
-              className={`delete-button ${loading ? "disabled" : ""}`}
-              onClick={() => onRemoveUserClick(loading, mutation)}
+    <UserConsumer>
+      {(value) => (
+        <div className="content">
+          <div className="settings-container">
+            <h1>Settings</h1>
+            <Mutation
+              mutation={DELETE_USER}
+              onCompleted={onRemoveUser}
+              onError={(err) => alert("Unable to delete account" + err)}
             >
-              Delete Account
-            </div>
-          )}
-        </Mutation>
-      </div>
-    </div>
+              {(mutation, { loading }) => (
+                <div
+                  className={`delete-button ${loading ? "disabled" : ""}`}
+                  onClick={() =>
+                    onRemoveUserClick(loading, mutation, value.setUserLoggedIn)
+                  }
+                >
+                  Delete Account
+                </div>
+              )}
+            </Mutation>
+          </div>
+        </div>
+      )}
+    </UserConsumer>
   );
 }
 

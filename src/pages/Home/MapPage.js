@@ -1,18 +1,27 @@
-import React, { useState } from "react";
-import { Query } from "react-apollo";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { useQuery } from "@apollo/react-hooks";
 
 import { GET_LOGGEDIN_USER_COUNTRIES } from "../../GraphQL";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
-import Loader from "../../components/common/Loader/Loader";
 
-const MapPage = () => {
+const MapPage = (props) => {
   const [cityOrCountry, handleMapTypeChange] = useState(false);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
+
+  const { loading, error, data } = useQuery(GET_LOGGEDIN_USER_COUNTRIES);
+  const { getLoggedInUser } = data;
+
+  useEffect(() => {
+    handleTripData(getLoggedInUser);
+    handleLoadedCountries(getLoggedInUser);
+  }, []);
+
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
-    let userData = data.getLoggedInUser;
+    let userData = data;
     if (userData != null && userData.Places_visited.length !== 0) {
       for (let i = 0; i < userData.Places_visited.length; i++) {
         if (
@@ -76,57 +85,55 @@ const MapPage = () => {
         tripDataType = tripData.Places_visiting;
         break;
       case 2:
-        tripDataType = tripData.Places_living;
+        tripDataType = tripData.Place_living;
         break;
       default:
         break;
     }
-    tripDataType.find((city, i) => {
-      if (city.id === cityId) {
-        cityIndex = i;
-        return true;
-      } else {
-        return false;
+    if (timing === 0 || timing === 1) {
+      tripDataType.find((city, i) => {
+        if (city.id === cityId) {
+          cityIndex = i;
+          return true;
+        } else {
+          return false;
+        }
+      });
+      tripDataType.splice(cityIndex, 1);
+    } else {
+      if (tripDataType.id === cityId) {
+        tripData.Place_living = {};
       }
-    });
-    tripDataType.splice(cityIndex, 1);
+    }
     handleTripData(tripData);
+    props.refetch();
   }
-
   return (
-    <Query
-      query={GET_LOGGEDIN_USER_COUNTRIES}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-      onCompleted={(data) => handleTripData(data.getLoggedInUser)}
-    >
-      {({ loading, error, data, refetch }) => {
-        if (loading) return <Loader />;
-        if (error) return `Error! ${error}`;
-        handleLoadedCountries(data);
-        return (
-          <div className="map-container">
-            <div className={cityOrCountry ? "city-map" : "country-map"}>
-              {cityOrCountry ? (
-                <CityMap
-                  tripData={tripData}
-                  handleMapTypeChange={handleMapTypeChange}
-                  deleteCity={deleteCity}
-                />
-              ) : (
-                <CountryMap
-                  clickedCountryArray={clickedCountryArray}
-                  handleMapTypeChange={handleMapTypeChange}
-                  refetch={refetch}
-                />
-              )}
-            </div>
-          </div>
-        );
-      }}
-    </Query>
+    <div className="map-container">
+      <div className={cityOrCountry ? "map city-map" : "map country-map"}>
+        {cityOrCountry ? (
+          <CityMap
+            tripData={tripData}
+            handleMapTypeChange={handleMapTypeChange}
+            deleteCity={deleteCity}
+            refetch={props.refetch}
+          />
+        ) : (
+          <CountryMap
+            tripData={tripData}
+            clickedCountryArray={clickedCountryArray}
+            handleMapTypeChange={handleMapTypeChange}
+            refetch={props.refetch}
+          />
+        )}
+      </div>
+    </div>
   );
+};
+
+MapPage.propTypes = {
+  context: PropTypes.object,
+  refetch: PropTypes.func
 };
 
 export default MapPage;

@@ -4,6 +4,7 @@ import { Mutation } from "react-apollo";
 import Swal from "sweetalert2";
 import socket from "../../../socket";
 import { LOGIN_USER } from "../../../GraphQL";
+import UserContext from "../../../utils/UserContext";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class LoginForm extends Component {
   }
   async confirmLogin(data) {
     this._saveUserData(data.loginUser.token);
-    this.props.setUserLoggedIn(true);
+    this.context.setUserLoggedIn(true);
     this.props.setFormIsOpen(false);
   }
   _saveUserData(token) {
@@ -90,6 +91,8 @@ class LoginForm extends Component {
     );
   }
 }
+
+LoginForm.contextType = UserContext;
 
 LoginForm.propTypes = {
   handleFormSwitch: PropTypes.func,

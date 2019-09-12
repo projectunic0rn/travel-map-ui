@@ -1,7 +1,9 @@
 <!--- Provide a general summary of your changes in the Title above -->
+
 ## Description
 
 <!--- Describe your changes in detail -->
+
 ## Screenshots (if appropriate):
 
 ## Types of changes
@@ -13,3 +15,5 @@
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
 <!-- Note: Also please make sure the console is empty at production and there are no eslint warnings -->
+
+- [ ] The console is empty and there are not eslint warmings

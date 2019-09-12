@@ -5,42 +5,95 @@
 
 .map-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100% - 30px);
+  width: 80vw;
+  margin: 10px auto 0 auto;
   .country-map {
-    margin: 10px auto 0 auto;
+    margin: 0px auto 0 auto;
     max-width: 90vw;
     position: relative;
+    text-align: center;
+    .rsm-svg {
+      max-width: 1500px;
+      transform: translate(0, -30px);
+    }
+  }
+  .map {
+    width: 100%;
+    height: calc(100% - 400px);
     &:focus {
       outline: none;
     }
-  }
-}
-
-.map-header-container {
-  display: flex;
-  justify-content: space-evenly;
-  .map-header-button {
-    button {
-      padding-top: 4px;
-      width: 180px;
-      height: 40px;
-      background: #3f4b57;
-      border: none;
-      border-radius: 24px;
-      box-shadow: 0 1px 1px 1px #3f4b57;
-      font-size: 18px;
-      color: rgb(150, 150, 150);
-      transition: 100ms ease-in-out all;
-      cursor: pointer;
-      @media (max-width: 800px) {
-        width: 120px;
-        font-size: 0.8em;
+    .map-header-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1000px;
+      margin: 20px auto;
+      align-items: center;
+      @media (min-width: 900px) {
+        flex-direction: row;
+        min-width: 900px;
+        margin: 0px auto;
       }
-      &:focus {
-        outline: none;
+      .map-header-button {
+        display: flex;
+        justify-content: center;
+        max-width: 267px;
+        flex: 1;
+        z-index: 2000;
+        button {
+          width: 200px;
+          height: 40px;
+          background: #3f4b57;
+          border: none;
+          border-radius: 24px;
+          box-shadow: 0 1px 1px 1px #3f4b57;
+          font-size: 18px;
+          color: rgb(150, 150, 150);
+          cursor: pointer;
+          &:focus {
+            outline: none;
+          }
+          &:hover {
+            background: rgb(200, 200, 200);
+            color: #3f4b57;
+          }
+        }
       }
-      &:hover {
-        background: rgb(200, 200, 200);
-        color: #3f4b57;
+      .map-header-filler {
+        flex: 1;
+        height: 72px;
+      }
+    }
+    .continent-container {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      margin: 8px auto;
+      button {
+        z-index: 2;
+        background: none;
+        border: none;
+        font-size: 18px;
+        font-family: "Segoe UI", sans-serif;
+        color: rgb(232, 232, 232);
+        @media (max-width: 1000px) {
+          font-size: 14px;
+        }
+        @media (max-width: 800px) {
+          font-size: 12px;
+        }
+        @media (max-width: 700px) {
+          font-size: 10px;
+        }
+        &:hover {
+          color: $grey;
+        }
+        &:focus {
+          outline: none;
+        }
       }
     }
   }
