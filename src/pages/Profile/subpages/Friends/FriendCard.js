@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import InterestIcon from "../../../../icons/InterestIcon";
 
-import CountryIcon from "../../../../icons/CountryIcon";
-import CityIcon from "../../../../icons/CityIcon";
-import PotentialFriendAdd from "./PotentialFriendAdd";
-
-function PotentialFriendCard({ friend }) {
+function FriendCard({ friend }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
-  const [showAddFriend, handleShowAddFriend] = useState(false);
   useEffect(() => {
     let cityArray = [0];
     let countryArray = [0];
@@ -44,37 +40,43 @@ function PotentialFriendCard({ friend }) {
     handleCountryArray(countryArray);
   }, [friend]);
   return (
-    <div className="potential-friend-card" onMouseOver = {() => handleShowAddFriend(true)}>
-      {(showAddFriend) ? <PotentialFriendAdd handleShowAddFriend = {handleShowAddFriend}/> : null }
-      <div className="user-profile-image" />
-      <div className="pfc-user-info-container">
-        <span className="pfc-username">{friend.username}</span>
-        <span className="pfc-location">
-          {friend.Place_living !== null
-            ? friend.Place_living.city + ", " + friend.Place_living.countryISO
-            : null}
+    <div className="friend-card">
+      <div className="fc-user-info">
+        <span className="fc-user-avatar"></span>
+        <span className="fc-username">{friend.username}</span>
+        <span className="fc-user-location">
+          {friend.Place_living.city + ", " + friend.Place_living.countryISO}
         </span>
+        <div className="fc-user-interests">
+          {friend.interests.map(interest => (
+            <span key = {interest}>
+              <InterestIcon  icon={interest} />
+            </span>
+          ))}
+        </div>
       </div>
-      <div className="pfc-trip-data">
-        <span>
-          {countryArray.length - 1}
-          <span>
-            <CountryIcon />
+      <div className="fc-user-metrics">
+        <span className="fc-user-metric">
+          <span className="fc-user-metric-value">
+            {countryArray.length - 1}
           </span>
+          <span className="fc-user-metric-type">countries</span>
         </span>
-        <span>
-          {cityArray.length - 1}
-          <span>
-            <CityIcon />
-          </span>
+        <span className="fc-user-metric">
+          <span className="fc-user-metric-value">{cityArray.length - 1}</span>
+          <span className="fc-user-metric-type">cities</span>
+        </span>
+        <span className="fc-user-metric">
+          <span className="fc-user-metric-value">12</span>
+          <span className="fc-user-metric-type">friends</span>
         </span>
       </div>
     </div>
   );
 }
 
-PotentialFriendCard.propTypes = {
+FriendCard.propTypes = {
   friend: PropTypes.object
 };
 
-export default PotentialFriendCard;
+export default FriendCard;

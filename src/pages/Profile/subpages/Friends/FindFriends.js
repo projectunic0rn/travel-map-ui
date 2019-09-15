@@ -34,7 +34,7 @@ export default function FindFriends({ searchText }) {
       partialRefetch={true}
       onCompleted={data => handleTripData(data.users)}
     >
-      {({ loading, error, data, refetch }) => {
+      {({ loading, error }) => {
         if (loading) return <div>Loading...</div>;
         if (error) return `Error! ${error}`;
         return (

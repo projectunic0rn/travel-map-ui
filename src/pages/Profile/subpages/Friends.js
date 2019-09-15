@@ -5,14 +5,16 @@ import FriendsIcon from "../../../icons/FriendsIcon";
 import SearchIcon from "../../../icons/SearchIcon";
 import AddFriendIcon from "../../../icons/AddFriendIcon";
 import FindFriends from "./Friends/FindFriends";
+import FriendRequests from "./Friends/FriendRequests";
 
 export default function Friends( {searchText}) {
-  const [friendPage, handleFriendPage] = useState(2);
+  const [friendPage, handleFriendPage] = useState(1);
   let pageRender = "";
   switch (friendPage) {
     case 0:
       break;
     case 1:
+      pageRender = <FriendRequests searchText = {searchText}/>
       break;
     case 2:
       pageRender = <FindFriends searchText = {searchText}/>;

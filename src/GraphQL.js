@@ -74,6 +74,18 @@ export const GET_ALL_USER_INFO = gql`
   }
 `;
 
+export const GET_ALL_FRIEND_REQUESTS = gql`
+  query {
+    friend_requests {
+      fr_id
+      senderId
+      status
+      sender_username
+      fr_time_sent
+    }
+  }
+`;
+
 export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     getLoggedInUser {
