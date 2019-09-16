@@ -30,26 +30,28 @@ function App({ userAuthenticated }) {
   const swalParams = {
     type: "info",
     text:
-      "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally."
+      "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally.",
+    confirmButtonColor: "#656F80"
   };
 
   const [swalNotFired, setSwalNotFired] = useState(true);
-
-  function resizeListener() {
-    if (window.innerWidth < 600 && swalNotFired) {
-      Swal.fire(swalParams);
-      setSwalNotFired(false);
-    }
-  }
 
   useEffect(() => {
     if (window.innerWidth < 600 && swalNotFired) {
       Swal.fire(swalParams);
       setSwalNotFired(false);
     }
+
+    function resizeListener() {
+      if (window.innerWidth < 600 && swalNotFired) {
+        Swal.fire(swalParams);
+        setSwalNotFired(false);
+      }
+    }
+
     window.addEventListener("resize", resizeListener);
     return () => window.removeEventListener("resize", resizeListener);
-  }, [swalNotFired, resizeListener, swalParams]);
+  }, [swalNotFired, swalParams]);
 
   return (
     <Router>

@@ -12,6 +12,7 @@ import Settings from "./subpages/Settings";
 export default function Profile(props) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
+
   useEffect(() => {
     let userData = props.context;
     let cityArray = [0];
@@ -46,7 +47,7 @@ export default function Profile(props) {
     }
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
-  }, []);
+  }, [props.context]);
 
   return (
     <div className="page page-profile">

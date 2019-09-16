@@ -41,6 +41,5 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
 }
 
 NavLinks.propTypes = {
-  toggleFormIsOpen: PropTypes.func,
-  formIsOpen: PropTypes.bool
+  toggleFormIsOpen: PropTypes.func
 };

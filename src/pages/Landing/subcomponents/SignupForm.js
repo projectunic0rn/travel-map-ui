@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Mutation, graphql } from "react-apollo";
+
+import ValidationMutation from "../../../components/common/ValidationMutation/ValidationMutation";
 import { SIGNUP_USER } from "../../../GraphQL";
 import UserContext from "../../../utils/UserContext";
 
@@ -11,28 +12,42 @@ class SignupForm extends Component {
       email: "",
       password: "",
       username: "",
-      fullName: ""
+      fullName: "",
+      errors: {
+        email: "",
+        password: "",
+        username: "",
+        full_name: ""
+      }
     };
   }
+
+  handleInvalidCredentials(err) {
+    this.setState({ errors: err });
+  }
+
   async confirmSignup(data) {
     this.props.setFormIsOpen(false);
-    this._saveUserData(data.loginUser.token);
+    this.saveUserData(data.loginUser.token);
     this.context.setUserLoggedIn(true);
   }
-  _saveUserData(token) {
+
+  saveUserData(token) {
     localStorage.setItem("token", token);
   }
+
   render() {
     const { username, fullName, password, email } = this.state;
+    const { errors } = this.state;
     const { handleFormSwitch } = this.props;
     return (
-      <form
-        className="signup-form"
-        action=""
-        onSubmit={(e) => e.preventDefault()}
-      >
+      <form className="signup-form" onSubmit={(e) => e.preventDefault()}>
         <div className="field">
+          {errors.username && (
+            <span className="validate">{errors.username}</span>
+          )}
           <input
+            noValidate
             type="text"
             required
             onChange={(e) => this.setState({ username: e.target.value })}
@@ -43,7 +58,11 @@ class SignupForm extends Component {
           <label htmlFor="username">username</label>
         </div>
         <div className="field">
+          {errors.full_name && (
+            <span className="validate">{errors.full_name}</span>
+          )}
           <input
+            noValidate
             type="text"
             required
             onChange={(e) => this.setState({ fullName: e.target.value })}
@@ -54,9 +73,10 @@ class SignupForm extends Component {
           <label htmlFor="fullname">full name</label>
         </div>
         <div className="field">
+          {errors.email && <span className="validate">{errors.email}</span>}
           <input
+            noValidate
             type="email"
-            required
             onChange={(e) => this.setState({ email: e.target.value })}
             name="email"
             id="email"
@@ -65,30 +85,33 @@ class SignupForm extends Component {
           <label htmlFor="email">email</label>
         </div>
         <div className="field">
+          {errors.password && (
+            <span className="validate">{errors.password}</span>
+          )}
           <input
+            noValidate
             type="password"
             data-ng-model="password"
-            autoComplete="on"
             required
             onChange={(e) => this.setState({ password: e.target.value })}
             name="password"
-            minLength="4"
             id="password"
             placeholder="enter a password"
           />
           <label htmlFor="password">password</label>
         </div>
-        <Mutation
+        <ValidationMutation
           mutation={SIGNUP_USER}
           variables={{ username, fullName, email, password }}
           onCompleted={(data) => this.confirmSignup(data)}
+          onInputError={(err) => this.handleInvalidCredentials(err)}
         >
           {(mutation, { loading }) => (
             <button className="login-button" onClick={mutation}>
               {loading ? "Singing Up..." : "Sign Up"}
             </button>
           )}
-        </Mutation>
+        </ValidationMutation>
         <span className="form-switch">
           I already have an account.{" "}
           <span onClick={handleFormSwitch}>Login</span>
@@ -102,7 +125,8 @@ SignupForm.contextType = UserContext;
 
 SignupForm.propTypes = {
   handleFormSwitch: PropTypes.func,
-  setUserLoggedIn: PropTypes.func
+  setUserLoggedIn: PropTypes.func,
+  setFormIsOpen: PropTypes.func
 };
 
 export default SignupForm;
