@@ -10,20 +10,24 @@ import FriendRequests from "./Friends/FriendRequests";
 export default function Friends( {searchText}) {
   const [friendPage, handleFriendPage] = useState(1);
   let pageRender = "";
+  let className = "";
   switch (friendPage) {
     case 0:
+        className = 'content content-friends-page';
       break;
     case 1:
       pageRender = <FriendRequests searchText = {searchText}/>
+      className = 'content content-friends-page';
       break;
     case 2:
       pageRender = <FindFriends searchText = {searchText}/>;
+      className = 'content content-potential-friends-page';
       break;
     default:
       break;
   }
   return (
-    <div className="content content-friends-page">
+    <div className={className}>
       <div className="sidebar-filter">
         <button
           onClick={() => handleFriendPage(0)}

@@ -2,12 +2,8 @@ import React, { useState, Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
-import { Query } from "react-apollo";
+import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
-import {
-  ProfileProvider,
-  ProfileConsumer
-} from "./pages/Profile/ProfileContext";
 import socket from "./socket";
 
 import Header from "./components/Header/Header";
@@ -16,7 +12,9 @@ import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
 import PageNotFound from "./components/common/PageNotFound";
+import Loader from "./components/common/SimpleLoader";
 import "./_App.scss";
+import { UserProvider } from "./utils/UserContext";
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
@@ -36,78 +34,71 @@ function App({ userAuthenticated }) {
       "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally."
   };
 
-  let swalNotFired = true;
+  const [swalNotFired, setSwalNotFired] = useState(true);
 
   function resizeListener() {
     if (window.innerWidth < 600 && swalNotFired) {
       Swal.fire(swalParams);
-      swalNotFired = false;
+      setSwalNotFired(false);
     }
   }
 
   useEffect(() => {
     if (window.innerWidth < 600 && swalNotFired) {
       Swal.fire(swalParams);
-      swalNotFired = false;
+      setSwalNotFired(false);
     }
     window.addEventListener("resize", resizeListener);
     return () => window.removeEventListener("resize", resizeListener);
-  });
+  }, [swalNotFired, resizeListener, swalParams]);
 
   return (
     <Router>
-      <Header setUserLoggedIn={setUserLoggedIn} userLoggedIn={userLoggedIn} />
-      {userLoggedIn ? (
-        <Query
-          query={GET_LOGGEDIN_USER_COUNTRIES}
-          notifyOnNetworkStatusChange
-          fetchPolicy={"cache-and-network"}
-          partialRefetch={true}
-        >
-          {({ loading, error, data, refetch }) => {
-            if (loading) return <div>Loading...</div>;
-            if (error) return `Error! ${error}`;
-            return (
-              <ProfileProvider value={data}>
+      <UserProvider value={{ userLoggedIn, setUserLoggedIn }}>
+        <Header userLoggedIn={userLoggedIn} />
+        {userLoggedIn ? (
+          <Query
+            query={GET_LOGGEDIN_USER_COUNTRIES}
+            notifyOnNetworkStatusChange
+            fetchPolicy={"cache-and-network"}
+            partialRefetch={true}
+          >
+            {({ loading, error, data, refetch }) => {
+              if (loading) return <Loader />;
+              if (error) return `Error! ${error}`;
+              return (
                 <Fragment>
-                  <ProfileConsumer>
-                    {context => (
-                      <Switch>
-                        <Route
-                          exact
-                          path="/"
-                          render={props => (
-                            <MapPage
-                              {...props}
-                              context={context.getLoggedInUser}
-                              refetch={refetch}
-                              mapPage={mapPage}
-                              handleMapPageChange={handleMapPageChange}
-                            />
-                          )}
+                  <Switch>
+                    <Route
+                      exact
+                      path="/"
+                      render={props => (
+                        <MapPage
+                          {...props}
+                          context={data.getLoggedInUser}
+                          refetch={refetch}
+                          mapPage={mapPage}
+                          handleMapPageChange={handleMapPageChange}
                         />
-                        <Route
-                          path="/profile/"
-                          render={props => (
-                            <Profile
-                              {...props}
-                              context={context.getLoggedInUser}
-                            />
-                          )}
-                        />
-                        <Route path="/friends/" component={FriendMapPage} />
-                        <Route component={PageNotFound} />
-                      </Switch>
-                    )}
-                  </ProfileConsumer>
+                      )}
+                    />
+                    <Route
+                      path="/profile/"
+                      render={props => (
+                        <Profile {...props} context={data.getLoggedInUser} />
+                      )}
+                    />
+                    <Route path="/friends/" component={FriendMapPage} />
+                    <Route component={PageNotFound} />
+                  </Switch>
                 </Fragment>
-              </ProfileProvider>
-            );
-          }}
-        </Query>
-      ) : (
-        <Landing />
-      )}
+              );
+            }}
+          </Query>
+        ) : (
+          <Landing />
+        )}
+      </UserProvider>
     </Router>
   );
 }
@@ -116,4 +107,4 @@ App.propTypes = {
   userAuthenticated: PropTypes.bool
 };
 
-export default App;
+export default withApollo(App);

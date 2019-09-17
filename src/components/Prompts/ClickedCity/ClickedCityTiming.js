@@ -69,7 +69,6 @@ function ClickedCityTiming(props) {
       };
       Swal.fire(swalParams).then(result => {
         if (result.value) {
-          //this.props.showPopup();
           handleLivePopup(true);
         }
       });

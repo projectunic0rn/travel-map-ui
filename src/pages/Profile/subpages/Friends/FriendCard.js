@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import InterestIcon from "../../../../icons/InterestIcon";
+import UserAvatar from '../../../../components/UserAvatar/UserAvatar';
 
 function FriendCard({ friend }) {
   const [cityArray, handleCityArray] = useState([]);
@@ -42,20 +43,24 @@ function FriendCard({ friend }) {
   return (
     <div className="friend-card">
       <div className="fc-user-info">
-        <span className="fc-user-avatar"></span>
+        <span className="fc-user-avatar"><UserAvatar /></span>
         <span className="fc-username">{friend.username}</span>
         <span className="fc-user-location">
           {friend.Place_living.city + ", " + friend.Place_living.countryISO}
         </span>
         <div className="fc-user-interests">
           {friend.interests.map(interest => (
-            <span key = {interest}>
-              <InterestIcon  icon={interest} />
+            <span key={interest}>
+              <InterestIcon icon={interest} />
             </span>
           ))}
         </div>
       </div>
       <div className="fc-user-metrics">
+        <span className="fc-user-metric">
+          <span className="fc-user-metric-value">12</span>
+          <span className="fc-user-metric-type">friends</span>
+        </span>
         <span className="fc-user-metric">
           <span className="fc-user-metric-value">
             {countryArray.length - 1}
@@ -65,10 +70,6 @@ function FriendCard({ friend }) {
         <span className="fc-user-metric">
           <span className="fc-user-metric-value">{cityArray.length - 1}</span>
           <span className="fc-user-metric-type">cities</span>
-        </span>
-        <span className="fc-user-metric">
-          <span className="fc-user-metric-value">12</span>
-          <span className="fc-user-metric-type">friends</span>
         </span>
       </div>
     </div>

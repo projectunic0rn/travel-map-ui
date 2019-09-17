@@ -5,7 +5,7 @@ import UserAvatar from "../../UserAvatar/UserAvatar";
 import UsernameDropdown from "./UsernameDropdown";
 import { GET_LOGGEDIN_USER } from "../../../GraphQL";
 
-function UserHeaderContainer(props) {
+function UserHeaderContainer() {
   const [dropdown, handleDropdownClick] = useState(false);
   return (
     <Query
@@ -28,7 +28,6 @@ function UserHeaderContainer(props) {
               {dropdown ? (
                 <UsernameDropdown
                   onClickOut={() => handleDropdownClick(false)}
-                  setUserLoggedIn={props.setUserLoggedIn}
                 />
               ) : null}
               <UserAvatar />

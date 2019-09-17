@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
-import { Query } from "react-apollo";
-import { GET_PROFILE_BASICS } from "../../GraphQL";
-import { ProfileProvider } from "./ProfileContext";
 
 import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
@@ -51,49 +48,32 @@ export default function Profile(props) {
     handleCountryArray(countryArray);
   }, [props.context]);
   return (
-    <Query
-      query={GET_PROFILE_BASICS}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-    >
-      {({ loading, error, data }) => {
-        if (loading) return <div>Loading...</div>;
-        if (error) return `Error! ${error}`;
-        return (
-          <div className="page page-profile">
-            <ProfileProvider value={data.user}>
-              <div className="container">
-                <Sidebar
-                  city={
-                    props.context.Place_living !== null
-                      ? props.context.Place_living.city
-                      : "City"
-                  }
-                  country={
-                    props.context.Place_living !== null
-                      ? props.context.Place_living.countryISO
-                      : "Country"
-                  }
-                  countryCount={countryArray.length - 1}
-                  cityCount={cityArray.length - 1}
-                />
-                <ProfileNav handleSearchText={handleSearchText} />
-                <Route path="/profile/" exact component={Friends} />
-                <Route path="/profile/trips" exact component={Trips} />
-                <Route
-                  path="/profile/friends"
-                  render={props => (
-                    <Friends {...props} searchText={searchText} />
-                  )}
-                />
-                <Route path="/profile/settings" exact component={Settings} />
-              </div>
-            </ProfileProvider>
-          </div>
-        );
-      }}
-    </Query>
+    <div className="page page-profile">
+      <div className="container">
+        <Sidebar
+          city={
+            props.context.Place_living !== null
+              ? props.context.Place_living.city
+              : "City"
+          }
+          country={
+            props.context.Place_living !== null
+              ? props.context.Place_living.countryISO
+              : "Country"
+          }
+          countryCount={countryArray.length - 1}
+          cityCount={cityArray.length - 1}
+        />
+        <ProfileNav handleSearchText={handleSearchText} />
+        <Route path="/profile/" exact component={Friends} />
+        <Route path="/profile/trips" exact component={Trips} />
+        <Route
+          path="/profile/friends"
+          render={props => <Friends {...props} searchText={searchText} />}
+        />
+        <Route path="/profile/settings" exact component={Settings} />
+      </div>
+    </div>
   );
 }
 
