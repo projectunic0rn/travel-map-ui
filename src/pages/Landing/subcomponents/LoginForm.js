@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Mutation } from "react-apollo";
-import Swal from "sweetalert2";
+
+import ValidationMutation from "../../../components/common/ValidationMutation/ValidationMutation";
 import socket from "../../../socket";
 import { LOGIN_USER } from "../../../GraphQL";
+import UserContext from "../../../utils/UserContext";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -11,12 +12,15 @@ class LoginForm extends Component {
     this.state = {
       password: "",
       username: "",
-      buttonText: "login"
+      errors: {
+        username: "",
+        password: ""
+      }
     };
   }
   async confirmLogin(data) {
     this._saveUserData(data.loginUser.token);
-    this.props.setUserLoggedIn(true);
+    this.context.setUserLoggedIn(true);
     this.props.setFormIsOpen(false);
   }
   _saveUserData(token) {
@@ -26,17 +30,14 @@ class LoginForm extends Component {
     }
   }
 
-  handleInvalidCredentials() {
-    Swal.fire({
-      type: "error",
-      title: "Oops...",
-      text: "Your credentials were invalid"
-    });
+  handleInvalidCredentials(err) {
+    this.setState({ errors: err });
   }
 
   render() {
     const { username, password } = this.state;
     const { handleFormSwitch } = this.props;
+    const { errors } = this.state;
     return (
       <form
         className="signup-form"
@@ -44,7 +45,11 @@ class LoginForm extends Component {
         onSubmit={(e) => e.preventDefault()}
       >
         <div className="field">
+          {errors.username && (
+            <span className="validate">{errors.username}</span>
+          )}
           <input
+            noValidate
             type="text"
             required
             onChange={(e) => this.setState({ username: e.target.value })}
@@ -55,7 +60,11 @@ class LoginForm extends Component {
           <label htmlFor="username">username</label>
         </div>
         <div className="field">
+        {errors.password && (
+            <span className="validate">{errors.password}</span>
+          )}
           <input
+            noValidate
             type="password"
             data-ng-model="password"
             autoComplete="on"
@@ -68,20 +77,26 @@ class LoginForm extends Component {
           />
           <label htmlFor="password">password</label>
         </div>
-        <Mutation
+        <ValidationMutation
           mutation={LOGIN_USER}
           variables={{ username, password }}
           onCompleted={(data) => this.confirmLogin(data)}
-          onError={() => this.handleInvalidCredentials()}
+          onInputError={(err) => this.handleInvalidCredentials(err)}
         >
           {(mutation, { loading }) => (
             <div>
-              <button className="login-button" onClick={mutation}>
+              <button
+                className="login-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  mutation();
+                }}
+              >
                 {!loading ? "Login" : "Logging in..."}
               </button>
             </div>
           )}
-        </Mutation>
+        </ValidationMutation>
         <span className="form-switch">
           Don't have an account yet?{" "}
           <span onClick={handleFormSwitch}>Sign up</span>
@@ -90,6 +105,8 @@ class LoginForm extends Component {
     );
   }
 }
+
+LoginForm.contextType = UserContext;
 
 LoginForm.propTypes = {
   handleFormSwitch: PropTypes.func,

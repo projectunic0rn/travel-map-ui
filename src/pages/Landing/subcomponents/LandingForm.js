@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import CloseWindowIcon from "../../../icons/CloseWindowIcon";
 
-function LandingForm({ setUserLoggedIn, setFormIsOpen }) {
+function LandingForm({ setFormIsOpen }) {
   const [formActive, handleFormSwitch] = useState(false);
   return (
     <div className="landing-form">
@@ -41,13 +41,12 @@ function LandingForm({ setUserLoggedIn, setFormIsOpen }) {
       <div className="landing-form-content">
         {formActive ? (
           <SignupForm
-            setUserLoggedIn={setUserLoggedIn}
+            setFormIsOpen={setFormIsOpen}
             handleFormSwitch={() => handleFormSwitch(false)}
           />
         ) : (
           <LoginForm
             setFormIsOpen={setFormIsOpen}
-            setUserLoggedIn={setUserLoggedIn}
             handleFormSwitch={() => handleFormSwitch(true)}
           />
         )}

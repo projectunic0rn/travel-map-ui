@@ -1,74 +1,73 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 
-const MapPage = props => {
+const MapPage = (props) => {
   const [cityOrCountry, handleMapTypeChange] = useState(false);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
-  const [loaded, handleLoaded] = useState(false);
 
   useEffect(() => {
     handleTripData(props.context);
+
+    function handleLoadedCountries(data) {
+      let countryArray = clickedCountryArray;
+      let userData = data;
+      if (userData != null && userData.Places_visited.length !== 0) {
+        for (let i = 0; i < userData.Places_visited.length; i++) {
+          if (
+            !countryArray.some((country) => {
+              return (
+                country.countryId === userData.Places_visited[i].countryId &&
+                country.tripTiming === 0
+              );
+            })
+          ) {
+            countryArray.push({
+              countryId: userData.Places_visited[i].countryId,
+              tripTiming: 0
+            });
+          }
+        }
+      }
+      if (userData != null && userData.Places_visiting.length !== 0) {
+        for (let i = 0; i < userData.Places_visiting.length; i++) {
+          if (
+            !countryArray.some((country) => {
+              return (
+                country.countryId === userData.Places_visiting[i].countryId &&
+                country.tripTiming === 1
+              );
+            })
+          ) {
+            countryArray.push({
+              countryId: userData.Places_visiting[i].countryId,
+              tripTiming: 1
+            });
+          }
+        }
+      }
+      if (userData != null && userData.Place_living !== null) {
+        if (
+          !countryArray.some((country) => {
+            return (
+              country.countryId === userData.Place_living.countryId &&
+              country.tripTiming === 2
+            );
+          })
+        ) {
+          countryArray.push({
+            countryId: userData.Place_living.countryId,
+            tripTiming: 2
+          });
+        }
+      }
+      addCountry(countryArray);
+    }
+
     handleLoadedCountries(props.context);
-    handleLoaded(true);
-  }, []);
-  function handleLoadedCountries(data) {
-    let countryArray = clickedCountryArray;
-    let userData = data;
-    if (userData != null && userData.Places_visited.length !== 0) {
-      for (let i = 0; i < userData.Places_visited.length; i++) {
-        if (
-          !countryArray.some(country => {
-            return (
-              country.countryId === userData.Places_visited[i].countryId &&
-              country.tripTiming === 0
-            );
-          })
-        ) {
-          countryArray.push({
-            countryId: userData.Places_visited[i].countryId,
-            tripTiming: 0
-          });
-        }
-      }
-    }
-    if (userData != null && userData.Places_visiting.length !== 0) {
-      for (let i = 0; i < userData.Places_visiting.length; i++) {
-        if (
-          !countryArray.some(country => {
-            return (
-              country.countryId === userData.Places_visiting[i].countryId &&
-              country.tripTiming === 1
-            );
-          })
-        ) {
-          countryArray.push({
-            countryId: userData.Places_visiting[i].countryId,
-            tripTiming: 1
-          });
-        }
-      }
-    }
-    if (userData != null && userData.Place_living !== null) {
-      if (
-        !countryArray.some(country => {
-          return (
-            country.countryId === userData.Place_living.countryId &&
-            country.tripTiming === 2
-          );
-        })
-      ) {
-        countryArray.push({
-          countryId: userData.Place_living.countryId,
-          tripTiming: 2
-        });
-      }
-    }
-    addCountry(countryArray);
-  }
+  }, [props.context, clickedCountryArray]);
 
   function deleteCity(cityId, timing) {
     let cityIndex = null;
@@ -104,7 +103,6 @@ const MapPage = props => {
     handleTripData(tripData);
     props.refetch();
   }
-  if (!loaded) return <div>Loading...</div>;
   return (
     <div className="map-container">
       <div className={cityOrCountry ? "map city-map" : "map country-map"}>

@@ -6,6 +6,7 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
+
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
@@ -220,14 +221,13 @@ const CountryMap = props => {
 
   return (
     <>
-      <div className="map-header-container" style={{ position: "relative" }}>
+      <div className="map-header-container">
         <div className="map-header-button">
           <button onClick={() => props.handleMapTypeChange(1)}>
             Go to City Map
           </button>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
-        <div className="map-header-filler" />
       </div>
       <div className="continent-container">
         <button className="continent-button" onClick={handleMapReset}>

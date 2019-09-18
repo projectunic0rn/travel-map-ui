@@ -9,8 +9,11 @@
     letter-spacing: 1px;
     padding: 8px 0;
     margin: 8px 20px 0;
+    &:hover {
+      border-bottom: 4px solid #a7a7a7;
+    }
     &.active {
-      border-bottom: 4px solid #A7E1FF
+      border-bottom: solid 4px #a7e1ff;
     }
   }
 }

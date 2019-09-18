@@ -32,8 +32,7 @@ class Landing extends Component {
     this.changeWordIndex = this.changeWordIndex.bind(this);
   }
 
-  componentWillMount() {
-    // localStorage.clear();
+  componentDidMount() {
     this.wordIndexInterval = setInterval(() => {
       this.changeWordIndex();
     }, 5000);
