@@ -12,6 +12,7 @@ export default function Profile(props) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
+  const [page, handlePageRender] = useState("friend-requests");
   useEffect(() => {
     let userData = props.context;
     let cityArray = [0];
@@ -64,12 +65,15 @@ export default function Profile(props) {
           countryCount={countryArray.length - 1}
           cityCount={cityArray.length - 1}
         />
-        <ProfileNav handleSearchText={handleSearchText} />
-        <Route path="/profile/" exact component={Friends} />
+        <ProfileNav handleSearchText={handleSearchText} page={page}/>
+        <Route
+          exact path="/profile/"
+          render={(props) => <Friends {...props} searchText={searchText} handlePageRender={handlePageRender}/>}
+        />
         <Route path="/profile/trips" exact component={Trips} />
         <Route
           path="/profile/friends"
-          render={props => <Friends {...props} searchText={searchText} />}
+          render={(props) => <Friends {...props} searchText={searchText} handlePageRender={handlePageRender}/>}
         />
         <Route path="/profile/settings" exact component={Settings} />
       </div>

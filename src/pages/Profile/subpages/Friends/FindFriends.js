@@ -20,7 +20,6 @@ export default function FindFriends({ searchText }) {
     } else {
       handleFilteredFriendsAvailable(friendsAvailable);
     }
-
   }, [searchText]);
   function handleTripData(data) {
     handleFriendsAvailable(data);

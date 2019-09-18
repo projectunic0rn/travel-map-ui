@@ -6,6 +6,7 @@ import CityMap from "./subcomponents/CityMap";
 const MapPage = props => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
+  const [loaded, handleLoaded] = useState(false);
 
   useEffect(() => {
     handleTripData(props.context);
@@ -66,6 +67,7 @@ const MapPage = props => {
     }
 
     handleLoadedCountries(props.context);
+    handleLoaded(true);
   }, [props.context, clickedCountryArray]);
 
   function deleteCity(cityId, timing) {
@@ -102,6 +104,7 @@ const MapPage = props => {
     handleTripData(tripData);
     props.refetch();
   }
+  if (!loaded) return <div>Loading...</div>;
   return (
     <div className="map-container">
       <div className={props.mapPage ? "map city-map" : "map country-map"}>

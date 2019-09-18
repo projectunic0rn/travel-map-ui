@@ -228,6 +228,7 @@ const CountryMap = props => {
           </button>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
+        <div className="map-header-filler" />
       </div>
       <div className="continent-container">
         <button className="continent-button" onClick={handleMapReset}>

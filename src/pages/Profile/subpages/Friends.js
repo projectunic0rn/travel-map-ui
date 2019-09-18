@@ -7,21 +7,24 @@ import AddFriendIcon from "../../../icons/AddFriendIcon";
 import FindFriends from "./Friends/FindFriends";
 import FriendRequests from "./Friends/FriendRequests";
 
-export default function Friends( {searchText}) {
+export default function Friends( { searchText, handlePageRender }) {
   const [friendPage, handleFriendPage] = useState(1);
   let pageRender = "";
   let className = "";
   switch (friendPage) {
     case 0:
         className = 'content content-friends-page';
+        handlePageRender("friends");
       break;
     case 1:
       pageRender = <FriendRequests searchText = {searchText}/>
       className = 'content content-friends-page';
+      handlePageRender("friend requests");
       break;
     case 2:
       pageRender = <FindFriends searchText = {searchText}/>;
       className = 'content content-potential-friends-page';
+      handlePageRender("all users");
       break;
     default:
       break;
@@ -54,5 +57,6 @@ export default function Friends( {searchText}) {
 }
 
 Friends.propTypes = {
-  searchText: PropTypes.string
+  searchText: PropTypes.string,
+  handlePageRender: PropTypes.func
 }
