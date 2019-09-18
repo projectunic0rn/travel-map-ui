@@ -34,7 +34,10 @@ function FriendClickedCityContainer(props) {
         .filter((value, index, self) => self.indexOf(value) === index);
       handleFriendsWithTrips(uniqueFriends);
     }
-  }, []);
+  }, [
+    props.customProps.clickedCity.result,
+    props.customProps.hoveredCityArray
+  ]);
 
   let hoveredCityArray = props.customProps.hoveredCityArray.sort(
     (cityA, cityB) => cityA.tripTiming - cityB.tripTiming

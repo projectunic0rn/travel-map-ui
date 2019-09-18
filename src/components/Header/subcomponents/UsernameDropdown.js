@@ -42,7 +42,7 @@ function UsernameDropdown({ onClickOut }) {
     <div ref={ref}>
       {isComponentVisible && (
         <UserConsumer>
-          {context => (
+          {(context) => (
             <div className="username-dropdown-container">
               <span className="username-dropdown-triangle" />
               <ul className="username-dropdown-links" onClick={onClickOut}>

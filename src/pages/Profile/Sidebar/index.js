@@ -1,15 +1,15 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
-import { GET_PROFILE_BASICS } from "../../../GraphQL";
 
+import { GET_PROFILE_BASICS } from "../../../GraphQL";
 import UserDetails from "./UserDetails";
 import UserActivity from "./UserActivity";
-import SimpleLoader from "../../../components/common/SimpleLoader";
+import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
 
 export default function Sidebar(props) {
   const fakeUser = {
-    username: "username123",
+    username: "JohnSmith",
     name: "John Smith",
     age: 23,
     city: "Los Angeles",

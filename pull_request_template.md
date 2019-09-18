@@ -16,4 +16,4 @@
 
 <!-- Note: Also please make sure the console is empty at production and there are no eslint warnings -->
 
-- [ ] The console is empty and there are not eslint warmings
+- [ ] The console is clean. No errors or linting warnings

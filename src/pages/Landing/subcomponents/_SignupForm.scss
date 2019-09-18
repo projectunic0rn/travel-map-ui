@@ -34,13 +34,13 @@
 }
 .landing-form {
   .signup-form {
-    margin: 2em 36px;
+    margin: 1em 36px;
   }
 
   .field {
     display: flex;
     flex-flow: column-reverse;
-    margin-bottom: 1em;
+    margin-bottom: 0;
   }
   /**
   * Add a transition to the label and input.
@@ -48,6 +48,11 @@
   * inputs, but hey, it's new and cool and could remove the 
   * pesky delay.
   */
+
+  span.validate {
+    color: $primary-red;
+  }
+
   label,
   input {
     transition: all 0.2s;
@@ -79,6 +84,7 @@
     text-transform: lowercase;
     letter-spacing: 0.05em;
   }
+
   /**
   * Translate down and scale the label up to cover the placeholder,
   * when following an input (with placeholder-shown support).

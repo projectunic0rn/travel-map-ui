@@ -308,7 +308,7 @@ class CityMap extends Component {
     }
     if (data != null && data.Place_living !== null) {
       if (
-        !clickedCityArray.some(city => {
+        !clickedCityArray.some((city) => {
           return city.cityId === data.Place_living.cityId;
         })
       )
@@ -544,7 +544,7 @@ class CityMap extends Component {
               this.deleteCity(cityTooltip.id, cityTooltip.tripTiming)
             }
           >
-            {mutation => (
+            {(mutation) => (
               <TrashIcon cityKey={cityTooltip.cityId} trashClicked={mutation} />
             )}
           </Mutation>
@@ -572,8 +572,6 @@ class CityMap extends Component {
               Go to Country Map
             </button>
           </div>
-          <div className="map-header-filler" />
-          <div className="map-header-filler" />
         </div>
         <div className="city-map-container">
           <MapGL
@@ -592,7 +590,7 @@ class CityMap extends Component {
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }
-              position="top-left"
+              position={"top-right"}
               types={"place"}
               placeholder={"Type a city..."}
             />

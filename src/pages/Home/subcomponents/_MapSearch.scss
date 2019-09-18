@@ -1,12 +1,15 @@
 .map-search-container {
   display: flex;
   align-items: center;
-  max-width: 400px;
+  width: 300px;
   height: 40px;
-  margin: 16px auto 16px;
   border-radius: 4px;
   box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.15);
   background: #3f4b57;
+  .search-icon {
+    fill: rgb(210, 210, 210);
+    margin-left: 8px;
+  }
   label {
     text-transform: none;
     transform: translate(-20px, -4px);
@@ -14,26 +17,18 @@
   input {
     display: flex;
     align-items: center;
-    width: 360px;
+    width: 400px;
     border-bottom: none;
     font-size: 1.5em;
     font-family: "Segoe UI";
     font-weight: 100;
     line-height: 1.5em;
     border: 0;
-    -webkit-appearance: none;
-    border-radius: 0;
     padding: 0 0 0px 16px;
-    cursor: text;
     background: none;
     color: rgb(168, 168, 172);
-
     &:focus {
       outline: 0;
     }
-  }
-  .search-icon {
-     fill: rgb(210, 210, 210);
-     margin-left: 8px;
   }
 }

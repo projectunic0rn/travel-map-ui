@@ -11,8 +11,8 @@ import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
-import PageNotFound from "./components/common/PageNotFound";
-import Loader from "./components/common/SimpleLoader";
+import PageNotFound from "./components/common/PageNotFound/PageNotFound";
+import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
 
@@ -20,37 +20,39 @@ function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
   const [mapPage, handleMapPageChange] = useState(0);
 
-  socket.on("new-friend-request", data => {
+  socket.on("new-friend-request", (data) => {
     alert(data.senderData.username + " has sent you a friend request!");
   });
 
-  socket.on("trip-created", username => {
+  socket.on("trip-created", (username) => {
     alert(username + " has created a new trip!");
   });
 
   const swalParams = {
     type: "info",
     text:
-      "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally."
+      "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally.",
+    confirmButtonColor: "#656F80"
   };
 
   const [swalNotFired, setSwalNotFired] = useState(true);
-
-  function resizeListener() {
-    if (window.innerWidth < 600 && swalNotFired) {
-      Swal.fire(swalParams);
-      setSwalNotFired(false);
-    }
-  }
 
   useEffect(() => {
     if (window.innerWidth < 600 && swalNotFired) {
       Swal.fire(swalParams);
       setSwalNotFired(false);
     }
+
+    function resizeListener() {
+      if (window.innerWidth < 600 && swalNotFired) {
+        Swal.fire(swalParams);
+        setSwalNotFired(false);
+      }
+    }
+
     window.addEventListener("resize", resizeListener);
     return () => window.removeEventListener("resize", resizeListener);
-  }, [swalNotFired, resizeListener, swalParams]);
+  }, [swalNotFired, swalParams]);
 
   return (
     <Router>
@@ -72,7 +74,7 @@ function App({ userAuthenticated }) {
                     <Route
                       exact
                       path="/"
-                      render={props => (
+                      render={(props) => (
                         <MapPage
                           {...props}
                           context={data.getLoggedInUser}
@@ -84,7 +86,7 @@ function App({ userAuthenticated }) {
                     />
                     <Route
                       path="/profile/"
-                      render={props => (
+                      render={(props) => (
                         <Profile {...props} context={data.getLoggedInUser} />
                       )}
                     />

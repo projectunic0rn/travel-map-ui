@@ -9,7 +9,7 @@
   align-items: center;
   height: calc(100% - 30px);
   width: 80vw;
-  margin: 0 auto;
+  margin: 10px auto 0 auto;
   .country-map {
     margin: 0px auto 0 auto;
     max-width: 90vw;
@@ -95,6 +95,30 @@
           outline: none;
         }
       }
+    }
+  }
+}
+
+.continent-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  .continent-button {
+    z-index: 2;
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-family: "Segoe UI", sans-serif;
+    color: rgb(232, 232, 232);
+    @media (max-width: 800px) {
+      font-size: 14px;
+    }
+    &:hover {
+      color: $grey;
+    }
+    &:focus {
+      outline: none;
     }
   }
 }

@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
+
 import { DELETE_USER } from "../../../GraphQL";
 import { UserConsumer } from "../../../utils/UserContext";
 
-function Settings(props, { history }) {
+function Settings({ history }) {
   function onRemoveUser() {
     localStorage.removeItem("token");
     history.push("/");
   }
+
   function onRemoveUserClick(loading, mutation, setUserLoggedIn) {
     if (!loading) {
       let approval = window.confirm(
@@ -20,16 +22,17 @@ function Settings(props, { history }) {
       }
     }
   }
+
   return (
     <UserConsumer>
-      {value => (
+      {(value) => (
         <div className="content">
           <div className="settings-container">
             <h1>Settings</h1>
             <Mutation
               mutation={DELETE_USER}
               onCompleted={onRemoveUser}
-              onError={err => console.log(err)}
+              onError={(err) => alert("Unable to delete account" + err)}
             >
               {(mutation, { loading }) => (
                 <div
