@@ -11,6 +11,7 @@ import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
+import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
@@ -76,15 +77,20 @@ function App({ userAuthenticated }) {
                       render={(props) => (
                         <MapPage
                           {...props}
-                          context={data.getLoggedInUser}
+                          context={data.user}
                           refetch={refetch}
                         />
                       )}
                     />
+                    {/* <Route
+                      exact
+                      path="/profile/:username/"
+                      render={() => <UserProfile />}
+                    /> */}
                     <Route
                       path="/profile/"
                       render={(props) => (
-                        <Profile {...props} context={data.getLoggedInUser} />
+                        <Profile {...props} context={data.user} />
                       )}
                     />
                     <Route path="/friends/" component={FriendMapPage} />

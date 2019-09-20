@@ -9,12 +9,12 @@ import Media from "./subpages/Media";
 import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
-export default function Profile(props) {
+export default function Profile({ context, username }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
 
   useEffect(() => {
-    let userData = props.context;
+    let userData = context;
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
@@ -47,36 +47,51 @@ export default function Profile(props) {
     }
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
-  }, [props.context]);
+  }, [context]);
 
   return (
     <div className="page page-profile">
       <div className="container">
         <Sidebar
           city={
-            props.context.Place_living !== null
-              ? props.context.Place_living.city
-              : "City"
+            context.Place_living !== null ? context.Place_living.city : "City"
           }
           country={
-            props.context.Place_living !== null
-              ? props.context.Place_living.country
+            context.Place_living !== null
+              ? context.Place_living.country
               : "Country"
           }
           countryCount={countryArray.length - 1}
           cityCount={cityArray.length - 1}
         />
         <ProfileNav />
-        <Route path="/profile/" exact component={Trips} />
-        <Route path="/profile/trips" exact component={Trips} />
-        <Route path="/profile/media" exact component={Media} />
-        <Route path="/profile/friends" exact component={Friends} />
-        <Route path="/profile/settings" exact component={Settings} />
+        <Route
+          path={`/profile/`}
+          exact
+          component={Trips}
+        />
+        <Route
+          path={`/profile/trips`}
+          exact
+          component={Trips}
+        />
+        <Route
+          path={`/profile/media`}
+          exact
+          component={Media}
+        />
+        <Route
+          path={`/profile/friends`}
+          exact
+          component={Friends}
+        />
+          <Route path="/profile/settings" exact component={Settings} />
       </div>
     </div>
   );
 }
 
 Profile.propTypes = {
-  context: PropTypes.object
+  context: PropTypes.object,
+  username: PropTypes.string
 };
