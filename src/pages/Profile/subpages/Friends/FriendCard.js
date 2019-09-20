@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import InterestIcon from "../../../../icons/InterestIcon";
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
 
-function FriendCard({ friend }) {
+function FriendCard({ friend, currentFriend }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   useEffect(() => {
@@ -76,16 +76,19 @@ function FriendCard({ friend }) {
           <span className="fc-user-metric-type">cities</span>
         </span>
       </div>
+
       <div className = 'fc-button-container'>
-        <span className = 'fc-accept'>Accept</span>
-        <span className = 'fc-deny'>Deny</span>
+      {currentFriend ? <span className = 'fc-see-profile'>See Profile</span> : 
+        <><span className = 'fc-accept'>Accept</span>
+        <span className = 'fc-deny'>Deny</span></>}
       </div>
     </div>
   );
 }
 
 FriendCard.propTypes = {
-  friend: PropTypes.object
+  friend: PropTypes.object, 
+  currentFriend: PropTypes.bool
 };
 
 export default FriendCard;

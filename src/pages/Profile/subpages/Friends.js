@@ -6,13 +6,15 @@ import SearchIcon from "../../../icons/SearchIcon";
 import AddFriendIcon from "../../../icons/AddFriendIcon";
 import FindFriends from "./Friends/FindFriends";
 import FriendRequests from "./Friends/FriendRequests";
+import CurrentFriends from "./Friends/CurrentFriends";
 
 export default function Friends( { searchText, handlePageRender }) {
-  const [friendPage, handleFriendPage] = useState(1);
+  const [friendPage, handleFriendPage] = useState(0);
   let pageRender = "";
   let className = "";
   switch (friendPage) {
     case 0:
+      pageRender = <CurrentFriends searchText = {searchText}/>
         className = 'content content-friends-page';
         handlePageRender("friends");
       break;

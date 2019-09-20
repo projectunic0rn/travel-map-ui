@@ -115,6 +115,7 @@
 
 .content-friends-page .content-results {
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  justify-items: center;
   grid-template-rows: repeat(auto-fill, 200px);
 }
 

@@ -12,7 +12,7 @@ export default function Profile(props) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
-  const [page, handlePageRender] = useState("friend-requests");
+  const [page, handlePageRender] = useState("friends");
   useEffect(() => {
     let userData = props.context;
     let cityArray = [0];
