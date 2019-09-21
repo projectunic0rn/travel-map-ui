@@ -36,6 +36,8 @@ export default function Sidebar({
         {({ loading, error, data }) => {
           if (loading) return <SimpleLoader />;
           if (error) return <p>{error.toString()}</p>;
+          if (!data.user)
+            return <h1>There is no profile under the username: {username}</h1>;
           return (
             <Fragment>
               <UserDetails

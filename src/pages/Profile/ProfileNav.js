@@ -5,16 +5,21 @@ import { NavLink } from "react-router-dom";
 export default function ProfileNav({ username }) {
   return (
     <div className="content content-nav">
-      <NavLink to={`/profile/${username && username + "/"}trips`}>
+      <NavLink exact to={username ? `/profiles/${username}` : "/profile"}>
         Trips
       </NavLink>
-      <NavLink to={`/profile/${username && username + "/"}media`}>
-        Media
-      </NavLink>
-      <NavLink to={`/profile/${username && username + "/"}friends`}>
+      <NavLink
+        exact
+        to={username ? `/profiles/${username}/friends` : "/profile/friends"}
+      >
         Friends
       </NavLink>
-      <NavLink to="/profile/settings">Settings</NavLink>
+      <NavLink
+        exact
+        to={username ? `/profiles/${username}/settings` : "/profile/settings"}
+      >
+        Settings
+      </NavLink>
     </div>
   );
 }

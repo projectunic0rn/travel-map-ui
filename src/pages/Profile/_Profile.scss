@@ -22,3 +22,13 @@
     border-radius: 4px;
   }
 }
+
+.user-profile {
+  .not-found-container {
+    margin: auto;
+    padding: 20px;
+    .not-found-header {
+      color: $light-green;
+    }
+  }
+}

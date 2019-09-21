@@ -94,7 +94,7 @@ export const GET_LOGGEDIN_USER = gql`
 `;
 
 export const GET_USER_COUNTRIES = gql`
-  query user($username: String!) {
+  query user($username: String) {
     user(username: $username) {
       id
       username

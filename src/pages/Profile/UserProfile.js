@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Query } from "react-apollo";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
@@ -6,18 +6,14 @@ import { withRouter } from "react-router-dom";
 import Loader from "../../components/common/Loader/Loader";
 import { GET_USER_COUNTRIES } from "../../GraphQL";
 import Profile from "./Profile";
+import UserNotFound from "./subpages/UserNotFound";
 
 // the match prop is passed from react-router-dom and provides url parameters
 function UserProfile({ match }) {
   let username = match.params.username;
-  // let username;
-  // useEffect(() => {
-  //   username = match.params.username;
-  //   console.log("user profile rendered");
-  //   console.log(match.params.id);
-  // });
 
   return (
+    <div className="user-profile">
     <Query
       query={GET_USER_COUNTRIES}
       notifyOnNetworkStatusChange={true}
@@ -26,12 +22,13 @@ function UserProfile({ match }) {
       partialRefetch={true}
     >
       {({ loading, error, data }) => {
-        if (loading) return <h1>Loading</h1>;
+        if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
-        // return <UserProfile context={data.user} />;
-        return <Profile username={username} context={data.user} />;
+        if (!data.user) return <UserNotFound username={username} />;
+        return <Profile username={username} user={data.user} />;
       }}
     </Query>
+    </div>
   );
 }
 

@@ -68,6 +68,7 @@ function App({ userAuthenticated }) {
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
+              console.log(data);
               return (
                 <Fragment>
                   <Switch>
@@ -82,15 +83,14 @@ function App({ userAuthenticated }) {
                         />
                       )}
                     />
-                    {/* <Route
-                      exact
-                      path="/profile/:username/"
-                      render={() => <UserProfile />}
-                    /> */}
+                    <Route
+                      path="/profiles/:username/"
+                      component={UserProfile}
+                    />
                     <Route
                       path="/profile/"
                       render={(props) => (
-                        <Profile {...props} context={data.user} />
+                        <Profile {...props} user={data.user} />
                       )}
                     />
                     <Route path="/friends/" component={FriendMapPage} />
