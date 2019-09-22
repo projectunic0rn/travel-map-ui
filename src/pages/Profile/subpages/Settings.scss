@@ -1,0 +1,22 @@
+.settings-container {
+    color: $light-green;
+    margin: 20px;
+  
+    .delete-button {
+      background-color: #d33;
+      border-radius: 4px;
+      width: 130px;
+      height: 40px;
+      font-weight: 200;
+      cursor: pointer;
+      text-align: center;
+      padding: 8px;
+      &:hover {
+        background-color: #d55;
+      }
+      &.disabled {
+        background-color: $grey;
+        cursor: not-allowed;
+      }
+    }
+  }

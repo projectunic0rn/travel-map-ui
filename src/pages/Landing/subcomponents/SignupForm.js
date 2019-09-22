@@ -50,7 +50,7 @@ class SignupForm extends Component {
             noValidate
             type="text"
             required
-            onChange={(e) => this.setState({ username: e.target.value })}
+            onChange={e => this.setState({ username: e.target.value })}
             name="username"
             id="username"
             placeholder="enter a username"
@@ -65,7 +65,7 @@ class SignupForm extends Component {
             noValidate
             type="text"
             required
-            onChange={(e) => this.setState({ fullName: e.target.value })}
+            onChange={e => this.setState({ fullName: e.target.value })}
             name="fullname"
             id="fullname"
             placeholder="enter your full name"
@@ -93,7 +93,7 @@ class SignupForm extends Component {
             type="password"
             data-ng-model="password"
             required
-            onChange={(e) => this.setState({ password: e.target.value })}
+            onChange={e => this.setState({ password: e.target.value })}
             name="password"
             id="password"
             placeholder="enter a password"
@@ -108,7 +108,7 @@ class SignupForm extends Component {
         >
           {(mutation, { loading }) => (
             <button className="login-button" onClick={mutation}>
-              {loading ? "Singing Up..." : "Sign Up"}
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
           )}
         </ValidationMutation>

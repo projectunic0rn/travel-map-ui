@@ -9,6 +9,7 @@ import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
 
 export default function Sidebar(props) {
   const fakeUser = {
+    username: "JohnSmith",
     name: "John Smith",
     age: 23,
     city: "Los Angeles",
@@ -45,7 +46,6 @@ export default function Sidebar(props) {
                   countryCount={props.countryCount}
                   cityCount={props.cityCount}
                 />
-                {/* TODO: move tags to component */}
                 <div className="user-tags">
                   <span className="tag tag-green">Nature Lover</span>
                   <span className="tag tag-blue">Like a Local</span>

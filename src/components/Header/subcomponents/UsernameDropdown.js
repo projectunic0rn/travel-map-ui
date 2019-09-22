@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-
 import { UserConsumer } from "../../../utils/UserContext";
 
 import LogoutIcon from "../../../icons/LogoutIcon";
@@ -14,7 +13,7 @@ function useComponentVisible(initialIsVisible) {
   );
   const ref = useRef(null);
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = event => {
     if (ref.current && !ref.current.contains(event.target)) {
       setIsComponentVisible(false);
     }

@@ -358,7 +358,7 @@ ClickedCountryCities.propTypes = {
   country: PropTypes.string,
   countryId: PropTypes.number,
   countryISO: PropTypes.string,
-  countryIndex: PropTypes.number,
+  countryIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   handleTypedCity: PropTypes.func,
   timing: PropTypes.number,
   updateMap: PropTypes.func,

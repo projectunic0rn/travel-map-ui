@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
-
 import { UserConsumer } from "../../../utils/UserContext";
 
 export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
@@ -17,7 +16,7 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
               <NavLink exact to="/friends">
                 Friends
               </NavLink>
-              <NavLink exact to="/profile/">
+              <NavLink to="/profile/friends">
                 Profile
               </NavLink>
             </Fragment>
@@ -41,5 +40,6 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
 }
 
 NavLinks.propTypes = {
-  toggleFormIsOpen: PropTypes.func
+  toggleFormIsOpen: PropTypes.func,
+  formIsOpen: PropTypes.bool
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "../FriendClickedCity/subcomponents/UserTripCard";
@@ -44,7 +44,7 @@ function FriendClickedCountryContainer(props) {
       clickedCountryArray[i].tripTiming ===
         clickedCountryArray[i - 1].tripTiming &&
       clickedCountryArray[i].city === ""
-    ) {
+    ) { void(0);
     } else if (clickedCountryArray[i].city === "") {
       userTripArray.push({
         username: clickedCountryArray[i].username,
@@ -67,7 +67,7 @@ function FriendClickedCountryContainer(props) {
       friendTrips = userTripArray.map((country, i) => {
         if (i === 0) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[country.tripTiming]}
               </div>
@@ -77,14 +77,14 @@ function FriendClickedCountryContainer(props) {
                 metric={<CityIcon />}
                 metricValue={country.cities}
               />
-            </>
+            </Fragment>
           );
         } else if (
           i !== 0 &&
           country.tripTiming !== userTripArray[i - 1].tripTiming
         ) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[country.tripTiming]}
               </div>
@@ -94,7 +94,7 @@ function FriendClickedCountryContainer(props) {
                 metric={<CityIcon />}
                 metricValue={country.cities}
               />
-            </>
+            </Fragment>
           );
         } else {
           return (

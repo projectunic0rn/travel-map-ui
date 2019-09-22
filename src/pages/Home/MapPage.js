@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 
-const MapPage = (props) => {
-  const [cityOrCountry, handleMapTypeChange] = useState(false);
+const MapPage = props => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
+  const [loaded, handleLoaded] = useState(false);
 
   useEffect(() => {
     handleTripData(props.context);
@@ -67,6 +67,7 @@ const MapPage = (props) => {
     }
 
     handleLoadedCountries(props.context);
+    handleLoaded(true);
   }, [props.context, clickedCountryArray]);
 
   function deleteCity(cityId, timing) {
@@ -103,13 +104,14 @@ const MapPage = (props) => {
     handleTripData(tripData);
     props.refetch();
   }
+  if (!loaded) return <div>Loading...</div>;
   return (
     <div className="map-container">
-      <div className={cityOrCountry ? "map city-map" : "map country-map"}>
-        {cityOrCountry ? (
+      <div className={props.mapPage ? "map city-map" : "map country-map"}>
+        {props.mapPage  ? (
           <CityMap
             tripData={tripData}
-            handleMapTypeChange={handleMapTypeChange}
+            handleMapTypeChange={() => props.handleMapPageChange(0)}
             deleteCity={deleteCity}
             refetch={props.refetch}
           />
@@ -117,7 +119,7 @@ const MapPage = (props) => {
           <CountryMap
             tripData={tripData}
             clickedCountryArray={clickedCountryArray}
-            handleMapTypeChange={handleMapTypeChange}
+            handleMapTypeChange={() => props.handleMapPageChange(1)}
             refetch={props.refetch}
           />
         )}
@@ -128,7 +130,9 @@ const MapPage = (props) => {
 
 MapPage.propTypes = {
   context: PropTypes.object,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  mapPage: PropTypes.number,
+  handleMapPageChange: PropTypes.func
 };
 
 export default MapPage;
