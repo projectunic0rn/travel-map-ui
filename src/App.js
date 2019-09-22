@@ -19,6 +19,7 @@ import { UserProvider } from "./utils/UserContext";
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
+  const [mapPage, handleMapPageChange] = useState(0);
 
   socket.on("new-friend-request", (data) => {
     alert(data.senderData.username + " has sent you a friend request!");
@@ -68,7 +69,6 @@ function App({ userAuthenticated }) {
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
-              console.log(data);
               return (
                 <Fragment>
                   <Switch>
@@ -78,8 +78,10 @@ function App({ userAuthenticated }) {
                       render={(props) => (
                         <MapPage
                           {...props}
-                          context={data.user}
+                          user={data.user}
                           refetch={refetch}
+                          mapPage={mapPage}
+                          handleMapPageChange={handleMapPageChange}
                         />
                       )}
                     />

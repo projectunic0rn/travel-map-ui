@@ -16,6 +16,7 @@ function UserHeaderContainer() {
       {({ loading, error, data }) => {
         if (loading) return null;
         if (error) return `Error! ${error}`;
+        console.log(data);
         return (
           <div className="user-header-container">
             <div className="user-link">

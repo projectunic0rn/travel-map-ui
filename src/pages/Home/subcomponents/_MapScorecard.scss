@@ -22,13 +22,10 @@
 
 .map-scorecard-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
   display: flex;
   order: 2;
   flex-direction: column;
+  min-width: 160px;
   max-width: 200px;
   height: 120px;
   padding: 8px;

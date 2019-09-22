@@ -15,6 +15,7 @@ export default function Sidebar({
   username
 }) {
   const fakeUser = {
+    username: "JohnSmith",
     name: "John Smith",
     age: 23,
     city: "Los Angeles",
@@ -34,7 +35,7 @@ export default function Sidebar({
         variables={username ? { username } : {}}
       >
         {({ loading, error, data }) => {
-          if (loading) return <SimpleLoader />;
+          if (loading) return <SimpleLoader color="#ccc" />;
           if (error) return <p>{error.toString()}</p>;
           if (!data.user)
             return <h1>There is no profile under the username: {username}</h1>;

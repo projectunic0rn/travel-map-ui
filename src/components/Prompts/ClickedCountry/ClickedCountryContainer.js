@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  ComposableMap,
-  ZoomableGroup,
-  Geographies,
-  Geography
-} from "react-simple-maps";
-import jsonData from "../../../world-topo-min.json";
 import ClickedCountryTiming from "./ClickedCountryTiming";
 import ClickedCountryCities from "./ClickedCountryCities";
 import CityIcon from "../../../icons/CityIcon";
@@ -99,34 +92,7 @@ function ClickedCountryContainer(props) {
             {cityCount} <CityIcon />
           </div>
         ) : (
-          <div className="clicked-country-info-shape">
-            <ComposableMap
-              projectionConfig={{
-                scale: 25
-              }}
-              width={980}
-              height={551}
-              style={{
-                width: "100%",
-                height: "auto"
-              }}
-            >
-              <ZoomableGroup center={[0, 0]} zoom={1}>
-                <Geographies geography={jsonData} disableOptimization>
-                  {(geographies, projection) =>
-                    geographies.map((geography, i) => (
-                      <Geography
-                        key={i}
-                        cacheId={i}
-                        geography={geography}
-                        projection={projection}
-                      />
-                    ))
-                  }
-                </Geographies>
-              </ZoomableGroup>
-            </ComposableMap>
-          </div>
+          null
         )}
       </div>
       {

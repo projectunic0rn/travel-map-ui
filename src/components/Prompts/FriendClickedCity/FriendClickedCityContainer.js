@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "./subcomponents/UserTripCard";
@@ -50,7 +50,7 @@ function FriendClickedCityContainer(props) {
       friendTrips = hoveredCityArray.map((city, i) => {
         if (i === 0) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
@@ -60,14 +60,14 @@ function FriendClickedCityContainer(props) {
                 metric={<CalendarIcon />}
                 metricValue={0}
               />
-            </>
+            </Fragment>
           );
         } else if (
           i !== 0 &&
           city.tripTiming !== hoveredCityArray[i - 1].tripTiming
         ) {
           return (
-            <>
+            <Fragment key = {i}>
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
@@ -77,7 +77,7 @@ function FriendClickedCityContainer(props) {
                 metric={<CalendarIcon />}
                 metricValue={0}
               />
-            </>
+            </Fragment>
           );
         } else {
           return (

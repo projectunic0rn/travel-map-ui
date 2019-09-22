@@ -42,7 +42,6 @@ function ClickedCityTiming(props) {
         props.handleTripTiming(data.addPlaceVisiting[0], timing);
         break;
       case 2:
-        console.log(data);
         props.handleTripTiming(data.addPlaceLiving, timing);
         break;
       default:
@@ -70,11 +69,9 @@ function ClickedCityTiming(props) {
       };
       Swal.fire(swalParams).then(result => {
         if (result.value) {
-          //this.props.showPopup();
           handleLivePopup(true);
         }
       });
-
     }
   }
 
@@ -130,7 +127,7 @@ ClickedCityTiming.propTypes = {
   cityId: PropTypes.number,
   countryISO: PropTypes.string,
   refetch: PropTypes.func,
-  tripData: PropTypes.array
+  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 
 export default ClickedCityTiming;

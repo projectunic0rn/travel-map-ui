@@ -215,13 +215,13 @@ class FriendCityMap extends Component {
     let hoveredCityArray = [];
     if (typedCity.result.properties.wikidata !== undefined) {
       hoveredCityArray = this.state.clickedCityArray.filter(
-        (city) =>
+        city =>
           city.cityId ===
           parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
       );
     } else {
       hoveredCityArray = this.state.clickedCityArray.filter(
-        (city) =>
+        city =>
           city.cityId ===
           parseFloat(typedCity.result.result.id.slice(10, 16), 10)
       );
@@ -245,7 +245,7 @@ class FriendCityMap extends Component {
     for (let i in data) {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
-          if (data[i].Places_visited[j].cityId !== undefined) {
+          if (data[i].Places_visited[j].cityId !== 0) {
             clickedCityArray.push({
               id: data[i].Places_visited[j].id,
               username: data[i].username,
@@ -263,7 +263,7 @@ class FriendCityMap extends Component {
       }
       if (data != null && data[i].Places_visiting.length !== 0) {
         for (let j = 0; j < data[i].Places_visiting.length; j++) {
-          if (data[i].Places_visiting[j].cityId !== undefined) {
+          if (data[i].Places_visiting[j].cityId !== 0) {
             clickedCityArray.push({
               id: data[i].Places_visiting[j].id,
               username: data[i].username,
@@ -281,7 +281,7 @@ class FriendCityMap extends Component {
       }
       if (data != null && data[i].Place_living !== null) {
         if (
-          !clickedCityArray.some((city) => {
+          !clickedCityArray.some(city => {
             return city.cityId === data[i].Place_living.cityId;
           })
         ) {
@@ -370,12 +370,17 @@ class FriendCityMap extends Component {
     if (loading) return <div>Loading...</div>;
     return (
       <>
-        <div className="map-header-container">
+        <div
+          className="map-header-container"
+          style={{ position: "absolute", left: "calc(50% - 500px)" }}
+        >
           <div className="map-header-button">
-            <button onClick={() => this.props.handleMapTypeChange(false)}>
+            <button onClick={() => this.props.handleMapTypeChange(0)}>
               Go to Country Map
             </button>
           </div>
+          <div className="map-header-filler" />
+          <div className="map-header-filler" />
         </div>
         <div className="city-map-container">
           <MapGL
@@ -398,9 +403,9 @@ class FriendCityMap extends Component {
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }
-              position="top-right"
-              types="place"             
-               placeholder="Type a city..."
+              position="top-left"
+              types={"place"}
+              placeholder={"Type a city..."}
             />
           </MapGL>
         </div>

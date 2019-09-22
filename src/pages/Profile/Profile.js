@@ -5,14 +5,15 @@ import { Route } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import Trips from "./subpages/Trips";
-import Media from "./subpages/Media";
 import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
+// if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ user, username }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
-
+  const [searchText, handleSearchText] = useState("");
+  const [page, handlePageRender] = useState("friends");
   useEffect(() => {
     let userData = user;
     let cityArray = [0];
@@ -61,30 +62,36 @@ export default function Profile({ user, username }) {
           countryCount={countryArray.length - 1}
           cityCount={cityArray.length - 1}
         />
-        <ProfileNav username={username} />
-        <Route
-          path={username ? `/profiles/${username}/friends` : "/profile/friends"}
-          exact
-          component={Friends}
-        />
-        <Route
-          path={
-            username ? `/profiles/${username}/settings` : "/profile/settings"
-          }
-          exact
-          component={Settings}
+        <ProfileNav
+          handleSearchText={handleSearchText}
+          page={page}
+          username={username}
         />
         <Route
           exact
           path={username ? `/profiles/${username}` : "/profile"}
           component={Trips}
         />
-        {/* <Route component={Trips} /> */}
+        <Route
+          exact
+          path={username ? `/profiles/${username}/friends` : "/profile/friends"}
+          render={(props) => (
+            <Friends
+              {...props}
+              searchText={searchText}
+              handlePageRender={handlePageRender}
+            />
+          )}
+        />
+        {!username ? (
+          <Route exact path="/profile/settings" component={Settings} />
+        ) : null}
       </div>
     </div>
   );
 }
 
 Profile.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  username: PropTypes.string
 };

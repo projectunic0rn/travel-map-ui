@@ -40,6 +40,52 @@ export const GET_ALL_USER_COUNTRIES = gql`
   }
 `;
 
+export const GET_ALL_USER_INFO = gql`
+  query {
+    users {
+      id
+      username
+      full_name
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+      Place_living {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+    }
+  }
+`;
+
+export const GET_ALL_FRIEND_REQUESTS = gql`
+  query {
+    friend_requests {
+      fr_id
+      senderId
+      status
+      sender_username
+      fr_time_sent
+    }
+  }
+`;
+
 export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     user {
