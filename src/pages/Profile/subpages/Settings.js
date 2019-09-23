@@ -1,59 +1,64 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Mutation } from "react-apollo";
+import React, { useState } from "react";
+import PropTypes from 'prop-types';
 
-import { DELETE_USER } from "../../../GraphQL";
-import { UserConsumer } from "../../../utils/UserContext";
+import FriendsIcon from "../../../icons/FriendsIcon";
+import SearchIcon from "../../../icons/SearchIcon";
+import AddFriendIcon from "../../../icons/AddFriendIcon";
+import Basics from "./Settings/Basics";
+import Contact from "./Settings/Contact";
+import Privacy from "./Settings/Privacy";
 
-function Settings({ history }) {
-  function onRemoveUser() {
-    localStorage.removeItem("token");
-    history.push("/");
+export default function Settings( { searchText, handlePageRender }) {
+  const [friendPage, handleFriendPage] = useState(1);
+  let pageRender = "";
+  let className = "";
+  switch (friendPage) {
+    case 0:
+      pageRender = <Basics searchText = {searchText}/>
+        className = 'content content-settings-page';
+        handlePageRender("friends");
+      break;
+    case 1:
+      pageRender = <Contact searchText = {searchText}/>
+      className = 'content content-settings-page';
+      handlePageRender("friend requests");
+      break;
+    case 2:
+      pageRender = <Privacy searchText = {searchText}/>;
+      className = 'content content-settings-page';
+      handlePageRender("all users");
+      break;
+    default:
+      break;
   }
-
-  function onRemoveUserClick(loading, mutation, setUserLoggedIn) {
-    if (!loading) {
-      let approval = window.confirm(
-        "You are about to delete your account, this cannot be undone. Are you sure?"
-      );
-      setUserLoggedIn(false);
-      if (approval) {
-        return mutation();
-      }
-    }
-  }
-
   return (
-    <UserConsumer>
-      {(value) => (
-        <div className="content">
-          <div className="settings-container">
-            <h1>Settings</h1>
-            <Mutation
-              mutation={DELETE_USER}
-              onCompleted={onRemoveUser}
-              onError={(err) => alert("Unable to delete account" + err)}
-            >
-              {(mutation, { loading }) => (
-                <div
-                  className={`delete-button ${loading ? "disabled" : ""}`}
-                  onClick={() =>
-                    onRemoveUserClick(loading, mutation, value.setUserLoggedIn)
-                  }
-                >
-                  Delete Account
-                </div>
-              )}
-            </Mutation>
-          </div>
-        </div>
-      )}
-    </UserConsumer>
+    <div className={className}>
+      <div className="sidebar-filter">
+        <button
+          onClick={() => handleFriendPage(0)}
+          className={friendPage === 0 ? "active" : ""}
+        >
+          <FriendsIcon /> basics
+        </button>
+        <button
+          onClick={() => handleFriendPage(1)}
+          className={friendPage === 1 ? "active" : ""}
+        >
+          <AddFriendIcon /> contact
+        </button>
+        <button
+          onClick={() => handleFriendPage(2)}
+          className={friendPage === 2 ? "active" : ""}
+        >
+          <SearchIcon /> privacy
+        </button>
+      </div>
+      <div className="content-results">{pageRender}</div>
+    </div>
   );
 }
 
 Settings.propTypes = {
-  history: PropTypes.object.isRequired
-};
-
-export default Settings;
+  searchText: PropTypes.string,
+  handlePageRender: PropTypes.func
+}
