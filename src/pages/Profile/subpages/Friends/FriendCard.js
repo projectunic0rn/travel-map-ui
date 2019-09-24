@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
+
 import InterestIcon from "../../../../icons/InterestIcon";
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
 
@@ -10,7 +12,7 @@ function FriendCard({ friend, currentFriend }) {
     let cityArray = [0];
     let countryArray = [0];
     if (friend.Places_visited !== null) {
-      friend.Places_visited.forEach(tripType => {
+      friend.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -20,7 +22,7 @@ function FriendCard({ friend, currentFriend }) {
       });
     }
     if (friend.Places_visiting !== null) {
-      friend.Places_visiting.forEach(tripType => {
+      friend.Places_visiting.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -53,7 +55,7 @@ function FriendCard({ friend, currentFriend }) {
           </span>
         </div>
         <div className="fc-user-interests">
-          {friend.interests.map(interest => (
+          {friend.interests.map((interest) => (
             <span key={interest}>
               <InterestIcon icon={interest} />
             </span>
@@ -77,17 +79,25 @@ function FriendCard({ friend, currentFriend }) {
         </span>
       </div>
 
-      <div className = 'fc-button-container'>
-      {currentFriend ? <span className = 'fc-see-profile'>See Profile</span> : 
-        <><span className = 'fc-accept'>Accept</span>
-        <span className = 'fc-deny'>Deny</span></>}
+      <div className="fc-button-container">
+        {currentFriend ? (
+          <Link className="fc-see-profile" to={`/profiles/${friend.username}`}>
+            {/* <span >See Profile</span> */}
+            See Profile
+          </Link>
+        ) : (
+          <>
+            <span className="fc-accept">Accept</span>
+            <span className="fc-deny">Deny</span>
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 FriendCard.propTypes = {
-  friend: PropTypes.object, 
+  friend: PropTypes.object,
   currentFriend: PropTypes.bool
 };
 
