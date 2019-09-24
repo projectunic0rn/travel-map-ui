@@ -65,7 +65,7 @@ export default function Profile(props) {
           countryCount={countryArray.length - 1}
           cityCount={cityArray.length - 1}
         />
-        <ProfileNav handleSearchText={handleSearchText} page={page} />
+        <ProfileNav handleSearchText={handleSearchText} page={page} searchBar={(page === "settings") ? false : true}/>
         <Route
           exact
           path="/profile/"
@@ -93,7 +93,6 @@ export default function Profile(props) {
           render={props => (
             <Settings
               {...props}
-              searchText={searchText}
               handlePageRender={handlePageRender}
             />
           )}

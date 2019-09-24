@@ -20,3 +20,22 @@
     }
   }
 }
+.settings-edit-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 40px;
+  .settings-edit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    border-radius: 4px;
+    font-weight: 550;
+    font-size: 24px;
+    background: #c2d7e5;
+    color: #5791b7;
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
+  }
+}

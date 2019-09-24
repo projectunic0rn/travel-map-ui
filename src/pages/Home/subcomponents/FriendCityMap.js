@@ -183,6 +183,12 @@ class FriendCityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
+                    onMouseOver={() =>
+                      this.setState({
+                        cityTooltip: city,
+                        placeVisitingId: city.id
+                      })
+                    }
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -423,7 +429,7 @@ class FriendCityMap extends Component {
             component={FriendClickedCityContainer}
             componentProps={{
               hoveredCityArray: this.state.hoveredCityArray,
-              clickedCity: this.state.clickedCity
+              clickedCity: this.state.cityTooltip
             }}
           />
         ) : null}

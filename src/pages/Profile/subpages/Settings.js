@@ -1,32 +1,49 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import FriendsIcon from "../../../icons/FriendsIcon";
-import SearchIcon from "../../../icons/SearchIcon";
-import AddFriendIcon from "../../../icons/AddFriendIcon";
+import BasicsIcon from "../../../icons/BasicsIcon";
+import ContactIcon from "../../../icons/ContactIcon";
+import SecurityIcon from "../../../icons/SecurityIcon";
 import Basics from "./Settings/Basics";
 import Contact from "./Settings/Contact";
-import Privacy from "./Settings/Privacy";
+import Security from "./Settings/Security";
 
-export default function Settings( { searchText, handlePageRender }) {
-  const [friendPage, handleFriendPage] = useState(1);
+const fakeUserData = {
+  username: "User 1",
+  email: "userOne@aol.com",
+  phoneNumber: "555-234-2908",
+  social: {
+    instagram: "userOne@instagram.com",
+    facebook: "useroUno@fb.com",
+    whatsapp: "915-234-2908",
+  }
+};
+
+export default function Settings({ handlePageRender }) {
+  const [friendPage, handleFriendPage] = useState(2);
   let pageRender = "";
   let className = "";
   switch (friendPage) {
     case 0:
-      pageRender = <Basics searchText = {searchText}/>
-        className = 'content content-settings-page';
-        handlePageRender("friends");
+      pageRender = <Basics  />;
+      className = "content content-settings-page";
+      handlePageRender("settings");
       break;
     case 1:
-      pageRender = <Contact searchText = {searchText}/>
-      className = 'content content-settings-page';
-      handlePageRender("friend requests");
+      pageRender = (
+        <Contact
+          email={fakeUserData.email}
+          phoneNumber={fakeUserData.phoneNumber}
+          social={fakeUserData.social}
+        />
+      );
+      className = "content content-settings-page";
+      handlePageRender("settings");
       break;
     case 2:
-      pageRender = <Privacy searchText = {searchText}/>;
-      className = 'content content-settings-page';
-      handlePageRender("all users");
+      pageRender = <Security/>;
+      className = "content content-settings-page";
+      handlePageRender("settings");
       break;
     default:
       break;
@@ -38,19 +55,19 @@ export default function Settings( { searchText, handlePageRender }) {
           onClick={() => handleFriendPage(0)}
           className={friendPage === 0 ? "active" : ""}
         >
-          <FriendsIcon /> basics
+          <BasicsIcon /> basics
         </button>
         <button
           onClick={() => handleFriendPage(1)}
           className={friendPage === 1 ? "active" : ""}
         >
-          <AddFriendIcon /> contact
+          <ContactIcon /> contact
         </button>
         <button
           onClick={() => handleFriendPage(2)}
           className={friendPage === 2 ? "active" : ""}
         >
-          <SearchIcon /> privacy
+          <SecurityIcon /> security
         </button>
       </div>
       <div className="content-results">{pageRender}</div>
@@ -59,6 +76,5 @@ export default function Settings( { searchText, handlePageRender }) {
 }
 
 Settings.propTypes = {
-  searchText: PropTypes.string,
   handlePageRender: PropTypes.func
-}
+};
