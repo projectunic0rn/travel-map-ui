@@ -3,7 +3,7 @@
   flex-direction: column;
   margin-top: 8px;
   .security-header {
-      color: rgb(20, 41, 70);
+      color: rgb(7, 21, 41);
       font-size: 24px;
       font-weight: 550;
       padding-bottom: 4px;
@@ -39,7 +39,7 @@
   justify-content: center;
   align-items: center;
   width: 300px;
-  height: 40px;
+  min-height: 40px;
   border-radius: 4px;
   font-weight: 550;
   font-size: 24px;

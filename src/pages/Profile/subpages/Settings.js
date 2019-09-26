@@ -4,9 +4,11 @@ import PropTypes from "prop-types";
 import BasicsIcon from "../../../icons/BasicsIcon";
 import ContactIcon from "../../../icons/ContactIcon";
 import SecurityIcon from "../../../icons/SecurityIcon";
+import TravelerIcon from '../../../icons/TravelerIcon';
 import Basics from "./Settings/Basics";
 import Contact from "./Settings/Contact";
 import Security from "./Settings/Security";
+import TravelerInfo from "./Settings/TravelerInfo";
 
 const fakeUserData = {
   username: "User 1",
@@ -15,7 +17,7 @@ const fakeUserData = {
   social: {
     instagram: "userOne@instagram.com",
     facebook: "useroUno@fb.com",
-    whatsapp: "915-234-2908",
+    whatsapp: "915-234-2908"
   }
 };
 
@@ -25,7 +27,7 @@ export default function Settings({ handlePageRender }) {
   let className = "";
   switch (friendPage) {
     case 0:
-      pageRender = <Basics  />;
+      pageRender = <Basics />;
       className = "content content-settings-page";
       handlePageRender("settings");
       break;
@@ -41,7 +43,12 @@ export default function Settings({ handlePageRender }) {
       handlePageRender("settings");
       break;
     case 2:
-      pageRender = <Security/>;
+      pageRender = <TravelerInfo />;
+      className = "content content-settings-page";
+      handlePageRender("settings");
+      break;
+    case 3:
+      pageRender = <Security />;
       className = "content content-settings-page";
       handlePageRender("settings");
       break;
@@ -66,6 +73,12 @@ export default function Settings({ handlePageRender }) {
         <button
           onClick={() => handleFriendPage(2)}
           className={friendPage === 2 ? "active" : ""}
+        >
+          <TravelerIcon /> traveler
+        </button>
+        <button
+          onClick={() => handleFriendPage(3)}
+          className={friendPage === 3 ? "active" : ""}
         >
           <SecurityIcon /> security
         </button>
