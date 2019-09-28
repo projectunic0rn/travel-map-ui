@@ -25,6 +25,7 @@ export default function Settings({ handlePageRender }) {
   const [friendPage, handleFriendPage] = useState(2);
   let pageRender = "";
   let className = "";
+
   switch (friendPage) {
     case 0:
       pageRender = <Basics />;
@@ -89,5 +90,5 @@ export default function Settings({ handlePageRender }) {
 }
 
 Settings.propTypes = {
-  handlePageRender: PropTypes.func
+  handlePageRender: PropTypes.func,
 };

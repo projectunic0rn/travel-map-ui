@@ -64,7 +64,7 @@
         font-size: 16px;
         padding-left: 12px;
         margin-left: 12px;
-        min-width: 300px;
+        min-width: 240px;
         background: #4f5867;
         border: none;
         border-radius: 16px;
@@ -72,6 +72,9 @@
         height: 32px;
         &:focus {
           outline: none;
+        }
+        @media (min-width: 1000px) {
+          width: 300px;
         }
         @media (min-width: 1200px) {
           min-width: 486px;

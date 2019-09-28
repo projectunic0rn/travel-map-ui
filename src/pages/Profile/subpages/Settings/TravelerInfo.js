@@ -32,8 +32,6 @@ export default function TravelerInfo() {
       alert("Only four tags are allowed");
       return null;
     }
-    console.log(tagsSelected);
-    console.log(tagsSelected.includes("nature lover"));
   }
 
   return (
