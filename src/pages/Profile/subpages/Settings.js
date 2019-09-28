@@ -1,59 +1,93 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Mutation } from "react-apollo";
 
-import { DELETE_USER } from "../../../GraphQL";
-import { UserConsumer } from "../../../utils/UserContext";
+import BasicsIcon from "../../../icons/BasicsIcon";
+import ContactIcon from "../../../icons/ContactIcon";
+import SecurityIcon from "../../../icons/SecurityIcon";
+import TravelerIcon from '../../../icons/TravelerIcon';
+import Basics from "./Settings/Basics";
+import Contact from "./Settings/Contact";
+import Security from "./Settings/Security";
+import TravelerInfo from "./Settings/TravelerInfo";
 
-function Settings({ history }) {
-  function onRemoveUser() {
-    localStorage.removeItem("token");
-    history.push("/");
+const fakeUserData = {
+  username: "User 1",
+  email: "userOne@aol.com",
+  phoneNumber: "555-234-2908",
+  social: {
+    instagram: "userOne@instagram.com",
+    facebook: "useroUno@fb.com",
+    whatsapp: "915-234-2908"
   }
+};
 
-  function onRemoveUserClick(loading, mutation, setUserLoggedIn) {
-    if (!loading) {
-      let approval = window.confirm(
-        "You are about to delete your account, this cannot be undone. Are you sure?"
+export default function Settings({ handlePageRender }) {
+  const [friendPage, handleFriendPage] = useState(2);
+  let pageRender = "";
+  let className = "";
+  switch (friendPage) {
+    case 0:
+      pageRender = <Basics />;
+      className = "content content-settings-page";
+      handlePageRender("settings");
+      break;
+    case 1:
+      pageRender = (
+        <Contact
+          email={fakeUserData.email}
+          phoneNumber={fakeUserData.phoneNumber}
+          social={fakeUserData.social}
+        />
       );
-      setUserLoggedIn(false);
-      if (approval) {
-        return mutation();
-      }
-    }
+      className = "content content-settings-page";
+      handlePageRender("settings");
+      break;
+    case 2:
+      pageRender = <TravelerInfo />;
+      className = "content content-settings-page";
+      handlePageRender("settings");
+      break;
+    case 3:
+      pageRender = <Security />;
+      className = "content content-settings-page";
+      handlePageRender("settings");
+      break;
+    default:
+      break;
   }
-
   return (
-    <UserConsumer>
-      {(value) => (
-        <div className="content">
-          <div className="settings-container">
-            <h1>Settings</h1>
-            <Mutation
-              mutation={DELETE_USER}
-              onCompleted={onRemoveUser}
-              onError={(err) => alert("Unable to delete account" + err)}
-            >
-              {(mutation, { loading }) => (
-                <div
-                  className={`delete-button ${loading ? "disabled" : ""}`}
-                  onClick={() =>
-                    onRemoveUserClick(loading, mutation, value.setUserLoggedIn)
-                  }
-                >
-                  Delete Account
-                </div>
-              )}
-            </Mutation>
-          </div>
-        </div>
-      )}
-    </UserConsumer>
+    <div className={className}>
+      <div className="sidebar-filter">
+        <button
+          onClick={() => handleFriendPage(0)}
+          className={friendPage === 0 ? "active" : ""}
+        >
+          <BasicsIcon /> basics
+        </button>
+        <button
+          onClick={() => handleFriendPage(1)}
+          className={friendPage === 1 ? "active" : ""}
+        >
+          <ContactIcon /> contact
+        </button>
+        <button
+          onClick={() => handleFriendPage(2)}
+          className={friendPage === 2 ? "active" : ""}
+        >
+          <TravelerIcon /> traveler
+        </button>
+        <button
+          onClick={() => handleFriendPage(3)}
+          className={friendPage === 3 ? "active" : ""}
+        >
+          <SecurityIcon /> security
+        </button>
+      </div>
+      <div className="content-results">{pageRender}</div>
+    </div>
   );
 }
 
 Settings.propTypes = {
-  history: PropTypes.object.isRequired
+  handlePageRender: PropTypes.func
 };
-
-export default Settings;

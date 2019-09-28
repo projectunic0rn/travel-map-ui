@@ -1,4 +1,4 @@
-.content-trips-page, .content-potential-friends-page, .content-friends-page {
+.content-trips-page, .content-potential-friends-page, .content-settings-page, .content-friends-page {
   display: grid;
   grid-template-columns: [sidebar] 180px [content] auto;
   .sidebar-filter {
@@ -120,7 +120,7 @@
 }
 
 .content-potential-friends-page .content-results {
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   grid-template-rows: repeat(auto-fill, 85px);
 }
 
@@ -128,3 +128,8 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-template-rows: repeat(auto-fill, 85px);
 }
+
+// .content-settings-page .content-results {
+//   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+//   grid-template-rows: repeat(auto-fill, 85px);
+// }

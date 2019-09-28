@@ -18,7 +18,7 @@ export default function Profile(props) {
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
-      userData.Places_visited.forEach((tripType) => {
+      userData.Places_visited.forEach(tripType => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -28,7 +28,7 @@ export default function Profile(props) {
       });
     }
     if (userData.Places_visiting !== null) {
-      userData.Places_visiting.forEach((tripType) => {
+      userData.Places_visiting.forEach(tripType => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -65,17 +65,38 @@ export default function Profile(props) {
           countryCount={countryArray.length - 1}
           cityCount={cityArray.length - 1}
         />
-        <ProfileNav handleSearchText={handleSearchText} page={page}/>
+        <ProfileNav handleSearchText={handleSearchText} page={page} searchBar={(page === "settings") ? false : true}/>
         <Route
-          exact path="/profile/"
-          render={(props) => <Friends {...props} searchText={searchText} handlePageRender={handlePageRender}/>}
+          exact
+          path="/profile/"
+          render={props => (
+            <Friends
+              {...props}
+              searchText={searchText}
+              handlePageRender={handlePageRender}
+            />
+          )}
         />
         <Route path="/profile/trips" exact component={Trips} />
         <Route
           path="/profile/friends"
-          render={(props) => <Friends {...props} searchText={searchText} handlePageRender={handlePageRender}/>}
+          render={props => (
+            <Friends
+              {...props}
+              searchText={searchText}
+              handlePageRender={handlePageRender}
+            />
+          )}
         />
-        <Route path="/profile/settings" exact component={Settings} />
+        <Route
+          path="/profile/settings"
+          render={props => (
+            <Settings
+              {...props}
+              handlePageRender={handlePageRender}
+            />
+          )}
+        />
       </div>
     </div>
   );

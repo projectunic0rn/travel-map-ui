@@ -1,0 +1,49 @@
+.settings-security-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  .security-header {
+      color: rgb(7, 21, 41);
+      font-size: 24px;
+      font-weight: 550;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(248, 248, 252, 0.2);
+      margin-bottom: 20px;
+  }
+  .security-subheader {
+    color: #a1a9b7;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    min-width: 300px;
+  }
+  .security-password-input {
+    color: rgb(210, 224, 233);
+    font-family: "Segoe UI", sans-serif;
+    font-size: 16px;
+    background: #4f5867;
+    border: none;
+    border-radius: 16px;
+    padding-left: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.15);
+    height: 32px;
+    width: 400px;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.security-delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  min-height: 40px;
+  border-radius: 4px;
+  font-weight: 550;
+  font-size: 24px;
+  background: #ECD7DB;
+  color: #bb6f7e;
+  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
