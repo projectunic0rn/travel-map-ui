@@ -18,7 +18,6 @@ export default function Sidebar(props) {
     countryCount: 20,
     cityCount: 30
   };
-
   return (
     <Query
       query={GET_PROFILE_BASICS}
@@ -65,5 +64,6 @@ Sidebar.propTypes = {
   city: PropTypes.string,
   country: PropTypes.string,
   countryCount: PropTypes.number,
-  cityCount: PropTypes.number
+  cityCount: PropTypes.number,
+  interestTags: PropTypes.array
 };

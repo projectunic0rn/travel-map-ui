@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import InterestIcon from "../../../../icons/InterestIcon";
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
+import { interestConsts } from "../../../../InterestConsts";
 
 function FriendCard({ friend, currentFriend }) {
   const [cityArray, handleCityArray] = useState([]);
@@ -55,7 +56,16 @@ function FriendCard({ friend, currentFriend }) {
         <div className="fc-user-interests">
           {friend.interests.map(interest => (
             <span key={interest}>
-              <InterestIcon icon={interest} />
+              <InterestIcon
+                icon={interest}
+                color={
+                  interestConsts[
+                    interestConsts.findIndex(obj => {
+                      return obj.interest === interest;
+                    })
+                  ].color
+                }
+              />
             </span>
           ))}
         </div>
@@ -77,17 +87,22 @@ function FriendCard({ friend, currentFriend }) {
         </span>
       </div>
 
-      <div className = 'fc-button-container'>
-      {currentFriend ? <span className = 'fc-see-profile'>See Profile</span> : 
-        <><span className = 'fc-accept'>Accept</span>
-        <span className = 'fc-deny'>Deny</span></>}
+      <div className="fc-button-container">
+        {currentFriend ? (
+          <span className="fc-see-profile">See Profile</span>
+        ) : (
+          <>
+            <span className="fc-accept">Accept</span>
+            <span className="fc-deny">Deny</span>
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 FriendCard.propTypes = {
-  friend: PropTypes.object, 
+  friend: PropTypes.object,
   currentFriend: PropTypes.bool
 };
 
