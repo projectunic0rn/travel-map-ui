@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 
 function ValidationMutation({ children, onInputError, ...rest }) {
@@ -18,5 +19,10 @@ function ValidationMutation({ children, onInputError, ...rest }) {
     </Mutation>
   );
 }
+
+ValidationMutation.propTypes = {
+  children: PropTypes.object.isRequired,
+  onInputError: PropTypes.func.isRequired
+};
 
 export default ValidationMutation;
