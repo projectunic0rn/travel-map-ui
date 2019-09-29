@@ -4,7 +4,7 @@
   align-items: center;
   width: 280px;
   height: 200px;
-  margin: 3px 0px;
+  margin: 5px;
   background: rgb(248, 248, 252);
   border-radius: 16px;
   box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
@@ -45,10 +45,14 @@
     .fc-user-interests {
       position: absolute;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-around;
-      width: 60px;
+      width: 48px;
       right: 24px;
       top: 12px;
+      span {
+        margin: 1px 2px;
+      }
     }
   }
   .fc-user-metrics {

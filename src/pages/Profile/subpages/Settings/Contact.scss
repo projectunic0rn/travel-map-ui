@@ -1,0 +1,97 @@
+.settings-contact-container {
+  display: flex;
+  flex-direction: column;
+  .contact-primary {
+    display: flex;
+    flex-direction: column;
+    margin-top: 14px;
+    @media (min-width: 1200px) {
+        flex-direction: row;
+      }
+    .contact-sub-container {
+      display: flex;
+      flex-direction: column;
+      margin: 0 20px;
+      .contact-header {
+        color: #a1a9b7;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+      .contact-input {
+        color: rgb(210, 224, 233);
+        font-family: "Segoe UI", sans-serif;
+        font-size: 16px;
+        background: #4f5867;
+        border: none;
+        border-radius: 16px;
+        padding-left: 12px;
+        box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.15);
+        height: 32px;
+        &:focus {
+          outline: none;
+        }
+      }
+      .contact-data {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  .contact-social {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-top: 40px;
+    .contact-header {
+        color: #a1a9b7;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+    .contact-social-sub {
+      display: flex;
+      margin-bottom: 8px;
+      .contact-social-icon svg {
+        height: 40px;
+        width: 40px;
+        fill: #8792a4;
+      }
+      .csi-active svg {
+        fill: #b6bdc7;
+      }
+      .contact-social-input {
+        color: rgb(210, 224, 233);
+        font-family: "Segoe UI", sans-serif;
+        font-size: 16px;
+        padding-left: 12px;
+        margin-left: 12px;
+        min-width: 240px;
+        background: #4f5867;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.15);
+        height: 32px;
+        &:focus {
+          outline: none;
+        }
+        @media (min-width: 1000px) {
+          width: 300px;
+        }
+        @media (min-width: 1200px) {
+          min-width: 486px;
+        }
+      }
+      .contact-data {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+#contact-email {
+  min-width: 300px;
+  margin-bottom: 16px;
+}
+#contact-phone {
+  min-width: 200px;
+}

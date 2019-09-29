@@ -17,7 +17,7 @@ let fakeData = [
       }
     ],
     Places_visited: null,
-    interests: ["foodie", "nature"]
+    interests: ["art connoisseur", "shopaholic", "relaxer"]
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ let fakeData = [
     ],
     Places_visited: null,
     countryISO: "US",
-    interests: ["adventure", "nature"]
+    interests: ["photographer"]
   }
 ];
 export default function CurrentFriends({searchText}) {

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function UserNotFound({ username }) {
+function UserNotFound() {
   return (
     <div className="not-found-container">
       <h1 className="not-found-header">
@@ -10,9 +10,5 @@ function UserNotFound({ username }) {
     </div>
   );
 }
-
-UserNotFound.propTypes = {
-  username: PropTypes.string.isRequired
-};
 
 export default UserNotFound;

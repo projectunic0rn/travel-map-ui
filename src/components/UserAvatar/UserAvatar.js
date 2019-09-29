@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from '../../icons/AvatarIcons/AvatarThree';
+import Avatar from '../../icons/AvatarIcons/AvatarTwoYellow';
 
 export default function UserAvatar() {
   return (

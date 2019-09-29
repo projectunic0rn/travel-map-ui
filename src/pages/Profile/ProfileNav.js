@@ -1,38 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
-export default function ProfileNav({ username, handleSearchText, page }) {
-  const [placeHolder, handlePlaceholder] = useState("Search friend requests");
-  useEffect(() => {
-    handlePlaceholder("Search " + page);
-  }, [page]);
-
+function ProfileNav({ handleSearchText, urlUsername, match }) {
   return (
-    <div className="content content-nav">
+    <div className="content-nav">
       <div className="profile-nav-links">
-        <NavLink exact to={username ? `/profiles/${username}` : "/profile"}>
+        <NavLink
+          exact
+          to={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
+        >
           Trips
         </NavLink>
         <NavLink
-          exact
-          to={username ? `/profiles/${username}/friends` : "/profile/friends"}
+          to={
+            urlUsername
+              ? `/profiles/${urlUsername}/friends`
+              : "/profile/friends"
+          }
         >
           Friends
         </NavLink>
-        {!username ? (
+        {!urlUsername ? (
           <NavLink exact to="/profile/settings">
             Settings
           </NavLink>
         ) : null}
       </div>
       <div className="profile-nav-filter-container">
-        <input
-          className="profile-search"
-          type="search"
-          placeholder={placeHolder}
-          onChange={(e) => handleSearchText(e.target.value)}
-        ></input>
+        {!window.location.pathname.includes("/settings") ? (
+          <input
+            className="profile-search"
+            type="search"
+            placeholder="Search"
+            onChange={(e) => handleSearchText(e.target.value)}
+          ></input>
+        ) : null}
       </div>
     </div>
   );
@@ -40,6 +43,7 @@ export default function ProfileNav({ username, handleSearchText, page }) {
 
 ProfileNav.propTypes = {
   handleSearchText: PropTypes.func,
-  page: PropTypes.string,
-  username: PropTypes.string
+  urlUsername: PropTypes.string
 };
+
+export default withRouter(ProfileNav);

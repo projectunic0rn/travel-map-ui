@@ -17,7 +17,7 @@ let fakeData = [
       }
     ],
     Places_visited: null,
-    interests: ["foodie", "nature"]
+    interests: ["foodie", "nature lover"]
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ let fakeData = [
     ],
     Places_visited: null,
     countryISO: "US",
-    interests: ["adventure", "nature"]
+    interests: ["adventurer", "luxurious"]
   }
 ];
 export default function FriendRequests({searchText}) {

@@ -12,7 +12,7 @@ export default function Sidebar({
   country,
   countryCount,
   cityCount,
-  username
+  urlUsername
 }) {
   const fakeUser = {
     username: "JohnSmith",
@@ -24,21 +24,18 @@ export default function Sidebar({
     countryCount: 20,
     cityCount: 30
   };
-
   return (
     <div className="sidebar">
       <Query
-        query={username ? GET_USER_COUNTRIES : GET_LOGGEDIN_USER}
+        query={urlUsername ? GET_USER_COUNTRIES : GET_LOGGEDIN_USER}
         notifyOnNetworkStatusChange
         fetchPolicy={"cache-and-network"}
         partialRefetch={true}
-        variables={username ? { username } : {}}
+        variables={urlUsername ? { username: urlUsername } : {}}
       >
         {({ loading, error, data }) => {
           if (loading) return <SimpleLoader color="#ccc" />;
           if (error) return <p>{error.toString()}</p>;
-          if (!data.user)
-            return <h1>There is no profile under the username: {username}</h1>;
           return (
             <Fragment>
               <UserDetails
@@ -72,5 +69,6 @@ Sidebar.propTypes = {
   country: PropTypes.string,
   countryCount: PropTypes.number,
   cityCount: PropTypes.number,
-  username: PropTypes.string
+  urlUsername: PropTypes.string,
+  interestTags: PropTypes.array
 };

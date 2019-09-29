@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Query } from "react-apollo";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
@@ -10,22 +10,22 @@ import UserNotFound from "./subpages/UserNotFound";
 
 // the match prop is passed from react-router-dom and provides url parameters
 function UserProfile({ match }) {
-  let username = match.params.username;
+  let urlUsername = match.params.username;
 
   return (
     <div className="user-profile">
     <Query
       query={GET_USER_COUNTRIES}
       notifyOnNetworkStatusChange={true}
-      variables={{ username }}
+      variables={{ urlUsername }}
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
     >
       {({ loading, error, data }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
-        if (!data.user) return <UserNotFound username={username} />;
-        return <Profile username={username} user={data.user} />;
+        if (!data.user) return <UserNotFound />;
+        return <Profile urlUsername={urlUsername} user={data.user} />;
       }}
     </Query>
     </div>

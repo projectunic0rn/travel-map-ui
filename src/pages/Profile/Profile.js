@@ -9,7 +9,7 @@ import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
-export default function Profile({ user, username }) {
+export default function Profile({ user, urlUsername, match }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
@@ -54,7 +54,7 @@ export default function Profile({ user, username }) {
     <div className="page page-profile">
       <div className="container">
         <Sidebar
-          username={username}
+          urlUsername={urlUsername}
           city={user.Place_living !== null ? user.Place_living.city : "City"}
           country={
             user.Place_living !== null ? user.Place_living.country : "Country"
@@ -64,27 +64,34 @@ export default function Profile({ user, username }) {
         />
         <ProfileNav
           handleSearchText={handleSearchText}
-          page={page}
-          username={username}
+          urlUsername={urlUsername}
         />
         <Route
           exact
-          path={username ? `/profiles/${username}` : "/profile"}
+          path={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
           component={Trips}
         />
         <Route
-          exact
-          path={username ? `/profiles/${username}/friends` : "/profile/friends"}
+          path={
+            urlUsername
+              ? `/profiles/${urlUsername}/friends`
+              : "/profile/friends"
+          }
           render={(props) => (
             <Friends
+              urlUsername={urlUsername}
               {...props}
               searchText={searchText}
-              handlePageRender={handlePageRender}
             />
           )}
         />
-        {!username ? (
-          <Route exact path="/profile/settings" component={Settings} />
+        {!urlUsername ? (
+          <Route
+            path="/profile/settings"
+            render={(props) => (
+              <Settings {...props} handlePageRender={handlePageRender} />
+            )}
+          />
         ) : null}
       </div>
     </div>
@@ -93,5 +100,5 @@ export default function Profile({ user, username }) {
 
 Profile.propTypes = {
   user: PropTypes.object,
-  username: PropTypes.string
+  urlUsername: PropTypes.string
 };

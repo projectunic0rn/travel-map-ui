@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import InterestIcon from "../../../../icons/InterestIcon";
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
+import { interestConsts } from "../../../../InterestConsts";
 
 function FriendCard({ friend, currentFriend }) {
   const [cityArray, handleCityArray] = useState([]);
@@ -57,7 +58,16 @@ function FriendCard({ friend, currentFriend }) {
         <div className="fc-user-interests">
           {friend.interests.map((interest) => (
             <span key={interest}>
-              <InterestIcon icon={interest} />
+              <InterestIcon
+                icon={interest}
+                color={
+                  interestConsts[
+                    interestConsts.findIndex(obj => {
+                      return obj.interest === interest;
+                    })
+                  ].color
+                }
+              />
             </span>
           ))}
         </div>
@@ -81,10 +91,7 @@ function FriendCard({ friend, currentFriend }) {
 
       <div className="fc-button-container">
         {currentFriend ? (
-          <Link className="fc-see-profile" to={`/profiles/${friend.username}`}>
-            {/* <span >See Profile</span> */}
-            See Profile
-          </Link>
+          <span  to={`/profiles/${friend.username}`} className="fc-see-profile">See Profile</span>
         ) : (
           <>
             <span className="fc-accept">Accept</span>

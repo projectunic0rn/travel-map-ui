@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function AdventureIcon() {
+function AdventureIcon({color}) {
   return (
     <svg
       className="interest-icon"
@@ -12,11 +13,15 @@ function AdventureIcon() {
       <path
         id="ic_filter_hdr_24px"
         transform="translate(-1 -6)"
-        fill="#C47575"
+        fill={color}
         d="M 14 6 l -3.75 5 l 2.85 3.8 L 11.5 16 C 9.81 13.75 7 10 7 10 L 1 18 H 23 Z"
       />
     </svg>
   );
+}
+
+AdventureIcon.propTypes = {
+  color: PropTypes.string
 }
 
 export default AdventureIcon;

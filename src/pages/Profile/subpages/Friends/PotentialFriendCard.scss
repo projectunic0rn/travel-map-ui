@@ -1,10 +1,13 @@
 .potential-friend-card {
+  flex-grow: 1;
+  min-width: fit-content;
+  max-width: 250px;
   display: flex;
   align-items: center;
   position: relative;
-  min-width: 240px;
+  width: 240px;
   min-height: 67px;
-  margin: 3px 0px;
+  margin: 5px;
   background: rgb(248, 248, 252);
   border-radius: 8px;
   box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
