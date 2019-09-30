@@ -107,6 +107,7 @@
       box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
     }
     .fc-accept {
+      cursor: pointer;
       box-shadow: 0 2px 4px 1px rgba(#7a9a97, 0.5);
       color: #7a9a97;
       background: rgb(248, 248, 252);
@@ -115,6 +116,7 @@
       }
     }
     .fc-deny {
+      cursor: pointer;
       box-shadow: 0 2px 4px 1px rgba(#bb6f7e, 0.5);
       color: #bb6f7e;
       background: rgb(248, 248, 252);

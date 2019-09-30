@@ -91,7 +91,7 @@ function FriendCard({ friend, currentFriend }) {
 
       <div className="fc-button-container">
         {currentFriend ? (
-          <span  to={`/profiles/${friend.username}`} className="fc-see-profile">See Profile</span>
+          <Link  to={`/profiles/${friend.username}`} className="fc-see-profile">See Profile</Link>
         ) : (
           <>
             <span className="fc-accept">Accept</span>

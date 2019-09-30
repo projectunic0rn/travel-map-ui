@@ -1,7 +1,7 @@
 .traveler-settings-container {
+  margin: 8px;
   display: flex;
   flex-direction: column;
-  width: 100%;
   .traveler-settings-header {
     color: #071529;
     font-size: 24px;
@@ -37,7 +37,7 @@
         fill: rgb(201, 201, 240);
       }
       circle {
-          fill: rgb(201, 201, 240);
+        fill: rgb(201, 201, 240);
       }
     }
     .travel-tag-title {

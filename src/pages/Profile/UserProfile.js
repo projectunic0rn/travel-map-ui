@@ -14,20 +14,21 @@ function UserProfile({ match }) {
 
   return (
     <div className="user-profile">
-    <Query
-      query={GET_USER_COUNTRIES}
-      notifyOnNetworkStatusChange={true}
-      variables={{ urlUsername }}
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-    >
-      {({ loading, error, data }) => {
-        if (loading) return <Loader />;
-        if (error) return `Error! ${error}`;
-        if (!data.user) return <UserNotFound />;
-        return <Profile urlUsername={urlUsername} user={data.user} />;
-      }}
-    </Query>
+      <Query
+        query={GET_USER_COUNTRIES}
+        notifyOnNetworkStatusChange={true}
+        variables={{ username: urlUsername }}
+        fetchPolicy={"cache-and-network"}
+        partialRefetch={true}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return <Loader />;
+          if (error) return `Error! ${error}`;
+          if (!data.user) return <UserNotFound />;
+          console.log(data.user);
+          return <Profile urlUsername={urlUsername} user={data.user} />;
+        }}
+      </Query>
     </div>
   );
 }
