@@ -88,7 +88,7 @@ export const GET_ALL_FRIEND_REQUESTS = gql`
 
 export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
-    getLoggedInUser {
+    user {
       id
       Places_visited {
         id
@@ -125,17 +125,62 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
 `;
 
 export const GET_LOGGEDIN_USER = gql`
-  query getLoggedInUser {
-    getLoggedInUser {
+  query {
+    user {
       id
       username
+      full_name
+      email
+      Interests {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const GET_USER_COUNTRIES = gql`
+  query user($username: String) {
+    user(username: $username) {
+      id
+      username
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+      Place_living {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
     }
   }
 `;
 
 export const GET_PROFILE_BASICS = gql`
-  query {
-    user {
+  query user($username: String!){
+    user(username: $username) {
       id
       username
       full_name

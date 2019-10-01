@@ -68,7 +68,7 @@ export default function Trips() {
   }
 
   return (
-    <div className="content content-trips-page">
+    <div className="trips content">
       <div className="sidebar-filter">
         <button
           onClick={() => filter()}

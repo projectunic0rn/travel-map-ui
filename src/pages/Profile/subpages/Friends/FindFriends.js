@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { GET_ALL_USER_INFO } from "../../../../GraphQL";
+
+import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 import PotentialFriendCard from "./PotentialFriendCard";
 
 export default function FindFriends({ searchText }) {
@@ -34,7 +36,7 @@ export default function FindFriends({ searchText }) {
       onCompleted={data => handleTripData(data.users)}
     >
       {({ loading, error }) => {
-        if (loading) return <div>Loading...</div>;
+        if (loading) return <SimpleLoader />;
         if (error) return `Error! ${error}`;
         return (
           <>
