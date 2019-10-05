@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import CountryIcon from "../../../../icons/CountryIcon";
 import CityIcon from "../../../../icons/CityIcon";
 import PotentialFriendAdd from "./PotentialFriendAdd";
-import UserAvatar from '../../../../components/UserAvatar/UserAvatar';
+import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
 
 function PotentialFriendCard({ friend }) {
   const [cityArray, handleCityArray] = useState([]);
@@ -14,7 +14,7 @@ function PotentialFriendCard({ friend }) {
     let cityArray = [0];
     let countryArray = [0];
     if (friend.Places_visited !== null) {
-      friend.Places_visited.forEach(tripType => {
+      friend.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -24,7 +24,7 @@ function PotentialFriendCard({ friend }) {
       });
     }
     if (friend.Places_visiting !== null) {
-      friend.Places_visiting.forEach(tripType => {
+      friend.Places_visiting.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -45,9 +45,16 @@ function PotentialFriendCard({ friend }) {
     handleCountryArray(countryArray);
   }, [friend]);
   return (
-    <div className="potential-friend-card" onMouseOver = {() => handleShowAddFriend(true)}>
-      {(showAddFriend) ? <PotentialFriendAdd handleShowAddFriend = {handleShowAddFriend}/> : null }
-      <div className="pfc-user-profile"><UserAvatar /></div>
+    <div
+      className="potential-friend-card"
+      onMouseOver={() => handleShowAddFriend(true)}
+    >
+      {showAddFriend ? (
+        <PotentialFriendAdd handleShowAddFriend={handleShowAddFriend} />
+      ) : null}
+      <div className="pfc-user-profile">
+        <UserAvatar />
+      </div>
       <div className="pfc-user-info-container">
         <span className="pfc-username">{friend.username}</span>
         <span className="pfc-location">
