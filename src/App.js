@@ -11,6 +11,7 @@ import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
+import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
@@ -20,11 +21,11 @@ function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
   const [mapPage, handleMapPageChange] = useState(0);
 
-  socket.on("new-friend-request", (data) => {
+  socket.on("new-friend-request", data => {
     alert(data.senderData.username + " has sent you a friend request!");
   });
 
-  socket.on("trip-created", (username) => {
+  socket.on("trip-created", username => {
     alert(username + " has created a new trip!");
   });
 
@@ -74,10 +75,10 @@ function App({ userAuthenticated }) {
                     <Route
                       exact
                       path="/"
-                      render={(props) => (
+                      render={props => (
                         <MapPage
                           {...props}
-                          context={data.getLoggedInUser}
+                          user={data.user}
                           refetch={refetch}
                           mapPage={mapPage}
                           handleMapPageChange={handleMapPageChange}
@@ -85,9 +86,13 @@ function App({ userAuthenticated }) {
                       )}
                     />
                     <Route
+                      path="/profiles/:username/"
+                      component={UserProfile}
+                    />
+                    <Route
                       path="/profile/"
-                      render={(props) => (
-                        <Profile {...props} context={data.getLoggedInUser} />
+                      render={props => (
+                        <Profile {...props} user={data.user} />
                       )}
                     />
                     <Route path="/friends/" component={FriendMapPage} />
