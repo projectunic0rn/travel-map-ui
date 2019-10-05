@@ -21,11 +21,11 @@ function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
   const [mapPage, handleMapPageChange] = useState(0);
 
-  socket.on("new-friend-request", (data) => {
+  socket.on("new-friend-request", data => {
     alert(data.senderData.username + " has sent you a friend request!");
   });
 
-  socket.on("trip-created", (username) => {
+  socket.on("trip-created", username => {
     alert(username + " has created a new trip!");
   });
 
@@ -75,7 +75,7 @@ function App({ userAuthenticated }) {
                     <Route
                       exact
                       path="/"
-                      render={(props) => (
+                      render={props => (
                         <MapPage
                           {...props}
                           user={data.user}

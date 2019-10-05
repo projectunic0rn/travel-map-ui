@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 
@@ -61,27 +61,26 @@ export default function Security({ history }) {
         minLength="4"
         id="password"
       ></input>
-      <span
-        className="security-header"
-        style={{ "margin-top": "12px" }}
-      >
+      <span className="security-header" style={{ "margin-top": "12px" }}>
         Delete Account
       </span>
       <UserConsumer>
-        {value => (
+        {(value) => (
           <Mutation
             mutation={DELETE_USER}
             onCompleted={onRemoveUser}
-            onError={err => alert("Unable to delete account" + err)}
+            onError={(err) => alert("Unable to delete account" + err)}
           >
             {(mutation, { loading }) => (
               <div
-                className={`security-delete-button ${loading ? "disabled" : ""}`}
+                className={`security-delete-button ${
+                  loading ? "disabled" : ""
+                }`}
                 onClick={() =>
                   onRemoveUserClick(loading, mutation, value.setUserLoggedIn)
                 }
               >
-                  delete your account
+                delete your account
               </div>
             )}
           </Mutation>

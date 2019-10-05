@@ -13,7 +13,6 @@ export default function Profile({ user, urlUsername, match }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
-  const [page, handlePageRender] = useState("friends");
   useEffect(() => {
     let userData = user;
     let cityArray = [0];
@@ -49,7 +48,6 @@ export default function Profile({ user, urlUsername, match }) {
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
   }, [user]);
-
   return (
     <div className="page page-profile">
       <div className="container">
@@ -88,9 +86,7 @@ export default function Profile({ user, urlUsername, match }) {
         {!urlUsername ? (
           <Route
             path="/profile/settings"
-            render={(props) => (
-              <Settings {...props} handlePageRender={handlePageRender} />
-            )}
+            render={(props) => <Settings {...props} />}
           />
         ) : null}
       </div>

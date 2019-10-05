@@ -4,6 +4,9 @@
   max-width: 250px;
   display: flex;
   align-items: center;
+  flex-grow: 1;
+  min-width: fit-content;
+  max-width: 250px;
   position: relative;
   width: 240px;
   min-height: 67px;
@@ -29,6 +32,7 @@
   min-height: 100%;
   background: rgba(#d1dcdb, 0.85);
   border-radius: 8px;
+  cursor: pointer;
   box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
   font-weight: 550;
   letter-spacing: 2px;

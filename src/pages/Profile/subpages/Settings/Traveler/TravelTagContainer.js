@@ -11,15 +11,15 @@ export default function TravelTagContainer({
   const [clicked, handleClickChange] = useState(false);
   useEffect(() => {
     if (tagsSelected.includes(tagName)) {
-        handleClickChange(true);
+      handleClickChange(true);
     }
-  }, [tagsSelected]);
+  }, [tagsSelected, tagName]);
   function handleClick() {
     handleTagClick(tagName);
     if (tagsSelected.includes(tagName)) {
-        handleClickChange(true);
+      handleClickChange(true);
     } else {
-        handleClickChange(false);
+      handleClickChange(false);
     }
   }
 

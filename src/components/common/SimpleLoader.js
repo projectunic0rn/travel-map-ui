@@ -3,35 +3,35 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Loading({ borderColor }) {
+function SimpleLoader({ color }) {
   return (
     <div className="lds-ring">
       <div
         style={{
-          borderColor: `${borderColor} transparent transparent transparent`
+          borderColor: `${color} transparent transparent transparent`
         }}
       ></div>
       <div
         style={{
-          borderColor: `${borderColor} transparent transparent transparent`
+          borderColor: `${color} transparent transparent transparent`
         }}
       ></div>
       <div
         style={{
-          borderColor: `${borderColor} transparent transparent transparent`
+          borderColor: `${color} transparent transparent transparent`
         }}
       ></div>
       <div
         style={{
-          borderColor: `${borderColor} transparent transparent transparent`
+          borderColor: `${color} transparent transparent transparent`
         }}
       ></div>
     </div>
   );
 }
 
-Loading.propTypes = {
-  borderColor: PropTypes.string
+SimpleLoader.propTypes = {
+  color: PropTypes.string
 };
 
-export default Loading;
+export default SimpleLoader;
