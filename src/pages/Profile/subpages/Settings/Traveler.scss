@@ -3,12 +3,27 @@
   flex-direction: column;
   width: 100%;
   .traveler-settings-header {
+    position: relative;
     color: #071529;
     font-size: 24px;
     font-weight: 550;
     padding-bottom: 4px;
     border-bottom: 1px solid rgba(248, 248, 252, 0.2);
     margin-bottom: 20px;
+    .save-button {
+      position: absolute;
+      top: 0;
+      right: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #C2D7E5;
+      border-radius: 4px;
+      color: #5791b7;
+      min-width: 80px;
+      height: 32px;
+      font-weight: 400;
+    }
   }
   .traveler-tag-container {
     display: flex;

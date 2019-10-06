@@ -90,6 +90,10 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     getLoggedInUser {
       id
+      UserInterests {
+        id
+        name
+      }
       Places_visited {
         id
         country
@@ -140,7 +144,7 @@ export const GET_PROFILE_BASICS = gql`
       username
       full_name
       email
-      Interests {
+      UserInterests {
         id
         name
       }
@@ -260,3 +264,25 @@ export const DELETE_USER = gql`
     }
   }
 `;
+
+export const ADD_USER_INTERESTS = gql`
+  mutation addInterest($userInterests: [UserInterest!]) {
+    addInterest(userInterests: $userInterests) {
+      id
+      UserId
+      name
+    }
+  }
+  `;
+//   export const ADD_PLACE_VISITING = gql`
+//   mutation addPlaceVisiting($country: Country!, $cities: [City!]) {
+//     addPlaceVisiting(country: $country, cities: $cities) {
+//       id
+//       country
+//       city
+//       cityId
+//       city_latitude
+//       city_longitude
+//     }
+//   }
+// `;

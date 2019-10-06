@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import BasicsIcon from "../../../icons/BasicsIcon";
 import ContactIcon from "../../../icons/ContactIcon";
 import SecurityIcon from "../../../icons/SecurityIcon";
-import TravelerIcon from '../../../icons/TravelerIcon';
+import TravelerIcon from "../../../icons/TravelerIcon";
 import Basics from "./Settings/Basics";
 import Contact from "./Settings/Contact";
 import Security from "./Settings/Security";
@@ -21,11 +21,14 @@ const fakeUserData = {
   }
 };
 
-export default function Settings({ handlePageRender }) {
+export default function Settings({
+  userData,
+  handlePageRender,
+  handleUserDataChange
+}) {
   const [friendPage, handleFriendPage] = useState(2);
   let pageRender = "";
   let className = "";
-
   switch (friendPage) {
     case 0:
       pageRender = <Basics />;
@@ -44,7 +47,12 @@ export default function Settings({ handlePageRender }) {
       handlePageRender("settings");
       break;
     case 2:
-      pageRender = <TravelerInfo />;
+      pageRender = (
+        <TravelerInfo
+          userData={userData}
+          handleUserDataChange={handleUserDataChange}
+        />
+      );
       className = "content content-settings-page";
       handlePageRender("settings");
       break;
@@ -91,4 +99,6 @@ export default function Settings({ handlePageRender }) {
 
 Settings.propTypes = {
   handlePageRender: PropTypes.func,
+  userData: PropTypes.object,
+  handleUserDataChange: PropTypes.func
 };
