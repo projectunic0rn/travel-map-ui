@@ -86,6 +86,17 @@ export const GET_ALL_FRIEND_REQUESTS = gql`
   }
 `;
 
+export const SEND_FRIEND_REQUEST = gql`
+  mutation sendFriendRequest($username: String!) {
+    sendFriendRequest(username: $username) {
+      id
+      senderId
+      receiverId
+      status
+    }
+  }
+`;
+
 export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     user {
