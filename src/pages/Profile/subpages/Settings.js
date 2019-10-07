@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { Route, NavLink } from "react-router-dom";
 
 import BasicsIcon from "../../../icons/BasicsIcon";
 import ContactIcon from "../../../icons/ContactIcon";
@@ -27,72 +28,66 @@ export default function Settings({
   handleUserDataChange
 }) {
   const [friendPage, handleFriendPage] = useState(2);
-  let pageRender = "";
-  let className = "";
   switch (friendPage) {
     case 0:
-      pageRender = <Basics />;
-      className = "content content-settings-page";
       handlePageRender("settings");
       break;
     case 1:
-      pageRender = (
-        <Contact
-          email={fakeUserData.email}
-          phoneNumber={fakeUserData.phoneNumber}
-          social={fakeUserData.social}
-        />
-      );
-      className = "content content-settings-page";
       handlePageRender("settings");
       break;
     case 2:
-      pageRender = (
-        <TravelerInfo
-          userData={userData}
-          handleUserDataChange={handleUserDataChange}
-        />
-      );
-      className = "content content-settings-page";
       handlePageRender("settings");
       break;
     case 3:
-      pageRender = <Security />;
-      className = "content content-settings-page";
       handlePageRender("settings");
       break;
     default:
       break;
   }
   return (
-    <div className={className}>
+    <div className="settings content">
       <div className="sidebar-filter">
-        <button
-          onClick={() => handleFriendPage(0)}
-          className={friendPage === 0 ? "active" : ""}
-        >
-          <BasicsIcon /> basics
-        </button>
-        <button
-          onClick={() => handleFriendPage(1)}
-          className={friendPage === 1 ? "active" : ""}
-        >
-          <ContactIcon /> contact
-        </button>
-        <button
-          onClick={() => handleFriendPage(2)}
-          className={friendPage === 2 ? "active" : ""}
-        >
-          <TravelerIcon /> traveler
-        </button>
-        <button
-          onClick={() => handleFriendPage(3)}
-          className={friendPage === 3 ? "active" : ""}
-        >
-          <SecurityIcon /> security
-        </button>
+        <NavLink exact to="/profile/settings/">
+          <BasicsIcon />
+          basics
+        </NavLink>
+        <NavLink to="/profile/settings/contact">
+          <ContactIcon />
+          contact
+        </NavLink>
+        <NavLink to="/profile/settings/traveler">
+          <TravelerIcon />
+          traveler
+        </NavLink>
+        <NavLink to="/profile/settings/security">
+          <SecurityIcon />
+          security
+        </NavLink>
       </div>
-      <div className="content-results">{pageRender}</div>
+      <div className="content-results">
+        <Route exact path="/profile/settings" component={Basics} />
+        <Route
+          path="/profile/settings/contact"
+          render={() => (
+            <Contact
+              email={fakeUserData.email}
+              phoneNumber={fakeUserData.phoneNumber}
+              social={fakeUserData.social}
+            />
+          )}
+        />
+        <Route
+          path="/profile/settings/traveler"
+          render={props => (
+            <TravelerInfo
+              {...props}
+              userData={userData}
+              handleUserDataChange={handleUserDataChange}
+            />
+          )}
+        />
+        <Route path="/profile/settings/security" component={Security} />
+      </div>
     </div>
   );
 }

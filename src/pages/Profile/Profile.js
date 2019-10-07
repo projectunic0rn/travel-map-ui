@@ -8,14 +8,15 @@ import Trips from "./subpages/Trips";
 import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
-export default function Profile(props) {
+export default function Profile({ user, urlUsername, match }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
   const [page, handlePageRender] = useState("friends");
-  const [userData, handleUserDataChange] = useState(props.context);
+  const [userData, handleUserDataChange] = useState(user);
+  console.log(user);
   useEffect(() => {
-    let userData = props.context;
+    let userData = user;
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
@@ -48,20 +49,15 @@ export default function Profile(props) {
     }
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
-  }, [props.context]);
+  }, [user]);
   return (
     <div className="page page-profile">
       <div className="container">
         <Sidebar
-          city={
-            props.context.Place_living !== null
-              ? props.context.Place_living.city
-              : "City"
-          }
+          urlUsername={urlUsername}
+          city={user.Place_living !== null ? user.Place_living.city : "City"}
           country={
-            props.context.Place_living !== null
-              ? props.context.Place_living.countryISO
-              : "Country"
+            user.Place_living !== null ? user.Place_living.country : "Country"
           }
           countryCount={countryArray.length - 1}
           cityCount={cityArray.length - 1}
@@ -70,23 +66,22 @@ export default function Profile(props) {
           handleSearchText={handleSearchText}
           page={page}
           searchBar={page === "settings" ? false : true}
+          urlUsername={urlUsername}
         />
         <Route
           exact
-          path="/profile/"
-          render={props => (
-            <Friends
-              {...props}
-              searchText={searchText}
-              handlePageRender={handlePageRender}
-            />
-          )}
+          path={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
+          component={Trips}
         />
-        <Route path="/profile/trips" exact component={Trips} />
         <Route
-          path="/profile/friends"
+          path={
+            urlUsername
+              ? `/profiles/${urlUsername}/friends`
+              : "/profile/friends"
+          }
           render={props => (
             <Friends
+              urlUsername={urlUsername}
               {...props}
               searchText={searchText}
               handlePageRender={handlePageRender}
@@ -104,11 +99,21 @@ export default function Profile(props) {
             />
           )}
         />
+        {!urlUsername ? (
+          <Route
+            path="/profile/settings"
+            render={props => (
+              <Settings {...props} handlePageRender={handlePageRender} userData={userData}
+              handleUserDataChange={handleUserDataChange}/>
+            )}
+          />
+        ) : null}
       </div>
     </div>
   );
 }
 
 Profile.propTypes = {
-  context: PropTypes.object
+  user: PropTypes.object,
+  urlUsername: PropTypes.string,
 };

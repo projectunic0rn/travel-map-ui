@@ -2,12 +2,18 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 
-import { GET_PROFILE_BASICS } from "../../../GraphQL";
+import { GET_USER_COUNTRIES, GET_LOGGEDIN_USER } from "../../../GraphQL";
 import UserDetails from "./UserDetails";
 import UserActivity from "./UserActivity";
 import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
 
-export default function Sidebar(props) {
+export default function Sidebar({
+  city,
+  country,
+  countryCount,
+  cityCount,
+  urlUsername
+}) {
   const fakeUser = {
     username: "JohnSmith",
     name: "John Smith",
@@ -19,44 +25,42 @@ export default function Sidebar(props) {
     cityCount: 30
   };
   return (
-    <Query
-      query={GET_PROFILE_BASICS}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-    >
-      {({ loading, error, data }) => {
-        if (error) return <p>{error}</p>;
-
-        return (
-          <div className="sidebar">
-            {loading ? (
-              <SimpleLoader />
-            ) : (
-              <Fragment>
-                <UserDetails
-                  username={data.user.username}
-                  age={fakeUser.age}
-                  city={props.city}
-                  country={props.country}
-                />
-                <UserActivity
-                  friendCount={fakeUser.friendCount}
-                  countryCount={props.countryCount}
-                  cityCount={props.cityCount}
-                />
-                <div className="user-tags">
-                  <span className="tag tag-green">Nature Lover</span>
-                  <span className="tag tag-blue">Like a Local</span>
-                  <span className="tag tag-yellow">Foodie</span>
-                  <span className="tag tag-red">Historian</span>
-                </div>
-              </Fragment>
-            )}
-          </div>
-        );
-      }}
-    </Query>
+    <div className="sidebar">
+      <Query
+        query={urlUsername ? GET_USER_COUNTRIES : GET_LOGGEDIN_USER}
+        notifyOnNetworkStatusChange
+        fetchPolicy={"cache-and-network"}
+        partialRefetch={true}
+        variables={urlUsername ? { username: urlUsername } : {}}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return <SimpleLoader color="#ccc" />;
+          if (error) return <p>{error.toString()}</p>;
+          return (
+            <Fragment>
+              <UserDetails
+                username={data.user.username}
+                age={fakeUser.age}
+                city={city}
+                country={country}
+              />
+              <UserActivity
+                friendCount={fakeUser.friendCount}
+                countryCount={countryCount}
+                cityCount={cityCount}
+              />
+              {/* TODO: move tags to component */}
+              <div className="user-tags">
+                <span className="tag tag-green">Nature Lover</span>
+                <span className="tag tag-blue">Like a Local</span>
+                <span className="tag tag-yellow">Foodie</span>
+                <span className="tag tag-red">Historian</span>
+              </div>
+            </Fragment>
+          );
+        }}
+      </Query>
+    </div>
   );
 }
 
@@ -65,5 +69,6 @@ Sidebar.propTypes = {
   country: PropTypes.string,
   countryCount: PropTypes.number,
   cityCount: PropTypes.number,
-  interestTags: PropTypes.array
+  interestTags: PropTypes.array,
+  urlUsername: PropTypes.string,
 };

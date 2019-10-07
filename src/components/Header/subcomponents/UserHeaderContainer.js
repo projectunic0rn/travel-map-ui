@@ -23,7 +23,7 @@ function UserHeaderContainer() {
                 className="header-username"
                 onMouseOver={() => handleDropdownClick(true)}
               >
-                {data.getLoggedInUser.username}
+                {data.user.username}
               </span>
               {dropdown ? (
                 <UsernameDropdown

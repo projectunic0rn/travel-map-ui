@@ -50,6 +50,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
         }
         newTag = false;
         handleTagChange(tags);
+        console.log(tags);
         return;
       }
     }
@@ -60,6 +61,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
         tags.push({ id: 0, name: tag });
       }
       handleTagChange(tags);
+      console.log(tags);
       return;
     } else {
       alert("Only four tags are allowed");

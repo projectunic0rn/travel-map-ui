@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 
-const MapPage = props => {
+const MapPage = ({mapPage, refetch, user, handleMapPageChange }) => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [loaded, handleLoaded] = useState(false);
 
   useEffect(() => {
-    handleTripData(props.context);
+    handleTripData(user);
 
     function handleLoadedCountries(data) {
       let countryArray = clickedCountryArray;
@@ -66,9 +66,9 @@ const MapPage = props => {
       addCountry(countryArray);
     }
 
-    handleLoadedCountries(props.context);
+    handleLoadedCountries(user);
     handleLoaded(true);
-  }, [props.context, clickedCountryArray]);
+  }, [user, clickedCountryArray]);
 
   function deleteCity(cityId, timing) {
     let cityIndex = null;
@@ -102,25 +102,25 @@ const MapPage = props => {
       }
     }
     handleTripData(tripData);
-    props.refetch();
+    refetch();
   }
   if (!loaded) return <div>Loading...</div>;
   return (
     <div className="map-container">
-      <div className={props.mapPage ? "map city-map" : "map country-map"}>
-        {props.mapPage  ? (
+      <div className={mapPage ? "map city-map" : "map country-map"}>
+        {mapPage  ? (
           <CityMap
             tripData={tripData}
-            handleMapTypeChange={() => props.handleMapPageChange(0)}
+            handleMapTypeChange={() => handleMapPageChange(0)}
             deleteCity={deleteCity}
-            refetch={props.refetch}
+            refetch={refetch}
           />
         ) : (
           <CountryMap
             tripData={tripData}
             clickedCountryArray={clickedCountryArray}
-            handleMapTypeChange={() => props.handleMapPageChange(1)}
-            refetch={props.refetch}
+            handleMapTypeChange={() => handleMapPageChange(1)}
+            refetch={refetch}
           />
         )}
       </div>
@@ -129,7 +129,7 @@ const MapPage = props => {
 };
 
 MapPage.propTypes = {
-  context: PropTypes.object,
+  user: PropTypes.object,
   refetch: PropTypes.func,
   mapPage: PropTypes.number,
   handleMapPageChange: PropTypes.func
