@@ -1,19 +1,23 @@
 export const interestConsts = [
     {
         interest: "foodie",
-        color: "#d0af5b"
+        color: "#d0af5b",
+        background: "rgba(208, 175, 91, 0.15)"
     },
     {
         interest: "like a local",
-        color: "#73A7C3"
+        color: "#73A7C3",
+        background: "rgba(115, 167, 195, 0.15)"
     },
     {
         interest: "nature lover",
-        color: "#7a9a97"
+        color: "#7a9a97", 
+        background: "rgba(122, 154, 151, 0.15)"
     },
     {
         interest: "history buff",
-        color: "#AB9E9D"
+        color: "#AB9E9D",
+        background: "rgba(171, 158, 157, 0.15)"
     },
     {
         interest: "shopaholic",

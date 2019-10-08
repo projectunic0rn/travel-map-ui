@@ -38,7 +38,14 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
     let tags = userInterests;
     let newTag = true;
     let nullAvailable = false;
+    if (tags.length === 0) {
+      tags.push({ id: 0, name: tag });
+      handleTagChange(tags);
+      return;
+    }
     for (let i in tags) {
+      console.log(tag);
+      console.log(tags[i])
       if (tags[i].name === "") {
         nullAvailable = i;
       }
@@ -50,7 +57,6 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
         }
         newTag = false;
         handleTagChange(tags);
-        console.log(tags);
         return;
       }
     }
@@ -61,7 +67,6 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
         tags.push({ id: 0, name: tag });
       }
       handleTagChange(tags);
-      console.log(tags);
       return;
     } else {
       alert("Only four tags are allowed");
@@ -79,7 +84,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
       <Mutation
         mutation={ADD_USER_INTERESTS}
         variables={{ userInterests }}
-        onCompleted={handleDataSave()}
+        onCompleted={handleDataSave}
       >
         {mutation => (
           <span className="traveler-settings-header">

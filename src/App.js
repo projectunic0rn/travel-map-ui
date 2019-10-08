@@ -94,7 +94,7 @@ function App({ userAuthenticated }) {
                     <Route
                       path="/profile/"
                       render={props => (
-                        <Profile {...props} user={data.user} />
+                        <Profile {...props} user={data.user} refetch={refetch}/>
                       )}
                     />
                     <Route path="/friends/" component={FriendMapPage} />

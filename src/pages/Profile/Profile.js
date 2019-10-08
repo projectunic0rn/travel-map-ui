@@ -8,13 +8,18 @@ import Trips from "./subpages/Trips";
 import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
-export default function Profile({ user, urlUsername, match }) {
+export default function Profile({ user, urlUsername, match, refetch}) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
   const [page, handlePageRender] = useState("friends");
-  const [userData, handleUserDataChange] = useState(user);
-  console.log(user);
+  const [userData, handleUserData] = useState(user);
+
+  function handleUserDataChange(data) {
+    handleUserData(data);
+    console.log("handle user data")
+    refetch();
+  }
   useEffect(() => {
     let userData = user;
     let cityArray = [0];
@@ -55,6 +60,7 @@ export default function Profile({ user, urlUsername, match }) {
       <div className="container">
         <Sidebar
           urlUsername={urlUsername}
+          userData={userData}
           city={user.Place_living !== null ? user.Place_living.city : "City"}
           country={
             user.Place_living !== null ? user.Place_living.country : "Country"
@@ -88,17 +94,6 @@ export default function Profile({ user, urlUsername, match }) {
             />
           )}
         />
-        <Route
-          path="/profile/settings"
-          render={props => (
-            <Settings
-              {...props}
-              userData={userData}
-              handlePageRender={handlePageRender}
-              handleUserDataChange={handleUserDataChange}
-            />
-          )}
-        />
         {!urlUsername ? (
           <Route
             path="/profile/settings"
@@ -116,4 +111,5 @@ export default function Profile({ user, urlUsername, match }) {
 Profile.propTypes = {
   user: PropTypes.object,
   urlUsername: PropTypes.string,
+  refetch: PropTypes.func
 };
