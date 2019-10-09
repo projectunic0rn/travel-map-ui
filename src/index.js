@@ -29,13 +29,14 @@ if (localStorage.getItem("token")) {
 }
 
 let clientUrl = "";
-if (process.env.REACT_APP_PROD_API_URL != null) {
+if (process.env.NODE_ENV === "production") {
   clientUrl = process.env.REACT_APP_PROD_API_URL;
 } else if (process.env.REACT_APP_TEST_API_URL != null) {
   clientUrl = process.env.REACT_APP_TEST_API_URL;
 } else {
   clientUrl = process.env.REACT_APP_DEV_API_URL;
 }
+console.log("Client URL " + clientUrl);
 const client = new ApolloClient({
   uri: clientUrl,
   request: async (operation) => {

@@ -30,7 +30,7 @@ function PotentialFriendAdd({ handleShowAddFriend, potentialFriend }) {
 
 PotentialFriendAdd.propTypes = {
   handleShowAddFriend: PropTypes.func,
-  potentialFriend: PropTypes.object.isReQuired
+  potentialFriend: PropTypes.object.isRequired
 };
 
 export default PotentialFriendAdd;

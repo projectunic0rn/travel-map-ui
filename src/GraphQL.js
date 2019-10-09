@@ -130,6 +130,10 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
+      },
+      FriendRequest {
+        senderId,
+        receiverId,
       }
     }
   }

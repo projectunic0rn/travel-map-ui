@@ -69,6 +69,7 @@ function App({ userAuthenticated }) {
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
+              console.log(data);
               return (
                 <Fragment>
                   <Switch>
