@@ -77,11 +77,11 @@ export const GET_ALL_USER_INFO = gql`
 export const GET_ALL_FRIEND_REQUESTS = gql`
   query {
     friend_requests {
-      fr_id
+      receiverId
       senderId
       status
-      sender_username
-      fr_time_sent
+      senderUsername
+      requestSentAt
     }
   }
 `;
@@ -93,6 +93,7 @@ export const SEND_FRIEND_REQUEST = gql`
       senderId
       receiverId
       status
+      UserId
     }
   }
 `;
@@ -130,10 +131,10 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
-      },
-      FriendRequest {
-        senderId,
-        receiverId,
+      }
+      FriendRequests {
+        senderId
+        receiverId
       }
     }
   }

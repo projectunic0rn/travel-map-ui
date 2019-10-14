@@ -36,7 +36,6 @@ if (process.env.NODE_ENV === "production") {
 } else {
   clientUrl = process.env.REACT_APP_DEV_API_URL;
 }
-console.log("Client URL " + clientUrl);
 const client = new ApolloClient({
   uri: clientUrl,
   request: async (operation) => {
