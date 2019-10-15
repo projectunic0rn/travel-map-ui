@@ -13,14 +13,12 @@ function InterestTag({ name }) {
           return obj.interest === name;
         })
       ];
-      console.log(tag);
       if (tag === undefined) {
           return
       }
       handleColor(tag.color);
       handleBackground(tag.background);
   }, [name]);
-  console.log(name);
   if (name === "") return null;
   if (color === "") return <SimpleLoader />
   return (

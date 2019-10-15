@@ -94,6 +94,11 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         id
         name
       }
+      UserSocials {
+        id
+        link
+        name
+      }
       Places_visited {
         id
         country
@@ -312,6 +317,17 @@ export const ADD_USER_INTERESTS = gql`
       id
       UserId
       name
+    }
+  }
+  `;
+
+  export const ADD_USER_SOCIAL = gql`
+  mutation addSocial($userSocials: [UserSocial!]) {
+    addSocial(userSocials: $userSocials) {
+      id
+      UserId
+      name
+      link
     }
   }
   `;

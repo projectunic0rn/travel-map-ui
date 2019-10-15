@@ -8,9 +8,9 @@ import PotentialFriendCard from "./PotentialFriendCard";
 
 export default function FindFriends({ searchText }) {
   const [friendsAvailable, handleFriendsAvailable] = useState([]);
-  const [filteredFriendsAvailable, handleFilteredFriendsAvailable] = useState(
-    []
-  );
+  const [filteredFriendsAvailable, handleFilteredFriendsAvailable] = useState([
+    friendsAvailable
+  ]);
   useEffect(() => {
     if (searchText !== "") {
       let potentialFriends = friendsAvailable.filter(friend => {
@@ -40,9 +40,10 @@ export default function FindFriends({ searchText }) {
         if (error) return `Error! ${error}`;
         return (
           <>
-            {filteredFriendsAvailable.map(friend => (
-              <PotentialFriendCard key={friend.id} friend={friend} />
-            ))}
+            {filteredFriendsAvailable.map((friend) => {
+              if (Array.isArray(friend)) return null;
+              return <PotentialFriendCard key={friend.id} friend={friend} />;
+            })}
           </>
         );
       }}

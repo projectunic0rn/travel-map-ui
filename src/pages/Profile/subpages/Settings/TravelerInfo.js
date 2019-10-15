@@ -44,8 +44,6 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
       return;
     }
     for (let i in tags) {
-      console.log(tag);
-      console.log(tags[i])
       if (tags[i].name === "") {
         nullAvailable = i;
       }

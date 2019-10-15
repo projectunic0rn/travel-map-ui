@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { Route, NavLink } from "react-router-dom";
-
 
 import FriendsIcon from "../../../icons/FriendsIcon";
 import SearchIcon from "../../../icons/SearchIcon";
@@ -14,16 +13,17 @@ export default function Friends({ searchText, urlUsername }) {
   return (
     <div className="friends content">
       <div className="sidebar-filter">
-      <NavLink
+        <NavLink
           exact
           to={
             urlUsername
               ? `/profiles/${urlUsername}/friends`
               : "/profile/friends"
-          }>
+          }
+        >
           <FriendsIcon /> current
-          </NavLink>
-          {!urlUsername && (
+        </NavLink>
+        {!urlUsername && (
           <>
             <NavLink to="/profile/friends/requests">
               <AddFriendIcon /> requests
@@ -65,4 +65,4 @@ Friends.propTypes = {
   searchText: PropTypes.string,
   handlePageRender: PropTypes.func,
   urlUsername: PropTypes.string
-}
+};

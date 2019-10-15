@@ -25,46 +25,45 @@ export default function Security({ history }) {
   return (
     <div className="settings-security-container">
       <span className="security-header">Change Password</span>
-      <span className="security-subheader">OLD PASSWORD</span>
-      <input
-        className="security-password-input"
-        noValidate
-        type="password"
-        data-ng-model="password"
-        autoComplete="on"
-        required
-        name="password"
-        minLength="4"
-        id="password"
-      ></input>
-      <span className="security-subheader">NEW PASSWORD</span>
-      <input
-        className="security-password-input"
-        noValidate
-        type="password"
-        data-ng-model="password"
-        autoComplete="on"
-        required
-        name="password"
-        minLength="4"
-        id="password"
-      ></input>
-      <span className="security-subheader">CONFIRM NEW PASSWORD</span>
-      <input
-        className="security-password-input"
-        noValidate
-        type="password"
-        data-ng-model="password"
-        autoComplete="on"
-        required
-        name="password"
-        minLength="4"
-        id="password"
-      ></input>
-      <span
-        className="security-header"
-        style={{ "margin-top": "12px" }}
-      >
+      <form>
+        <span className="security-subheader">OLD PASSWORD</span>
+        <input
+          className="security-password-input"
+          noValidate
+          type="password"
+          data-ng-model="password"
+          autoComplete="on"
+          required
+          name="password"
+          minLength="4"
+          id="password-old"
+        ></input>
+        <span className="security-subheader">NEW PASSWORD</span>
+        <input
+          className="security-password-input"
+          noValidate
+          type="password"
+          data-ng-model="password"
+          autoComplete="on"
+          required
+          name="password"
+          minLength="4"
+          id="password-new"
+        ></input>
+        <span className="security-subheader">CONFIRM NEW PASSWORD</span>
+        <input
+          className="security-password-input"
+          noValidate
+          type="password"
+          data-ng-model="password"
+          autoComplete="on"
+          required
+          name="password"
+          minLength="4"
+          id="password-renew"
+        ></input>
+      </form>
+      <span className="security-header" style={{ marginTop: "12px" }}>
         Delete Account
       </span>
       <UserConsumer>
@@ -76,12 +75,14 @@ export default function Security({ history }) {
           >
             {(mutation, { loading }) => (
               <div
-                className={`security-delete-button ${loading ? "disabled" : ""}`}
+                className={`security-delete-button ${
+                  loading ? "disabled" : ""
+                }`}
                 onClick={() =>
                   onRemoveUserClick(loading, mutation, value.setUserLoggedIn)
                 }
               >
-                  delete your account
+                delete your account
               </div>
             )}
           </Mutation>

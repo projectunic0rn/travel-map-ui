@@ -11,23 +11,12 @@ import Contact from "./Settings/Contact";
 import Security from "./Settings/Security";
 import TravelerInfo from "./Settings/TravelerInfo";
 
-const fakeUserData = {
-  username: "User 1",
-  email: "userOne@aol.com",
-  phoneNumber: "555-234-2908",
-  social: {
-    instagram: "userOne@instagram.com",
-    facebook: "useroUno@fb.com",
-    whatsapp: "915-234-2908"
-  }
-};
-
 export default function Settings({
   userData,
   handlePageRender,
   handleUserDataChange
 }) {
-  const [friendPage, handleFriendPage] = useState(2);
+  const [friendPage] = useState(2);
   switch (friendPage) {
     case 0:
       handlePageRender("settings");
@@ -53,7 +42,7 @@ export default function Settings({
         </NavLink>
         <NavLink to="/profile/settings/contact">
           <ContactIcon />
-          contact
+          social
         </NavLink>
         <NavLink to="/profile/settings/traveler">
           <TravelerIcon />
@@ -70,9 +59,8 @@ export default function Settings({
           path="/profile/settings/contact"
           render={() => (
             <Contact
-              email={fakeUserData.email}
-              phoneNumber={fakeUserData.phoneNumber}
-              social={fakeUserData.social}
+              userData={userData}
+              handleUserDataChange={handleUserDataChange}
             />
           )}
         />

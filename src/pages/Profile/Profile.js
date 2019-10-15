@@ -8,16 +8,16 @@ import Trips from "./subpages/Trips";
 import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
-export default function Profile({ user, urlUsername, match, refetch}) {
+// if the username props is passed, it means the profile of a user that is not logged in will be shown.
+export default function Profile({ user, urlUsername, refetch }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
-  const [page, handlePageRender] = useState("friends");
   const [userData, handleUserData] = useState(user);
+  const [page, handlePageRender] = useState("friends");
 
   function handleUserDataChange(data) {
     handleUserData(data);
-    console.log("handle user data")
     refetch();
   }
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Profile({ user, urlUsername, match, refetch}) {
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
-      userData.Places_visited.forEach(tripType => {
+      userData.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -98,8 +98,12 @@ export default function Profile({ user, urlUsername, match, refetch}) {
           <Route
             path="/profile/settings"
             render={props => (
-              <Settings {...props} handlePageRender={handlePageRender} userData={userData}
-              handleUserDataChange={handleUserDataChange}/>
+              <Settings
+                {...props}
+                handlePageRender={handlePageRender}
+                userData={userData}
+                handleUserDataChange={handleUserDataChange}
+              />
             )}
           />
         ) : null}

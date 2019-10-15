@@ -25,7 +25,6 @@ function UserProfile({ match }) {
           if (loading) return <Loader />;
           if (error) return `Error! ${error}`;
           if (!data.user) return <UserNotFound />;
-          console.log(data.user);
           return <Profile urlUsername={urlUsername} user={data.user} />;
         }}
       </Query>

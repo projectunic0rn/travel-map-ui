@@ -93,7 +93,7 @@ function App({ userAuthenticated }) {
                     />
                     <Route
                       path="/profile/"
-                      render={props => (
+                      render={(props) => (
                         <Profile {...props} user={data.user} refetch={refetch}/>
                       )}
                     />

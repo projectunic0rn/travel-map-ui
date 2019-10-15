@@ -1,59 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { Mutation } from "react-apollo";
+import { ADD_USER_SOCIAL } from "../../../../GraphQL";
+
 import FacebookIcon from "../../../../icons/SocialIcons/FacebookIcon";
 import InstagramIcon from "../../../../icons/SocialIcons/InstagramIcon";
 import TwitterIcon from "../../../../icons/SocialIcons/TwitterIcon";
 import WhatsappIcon from "../../../../icons/SocialIcons/WhatsappIcon";
+import SimpleLoader from "../../../../components/common/SimpleLoader";
 
-export default function Contact({ social, email, phoneNumber }) {
+export default function Contact({ userData, handleUserDataChange }) {
   const [edit, handleEdit] = useState(false);
-  const [currentEmail, handleEmailChange] = useState(email);
-  const [currentPhoneNumber, handlePhoneNumberChange] = useState(phoneNumber);
-  const [currentInstagram, handleInstagramChange] = useState(social.instagram);
-  const [currentFacebook, handleFacebookChange] = useState(social.facebook);
-  const [currentWhatsapp, handleWhatsappChange] = useState(social.whatsapp);
-  const [currentTwitter, handleTwitterChange] = useState(social.twitter);
-
+  const [loading, handleLoading] = useState(true);
+  const [userSocials, handleUserSocials] = useState([
+    { id: 0, link: "", name: "instagram" },
+    { id: 0, link: "", name: "facebook" },
+    { id: 0, link: "", name: "whatsapp" },
+    { id: 0, link: "", name: "twitter" }
+  ]);
+  
+  useEffect(() => {
+    for (let i in userData.UserSocials) {
+      if (userData.UserSocials[i].name === "instagram") {
+        userSocials[0].id = userData.UserSocials[i].id;
+        userSocials[0].name = userData.UserSocials[i].name;
+        userSocials[0].link = userData.UserSocials[i].link;
+      } else if (userData.UserSocials[i].name === "facebook") {
+        userSocials[1].id = userData.UserSocials[i].id;
+        userSocials[1].name = userData.UserSocials[i].name;
+        userSocials[1].link = userData.UserSocials[i].link;
+      } else if (userData.UserSocials[i].name === "whatsapp") {
+        userSocials[2].id = userData.UserSocials[i].id;
+        userSocials[2].name = userData.UserSocials[i].name;
+        userSocials[2].link = userData.UserSocials[i].link;
+      } else if (userData.UserSocials[i].name === "twitter") {
+        userSocials[3].id = userData.UserSocials[i].id;
+        userSocials[3].name = userData.UserSocials[i].name;
+        userSocials[3].link = userData.UserSocials[i].link;
+      }
+    }
+    handleLoading(false);
+  }, [userData, userSocials]);
+  function handleSocialHelper(index, value) {
+    let newUserSocials = userSocials;
+    newUserSocials[index].link = value;
+    handleUserSocials(newUserSocials);
+  }
   function handleEditButton() {
     let editState = edit;
     handleEdit(!editState);
   }
+  function handleDataSave() {
+    let newUserData = userData;
+    newUserData.UserSocials = userSocials;
+    handleUserDataChange(newUserData);
+  }
+  if (loading) return <SimpleLoader />;
   return (
     <div className="settings-contact-container">
-      <div className="contact-primary">
-        <div className="contact-sub-container" id="contact-email">
-          <span className="contact-header">EMAIL</span>
-          {!edit ? (
-            <span className="contact-input contact-data">{currentEmail}</span>
-          ) : (
-            <input
-              className="contact-input"
-              onChange={e => handleEmailChange(e.target.value)}
-              value={currentEmail}
-            ></input>
-          )}
-        </div>
-        <div className="contact-sub-container" id="contact-phone">
-          <span className="contact-header">PHONE NUMBER</span>
-          {!edit ? (
-            <span className="contact-input contact-data">
-              {currentPhoneNumber}
-            </span>
-          ) : (
-            <input
-              className="contact-input"
-              onChange={e => handlePhoneNumberChange(e.target.value)}
-              value={currentPhoneNumber}
-            ></input>
-          )}
-        </div>
-      </div>
       <div className="contact-social">
         <span className="contact-header">SOCIAL</span>
         <div className="contact-social-sub" id="contact-instagram">
           <span
             className={
-              currentInstagram !== undefined && currentInstagram !== ""
+              userSocials[0].link !== ""
                 ? "contact-social-icon csi-active "
                 : "contact-social-icon"
             }
@@ -62,20 +72,20 @@ export default function Contact({ social, email, phoneNumber }) {
           </span>
           {!edit ? (
             <span className="contact-social-input contact-data">
-              {currentInstagram}
+              {userSocials[0] !== undefined ? userSocials[0].link : ""}
             </span>
           ) : (
             <input
               className="contact-social-input"
-              onChange={e => handleInstagramChange(e.target.value)}
-              value={currentInstagram}
+              onChange={e => handleSocialHelper(0, e.target.value)}
+              defaultValue = {userSocials[0] !== undefined ? userSocials[0].link : ""}
             ></input>
           )}
         </div>
         <div className="contact-social-sub" id="contact-facebook">
           <span
             className={
-              currentFacebook !== undefined && currentFacebook !== ""
+              userSocials[1].link !== ""
                 ? "contact-social-icon csi-active "
                 : "contact-social-icon"
             }
@@ -84,20 +94,20 @@ export default function Contact({ social, email, phoneNumber }) {
           </span>
           {!edit ? (
             <span className="contact-social-input contact-data">
-              {currentFacebook}
+              {userSocials[1] !== undefined ? userSocials[1].link : ""}
             </span>
           ) : (
             <input
               className="contact-social-input"
-              onChange={e => handleFacebookChange(e.target.value)}
-              value={currentFacebook}
+              onChange={e => handleSocialHelper(1, e.target.value)}
+              defaultValue = {userSocials[1] !== undefined ? userSocials[1].link : ""}
             ></input>
           )}
         </div>
         <div className="contact-social-sub" id="contact-whatsapp">
           <span
             className={
-              currentWhatsapp !== undefined && currentWhatsapp !== ""
+              userSocials[2].link !== ""
                 ? "contact-social-icon csi-active "
                 : "contact-social-icon"
             }
@@ -106,20 +116,20 @@ export default function Contact({ social, email, phoneNumber }) {
           </span>
           {!edit ? (
             <span className="contact-social-input contact-data">
-              {currentWhatsapp}
+              {userSocials[2] !== undefined ? userSocials[2].link : ""}
             </span>
           ) : (
             <input
               className="contact-social-input"
-              onChange={e => handleWhatsappChange(e.target.value)}
-              value={currentWhatsapp}
+              onChange={e => handleSocialHelper(2, e.target.value)}
+              defaultValue = {userSocials[2] !== undefined ? userSocials[2].link : ""}
             ></input>
           )}
         </div>
         <div className="contact-social-sub" id="contact-twitter">
           <span
             className={
-              currentTwitter !== undefined && currentTwitter !== ""
+              userSocials[3].link !== ""
                 ? "contact-social-icon csi-active "
                 : "contact-social-icon"
             }
@@ -128,28 +138,41 @@ export default function Contact({ social, email, phoneNumber }) {
           </span>
           {!edit ? (
             <span className="contact-social-input contact-data">
-              {currentTwitter}
+              {userSocials[3] !== undefined ? userSocials[3].link : ""}
             </span>
           ) : (
             <input
               className="contact-social-input"
-              onChange={e => handleTwitterChange(e.target.value)}
-              value={currentTwitter}
+              onChange={e => handleSocialHelper(3, e.target.value)}
+              defaultValue = {userSocials[3] !== undefined ? userSocials[3].link : ""}
             ></input>
           )}
         </div>
       </div>
       <div className="settings-edit-button-container">
-        <span className="settings-edit-button" onClick={handleEditButton}>
-          {edit ? "Update" : "Edit"}
-        </span>
+        <Mutation
+          mutation={ADD_USER_SOCIAL}
+          variables={{ userSocials }}
+          onCompleted={handleDataSave}
+        >
+          {mutation =>
+            edit ? (
+              <span className="settings-edit-button" onClick={mutation}>
+                Update
+              </span>
+            ) : (
+              <span className="settings-edit-button" onClick={handleEditButton}>
+                Edit
+              </span>
+            )
+          }
+        </Mutation>
       </div>
     </div>
   );
 }
 
 Contact.propTypes = {
-  social: PropTypes.object,
-  email: PropTypes.string,
-  phoneNumber: PropTypes.string
+  userData: PropTypes.object,
+  handleUserDataChange: PropTypes.func
 };
