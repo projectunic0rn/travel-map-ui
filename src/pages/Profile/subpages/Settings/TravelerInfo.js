@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { ADD_USER_INTERESTS } from "../../../../GraphQL";
 
+import SaveIcon from '../../../../icons/SaveIcon';
 import TravelTagContainer from "./Traveler/TravelTagContainer";
 import FoodieIcon from "../../../../icons/InterestIcons/FoodieIcon";
 import HistoryIcon from "../../../../icons/InterestIcons/HistoryIcon";
@@ -32,7 +33,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
       });
     }
     handleTagChange(interestTypeRemoval);
-  }, [userData, userInterests]);
+  }, [userData.UserInterests]);
   function handleTagClick(tag) {
     handleShowSave(true);
     let tags = userInterests;
@@ -58,11 +59,13 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
         return;
       }
     }
-    if (newTag && userInterests.length < 4) {
+    if (newTag) {
       if (nullAvailable !== false) {
         tags[nullAvailable].name = tag;
-      } else {
+      } else if (userInterests.length < 4){
         tags.push({ id: 0, name: tag });
+      } else {
+        alert("Only four tags are allowed")
       }
       handleTagChange(tags);
       return;
@@ -89,7 +92,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
             Travel Tags
             {showSaveButton ? (
               <button className="save-button" onClick={mutation}>
-                Save
+                <SaveIcon />
               </button>
             ) : null}
           </span>
@@ -167,7 +170,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
           tagsSelected={userInterests}
         />
         <TravelTagContainer
-          tagName={"art connisseur"}
+          tagName={"art connoisseur"}
           color={"#9F8AD1"}
           tagIcon={<ArtIcon color={"#DDD4F2"} />}
           handleTagClick={handleTagClick}

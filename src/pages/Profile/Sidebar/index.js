@@ -56,7 +56,7 @@ export default function Sidebar({
                 {userData.UserInterests.map(interest => {
                   return (
                     <InterestTag
-                      key = {interest.name}
+                      key = {interest.id}
                       name = {interest.name}
                     />
                   );

@@ -331,15 +331,3 @@ export const ADD_USER_INTERESTS = gql`
     }
   }
   `;
-//   export const ADD_PLACE_VISITING = gql`
-//   mutation addPlaceVisiting($country: Country!, $cities: [City!]) {
-//     addPlaceVisiting(country: $country, cities: $cities) {
-//       id
-//       country
-//       city
-//       cityId
-//       city_latitude
-//       city_longitude
-//     }
-//   }
-// `;

@@ -77,7 +77,9 @@ export default function Contact({ userData, handleUserDataChange }) {
           ) : (
             <input
               className="contact-social-input"
+              autoFocus
               onChange={e => handleSocialHelper(0, e.target.value)}
+              placeHolder="Enter the full url link here"
               defaultValue = {userSocials[0] !== undefined ? userSocials[0].link : ""}
             ></input>
           )}
@@ -100,6 +102,7 @@ export default function Contact({ userData, handleUserDataChange }) {
             <input
               className="contact-social-input"
               onChange={e => handleSocialHelper(1, e.target.value)}
+              placeHolder="Enter the full url link here"
               defaultValue = {userSocials[1] !== undefined ? userSocials[1].link : ""}
             ></input>
           )}
@@ -122,6 +125,7 @@ export default function Contact({ userData, handleUserDataChange }) {
             <input
               className="contact-social-input"
               onChange={e => handleSocialHelper(2, e.target.value)}
+              placeHolder="Enter the full url link here"
               defaultValue = {userSocials[2] !== undefined ? userSocials[2].link : ""}
             ></input>
           )}
@@ -144,6 +148,7 @@ export default function Contact({ userData, handleUserDataChange }) {
             <input
               className="contact-social-input"
               onChange={e => handleSocialHelper(3, e.target.value)}
+              placeHolder="Enter the full url link here"
               defaultValue = {userSocials[3] !== undefined ? userSocials[3].link : ""}
             ></input>
           )}
