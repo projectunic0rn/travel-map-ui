@@ -10,16 +10,23 @@ export default function TravelTagContainer({
 }) {
   const [clicked, handleClickChange] = useState(false);
   useEffect(() => {
-    if (tagsSelected.includes(tagName)) {
+    for (let i in tagsSelected) {
+      if (tagsSelected[i].name === tagName) {
         handleClickChange(true);
+        return;
+      }
     }
-  }, [tagsSelected]);
+  }, [tagsSelected, tagName]);
   function handleClick() {
     handleTagClick(tagName);
-    if (tagsSelected.includes(tagName)) {
+
+    for (let i in tagsSelected) {
+      if (tagsSelected[i].name === tagName) {
         handleClickChange(true);
-    } else {
+        return;
+      } else {
         handleClickChange(false);
+      }
     }
   }
 

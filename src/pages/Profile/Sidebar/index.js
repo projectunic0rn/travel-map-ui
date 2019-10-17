@@ -6,12 +6,14 @@ import { GET_USER_COUNTRIES, GET_LOGGEDIN_USER } from "../../../GraphQL";
 import UserDetails from "./UserDetails";
 import UserActivity from "./UserActivity";
 import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
+import InterestTag from './InterestTag';
 
 export default function Sidebar({
   city,
   country,
   countryCount,
   cityCount,
+  userData,
   urlUsername
 }) {
   const fakeUser = {
@@ -51,10 +53,14 @@ export default function Sidebar({
               />
               {/* TODO: move tags to component */}
               <div className="user-tags">
-                <span className="tag tag-green">Nature Lover</span>
-                <span className="tag tag-blue">Like a Local</span>
-                <span className="tag tag-yellow">Foodie</span>
-                <span className="tag tag-red">Historian</span>
+                {userData.UserInterests.map(interest => {
+                  return (
+                    <InterestTag
+                      key = {interest.id}
+                      name = {interest.name}
+                    />
+                  );
+                })}
               </div>
             </Fragment>
           );
@@ -71,4 +77,5 @@ Sidebar.propTypes = {
   cityCount: PropTypes.number,
   interestTags: PropTypes.array,
   urlUsername: PropTypes.string,
+  userData: PropTypes.object
 };

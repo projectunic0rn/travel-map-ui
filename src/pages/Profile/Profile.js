@@ -8,17 +8,24 @@ import Trips from "./subpages/Trips";
 import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
-export default function Profile({ user, urlUsername, match }) {
+// if the username props is passed, it means the profile of a user that is not logged in will be shown.
+export default function Profile({ user, urlUsername, refetch }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
+  const [userData, handleUserData] = useState(user);
   const [page, handlePageRender] = useState("friends");
+
+  function handleUserDataChange(data) {
+    handleUserData(data);
+    refetch();
+  }
   useEffect(() => {
     let userData = user;
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
-      userData.Places_visited.forEach(tripType => {
+      userData.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -48,12 +55,12 @@ export default function Profile({ user, urlUsername, match }) {
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
   }, [user]);
-  console.log(user);
   return (
     <div className="page page-profile">
       <div className="container">
         <Sidebar
           urlUsername={urlUsername}
+          userData={userData}
           city={user.Place_living !== null ? user.Place_living.city : "City"}
           country={
             user.Place_living !== null ? user.Place_living.country : "Country"
@@ -63,6 +70,8 @@ export default function Profile({ user, urlUsername, match }) {
         />
         <ProfileNav
           handleSearchText={handleSearchText}
+          page={page}
+          searchBar={page === "settings" ? false : true}
           urlUsername={urlUsername}
         />
         <Route
@@ -81,6 +90,7 @@ export default function Profile({ user, urlUsername, match }) {
               urlUsername={urlUsername}
               {...props}
               searchText={searchText}
+              handlePageRender={handlePageRender}
             />
           )}
         />
@@ -88,7 +98,12 @@ export default function Profile({ user, urlUsername, match }) {
           <Route
             path="/profile/settings"
             render={props => (
-              <Settings {...props} handlePageRender={handlePageRender} />
+              <Settings
+                {...props}
+                handlePageRender={handlePageRender}
+                userData={userData}
+                handleUserDataChange={handleUserDataChange}
+              />
             )}
           />
         ) : null}
@@ -99,5 +114,6 @@ export default function Profile({ user, urlUsername, match }) {
 
 Profile.propTypes = {
   user: PropTypes.object,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
+  refetch: PropTypes.func
 };

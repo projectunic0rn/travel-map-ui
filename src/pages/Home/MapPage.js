@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 
-const MapPage = ({mapPage, refetch, user, handleMapPageChange }) => {
+const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [loaded, handleLoaded] = useState(false);
@@ -108,7 +108,7 @@ const MapPage = ({mapPage, refetch, user, handleMapPageChange }) => {
   return (
     <div className="map-container">
       <div className={mapPage ? "map city-map" : "map country-map"}>
-        {mapPage  ? (
+        {mapPage ? (
           <CityMap
             tripData={tripData}
             handleMapTypeChange={() => handleMapPageChange(0)}
