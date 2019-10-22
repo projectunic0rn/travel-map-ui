@@ -35,7 +35,7 @@ function calculateAge (birthDate) {
     var years = (otherDate.getFullYear() - birthDate.getFullYear());
 
     if (otherDate.getMonth() < birthDate.getMonth() || 
-        otherDate.getMonth() == birthDate.getMonth() && otherDate.getDate() < birthDate.getDate()) {
+        (otherDate.getMonth() === birthDate.getMonth() && otherDate.getDate() < birthDate.getDate())) {
         years--;
     }
     handleAge(years);
@@ -56,7 +56,7 @@ function calculateAge (birthDate) {
             <Fragment>
               <UserDetails
                 username={data.user.username}
-                age={age}
+                age={Number(age)}
                 city={city}
                 country={country}
               />
