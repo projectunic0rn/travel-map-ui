@@ -54,7 +54,17 @@ export default function Settings({
         </NavLink>
       </div>
       <div className="content-results">
-        <Route exact path="/profile/settings" component={Basics} />
+        <Route
+          exact
+          path="/profile/settings"
+          render={props => (
+            <Basics
+              {...props}
+              userData={userData}
+              handleUserDataChange={handleUserDataChange}
+            />
+          )}
+        />
         <Route
           path="/profile/settings/contact"
           render={() => (
