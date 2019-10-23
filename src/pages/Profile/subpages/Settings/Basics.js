@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { Mutation } from "react-apollo";
+import { UPDATE_BASIC_INFO } from "../../../../GraphQL";
 
 const genderOptions = [
   "",
@@ -8,59 +10,60 @@ const genderOptions = [
   "transgender female",
   "transgender male"
 ];
-const fakeData = {
-  firstName: "John",
-  lastName: "Doe",
-  email: "JohnDoe@aol.com",
-  phoneNumber: "123-231-1203",
-  gender: "male",
-  birthday: "2000-12-25"
-};
 
-export default function Basics() {
+export default function Basics({ userData, handleUserDataChange }) {
   const [edit, handleEdit] = useState(false);
-  const [currentFirstName, handleFirstNameChange] = useState(
-    fakeData.firstName
-  );
-  const [currentLastName, handleLastNameChange] = useState(fakeData.lastName);
-  const [currentEmail, handleEmailChange] = useState(fakeData.email);
-  const [currentPhoneNumber, handlePhoneNumberChange] = useState(
-    fakeData.phoneNumber
-  );
-  const [currentGender] = useState(fakeData.gender);
-  const [currentBirthday] = useState(fakeData.birthday);
+  const [userBasics, handleUserBasicChange] = useState({});
+
+  useEffect(() => {
+    let userBasicInfo = {
+      full_name: userData.full_name,
+      email: userData.email,
+      phone_number: userData.phone_number,
+      birthday: userData.birthday,
+      gender: userData.gender
+    };
+    handleUserBasicChange(userBasicInfo);
+  }, [userData]);
+
+  function handleUserBasicChangeHelper(value, type) {
+    let userBasicInfo = userBasics;
+    userBasicInfo[type] = value;
+    handleUserBasicChange(userBasicInfo);
+  }
   function handleEditButton() {
     let editState = edit;
     handleEdit(!editState);
+  }
+  function handleDataSave() {
+    let newUserData = userData;
+    newUserData.full_name = userBasics.full_name;
+    newUserData.phone_number = userBasics.phone_number;
+    newUserData.email = userBasics.email;
+    newUserData.gender = userBasics.gender;
+    newUserData.birthday = userBasics.birthday;
+    handleUserDataChange(newUserData);
   }
   return (
     <div className="settings-basics-container">
       <div className="settings-basics-primary">
         <div className="settings-basics-sub-container">
-          <span className="settings-subheader">FIRST NAME</span>
+          <span className="settings-subheader">FULL NAME</span>
           {!edit ? (
-            <span className="settings-basics-input basics-data">
-              {currentFirstName}
+            <span
+              className="settings-basics-input basics-data"
+              id="basics-fullname"
+            >
+              {userBasics.full_name}
             </span>
           ) : (
             <input
               className="settings-basics-input"
-              onChange={e => handleFirstNameChange(e.target.value)}
-              value={currentFirstName}
-            ></input>
-          )}
-        </div>
-        <div className="settings-basics-sub-container">
-          <span className="settings-subheader">LAST NAME</span>
-          {!edit ? (
-            <span className="settings-basics-input basics-data">
-              {currentLastName}
-            </span>
-          ) : (
-            <input
-              className="settings-basics-input"
-              onChange={e => handleLastNameChange(e.target.value)}
-              value={currentLastName}
+              onChange={e =>
+                handleUserBasicChangeHelper(e.target.value, "full_name")
+              }
+              defaultValue={userBasics.full_name}
+              id={"basics-fullname"}
             ></input>
           )}
         </div>
@@ -70,28 +73,35 @@ export default function Basics() {
           <span className="settings-subheader">EMAIL</span>
           {!edit ? (
             <span className="settings-basics-input basics-data">
-              {currentEmail}
+              {userBasics.email}
             </span>
           ) : (
             <input
               className="settings-basics-input"
-              onChange={e => handleEmailChange(e.target.value)}
-              value={currentEmail}
+              onChange={e =>
+                handleUserBasicChangeHelper(e.target.value, "email")
+              }
+              defaultValue={userBasics.email}
             ></input>
           )}
         </div>
         <div className="settings-basics-sub-container">
           <span className="settings-subheader">PHONE NUMBER</span>
           {!edit ? (
-            <span className="settings-basics-input basics-data"  id = "basics-phone">
-              {currentPhoneNumber}
+            <span
+              className="settings-basics-input basics-data"
+              id="basics-phone"
+            >
+              {userBasics.phone_number}
             </span>
           ) : (
             <input
               className="settings-basics-input"
-              id = "basics-phone"
-              onChange={e => handlePhoneNumberChange(e.target.value)}
-              value={currentPhoneNumber}
+              id="basics-phone"
+              onChange={e =>
+                handleUserBasicChangeHelper(e.target.value, "phone_number")
+              }
+              defaultValue={userBasics.phone_number}
             ></input>
           )}
         </div>
@@ -104,13 +114,16 @@ export default function Basics() {
               className="settings-basics-input basics-data"
               id="gender-select"
             >
-              {currentGender}
+              {userBasics.gender}
             </span>
           ) : (
             <select
               className="settings-basics-input"
               id="gender-select"
-              defaultValue={currentGender}
+              defaultValue={userBasics.gender}
+              onChange={e =>
+                handleUserBasicChangeHelper(e.target.value, "gender")
+              }
             >
               {genderOptions.map(option => {
                 return (
@@ -129,7 +142,7 @@ export default function Basics() {
               id="birthday-data"
               className="settings-basics-input"
               type="date"
-              value={currentBirthday}
+              defaultValue={userBasics.birthday}
               readOnly
             ></input>
           ) : (
@@ -137,18 +150,39 @@ export default function Basics() {
               id="birthday-input"
               className="settings-basics-input"
               type="date"
-              defaultValue={currentBirthday}
+              defaultValue={userBasics.birthday}
+              onChange={e =>
+                handleUserBasicChangeHelper(e.target.value, "birthday")
+              }
             ></input>
           )}
         </div>
       </div>{" "}
       <div className="settings-edit-button-container">
-        <span className="settings-edit-button" onClick={handleEditButton}>
-          {edit ? "Update" : "Edit"}
-        </span>
+        <Mutation
+          mutation={UPDATE_BASIC_INFO}
+          variables={{ userBasics }}
+          onCompleted={handleDataSave}
+        >
+          {mutation =>
+            edit ? (
+              <span className="settings-edit-button" onClick={mutation}>
+                Update
+              </span>
+            ) : (
+              <span className="settings-edit-button" onClick={handleEditButton}>
+                Edit
+              </span>
+            )
+          }
+        </Mutation>
       </div>
     </div>
   );
 }
 
-Basics.propTypes = { history: PropTypes.object.isRequired };
+Basics.propTypes = {
+  history: PropTypes.object.isRequired,
+  userData: PropTypes.object, 
+  handleUserDataChange: PropTypes.func
+};

@@ -90,6 +90,12 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     user {
       id
+      username
+      full_name
+      email
+      phone_number
+      gender
+      birthday
       UserInterests {
         id
         name
@@ -331,3 +337,18 @@ export const ADD_USER_INTERESTS = gql`
     }
   }
   `;
+
+  export const UPDATE_BASIC_INFO = gql`
+  mutation updateBasicInfo($userBasics: UserBasics!) {
+    updateBasicInfo(userBasics: $userBasics) {
+      username
+      email
+      birthday
+      phone_number
+      full_name
+      gender
+      id
+    }
+  }
+  
+  `

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 
@@ -17,15 +17,29 @@ export default function Sidebar({
   urlUsername
 }) {
   const fakeUser = {
-    username: "JohnSmith",
-    name: "John Smith",
     age: 23,
-    city: "Los Angeles",
-    country: "United States",
     friendCount: 10,
-    countryCount: 20,
-    cityCount: 30
   };
+  const [age, handleAge] = useState("");
+  useEffect(() => {
+    calculateAge(userData.birthday);
+  }, [userData]);
+
+function calculateAge (birthDate) {
+  if (birthDate === null) {
+    return;
+  }
+    birthDate = new Date(birthDate);
+    let otherDate = new Date();
+
+    var years = (otherDate.getFullYear() - birthDate.getFullYear());
+
+    if (otherDate.getMonth() < birthDate.getMonth() || 
+        (otherDate.getMonth() === birthDate.getMonth() && otherDate.getDate() < birthDate.getDate())) {
+        years--;
+    }
+    handleAge(years);
+}
   return (
     <div className="sidebar">
       <Query
@@ -42,7 +56,7 @@ export default function Sidebar({
             <Fragment>
               <UserDetails
                 username={data.user.username}
-                age={fakeUser.age}
+                age={Number(age)}
                 city={city}
                 country={country}
               />

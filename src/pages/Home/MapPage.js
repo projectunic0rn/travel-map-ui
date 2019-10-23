@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
+import Loader from "../../components/common/Loader/Loader";
 
 const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
   const [clickedCountryArray, addCountry] = useState([]);
@@ -104,7 +105,7 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
     handleTripData(tripData);
     refetch();
   }
-  if (!loaded) return <div>Loading...</div>;
+  if (!loaded) return <Loader />;
   return (
     <div className="map-container">
       <div className={mapPage ? "map city-map" : "map country-map"}>
