@@ -14,7 +14,7 @@ function ValidationMutation({ children, onInputError, ...rest }) {
   }
 
   return (
-    <Mutation {...rest} onError={(err) => handleErrors(err)}>
+    <Mutation {...rest} onError={err => handleErrors(err)}>
       {children}
     </Mutation>
   );

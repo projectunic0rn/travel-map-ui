@@ -67,13 +67,11 @@ export default function FriendRequests({ searchText }) {
     >
       {({ loading, error, data }) => {
         if (loading) return <SimpleLoader />;
-        if (error) return error;
+        if (error) return <p>{`${error}`}</p>;
         console.log(data);
-        return (  
-          filteredFriendsAvailable.map((friend) => (
-            <FriendCard key={friend.id} friend={friend} />
-          ))
-        )
+        return filteredFriendsAvailable.map((friend) => (
+          <FriendCard key={friend.id} friend={friend} />
+        ));
       }}
     </Query>
   );

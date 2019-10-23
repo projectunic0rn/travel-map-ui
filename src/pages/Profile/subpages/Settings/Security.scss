@@ -1,60 +1,90 @@
 .settings-security-container {
-
-  display: flex;
-  flex-direction: column;
-  margin: 8px;
+  margin: 10px 0 0 10px;
   .security-header {
-      color: rgb(7, 21, 41);
-      font-size: 24px;
-      font-weight: 550;
-      padding-bottom: 4px;
-      border-bottom: 1px solid rgba(248, 248, 252, 0.2);
-      margin-bottom: 20px;
-  }
-  .security-subheader {
     color: #a1a9b7;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-    min-width: 300px;
-  }
-  .security-password-input {
-    color: rgb(210, 224, 233);
-    font-family: "Segoe UI", sans-serif;
-    font-size: 16px;
-    background: #4f5867;
-    border: none;
-    border-radius: 16px;
-    padding-left: 12px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.15);
-    height: 32px;
-    width: 200px;
-    &:focus {
-      outline: none;
-    }
-    @media (min-width: 900px) {
-      width: 300px;
-    }
-    @media (min-width: 1000px) {
-      width: 400px;
-    }
-  }
-}
-
-.security-delete-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  min-height: 40px;
-  border-radius: 4px;
-  font-weight: 550;
-  font-size: 18px;
-  background: #ECD7DB;
-  color: #bb6f7e;
-  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
-  @media (min-width: 1000px) {
-    width: 300px;
     font-size: 24px;
+    font-weight: 550;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(248, 248, 252, 0.2);
+    display: block;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+
+    .security-subheader {
+      margin-top: 15px;
+      color: #a1a9b7;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      min-width: 300px;
+    }
+    .security-password-input {
+      color: rgb(210, 224, 233);
+      font-family: "Segoe UI", sans-serif;
+      font-size: 16px;
+      background: #4f5867;
+      border: none;
+      border-radius: 16px;
+      padding-left: 12px;
+      box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.15);
+      height: 32px;
+      width: 200px;
+      &:focus {
+        border: 2px solid #ccc;
+        outline: none;
+      }
+      @media (min-width: 900px) {
+        width: 300px;
+      }
+      @media (min-width: 1000px) {
+        width: 400px;
+      }
+    }
+
+    span.validate {
+      margin: 4px;
+      color: #ff1111;
+      font-size: 1.1em;
+    }
+
+    input.submit-button {
+      margin-top: 20px;
+      background-color: #a7e1ff;
+      height: 40px;
+      box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 1.4em;
+      outline: none;
+      color: #4f5867;
+      font-weight: 300;
+      border: none;
+      &:hover {
+        background-color: #a7e1af;
+      }
+      &:active {
+        background-color: #88a1b7;
+      }
+    }
+  }
+
+  .security-delete-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    min-height: 40px;
+    border-radius: 4px;
+    font-weight: 550;
+    font-size: 18px;
+    background: #ecd7db;
+    color: #bb6f7e;
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
+    @media (min-width: 1000px) {
+      width: 300px;
+      font-size: 24px;
+    }
   }
 }

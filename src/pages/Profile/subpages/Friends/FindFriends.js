@@ -41,11 +41,7 @@ export default function FindFriends({ searchText }) {
         return (
           <>
             {filteredFriendsAvailable.map((friend) => {
-              /* When this if statemenet is not here, when this component is rendered for the second time it gives an
-                error because the friend arg is an empty array which causes the site to crash
-              */
               if (Array.isArray(friend)) return null;
-
               return <PotentialFriendCard key={friend.id} friend={friend} />;
             })}
           </>

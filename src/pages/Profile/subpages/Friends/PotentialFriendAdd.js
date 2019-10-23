@@ -10,7 +10,6 @@ function PotentialFriendAdd({ handleShowAddFriend, potentialFriend }) {
     <Mutation
       mutation={SEND_FRIEND_REQUEST}
       variables={{ username: potentialFriend.username }}
-      onCompleted={(data) => console.log(data)}
     >
       {(mutation, { loading }) => {
         if (loading) return <SimpleLoader />;
