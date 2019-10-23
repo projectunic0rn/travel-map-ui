@@ -32,7 +32,7 @@
       height: 32px;
       width: 200px;
       &:focus {
-        border: 2px solid #ccc;
+        border: 2px solid #ccc; 
         outline: none;
       }
       @media (min-width: 900px) {
@@ -45,8 +45,9 @@
 
     span.validate {
       margin: 4px;
-      color: #ff1111;
-      font-size: 1.1em;
+      color: #b10606;
+      font-size: 1em;
+      margin-bottom: -8px;
     }
 
     input.submit-button {
@@ -71,6 +72,8 @@
   }
 
   .security-delete-button {
+    margin: 10px 0 0 0;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;

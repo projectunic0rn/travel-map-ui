@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import ValidationMutation from "../../../../components/common/ValidationMutation/ValidationMutation";
+import Swal from "sweetalert2";
 
+import ValidationMutation from "../../../../components/common/ValidationMutation/ValidationMutation";
 import { DELETE_USER, CHANGE_PASSWORD } from "../../../../GraphQL";
 import { UserConsumer } from "../../../../utils/UserContext";
 
 export default function Security({ history }) {
-  let [inputValues, setInputValues] = useState({
-    oldPassword: "",
-    password: "",
-    password2: ""
-  });
+  let [oldPassword, setOldPassword] = useState("");
+  let [password, setPassword] = useState("");
+  let [password2, setPassword2] = useState("");
+
   let [errors, setErrors] = useState({
     oldPassword: null,
     password: null,
@@ -36,30 +36,43 @@ export default function Security({ history }) {
   }
 
   function handleInput(e) {
-    console.log({[e.target.id]: e.target.value})
-    let newValue = Object.assign(inputValues, {
-      [e.target.id]: e.target.value
-    });
-    console.log(newValue);
-
-    setInputValues(newValue);
-    console.log(inputValues);
+    if (e.target.id === "oldPassword") {
+      setOldPassword(e.target.value);
+    } else if (e.target.id === "password") {
+      setPassword(e.target.value);
+    } else {
+      setPassword2(e.target.value);
+    }
   }
 
-  function onInputError(e) {
-    console.log(e);
+  function onInputError(err) {
+    setErrors(err);
+  }
+
+  function onPasswordChange() {
+    Swal.fire({
+      type: "success",
+      text: "Password changed successfully",
+      confirmButtonColor: "#656F80",
+      timer: "1200"
+    });
+    setOldPassword("");
+    setPassword("")
+    setPassword2("")
   }
 
   return (
     <div className="settings-security-container">
       <span className="security-header">Change Password</span>
       <form
+        noValidate
         onSubmit={(e) => {
           e.preventDefault();
         }}
       >
         <span className="security-subheader">OLD PASSWORD</span>
         <input
+          value={oldPassword}
           onChange={handleInput}
           className="security-password-input"
           noValidate
@@ -74,6 +87,7 @@ export default function Security({ history }) {
         )}
         <span className="security-subheader">NEW PASSWORD</span>
         <input
+          value={password}
           onChange={handleInput}
           className="security-password-input"
           noValidate
@@ -86,6 +100,7 @@ export default function Security({ history }) {
         {errors.password && <span className="validate">{errors.password}</span>}
         <span className="security-subheader">CONFIRM NEW PASSWORD</span>
         <input
+          value={password2}
           onChange={handleInput}
           className="security-password-input"
           noValidate
@@ -99,27 +114,19 @@ export default function Security({ history }) {
           <span className="validate">{errors.password2}</span>
         )}
         <ValidationMutation
-          variables={inputValues}
+          variables={{ oldPassword, password, password2 }}
           mutation={CHANGE_PASSWORD}
-          onCompleted={(data) => {
-            console.log(data);
-          }}
-          onError={(err) => console.log(err)}
+          onCompleted={onPasswordChange}
           onInputError={onInputError}
         >
-          {(mutation, { loading }) => {
-            return (
-              <input
-                onClick={() => {
-                  console.log(inputValues);
-                  mutation();
-                }}
-                className="submit-button"
-                type="submit"
-                value={loading ? "Submitting..." : "Submit"}
-              />
-            );
-          }}
+          {(mutation, { loading }) => (
+            <input
+              onClick={mutation}
+              className="submit-button"
+              type="submit"
+              value={loading ? "Submitting..." : "Submit"}
+            />
+          )}
         </ValidationMutation>
       </form>
       <span className="security-header" style={{ marginTop: "12px" }}>

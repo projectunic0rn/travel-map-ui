@@ -322,12 +322,18 @@ export const SIGNUP_USER = gql`
 `;
 
 export const CHANGE_PASSWORD = gql`
-  mutation {
-    changePassword {
-      username
-    }
+  mutation changePassword(
+    $oldPassword: String!
+    $password: String!
+    $password2: String!
+  ) {
+    changePassword(
+      oldPassword: $oldPassword
+      password: $password
+      password2: $password2
+    )
   }
-`
+`;
 export const DELETE_USER = gql`
   mutation {
     deleteUser {

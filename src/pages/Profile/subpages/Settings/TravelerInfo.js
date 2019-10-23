@@ -33,7 +33,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
       });
     }
     handleTagChange(interestTypeRemoval);
-  }, [userData.UserInterests]);
+  }, [userData.UserInterests], userInterests);
   function handleTagClick(tag) {
     handleShowSave(true);
     let tags = userInterests;
