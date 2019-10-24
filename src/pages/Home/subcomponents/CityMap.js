@@ -577,7 +577,7 @@ class CityMap extends Component {
         </div>
         <div className="city-map-container">
           <MapGL
-            mapStyle={"mapbox://styles/mvance43776/cjxh021qj111t1co3fae7eaqh"}
+            mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
             ref={this.mapRef}
             {...viewport}
             mapboxApiAccessToken={

@@ -31,6 +31,9 @@
       &:hover {
         background: rgb(220, 220, 220);
       }
+      &:focus {
+        outline: none;
+      }
     }
   }
   .traveler-tag-container {
@@ -57,10 +60,10 @@
       width: 60px;
       height: 60px;
       path {
-        fill: rgb(201, 201, 240);
+        fill: rgb(240, 240, 248);
       }
       circle {
-        fill: rgb(201, 201, 240);
+        fill: rgb(240, 240, 248);
       }
     }
     .travel-tag-title {
