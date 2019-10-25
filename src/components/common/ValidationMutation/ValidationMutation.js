@@ -8,20 +8,30 @@ function ValidationMutation({ children, onInputError, ...rest }) {
       email,
       password,
       username,
-      full_name
+      full_name,
+      oldPassword,
+      password2
     } = err.graphQLErrors[0].extensions.exception;
-    onInputError({ username, password, email, full_name });
+
+    onInputError({
+      username,
+      password,
+      email,
+      full_name,
+      oldPassword,
+      password2
+    });
   }
 
   return (
-    <Mutation {...rest} onError={err => handleErrors(err)}>
+    <Mutation {...rest} onError={(err) => handleErrors(err)}>
       {children}
     </Mutation>
   );
 }
 
 ValidationMutation.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.func.isRequired,
   onInputError: PropTypes.func.isRequired
 };
 

@@ -29,7 +29,7 @@ if (localStorage.getItem("token")) {
 }
 
 let clientUrl = "";
-if (process.env.REACT_APP_PROD_API_URL != null) {
+if (process.env.NODE_ENV === "production") {
   clientUrl = process.env.REACT_APP_PROD_API_URL;
 } else if (process.env.REACT_APP_TEST_API_URL != null) {
   clientUrl = process.env.REACT_APP_TEST_API_URL;

@@ -41,13 +41,12 @@ class SignupForm extends Component {
     const { errors } = this.state;
     const { handleFormSwitch } = this.props;
     return (
-      <form className="signup-form" onSubmit={(e) => e.preventDefault()}>
+      <form noValidate className="signup-form" onSubmit={(e) => e.preventDefault()}>
         <div className="field">
           {errors.username && (
             <span className="validate">{errors.username}</span>
           )}
           <input
-            noValidate
             type="text"
             required
             onChange={e => this.setState({ username: e.target.value })}
@@ -62,7 +61,6 @@ class SignupForm extends Component {
             <span className="validate">{errors.full_name}</span>
           )}
           <input
-            noValidate
             type="text"
             required
             onChange={e => this.setState({ fullName: e.target.value })}
@@ -75,7 +73,6 @@ class SignupForm extends Component {
         <div className="field">
           {errors.email && <span className="validate">{errors.email}</span>}
           <input
-            noValidate
             type="email"
             onChange={(e) => this.setState({ email: e.target.value })}
             name="email"
@@ -89,7 +86,6 @@ class SignupForm extends Component {
             <span className="validate">{errors.password}</span>
           )}
           <input
-            noValidate
             type="password"
             data-ng-model="password"
             required

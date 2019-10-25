@@ -14,7 +14,7 @@ function PotentialFriendCard({ friend }) {
     let cityArray = [0];
     let countryArray = [0];
     if (friend.Places_visited !== null) {
-      friend.Places_visited.forEach(tripType => {
+      friend.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -24,7 +24,7 @@ function PotentialFriendCard({ friend }) {
       });
     }
     if (friend.Places_visiting !== null) {
-      friend.Places_visiting.forEach(tripType => {
+      friend.Places_visiting.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -50,7 +50,7 @@ function PotentialFriendCard({ friend }) {
       onMouseOver={() => handleShowAddFriend(true)}
     >
       {showAddFriend ? (
-        <PotentialFriendAdd handleShowAddFriend={handleShowAddFriend} />
+        <PotentialFriendAdd handleShowAddFriend={handleShowAddFriend} potentialFriend={friend} />
       ) : null}
       <div className="pfc-user-profile">
         <UserAvatar />

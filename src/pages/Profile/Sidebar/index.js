@@ -89,7 +89,6 @@ Sidebar.propTypes = {
   country: PropTypes.string,
   countryCount: PropTypes.number,
   cityCount: PropTypes.number,
-  interestTags: PropTypes.array,
   urlUsername: PropTypes.string,
   userData: PropTypes.object
 };

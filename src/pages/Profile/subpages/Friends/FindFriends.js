@@ -13,7 +13,7 @@ export default function FindFriends({ searchText }) {
   ]);
   useEffect(() => {
     if (searchText !== "") {
-      let potentialFriends = friendsAvailable.filter(friend => {
+      let potentialFriends = friendsAvailable.filter((friend) => {
         return (
           friend.username.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
         );
@@ -33,7 +33,7 @@ export default function FindFriends({ searchText }) {
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
-      onCompleted={data => handleTripData(data.users)}
+      onCompleted={(data) => handleTripData(data.users)}
     >
       {({ loading, error }) => {
         if (loading) return <SimpleLoader />;

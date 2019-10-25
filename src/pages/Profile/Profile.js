@@ -35,7 +35,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       });
     }
     if (userData.Places_visiting !== null) {
-      userData.Places_visiting.forEach(tripType => {
+      userData.Places_visiting.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -85,7 +85,7 @@ export default function Profile({ user, urlUsername, refetch }) {
               ? `/profiles/${urlUsername}/friends`
               : "/profile/friends"
           }
-          render={props => (
+          render={(props) => (
             <Friends
               urlUsername={urlUsername}
               {...props}

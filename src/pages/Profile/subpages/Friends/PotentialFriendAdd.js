@@ -1,19 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Mutation } from "react-apollo";
 
-function PotentialFriendAdd({ handleShowAddFriend }) {
+import { SEND_FRIEND_REQUEST } from "../../../../GraphQL";
+import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
+
+function PotentialFriendAdd({ handleShowAddFriend, potentialFriend }) {
   return (
-    <div
-      className="potential-friend-add"
-      onMouseOut={() => handleShowAddFriend(false)}
+    <Mutation
+      mutation={SEND_FRIEND_REQUEST}
+      variables={{ username: potentialFriend.username }}
     >
-      Add friend
-    </div>
+      {(mutation, { loading }) => {
+        if (loading) return <SimpleLoader />;
+        return (
+          <div
+            className="potential-friend-add"
+            onMouseOut={() => handleShowAddFriend(false)}
+            onClick={mutation}
+          >
+            Add friend
+          </div>
+        );
+      }}
+    </Mutation>
   );
 }
 
 PotentialFriendAdd.propTypes = {
-  handleShowAddFriend: PropTypes.func
+  handleShowAddFriend: PropTypes.func,
+  potentialFriend: PropTypes.object.isRequired
 };
 
 export default PotentialFriendAdd;

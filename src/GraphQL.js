@@ -77,11 +77,26 @@ export const GET_ALL_USER_INFO = gql`
 export const GET_ALL_FRIEND_REQUESTS = gql`
   query {
     friend_requests {
-      fr_id
+      receiverId
       senderId
       status
-      sender_username
-      fr_time_sent
+      # senderUsername
+      # requestSentAt
+      User {
+        username
+      }
+    }
+  }
+`;
+
+export const SEND_FRIEND_REQUEST = gql`
+  mutation sendFriendRequest($username: String!) {
+    sendFriendRequest(username: $username) {
+      id
+      senderId
+      receiverId
+      status
+      UserId
     }
   }
 `;
@@ -134,6 +149,10 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
+      }
+      FriendRequests {
+        senderId
+        receiverId
       }
     }
   }
@@ -190,7 +209,7 @@ export const GET_USER_COUNTRIES = gql`
 `;
 
 export const GET_PROFILE_BASICS = gql`
-  query user($username: String!){
+  query user($username: String!) {
     user(username: $username) {
       id
       username
@@ -308,6 +327,19 @@ export const SIGNUP_USER = gql`
   }
 `;
 
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword(
+    $oldPassword: String!
+    $password: String!
+    $password2: String!
+  ) {
+    changePassword(
+      oldPassword: $oldPassword
+      password: $password
+      password2: $password2
+    )
+  }
+`;
 export const DELETE_USER = gql`
   mutation {
     deleteUser {
@@ -325,9 +357,9 @@ export const ADD_USER_INTERESTS = gql`
       name
     }
   }
-  `;
+`;
 
-  export const ADD_USER_SOCIAL = gql`
+export const ADD_USER_SOCIAL = gql`
   mutation addSocial($userSocials: [UserSocial!]) {
     addSocial(userSocials: $userSocials) {
       id
@@ -336,9 +368,9 @@ export const ADD_USER_INTERESTS = gql`
       link
     }
   }
-  `;
+`;
 
-  export const UPDATE_BASIC_INFO = gql`
+export const UPDATE_BASIC_INFO = gql`
   mutation updateBasicInfo($userBasics: UserBasics!) {
     updateBasicInfo(userBasics: $userBasics) {
       username
@@ -350,5 +382,4 @@ export const ADD_USER_INTERESTS = gql`
       id
     }
   }
-  
-  `
+`;

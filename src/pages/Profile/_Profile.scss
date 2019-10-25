@@ -19,156 +19,151 @@
     @media (max-width: 850px) {
       grid-template-columns: [sidebar] 280px [content] auto;
     }
-  }
 
-  .content-nav {
-    background: #656f80;
-    box-shadow: 1px 2px 1px rgba(#000, 0.16);
-    border-radius: 4px;
-  }
-
-  .content {
-    background: #656f80;
-    box-shadow: 1px 2px 1px rgba(#000, 0.16);
-    border-radius: 4px;
-    display: flex;
-
-    .sidebar-filter {
-      min-width: 180px;
-      width: 180px;
+    .content {
+      background: #656f80;
+      box-shadow: 1px 2px 1px rgba(#000, 0.16);
+      border-radius: 4px;
       display: flex;
-      flex-direction: column;
-      padding-left: 8px;
-      padding-top: 20px;
-      border-right: 1px solid rgba(black, 0.2);
-      a,
-      button {
-        cursor: pointer;
+
+      .sidebar-filter {
+        min-width: 180px;
+        width: 180px;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        text-decoration: none;
-        font-family: "Segoe UI", sans-serif;
-        font-size: 20px;
-        font-weight: 300;
-        color: $link-color;
-        letter-spacing: 3px;
-        text-align: right;
-        padding: 10px 10px;
-        transition: 0.2s linear all;
-        background: none;
-        border: none;
-        svg {
-          fill: #8792a4;
-        }
-        &.active,
-        &:hover {
-          color: white;
-          outline: none;
-          svg {
-            fill: #a7e1ff;
-          }
-        }
-      }
-    }
-  }
-
-  .trips {
-    .content-results {
-      width: 100%;
-      margin: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      align-content: flex-start;
-
-      .result-country {
-        flex-grow: 1;
-        min-width: 210px;
-        max-width: 300px;
-        margin: 5px;
-        height: 85px;
-        display: grid;
-        background-color: #fff;
-        border-radius: 4px;
-        box-shadow: 1px 1px 1px rgba(#000, 0.16);
-        grid-template-columns: [country-icon] 80px 50px auto auto [year] 25px;
-        overflow: hidden;
-        .country-icon {
-          border-radius: 5px;
-          background: $dark-grey;
-          width: 50px;
-          height: 50px;
-          grid-row: 1/3;
-          align-self: center;
-          justify-self: center;
-        }
-        .country-name {
+        flex-direction: column;
+        padding-left: 8px;
+        padding-top: 20px;
+        border-right: 1px solid rgba(black, 0.2);
+        a,
+        button {
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          text-decoration: none;
+          font-family: "Segoe UI", sans-serif;
+          font-size: 20px;
+          font-weight: 300;
+          color: $link-color;
           letter-spacing: 3px;
-          text-transform: uppercase;
-          color: #6e7377;
-          grid-column: 2/5;
-          justify-self: left;
-          align-self: center;
-          font-weight: 600;
-        }
-        .day-count {
-          display: flex;
-          align-items: center;
-          max-height: 24px;
-          color: #b1b1b1;
-          font-size: 17px;
-          font-weight: 550;
+          text-align: right;
+          padding: 10px 10px;
+          transition: 0.2s linear all;
+          background: none;
+          border: none;
           svg {
-            height: 20px;
-            margin-right: 4px;
-            fill: #dcdcdc;
+            fill: #8792a4;
           }
-        }
-        .city-count {
-          display: flex;
-          align-items: center;
-          max-height: 24px;
-          color: #b1b1b1;
-          font-size: 17px;
-          font-weight: 550;
-          svg {
-            height: 20px;
-            margin-right: 4px;
-            fill: #dcdcdc;
-          }
-        }
-        .year {
-          width: 25px;
-          background: $tag-red;
-          grid-column: 5;
-          grid-row: 1/3;
-          height: 100%;
-          span {
-            color: darken($tag-red, 20%);
-            font-weight: bold;
-            display: block;
-            transform: rotate(90deg);
-            transform-origin: 11px 11px;
-            width: 85px;
-            height: 22px;
-            text-align: center;
+          &.active,
+          &:hover {
+            color: white;
+            outline: none;
+            svg {
+              fill: #a7e1ff;
+            }
           }
         }
       }
     }
-  }
-  .friends {
-    .content-results {
-      margin: 4px;
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      align-content: flex-start;
+
+    .trips {
+      .content-results {
+        width: 100%;
+        margin: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        align-content: flex-start;
+
+        .result-country {
+          flex-grow: 1;
+          min-width: 210px;
+          max-width: 300px;
+          margin: 5px;
+          height: 85px;
+          display: grid;
+          background-color: #fff;
+          border-radius: 4px;
+          box-shadow: 1px 1px 1px rgba(#000, 0.16);
+          grid-template-columns: [country-icon] 80px 50px auto auto [year] 25px;
+          overflow: hidden;
+          .country-icon {
+            border-radius: 5px;
+            background: $dark-grey;
+            width: 50px;
+            height: 50px;
+            grid-row: 1/3;
+            align-self: center;
+            justify-self: center;
+          }
+          .country-name {
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #6e7377;
+            grid-column: 2/5;
+            justify-self: left;
+            align-self: center;
+            font-weight: 600;
+          }
+          .day-count {
+            display: flex;
+            align-items: center;
+            max-height: 24px;
+            color: #b1b1b1;
+            font-size: 17px;
+            font-weight: 550;
+            svg {
+              height: 20px;
+              margin-right: 4px;
+              fill: #dcdcdc;
+            }
+          }
+          .city-count {
+            display: flex;
+            align-items: center;
+            max-height: 24px;
+            color: #b1b1b1;
+            font-size: 17px;
+            font-weight: 550;
+            svg {
+              height: 20px;
+              margin-right: 4px;
+              fill: #dcdcdc;
+            }
+          }
+          .year {
+            width: 25px;
+            background: $tag-red;
+            grid-column: 5;
+            grid-row: 1/3;
+            height: 100%;
+            span {
+              color: darken($tag-red, 20%);
+              font-weight: bold;
+              display: block;
+              transform: rotate(90deg);
+              transform-origin: 11px 11px;
+              width: 85px;
+              height: 22px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+    .friends {
+      .content-results {
+        margin: 4px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        align-content: flex-start;
+      }
     }
   }
 }
+
 .user-profile {
   .not-found-container {
     margin: auto;

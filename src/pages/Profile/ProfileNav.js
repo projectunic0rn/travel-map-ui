@@ -28,7 +28,7 @@ function ProfileNav({ handleSearchText, urlUsername }) {
         ) : null}
       </div>
       <div className="profile-nav-filter-container">
-      {!window.location.pathname.includes("/settings") ? (
+        {!window.location.pathname.includes("/settings") ? (
           <input
             className="profile-search"
             type="search"

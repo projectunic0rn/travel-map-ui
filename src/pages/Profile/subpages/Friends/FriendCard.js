@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import InterestIcon from "../../../../icons/InterestIcon";
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
@@ -13,7 +13,7 @@ function FriendCard({ friend, currentFriend }) {
     let cityArray = [0];
     let countryArray = [0];
     if (friend.Places_visited !== null) {
-      friend.Places_visited.forEach(tripType => {
+      friend.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -23,7 +23,7 @@ function FriendCard({ friend, currentFriend }) {
       });
     }
     if (friend.Places_visiting !== null) {
-      friend.Places_visiting.forEach(tripType => {
+      friend.Places_visiting.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -56,7 +56,7 @@ function FriendCard({ friend, currentFriend }) {
           </span>
         </div>
         <div className="fc-user-interests">
-          {friend.interests.map(interest => (
+          {friend.interests.map((interest) => (
             <span key={interest}>
               <InterestIcon
                 icon={interest}
@@ -91,9 +91,7 @@ function FriendCard({ friend, currentFriend }) {
 
       <div className="fc-button-container">
         {currentFriend ? (
-          <Link to={`/profiles/${friend.username}`} className="fc-see-profile">
-            See Profile
-          </Link>
+          <Link  to={`/profiles/${friend.username}`} className="fc-see-profile">See Profile</Link>
         ) : (
           <>
             <span className="fc-accept">Accept</span>
