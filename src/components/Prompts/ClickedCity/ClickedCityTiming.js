@@ -42,7 +42,11 @@ function ClickedCityTiming(props) {
         props.handleTripTiming(data.addPlaceVisiting[0], timing);
         break;
       case 2:
-        props.handleTripTiming(data.addPlaceLiving, timing);
+        if (data.addPlaceLiving === undefined) {
+          props.handleTripTiming(data.updatePlaceLiving, timing);
+        } else {
+          props.handleTripTiming(data.addPlaceLiving, timing);
+        }
         break;
       default:
         break;
@@ -91,17 +95,17 @@ function ClickedCityTiming(props) {
       >
         {mutation => <span onClick={mutation}>I plan to visit here</span>}
       </Mutation>
-      <Mutation
-        mutation={ADD_PLACE_LIVING}
-        variables={{ country, cities }}
-        onCompleted={data => handleAddCity(data, 2)}
-      >
-        {mutation => (
-          <span onClick={mutation} onMouseOver={() => evalLiveClick()}>
-            I live here currently
-          </span>
-        )}
-      </Mutation>
+      {tripData.Place_living === null ? (
+        <Mutation
+          mutation={ADD_PLACE_LIVING}
+          variables={{ country, cities }}
+          onCompleted={data => handleAddCity(data, 2)}
+        >
+          {mutation => <span onClick={mutation}>I live here currently</span>}
+        </Mutation>
+      ) : (
+        <span onClick={() => evalLiveClick()}>I live here currently</span>
+      )}
       {props.previousTrips ? (
         <div className="previous-trips-button">delete trips</div>
       ) : null}
@@ -110,6 +114,7 @@ function ClickedCityTiming(props) {
           country={country}
           cities={cities}
           id={tripData.Place_living.id}
+          handleAddCity={handleAddCity}
         />
       ) : null}
     </div>

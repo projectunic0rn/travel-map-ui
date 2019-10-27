@@ -150,10 +150,6 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         city_latitude
         city_longitude
       }
-      FriendRequests {
-        senderId
-        receiverId
-      }
     }
   }
 `;
@@ -278,6 +274,9 @@ export const UPDATE_PLACE_LIVING = gql`
       id
       country
       city
+      cityId
+      city_latitude
+      city_longitude
     }
   }
 `;

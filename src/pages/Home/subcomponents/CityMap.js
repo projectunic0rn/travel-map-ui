@@ -135,7 +135,7 @@ class CityMap extends Component {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
-            color = "rgba(203, 118, 120, 0.5)";
+            color = "rgba(203, 118, 120, 0.25)";
             markerPastDisplay.push(
               <Marker
                 key={city.id}
@@ -146,8 +146,8 @@ class CityMap extends Component {
               >
                 <svg
                   key={"svg" + city.id}
-                  height={10}
-                  width={10}
+                  height={20}
+                  width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -164,12 +164,19 @@ class CityMap extends Component {
                     cy="50"
                     r="50"
                   />
+                  <circle
+                    style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
                 </svg>
               </Marker>
             );
             break;
           case 1:
-            color = "rgba(115, 167, 195, 0.5)";
+            color = "rgba(115, 167, 195, 0.25)";
             markerFutureDisplay.push(
               <Marker
                 key={city.id}
@@ -180,8 +187,8 @@ class CityMap extends Component {
               >
                 <svg
                   key={"svg" + city.id}
-                  height={10}
-                  width={10}
+                  height={20}
+                  width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -198,13 +205,20 @@ class CityMap extends Component {
                     cy="50"
                     r="50"
                   />
+                  <circle
+                    style={{ fill: "rgba(115, 167, 195, 1.0)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
                 </svg>
               </Marker>
             );
 
             break;
           case 2:
-            color = "rgba(150, 177, 168, 0.75)";
+            color = "rgba(150, 177, 168, 0.25)";
             markerLiveDisplay.push(
               <Marker
                 key={city.id}
@@ -215,8 +229,8 @@ class CityMap extends Component {
               >
                 <svg
                   key={"svg" + city.id}
-                  height={10}
-                  width={10}
+                  height={20}
+                  width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -232,6 +246,13 @@ class CityMap extends Component {
                     cx="50"
                     cy="50"
                     r="50"
+                  />
+                  <circle
+                    style={{ fill: "rgba(150, 177, 168, 1.0)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
                   />
                 </svg>
               </Marker>
@@ -378,7 +399,7 @@ class CityMap extends Component {
       case 0:
         pastCount++;
         tripTimingCounts[0] = pastCount;
-        color = "rgba(203, 118, 120, 0.75)";
+        color = "rgba(203, 118, 120, 0.25)";
         markerPastDisplay.push(
           <Marker
             key={city.id}
@@ -405,6 +426,13 @@ class CityMap extends Component {
                 cy="50"
                 r="50"
               />
+              <circle
+                style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+                key={"circle2" + city.id}
+                cx="50"
+                cy="50"
+                r="20"
+              />
             </svg>
           </Marker>
         );
@@ -419,7 +447,7 @@ class CityMap extends Component {
       case 1:
         futureCount++;
         tripTimingCounts[1] = futureCount;
-        color = "rgba(115, 167, 195, 0.75)";
+        color = "rgba(115, 167, 195, 0.25)";
         markerFutureDisplay.push(
           <Marker
             key={city.id}
@@ -446,6 +474,13 @@ class CityMap extends Component {
                 cy="50"
                 r="50"
               />
+              <circle
+                style={{ fill: "rgba(115, 167, 195, 1.0)" }}
+                key={"circle2" + city.id}
+                cx="50"
+                cy="50"
+                r="20"
+              />
             </svg>
           </Marker>
         );
@@ -460,7 +495,7 @@ class CityMap extends Component {
       case 2:
         liveCount++;
         tripTimingCounts[1] = liveCount;
-        color = "rgba(150, 177, 168, 0.75)";
+        color = "rgba(150, 177, 168, 0.25)";
         markerLiveDisplay.push(
           <Marker
             key={city.id}
@@ -480,6 +515,13 @@ class CityMap extends Component {
                 cx="50"
                 cy="50"
                 r="50"
+              />
+              <circle
+                style={{ fill: "rgba(150, 177, 168, 1.0)" }}
+                key={"circle2" + city.id}
+                cx="50"
+                cy="50"
+                r="20"
               />
             </svg>
           </Marker>
