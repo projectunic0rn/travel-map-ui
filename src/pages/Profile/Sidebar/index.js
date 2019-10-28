@@ -6,7 +6,7 @@ import { GET_USER_COUNTRIES, GET_LOGGEDIN_USER } from "../../../GraphQL";
 import UserDetails from "./UserDetails";
 import UserActivity from "./UserActivity";
 import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
-import InterestTag from './InterestTag';
+import InterestTag from "./InterestTag";
 
 export default function Sidebar({
   city,
@@ -17,29 +17,31 @@ export default function Sidebar({
   urlUsername
 }) {
   const fakeUser = {
-    age: 23,
-    friendCount: 10,
+    friendCount: 0
   };
   const [age, handleAge] = useState("");
   useEffect(() => {
     calculateAge(userData.birthday);
   }, [userData]);
 
-function calculateAge (birthDate) {
-  if (birthDate === null) {
-    return;
-  }
+  function calculateAge(birthDate) {
+    if (birthDate === null) {
+      return;
+    }
     birthDate = new Date(birthDate);
     let otherDate = new Date();
 
-    var years = (otherDate.getFullYear() - birthDate.getFullYear());
+    var years = otherDate.getFullYear() - birthDate.getFullYear();
 
-    if (otherDate.getMonth() < birthDate.getMonth() || 
-        (otherDate.getMonth() === birthDate.getMonth() && otherDate.getDate() < birthDate.getDate())) {
-        years--;
+    if (
+      otherDate.getMonth() < birthDate.getMonth() ||
+      (otherDate.getMonth() === birthDate.getMonth() &&
+        otherDate.getDate() < birthDate.getDate())
+    ) {
+      years--;
     }
     handleAge(years);
-}
+  }
   return (
     <div className="sidebar">
       <Query
@@ -59,6 +61,8 @@ function calculateAge (birthDate) {
                 age={Number(age)}
                 city={city}
                 country={country}
+                avatarIndex={userData.avatarIndex}
+                color={userData.color}
               />
               <UserActivity
                 friendCount={fakeUser.friendCount}
@@ -68,12 +72,7 @@ function calculateAge (birthDate) {
               {/* TODO: move tags to component */}
               <div className="user-tags">
                 {userData.UserInterests.map(interest => {
-                  return (
-                    <InterestTag
-                      key = {interest.id}
-                      name = {interest.name}
-                    />
-                  );
+                  return <InterestTag key={interest.id} name={interest.name} />;
                 })}
               </div>
             </Fragment>
