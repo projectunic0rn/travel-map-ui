@@ -5,7 +5,7 @@ import UserAvatar from "../../UserAvatar/UserAvatar";
 import UsernameDropdown from "./UsernameDropdown";
 import { GET_LOGGEDIN_USER } from "../../../GraphQL";
 
-function UserHeaderContainer() {
+function UserHeaderContainer({ color, avatarIndex }) {
   const [dropdown, handleDropdownClick] = useState(false);
   return (
     <Query
@@ -30,7 +30,7 @@ function UserHeaderContainer() {
                   onClickOut={() => handleDropdownClick(false)}
                 />
               ) : null}
-              <UserAvatar />
+              <UserAvatar color={color} avatarIndex={avatarIndex} />
             </div>
           </div>
         );
@@ -40,7 +40,9 @@ function UserHeaderContainer() {
 }
 
 UserHeaderContainer.propTypes = {
-  setUserLoggedIn: PropTypes.func
+  setUserLoggedIn: PropTypes.func,
+  color: PropTypes.string, 
+  avatarIndex: PropTypes.number
 };
 
 export default UserHeaderContainer;

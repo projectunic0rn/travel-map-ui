@@ -14,7 +14,8 @@ export default function Sidebar({
   countryCount,
   cityCount,
   userData,
-  urlUsername
+  urlUsername,
+  refetch
 }) {
   const fakeUser = {
     friendCount: 0
@@ -63,6 +64,7 @@ export default function Sidebar({
                 country={country}
                 avatarIndex={userData.avatarIndex}
                 color={userData.color}
+                refetch={refetch}
               />
               <UserActivity
                 friendCount={fakeUser.friendCount}
@@ -89,5 +91,6 @@ Sidebar.propTypes = {
   countryCount: PropTypes.number,
   cityCount: PropTypes.number,
   urlUsername: PropTypes.string,
-  userData: PropTypes.object
+  userData: PropTypes.object,
+  refetch: PropTypes.func
 };

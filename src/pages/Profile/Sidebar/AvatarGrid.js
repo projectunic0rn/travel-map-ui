@@ -14,9 +14,10 @@ import { UPDATE_USER_AVATAR } from "../../../GraphQL";
 
 export default function AvatarGrid(props) {
   const color = props.customProps.color;
-  const colorArray = color.substring(4, color.length-1)
-  .replace(/ /g, '')
-  .split(',');
+  const colorArray = color
+    .substring(4, color.length - 1)
+    .replace(/ /g, "")
+    .split(",");
   const [avatarIndex, handleAvatarIndex] = useState(
     props.customProps.avatarIndex
   );
@@ -38,7 +39,10 @@ export default function AvatarGrid(props) {
     }
     handleAvatarChange(avatar);
   }, [red, blue, green, avatarIndex]);
-
+  function handleAvatarSave() {
+    props.customProps.closePopup();
+    props.customProps.refetch();
+  }
   return (
     <div className="user-avatar-grid-container">
       <span className="avatar-grid-title">Choose an avatar</span>
@@ -71,7 +75,9 @@ export default function AvatarGrid(props) {
           }
           onClick={() => handleAvatarIndex(3)}
         >
-          <AvatarThree color={"rgb(" + red + ", " + green + ", " + blue + ")"} />
+          <AvatarThree
+            color={"rgb(" + red + ", " + green + ", " + blue + ")"}
+          />
         </div>
         <div
           className={
@@ -111,7 +117,9 @@ export default function AvatarGrid(props) {
           }
           onClick={() => handleAvatarIndex(7)}
         >
-          <AvatarSeven color={"rgb(" + red + ", " + green + ", " + blue + ")"} />
+          <AvatarSeven
+            color={"rgb(" + red + ", " + green + ", " + blue + ")"}
+          />
         </div>
         <div
           className={
@@ -121,11 +129,18 @@ export default function AvatarGrid(props) {
           }
           onClick={() => handleAvatarIndex(8)}
         >
-          <AvatarEight color={"rgb(" + red + ", " + green + ", " + blue + ")"} />
+          <AvatarEight
+            color={"rgb(" + red + ", " + green + ", " + blue + ")"}
+          />
         </div>
       </div>
       <span className="avatar-grid-title">Choose a color</span>
-      <div className="color-picker">
+      <div
+        className="color-picker"
+        style={{
+          "box-shadow": "20px 20px 20px 10px rgba(" + red + ", " + green + ", " + blue + ", 0.15)"
+        }}
+      >
         <div className="color-picker-input">
           <span className="color-picker-title">R</span>
           <input
@@ -160,7 +175,7 @@ export default function AvatarGrid(props) {
       <Mutation
         mutation={UPDATE_USER_AVATAR}
         variables={{ userAvatar }}
-        onCompleted={null}
+        onCompleted={handleAvatarSave}
       >
         {mutation => (
           <span className="avatar-save-button" onClick={mutation}>

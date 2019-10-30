@@ -67,6 +67,7 @@ export default function Profile({ user, urlUsername, refetch }) {
           }
           countryCount={countryArray.length - 1}
           cityCount={cityArray.length - 1}
+          refetch={refetch}
         />
         <ProfileNav
           handleSearchText={handleSearchText}

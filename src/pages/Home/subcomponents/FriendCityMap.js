@@ -265,6 +265,7 @@ class FriendCityMap extends Component {
   }
 
   handleLoadedCities(data) {
+    console.log(data);
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -282,7 +283,9 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visited[j].city_longitude / 1000000,
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
-              tripTiming: 0
+              tripTiming: 0,
+              avatarIndex: data[i].avatarIndex,
+              color: data[i].color
             });
             pastCount++;
           }
@@ -300,7 +303,9 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visiting[j].city_longitude / 1000000,
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
-              tripTiming: 1
+              tripTiming: 1,
+              avatarIndex: data[i].avatarIndex,
+              color: data[i].color
             });
             futureCount++;
           }
@@ -321,7 +326,9 @@ class FriendCityMap extends Component {
             longitude: data[i].Place_living.city_longitude / 1000000,
             country: data[i].Place_living.country,
             countryId: data[i].Place_living.countryId,
-            tripTiming: 2
+            tripTiming: 2,
+            avatarIndex: data[i].avatarIndex,
+            color: data[i].color
           });
           liveCount++;
         }

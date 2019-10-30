@@ -6,7 +6,7 @@ import SiteLogo from "./subcomponents/SiteLogo";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
-export default function Header({ userLoggedIn }) {
+export default function Header({ userLoggedIn, avatarIndex, color }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
   let [formIsOpen, setFormIsOpen] = useState(userLoggedIn ? false : true);
 
@@ -39,7 +39,7 @@ export default function Header({ userLoggedIn }) {
             </div>
             {formIsOpen ? <LandingForm setFormIsOpen={setFormIsOpen} /> : ""}
           </div>
-          {userLoggedIn ? <UserHeaderContainer /> : null}
+          {userLoggedIn ? <UserHeaderContainer color={color} avatarIndex={avatarIndex} /> : null}
         </div>
       </header>
       <div
@@ -57,5 +57,7 @@ export default function Header({ userLoggedIn }) {
 
 Header.propTypes = {
   userLoggedIn: PropTypes.bool,
-  setUserLoggedIn: PropTypes.func
+  setUserLoggedIn: PropTypes.func,
+  color: PropTypes.string, 
+  avatarIndex: PropTypes.number
 };

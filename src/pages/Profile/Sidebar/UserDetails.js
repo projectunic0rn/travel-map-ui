@@ -10,9 +10,11 @@ export default function UserDetails({
   city,
   country,
   color,
-  avatarIndex
+  avatarIndex,
+  refetch
 }) {
   const [avatarClick, handleAvatarClick] = useState(false);
+  const [avatarHover, handleAvatarHover] = useState(false);
   function showPopup() {
     handleAvatarClick(false);
   }
@@ -21,7 +23,18 @@ export default function UserDetails({
       <div
         className="user-avatar-container"
         onClick={() => handleAvatarClick(true)}
+        onMouseOver={() => handleAvatarHover(true)}
+        onMouseOut={() => handleAvatarHover(false)}
       >
+        {avatarHover ? (
+          <span className="avatar-hover-text" style={{ opacity: 1 }}>
+            Click to change avatar
+          </span>
+        ) : (
+          <span className="avatar-hover-text" style={{ opacity: 0 }}>
+            Click to change avatar
+          </span>
+        )}
         <UserAvatar color={color} avatarIndex={avatarIndex} />
       </div>
       {avatarClick ? (
@@ -31,14 +44,16 @@ export default function UserDetails({
           component={AvatarGrid}
           componentProps={{
             color: color,
-            avatarIndex: avatarIndex
+            avatarIndex: avatarIndex,
+            closePopup: showPopup,
+            refetch: refetch
           }}
         />
       ) : null}
       <div className="user-name-age">
         <span className="user-username">{username}</span>
-        <span className="seperator">, </span>
-        <span className="user-age">{age}</span>
+        <span className="seperator">{age !== 0 ? ", " : null} </span>
+        <span className="user-age">{age !== 0 ? age : null}</span>
       </div>
       <div className="user-location">
         <span className="city">{city}</span>
@@ -55,5 +70,6 @@ UserDetails.propTypes = {
   city: PropTypes.string,
   country: PropTypes.string,
   color: PropTypes.string,
-  avatarIndex: PropTypes.number
+  avatarIndex: PropTypes.number,
+  refetch: PropTypes.func
 };

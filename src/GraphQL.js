@@ -6,6 +6,8 @@ export const GET_ALL_USER_COUNTRIES = gql`
   query {
     users {
       username
+      color
+      avatarIndex
       Places_visited {
         id
         country
