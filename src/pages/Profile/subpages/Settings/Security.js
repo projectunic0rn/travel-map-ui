@@ -53,8 +53,8 @@ export default function Security({ history }) {
     Swal.fire({
       type: "success",
       text: "Password changed successfully",
-      confirmButtonColor: "#656F80",
-      timer: "1200"
+      timer: "1200",
+      showConfirmButton: false
     });
     setOldPassword("");
     setPassword("")
