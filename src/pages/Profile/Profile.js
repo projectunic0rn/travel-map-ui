@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import Trips from "./subpages/Trips";
-import Friends from "./subpages/Friends";
+// import Friends from "./subpages/Friends";
 import Settings from "./subpages/Settings";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
@@ -79,7 +79,7 @@ export default function Profile({ user, urlUsername, refetch }) {
           path={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
           component={Trips}
         />
-        <Route
+         {/* <Route
           path={
             urlUsername
               ? `/profiles/${urlUsername}/friends`
@@ -93,7 +93,7 @@ export default function Profile({ user, urlUsername, refetch }) {
               handlePageRender={handlePageRender}
             />
           )}
-        />
+        /> */}
         {!urlUsername ? (
           <Route
             path="/profile/settings"

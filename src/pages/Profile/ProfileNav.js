@@ -12,7 +12,7 @@ function ProfileNav({ handleSearchText, urlUsername }) {
         >
           Trips
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to={
             urlUsername
               ? `/profiles/${urlUsername}/friends`
@@ -20,7 +20,7 @@ function ProfileNav({ handleSearchText, urlUsername }) {
           }
         >
           Friends
-        </NavLink>
+        </NavLink> */}
         {!urlUsername ? (
           <NavLink exact to="/profile/settings">
             Settings
