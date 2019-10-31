@@ -11,7 +11,6 @@ function PotentialFriendCard({ friend }) {
   const [countryArray, handleCountryArray] = useState([]);
   const [showAddFriend, handleShowAddFriend] = useState(false);
   useEffect(() => {
-    console.log(friend);
     let cityArray = [0];
     let countryArray = [0];
     if (friend.Places_visited !== null) {
@@ -51,7 +50,7 @@ function PotentialFriendCard({ friend }) {
       onMouseOver={() => handleShowAddFriend(true)}
     >
       {showAddFriend ? (
-        <PotentialFriendAdd potentialFriend={friend} handleShowAddFriend={handleShowAddFriend} />
+        <PotentialFriendAdd handleShowAddFriend={handleShowAddFriend} potentialFriend={friend} />
       ) : null}
       <div className="pfc-user-profile">
         <UserAvatar />

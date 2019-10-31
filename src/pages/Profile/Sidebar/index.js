@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 
@@ -6,24 +6,40 @@ import { GET_USER_COUNTRIES, GET_LOGGEDIN_USER } from "../../../GraphQL";
 import UserDetails from "./UserDetails";
 import UserActivity from "./UserActivity";
 import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
+import InterestTag from './InterestTag';
 
 export default function Sidebar({
   city,
   country,
   countryCount,
   cityCount,
+  userData,
   urlUsername
 }) {
   const fakeUser = {
-    username: "JohnSmith",
-    name: "John Smith",
     age: 23,
-    city: "Los Angeles",
-    country: "United States",
     friendCount: 10,
-    countryCount: 20,
-    cityCount: 30
   };
+  const [age, handleAge] = useState("");
+  useEffect(() => {
+    calculateAge(userData.birthday);
+  }, [userData]);
+
+function calculateAge (birthDate) {
+  if (birthDate === null) {
+    return;
+  }
+    birthDate = new Date(birthDate);
+    let otherDate = new Date();
+
+    var years = (otherDate.getFullYear() - birthDate.getFullYear());
+
+    if (otherDate.getMonth() < birthDate.getMonth() || 
+        (otherDate.getMonth() === birthDate.getMonth() && otherDate.getDate() < birthDate.getDate())) {
+        years--;
+    }
+    handleAge(years);
+}
   return (
     <div className="sidebar">
       <Query
@@ -40,7 +56,7 @@ export default function Sidebar({
             <Fragment>
               <UserDetails
                 username={data.user.username}
-                age={fakeUser.age}
+                age={Number(age)}
                 city={city}
                 country={country}
               />
@@ -51,10 +67,14 @@ export default function Sidebar({
               />
               {/* TODO: move tags to component */}
               <div className="user-tags">
-                <span className="tag tag-green">Nature Lover</span>
-                <span className="tag tag-blue">Like a Local</span>
-                <span className="tag tag-yellow">Foodie</span>
-                <span className="tag tag-red">Historian</span>
+                {userData.UserInterests.map(interest => {
+                  return (
+                    <InterestTag
+                      key = {interest.id}
+                      name = {interest.name}
+                    />
+                  );
+                })}
               </div>
             </Fragment>
           );
@@ -70,5 +90,5 @@ Sidebar.propTypes = {
   countryCount: PropTypes.number,
   cityCount: PropTypes.number,
   urlUsername: PropTypes.string,
-  interestTags: PropTypes.array
+  userData: PropTypes.object
 };

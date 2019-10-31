@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
 
-function ProfileNav({ handleSearchText, urlUsername, match }) {
+function ProfileNav({ handleSearchText, urlUsername }) {
   return (
     <div className="content-nav">
       <div className="profile-nav-links">

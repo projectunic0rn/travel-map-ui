@@ -77,11 +77,14 @@ export const GET_ALL_USER_INFO = gql`
 export const GET_ALL_FRIEND_REQUESTS = gql`
   query {
     friend_requests {
-      fr_id
+      receiverId
       senderId
       status
-      sender_username
-      fr_time_sent
+      # senderUsername
+      # requestSentAt
+      User {
+        username
+      }
     }
   }
 `;
@@ -93,6 +96,7 @@ export const SEND_FRIEND_REQUEST = gql`
       senderId
       receiverId
       status
+      UserId
     }
   }
 `;
@@ -101,6 +105,21 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     user {
       id
+      username
+      full_name
+      email
+      phone_number
+      gender
+      birthday
+      UserInterests {
+        id
+        name
+      }
+      UserSocials {
+        id
+        link
+        name
+      }
       Places_visited {
         id
         country
@@ -130,10 +149,10 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
-      },
-      FriendRequest {
-        senderId,
-        receiverId,
+      }
+      FriendRequests {
+        senderId
+        receiverId
       }
     }
   }
@@ -146,10 +165,6 @@ export const GET_LOGGEDIN_USER = gql`
       username
       full_name
       email
-      Interests {
-        id
-        name
-      }
     }
   }
 `;
@@ -200,7 +215,7 @@ export const GET_PROFILE_BASICS = gql`
       username
       full_name
       email
-      Interests {
+      UserInterests {
         id
         name
       }
@@ -312,11 +327,59 @@ export const SIGNUP_USER = gql`
   }
 `;
 
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword(
+    $oldPassword: String!
+    $password: String!
+    $password2: String!
+  ) {
+    changePassword(
+      oldPassword: $oldPassword
+      password: $password
+      password2: $password2
+    )
+  }
+`;
 export const DELETE_USER = gql`
   mutation {
     deleteUser {
       id
       username
+    }
+  }
+`;
+
+export const ADD_USER_INTERESTS = gql`
+  mutation addInterest($userInterests: [UserInterest!]) {
+    addInterest(userInterests: $userInterests) {
+      id
+      UserId
+      name
+    }
+  }
+`;
+
+export const ADD_USER_SOCIAL = gql`
+  mutation addSocial($userSocials: [UserSocial!]) {
+    addSocial(userSocials: $userSocials) {
+      id
+      UserId
+      name
+      link
+    }
+  }
+`;
+
+export const UPDATE_BASIC_INFO = gql`
+  mutation updateBasicInfo($userBasics: UserBasics!) {
+    updateBasicInfo(userBasics: $userBasics) {
+      username
+      email
+      birthday
+      phone_number
+      full_name
+      gender
+      id
     }
   }
 `;

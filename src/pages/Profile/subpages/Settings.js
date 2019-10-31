@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Route, NavLink } from "react-router-dom";
 
 import BasicsIcon from "../../../icons/BasicsIcon";
@@ -10,18 +11,28 @@ import Contact from "./Settings/Contact";
 import Security from "./Settings/Security";
 import TravelerInfo from "./Settings/TravelerInfo";
 
-const fakeUserData = {
-  username: "User 1",
-  email: "userOne@aol.com",
-  phoneNumber: "555-234-2908",
-  social: {
-    instagram: "userOne@instagram.com",
-    facebook: "useroUno@fb.com",
-    whatsapp: "915-234-2908"
+export default function Settings({
+  userData,
+  handlePageRender,
+  handleUserDataChange
+}) {
+  const [friendPage] = useState(2);
+  switch (friendPage) {
+    case 0:
+      handlePageRender("settings");
+      break;
+    case 1:
+      handlePageRender("settings");
+      break;
+    case 2:
+      handlePageRender("settings");
+      break;
+    case 3:
+      handlePageRender("settings");
+      break;
+    default:
+      break;
   }
-};
-
-export default function Settings() {
   return (
     <div className="settings content">
       <div className="sidebar-filter">
@@ -31,7 +42,7 @@ export default function Settings() {
         </NavLink>
         <NavLink to="/profile/settings/contact">
           <ContactIcon />
-          contact
+          social
         </NavLink>
         <NavLink to="/profile/settings/traveler">
           <TravelerIcon />
@@ -43,20 +54,44 @@ export default function Settings() {
         </NavLink>
       </div>
       <div className="content-results">
-        <Route exact path="/profile/settings" component={Basics} />
+        <Route
+          exact
+          path="/profile/settings"
+          render={props => (
+            <Basics
+              {...props}
+              userData={userData}
+              handleUserDataChange={handleUserDataChange}
+            />
+          )}
+        />
         <Route
           path="/profile/settings/contact"
           render={() => (
             <Contact
-              email={fakeUserData.email}
-              phoneNumber={fakeUserData.phoneNumber}
-              social={fakeUserData.social}
+              userData={userData}
+              handleUserDataChange={handleUserDataChange}
             />
           )}
         />
-        <Route path="/profile/settings/traveler" component={TravelerInfo} />
+        <Route
+          path="/profile/settings/traveler"
+          render={props => (
+            <TravelerInfo
+              {...props}
+              userData={userData}
+              handleUserDataChange={handleUserDataChange}
+            />
+          )}
+        />
         <Route path="/profile/settings/security" component={Security} />
       </div>
     </div>
   );
 }
+
+Settings.propTypes = {
+  handlePageRender: PropTypes.func,
+  userData: PropTypes.object,
+  handleUserDataChange: PropTypes.func
+};

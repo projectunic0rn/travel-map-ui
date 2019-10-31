@@ -3,6 +3,7 @@
 @import "./subpages/Settings";
 @import "./subpages/Settings/Contact.scss";
 @import "./subpages/Settings/Security.scss";
+@import "./subpages/Settings/Basics.scss";
 @import "./subpages/Settings/Traveler.scss";
 @import "./subpages/Friends/PotentialFriendCard.scss";
 @import "./subpages/Friends/FriendCard.scss";
@@ -18,14 +19,6 @@
     @media (max-width: 850px) {
       grid-template-columns: [sidebar] 280px [content] auto;
     }
-
-    .content-nav {
-      background: #656f80;
-      box-shadow: 1px 2px 1px rgba(#000, 0.16);
-      border-radius: 4px;
-    }
-
-    /* FOR TRIPS, FRIEND, AND SETTINGS PAGES */
 
     .content {
       background: #656f80;

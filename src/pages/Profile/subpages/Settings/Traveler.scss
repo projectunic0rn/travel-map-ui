@@ -4,12 +4,37 @@
   flex-direction: column;
   margin: 8px;
   .traveler-settings-header {
-    color: #071529;
+    position: relative;
+    color: #a1a9b7;
     font-size: 24px;
     font-weight: 550;
-    padding-bottom: 4px;
+    padding-top: 20px;
+    padding-bottom: 12px;
     border-bottom: 1px solid rgba(248, 248, 252, 0.2);
     margin-bottom: 20px;
+    .save-button {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgb(248, 248, 252);
+      border-radius: 50%;
+      border: none;
+      box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.15);
+      font-weight: 550;
+      color: #4f5867;
+      min-width:50px;
+      height: 50px;
+      &:hover {
+        background: rgb(220, 220, 220);
+      }
+      &:focus {
+        outline: none;
+      }
+    }
   }
   .traveler-tag-container {
     display: flex;
@@ -21,7 +46,7 @@
     position: relative;
     align-items: center;
     justify-content: center;
-    background: rgb(68, 84, 104);
+    background: #4f5867;
     border: none;
     flex: 1;
     min-width: 160px;
@@ -35,10 +60,10 @@
       width: 60px;
       height: 60px;
       path {
-        fill: rgb(201, 201, 240);
+        fill: rgb(240, 240, 248);
       }
       circle {
-        fill: rgb(201, 201, 240);
+        fill: rgb(240, 240, 248);
       }
     }
     .travel-tag-title {

@@ -59,24 +59,21 @@ export default function FriendRequests({ searchText }) {
     }
   }, [searchText]);
   return (
-    <>
     <Query
-            query={GET_ALL_FRIEND_REQUESTS}
-            notifyOnNetworkStatusChange
-            fetchPolicy={"cache-and-network"}
-            partialRefetch={true}
-          >
-            {({ loading, error, data }) => {
-              if (loading) return <SimpleLoader />;
-              if (error) return `Error! ${error}`;
-              console.log(data)
-                {filteredFriendsAvailable.map((friend) => (
-                  <FriendCard key={friend.id} friend={friend} />
-                ))}
-            }}
-          </Query>
-      
-    </>
+      query={GET_ALL_FRIEND_REQUESTS}
+      notifyOnNetworkStatusChange
+      fetchPolicy={"cache-and-network"}
+      partialRefetch={true}
+    >
+      {({ loading, error, data }) => {
+        if (loading) return <SimpleLoader />;
+        if (error) return <p>{`${error}`}</p>;
+        console.log(data);
+        return filteredFriendsAvailable.map((friend) => (
+          <FriendCard key={friend.id} friend={friend} />
+        ));
+      }}
+    </Query>
   );
 }
 

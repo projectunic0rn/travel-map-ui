@@ -20,6 +20,7 @@ import { UserProvider } from "./utils/UserContext";
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
   const [mapPage, handleMapPageChange] = useState(0);
+  const [userData, handleUserData] = useState();
 
   socket.on("new-friend-request", data => {
     alert(data.senderData.username + " has sent you a friend request!");
@@ -57,7 +58,7 @@ function App({ userAuthenticated }) {
 
   return (
     <Router>
-      <UserProvider value={{ userLoggedIn, setUserLoggedIn }}>
+      <UserProvider value={{ userLoggedIn, setUserLoggedIn, userData }}>
         <Header userLoggedIn={userLoggedIn} />
         {userLoggedIn ? (
           <Query
@@ -69,7 +70,7 @@ function App({ userAuthenticated }) {
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
-              console.log(data);
+              handleUserData(data);
               return (
                 <Fragment>
                   <Switch>
@@ -93,7 +94,7 @@ function App({ userAuthenticated }) {
                     <Route
                       path="/profile/"
                       render={(props) => (
-                        <Profile {...props} user={data.user} />
+                        <Profile {...props} user={data.user} refetch={refetch}/>
                       )}
                     />
                     <Route path="/friends/" component={FriendMapPage} />
