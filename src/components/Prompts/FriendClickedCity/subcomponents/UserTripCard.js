@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import UserAvatar from '../../../UserAvatar/UserAvatar';
+
 function UserTripCard(props) {
+  console.log(props);
   return (
     <div className="user-trip-card">
-      <div className="user-profile-image" />
+      <div className="user-profile-image"><UserAvatar avatarIndex = {props.trip.avatarIndex} color = {props.trip.color} /></div>
       <div className="utc-user-info-container">
         <span className="utc-username">{props.trip.username}</span>
         <span className="utc-duration">

@@ -6,6 +6,8 @@ export const GET_ALL_USER_COUNTRIES = gql`
   query {
     users {
       username
+      color
+      avatarIndex
       Places_visited {
         id
         country
@@ -111,6 +113,8 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       phone_number
       gender
       birthday
+      avatarIndex
+      color
       UserInterests {
         id
         name
@@ -149,10 +153,6 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
-      }
-      FriendRequests {
-        senderId
-        receiverId
       }
     }
   }
@@ -278,6 +278,9 @@ export const UPDATE_PLACE_LIVING = gql`
       id
       country
       city
+      cityId
+      city_latitude
+      city_longitude
     }
   }
 `;
@@ -380,6 +383,16 @@ export const UPDATE_BASIC_INFO = gql`
       full_name
       gender
       id
+    }
+  }
+`;
+
+export const UPDATE_USER_AVATAR = gql`
+  mutation updateUserAvatar($userAvatar: UserAvatar!) {
+    updateUserAvatar(userAvatar: $userAvatar) {
+      id
+      avatarIndex
+      color
     }
   }
 `;

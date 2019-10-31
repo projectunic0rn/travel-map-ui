@@ -97,7 +97,7 @@ class FriendCityMap extends Component {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
-            color = "rgba(203, 118, 120, 0.5)";
+            color = "rgba(203, 118, 120, 0.25)";
             markerPastDisplay.push(
               <Marker
                 key={city.id}
@@ -108,8 +108,8 @@ class FriendCityMap extends Component {
               >
                 <svg
                   key={"svg" + city.id}
-                  height={10}
-                  width={10}
+                  height={20}
+                  width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -126,12 +126,19 @@ class FriendCityMap extends Component {
                     cy="50"
                     r="50"
                   />
+                  <circle
+                    style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
                 </svg>
               </Marker>
             );
             break;
           case 1:
-            color = "rgba(115, 167, 195, 0.5)";
+            color = "rgba(115, 167, 195, 0.25)";
             markerFutureDisplay.push(
               <Marker
                 key={city.id}
@@ -142,8 +149,8 @@ class FriendCityMap extends Component {
               >
                 <svg
                   key={"svg" + city.id}
-                  height={10}
-                  width={10}
+                  height={20}
+                  width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -160,13 +167,20 @@ class FriendCityMap extends Component {
                     cy="50"
                     r="50"
                   />
+                  <circle
+                    style={{ fill: "rgba(115, 167, 195, 1.0)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
                 </svg>
               </Marker>
             );
 
             break;
           case 2:
-            color = "rgba(150, 177, 168, 0.75)";
+            color = "rgba(150, 177, 168, 0.25)";
             markerLiveDisplay.push(
               <Marker
                 key={city.id}
@@ -177,8 +191,8 @@ class FriendCityMap extends Component {
               >
                 <svg
                   key={"svg" + city.id}
-                  height={10}
-                  width={10}
+                  height={20}
+                  width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -194,6 +208,13 @@ class FriendCityMap extends Component {
                     cx="50"
                     cy="50"
                     r="50"
+                  />
+                  <circle
+                    style={{ fill: "rgba(150, 177, 168, 1.0)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
                   />
                 </svg>
               </Marker>
@@ -244,6 +265,7 @@ class FriendCityMap extends Component {
   }
 
   handleLoadedCities(data) {
+    console.log(data);
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -261,7 +283,9 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visited[j].city_longitude / 1000000,
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
-              tripTiming: 0
+              tripTiming: 0,
+              avatarIndex: data[i].avatarIndex,
+              color: data[i].color
             });
             pastCount++;
           }
@@ -279,7 +303,9 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visiting[j].city_longitude / 1000000,
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
-              tripTiming: 1
+              tripTiming: 1,
+              avatarIndex: data[i].avatarIndex,
+              color: data[i].color
             });
             futureCount++;
           }
@@ -300,7 +326,9 @@ class FriendCityMap extends Component {
             longitude: data[i].Place_living.city_longitude / 1000000,
             country: data[i].Place_living.country,
             countryId: data[i].Place_living.countryId,
-            tripTiming: 2
+            tripTiming: 2,
+            avatarIndex: data[i].avatarIndex,
+            color: data[i].color
           });
           liveCount++;
         }
