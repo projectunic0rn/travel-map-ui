@@ -4,10 +4,9 @@
   opacity: 1;
   background: rgba(37, 41, 49, 1) !important;
   z-index: 10;
-  @media (max-width: 765px) {
-    top: 110px;
+  @media (max-width: 1100px) {
     left: 50%;
-    transform: translateX(-50%);
+
   }
   .close-icon-container {
     cursor: pointer;

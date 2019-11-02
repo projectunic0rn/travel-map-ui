@@ -11,9 +11,6 @@ export default function Security({ history }) {
   let [oldPassword, setOldPassword] = useState("");
   let [password, setPassword] = useState("");
   let [password2, setPassword2] = useState("");
-  console.log(oldPassword)
-console.log(password)
-console.log(password2)
   let [errors, setErrors] = useState({
     oldPassword: null,
     password: null,

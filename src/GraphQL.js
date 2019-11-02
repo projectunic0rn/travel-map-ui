@@ -5,9 +5,24 @@ import gql from "graphql-tag";
 export const GET_ALL_USER_COUNTRIES = gql`
   query {
     users {
+      id
       username
-      color
+      full_name
+      email
+      phone_number
+      gender
+      birthday
       avatarIndex
+      color
+      UserInterests {
+        id
+        name
+      }
+      UserSocials {
+        id
+        link
+        name
+      }
       Places_visited {
         id
         country
@@ -158,6 +173,8 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   }
 `;
 
+
+
 export const GET_LOGGEDIN_USER = gql`
   query {
     user {
@@ -174,6 +191,22 @@ export const GET_USER_COUNTRIES = gql`
     user(username: $username) {
       id
       username
+      full_name
+      email
+      phone_number
+      gender
+      birthday
+      avatarIndex
+      color
+      UserInterests {
+        id
+        name
+      }
+      UserSocials {
+        id
+        link
+        name
+      }
       Places_visited {
         id
         country
