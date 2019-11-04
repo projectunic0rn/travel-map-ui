@@ -21,11 +21,15 @@ function ProfileNav({ handleSearchText, urlUsername }) {
         >
           Friends
         </NavLink>
-        {!urlUsername ? (
-          <NavLink exact to="/profile/settings">
-            Settings
-          </NavLink>
-        ) : null}
+        <NavLink
+          to={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings`
+              : "/profile/settings"
+          }
+        >
+          Settings
+        </NavLink>
       </div>
       <div className="profile-nav-filter-container">
         {!window.location.pathname.includes("/settings") ? (

@@ -59,7 +59,6 @@ function App({ userAuthenticated }) {
   return (
     <Router>
       <UserProvider value={{ userLoggedIn, setUserLoggedIn, userData }}>
-        <Header userLoggedIn={userLoggedIn} />
         {userLoggedIn ? (
           <Query
             query={GET_LOGGEDIN_USER_COUNTRIES}
@@ -73,6 +72,11 @@ function App({ userAuthenticated }) {
               handleUserData(data);
               return (
                 <Fragment>
+                  <Header
+                    userLoggedIn={userLoggedIn}
+                    color={data.user.color}
+                    avatarIndex={data.user.avatarIndex}
+                  />
                   <Switch>
                     <Route
                       exact
@@ -93,8 +97,12 @@ function App({ userAuthenticated }) {
                     />
                     <Route
                       path="/profile/"
-                      render={(props) => (
-                        <Profile {...props} user={data.user} refetch={refetch}/>
+                      render={props => (
+                        <Profile
+                          {...props}
+                          user={data.user}
+                          refetch={refetch}
+                        />
                       )}
                     />
                     <Route path="/friends/" component={FriendMapPage} />
@@ -105,7 +113,10 @@ function App({ userAuthenticated }) {
             }}
           </Query>
         ) : (
-          <Landing />
+          <>
+            <Header />
+            <Landing />
+          </>
         )}
       </UserProvider>
     </Router>

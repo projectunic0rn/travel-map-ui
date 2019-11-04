@@ -29,11 +29,14 @@
   }
   
   .user-profile-image {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     margin-left: 12px;
-    border: 1px solid black;
     border-radius: 50%;
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+    }
   }
   
   .utc-user-info-container {

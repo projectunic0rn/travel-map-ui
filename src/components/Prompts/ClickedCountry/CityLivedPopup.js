@@ -4,23 +4,27 @@ import { Mutation } from "react-apollo";
 import { UPDATE_PLACE_LIVING } from "../../../GraphQL";
 
 class DoMutation extends React.Component {
-    componentDidMount() {
-      const { mutation } = this.props;
-      mutation();
-    }
-  
-    render() {
-      return null;
-    }
+  componentDidMount() {
+    const { mutation } = this.props;
+    mutation();
   }
 
-function CityLivedPopup({ children, country, cities, id }) {
+  render() {
+    return null;
+  }
+}
+
+function CityLivedPopup({ children, country, cities, id, handleAddCity }) {
   return (
     <div className="city-choosing-container">
-      <Mutation mutation={UPDATE_PLACE_LIVING} variables={{ id, country, cities }}>
+      <Mutation
+        mutation={UPDATE_PLACE_LIVING}
+        variables={{ id, country, cities }}
+        onCompleted={data => handleAddCity(data, 2)}
+      >
         {(mutation, { data, loading, error }) => (
           <>
-            <DoMutation mutation={mutation} data = {data}></DoMutation>
+            <DoMutation mutation={mutation} data={data}></DoMutation>
             {children && children(mutation, { data, loading, error })}
           </>
         )}
@@ -31,15 +35,15 @@ function CityLivedPopup({ children, country, cities, id }) {
 
 CityLivedPopup.propTypes = {
   country: PropTypes.object,
-  cities: PropTypes.object, 
+  cities: PropTypes.object,
   id: PropTypes.number,
-  children: PropTypes.object
+  children: PropTypes.object,
+  handleAddCity: PropTypes.func
 };
 
 DoMutation.propTypes = {
-  data: PropTypes.object, 
-  mutation: PropTypes.func, 
-  
-}
+  data: PropTypes.object,
+  mutation: PropTypes.func
+};
 
 export default CityLivedPopup;

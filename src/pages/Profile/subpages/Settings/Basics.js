@@ -11,7 +11,11 @@ const genderOptions = [
   "transgender male"
 ];
 
-export default function Basics({ userData, handleUserDataChange }) {
+export default function Basics({
+  userData,
+  handleUserDataChange,
+  urlUsername
+}) {
   const [edit, handleEdit] = useState(false);
   const [userBasics, handleUserBasicChange] = useState({});
 
@@ -158,31 +162,37 @@ export default function Basics({ userData, handleUserDataChange }) {
           )}
         </div>
       </div>{" "}
-      <div className="settings-edit-button-container">
-        <Mutation
-          mutation={UPDATE_BASIC_INFO}
-          variables={{ userBasics }}
-          onCompleted={handleDataSave}
-        >
-          {mutation =>
-            edit ? (
-              <span className="settings-edit-button" onClick={mutation}>
-                Update
-              </span>
-            ) : (
-              <span className="settings-edit-button" onClick={handleEditButton}>
-                Edit
-              </span>
-            )
-          }
-        </Mutation>
-      </div>
+      {urlUsername ? null : (
+        <div className="settings-edit-button-container">
+          <Mutation
+            mutation={UPDATE_BASIC_INFO}
+            variables={{ userBasics }}
+            onCompleted={handleDataSave}
+          >
+            {mutation =>
+              edit ? (
+                <span className="settings-edit-button" onClick={mutation}>
+                  Update
+                </span>
+              ) : (
+                <span
+                  className="settings-edit-button"
+                  onClick={handleEditButton}
+                >
+                  Edit
+                </span>
+              )
+            }
+          </Mutation>
+        </div>
+      )}
     </div>
   );
 }
 
 Basics.propTypes = {
   history: PropTypes.object.isRequired,
-  userData: PropTypes.object, 
-  handleUserDataChange: PropTypes.func
+  userData: PropTypes.object,
+  handleUserDataChange: PropTypes.func,
+  urlUsername: PropTypes.string
 };

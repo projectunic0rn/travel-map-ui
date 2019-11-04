@@ -5,7 +5,24 @@ import gql from "graphql-tag";
 export const GET_ALL_USER_COUNTRIES = gql`
   query {
     users {
+      id
       username
+      full_name
+      email
+      phone_number
+      gender
+      birthday
+      avatarIndex
+      color
+      UserInterests {
+        id
+        name
+      }
+      UserSocials {
+        id
+        link
+        name
+      }
       Places_visited {
         id
         country
@@ -111,6 +128,8 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       phone_number
       gender
       birthday
+      avatarIndex
+      color
       UserInterests {
         id
         name
@@ -150,13 +169,11 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         city_latitude
         city_longitude
       }
-      FriendRequests {
-        senderId
-        receiverId
-      }
     }
   }
 `;
+
+
 
 export const GET_LOGGEDIN_USER = gql`
   query {
@@ -174,6 +191,22 @@ export const GET_USER_COUNTRIES = gql`
     user(username: $username) {
       id
       username
+      full_name
+      email
+      phone_number
+      gender
+      birthday
+      avatarIndex
+      color
+      UserInterests {
+        id
+        name
+      }
+      UserSocials {
+        id
+        link
+        name
+      }
       Places_visited {
         id
         country
@@ -278,6 +311,9 @@ export const UPDATE_PLACE_LIVING = gql`
       id
       country
       city
+      cityId
+      city_latitude
+      city_longitude
     }
   }
 `;
@@ -380,6 +416,16 @@ export const UPDATE_BASIC_INFO = gql`
       full_name
       gender
       id
+    }
+  }
+`;
+
+export const UPDATE_USER_AVATAR = gql`
+  mutation updateUserAvatar($userAvatar: UserAvatar!) {
+    updateUserAvatar(userAvatar: $userAvatar) {
+      id
+      avatarIndex
+      color
     }
   }
 `;
