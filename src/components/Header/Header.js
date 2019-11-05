@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import NavLinks from "./subcomponents/NavLinks";
 import SiteLogo from "./subcomponents/SiteLogo";
+import SiteText from '../../icons/SiteText';
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
@@ -16,7 +17,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
         <div className="header-content">
           <div className="site-logo-container">
             <SiteLogo />
-            <span className="site-title">geornal</span>
+            <span className="site-title"><SiteText/></span>
           </div>
           <div className="nav-menu-container">
             <NavLinks

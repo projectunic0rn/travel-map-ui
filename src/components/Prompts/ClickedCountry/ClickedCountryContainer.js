@@ -40,6 +40,10 @@ function ClickedCountryContainer(props) {
     props.customProps.refetch();
   }
 
+  function handleDelete() {
+    props.customProps.refetch();
+  }
+
   let popupWidth = "320px";
   switch (page) {
     case 0:
@@ -102,7 +106,9 @@ function ClickedCountryContainer(props) {
               handleTripTiming={handleTripTiming}
               handlePageChange={handlePageChange}
               previousTrips={props.customProps.previousTrips}
-              country={props.customProps.countryInfo.id}
+              country={props.customProps.countryInfo.properties.ISO2}
+              countryName={props.customProps.countryInfo.properties.name}
+              handleDelete={handleDelete}
             />
           ),
           1: (
