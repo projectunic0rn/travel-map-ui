@@ -14,7 +14,8 @@ import TravelerInfo from "./Settings/TravelerInfo";
 export default function Settings({
   userData,
   handlePageRender,
-  handleUserDataChange
+  handleUserDataChange,
+  urlUsername
 }) {
   const [friendPage] = useState(2);
   switch (friendPage) {
@@ -36,40 +37,66 @@ export default function Settings({
   return (
     <div className="settings content">
       <div className="sidebar-filter">
-        <NavLink exact to="/profile/settings/">
+        <NavLink
+          exact
+          to={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings`
+              : "/profile/settings"
+          }
+        >
           <BasicsIcon />
           basics
         </NavLink>
-        <NavLink to="/profile/settings/contact">
+        <NavLink
+          to={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings/contact`
+              : "/profile/settings/contact"
+          }
+        >
           <ContactIcon />
           social
         </NavLink>
-        <NavLink to="/profile/settings/traveler">
-          <TravelerIcon />
-          traveler
-        </NavLink>
-        <NavLink to="/profile/settings/security">
-          <SecurityIcon />
-          security
-        </NavLink>
+        {urlUsername ? null : (
+          <>
+            <NavLink to="/profile/settings/traveler">
+              <TravelerIcon />
+              traveler
+            </NavLink>
+            <NavLink to="/profile/settings/security">
+              <SecurityIcon />
+              security
+            </NavLink>
+          </>
+        )}
       </div>
       <div className="content-results">
         <Route
-          exact
-          path="/profile/settings"
+          exact path={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings`
+              : "/profile/settings"
+          }
           render={props => (
             <Basics
               {...props}
+              urlUsername={urlUsername}
               userData={userData}
               handleUserDataChange={handleUserDataChange}
             />
           )}
         />
         <Route
-          path="/profile/settings/contact"
+          path={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings/contact`
+              : "/profile/settings/contact"
+          }
           render={() => (
             <Contact
               userData={userData}
+              urlUsername={urlUsername}
               handleUserDataChange={handleUserDataChange}
             />
           )}
@@ -93,5 +120,6 @@ export default function Settings({
 Settings.propTypes = {
   handlePageRender: PropTypes.func,
   userData: PropTypes.object,
-  handleUserDataChange: PropTypes.func
+  handleUserDataChange: PropTypes.func,
+  urlUsername: PropTypes.string
 };

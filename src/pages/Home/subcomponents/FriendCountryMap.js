@@ -67,7 +67,9 @@ const FriendCountryMap = props => {
               longitude: data[i].Places_visited[j].city_longitude / 1000000,
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
-              tripTiming: 0
+              tripTiming: 0,
+              avatarIndex: data[i].avatarIndex,
+              color: data[i].color
             });
           }
         }
@@ -94,7 +96,9 @@ const FriendCountryMap = props => {
               longitude: data[i].Places_visiting[j].city_longitude / 1000000,
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
-              tripTiming: 1
+              tripTiming: 1,
+              avatarIndex: data[i].avatarIndex,
+              color: data[i].color
             });
           }
         }
@@ -124,7 +128,9 @@ const FriendCountryMap = props => {
             longitude: data[i].Place_living.city_longitude / 1000000,
             country: data[i].Place_living.country,
             countryId: data[i].Place_living.countryId,
-            tripTiming: 2
+            tripTiming: 2,
+            avatarIndex: data[i].avatarIndex,
+            color: data[i].color
           });
         }
       }

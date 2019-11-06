@@ -28,7 +28,9 @@ function FriendClickedCountryContainer(props) {
       userTripArray.push({
         username: clickedCountryArray[i].username,
         tripTiming: clickedCountryArray[i].tripTiming,
-        cities: 1
+        cities: 1,
+        avatarIndex: clickedCountryArray[i].avatarIndex,
+        color: clickedCountryArray[i].color
       });
     } else if (
       i > 0 &&
@@ -49,13 +51,17 @@ function FriendClickedCountryContainer(props) {
       userTripArray.push({
         username: clickedCountryArray[i].username,
         tripTiming: clickedCountryArray[i].tripTiming,
-        cities: 0
+        cities: 0,
+        avatarIndex: clickedCountryArray[i].avatarIndex,
+        color: clickedCountryArray[i].color
       });
     } else {
       userTripArray.push({
         username: clickedCountryArray[i].username,
         tripTiming: clickedCountryArray[i].tripTiming,
-        cities: 1
+        cities: 1,
+        avatarIndex: clickedCountryArray[i].avatarIndex,
+        color: clickedCountryArray[i].color
       });
     }
   }
@@ -118,7 +124,7 @@ function FriendClickedCountryContainer(props) {
           <UserTripCard
             trip={country}
             key={i}
-            metric={"cities"}
+            metric={<CityIcon />}
             metricValue={country.cities}
           />
         );
@@ -134,7 +140,7 @@ function FriendClickedCountryContainer(props) {
           <UserTripCard
             trip={country}
             key={i}
-            metric={"cities"}
+            metric={<CityIcon />}
             metricValue={country.cities}
           />
         );

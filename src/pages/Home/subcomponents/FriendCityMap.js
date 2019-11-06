@@ -265,7 +265,6 @@ class FriendCityMap extends Component {
   }
 
   handleLoadedCities(data) {
-    console.log(data);
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];

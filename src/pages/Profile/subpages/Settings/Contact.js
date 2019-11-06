@@ -9,7 +9,11 @@ import TwitterIcon from "../../../../icons/SocialIcons/TwitterIcon";
 import WhatsappIcon from "../../../../icons/SocialIcons/WhatsappIcon";
 import SimpleLoader from "../../../../components/common/SimpleLoader";
 
-export default function Contact({ userData, handleUserDataChange }) {
+export default function Contact({
+  userData,
+  handleUserDataChange,
+  urlUsername
+}) {
   const [edit, handleEdit] = useState(false);
   const [loading, handleLoading] = useState(true);
   const [userSocials, handleUserSocials] = useState([
@@ -18,7 +22,7 @@ export default function Contact({ userData, handleUserDataChange }) {
     { id: 0, link: "", name: "whatsapp" },
     { id: 0, link: "", name: "twitter" }
   ]);
-  
+
   useEffect(() => {
     for (let i in userData.UserSocials) {
       if (userData.UserSocials[i].name === "instagram") {
@@ -80,7 +84,9 @@ export default function Contact({ userData, handleUserDataChange }) {
               autoFocus
               onChange={e => handleSocialHelper(0, e.target.value)}
               placeHolder="Enter the full url link here"
-              defaultValue = {userSocials[0] !== undefined ? userSocials[0].link : ""}
+              defaultValue={
+                userSocials[0] !== undefined ? userSocials[0].link : ""
+              }
             ></input>
           )}
         </div>
@@ -103,7 +109,9 @@ export default function Contact({ userData, handleUserDataChange }) {
               className="contact-social-input"
               onChange={e => handleSocialHelper(1, e.target.value)}
               placeHolder="Enter the full url link here"
-              defaultValue = {userSocials[1] !== undefined ? userSocials[1].link : ""}
+              defaultValue={
+                userSocials[1] !== undefined ? userSocials[1].link : ""
+              }
             ></input>
           )}
         </div>
@@ -126,7 +134,9 @@ export default function Contact({ userData, handleUserDataChange }) {
               className="contact-social-input"
               onChange={e => handleSocialHelper(2, e.target.value)}
               placeHolder="Enter the full url link here"
-              defaultValue = {userSocials[2] !== undefined ? userSocials[2].link : ""}
+              defaultValue={
+                userSocials[2] !== undefined ? userSocials[2].link : ""
+              }
             ></input>
           )}
         </div>
@@ -149,35 +159,43 @@ export default function Contact({ userData, handleUserDataChange }) {
               className="contact-social-input"
               onChange={e => handleSocialHelper(3, e.target.value)}
               placeHolder="Enter the full url link here"
-              defaultValue = {userSocials[3] !== undefined ? userSocials[3].link : ""}
+              defaultValue={
+                userSocials[3] !== undefined ? userSocials[3].link : ""
+              }
             ></input>
           )}
         </div>
       </div>
-      <div className="settings-edit-button-container">
-        <Mutation
-          mutation={ADD_USER_SOCIAL}
-          variables={{ userSocials }}
-          onCompleted={handleDataSave}
-        >
-          {mutation =>
-            edit ? (
-              <span className="confirm button" onClick={mutation}>
-                Update
-              </span>
-            ) : (
-              <span className="confirm button" onClick={handleEditButton}>
-                Edit
-              </span>
-            )
-          }
-        </Mutation>
-      </div>
+      {urlUsername ? null : (
+        <div className="settings-edit-button-container">
+          <Mutation
+            mutation={ADD_USER_SOCIAL}
+            variables={{ userSocials }}
+            onCompleted={handleDataSave}
+          >
+            {mutation =>
+              edit ? (
+                <span className="confirm button" onClick={mutation}>
+                  Update
+                </span>
+              ) : (
+                <span
+                  className="confirm button"
+                  onClick={handleEditButton}
+                >
+                  Edit
+                </span>
+              )
+            }
+          </Mutation>
+        </div>
+      )}
     </div>
   );
 }
 
 Contact.propTypes = {
   userData: PropTypes.object,
-  handleUserDataChange: PropTypes.func
+  handleUserDataChange: PropTypes.func,
+  urlUsername: PropTypes.string
 };
