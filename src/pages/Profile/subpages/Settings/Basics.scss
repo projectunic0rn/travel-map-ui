@@ -1,59 +1,34 @@
-.settings-basics-primary {
+.basics-container {
   display: flex;
-  margin-top: 14px;
-  .settings-basics-sub-container {
-    display: flex;
-    flex-direction: column;
-    margin: 0 20px;
-  }
-  .settings-subheader {
-    color: #a1a9b7;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-  }
+  flex-wrap: wrap;
+  margin: 15px;
 
-  .settings-basics-input {
-    color: rgb(210, 224, 233);
-    font-family: "Segoe UI", sans-serif;
-    font-size: 16px;
-    background: #4f5867;
-    border: none;
-    border-radius: 16px;
-    padding-left: 12px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.15);
-    height: 32px;
-    width: 300px;
-    &:focus {
-      outline: none;
+  .input-container {
+    margin: 10px 0 10px 0;
+    width: 400px;
+    .input-header {
+      color: #a1a9b7;
+    }
+    .placeholder {
+      color: white;
+      font-size: 1.3em;
+      display: block;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+
+    #birthday {
+      background: #4f5867 url("images/arrow_down.png") right no-repeat;
+    }
+
+    [type="date"]::-webkit-inner-spin-button {
+      display: none;
+    }
+    [type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0;
     }
   }
-  #basics-fullname {
-    width: 500px;
-  }
-  .basics-data {
-    line-height: 33px;
-  }
-  #gender-select {
-    background: url("images/arrow_down.png") no-repeat right #4f5867;
-    appearance: none;
-    -webkit-appearance: none;
-    width: 200px;
-  }
-  #birthday-input {
-    width: 160px;
-    background: #4f5867 url("images/arrow_down.png") right no-repeat;
-  }
-  #birthday-data {
-    width: 160px;
-  }
-  #basics-phone {
-    width: 160px;
-  }
-}
-[type="date"]::-webkit-inner-spin-button {
-  display: none;
-}
-[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
 }

@@ -10,16 +10,17 @@ function ValidationMutation({ children, onInputError, ...rest }) {
       username,
       full_name,
       oldPassword,
-      password2
+      password2,
+      phone_number
     } = err.graphQLErrors[0].extensions.exception;
-
     onInputError({
       username,
       password,
       email,
       full_name,
       oldPassword,
-      password2
+      password2,
+      phone_number
     });
   }
 

@@ -72,18 +72,16 @@ code {
 .button,
 .button:link,
 .button:visited {
-  padding: 13px 20px;
+  cursor: pointer;
+  padding: 13px 15px;
   border: 1px solid #333;
   color: #333;
   font-weight: 700;
-  font-size: 20px;
-  text-transform: capitalize;
   font-size: 13px;
   letter-spacing: 3px;
   transition: all 0.2s ease-in-out;
   background: #f8f8fc;
-  font-size: 1.1em;
-  border-radius: 2px;
+
   &.confirm {
     background: #a7e1ff;
     color: #5f91b7;
@@ -106,6 +104,91 @@ code {
     border: 1px solid #333;
     color: #fefefe;
     border-radius: 30px;
-    cursor: pointer;
+  }
+
+  &.disabled {
+    cursor: wait;
+    color: black;
+    background: repeating-linear-gradient(
+      45deg,
+      #f8f8fc,
+      #f8f8fc 5px,
+      #ccc 5px,
+      #ccc 10px
+    );
+    background-repeat: repeat-x;
+    background-position: 0px 0px;
+    background-size: 1500px 1500px;
+    animation: slide 2s infinite linear;
+  }
+}
+
+@keyframes slide {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 200px 0px;
+  }
+}
+
+.input {
+  padding: 13px 15px;
+  border: 1px solid #333;
+  color: #333;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  transition: all 0.2s ease-in-out;
+  background: #f8f8fc;
+  display: block;
+  width: 250px;
+
+  &:hover {
+    border: 1px solid #333;
+    border-radius: 30px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.disabled {
+    cursor: wait;
+    background: repeating-linear-gradient(
+      45deg,
+      #f8f8fc,
+      #f8f8fc 5px,
+      #ccc 5px,
+      #ccc 10px
+    );
+    background-repeat: repeat-x;
+    background-position: 0px 0px;
+    background-size: 1500px 1500px;
+    animation: slide 2s infinite linear;
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: black;
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: black;
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: black;
+    }
+  }
+}
+
+@keyframes slide {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 200px 0px;
   }
 }
