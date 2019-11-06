@@ -291,8 +291,19 @@ export const REMOVE_PLACE_VISITING = gql`
   }
 `;
 
+export const REMOVE_PLACES_IN_COUNTRY = gql`
+  mutation removePlacesInCountry($countryISO: String!) {
+    removePlacesInCountry(countryISO: $countryISO) {
+      id
+      city
+    }
+  }
+
+`;
+
+
 export const ADD_PLACE_LIVING = gql`
-  mutation addPlaceLiving($country: Country!, $cities: City!) {
+  mutation addPlaceLiving($country: Country!, $cities: City) {
     addPlaceLiving(country: $country, cities: $cities) {
       id
       country
