@@ -294,7 +294,6 @@ class ClickedCountryCities extends Component {
       default:
         break;
     }
-
     return (
       <div className="city-choosing-container">
         <Mutation

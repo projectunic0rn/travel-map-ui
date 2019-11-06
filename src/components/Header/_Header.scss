@@ -37,10 +37,15 @@
     flex: 1;
     align-items: center;
     height: 100%;
+    min-height: 40px;
     font-size: 24px;
     font-family: "Segoe UI", serif;
     font-weight: 100;
     padding-left: 16px;
+    svg {
+      height: 100%;
+      width: 40%;
+    }
   }
 }
 

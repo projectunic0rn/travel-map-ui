@@ -9,7 +9,7 @@ function TrashIcon(props) {
       viewBox="0 0 14 18"
       width="14"
       height="18"
-      onClick = {() => props.trashClicked(props.cityKey)}
+      onClick = {() => props.cityKey !== undefined ? props.trashClicked(props.cityKey) : null}
     >
       <path
         id="ic_delete_24px"
