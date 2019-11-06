@@ -162,11 +162,11 @@ export default function Contact({ userData, handleUserDataChange }) {
         >
           {mutation =>
             edit ? (
-              <span className="settings-edit-button" onClick={mutation}>
+              <span className="confirm button" onClick={mutation}>
                 Update
               </span>
             ) : (
-              <span className="settings-edit-button" onClick={handleEditButton}>
+              <span className="confirm button" onClick={handleEditButton}>
                 Edit
               </span>
             )

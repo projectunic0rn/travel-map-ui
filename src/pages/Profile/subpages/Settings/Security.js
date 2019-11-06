@@ -124,7 +124,7 @@ console.log(password2)
           {(mutation, { loading }) => (
             <input
               onClick={mutation}
-              className="submit-button"
+              className="confirm button submit-button"
               type="submit"
               value={loading ? "Submitting..." : "Submit"}
             />
@@ -143,7 +143,7 @@ console.log(password2)
           >
             {(mutation, { loading }) => (
               <div
-                className={`security-delete-button ${
+                className={`warning button ${
                   loading ? "disabled" : ""
                 }`}
                 onClick={() =>

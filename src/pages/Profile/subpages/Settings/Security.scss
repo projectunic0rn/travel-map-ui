@@ -52,22 +52,8 @@
 
     input.submit-button {
       margin-top: 20px;
-      background-color: #a7e1ff;
-      height: 40px;
-      box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
       cursor: pointer;
-      border-radius: 4px;
-      font-size: 1.4em;
-      outline: none;
-      color: #4f5867;
-      font-weight: 300;
-      border: none;
-      &:hover {
-        background-color: #a7e1af;
-      }
-      &:active {
-        background-color: #88a1b7;
-      }
+      
     }
   }
 

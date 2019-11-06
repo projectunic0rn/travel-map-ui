@@ -68,3 +68,44 @@ code {
 .display-none {
   display: none;
 }
+
+.button,
+.button:link,
+.button:visited {
+  padding: 13px 20px;
+  border: 1px solid #333;
+  color: #333;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: capitalize;
+  font-size: 13px;
+  letter-spacing: 3px;
+  transition: all 0.2s ease-in-out;
+  background: #f8f8fc;
+  font-size: 1.1em;
+  border-radius: 2px;
+  &.confirm {
+    background: #a7e1ff;
+    color: #5f91b7;
+    &:hover {
+      background: #5791b7;
+      color: #a7e1ff;
+    }
+  }
+
+  &.warning {
+    background: #ffc7db;
+    color: red;
+    &:hover {
+      background: red;
+      color: #ecd7db;
+    }
+  }
+  &:hover {
+    background: #333;
+    border: 1px solid #333;
+    color: #fefefe;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+}

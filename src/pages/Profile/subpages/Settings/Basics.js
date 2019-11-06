@@ -59,7 +59,7 @@ export default function Basics({ userData, handleUserDataChange }) {
           ) : (
             <input
               className="settings-basics-input"
-              onChange={e =>
+              onChange={(e) =>
                 handleUserBasicChangeHelper(e.target.value, "full_name")
               }
               defaultValue={userBasics.full_name}
@@ -78,7 +78,7 @@ export default function Basics({ userData, handleUserDataChange }) {
           ) : (
             <input
               className="settings-basics-input"
-              onChange={e =>
+              onChange={(e) =>
                 handleUserBasicChangeHelper(e.target.value, "email")
               }
               defaultValue={userBasics.email}
@@ -98,7 +98,7 @@ export default function Basics({ userData, handleUserDataChange }) {
             <input
               className="settings-basics-input"
               id="basics-phone"
-              onChange={e =>
+              onChange={(e) =>
                 handleUserBasicChangeHelper(e.target.value, "phone_number")
               }
               defaultValue={userBasics.phone_number}
@@ -121,11 +121,11 @@ export default function Basics({ userData, handleUserDataChange }) {
               className="settings-basics-input"
               id="gender-select"
               defaultValue={userBasics.gender}
-              onChange={e =>
+              onChange={(e) =>
                 handleUserBasicChangeHelper(e.target.value, "gender")
               }
             >
-              {genderOptions.map(option => {
+              {genderOptions.map((option) => {
                 return (
                   <option value={option} key={option}>
                     {option}
@@ -151,7 +151,7 @@ export default function Basics({ userData, handleUserDataChange }) {
               className="settings-basics-input"
               type="date"
               defaultValue={userBasics.birthday}
-              onChange={e =>
+              onChange={(e) =>
                 handleUserBasicChangeHelper(e.target.value, "birthday")
               }
             ></input>
@@ -164,13 +164,16 @@ export default function Basics({ userData, handleUserDataChange }) {
           variables={{ userBasics }}
           onCompleted={handleDataSave}
         >
-          {mutation =>
+          {(mutation) =>
             edit ? (
-              <span className="settings-edit-button" onClick={mutation}>
+              <span className="confirm button" onClick={mutation}>
                 Update
               </span>
             ) : (
-              <span className="settings-edit-button" onClick={handleEditButton}>
+              <span
+                className="confirm button"
+                onClick={handleEditButton}
+              >
                 Edit
               </span>
             )
@@ -183,6 +186,6 @@ export default function Basics({ userData, handleUserDataChange }) {
 
 Basics.propTypes = {
   history: PropTypes.object.isRequired,
-  userData: PropTypes.object, 
+  userData: PropTypes.object,
   handleUserDataChange: PropTypes.func
 };
