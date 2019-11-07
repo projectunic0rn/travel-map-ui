@@ -73,7 +73,7 @@ export default function Sidebar({
               />
               {/* TODO: move tags to component */}
               <div className="user-tags">
-                {userData.UserInterests.map(interest => {
+                {data.user.UserInterests.map((interest) => {
                   return <InterestTag key={interest.id} name={interest.name} />;
                 })}
               </div>

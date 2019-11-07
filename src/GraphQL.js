@@ -182,6 +182,10 @@ export const GET_LOGGEDIN_USER = gql`
       username
       full_name
       email
+      UserInterests {
+        id
+        name
+      }
     }
   }
 `;

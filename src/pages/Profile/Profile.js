@@ -12,7 +12,6 @@ import Settings from "./subpages/Settings";
 export default function Profile({ user, urlUsername, refetch }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
-  const [searchText, handleSearchText] = useState("");
   const [userData, handleUserData] = useState(user);
   const [page, handlePageRender] = useState("friends");
   function handleUserDataChange(data) {
@@ -24,7 +23,7 @@ export default function Profile({ user, urlUsername, refetch }) {
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
-      userData.Places_visited.forEach(tripType => {
+      userData.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -34,7 +33,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       });
     }
     if (userData.Places_visiting !== null) {
-      userData.Places_visiting.forEach(tripType => {
+      userData.Places_visiting.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -69,7 +68,6 @@ export default function Profile({ user, urlUsername, refetch }) {
           refetch={refetch}
         />
         <ProfileNav
-          handleSearchText={handleSearchText}
           page={page}
           searchBar={page === "settings" ? false : true}
           urlUsername={urlUsername}
@@ -79,7 +77,7 @@ export default function Profile({ user, urlUsername, refetch }) {
           path={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
           component={Trips}
         />
-         {/* <Route
+        {/* <Route
           path={
             urlUsername
               ? `/profiles/${urlUsername}/friends`
@@ -97,7 +95,7 @@ export default function Profile({ user, urlUsername, refetch }) {
         {!urlUsername ? (
           <Route
             path="/profile/settings"
-            render={props => (
+            render={(props) => (
               <Settings
                 {...props}
                 handlePageRender={handlePageRender}
