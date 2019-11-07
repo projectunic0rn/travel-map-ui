@@ -250,7 +250,7 @@ class FriendCityMap extends Component {
       hoveredCityArray = this.state.clickedCityArray.filter(
         city =>
           city.cityId ===
-          parseFloat(typedCity.result.result.id.slice(10, 16), 10)
+          parseFloat(typedCity.result.id.slice(10, 16), 10)
       );
     }
     this.setState({
@@ -278,8 +278,8 @@ class FriendCityMap extends Component {
               username: data[i].username,
               cityId: data[i].Places_visited[j].cityId,
               city: data[i].Places_visited[j].city,
-              latitude: data[i].Places_visited[j].city_latitude / 1000000,
-              longitude: data[i].Places_visited[j].city_longitude / 1000000,
+              latitude: data[i].Places_visited[j].city_latitude,
+              longitude: data[i].Places_visited[j].city_longitude,
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
               tripTiming: 0,
@@ -298,8 +298,8 @@ class FriendCityMap extends Component {
               username: data[i].username,
               cityId: data[i].Places_visiting[j].cityId,
               city: data[i].Places_visiting[j].city,
-              latitude: data[i].Places_visiting[j].city_latitude / 1000000,
-              longitude: data[i].Places_visiting[j].city_longitude / 1000000,
+              latitude: data[i].Places_visiting[j].city_latitude,
+              longitude: data[i].Places_visiting[j].city_longitude,
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
               tripTiming: 1,
@@ -321,8 +321,8 @@ class FriendCityMap extends Component {
             username: data[i].username,
             cityId: data[i].Place_living.cityId,
             city: data[i].Place_living.city,
-            latitude: data[i].Place_living.city_latitude / 1000000,
-            longitude: data[i].Place_living.city_longitude / 1000000,
+            latitude: data[i].Place_living.city_latitude,
+            longitude: data[i].Place_living.city_longitude,
             country: data[i].Place_living.country,
             countryId: data[i].Place_living.countryId,
             tripTiming: 2,
@@ -456,7 +456,7 @@ class FriendCityMap extends Component {
             component={FriendClickedCityContainer}
             componentProps={{
               hoveredCityArray: this.state.hoveredCityArray,
-              clickedCity: this.state.cityTooltip
+              clickedCity: this.state.clickedCity
             }}
           />
         ) : null}
