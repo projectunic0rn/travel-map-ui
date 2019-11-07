@@ -111,15 +111,19 @@ class ClickedCountryCities extends Component {
 
   handleNewMarkers(markers, type) {
     let fill = "";
+    let fill2 = "";
     switch (this.props.timing) {
       case 0:
-        fill = "rgba(203, 118, 120, 0.75)";
+        fill = "rgba(203, 118, 120, 0.25)";
+        fill2 = "rgba(203, 118, 120, 1.0)";
         break;
       case 1:
-        fill = "rgba(115, 167, 195, 0.75)";
+        fill = "rgba(115, 167, 195, 0.25)";
+        fill2 = "rgba(115, 167, 195, 1.0)";
         break;
       case 2:
-        fill = "rgba(150, 177, 168, 0.75)";
+        fill = "rgba(150, 177, 168, 0.25)";
+        fill2 = "rgba(150, 177, 168, 1.0)";
         break;
       default:
         break;
@@ -130,14 +134,14 @@ class ClickedCountryCities extends Component {
           key={city.cityId}
           offsetLeft={-5}
           offsetTop={-10}
-          latitude={city.city_latitude / 1000000}
-          longitude={city.city_longitude / 1000000}
+          latitude={city.city_latitude}
+          longitude={city.city_longitude}
           captureClick={false}
         >
           <svg
             key={"svg" + city.cityId}
-            height={10}
-            width={10}
+            height={20}
+            width={20}
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -150,6 +154,13 @@ class ClickedCountryCities extends Component {
               cy="50"
               r="50"
               style={{ fill: fill }}
+            />
+            <circle
+              style={{ fill: fill2 }}
+              key={"circle2" + city.cityId}
+              cx="50"
+              cy="50"
+              r="20"
             />
           </svg>
         </Marker>
@@ -166,8 +177,8 @@ class ClickedCountryCities extends Component {
     let cityArrayElement = {
       city: event.result.text,
       cityId: parseFloat(event.result.properties.wikidata.slice(1), 10),
-      city_latitude: event.result.center[1] * 1000000,
-      city_longitude: event.result.center[0] * 1000000
+      city_latitude: event.result.center[1],
+      city_longitude: event.result.center[0]
     };
 
     cities.push(cityArrayElement);
@@ -240,8 +251,8 @@ class ClickedCountryCities extends Component {
           className="city-map-tooltip"
           tipSize={5}
           anchor="top"
-          longitude={cityTooltip.city_longitude / 1000000}
-          latitude={cityTooltip.city_latitude / 1000000}
+          longitude={cityTooltip.city_longitude}
+          latitude={cityTooltip.city_latitude}
           closeOnClick={false}
           style={{
             background: "rgba(115, 167, 195, 0.75)",
@@ -338,6 +349,7 @@ class ClickedCountryCities extends Component {
         <div className="city-lived-popup">
           {this.state.livePopup ? (
             <CityLivedPopup
+            handleAddCity = {this.props.updateMap}
               country={this.state.country}
               cities={
                 this.state.mapCities.length > 0

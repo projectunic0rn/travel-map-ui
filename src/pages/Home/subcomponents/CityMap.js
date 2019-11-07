@@ -304,8 +304,8 @@ class CityMap extends Component {
             id: data.Places_visited[i].id,
             cityId: data.Places_visited[i].cityId,
             city: data.Places_visited[i].city,
-            latitude: data.Places_visited[i].city_latitude / 1000000,
-            longitude: data.Places_visited[i].city_longitude / 1000000,
+            latitude: data.Places_visited[i].city_latitude,
+            longitude: data.Places_visited[i].city_longitude,
             tripTiming: 0
           });
           pastCount++;
@@ -319,8 +319,8 @@ class CityMap extends Component {
             id: data.Places_visiting[i].id,
             cityId: data.Places_visiting[i].cityId,
             city: data.Places_visiting[i].city,
-            latitude: data.Places_visiting[i].city_latitude / 1000000,
-            longitude: data.Places_visiting[i].city_longitude / 1000000,
+            latitude: data.Places_visiting[i].city_latitude,
+            longitude: data.Places_visiting[i].city_longitude,
             tripTiming: 1
           });
           futureCount++;
@@ -338,8 +338,8 @@ class CityMap extends Component {
             id: data.Place_living.id,
             cityId: data.Place_living.cityId,
             city: data.Place_living.city,
-            latitude: data.Place_living.city_latitude / 1000000,
-            longitude: data.Place_living.city_longitude / 1000000,
+            latitude: data.Place_living.city_latitude,
+            longitude: data.Place_living.city_longitude,
             tripTiming: 2
           });
           liveCount++;
@@ -379,13 +379,13 @@ class CityMap extends Component {
   handleTripTimingCityHelper(city, timing) {
     let { clickedCityArray, tripTimingCounts } = this.state;
     city.tripTiming = timing;
-    city.latitude = city.city_latitude / 1000000;
-    city.longitude = city.city_longitude / 1000000;
+    city.latitude = city.city_latitude;
+    city.longitude = city.city_longitude;
     clickedCityArray.push({
       city: city.city,
       cityId: city.cityId,
-      latitude: city.city_latitude / 1000000,
-      longitude: city.city_longitude / 1000000,
+      latitude: city.city_latitude,
+      longitude: city.city_longitude,
       tripTiming: timing
     });
     let pastCount = tripTimingCounts[0];
@@ -403,8 +403,8 @@ class CityMap extends Component {
         markerPastDisplay.push(
           <Marker
             key={city.id}
-            latitude={city.city_latitude / 1000000}
-            longitude={city.city_longitude / 1000000}
+            latitude={city.city_latitude}
+            longitude={city.city_longitude}
           >
             <svg
               key={"svg" + city.id}
@@ -451,8 +451,8 @@ class CityMap extends Component {
         markerFutureDisplay.push(
           <Marker
             key={city.id}
-            latitude={city.city_latitude / 1000000}
-            longitude={city.city_longitude / 1000000}
+            latitude={city.city_latitude}
+            longitude={city.city_longitude}
           >
             <svg
               key={"svg" + city.id}
@@ -499,8 +499,8 @@ class CityMap extends Component {
         markerLiveDisplay.push(
           <Marker
             key={city.id}
-            latitude={city.city_latitude / 1000000}
-            longitude={city.city_longitude / 1000000}
+            latitude={city.city_latitude}
+            longitude={city.city_longitude}
           >
             <svg
               key={"svg" + city.id}

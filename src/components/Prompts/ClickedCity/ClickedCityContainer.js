@@ -46,8 +46,8 @@ function ClickedCityContainer(props) {
               city={props.customProps.cityInfo.result.text}
               clickedCountry={countryName}
               countryISO={countryISO}
-              latitude={props.customProps.cityInfo.result.center[1] * 1000000}
-              longitude={props.customProps.cityInfo.result.center[0] * 1000000}
+              latitude={props.customProps.cityInfo.result.center[1]}
+              longitude={props.customProps.cityInfo.result.center[0]}
               tripData={props.customProps.tripData}
               countryId={parseInt(
                 props.customProps.cityInfo.result.context[context].id.slice(
