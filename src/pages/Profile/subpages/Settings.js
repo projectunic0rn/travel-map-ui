@@ -7,7 +7,7 @@ import ContactIcon from "../../../icons/ContactIcon";
 import SecurityIcon from "../../../icons/SecurityIcon";
 import TravelerIcon from "../../../icons/TravelerIcon";
 import Basics from "./Settings/Basics";
-import Contact from "./Settings/Contact";
+import Social from "./Settings/Social";
 import Security from "./Settings/Security";
 import TravelerInfo from "./Settings/TravelerInfo";
 
@@ -51,8 +51,8 @@ export default function Settings({
         <NavLink
           to={
             urlUsername
-              ? `/profiles/${urlUsername}/settings/contact`
-              : "/profile/settings/contact"
+              ? `/profiles/${urlUsername}/settings/social`
+              : "/profile/settings/social"
           }
         >
           <ContactIcon />
@@ -73,12 +73,13 @@ export default function Settings({
       </div>
       <div className="content-results">
         <Route
-          exact path={
+          exact
+          path={
             urlUsername
               ? `/profiles/${urlUsername}/settings`
               : "/profile/settings"
           }
-          render={props => (
+          render={(props) => (
             <Basics
               {...props}
               urlUsername={urlUsername}
@@ -90,11 +91,11 @@ export default function Settings({
         <Route
           path={
             urlUsername
-              ? `/profiles/${urlUsername}/settings/contact`
-              : "/profile/settings/contact"
+              ? `/profiles/${urlUsername}/settings/social`
+              : "/profile/settings/social"
           }
           render={() => (
-            <Contact
+            <Social
               userData={userData}
               urlUsername={urlUsername}
               handleUserDataChange={handleUserDataChange}
@@ -103,7 +104,7 @@ export default function Settings({
         />
         <Route
           path="/profile/settings/traveler"
-          render={props => (
+          render={(props) => (
             <TravelerInfo
               {...props}
               userData={userData}

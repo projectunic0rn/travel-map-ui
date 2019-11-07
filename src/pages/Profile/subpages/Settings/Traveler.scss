@@ -1,5 +1,4 @@
 .traveler-settings-container {
-  margin: 8px;
   display: flex;
   flex-direction: column;
   margin: 8px;
@@ -8,11 +7,9 @@
     color: #a1a9b7;
     font-size: 24px;
     font-weight: 550;
-    padding-top: 20px;
     padding-bottom: 12px;
     border-bottom: 1px solid rgba(248, 248, 252, 0.2);
-    margin-bottom: 20px;
-
+    margin: 10px;
     .save-button {
       position: absolute;
       top: 0;

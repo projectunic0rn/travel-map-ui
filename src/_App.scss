@@ -81,6 +81,8 @@ code {
   letter-spacing: 3px;
   transition: all 0.2s ease-in-out;
   background: #f8f8fc;
+  padding: 15px 35px 15px 35px;
+  font-size: 1.1em;
 
   &.confirm {
     background: #a7e1ff;
@@ -138,7 +140,7 @@ code {
   color: #333;
   font-weight: 700;
   font-size: 13px;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   transition: all 0.2s ease-in-out;
   background: #f8f8fc;
   display: block;

@@ -56,7 +56,6 @@ export default function Basics({
   function onInputError(err) {
     let { full_name, phone_number } = err;
     setErrors({ full_name, phone_number });
-    console.log(err);
   }
 
   const { full_name, phone_number, gender, birthday } = userBasics;
@@ -144,26 +143,24 @@ export default function Basics({
         </div>
       ) : null}
       {urlUsername ? null : (
-        <div className="settings-edit-button-container">
-          <ValidationMutation
-            mutation={UPDATE_BASIC_INFO}
-            variables={{ userBasics }}
-            onCompleted={handleDataSave}
-            onInputError={onInputError}
-          >
-            {(mutation) =>
-              edit ? (
-                <span className="confirm button" onClick={mutation}>
-                  Update
-                </span>
-              ) : (
-                <span className="confirm button" onClick={handleEditButton}>
-                  Edit
-                </span>
-              )
-            }
-          </ValidationMutation>
-        </div>
+        <ValidationMutation
+          mutation={UPDATE_BASIC_INFO}
+          variables={{ userBasics }}
+          onCompleted={handleDataSave}
+          onInputError={onInputError}
+        >
+          {(mutation) =>
+            edit ? (
+              <span className="large confirm button" onClick={mutation}>
+                Update
+              </span>
+            ) : (
+              <span className="large button" onClick={handleEditButton}>
+                Edit
+              </span>
+            )
+          }
+        </ValidationMutation>
       )}
     </div>
   );

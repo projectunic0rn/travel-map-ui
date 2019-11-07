@@ -56,8 +56,8 @@ export default function Security({ history }) {
       showConfirmButton: false
     });
     setOldPassword("");
-    setPassword("")
-    setPassword2("")
+    setPassword("");
+    setPassword2("");
   }
 
   return (
@@ -71,9 +71,9 @@ export default function Security({ history }) {
       >
         <span className="security-subheader">OLD PASSWORD</span>
         <input
+          className="input"
           value={oldPassword}
           onChange={handleInput}
-          className="security-password-input"
           noValidate
           type="password"
           data-ng-model="password"
@@ -86,9 +86,9 @@ export default function Security({ history }) {
         )}
         <span className="security-subheader">NEW PASSWORD</span>
         <input
+          className="input"
           value={password}
           onChange={handleInput}
-          className="security-password-input"
           noValidate
           type="password"
           data-ng-model="password"
@@ -99,9 +99,9 @@ export default function Security({ history }) {
         {errors.password && <span className="validate">{errors.password}</span>}
         <span className="security-subheader">CONFIRM NEW PASSWORD</span>
         <input
+          className="input"
           value={password2}
           onChange={handleInput}
-          className="security-password-input"
           noValidate
           type="password"
           data-ng-model="password"
@@ -121,7 +121,7 @@ export default function Security({ history }) {
           {(mutation, { loading }) => (
             <input
               onClick={mutation}
-              className="confirm button submit-button"
+              className="confirm button"
               type="submit"
               value={loading ? "Submitting..." : "Submit"}
             />
@@ -140,14 +140,12 @@ export default function Security({ history }) {
           >
             {(mutation, { loading }) => (
               <div
-                className={`warning button ${
-                  loading ? "disabled" : ""
-                }`}
+                className={`warning button ${loading ? "disabled" : ""}`}
                 onClick={() =>
                   onRemoveUserClick(loading, mutation, value.setUserLoggedIn)
                 }
               >
-                delete your account
+                Delete your account
               </div>
             )}
           </Mutation>
