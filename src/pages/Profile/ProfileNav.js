@@ -6,7 +6,7 @@ function ProfileNav({ handleSearchText, urlUsername }) {
   return (
     <div className="content-nav">
       <div className="profile-nav-links">
-        <NavLink
+        {/* <NavLink
           exact
           to={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
         >
@@ -20,6 +20,13 @@ function ProfileNav({ handleSearchText, urlUsername }) {
           }
         >
           Friends
+        </NavLink> */}
+        <NavLink
+          to={
+            urlUsername ? `/profiles/${urlUsername}/cities` : "/profile/cities"
+          }
+        >
+          cities
         </NavLink>
         <NavLink
           to={
@@ -37,7 +44,7 @@ function ProfileNav({ handleSearchText, urlUsername }) {
             className="profile-search"
             type="search"
             placeholder="Search"
-            onChange={(e) => handleSearchText(e.target.value)}
+            onChange={e => handleSearchText(e.target.value)}
           ></input>
         ) : null}
       </div>

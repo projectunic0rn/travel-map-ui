@@ -4,9 +4,9 @@ import { Route } from "react-router-dom";
 
 import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
-import Trips from "./subpages/Trips";
-import Friends from "./subpages/Friends";
+import ProfileCities from "./subpages/Cities/ProfileCities";
 import Settings from "./subpages/Settings";
+import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ user, urlUsername, refetch }) {
@@ -14,7 +14,8 @@ export default function Profile({ user, urlUsername, refetch }) {
   const [countryArray, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
   const [userData, handleUserData] = useState(user);
-  const [page, handlePageRender] = useState("friends");
+  const [page, handlePageRender] = useState("settings");
+  const [selectedCity, handleSelectedCity] = useState("none");
   function handleUserDataChange(data) {
     handleUserData(data);
     refetch();
@@ -74,7 +75,7 @@ export default function Profile({ user, urlUsername, refetch }) {
           searchBar={page === "settings" ? false : true}
           urlUsername={urlUsername}
         />
-        <Route
+        {/* <Route
           exact
           path={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
           component={Trips}
@@ -93,6 +94,17 @@ export default function Profile({ user, urlUsername, refetch }) {
               handlePageRender={handlePageRender}
             />
           )}
+        /> */}
+        <Route
+          exact
+          path={
+            urlUsername ? `profiles/${urlUsername}/cities` : "/profile/cities"
+          }
+          render={() => <ProfileCities searchText={searchText} handleSelectedCity={handleSelectedCity}/>}
+        />
+        <Route
+          exact path={urlUsername ? `profiles/${urlUsername}/cities/${selectedCity}` : `/profile/cities/${selectedCity}`}
+          render={(props) => <ProfileIndividualCity {...props} city={selectedCity} searchText={searchText} />}
         />
         <Route
           path={

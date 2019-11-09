@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Route, NavLink } from "react-router-dom";
 
+import MenuIcon from "../../../icons/MenuIcon";
 import BasicsIcon from "../../../icons/BasicsIcon";
 import ContactIcon from "../../../icons/ContactIcon";
 import SecurityIcon from "../../../icons/SecurityIcon";
@@ -18,6 +19,7 @@ export default function Settings({
   urlUsername
 }) {
   const [friendPage] = useState(2);
+  const [expanded, handleToggle] = useState(false);
   switch (friendPage) {
     case 0:
       handlePageRender("settings");
@@ -36,7 +38,17 @@ export default function Settings({
   }
   return (
     <div className="settings content">
-      <div className="sidebar-filter">
+      <div
+        className={
+          expanded ? "sidebar-filter sidebar-filter-active" : "sidebar-filter"
+        }
+      >
+        <a onClick={() => handleToggle(!expanded)}>
+          {expanded ? (
+            <div ></div>
+          ) : null}
+          <MenuIcon  />
+        </a>
         <NavLink
           exact
           to={
@@ -45,8 +57,7 @@ export default function Settings({
               : "/profile/settings"
           }
         >
-          <BasicsIcon />
-          basics
+          {expanded ? "basics" : null} <BasicsIcon />
         </NavLink>
         <NavLink
           to={
@@ -55,25 +66,24 @@ export default function Settings({
               : "/profile/settings/contact"
           }
         >
-          <ContactIcon />
-          social
+          {expanded ? "social" : null} <ContactIcon />
         </NavLink>
         {urlUsername ? null : (
           <>
             <NavLink to="/profile/settings/traveler">
-              <TravelerIcon />
-              traveler
+              {expanded ? "traveler" : null} <TravelerIcon />
             </NavLink>
             <NavLink to="/profile/settings/security">
+              {expanded ? "security" : null}
               <SecurityIcon />
-              security
             </NavLink>
           </>
         )}
       </div>
       <div className="content-results">
         <Route
-          exact path={
+          exact
+          path={
             urlUsername
               ? `/profiles/${urlUsername}/settings`
               : "/profile/settings"

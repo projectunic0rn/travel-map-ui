@@ -1,5 +1,9 @@
 .content-nav {
   display: flex;
+  max-width: 800px;
+  @media (min-width: 1400px) {
+    max-width: 1000px;
+  }
   .profile-nav-links {
     flex: 1;
     a {

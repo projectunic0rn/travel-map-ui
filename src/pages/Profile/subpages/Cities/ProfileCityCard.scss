@@ -1,0 +1,76 @@
+.profile-city-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 120px;
+    background: rgb(248, 248, 252);
+    box-shadow: 0 1px 2px 2px rgba(0,0, 0, 0.15);
+    border-radius: 4px;
+    padding: 4px 12px;
+    margin: 0 40px 20px 0;
+    .pcc-city-info {
+        display: flex;
+        flex-direction: column;
+        min-height: 74px;
+        border-bottom: 0.5px solid #E1E3E5;
+        font-family: 'Segoe UI', sans-serif;
+        .pcc-city {
+            font-size: 28px;
+            color: rgb(44, 48, 53);
+            text-transform: lowercase;
+        }
+        .pcc-country {
+            font-size: 16px;
+            font-weight: 550;
+            color: rgb(148, 148, 148);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    }
+    .pcc-city-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 240px;
+        height: 100%;
+        .pcc-stat {
+            span {
+                margin-left: 8px;
+                font-size: 18px;
+                font-weight: 550;
+                color: #4F545A;
+            }
+            svg {
+                transform: translateY(2px);
+            }
+        }
+        #pcc-days {
+            svg {
+                fill: #CB7678;
+            }
+        }
+        #pcc-places {
+            svg {
+                fill: #73A7C3;
+            }
+        }
+        #pcc-meals {
+            svg {
+                fill: #96B1A8;
+            }
+        }
+        #pcc-logistics {
+            svg {
+                fill: #DBC071;
+            }
+        }
+    }
+    .circle-icon {
+        position: absolute;
+        right: -30px;
+        top: calc(50% - 30px);
+        height: 60px;
+        width: 60px;
+    }
+}
