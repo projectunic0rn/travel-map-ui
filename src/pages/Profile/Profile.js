@@ -76,6 +76,7 @@ export default function Profile({ user, urlUsername, refetch }) {
           exact
           path={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
           component={Trips}
+          render={(props) => <Trips {...props} user={user} />}
         />
         {/* <Route
           path={

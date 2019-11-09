@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import CountryResult from "./CountryResult";
 import AllTimingsIcon from "../../../../icons/AllTimingsIcon";
@@ -6,7 +6,7 @@ import PastIcon from "../../../../icons/PastIcon";
 import FutureIcon from "../../../../icons/FutureIcon";
 import LiveIcon from "../../../../icons/LiveIcon";
 
-export default function Trips() {
+export default function Trips({ user }) {
   let fakeresults = [
     {
       id: 1,
@@ -58,6 +58,8 @@ export default function Trips() {
   const [results, setResults] = useState(fakeresults);
   const [filterState, setFilterState] = useState("");
 
+  useEffect(() => console.log(user), [user]);
+
   function filter(state) {
     setFilterState(state);
     if (!state) {
@@ -100,9 +102,9 @@ export default function Trips() {
           <CountryResult
             key={country.id}
             name={country.name}
-            days={country.days}
-            city={country.city}
-            year={country.year}
+            days={20}
+            city="City"
+            year="2019"
           />
         ))}
       </div>
