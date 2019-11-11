@@ -103,7 +103,7 @@ export default function Profile({ user, urlUsername, refetch }) {
           render={() => <ProfileCities searchText={searchText} handleSelectedCity={handleSelectedCity}/>}
         />
         <Route
-          exact path={urlUsername ? `profiles/${urlUsername}/cities/${selectedCity}` : `/profile/cities/${selectedCity}`}
+          exact path={urlUsername ? `profiles/${urlUsername}/cities/${selectedCity.city}` : `/profile/cities/${selectedCity.city}`}
           render={(props) => <ProfileIndividualCity {...props} city={selectedCity} searchText={searchText} />}
         />
         <Route

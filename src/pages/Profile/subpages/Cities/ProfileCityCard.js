@@ -11,7 +11,15 @@ import LogisticsIcon from "../../../../icons/LogisticsIcon";
 function ProfileCityCard({ cityData, color, handleSelectedCity }) {
   return (
     <NavLink to={`/profile/cities/${cityData.city.toLowerCase()}/`}>
-      <div className="profile-city-card" onClick={() => handleSelectedCity(cityData.city)}>
+      <div
+        className="profile-city-card"
+        onClick={() =>
+          handleSelectedCity({
+            city: cityData.city,
+            country: cityData.country
+          })
+        }
+      >
         <div className="pcc-city-info">
           <span className="pcc-city">{cityData.city}</span>
           <span className="pcc-country">{cityData.country}</span>
@@ -50,7 +58,8 @@ function ProfileCityCard({ cityData, color, handleSelectedCity }) {
 
 ProfileCityCard.propTypes = {
   cityData: PropTypes.object,
-  color: PropTypes.string
+  color: PropTypes.string,
+  handleSelectedCity: PropTypes.func
 };
 
 export default withRouter(ProfileCityCard);

@@ -103,7 +103,7 @@ export default function ProfileCities({ searchText, handleSelectedCity }) {
       <div className="content-results">
         {results.map(city => (
           <ProfileCityCard
-            key={city.id}
+            key={city.city}
             cityData={city}
             color={
               city.timing === "past"

@@ -387,7 +387,8 @@ class FriendCityMap extends Component {
   handleHoveredCityArray(hoveredCityArray) {
     this.setState({
       activePopup: true,
-      hoveredCityArray
+      hoveredCityArray, 
+      clickedCity: hoveredCityArray
     });
   }
 
