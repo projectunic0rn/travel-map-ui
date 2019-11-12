@@ -223,7 +223,9 @@ class ClickedCountryCities extends Component {
         customClass: {
           container: "live-swal-prompt"
         },
-        text: popupText
+        text: popupText,
+        showCancelButton: true,
+        cancelButtonColor: "#cb7678"
       };
       Swal.fire(swalParams).then(result => {
         if (result.value) {
@@ -316,10 +318,10 @@ class ClickedCountryCities extends Component {
             <button
               className="submit-cities"
               style={style}
-              onClick={mutation}
-              onMouseOver={() => this.handleLivePopup("country")}
+              onClick={(this.props.timing === 2 && this.props.tripData.Place_living !== null) ? () => this.handleLivePopup("country") :
+                null}
             >
-              Upload
+              Save
             </button>
           )}
         </Mutation>

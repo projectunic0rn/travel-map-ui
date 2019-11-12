@@ -120,7 +120,7 @@ export default function ProfileIndividualCity({ searchText, city }) {
       </div>
       <div className="content-results">
         <span className="city-review-title">{city.city.toLowerCase()}</span>
-        <span className="city-review-title">{city.country.toLowerCase()}</span>
+        <span className="city-review-subtitle">{city.country.toLowerCase()}</span>
         {results.map((review, index) => (
           <CityReviewCard
             key={review.attraction_type + index}
