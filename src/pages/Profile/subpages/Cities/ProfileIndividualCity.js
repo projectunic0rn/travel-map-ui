@@ -8,6 +8,7 @@ import LocationIcon from "../../../../icons/LocationIcon";
 import FoodieIcon from "../../../../icons/InterestIcons/FoodieIcon";
 import CommentaryIcon from "../../../../icons/CommentaryIcon";
 import LogisticsIcon from "../../../../icons/LogisticsIcon";
+import LogisticsInputContainer from "./LogisticsInputContainer";
 
 export default function ProfileIndividualCity({ searchText, city }) {
   let fakeresults = [
@@ -42,6 +43,22 @@ export default function ProfileIndividualCity({ searchText, city }) {
       cost: 0,
       currency: "EUR",
       comment: "Great place to eat!"
+    }, 
+    {
+      attraction_type: "logistics",
+      attraction_name: "car",
+      rating: 1,
+      cost: 10,
+      currency: "EUR",
+      comment: "Easy place to drive"
+    },
+    {
+      attraction_type: "logistics",
+      attraction_name: "walk",
+      rating: 1,
+      cost: 0,
+      currency: "EUR",
+      comment: "Easy place to walk"
     }
   ];
   const [expanded, handleToggle] = useState(false);
@@ -56,6 +73,9 @@ export default function ProfileIndividualCity({ searchText, city }) {
         break;
       case "meals":
         keyWords = ["breakfast", "lunch", "dinner", "snack", "drink"];
+        break;
+      case "logistics":
+        keyWords = ["logistics"];
         break;
       default:
         break;
@@ -120,25 +140,31 @@ export default function ProfileIndividualCity({ searchText, city }) {
       </div>
       <div className="content-results">
         <span className="city-review-title">{city.city.toLowerCase()}</span>
-        <span className="city-review-subtitle">{city.country.toLowerCase()}</span>
-        {results.map((review, index) => (
-          <CityReviewCard
-            key={review.attraction_type + index}
-            review={review}
-            edit={edit}
-          />
-        ))}
+        <span className="city-review-subtitle">
+          {city.country.toLowerCase()}
+        </span>
+        {page === "logistics" ? (
+          <LogisticsInputContainer key = {"logistics"} review={results} edit={edit} />
+        ) : (
+          results.map((review, index) => (
+            <CityReviewCard
+              key={review.attraction_type + index}
+              review={review}
+              edit={edit}
+            />
+          ))
+        )}
         <div className="review-edit-button-container">
           {edit ? (
             <span
-              className="review-edit-button"
+              className="large button"
               onClick={() => handleEdit(false)}
             >
               Update
             </span>
           ) : (
             <span
-              className="review-edit-button"
+              className="large button"
               onClick={() => handleEdit(true)}
             >
               Edit

@@ -319,7 +319,7 @@ class ClickedCountryCities extends Component {
               className="submit-cities"
               style={style}
               onClick={(this.props.timing === 2 && this.props.tripData.Place_living !== null) ? () => this.handleLivePopup("country") :
-                null}
+                mutation}
             >
               Save
             </button>

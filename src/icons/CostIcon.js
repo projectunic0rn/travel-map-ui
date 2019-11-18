@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-function CostIcon( { value, onClick }) {
+function CostIcon({ value, onClick }) {
   return (
     <div>
       <svg
@@ -25,8 +25,8 @@ function CostIcon( { value, onClick }) {
 }
 
 CostIcon.propTypes = {
-    value: PropTypes.number,
-    onClick: PropTypes.func
-}
+  value: PropTypes.number,
+  onClick: PropTypes.func
+};
 
 export default CostIcon;

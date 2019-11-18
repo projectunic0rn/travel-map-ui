@@ -1,0 +1,44 @@
+.social-container {
+  margin: 15px;
+  width: 100%;
+  h3.header {
+    position: relative;
+    color: #a1a9b7;
+    font-size: 24px;
+    font-weight: 550;
+    padding-top: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(248, 248, 252, 0.2);
+    margin: 10px;
+  }
+
+  .media-container {
+    display: inline-block;
+    width: fit-content;
+    margin: 10px;
+    .icon {
+      fill: #a7e1ff;
+      svg {
+        margin: 10px 0 0 0;
+        height: 40px;
+        width: 40px;
+      }
+    }
+
+    &.edit {
+      margin: 10px;
+
+      .input {
+        display: inline-block;
+        position: relative;
+        top: -14px;
+        margin: 0 0 5px 10px;
+      }
+    }
+  }
+  span.button {
+    margin: 10px;
+    display: block;
+    width: fit-content;
+  }
+}

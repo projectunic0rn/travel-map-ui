@@ -182,6 +182,10 @@ export const GET_LOGGEDIN_USER = gql`
       username
       full_name
       email
+      UserInterests {
+        id
+        name
+      }
     }
   }
 `;
@@ -317,7 +321,7 @@ export const ADD_PLACE_LIVING = gql`
 
 // This will depend on how the UI is laid out
 export const UPDATE_PLACE_LIVING = gql`
-  mutation updatePlaceLiving($id: Int!, $country: Country!, $cities: City!) {
+  mutation updatePlaceLiving($id: Int!, $country: Country!, $cities: City) {
     updatePlaceLiving(id: $id, country: $country, cities: $cities) {
       id
       country

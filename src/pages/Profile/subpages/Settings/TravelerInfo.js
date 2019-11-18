@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { ADD_USER_INTERESTS } from "../../../../GraphQL";
 
-import SaveIcon from '../../../../icons/SaveIcon';
+import SaveIcon from "../../../../icons/SaveIcon";
 import TravelTagContainer from "./Traveler/TravelTagContainer";
 import FoodieIcon from "../../../../icons/InterestIcons/FoodieIcon";
 import HistoryIcon from "../../../../icons/InterestIcons/HistoryIcon";
@@ -24,16 +24,20 @@ import RelaxerIcon from "../../../../icons/InterestIcons/RelaxerIcon";
 export default function TravelerInfo({ userData, handleUserDataChange }) {
   const [userInterests, handleTagChange] = useState(userData.UserInterests);
   const [showSaveButton, handleShowSave] = useState(false);
-  useEffect(() => {
-    let interestTypeRemoval = [];
-    for (let i in userInterests) {
-      interestTypeRemoval.push({
-        id: userInterests[i].id,
-        name: userInterests[i].name
-      });
-    }
-    handleTagChange(interestTypeRemoval);
-  }, [userData.UserInterests], userInterests);
+  useEffect(
+    () => {
+      let interestTypeRemoval = [];
+      for (let i in userInterests) {
+        interestTypeRemoval.push({
+          id: userInterests[i].id,
+          name: userInterests[i].name
+        });
+      }
+      handleTagChange(interestTypeRemoval);
+    },
+    [userData.UserInterests],
+    userInterests
+  );
   function handleTagClick(tag) {
     handleShowSave(true);
     let tags = userInterests;
@@ -62,10 +66,10 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
     if (newTag) {
       if (nullAvailable !== false) {
         tags[nullAvailable].name = tag;
-      } else if (userInterests.length < 4){
+      } else if (userInterests.length < 4) {
         tags.push({ id: 0, name: tag });
       } else {
-        alert("Only four tags are allowed")
+        alert("Only four tags are allowed");
       }
       handleTagChange(tags);
       return;
@@ -91,7 +95,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
           <span className="traveler-settings-header">
             Travel Tags
             {showSaveButton ? (
-              <button className="save-button" onClick={mutation}>
+              <button className="confrim button" onClick={mutation}>
                 <SaveIcon />
               </button>
             ) : null}
