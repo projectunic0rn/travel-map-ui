@@ -51,15 +51,15 @@
     }
 
     .recommend-icon:hover {
-      fill: #96b1a8;
+      stroke: #94cf8e;
     }
 
     .recommend-active {
-      stroke: #96b1a8;
+      stroke: #94cf8e;
     }
 
     .neutral-icon:hover {
-      fill: #dbc071;
+      stroke: #dbc071;
     }
 
     .neutral-active {
@@ -67,7 +67,7 @@
     }
 
     .do-not-recommend-icon:hover {
-      fill: #c47575;
+      stroke: #c47575;
     }
 
     .do-not-recommend-active {
@@ -75,11 +75,11 @@
     }
 
     .comment-icon:hover {
-      stroke: teal;
+      stroke: $primary-blue;
     }
 
     .comment-active {
-      stroke: teal;
+      stroke: $primary-blue;
     }
     .cost-icon-modal {
       display: flex;
@@ -118,12 +118,12 @@
 
     .cost-icon:hover circle,
     .cost-icon:hover path {
-      stroke: purple;
+      stroke: rgb(204, 142, 204);
     }
 
     .cost-active circle,
     .cost-active path {
-      stroke: purple;
+      stroke: rgb(204, 142, 204);
       stroke-width: 6px;
     }
   }

@@ -11,6 +11,7 @@
 @import "./subpages/Cities/CityReviewCard.scss";
 @import "./subpages/Cities/ProfileCities.scss";
 @import "./subpages/Cities/LogisticsInputContainer.scss";
+@import "./subpages/Cities/CityBasicsContainer.scss";
 
 .page-profile {
   .container {
@@ -101,6 +102,7 @@
   .content-results {
     display: flex;
     margin: 28px 20px;
+    width: 700px;
     flex-wrap: wrap;
     align-content: flex-start;
     a {

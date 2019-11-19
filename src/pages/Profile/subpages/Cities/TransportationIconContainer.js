@@ -14,7 +14,6 @@ function TransportationIconContainer({
   active,
   review
 }) {
-  console.log(review);
   const [loaded, handleLoaded] = useState(false);
   const [localActive, handleClick] = useState(active);
   const [commentActive, handleCommentClick] = useState(false);
