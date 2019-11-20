@@ -5,11 +5,13 @@ import MenuIcon from "../../../../icons/MenuIcon";
 import CityReviewCard from "./CityReviewCard";
 import CalendarIcon from "../../../../icons/CalendarIcon";
 import LocationIcon from "../../../../icons/LocationIcon";
+import ActivitiesIcon from "../../../../icons/InterestIcons/GuidedTouristIcon";
 import FoodieIcon from "../../../../icons/InterestIcons/FoodieIcon";
 import CommentaryIcon from "../../../../icons/CommentaryIcon";
 import LogisticsIcon from "../../../../icons/LogisticsIcon";
 import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
+import CityCommentaryContainer from "./CityCommentaryContainer";
 
 export default function ProfileIndividualCity({ searchText, city }) {
   let fakeresults = {
@@ -17,10 +19,20 @@ export default function ProfileIndividualCity({ searchText, city }) {
     days: 10,
     trip_purpose: "work",
     trip_company: "family",
+    bestComment: "A great place to visit in Europe",
+    hardestComment: "Very hot weather",
     CityReviews: [
       {
         attraction_type: "place",
         attraction_name: "Duomo",
+        rating: 2,
+        cost: 0,
+        currency: "EUR",
+        comment: "Great place to visit!"
+      },
+      {
+        attraction_type: "tour",
+        attraction_name: "Colisseum",
         rating: 2,
         cost: 0,
         currency: "EUR",
@@ -81,6 +93,9 @@ export default function ProfileIndividualCity({ searchText, city }) {
       case "meals":
         keyWords = ["breakfast", "lunch", "dinner", "snack", "drink"];
         break;
+      case "activities":
+        keyWords = ["tour", "outdoor", "shopping", "activity"];
+        break;
       case "logistics":
         keyWords = ["logistics"];
         break;
@@ -124,6 +139,13 @@ export default function ProfileIndividualCity({ searchText, city }) {
           <LocationIcon />
         </button>
         <button
+          onClick={() => handlePage("activities")}
+          className={page === "activities" ? "active" : ""}
+        >
+          {expanded ? "activities" : null}
+          <ActivitiesIcon />
+        </button>
+        <button
           onClick={() => handlePage("meals")}
           className={page === "meals" ? "active" : ""}
         >
@@ -138,10 +160,10 @@ export default function ProfileIndividualCity({ searchText, city }) {
           <LogisticsIcon />
         </button>
         <button
-          onClick={() => handlePage("comments")}
-          className={page === "comments" ? "active" : ""}
+          onClick={() => handlePage("commentary")}
+          className={page === "commentary" ? "active" : ""}
         >
-          {expanded ? "comments" : null}
+          {expanded ? "commentary" : null}
           <CommentaryIcon />
         </button>
       </div>
@@ -181,13 +203,28 @@ export default function ProfileIndividualCity({ searchText, city }) {
                 edit={edit}
               />
             )),
+            activities: results.CityReviews.map((review, index) => (
+              <CityReviewCard
+                key={review.attraction_type + index}
+                review={review}
+                edit={edit}
+              />
+            )),
             meals: results.CityReviews.map((review, index) => (
               <CityReviewCard
                 key={review.attraction_type + index}
                 review={review}
                 edit={edit}
               />
-            ))
+            )),
+            commentary: (
+              <CityCommentaryContainer
+                key={"commentary"}
+                city={city.city}
+                edit={edit}
+                results={results}
+              />
+            ),
           }[page]
         }
         <div className="review-edit-button-container">
