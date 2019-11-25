@@ -20,7 +20,7 @@ function DoNotRecommendIcon({ value, onClick }) {
 
 DoNotRecommendIcon.propTypes = {
   onClick: PropTypes.func,
-  value: PropTypes.number
+  value: PropTypes.bool
 };
 
 export default DoNotRecommendIcon;

@@ -1,19 +1,37 @@
 .city-commentary-container {
+  display: flex;
+  flex-direction: column;
+  .city-commentary-subtitle {
+    color: rgb(200, 200, 200);
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .city-commentary-textarea {
+    width: 600px;
+    height: 200px;
+    margin-bottom: 20px;
+    background: #e0e0eb;
+    border-radius: 4px;
+    font-family: "Times", serif;
+    font-size: 18px;
+    padding: 12px;
+    color: rgb(40, 40, 40);
+    resize: none;
+    &::placeholder {
+      color: rgb(40, 40, 40);
+    }
+  }
+  .city-commentary-unedit {
+    background: #8792a4;
+    border: none;
+    &::placeholder {
+      color: #d0e2ff;
+    }
+  }
+  .button {
+    max-width: 120px;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    .city-commentary-subtitle {
-        color: rgb(200, 200, 200);
-        font-size: 20px;
-        margin-bottom: 4px;
-    }
-    .city-commentary-textarea {
-        width: 600px;
-        height: 200px;
-        margin-bottom: 20px;
-        background: rgb(220, 220, 220);
-        border-radius: 4px;
-        font-family: 'Times', serif;
-        font-size: 16px;
-        padding: 4px;
-    }
+    justify-content: center;
+  }
 }

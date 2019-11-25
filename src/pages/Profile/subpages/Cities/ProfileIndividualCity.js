@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import MenuIcon from "../../../../icons/MenuIcon";
-import CityReviewCard from "./CityReviewCard";
+import CityReviewsContainer from "./CityReviewsContainer";
 import CalendarIcon from "../../../../icons/CalendarIcon";
 import LocationIcon from "../../../../icons/LocationIcon";
 import ActivitiesIcon from "../../../../icons/InterestIcons/GuidedTouristIcon";
@@ -13,80 +13,22 @@ import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
 import CityCommentaryContainer from "./CityCommentaryContainer";
 
-export default function ProfileIndividualCity({ searchText, city }) {
-  let fakeresults = {
-    year: 2014,
-    days: 10,
-    trip_purpose: "work",
-    trip_company: "family",
-    bestComment: "A great place to visit in Europe",
-    hardestComment: "Very hot weather",
-    CityReviews: [
-      {
-        attraction_type: "place",
-        attraction_name: "Duomo",
-        rating: 2,
-        cost: 0,
-        currency: "EUR",
-        comment: "Great place to visit!"
-      },
-      {
-        attraction_type: "tour",
-        attraction_name: "Colisseum",
-        rating: 2,
-        cost: 0,
-        currency: "EUR",
-        comment: "Great place to visit!"
-      },
-      {
-        attraction_type: "dinner",
-        attraction_name: "Del Favioli",
-        rating: 2,
-        cost: 20,
-        currency: "EUR",
-        comment: "Great place to eat!"
-      },
-      {
-        attraction_type: "breakfast",
-        attraction_name: "La Pasticceria",
-        rating: 1,
-        cost: 14,
-        currency: "USD",
-        comment: "Good pastries"
-      },
-      {
-        attraction_type: "monument",
-        attraction_name: "Bridge",
-        rating: 1,
-        cost: 0,
-        currency: "EUR",
-        comment: "Great place to eat!"
-      },
-      {
-        attraction_type: "logistics",
-        attraction_name: "car",
-        rating: 1,
-        cost: 10,
-        currency: "EUR",
-        comment: "Easy place to drive"
-      },
-      {
-        attraction_type: "logistics",
-        attraction_name: "walk",
-        rating: 1,
-        cost: 0,
-        currency: "EUR",
-        comment: "Easy place to walk"
-      }
-    ]
-  };
+export default function ProfileIndividualCity({ city, cityReviews }) {
+  const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
-  const [results, setResults] = useState(fakeresults);
+  const [localCityReviews, handleLocalCityReviews] = useState(cityReviews);
+  const [filteredCityReviews, handleFilteredCityReviews] = useState(
+    cityReviews
+  );
   const [page, handlePage] = useState("basics");
-  const [edit, handleEdit] = useState(false);
+
   useEffect(() => {
+    handleLoaded(false);
     let keyWords = [];
     switch (page) {
+      case "basics":
+        handleLoaded(true);
+        return;
       case "places":
         keyWords = ["monument", "nature", "place", "stay"];
         break;
@@ -102,7 +44,7 @@ export default function ProfileIndividualCity({ searchText, city }) {
       default:
         break;
     }
-    let filteredArray = fakeresults.CityReviews.filter(city => {
+    let filteredArray = localCityReviews.filter(city => {
       for (let i in keyWords) {
         if (city.attraction_type === keyWords[i]) {
           return true;
@@ -110,9 +52,16 @@ export default function ProfileIndividualCity({ searchText, city }) {
       }
       return false;
     });
-    fakeresults.CityReviews = filteredArray;
-    setResults(fakeresults);
+    handleFilteredCityReviews(filteredArray);
+    handleLoaded(true);
   }, [page]);
+  function updateLocalReviews(updatedReviews) {
+    let localReviews = [...localCityReviews];
+    localReviews.push(updatedReviews)
+    handleLocalCityReviews(localReviews);
+    handleLoaded(true);
+  }
+  if (!loaded) return "Loading";
   return (
     <div className="profile-cities content">
       <div
@@ -160,16 +109,31 @@ export default function ProfileIndividualCity({ searchText, city }) {
           <LogisticsIcon />
         </button>
         <button
-          onClick={() => handlePage("commentary")}
-          className={page === "commentary" ? "active" : ""}
+          onClick={() => handlePage("comments")}
+          className={page === "comments" ? "active" : ""}
         >
-          {expanded ? "commentary" : null}
+          {expanded ? "comments" : null}
           <CommentaryIcon />
         </button>
       </div>
       <div className="content-results">
         <div className="city-review-header">
-          <span className="city-review-page">{page}</span>
+          <div>
+            <span className="city-review-page">{page}</span>
+            <span className="city-review-instructions">
+              {page === "basics"
+                ? ""
+                : page === "places"
+                ? "(where did you go)"
+                : page === "activities"
+                ? "(what did you do)"
+                : page === "meals"
+                ? "(what did you eat/drink)"
+                : page === "logistics"
+                ? ""
+                : null}
+            </span>
+          </div>
           <div className="city-review-place">
             <span className="city-review-title">{city.city.toLowerCase()}</span>
             <span className="city-review-subtitle">
@@ -182,68 +146,54 @@ export default function ProfileIndividualCity({ searchText, city }) {
         {
           {
             basics: (
-              <CityBasicsContainer
-                key={"basics"}
-                city={city.city}
-                edit={edit}
-                results={results}
-              />
+              <CityBasicsContainer key={"basics"} city={city} />
             ),
             logistics: (
               <LogisticsInputContainer
                 key={"logistics"}
-                review={results.CityReviews}
-                edit={edit}
+                reviews={filteredCityReviews}
+                city={city}
+                updateLocalReviews={updateLocalReviews}
               />
             ),
-            places: results.CityReviews.map((review, index) => (
-              <CityReviewCard
-                key={review.attraction_type + index}
-                review={review}
-                edit={edit}
+            places: (
+              <CityReviewsContainer
+                reviews={filteredCityReviews}
+                city={city}
+                page={page}
+                updateLocalReviews={updateLocalReviews}
               />
-            )),
-            activities: results.CityReviews.map((review, index) => (
-              <CityReviewCard
-                key={review.attraction_type + index}
-                review={review}
-                edit={edit}
+            ),
+            activities: (
+              <CityReviewsContainer
+                reviews={filteredCityReviews}
+                page={page}
+                city={city}
+                updateLocalReviews={updateLocalReviews}
               />
-            )),
-            meals: results.CityReviews.map((review, index) => (
-              <CityReviewCard
-                key={review.attraction_type + index}
-                review={review}
-                edit={edit}
+            ),
+            meals: (
+              <CityReviewsContainer
+                reviews={filteredCityReviews}
+                page={page}
+                city={city}
+                updateLocalReviews={updateLocalReviews}
               />
-            )),
-            commentary: (
+            ),
+            comments: (
               <CityCommentaryContainer
-                key={"commentary"}
-                city={city.city}
-                edit={edit}
-                results={results}
+                key={"comments"}
+                city={city}
               />
-            ),
+            )
           }[page]
         }
-        <div className="review-edit-button-container">
-          {edit ? (
-            <span className="large button" onClick={() => handleEdit(false)}>
-              Update
-            </span>
-          ) : (
-            <span className="large button" onClick={() => handleEdit(true)}>
-              Edit
-            </span>
-          )}
-        </div>
       </div>
     </div>
   );
 }
 
 ProfileIndividualCity.propTypes = {
-  searchText: PropTypes.string,
-  city: PropTypes.string
+  city: PropTypes.object,
+  cityReviews: PropTypes.array
 };

@@ -12,21 +12,26 @@ function TransportationIconContainer({
   handleClickActive,
   index,
   active,
-  review
+  review,
+  handleRatingChange,
+  handleCommentChange,
+  handleCurrencyChange,
+  handleCostChange
 }) {
   const [loaded, handleLoaded] = useState(false);
-  const [localActive, handleClick] = useState(active);
+  const [localActive, handleClick] = useState();
   const [commentActive, handleCommentClick] = useState(false);
+  const [comment, handleComment] = useState("");
   const [localReview, handleReview] = useState({
     attraction_type: "logistics",
     attraction_name: tagName,
-    rating: 0,
-    cost: "",
+    rating: 1,
+    cost: null,
     currency: "EUR",
     comment: ""
   });
   useEffect(() => {
-    if (review !== undefined) {
+    if (review !== undefined && review !== null) {
       let localReview = {
         attraction_type: "logistics",
         attraction_name: tagName,
@@ -37,6 +42,7 @@ function TransportationIconContainer({
       };
       handleReview(localReview);
     }
+    handleClick(active);
     handleLoaded(true);
   }, [review]);
   function handleCommentClickHandler() {
@@ -46,11 +52,17 @@ function TransportationIconContainer({
     handleClick(!localActive);
     handleClickActive(index);
   }
-  function handleCommentChange(val) {
-    let newLocalReview = localReview;
-    newLocalReview.comment = val;
-    handleReview(newLocalReview);
-
+  function handleRatingChangeHelper(rating) {
+    handleRatingChange(review === undefined ? 0 : review.id, rating);
+  }
+  function handleCostChangeHelper(cost) {
+    handleCostChange(review === undefined ? 0 : review.id, cost);
+  }
+  function handleCurrencyChangeHelper(currency) {
+    handleCurrencyChange(review === undefined ? 0 : review.id, currency);
+  }
+  function handleCommentChangeHelper(comment) {
+    handleCommentChange(review === undefined ? 0 : review.id, comment);
   }
 
   const displayClass = localActive
@@ -66,7 +78,7 @@ function TransportationIconContainer({
       >
         <div
           className={displayClass}
-          onClick={() => handleClickHandler(!localActive)}
+          onClick={edit && !feedbackState ? handleClickHandler : null}
         >
           <span className="transportation-icon-title">{tagName}</span>
           {component}
@@ -78,14 +90,22 @@ function TransportationIconContainer({
               edit={edit}
               comment={localReview.comment}
               handleCommentClick={handleCommentClickHandler}
+              handleRatingChange={handleRatingChangeHelper}
+              handleCostChange={handleCostChangeHelper}
+              handleCurrencyChange={handleCurrencyChangeHelper}
             />
           </div>
         ) : null}
       </div>
       <div className={commentActive ? "comment-container" : "display-none"}>
         <CommentIconTextbox
-          handleCommentText={handleCommentChange}
-          comment={localReview.comment}
+          edit={edit}
+          handleCommentText={handleComment}
+          comment={
+            review !== undefined && review !== null ? review.comment : ""
+          }
+          handleCommentChange={handleCommentChangeHelper}
+          closeComment={handleCommentClickHandler}
         />
       </div>
     </div>
@@ -99,6 +119,10 @@ TransportationIconContainer.propTypes = {
   edit: PropTypes.bool,
   index: PropTypes.number,
   handleClickActive: PropTypes.func,
+  handleRatingChange: PropTypes.func,
+  handleCommentChange: PropTypes.func,
+  handleCurrencyChange: PropTypes.func,
+  handleCostChange: PropTypes.func,
   active: PropTypes.bool,
   review: PropTypes.object
 };

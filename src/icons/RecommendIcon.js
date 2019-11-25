@@ -20,7 +20,7 @@ function RecommendIcon({ value, onClick }) {
 
 RecommendIcon.propTypes = {
   onClick: PropTypes.func,
-  value: PropTypes.number
+  value: PropTypes.bool
 };
 
 export default RecommendIcon;

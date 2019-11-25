@@ -118,6 +118,94 @@ export const SEND_FRIEND_REQUEST = gql`
   }
 `;
 
+export const GET_ALL_CITY_DETAILS = gql`
+  query {
+    user {
+      id
+      username
+      full_name
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceVisitedId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
+      }
+      Place_living {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceLivingId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceVisitingId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
+      }
+    }
+  }
+`;
+
 export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   query {
     user {
@@ -148,16 +236,22 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
-      }
-      Places_visiting {
-        id
-        country
-        countryId
-        countryISO
-        city
-        cityId
-        city_latitude
-        city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceVisitedId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
       }
       Place_living {
         id
@@ -168,12 +262,52 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceLivingId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceVisitingId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
       }
     }
   }
 `;
-
-
 
 export const GET_LOGGEDIN_USER = gql`
   query {
@@ -302,9 +436,7 @@ export const REMOVE_PLACES_IN_COUNTRY = gql`
       city
     }
   }
-
 `;
-
 
 export const ADD_PLACE_LIVING = gql`
   mutation addPlaceLiving($country: Country!, $cities: City) {
@@ -441,6 +573,150 @@ export const UPDATE_USER_AVATAR = gql`
       id
       avatarIndex
       color
+    }
+  }
+`;
+
+export const UPDATE_VISITED_CITY_BASICS = gql`
+  mutation updateVisitedCityBasics(
+    $id: Int!
+    $cityBasics: CityBasics!
+  ) {
+    updateVisitedCityBasics(
+      PlaceVisitedId: $id
+      cityBasics: $cityBasics
+    ) {
+      id
+      year
+      days
+      trip_purpose
+      trip_company
+    }
+  }
+`;
+
+export const UPDATE_VISITING_CITY_BASICS = gql`
+  mutation updateVisitingCityBasics(
+    $id: Int!
+    $cityBasics: CityBasics!
+  ) {
+    updateVisitingCityBasics(
+      PlaceVisitingId: $id
+      cityBasics: $cityBasics
+    ) {
+      id
+      year
+      days
+      trip_purpose
+      trip_company
+    }
+  }
+`;
+
+export const UPDATE_LIVING_CITY_BASICS = gql`
+  mutation updateLivingCityBasics(
+    $id: Int!
+    $cityBasics: CityBasics!
+  ) {
+    updateLivingCityBasics(
+      PlaceLivingId: $id
+      cityBasics: $cityBasics
+    ) {
+      id
+      year
+      days
+      trip_purpose
+      trip_company
+    }
+  }
+`;
+
+export const UPDATE_VISITED_CITY_COMMENTS = gql`
+  mutation updateVisitedCityComments(
+    $id: Int!
+    $cityComments: CityComments!
+  ) {
+    updateVisitedCityComments(
+      PlaceVisitedId: $id
+      cityComments: $cityComments
+    ) {
+      id
+      best_comment
+      hardest_comment
+    }
+  }
+`;
+
+export const UPDATE_VISITING_CITY_COMMENTS = gql`
+  mutation updateVisitingCityComments(
+    $id: Int!
+    $cityComments: CityComments!
+  ) {
+    updateVisitingCityComments(
+      PlaceVisitingId: $id
+      cityComments: $cityComments
+    ) {
+      id
+      best_comment
+      hardest_comment
+    }
+  }
+`;
+
+export const UPDATE_LIVING_CITY_COMMENTS = gql`
+  mutation updateLivingCityComments(
+    $id: Int!
+    $cityComments: CityComments!
+  ) {
+    updateLivingCityComments(
+      PlaceLivingId: $id
+      cityComments: $cityComments
+    ) {
+      id
+      best_comment
+      hardest_comment
+    }
+  }
+`;
+
+export const UPDATE_VISITED_CITY_REVIEWS = gql`
+  mutation addPastCityReviews(
+    $localCityReviews: [CityReview!]
+  ) {
+    addPastCityReviews(
+      cityReviews: $localCityReviews
+    ) {
+      id
+      attraction_type
+      attraction_name
+    }
+  }
+`;
+
+export const UPDATE_VISITING_CITY_REVIEWS = gql`
+  mutation addFutureCityReviews(
+    $localCityReviews: [CityReview!]
+  ) {
+    addFutureCityReviews(
+      cityReviews: $localCityReviews
+    ) {
+      id
+      attraction_type
+      attraction_name
+    }
+  }
+`;
+
+export const UPDATE_LIVING_CITY_REVIEWS = gql`
+  mutation addLivingCityReviews(
+    $localCityReviews: [CityReview!]
+  ) {
+    addLivingCityReviews(
+      cityReviews: $localCityReviews
+    ) {
+      id
+      attraction_type
+      attraction_name
     }
   }
 `;

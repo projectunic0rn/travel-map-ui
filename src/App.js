@@ -21,7 +21,8 @@ function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
   const [mapPage, handleMapPageChange] = useState(0);
   const [userData, handleUserData] = useState();
-
+  const [loaded, handleLoaded] = useState(false);
+console.log(userData)
   socket.on("new-friend-request", data => {
     alert(data.senderData.username + " has sent you a friend request!");
   });
@@ -65,11 +66,13 @@ function App({ userAuthenticated }) {
             notifyOnNetworkStatusChange
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
+            onCompleted={() => handleLoaded(true)}
           >
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
               handleUserData(data);
+              if (!loaded) return null;
               return (
                 <Fragment>
                   <Header

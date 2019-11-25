@@ -20,7 +20,7 @@ function NeutralIcon({ value, onClick }) {
 
 NeutralIcon.propTypes = {
   onClick: PropTypes.func,
-  value: PropTypes.number
+  value: PropTypes.bool
 };
 
 export default NeutralIcon;

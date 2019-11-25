@@ -273,16 +273,16 @@
   transition-delay: 0s;
 }
 
-.trip-duration {
-  color: rgb(40, 40, 40);
-  border-bottom: 1px solid rgb(54, 169, 199);
+.trip-data-span, .trip-duration {
+  color: #a7e1ff;
+  border-bottom: 1px solid rgb(248, 248, 252);
   max-width: 100px;
   margin: 0 16px;
   text-align: center;
 }
 
 .trip-duration-input {
-  color: rgb(40, 40, 40);
+  color: #a7e1ff;
   border-bottom: 1px solid rgb(54, 169, 199);
   max-width: 100px;
   margin: 0 16px;
@@ -295,6 +295,11 @@
 
 #trip-entry-date {
   width: 470px;
+  text-align-last: center;
+}
+
+#trip-entry-travel-year {
+  width: 120px;
   text-align-last: center;
 }
 

@@ -8,58 +8,35 @@ import FutureIcon from "../../../../icons/FutureIcon";
 import LiveIcon from "../../../../icons/LiveIcon";
 import ProfileCityCard from "./ProfileCityCard";
 
-export default function ProfileCities({ searchText, handleSelectedCity }) {
-  let fakeresults = [
-    {
-      city: "Barcelona",
-      country: "Spain",
-      timing: "past",
-      stats: {
-        days: 4,
-        places: 3,
-        meals: 2,
-        logistics: 1
-      }
-    },
-    {
-      city: "Florence",
-      country: "Italy",
-      timing: "future",
-      stats: {
-        days: 3,
-        places: 5,
-        meals: 4,
-        logistics: 3
-      }
-    },
-    {
-      city: "San Diego",
-      country: "United States",
-      timing: "live",
-      stats: {
-        days: 1230,
-        places: 32,
-        meals: 14,
-        logistics: 4
-      }
-    }
-  ];
+export default function ProfileCities({ user, searchText, handleSelectedCity, cityData }) {
+  const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
-  const [results, setResults] = useState(fakeresults);
+  const [results, setResults] = useState();
   const [timing, handleTiming] = useState("");
   useEffect(() => {
-    let filteredArray = fakeresults.filter(
+    let combinedResults = [];
+    for (let i in cityData.Places_visited) {
+      cityData.Places_visited[i].timing = "past";
+      combinedResults.push(cityData.Places_visited[i])
+    }
+    for (let i in cityData.Places_visiting) {
+      cityData.Places_visiting[i].timing = "future";
+      combinedResults.push(cityData.Places_visiting[i])
+    }
+    cityData.Place_living.timing = "live";
+      combinedResults.push(cityData.Place_living)
+    setResults(combinedResults);
+    let filteredArray = combinedResults.filter(
       city =>
         (city.city.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
           city.country.toLowerCase().indexOf(searchText.toLowerCase()) > -1) &&
           city.timing.indexOf(timing) > -1
     );
     setResults(filteredArray);
+    handleLoaded(true);
   }, [searchText, timing]);
 
-  function handleCityClick(city) {
-      handleSelectedCity(city);
-  }
+  if (!loaded) return "Loading...";
   return (
     <div className="profile-cities content">
       <div
@@ -112,7 +89,7 @@ export default function ProfileCities({ searchText, handleSelectedCity }) {
                 ? "#73A7C3"
                 : "#96B1A8"
             }
-            handleSelectedCity={handleCityClick}
+            handleSelectedCity={handleSelectedCity}
           />
         ))}
       </div>
@@ -122,5 +99,7 @@ export default function ProfileCities({ searchText, handleSelectedCity }) {
 
 ProfileCities.propTypes = {
   searchText: PropTypes.string,
-  handleSelectedCity: PropTypes.func
+  handleSelectedCity: PropTypes.func,
+  user: PropTypes.object,
+  cityData: PropTypes.object
 };
