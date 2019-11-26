@@ -19,10 +19,9 @@ import { UserProvider } from "./utils/UserContext";
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
-  const [mapPage, handleMapPageChange] = useState(0);
+  const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
-console.log(userData)
   socket.on("new-friend-request", data => {
     alert(data.senderData.username + " has sent you a friend request!");
   });

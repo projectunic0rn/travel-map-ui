@@ -8,7 +8,7 @@ import {
 } from "../../../../GraphQL";
 import CityLivedPopup from "../../../../components/Prompts/ClickedCountry/CityLivedPopup";
 
-function CityCommentaryContainer({ city }) {
+function CityCommentaryContainer({ city, refetch }) {
   const [loaded, handleLoaded] = useState(false);
   const [feedbackState, handleFeedbackClick] = useState(false);
   const [cityComments, handleCityComments] = useState({
@@ -106,6 +106,7 @@ function CityCommentaryContainer({ city }) {
             : UPDATE_LIVING_CITY_COMMENTS
         }
         variables={{ id, cityComments }}
+        onCompleted={() => refetch()}
       >
         {mutation =>
           edit ? (
@@ -125,7 +126,8 @@ function CityCommentaryContainer({ city }) {
 
 CityCommentaryContainer.propTypes = {
   results: PropTypes.object,
-  city: PropTypes.object
+  city: PropTypes.object,
+  refetch: PropTypes.func
 };
 
 export default CityCommentaryContainer;

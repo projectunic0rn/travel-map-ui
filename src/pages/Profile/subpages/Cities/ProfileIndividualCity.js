@@ -13,7 +13,7 @@ import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
 import CityCommentaryContainer from "./CityCommentaryContainer";
 
-export default function ProfileIndividualCity({ city, cityReviews }) {
+export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [localCityReviews, handleLocalCityReviews] = useState(cityReviews);
@@ -21,9 +21,9 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
     cityReviews
   );
   const [page, handlePage] = useState("basics");
-
   useEffect(() => {
     handleLoaded(false);
+    handleLocalCityReviews(cityReviews)
     let keyWords = [];
     switch (page) {
       case "basics":
@@ -54,10 +54,10 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
     });
     handleFilteredCityReviews(filteredArray);
     handleLoaded(true);
-  }, [page]);
+  }, [page, cityReviews]);
   function updateLocalReviews(updatedReviews) {
     let localReviews = [...localCityReviews];
-    localReviews.push(updatedReviews)
+    localReviews.push(updatedReviews);
     handleLocalCityReviews(localReviews);
     handleLoaded(true);
   }
@@ -146,7 +146,11 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
         {
           {
             basics: (
-              <CityBasicsContainer key={"basics"} city={city} />
+              <CityBasicsContainer
+                key={"basics"}
+                city={city}
+                refetch={refetch}
+              />
             ),
             logistics: (
               <LogisticsInputContainer
@@ -154,6 +158,7 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
                 reviews={filteredCityReviews}
                 city={city}
                 updateLocalReviews={updateLocalReviews}
+                refetch={refetch}
               />
             ),
             places: (
@@ -162,6 +167,7 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
                 city={city}
                 page={page}
                 updateLocalReviews={updateLocalReviews}
+                refetch={refetch}
               />
             ),
             activities: (
@@ -170,6 +176,7 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
                 page={page}
                 city={city}
                 updateLocalReviews={updateLocalReviews}
+                refetch={refetch}
               />
             ),
             meals: (
@@ -178,11 +185,13 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
                 page={page}
                 city={city}
                 updateLocalReviews={updateLocalReviews}
+                refetch={refetch}
               />
             ),
             comments: (
               <CityCommentaryContainer
                 key={"comments"}
+                refetch={refetch}
                 city={city}
               />
             )
@@ -195,5 +204,6 @@ export default function ProfileIndividualCity({ city, cityReviews }) {
 
 ProfileIndividualCity.propTypes = {
   city: PropTypes.object,
-  cityReviews: PropTypes.array
+  cityReviews: PropTypes.array,
+  refetch: PropTypes.func
 };

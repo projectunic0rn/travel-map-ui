@@ -17,7 +17,6 @@ function ProfileCityCard({ cityData, color, handleSelectedCity }) {
   const [activityCount, handleActivityCount] = useState(0);
   const [mealCount, handleMealCount] = useState(0);
   const [logisticsCount, handleLogisticsCount] = useState(0);
-
   useEffect(() => {
     let places = 0;
     let activities = 0;
@@ -75,7 +74,6 @@ function ProfileCityCard({ cityData, color, handleSelectedCity }) {
     }
     handleLoaded(true);
   }, [cityData]);
-  console.log(localCityData);
   if (!loaded) return <SimpleLoader />;
   return (
     <NavLink to={`/profile/cities/${cityData.city.toLowerCase()}/`}>

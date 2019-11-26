@@ -328,11 +328,11 @@ class CityMap extends Component {
       }
     }
     if (data != null && data.Place_living !== null) {
-      if (
-        !clickedCityArray.some(city => {
-          return city.cityId === data.Place_living.cityId;
-        })
-      )
+      // if (
+      //   !clickedCityArray.some(city => {
+      //     return city.cityId === data.Place_living.cityId;
+      //   })
+      // )
         if (data.Place_living.cityId !== 0) {
           clickedCityArray.push({
             id: data.Place_living.id,

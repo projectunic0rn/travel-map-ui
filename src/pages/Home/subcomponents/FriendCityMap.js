@@ -120,25 +120,33 @@ class FriendCityMap extends Component {
                         placeVisitedId: city.id
                       })
                     }
-                    style={{ fill: color }}
+                    style={{
+                      fill: "rgba(203, 118, 120, 0.75)",
+                      stroke: "white",
+                      strokeWidth: "10px"
+                    }}
                     key={"circle" + city.id}
                     cx="50"
                     cy="50"
-                    r="50"
+                    r="40"
                   />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+                  {/* <circle
+                    style={{
+                      fill: "rgba(203, 118, 120, 1.0)",
+                      stroke: "white",
+                      strokeWidth: "6px",
+                    }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
                     r="20"
-                  />
+                  /> */}
                 </svg>
               </Marker>
             );
             break;
           case 1:
-            color = "rgba(115, 167, 195, 0.25)";
+            color = "rgba(115, 167, 195, 0.75)";
             markerFutureDisplay.push(
               <Marker
                 key={city.id}
@@ -161,26 +169,30 @@ class FriendCityMap extends Component {
                         placeVisitingId: city.id
                       })
                     }
-                    style={{ fill: color }}
+                    style={{
+                      fill: color,
+                      stroke: "white",
+                      strokeWidth: "10px"
+                    }}
                     key={"circle" + city.id}
                     cx="50"
                     cy="50"
-                    r="50"
+                    r="40"
                   />
-                  <circle
+                  {/* <circle
                     style={{ fill: "rgba(115, 167, 195, 1.0)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
                     r="20"
-                  />
+                  /> */}
                 </svg>
               </Marker>
             );
 
             break;
           case 2:
-            color = "rgba(150, 177, 168, 0.25)";
+            color = "rgba(150, 177, 168, 0.75)";
             markerLiveDisplay.push(
               <Marker
                 key={city.id}
@@ -203,19 +215,23 @@ class FriendCityMap extends Component {
                         placeVisitingId: city.id
                       })
                     }
-                    style={{ fill: color }}
+                    style={{
+                      fill: color,
+                      stroke: "white",
+                      strokeWidth: "10px"
+                    }}
                     key={"circle" + city.id}
                     cx="50"
                     cy="50"
-                    r="50"
+                    r="40"
                   />
-                  <circle
+                  {/* <circle
                     style={{ fill: "rgba(150, 177, 168, 1.0)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
                     r="20"
-                  />
+                  /> */}
                 </svg>
               </Marker>
             );
@@ -249,8 +265,7 @@ class FriendCityMap extends Component {
     } else {
       hoveredCityArray = this.state.clickedCityArray.filter(
         city =>
-          city.cityId ===
-          parseFloat(typedCity.result.id.slice(10, 16), 10)
+          city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
       );
     }
     this.setState({
@@ -311,26 +326,26 @@ class FriendCityMap extends Component {
         }
       }
       if (data != null && data[i].Place_living !== null) {
-        if (
-          !clickedCityArray.some(city => {
-            return city.cityId === data[i].Place_living.cityId;
-          })
-        ) {
-          clickedCityArray.push({
-            id: data[i].Place_living.id,
-            username: data[i].username,
-            cityId: data[i].Place_living.cityId,
-            city: data[i].Place_living.city,
-            latitude: data[i].Place_living.city_latitude,
-            longitude: data[i].Place_living.city_longitude,
-            country: data[i].Place_living.country,
-            countryId: data[i].Place_living.countryId,
-            tripTiming: 2,
-            avatarIndex: data[i].avatarIndex,
-            color: data[i].color
-          });
-          liveCount++;
-        }
+        // if (
+        //   !clickedCityArray.some(city => {
+        //     return city.cityId === data[i].Place_living.cityId;
+        //   })
+        // ) {
+        clickedCityArray.push({
+          id: data[i].Place_living.id,
+          username: data[i].username,
+          cityId: data[i].Place_living.cityId,
+          city: data[i].Place_living.city,
+          latitude: data[i].Place_living.city_latitude,
+          longitude: data[i].Place_living.city_longitude,
+          country: data[i].Place_living.country,
+          countryId: data[i].Place_living.countryId,
+          tripTiming: 2,
+          avatarIndex: data[i].avatarIndex,
+          color: data[i].color
+        });
+        liveCount++;
+        // }
       }
     }
     this.setState(
@@ -372,6 +387,8 @@ class FriendCityMap extends Component {
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
+          closeButton={true}
+          onClose={() => this.setState({cityTooltip: null})}
         >
           <div
             className="popup-text"
@@ -387,7 +404,7 @@ class FriendCityMap extends Component {
   handleHoveredCityArray(hoveredCityArray) {
     this.setState({
       activePopup: true,
-      hoveredCityArray, 
+      hoveredCityArray,
       clickedCity: hoveredCityArray
     });
   }

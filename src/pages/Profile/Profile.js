@@ -29,7 +29,7 @@ export default function Profile({ user, urlUsername, refetch }) {
 
   function handleSelectedCity(selectedCityData, reviews) {
     handleCityReviews(reviews);
-    handleCity(selectedCityData)
+    handleCity(selectedCityData);
   }
   useEffect(() => {
     let userData = user;
@@ -66,13 +66,34 @@ export default function Profile({ user, urlUsername, refetch }) {
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
   }, [user]);
+  function handleFetch() {
+    if (selectedCity !== "none") {
+      if (selectedCity.timing === "past") {
+        let newData = cityData.Places_visited.find(element => element.id === selectedCity.id);
+        newData.timing = "past";
+        handleSelectedCity(newData);
+        handleCityReviews(newData.CityReviews)
+      } else if (selectedCity.timing === "future") {
+        let newData = cityData.Places_visiting.find(element => element.id === selectedCity.id);
+        newData.timing = "future";
+        handleSelectedCity(newData);
+        handleCityReviews(newData.CityReviews)
+      }  else if (selectedCity.timing === "live") {
+        let newData = cityData.Place_living;
+        newData.timing = "live";
+        handleSelectedCity(newData);
+        handleCityReviews(newData.CityReviews)
+      }
+    }
+    handleLoaded(true);
+  }
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
-      onCompleted={() => handleLoaded(true)}
+      onCompleted={() => handleFetch()}
     >
       {({ loading, error, data, refetch }) => {
         if (loading) return <Loader />;
@@ -132,6 +153,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     city={selectedCity}
                     searchText={searchText}
                     cityReviews={cityReviews}
+                    refetch={refetch}
                   />
                 )}
               />

@@ -13,7 +13,8 @@ export default function CityReviewsContainer({
   page,
   reviews,
   updateLocalReviews,
-  city
+  city,
+  refetch
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [edit, handleEdit] = useState(false);
@@ -129,6 +130,7 @@ export default function CityReviewsContainer({
               : UPDATE_LIVING_CITY_REVIEWS
           }
           variables={{ localCityReviews }}
+          onCompleted={() => refetch()}
         >
           {mutation =>
             edit ? (
@@ -151,5 +153,6 @@ CityReviewsContainer.propTypes = {
   page: PropTypes.string,
   reviews: PropTypes.array,
   updateLocalReviews: PropTypes.func,
-  city: PropTypes.object
+  city: PropTypes.object,
+  refetch: PropTypes.func
 };

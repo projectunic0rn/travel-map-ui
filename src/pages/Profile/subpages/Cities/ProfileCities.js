@@ -8,7 +8,12 @@ import FutureIcon from "../../../../icons/FutureIcon";
 import LiveIcon from "../../../../icons/LiveIcon";
 import ProfileCityCard from "./ProfileCityCard";
 
-export default function ProfileCities({ user, searchText, handleSelectedCity, cityData }) {
+export default function ProfileCities({
+  user,
+  searchText,
+  handleSelectedCity,
+  cityData
+}) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [results, setResults] = useState();
@@ -17,20 +22,22 @@ export default function ProfileCities({ user, searchText, handleSelectedCity, ci
     let combinedResults = [];
     for (let i in cityData.Places_visited) {
       cityData.Places_visited[i].timing = "past";
-      combinedResults.push(cityData.Places_visited[i])
+      combinedResults.push(cityData.Places_visited[i]);
     }
     for (let i in cityData.Places_visiting) {
       cityData.Places_visiting[i].timing = "future";
-      combinedResults.push(cityData.Places_visiting[i])
+      combinedResults.push(cityData.Places_visiting[i]);
     }
-    cityData.Place_living.timing = "live";
-      combinedResults.push(cityData.Place_living)
+    if (cityData.Place_living !== null) {
+      cityData.Place_living.timing = "live";
+      combinedResults.push(cityData.Place_living);
+    }
     setResults(combinedResults);
     let filteredArray = combinedResults.filter(
       city =>
         (city.city.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
           city.country.toLowerCase().indexOf(searchText.toLowerCase()) > -1) &&
-          city.timing.indexOf(timing) > -1
+        city.timing.indexOf(timing) > -1
     );
     setResults(filteredArray);
     handleLoaded(true);
@@ -78,9 +85,9 @@ export default function ProfileCities({ user, searchText, handleSelectedCity, ci
         </button>
       </div>
       <div className="content-results">
-        {results.map(city => (
+        {results.map((city, index) => (
           <ProfileCityCard
-            key={city.city}
+            key={city.city + city.timing + index}
             cityData={city}
             color={
               city.timing === "past"

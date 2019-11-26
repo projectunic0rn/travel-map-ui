@@ -29,7 +29,6 @@ function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
     []
   );
   const [localCityReviews, handleLocalCityReviews] = useState();
-  console.log(reviews);
   const transportTypes = [
     "walk",
     "car",
@@ -72,13 +71,10 @@ function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
     if (activeTransport.length > 0) {
       handleActiveTransportComponents(activeTransport);
     }
-    console.log(activeTransport);
     handleLocalCityReviews(reviews);
     handleLoaded(true);
   }, [reviews]);
   function handleClickActive(index) {
-    console.log('handle click active')
-    console.log(activeTransportComponents)
     let activeComponents = [...activeTransportComponents];
     if (activeTransportComponents.indexOf(transportTypes[index]) === -1) {
       activeComponents.push(transportTypes[index]);
@@ -101,7 +97,6 @@ function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
       activeComponents.splice(activeComponents.indexOf(index), 1);
       let deleteIndex = localCityReviews.findIndex(review => review.attraction_name === transportTypes[index]);
       localCityReviews.splice(deleteIndex, 1);
-      console.log(localCityReviews)
     }
     handleActiveTransportComponents(activeComponents);
     handleLocalCityReviews(localCityReviews)

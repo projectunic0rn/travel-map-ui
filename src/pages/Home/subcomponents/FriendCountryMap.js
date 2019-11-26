@@ -114,11 +114,11 @@ const FriendCountryMap = props => {
         ) {
           liveCount++;
         }
-        if (
-          !countryArray.some(city => {
-            return city.cityId === data[i].Place_living.cityId;
-          })
-        ) {
+        // if (
+        //   !countryArray.some(city => {
+        //     return city.cityId === data[i].Place_living.cityId;
+        //   })
+        // ) {
           countryArray.push({
             id: data[i].Place_living.id,
             username: data[i].username,
@@ -132,7 +132,7 @@ const FriendCountryMap = props => {
             avatarIndex: data[i].avatarIndex,
             color: data[i].color
           });
-        }
+        // }
       }
     }
     handleCountryArray(countryArray);

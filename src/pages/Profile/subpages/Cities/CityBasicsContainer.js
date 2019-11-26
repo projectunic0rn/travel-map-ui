@@ -7,18 +7,12 @@ import {
   UPDATE_LIVING_CITY_BASICS
 } from "../../../../GraphQL";
 
-function CityBasicsContainer({ city }) {
+function CityBasicsContainer({ city, refetch }) {
   const [loaded, handleLoaded] = useState(false);
   const [feedbackState, handleFeedbackClick] = useState(false);
-  const [cityBasics, handleCityBasics] = useState({
-    days: city.days,
-    year: city.year,
-    trip_purpose: city.trip_purpose,
-    trip_company: city.trip_company
-  });
+  const [cityBasics, handleCityBasics] = useState();
   const [id] = useState(city.id);
   const [edit, handleEdit] = useState(false);
-
   function handleCityDays(days) {
     cityBasics.days = Number(days);
     handleCityBasics(cityBasics);
@@ -37,8 +31,15 @@ function CityBasicsContainer({ city }) {
   }
 
   useEffect(() => {
+    let basics = {
+      days: city.days,
+      year: city.year,
+      trip_purpose: city.trip_purpose,
+      trip_company: city.trip_company
+    };
+    handleCityBasics(basics);
     handleLoaded(true);
-  }, []);
+  }, [city]);
 
   if (!loaded) return "Loading";
   return (
@@ -169,6 +170,7 @@ function CityBasicsContainer({ city }) {
               : UPDATE_LIVING_CITY_BASICS
           }
           variables={{ id, cityBasics }}
+          onCompleted={() => refetch()}
         >
           {mutation =>
             edit ? (
