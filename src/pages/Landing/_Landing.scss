@@ -48,6 +48,10 @@
         color: rgb(248, 248, 252);
       }
     }
+    .rotating-word {
+      font-weight: 700;
+      color: #e1b377;
+    }
     .border-bar-container {
       display: flex;
       .landing-green-bar {
@@ -114,11 +118,21 @@
     }
   }
 
-  .rotating-word {
-    font-weight: 700;
-    color: #e1b377;
-  }
 }
+
+.rotate-enter {
+  opacity: 0.01;
+}
+
+.rotate-enter.rotate-enter-active {
+  opacity: 1;
+  transition: opacity 1s ease-in;
+}
+
+.rotate-leave {
+  opacity: 0;
+}
+
 
 @media screen and (max-width: 700px) {
   .landing-container {

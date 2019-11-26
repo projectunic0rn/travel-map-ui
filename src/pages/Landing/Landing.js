@@ -6,6 +6,7 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
 import jsonData from "../../world-topo-min.json";
 
 const placeWords = [
@@ -25,7 +26,7 @@ class Landing extends Component {
 
     this.state = {
       activeTab: "loginTab",
-      wordIndex: 0
+      wordIndex: 0,
     };
 
     this.setActive = this.setActive.bind(this);
@@ -33,9 +34,10 @@ class Landing extends Component {
   }
 
   componentDidMount() {
+
     this.wordIndexInterval = setInterval(() => {
       this.changeWordIndex();
-    }, 5000);
+    }, 7000);
   }
 
   componentWillUnmount() {
@@ -124,10 +126,18 @@ class Landing extends Component {
         </ComposableMap>
         <div className="landing-motto-container">
           <span>THE WORLD IS FULL OF</span>
-          <span className="rotating-word">{placeWords[wordIndex]}</span>
+          <ReactCSSTransitionGroup
+            transitionName="rotate"
+            transitionEnterTimeout={1000}
+            transitionLeaveTimeout={1000}>
+            <span className="rotating-word" key={wordIndex}>
+              {placeWords[wordIndex]}
+            </span>
+          </ReactCSSTransitionGroup>
+
           <span>PLACES.</span>
           <span className="landing-motto-two">
-            <span>explore</span> and <span>share</span> them.
+          <span>explore</span> and <span>share</span> them.
           </span>
           <div className="border-bar-container">
             <span className="landing-green-bar" />
