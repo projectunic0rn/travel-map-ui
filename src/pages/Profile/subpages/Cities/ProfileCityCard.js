@@ -10,7 +10,7 @@ import LogisticsIcon from "../../../../icons/LogisticsIcon";
 import ActivitiesIcon from "../../../../icons/InterestIcons/GuidedTouristIcon";
 import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 
-function ProfileCityCard({ cityData, color, handleSelectedCity }) {
+function ProfileCityCard({ cityData, color, handleSelectedCity, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
   const [localCityData] = useState(cityData);
   const [placeCount, handlePlaceCount] = useState(0);
@@ -76,10 +76,18 @@ function ProfileCityCard({ cityData, color, handleSelectedCity }) {
   }, [cityData]);
   if (!loaded) return <SimpleLoader />;
   return (
-    <NavLink to={`/profile/cities/${cityData.city.toLowerCase()}/`}>
+    <NavLink
+      to={
+        urlUsername !== undefined
+          ? `/profiles/${urlUsername}/cities/${cityData.city.toLowerCase()}/`
+          : `/profile/cities/${cityData.city.toLowerCase()}/`
+      }
+    >
       <div
         className="profile-city-card"
-        onClick={() => handleSelectedCity(localCityData, localCityData.CityReviews)}
+        onClick={() =>
+          handleSelectedCity(localCityData, localCityData.CityReviews)
+        }
       >
         <div className="pcc-city-info">
           <span className="pcc-city">{cityData.city}</span>
@@ -118,7 +126,8 @@ function ProfileCityCard({ cityData, color, handleSelectedCity }) {
 ProfileCityCard.propTypes = {
   cityData: PropTypes.object,
   color: PropTypes.string,
-  handleSelectedCity: PropTypes.func
+  handleSelectedCity: PropTypes.func,
+  urlUsername: PropTypes.string
 };
 
 export default withRouter(ProfileCityCard);

@@ -41,6 +41,7 @@ function FriendClickedCityContainer(props) {
   let hoveredCityArray = props.customProps.hoveredCityArray.sort(
     (cityA, cityB) => cityA.tripTiming - cityB.tripTiming
   );
+  console.log(props)
   let filteredHoveredCityArray = [];
   let friendTrips = null;
   let userTripTitle = null;
@@ -57,7 +58,7 @@ function FriendClickedCityContainer(props) {
                 trip={city}
                 key={i}
                 metric={<CalendarIcon />}
-                metricValue={0}
+                metricValue={city.days}
               />
             </Fragment>
           );

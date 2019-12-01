@@ -8,7 +8,7 @@ import {
 } from "../../../../GraphQL";
 import CityLivedPopup from "../../../../components/Prompts/ClickedCountry/CityLivedPopup";
 
-function CityCommentaryContainer({ city, refetch }) {
+function CityCommentaryContainer({ city, refetch, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
   const [feedbackState, handleFeedbackClick] = useState(false);
   const [cityComments, handleCityComments] = useState({
@@ -97,29 +97,31 @@ function CityCommentaryContainer({ city, refetch }) {
           readOnly
         ></textarea>
       )}
-      <Mutation
-        mutation={
-          city.timing === "past"
-            ? UPDATE_VISITED_CITY_COMMENTS
-            : city.timing === "future"
-            ? UPDATE_VISITING_CITY_COMMENTS
-            : UPDATE_LIVING_CITY_COMMENTS
-        }
-        variables={{ id, cityComments }}
-        onCompleted={() => refetch()}
-      >
-        {mutation =>
-          edit ? (
-            <span className="large confirm button" onClick={mutation}>
-              Update
-            </span>
-          ) : (
-            <span className="large button" onClick={handleEdit}>
-              Edit
-            </span>
-          )
-        }
-      </Mutation>
+      {urlUsername !== undefined ? null : (
+        <Mutation
+          mutation={
+            city.timing === "past"
+              ? UPDATE_VISITED_CITY_COMMENTS
+              : city.timing === "future"
+              ? UPDATE_VISITING_CITY_COMMENTS
+              : UPDATE_LIVING_CITY_COMMENTS
+          }
+          variables={{ id, cityComments }}
+          onCompleted={() => refetch()}
+        >
+          {mutation =>
+            edit ? (
+              <span className="large confirm button" onClick={mutation}>
+                Update
+              </span>
+            ) : (
+              <span className="large button" onClick={handleEdit}>
+                Edit
+              </span>
+            )
+          }
+        </Mutation>
+      )}
     </div>
   );
 }
@@ -127,7 +129,8 @@ function CityCommentaryContainer({ city, refetch }) {
 CityCommentaryContainer.propTypes = {
   results: PropTypes.object,
   city: PropTypes.object,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  urlUsername: PropTypes.string
 };
 
 export default CityCommentaryContainer;

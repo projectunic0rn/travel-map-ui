@@ -12,12 +12,14 @@ export default function ProfileCities({
   user,
   searchText,
   handleSelectedCity,
-  cityData
+  cityData,
+  urlUsername
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [results, setResults] = useState();
   const [timing, handleTiming] = useState("");
+  console.log(user);
   useEffect(() => {
     let combinedResults = [];
     for (let i in cityData.Places_visited) {
@@ -88,6 +90,7 @@ export default function ProfileCities({
         {results.map((city, index) => (
           <ProfileCityCard
             key={city.city + city.timing + index}
+            urlUsername={urlUsername}
             cityData={city}
             color={
               city.timing === "past"
@@ -108,5 +111,6 @@ ProfileCities.propTypes = {
   searchText: PropTypes.string,
   handleSelectedCity: PropTypes.func,
   user: PropTypes.object,
-  cityData: PropTypes.object
+  cityData: PropTypes.object,
+  urlUsername: PropTypes.string
 };

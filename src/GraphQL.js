@@ -32,16 +32,22 @@ export const GET_ALL_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
-      }
-      Places_visiting {
-        id
-        country
-        countryId
-        countryISO
-        city
-        cityId
-        city_latitude
-        city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceVisitedId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
       }
       Place_living {
         id
@@ -52,6 +58,48 @@ export const GET_ALL_USER_COUNTRIES = gql`
         cityId
         city_latitude
         city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceLivingId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+        year
+        days
+        best_comment
+        hardest_comment
+        trip_purpose
+        trip_company
+        CityReviews {
+          id
+          PlaceVisitingId
+          attraction_type
+          attraction_name
+          comment
+          rating
+          cost
+          currency
+        }
       }
     }
   }
@@ -119,8 +167,8 @@ export const SEND_FRIEND_REQUEST = gql`
 `;
 
 export const GET_ALL_CITY_DETAILS = gql`
-  query {
-    user {
+  query user($username: String!){
+    user(username: $username) {
       id
       username
       full_name

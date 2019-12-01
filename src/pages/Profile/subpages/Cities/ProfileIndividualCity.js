@@ -13,7 +13,7 @@ import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
 import CityCommentaryContainer from "./CityCommentaryContainer";
 
-export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
+export default function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [localCityReviews, handleLocalCityReviews] = useState(cityReviews);
@@ -150,6 +150,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
                 key={"basics"}
                 city={city}
                 refetch={refetch}
+                urlUsername={urlUsername}
               />
             ),
             logistics: (
@@ -159,6 +160,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
                 city={city}
                 updateLocalReviews={updateLocalReviews}
                 refetch={refetch}
+                urlUsername={urlUsername}
               />
             ),
             places: (
@@ -168,6 +170,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
                 page={page}
                 updateLocalReviews={updateLocalReviews}
                 refetch={refetch}
+                urlUsername={urlUsername}
               />
             ),
             activities: (
@@ -177,6 +180,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
                 city={city}
                 updateLocalReviews={updateLocalReviews}
                 refetch={refetch}
+                urlUsername={urlUsername}
               />
             ),
             meals: (
@@ -186,6 +190,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
                 city={city}
                 updateLocalReviews={updateLocalReviews}
                 refetch={refetch}
+                urlUsername={urlUsername}
               />
             ),
             comments: (
@@ -193,6 +198,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
                 key={"comments"}
                 refetch={refetch}
                 city={city}
+                urlUsername={urlUsername}
               />
             )
           }[page]
@@ -205,5 +211,6 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch }) {
 ProfileIndividualCity.propTypes = {
   city: PropTypes.object,
   cityReviews: PropTypes.array,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  urlUsername: PropTypes.string
 };

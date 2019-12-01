@@ -13,6 +13,7 @@ import Loader from "../../components/common/Loader/Loader";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ user, urlUsername, refetch }) {
+  console.log(window.location.pathname);
   const [loaded, handleLoaded] = useState(false);
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
@@ -22,6 +23,9 @@ export default function Profile({ user, urlUsername, refetch }) {
   const [page, handlePageRender] = useState("settings");
   const [selectedCity, handleCity] = useState("none");
   const [cityReviews, handleCityReviews] = useState([]);
+  const [username] = useState(
+    urlUsername !== undefined ? urlUsername : user.username
+  );
   function handleUserDataChange(data) {
     handleUserData(data);
     refetch();
@@ -66,34 +70,66 @@ export default function Profile({ user, urlUsername, refetch }) {
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
   }, [user]);
-  function handleFetch() {
-    if (selectedCity !== "none") {
-      if (selectedCity.timing === "past") {
-        let newData = cityData.Places_visited.find(element => element.id === selectedCity.id);
-        newData.timing = "past";
-        handleSelectedCity(newData);
-        handleCityReviews(newData.CityReviews)
-      } else if (selectedCity.timing === "future") {
-        let newData = cityData.Places_visiting.find(element => element.id === selectedCity.id);
-        newData.timing = "future";
-        handleSelectedCity(newData);
-        handleCityReviews(newData.CityReviews)
-      }  else if (selectedCity.timing === "live") {
-        let newData = cityData.Place_living;
-        newData.timing = "live";
-        handleSelectedCity(newData);
-        handleCityReviews(newData.CityReviews)
+  useEffect(() => {
+    if (cityData !== undefined) {
+      console.log("new city data");
+      console.log(cityData);
+      console.log(window.location.pathname.split("/")[4]);
+      if (selectedCity !== "none") {
+        if (selectedCity.timing === "past") {
+          let newData = cityData.Places_visited.find(
+            element => element.id === selectedCity.id
+          );
+          newData.timing = "past";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        } else if (selectedCity.timing === "future") {
+          let newData = cityData.Places_visiting.find(
+            element => element.id === selectedCity.id
+          );
+          newData.timing = "future";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        } else if (selectedCity.timing === "live") {
+          let newData = cityData.Place_living;
+          newData.timing = "live";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        }
+      } else if (window.location.pathname.split("/")[4] !== undefined) {
+        let splitUrl = window.location.pathname.split("/");
+        if (splitUrl[5] === "0") {
+          let newData = cityData.Places_visited.find(
+            element => element.id === Number(splitUrl[6])
+          );
+          newData.timing = "past";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        } else if (splitUrl[5] === "1") {
+          let newData = cityData.Places_visiting.find(
+            element => element.id === Number(splitUrl[6])
+          );
+          newData.timing = "future";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        } else if (splitUrl[5] === "2") {
+          let newData = cityData.Place_living;
+          newData.timing = "live";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        }
       }
+      handleLoaded(true);
     }
-    handleLoaded(true);
-  }
+  }, [cityData]);
+  console.log(selectedCity);
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
+      variables={{ username }}
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
-      onCompleted={() => handleFetch()}
     >
       {({ loading, error, data, refetch }) => {
         if (loading) return <Loader />;
@@ -128,7 +164,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                 exact
                 path={
                   urlUsername
-                    ? `profiles/${urlUsername}/cities`
+                    ? `/profiles/${urlUsername}/cities`
                     : "/profile/cities"
                 }
                 render={() => (
@@ -137,15 +173,15 @@ export default function Profile({ user, urlUsername, refetch }) {
                     cityData={cityData}
                     searchText={searchText}
                     handleSelectedCity={handleSelectedCity}
+                    urlUsername={urlUsername}
                   />
                 )}
               />
               <Route
-                exact
                 path={
                   urlUsername
-                    ? `profiles/${urlUsername}/cities/${selectedCity.city}`
-                    : `/profile/cities/${selectedCity.city}`
+                    ? `/profiles/${urlUsername}/cities/${selectedCity.city}/`
+                    : `/profile/cities/${selectedCity.city}/`
                 }
                 render={props => (
                   <ProfileIndividualCity
@@ -154,6 +190,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     searchText={searchText}
                     cityReviews={cityReviews}
                     refetch={refetch}
+                    urlUsername={urlUsername}
                   />
                 )}
               />

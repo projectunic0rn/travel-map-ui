@@ -7,7 +7,7 @@ import {
   UPDATE_LIVING_CITY_BASICS
 } from "../../../../GraphQL";
 
-function CityBasicsContainer({ city, refetch }) {
+function CityBasicsContainer({ city, refetch, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
   const [feedbackState, handleFeedbackClick] = useState(false);
   const [cityBasics, handleCityBasics] = useState();
@@ -45,31 +45,29 @@ function CityBasicsContainer({ city, refetch }) {
   return (
     <div className="city-basics-container">
       <form id="nl-form" className="nl-form">
-        {city.timing === "live" ? "I have lived in " : "My trip(s) to "}
-        {city.city}{" "}
+        {city.timing === "live" ? "" : "My trip(s) to " + city.city}
         {city.timing === "future"
-          ? "will total "
+          ? " will total approximately"
           : city.timing === "live"
-          ? "for "
-          : "have totaled "}
-        approximately
-        {edit ? (
+          ? null
+          : " have totaled approximately"}
+        {edit && city.timing !== "live" ? (
           <input
             className="trip-duration"
             onChange={e => handleCityDays(e.target.value)}
             defaultValue={cityBasics.days === null ? 0 : cityBasics.days}
           ></input>
-        ) : (
+        ) : !edit && city.timing !== "live" ? (
           <span className="trip-data-span">
             {cityBasics.days === null ? 0 : cityBasics.days}
           </span>
-        )}
-        days.
-        <br />
+        ) : null}
+        {city.timing !== "live" ? "days." : null}
+        {city.timing !== "live" ? <br /> : null}
         {city.timing === "future"
           ? "I plan to go in "
           : city.timing === "live"
-          ? "I still live here in "
+          ? "I have lived here since "
           : "The last time I went was in "}
         {edit ? (
           <select
@@ -80,16 +78,27 @@ function CityBasicsContainer({ city, refetch }) {
             className="trip-entry-select"
           >
             <option key="blank"></option>
-            {Array.from(
-              new Array(100),
-              (val, index) => new Date().getFullYear() - index
-            ).map((year, index) => {
-              return (
-                <option key={`year${index}`} value={year}>
-                  {year}
-                </option>
-              );
-            })}
+            {city.timing === "future"
+              ? Array.from(
+                  new Array(100),
+                  (val, index) => new Date().getFullYear() + index
+                ).map((year, index) => {
+                  return (
+                    <option key={`year${index}`} value={year}>
+                      {year}
+                    </option>
+                  );
+                })
+              : Array.from(
+                  new Array(100),
+                  (val, index) => new Date().getFullYear() - index
+                ).map((year, index) => {
+                  return (
+                    <option key={`year${index}`} value={year}>
+                      {year}
+                    </option>
+                  );
+                })}
           </select>
         ) : (
           <span className="trip-data-span">
@@ -160,38 +169,41 @@ function CityBasicsContainer({ city, refetch }) {
         {city.timing !== "live" ? "." : null}
         <div className="nl-overlay" />
       </form>
-      <div className="review-edit-button-container">
-        <Mutation
-          mutation={
-            city.timing === "past"
-              ? UPDATE_VISITED_CITY_BASICS
-              : city.timing === "future"
-              ? UPDATE_VISITING_CITY_BASICS
-              : UPDATE_LIVING_CITY_BASICS
-          }
-          variables={{ id, cityBasics }}
-          onCompleted={() => refetch()}
-        >
-          {mutation =>
-            edit ? (
-              <span className="large confirm button" onClick={mutation}>
-                Update
-              </span>
-            ) : (
-              <span className="large button" onClick={handleEdit}>
-                Edit
-              </span>
-            )
-          }
-        </Mutation>
-      </div>
+      {urlUsername !== undefined ? null : (
+        <div className="review-edit-button-container">
+          <Mutation
+            mutation={
+              city.timing === "past"
+                ? UPDATE_VISITED_CITY_BASICS
+                : city.timing === "future"
+                ? UPDATE_VISITING_CITY_BASICS
+                : UPDATE_LIVING_CITY_BASICS
+            }
+            variables={{ id, cityBasics }}
+            onCompleted={() => refetch()}
+          >
+            {mutation =>
+              edit ? (
+                <span className="large confirm button" onClick={mutation}>
+                  Update
+                </span>
+              ) : (
+                <span className="large button" onClick={handleEdit}>
+                  Edit
+                </span>
+              )
+            }
+          </Mutation>
+        </div>
+      )}
     </div>
   );
 }
 
 CityBasicsContainer.propTypes = {
-  edit: PropTypes.bool,
-  city: PropTypes.object
+  city: PropTypes.object,
+  refetch: PropTypes.func,
+  urlUsername: PropTypes.string
 };
 
 export default CityBasicsContainer;

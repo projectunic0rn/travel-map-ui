@@ -297,6 +297,8 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visited[j].city_longitude,
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
+              days: data[i].Places_visited[j].days,
+              year: data[i].Places_visited[j].year,
               tripTiming: 0,
               avatarIndex: data[i].avatarIndex,
               color: data[i].color
@@ -317,6 +319,8 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visiting[j].city_longitude,
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
+              days: data[i].Places_visiting[j].days,
+              year: data[i].Places_visiting[j].year,
               tripTiming: 1,
               avatarIndex: data[i].avatarIndex,
               color: data[i].color
@@ -340,6 +344,8 @@ class FriendCityMap extends Component {
           longitude: data[i].Place_living.city_longitude,
           country: data[i].Place_living.country,
           countryId: data[i].Place_living.countryId,
+          days: data[i].Place_living.days,
+          year: data[i].Place_living.year,
           tripTiming: 2,
           avatarIndex: data[i].avatarIndex,
           color: data[i].color

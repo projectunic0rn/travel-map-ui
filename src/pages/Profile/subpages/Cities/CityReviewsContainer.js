@@ -14,7 +14,8 @@ export default function CityReviewsContainer({
   reviews,
   updateLocalReviews,
   city,
-  refetch
+  refetch,
+  urlUsername
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [edit, handleEdit] = useState(false);
@@ -52,7 +53,6 @@ export default function CityReviewsContainer({
     updateLocalReviews(newCityReview);
     handleLoaded(true);
   }
-
 
   function handleType(id, type) {
     let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
@@ -92,7 +92,11 @@ export default function CityReviewsContainer({
   return (
     <>
       {localCityReviews.length < 1 ? (
-        <span className="no-review-text">Enter your first review!</span>
+        <span className="no-review-text">
+          {urlUsername !== undefined
+            ? "No reviews entered"
+            : "Enter your first review!"}
+        </span>
       ) : (
         localCityReviews.map((review, index) => (
           <CityReviewCard
@@ -120,31 +124,33 @@ export default function CityReviewsContainer({
           </span>
         </div>
       ) : null}
-      <div className="review-edit-button-container">
-        <Mutation
-          mutation={
-            city.timing === "past"
-              ? UPDATE_VISITED_CITY_REVIEWS
-              : city.timing === "future"
-              ? UPDATE_VISITING_CITY_REVIEWS
-              : UPDATE_LIVING_CITY_REVIEWS
-          }
-          variables={{ localCityReviews }}
-          onCompleted={() => refetch()}
-        >
-          {mutation =>
-            edit ? (
-              <span className="large confirm button" onClick={mutation}>
-                Update
-              </span>
-            ) : (
-              <span className="large button" onClick={() => handleEdit(true)}>
-                Edit
-              </span>
-            )
-          }
-        </Mutation>
-      </div>
+      {urlUsername !== undefined ? null : (
+        <div className="review-edit-button-container">
+          <Mutation
+            mutation={
+              city.timing === "past"
+                ? UPDATE_VISITED_CITY_REVIEWS
+                : city.timing === "future"
+                ? UPDATE_VISITING_CITY_REVIEWS
+                : UPDATE_LIVING_CITY_REVIEWS
+            }
+            variables={{ localCityReviews }}
+            onCompleted={() => refetch()}
+          >
+            {mutation =>
+              edit ? (
+                <span className="large confirm button" onClick={mutation}>
+                  Update
+                </span>
+              ) : (
+                <span className="large button" onClick={() => handleEdit(true)}>
+                  Edit
+                </span>
+              )
+            }
+          </Mutation>
+        </div>
+      )}
     </>
   );
 }
@@ -154,5 +160,6 @@ CityReviewsContainer.propTypes = {
   reviews: PropTypes.array,
   updateLocalReviews: PropTypes.func,
   city: PropTypes.object,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  urlUsername: PropTypes.string
 };

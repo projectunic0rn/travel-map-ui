@@ -21,10 +21,12 @@ import HelicopterIcon from "../../../../icons/TransportationIcons/HelicopterIcon
 import BikeIcon from "../../../../icons/TransportationIcons/BikeIcon";
 import WalkIcon from "../../../../icons/TransportationIcons/WalkIcon";
 
-function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
+function LogisticsInputContainer({ reviews, city, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
   const [edit, handleEdit] = useState(false);
-  const [feedbackState, handleFeedbackClick] = useState(false);
+  const [feedbackState, handleFeedbackClick] = useState(
+    urlUsername !== undefined ? true : false
+  );
   const [activeTransportComponents, handleActiveTransportComponents] = useState(
     []
   );
@@ -88,18 +90,20 @@ function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
         comment: ""
       };
       city.timing === "past"
-      ? (newCityReview.PlaceVisitedId = city.id)
-      : city.timing === "future"
-      ? (newCityReview.PlaceVisitingId = city.id)
-      : (newCityReview.PlaceLivingId = city.id);
+        ? (newCityReview.PlaceVisitedId = city.id)
+        : city.timing === "future"
+        ? (newCityReview.PlaceVisitingId = city.id)
+        : (newCityReview.PlaceLivingId = city.id);
       localCityReviews.push(newCityReview);
     } else {
       activeComponents.splice(activeComponents.indexOf(index), 1);
-      let deleteIndex = localCityReviews.findIndex(review => review.attraction_name === transportTypes[index]);
+      let deleteIndex = localCityReviews.findIndex(
+        review => review.attraction_name === transportTypes[index]
+      );
       localCityReviews.splice(deleteIndex, 1);
     }
     handleActiveTransportComponents(activeComponents);
-    handleLocalCityReviews(localCityReviews)
+    handleLocalCityReviews(localCityReviews);
   }
   function handleRatingChange(id, rating) {
     let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
@@ -202,6 +206,11 @@ function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
               );
             }
           })}
+          {activeTransportComponents.length < 1 ? (
+            <div className="no-review-text">
+              No transportation methods entered yet
+            </div>
+          ) : null}
           <div className="transportation-submitted-container">
             <button
               className="confirm button"
@@ -212,30 +221,32 @@ function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
           </div>
         </>
       )}
-      <div className="review-edit-button-container">
-        <Mutation
-          mutation={
-            city.timing === "past"
-              ? UPDATE_VISITED_CITY_REVIEWS
-              : city.timing === "future"
-              ? UPDATE_VISITING_CITY_REVIEWS
-              : UPDATE_LIVING_CITY_REVIEWS
-          }
-          variables={{ localCityReviews }}
-        >
-          {mutation =>
-            edit ? (
-              <span className="large confirm button" onClick={mutation}>
-                Update
-              </span>
-            ) : (
-              <span className="large button" onClick={() => handleEdit(true)}>
-                Edit
-              </span>
-            )
-          }
-        </Mutation>
-      </div>
+      {urlUsername !== undefined ? null : (
+        <div className="review-edit-button-container">
+          <Mutation
+            mutation={
+              city.timing === "past"
+                ? UPDATE_VISITED_CITY_REVIEWS
+                : city.timing === "future"
+                ? UPDATE_VISITING_CITY_REVIEWS
+                : UPDATE_LIVING_CITY_REVIEWS
+            }
+            variables={{ localCityReviews }}
+          >
+            {mutation =>
+              edit ? (
+                <span className="large confirm button" onClick={mutation}>
+                  Update
+                </span>
+              ) : (
+                <span className="large button" onClick={() => handleEdit(true)}>
+                  Edit
+                </span>
+              )
+            }
+          </Mutation>
+        </div>
+      )}
     </div>
   );
 }
@@ -243,7 +254,7 @@ function LogisticsInputContainer({ reviews, city, updateLocalReviews }) {
 LogisticsInputContainer.propTypes = {
   reviews: PropTypes.array,
   city: PropTypes.object,
-  updateLocalReviews: PropTypes.func
+  urlUsername: PropTypes.string
 };
 
 export default LogisticsInputContainer;

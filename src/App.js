@@ -95,7 +95,11 @@ function App({ userAuthenticated }) {
                     />
                     <Route
                       path="/profiles/:username/"
-                      component={UserProfile}
+                      render={props => (
+                        <UserProfile
+                          {...props}
+                        />
+                      )}
                     />
                     <Route
                       path="/profile/"
