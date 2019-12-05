@@ -36,14 +36,7 @@ function CostIconModal({
             className="cost-icon-text"
             placeholder={cost !== "" && cost !== null ? cost : "Cost/person"}
           />
-          <select
-            className="cost-icon-currency"
-            disabled={true}
-            value={currency}
-          >
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-          </select>
+          <div className="cost-icon-currency-noedit">{currency}</div>
         </>
       )}
     </div>

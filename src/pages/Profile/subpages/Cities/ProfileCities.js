@@ -9,17 +9,24 @@ import LiveIcon from "../../../../icons/LiveIcon";
 import ProfileCityCard from "./ProfileCityCard";
 
 export default function ProfileCities({
-  user,
   searchText,
   handleSelectedCity,
   cityData,
-  urlUsername
+  urlUsername,
+  location,
+  handleOriginalSearch
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [results, setResults] = useState();
   const [timing, handleTiming] = useState("");
-  console.log(user);
+  useEffect(() => {
+    if (location.state !== null) {
+      handleOriginalSearch(location.state.searchText);
+    } else {
+      handleOriginalSearch("");
+    }
+  }, [location]);
   useEffect(() => {
     let combinedResults = [];
     for (let i in cityData.Places_visited) {
@@ -112,5 +119,7 @@ ProfileCities.propTypes = {
   handleSelectedCity: PropTypes.func,
   user: PropTypes.object,
   cityData: PropTypes.object,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
+  location: PropTypes.object,
+  handleOriginalSearch: PropTypes.func
 };

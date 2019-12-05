@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
-import { Query, withApollo } from "react-apollo";
+import { Query } from "react-apollo";
 import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
 
 import Sidebar from "./Sidebar";
@@ -13,7 +13,6 @@ import Loader from "../../components/common/Loader/Loader";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ user, urlUsername, refetch }) {
-  console.log(window.location.pathname);
   const [loaded, handleLoaded] = useState(false);
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
@@ -72,9 +71,6 @@ export default function Profile({ user, urlUsername, refetch }) {
   }, [user]);
   useEffect(() => {
     if (cityData !== undefined) {
-      console.log("new city data");
-      console.log(cityData);
-      console.log(window.location.pathname.split("/")[4]);
       if (selectedCity !== "none") {
         if (selectedCity.timing === "past") {
           let newData = cityData.Places_visited.find(
@@ -122,7 +118,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       handleLoaded(true);
     }
   }, [cityData]);
-  console.log(selectedCity);
+
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
@@ -156,6 +152,7 @@ export default function Profile({ user, urlUsername, refetch }) {
               />
               <ProfileNav
                 handleSearchText={handleSearchText}
+                searchText={searchText}
                 page={page}
                 searchBar={page === "settings" ? false : true}
                 urlUsername={urlUsername}
@@ -167,13 +164,15 @@ export default function Profile({ user, urlUsername, refetch }) {
                     ? `/profiles/${urlUsername}/cities`
                     : "/profile/cities"
                 }
-                render={() => (
+                render={({ location }) => (
                   <ProfileCities
                     user={user}
+                    location={location}
                     cityData={cityData}
                     searchText={searchText}
                     handleSelectedCity={handleSelectedCity}
                     urlUsername={urlUsername}
+                    handleOriginalSearch={handleSearchText}
                   />
                 )}
               />

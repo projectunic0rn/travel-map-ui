@@ -1,4 +1,5 @@
-.city-review-card, .transportation-container-overlay {
+.city-review-card,
+.transportation-container-overlay {
   display: flex;
   position: relative;
   align-items: center;
@@ -99,9 +100,17 @@
       padding: 10px 0 4px 4px;
     }
 
+
     .cost-icon-currency {
       border: none;
       background: none;
+    }
+
+    .cost-icon-currency-noedit {
+      border: none;
+      background: none;
+      font: 400 13.3333px Arial;
+      transform: translate(6px, 8px);
     }
 
     .cost-icon circle {

@@ -11,6 +11,7 @@ import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
+import Place from "./pages/Place/Place";
 import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
@@ -95,11 +96,7 @@ function App({ userAuthenticated }) {
                     />
                     <Route
                       path="/profiles/:username/"
-                      render={props => (
-                        <UserProfile
-                          {...props}
-                        />
-                      )}
+                      render={props => <UserProfile {...props} />}
                     />
                     <Route
                       path="/profile/"
@@ -108,6 +105,14 @@ function App({ userAuthenticated }) {
                           {...props}
                           user={data.user}
                           refetch={refetch}
+                        />
+                      )}
+                    />
+                    <Route
+                      path="/place/"
+                      render={props => (
+                        <Place
+
                         />
                       )}
                     />

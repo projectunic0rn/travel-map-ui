@@ -4,14 +4,18 @@ import { NavLink, withRouter } from "react-router-dom";
 import UserAvatar from "../../../UserAvatar/UserAvatar";
 
 function UserTripCard(props) {
-  console.log(props);
   return (
     <NavLink
-      to={
-        props.trip.cities === undefined
-          ? `/profiles/${props.trip.username}/cities/${props.trip.city.toLowerCase()}/${props.trip.tripTiming}/${props.trip.id}/`
-          : `/profiles/${props.trip.username}/cities`
-      }
+      to={{
+        pathname: props.trip.cities === undefined
+          ? `/profiles/${
+              props.trip.username
+            }/cities/${props.trip.city.toLowerCase()}/${
+              props.trip.tripTiming
+            }/${props.trip.id}/`
+          : `/profiles/${props.trip.username}/cities`,
+          state: { searchText: props.trip.country }
+      }}
     >
       <div className="user-trip-card">
         <div className="user-profile-image">

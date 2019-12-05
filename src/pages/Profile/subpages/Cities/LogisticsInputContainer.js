@@ -189,6 +189,7 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
                   component={transportComponents[index]}
                   feedbackState={feedbackState}
                   index={index}
+                  active={true}
                   handleClickActive={handleClickActive}
                   handleRatingChange={handleRatingChange}
                   handleCostChange={handleCostChange}
@@ -211,14 +212,14 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
               No transportation methods entered yet
             </div>
           ) : null}
-          <div className="transportation-submitted-container">
+          {!urlUsername ? <div className="transportation-submitted-container">
             <button
               className="confirm button"
               onClick={() => handleFeedbackClick(false)}
             >
               Back
-            </button>
-          </div>
+            </button> 
+          </div> : null}
         </>
       )}
       {urlUsername !== undefined ? null : (

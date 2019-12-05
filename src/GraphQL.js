@@ -2,6 +2,17 @@ import gql from "graphql-tag";
 
 //QUERIES
 
+export const GET_USER_AVATAR = gql`
+query userId($userId: Int!){
+  userId(userId: $userId) {
+    id
+    username
+    color
+    avatarIndex
+  }
+}
+`;
+
 export const GET_ALL_USER_COUNTRIES = gql`
   query {
     users {
@@ -765,6 +776,74 @@ export const UPDATE_LIVING_CITY_REVIEWS = gql`
       id
       attraction_type
       attraction_name
+    }
+  }
+`;
+
+export const CITY_REVIEWS_ALL_USERS = gql`
+  query City_reviews_all_users($placeId: Int!) {
+    City_reviews_all_users(cityId: $placeId){
+      id
+      UserId
+      country
+      countryId
+      countryISO
+      city
+      cityId
+      city_latitude
+      city_longitude
+      year
+      days
+      best_comment
+      hardest_comment
+      trip_purpose
+      trip_company
+      CityReviews {
+        id
+        PlaceVisitedId
+        PlaceVisitingId
+        PlaceLivingId
+        attraction_type
+        attraction_name
+        comment
+        rating
+        cost
+        currency
+      }
+    }
+  }
+`;
+
+export const COUNTRY_REVIEWS_ALL_USERS = gql`
+  query Country_reviews_all_users($placeId: Int!) {
+    Country_reviews_all_users(countryId: $placeId){
+      id
+      UserId
+      country
+      countryId
+      countryISO
+      city
+      cityId
+      city_latitude
+      city_longitude
+      year
+      days
+      best_comment
+      hardest_comment
+      trip_purpose
+      trip_company
+      CityReviews {
+        id
+        PlaceVisitedId
+        PlaceVisitingId
+        PlaceLivingId
+        attraction_type
+        attraction_name
+        comment
+        rating
+        cost
+        currency
+      }
     }
   }
 `;

@@ -110,6 +110,7 @@ export default function CityReviewsContainer({
             handleCostChange={handleCostChange}
             handleCurrencyChange={handleCurrencyChange}
             handleCommentChange={handleCommentChange}
+            urlUsername={true}
           />
         ))
       )}

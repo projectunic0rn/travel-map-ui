@@ -14,11 +14,12 @@ function CityReviewCard({
   handleInputChange,
   handleRatingChange,
   handleCurrencyChange,
-  handleCommentChange
+  handleCommentChange,
+  urlUsername
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [comment, handleComment] = useState("");
-  const [commentActive, handleCommentClick] = useState(false);
+  const [commentActive, handleCommentClick] = useState(urlUsername ? true : false);
 
   useEffect(() => {
     handleCommentClick(false);
@@ -53,6 +54,8 @@ function CityReviewCard({
       break;
     case "logistics":
       options = ["logistics"];
+      break;
+    default:
       break;
   }
   if (!loaded) return <SimpleLoader />;
@@ -117,7 +120,8 @@ CityReviewCard.propTypes = {
   handleRatingChange: PropTypes.func,
   handleCostChange: PropTypes.func,
   handleCurrencyChange: PropTypes.func,
-  handleCommentChange: PropTypes.func
+  handleCommentChange: PropTypes.func,
+  urlUsername: PropTypes.bool
 };
 
 export default CityReviewCard;

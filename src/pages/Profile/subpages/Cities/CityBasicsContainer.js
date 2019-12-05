@@ -9,7 +9,6 @@ import {
 
 function CityBasicsContainer({ city, refetch, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
-  const [feedbackState, handleFeedbackClick] = useState(false);
   const [cityBasics, handleCityBasics] = useState();
   const [id] = useState(city.id);
   const [edit, handleEdit] = useState(false);
