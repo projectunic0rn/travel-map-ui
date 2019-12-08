@@ -10,6 +10,7 @@ import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FriendClickedCountryContainer from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryContainer";
+import FriendClickedCountryBlank from '../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank';
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
@@ -37,7 +38,9 @@ const FriendCountryMap = props => {
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
 
   useEffect(() => {
+    console.log(props.tripData)
     handleLoadedCountries(props.tripData);
+    console.log('fire')
   }, [props.tripData]);
 
   function handleLoadedCountries(data) {
@@ -335,7 +338,7 @@ const FriendCountryMap = props => {
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
-          component={FriendClickedCountryContainer}
+          component={clickedCountryArray.length < 1 ? FriendClickedCountryBlank : FriendClickedCountryContainer}
           componentProps={{
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,

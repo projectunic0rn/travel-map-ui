@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
-import socket from "./socket";
 
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
@@ -23,13 +22,6 @@ function App({ userAuthenticated }) {
   const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
-  socket.on("new-friend-request", data => {
-    alert(data.senderData.username + " has sent you a friend request!");
-  });
-
-  socket.on("trip-created", username => {
-    alert(username + " has created a new trip!");
-  });
 
   const swalParams = {
     type: "info",

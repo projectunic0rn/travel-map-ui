@@ -21,7 +21,7 @@ function TransportationIconContainer({
   const [loaded, handleLoaded] = useState(false);
   const [localActive, handleClick] = useState();
   const [commentActive, handleCommentClick] = useState(false);
-  const [comment, handleComment] = useState("");
+  const [, handleComment] = useState("");
   const [localReview, handleReview] = useState({
     attraction_type: "logistics",
     attraction_name: tagName,

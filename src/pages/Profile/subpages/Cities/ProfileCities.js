@@ -26,7 +26,7 @@ export default function ProfileCities({
     } else {
       handleOriginalSearch("");
     }
-  }, [location]);
+  }, [location, handleOriginalSearch]);
   useEffect(() => {
     let combinedResults = [];
     for (let i in cityData.Places_visited) {

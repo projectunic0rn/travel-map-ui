@@ -31,7 +31,7 @@ function FeedbackBox({
     handleCost(review.cost);
     handleCurrencyChange(review.currency);
     handleLoaded(true);
-  }, [review]);
+  }, [review, handleCost, handleCostClick, handleCurrencyChange]);
   function handleRatingHelper(rating) {
     handleRating(rating);
     handleRatingChange(rating);

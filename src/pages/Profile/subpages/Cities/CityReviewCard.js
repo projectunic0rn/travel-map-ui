@@ -18,7 +18,7 @@ function CityReviewCard({
   urlUsername
 }) {
   const [loaded, handleLoaded] = useState(false);
-  const [comment, handleComment] = useState("");
+  const [, handleComment] = useState("");
   const [commentActive, handleCommentClick] = useState(urlUsername ? true : false);
 
   useEffect(() => {

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import ValidationMutation from "../../../components/common/ValidationMutation/ValidationMutation";
-import socket from "../../../socket";
 import { LOGIN_USER } from "../../../GraphQL";
 import UserContext from "../../../utils/UserContext";
 
@@ -25,9 +24,6 @@ class LoginForm extends Component {
   }
   _saveUserData(token) {
     localStorage.setItem("token", token);
-    if (token) {
-      socket.emit("user-connected", token);
-    }
   }
 
   handleInvalidCredentials(err) {

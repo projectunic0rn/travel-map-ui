@@ -6,6 +6,7 @@ import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
+import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class FriendCityMap extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.resize);
     this.resize();
+    console.log(this.props.tripData);
     this.handleLoadedCities(this.props.tripData);
   }
 
@@ -120,33 +122,25 @@ class FriendCityMap extends Component {
                         placeVisitedId: city.id
                       })
                     }
-                    style={{
-                      fill: "rgba(203, 118, 120, 0.75)",
-                      stroke: "white",
-                      strokeWidth: "10px"
-                    }}
+                    style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
                     cy="50"
-                    r="40"
+                    r="50"
                   />
-                  {/* <circle
-                    style={{
-                      fill: "rgba(203, 118, 120, 1.0)",
-                      stroke: "white",
-                      strokeWidth: "6px",
-                    }}
+                  <circle
+                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
                     r="20"
-                  /> */}
+                  />
                 </svg>
               </Marker>
             );
             break;
           case 1:
-            color = "rgba(115, 167, 195, 0.75)";
+            color = "rgba(115, 167, 195, 0.25)";
             markerFutureDisplay.push(
               <Marker
                 key={city.id}
@@ -169,30 +163,26 @@ class FriendCityMap extends Component {
                         placeVisitingId: city.id
                       })
                     }
-                    style={{
-                      fill: color,
-                      stroke: "white",
-                      strokeWidth: "10px"
-                    }}
+                    style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
                     cy="50"
-                    r="40"
+                    r="50"
                   />
-                  {/* <circle
-                    style={{ fill: "rgba(115, 167, 195, 1.0)" }}
+                  <circle
+                    style={{ fill: "rgba(115, 167, 195, 0.75)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
                     r="20"
-                  /> */}
+                  />
                 </svg>
               </Marker>
             );
 
             break;
           case 2:
-            color = "rgba(150, 177, 168, 0.75)";
+            color = "rgba(150, 177, 168, 0.25)";
             markerLiveDisplay.push(
               <Marker
                 key={city.id}
@@ -209,29 +199,19 @@ class FriendCityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitingId: city.id
-                      })
-                    }
-                    style={{
-                      fill: color,
-                      stroke: "white",
-                      strokeWidth: "10px"
-                    }}
+                    style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
                     cy="50"
-                    r="40"
+                    r="50"
                   />
-                  {/* <circle
-                    style={{ fill: "rgba(150, 177, 168, 1.0)" }}
+                  <circle
+                    style={{ fill: "rgba(150, 177, 168, 0.75)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
                     r="20"
-                  /> */}
+                  />
                 </svg>
               </Marker>
             );
@@ -280,6 +260,7 @@ class FriendCityMap extends Component {
   }
 
   handleLoadedCities(data) {
+    console.log(data);
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -394,7 +375,7 @@ class FriendCityMap extends Component {
           latitude={cityTooltip.latitude}
           closeOnClick={false}
           closeButton={true}
-          onClose={() => this.setState({cityTooltip: null})}
+          onClose={() => this.setState({ cityTooltip: null })}
         >
           <div
             className="popup-text"
@@ -425,6 +406,7 @@ class FriendCityMap extends Component {
       activePopup
     } = this.state;
     if (loading) return <div>Loading...</div>;
+    console.log(this.state.clickedCityArray)
     return (
       <>
         <div
@@ -477,7 +459,11 @@ class FriendCityMap extends Component {
           <PopupPrompt
             activePopup={activePopup}
             showPopup={this.showPopup}
-            component={FriendClickedCityContainer}
+            component={
+              this.state.hoveredCityArray.length < 1
+                ? FriendClickedCityBlank
+                : FriendClickedCityContainer
+            }
             componentProps={{
               hoveredCityArray: this.state.hoveredCityArray,
               clickedCity: this.state.clickedCity

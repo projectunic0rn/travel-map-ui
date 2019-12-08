@@ -182,9 +182,6 @@ function FriendClickedCityContainer(props) {
       <div className="friend-trip-container">
         {userTripTitle}
         {friendTrips}
-        {props.customProps.hoveredCityArray.length < 1 ? (
-          <p>Be the first to visit!</p>
-        ) : null}
       </div>
     </div>
   );

@@ -417,7 +417,7 @@ class CityMap extends Component {
                 onMouseOver={() =>
                   this.setState({
                     cityTooltip: city,
-                    placeVisitingId: city.id
+                    placeVisitedId: city.id
                   })
                 }
                 style={{ fill: color }}
@@ -465,7 +465,7 @@ class CityMap extends Component {
                 onMouseOver={() =>
                   this.setState({
                     cityTooltip: city,
-                    placeVisitedId: city.id
+                    placeVisitingId: city.id
                   })
                 }
                 style={{ fill: color }}
