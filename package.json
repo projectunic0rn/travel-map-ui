@@ -32,7 +32,8 @@
     "sweetalert2": "^8.19.0"
   },
   "scripts": {
-    "start": "react-scripts build && node --max-old-space-size=4096 server.js",
+    "start": "node --max-old-space-size=4096 server.js",
+    "postinstall": "react-scripts build",
     "dev": "react-scripts --max-old-space-size=4096 start",
     "build": "react-scripts --max-old-space-size=4096 build",
     "test": "react-scripts test",
