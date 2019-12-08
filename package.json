@@ -32,7 +32,7 @@
     "sweetalert2": "^8.19.0"
   },
   "scripts": {
-    "start": "react-scripts build && node server.js",
+    "start": "react-scripts build && node --max-old-space-size=4096 server.js",
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
