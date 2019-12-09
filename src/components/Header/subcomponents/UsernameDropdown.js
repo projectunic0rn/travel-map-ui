@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
 
 import LogoutIcon from "../../../icons/LogoutIcon";
@@ -46,22 +46,22 @@ function UsernameDropdown({ onClickOut }) {
             <div className="username-dropdown-container">
               <span className="username-dropdown-triangle" />
               <ul className="username-dropdown-links" onClick={onClickOut}>
-                <Link to="/profile/" className="ud-link">
+                <NavLink to="/profile/cities" className="ud-link">
                   <PersonIcon />
                   Profile
-                </Link>
-                <Link to="/profile/settings" className="ud-link">
+                </NavLink>
+                <NavLink to="/profile/settings" className="ud-link">
                   <SettingsIcon />
                   Settings
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to="/"
                   onClick={() => logoutClicked(context.setUserLoggedIn)}
                   className="ud-link"
                 >
                   <LogoutIcon />
                   Logout
-                </Link>
+                </NavLink>
               </ul>
             </div>
           )}

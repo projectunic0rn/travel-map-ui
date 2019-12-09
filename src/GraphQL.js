@@ -3,14 +3,14 @@ import gql from "graphql-tag";
 //QUERIES
 
 export const GET_USER_AVATAR = gql`
-query userId($userId: Int!){
-  userId(userId: $userId) {
-    id
-    username
-    color
-    avatarIndex
+  query userId($userId: Int!) {
+    userId(userId: $userId) {
+      id
+      username
+      color
+      avatarIndex
+    }
   }
-}
 `;
 
 export const GET_ALL_USER_COUNTRIES = gql`
@@ -116,6 +116,22 @@ export const GET_ALL_USER_COUNTRIES = gql`
   }
 `;
 
+export const GET_ALL_FRIEND_INFO = gql`
+  query {
+    users {
+      id
+      username
+      full_name
+      gender
+      birthday
+      UserInterests {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export const GET_ALL_USER_INFO = gql`
   query {
     users {
@@ -178,7 +194,7 @@ export const SEND_FRIEND_REQUEST = gql`
 `;
 
 export const GET_ALL_CITY_DETAILS = gql`
-  query user($username: String!){
+  query user($username: String!) {
     user(username: $username) {
       id
       username
@@ -637,14 +653,8 @@ export const UPDATE_USER_AVATAR = gql`
 `;
 
 export const UPDATE_VISITED_CITY_BASICS = gql`
-  mutation updateVisitedCityBasics(
-    $id: Int!
-    $cityBasics: CityBasics!
-  ) {
-    updateVisitedCityBasics(
-      PlaceVisitedId: $id
-      cityBasics: $cityBasics
-    ) {
+  mutation updateVisitedCityBasics($id: Int!, $cityBasics: CityBasics!) {
+    updateVisitedCityBasics(PlaceVisitedId: $id, cityBasics: $cityBasics) {
       id
       year
       days
@@ -655,14 +665,8 @@ export const UPDATE_VISITED_CITY_BASICS = gql`
 `;
 
 export const UPDATE_VISITING_CITY_BASICS = gql`
-  mutation updateVisitingCityBasics(
-    $id: Int!
-    $cityBasics: CityBasics!
-  ) {
-    updateVisitingCityBasics(
-      PlaceVisitingId: $id
-      cityBasics: $cityBasics
-    ) {
+  mutation updateVisitingCityBasics($id: Int!, $cityBasics: CityBasics!) {
+    updateVisitingCityBasics(PlaceVisitingId: $id, cityBasics: $cityBasics) {
       id
       year
       days
@@ -673,14 +677,8 @@ export const UPDATE_VISITING_CITY_BASICS = gql`
 `;
 
 export const UPDATE_LIVING_CITY_BASICS = gql`
-  mutation updateLivingCityBasics(
-    $id: Int!
-    $cityBasics: CityBasics!
-  ) {
-    updateLivingCityBasics(
-      PlaceLivingId: $id
-      cityBasics: $cityBasics
-    ) {
+  mutation updateLivingCityBasics($id: Int!, $cityBasics: CityBasics!) {
+    updateLivingCityBasics(PlaceLivingId: $id, cityBasics: $cityBasics) {
       id
       year
       days
@@ -691,10 +689,7 @@ export const UPDATE_LIVING_CITY_BASICS = gql`
 `;
 
 export const UPDATE_VISITED_CITY_COMMENTS = gql`
-  mutation updateVisitedCityComments(
-    $id: Int!
-    $cityComments: CityComments!
-  ) {
+  mutation updateVisitedCityComments($id: Int!, $cityComments: CityComments!) {
     updateVisitedCityComments(
       PlaceVisitedId: $id
       cityComments: $cityComments
@@ -707,10 +702,7 @@ export const UPDATE_VISITED_CITY_COMMENTS = gql`
 `;
 
 export const UPDATE_VISITING_CITY_COMMENTS = gql`
-  mutation updateVisitingCityComments(
-    $id: Int!
-    $cityComments: CityComments!
-  ) {
+  mutation updateVisitingCityComments($id: Int!, $cityComments: CityComments!) {
     updateVisitingCityComments(
       PlaceVisitingId: $id
       cityComments: $cityComments
@@ -723,14 +715,8 @@ export const UPDATE_VISITING_CITY_COMMENTS = gql`
 `;
 
 export const UPDATE_LIVING_CITY_COMMENTS = gql`
-  mutation updateLivingCityComments(
-    $id: Int!
-    $cityComments: CityComments!
-  ) {
-    updateLivingCityComments(
-      PlaceLivingId: $id
-      cityComments: $cityComments
-    ) {
+  mutation updateLivingCityComments($id: Int!, $cityComments: CityComments!) {
+    updateLivingCityComments(PlaceLivingId: $id, cityComments: $cityComments) {
       id
       best_comment
       hardest_comment
@@ -739,12 +725,8 @@ export const UPDATE_LIVING_CITY_COMMENTS = gql`
 `;
 
 export const UPDATE_VISITED_CITY_REVIEWS = gql`
-  mutation addPastCityReviews(
-    $localCityReviews: [CityReview!]
-  ) {
-    addPastCityReviews(
-      cityReviews: $localCityReviews
-    ) {
+  mutation addPastCityReviews($localCityReviews: [CityReview!]) {
+    addPastCityReviews(cityReviews: $localCityReviews) {
       id
       attraction_type
       attraction_name
@@ -753,12 +735,8 @@ export const UPDATE_VISITED_CITY_REVIEWS = gql`
 `;
 
 export const UPDATE_VISITING_CITY_REVIEWS = gql`
-  mutation addFutureCityReviews(
-    $localCityReviews: [CityReview!]
-  ) {
-    addFutureCityReviews(
-      cityReviews: $localCityReviews
-    ) {
+  mutation addFutureCityReviews($localCityReviews: [CityReview!]) {
+    addFutureCityReviews(cityReviews: $localCityReviews) {
       id
       attraction_type
       attraction_name
@@ -767,12 +745,8 @@ export const UPDATE_VISITING_CITY_REVIEWS = gql`
 `;
 
 export const UPDATE_LIVING_CITY_REVIEWS = gql`
-  mutation addLivingCityReviews(
-    $localCityReviews: [CityReview!]
-  ) {
-    addLivingCityReviews(
-      cityReviews: $localCityReviews
-    ) {
+  mutation addLivingCityReviews($localCityReviews: [CityReview!]) {
+    addLivingCityReviews(cityReviews: $localCityReviews) {
       id
       attraction_type
       attraction_name
@@ -782,7 +756,7 @@ export const UPDATE_LIVING_CITY_REVIEWS = gql`
 
 export const CITY_REVIEWS_ALL_USERS = gql`
   query City_reviews_all_users($placeId: Int!) {
-    City_reviews_all_users(cityId: $placeId){
+    City_reviews_all_users(cityId: $placeId) {
       id
       UserId
       country
@@ -816,7 +790,7 @@ export const CITY_REVIEWS_ALL_USERS = gql`
 
 export const COUNTRY_REVIEWS_ALL_USERS = gql`
   query Country_reviews_all_users($placeId: Int!) {
-    Country_reviews_all_users(countryId: $placeId){
+    Country_reviews_all_users(countryId: $placeId) {
       id
       UserId
       country

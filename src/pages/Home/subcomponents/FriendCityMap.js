@@ -5,6 +5,7 @@ import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
+import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 
@@ -31,7 +32,8 @@ class FriendCityMap extends Component {
       loading: true,
       activePopup: false,
       cityTooltip: null,
-      hoveredCityArray: null
+      hoveredCityArray: null,
+      filter: false
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -46,6 +48,7 @@ class FriendCityMap extends Component {
     this.handleLoadedCities = this.handleLoadedCities.bind(this);
     this.handleActiveTimings = this.handleActiveTimings.bind(this);
     this.showPopup = this.showPopup.bind(this);
+    this.showFilter = this.showFilter.bind(this);
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
@@ -54,7 +57,6 @@ class FriendCityMap extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.resize);
     this.resize();
-    console.log(this.props.tripData);
     this.handleLoadedCities(this.props.tripData);
   }
 
@@ -199,6 +201,12 @@ class FriendCityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
+                    onMouseOver={() =>
+                      this.setState({
+                        cityTooltip: city,
+                        placeVisitingId: city.id
+                      })
+                    }
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -260,7 +268,6 @@ class FriendCityMap extends Component {
   }
 
   handleLoadedCities(data) {
-    console.log(data);
     const { tripTimingCounts, clickedCityArray } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -350,10 +357,24 @@ class FriendCityMap extends Component {
     });
   }
 
-  showPopup() {
+  showFilter() {
+    let filter = !this.state.filter;
     let activePopup = !this.state.activePopup;
     this.setState({
+      filter,
       activePopup
+    });
+  }
+
+  showPopup() {
+    let activePopup = !this.state.activePopup;
+    let filter = this.state.filter;
+    if (!activePopup) {
+      filter = false;
+    }
+    this.setState({
+      activePopup,
+      filter
     });
   }
 
@@ -403,10 +424,11 @@ class FriendCityMap extends Component {
       markerFutureDisplay,
       markerLiveDisplay,
       loading,
-      activePopup
+      activePopup,
+      filter
     } = this.state;
+    console.log(this.state.clickedCityArray);
     if (loading) return <div>Loading...</div>;
-    console.log(this.state.clickedCityArray)
     return (
       <>
         <div
@@ -419,7 +441,11 @@ class FriendCityMap extends Component {
             </button>
           </div>
           <div className="map-header-filler" />
-          <div className="map-header-filler" />
+          <div className="map-header-filter">
+            <button onClick={() => this.showFilter()}>
+              Filter Map
+            </button>
+          </div>
         </div>
         <div className="city-map-container">
           <MapGL
@@ -460,6 +486,7 @@ class FriendCityMap extends Component {
             activePopup={activePopup}
             showPopup={this.showPopup}
             component={
+              filter ? FilterCityMap : 
               this.state.hoveredCityArray.length < 1
                 ? FriendClickedCityBlank
                 : FriendClickedCityContainer

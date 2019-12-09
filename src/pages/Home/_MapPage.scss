@@ -29,7 +29,8 @@
     .map-header-container {
       display: flex;
       flex-direction: column;
-      max-width: 1000px;
+      max-width: 1020px;
+      width: 1020px;
       margin: 20px auto;
       align-items: center;
       @media (min-width: 900px) {
@@ -38,6 +39,31 @@
         margin: 0px auto;
       }
       .map-header-button {
+        display: flex;
+        justify-content: center;
+        max-width: 267px;
+        flex: 1;
+        z-index: 2000;
+        button {
+          width: 200px;
+          height: 40px;
+          background: #3f4b57;
+          border: none;
+          border-radius: 24px;
+          box-shadow: 0 1px 1px 1px #3f4b57;
+          font-size: 18px;
+          color: rgb(150, 150, 150);
+          cursor: pointer;
+          &:focus {
+            outline: none;
+          }
+          &:hover {
+            background: rgb(200, 200, 200);
+            color: #3f4b57;
+          }
+        }
+      }
+      .map-header-filter {
         display: flex;
         justify-content: center;
         max-width: 267px;
