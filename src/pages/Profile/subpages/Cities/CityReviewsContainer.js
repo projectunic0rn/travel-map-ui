@@ -46,6 +46,7 @@ export default function CityReviewsContainer({
     newCityReview.comment = "";
     newCityReview.cost = null;
     newCityReview.id = 0;
+    newCityReview.key = cityReviews.length;
     newCityReview.rating = 1;
     newCityReview.currency = "USD";
     cityReviews.push(newCityReview);
@@ -54,23 +55,24 @@ export default function CityReviewsContainer({
     handleLoaded(true);
   }
 
-  function handleType(id, type) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleType(id, key, type) {
+    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
     localCityReviews[reviewToUpdate].attraction_type = type;
     handleLocalCityReviews(localCityReviews);
+    
   }
-  function handleInputChange(id, input) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleInputChange(id, key, input) {
+    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
     localCityReviews[reviewToUpdate].attraction_name = input;
     handleLocalCityReviews(localCityReviews);
   }
-  function handleRatingChange(id, rating) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleRatingChange(id, key, rating) {
+    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
     localCityReviews[reviewToUpdate].rating = rating;
     handleLocalCityReviews(localCityReviews);
   }
-  function handleCostChange(id, cost) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleCostChange(id, key, cost) {
+    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
     if (cost === null || cost === "") {
       localCityReviews[reviewToUpdate].cost = null;
     } else {
@@ -78,15 +80,22 @@ export default function CityReviewsContainer({
     }
     handleLocalCityReviews(localCityReviews);
   }
-  function handleCurrencyChange(id, currency) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleCurrencyChange(id, key, currency) {
+    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
     localCityReviews[reviewToUpdate].currency = currency;
     handleLocalCityReviews(localCityReviews);
   }
-  function handleCommentChange(id, comment) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleCommentChange(id, key, comment) {
+    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
     localCityReviews[reviewToUpdate].comment = comment;
     handleLocalCityReviews(localCityReviews);
+  }
+
+  function mutationPrep(mutation) {
+    for (let i in localCityReviews) {
+      delete localCityReviews[i].key;
+    }
+    mutation();
   }
   if (!loaded) return "Loading";
   return (
@@ -98,9 +107,10 @@ export default function CityReviewsContainer({
             : "Enter your first review!"}
         </span>
       ) : (
-        localCityReviews.map((review, index) => (
+        localCityReviews.map((review) => (
           <CityReviewCard
-            key={review.attraction_type + index}
+            key={review.attraction_type + review.id + review.key}
+            index={review.key}
             review={review}
             edit={edit}
             page={page}
@@ -140,7 +150,7 @@ export default function CityReviewsContainer({
           >
             {mutation =>
               edit ? (
-                <span className="large confirm button" onClick={mutation}>
+                <span className="large confirm button" onClick={() => mutationPrep(mutation)}>
                   Update
                 </span>
               ) : (

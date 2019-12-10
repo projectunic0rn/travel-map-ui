@@ -71,7 +71,7 @@ const FriendCountryMap = props => {
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
               tripTiming: 0,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
           }
@@ -100,7 +100,7 @@ const FriendCountryMap = props => {
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
               tripTiming: 1,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
           }
@@ -132,7 +132,7 @@ const FriendCountryMap = props => {
             country: data[i].Place_living.country,
             countryId: data[i].Place_living.countryId,
             tripTiming: 2,
-            avatarIndex: data[i].avatarIndex,
+            avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
             color: data[i].color
           });
         // }

@@ -20,7 +20,7 @@ function UserTripCard(props) {
       <div className="user-trip-card">
         <div className="user-profile-image">
           <UserAvatar
-            avatarIndex={props.trip.avatarIndex}
+            avatarIndex={props.trip.avatarIndex !== null ? props.trip.avatarIndex : 1}
             color={props.trip.color}
           />
         </div>

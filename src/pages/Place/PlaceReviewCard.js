@@ -13,7 +13,8 @@ function PlaceReviewCard({
   index,
   maxIndex,
   reviewCount,
-  handleReviewCount
+  handleReviewCount,
+  cityOrCountry
 }) {
   const [loaded, handleLoaded] = useState(true);
   const [avatarIndex, handleAvatarIndex] = useState(null);
@@ -24,7 +25,11 @@ function PlaceReviewCard({
   );
   const userId = Number(user.UserId);
   function handleAvatarData(data) {
-    handleAvatarIndex(Number(data.avatarIndex));
+    if (data.avatarIndex !== null) {
+      handleAvatarIndex(Number(data.avatarIndex));
+    } else {
+      handleAvatarIndex(1);
+    }
     handleAvatarColor(data.color);
     handleUsername(data.username);
   }
@@ -97,7 +102,9 @@ function PlaceReviewCard({
         if (loading) return <SimpleLoader />;
         if (error) return `Error! ${error}`;
         if (!loaded) return null;
-        handleAvatarData(data.userId);
+        if (data.userId !== null) {
+          handleAvatarData(data.userId);
+        }
         if (page === "comments") {
           return (
             <>
@@ -170,7 +177,7 @@ function PlaceReviewCard({
                   <div className="pr-input-container">
                     <>
                       <span className="pr-input-title">
-                        {review.attraction_name} ({user.city})
+                        {review.attraction_name} <span>{cityOrCountry !== "city" ? "(" + user.city + ")" : null}</span>
                       </span>
                       <span className="pr-input-span">
                         {review.attraction_type}
@@ -197,7 +204,8 @@ PlaceReviewCard.propTypes = {
   index: PropTypes.number,
   maxIndex: PropTypes.number,
   reviewCount: PropTypes.number,
-  handleReviewCount: PropTypes.func
+  handleReviewCount: PropTypes.func,
+  cityOrCountry: PropTypes.string
 };
 
 export default PlaceReviewCard;

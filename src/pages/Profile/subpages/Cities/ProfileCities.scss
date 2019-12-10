@@ -43,6 +43,8 @@
 }
 
 .city-review-subtitle {
+  display: flex;
+  justify-content: flex-end;
   font-size: 20px;
   line-height: 24px;
   text-transform: uppercase;

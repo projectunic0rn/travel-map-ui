@@ -21,7 +21,7 @@ import HelicopterIcon from "../../../../icons/TransportationIcons/HelicopterIcon
 import BikeIcon from "../../../../icons/TransportationIcons/BikeIcon";
 import WalkIcon from "../../../../icons/TransportationIcons/WalkIcon";
 
-function LogisticsInputContainer({ reviews, city, urlUsername }) {
+function LogisticsInputContainer({ reviews, city, urlUsername, refetch }) {
   const [loaded, handleLoaded] = useState(false);
   const [edit, handleEdit] = useState(false);
   const [feedbackState, handleFeedbackClick] = useState(
@@ -82,6 +82,7 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
       activeComponents.push(transportTypes[index]);
       let newCityReview = {
         id: 0,
+        key: activeComponents.length,
         attraction_type: "logistics",
         attraction_name: transportTypes[index],
         rating: 1,
@@ -105,13 +106,17 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
     handleActiveTransportComponents(activeComponents);
     handleLocalCityReviews(localCityReviews);
   }
-  function handleRatingChange(id, rating) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleRatingChange(id, key, rating) {
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].rating = rating;
     handleLocalCityReviews(localCityReviews);
   }
-  function handleCostChange(id, cost) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleCostChange(id, key, cost) {
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     if (cost === null || cost === "") {
       localCityReviews[reviewToUpdate].cost = null;
     } else {
@@ -119,16 +124,28 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
     }
     handleLocalCityReviews(localCityReviews);
   }
-  function handleCurrencyChange(id, currency) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleCurrencyChange(id, key, currency) {
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].currency = currency;
     handleLocalCityReviews(localCityReviews);
   }
-  function handleCommentChange(id, comment) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id);
+  function handleCommentChange(id, key, comment) {
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].comment = comment;
     handleLocalCityReviews(localCityReviews);
   }
+
+  function mutationPrep(mutation) {
+    for (let i in localCityReviews) {
+      delete localCityReviews[i].key;
+    }
+    mutation();
+  }
+
   if (!loaded) return "Loading";
   return (
     <div
@@ -212,14 +229,16 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
               No transportation methods entered yet
             </div>
           ) : null}
-          {!urlUsername ? <div className="transportation-submitted-container">
-            <button
-              className="confirm button"
-              onClick={() => handleFeedbackClick(false)}
-            >
-              Back
-            </button> 
-          </div> : null}
+          {!urlUsername ? (
+            <div className="transportation-submitted-container">
+              <button
+                className="confirm button"
+                onClick={() => handleFeedbackClick(false)}
+              >
+                Back
+              </button>
+            </div>
+          ) : null}
         </>
       )}
       {urlUsername !== undefined ? null : (
@@ -233,10 +252,14 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
                 : UPDATE_LIVING_CITY_REVIEWS
             }
             variables={{ localCityReviews }}
+            onCompleted={() => refetch()}
           >
             {mutation =>
               edit ? (
-                <span className="large confirm button" onClick={mutation}>
+                <span
+                  className="large confirm button"
+                  onClick={() => mutationPrep(mutation)}
+                >
                   Update
                 </span>
               ) : (
@@ -255,7 +278,8 @@ function LogisticsInputContainer({ reviews, city, urlUsername }) {
 LogisticsInputContainer.propTypes = {
   reviews: PropTypes.array,
   city: PropTypes.object,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
+  refetch: PropTypes.func
 };
 
 export default LogisticsInputContainer;

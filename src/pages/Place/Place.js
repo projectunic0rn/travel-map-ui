@@ -138,6 +138,7 @@ export default function Place() {
                         page={page}
                         reviewCount={reviewCount}
                         handleReviewCount={handleReviewCountHelper}
+                        cityOrCountry={cityOrCountry}
                       />
                     );
                   })}

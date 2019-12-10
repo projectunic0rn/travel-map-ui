@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 import FeedbackBox from "./FeedbackBox";
 import CommentIconTextbox from "./CommentIconTextbox";
 
@@ -53,22 +54,22 @@ function TransportationIconContainer({
     handleClickActive(index);
   }
   function handleRatingChangeHelper(rating) {
-    handleRatingChange(review === undefined ? 0 : review.id, rating);
+    handleRatingChange(review === undefined ? 0 : review.id, review.key, rating);
   }
   function handleCostChangeHelper(cost) {
-    handleCostChange(review === undefined ? 0 : review.id, cost);
+    handleCostChange(review === undefined ? 0 : review.id, review.key,  cost);
   }
   function handleCurrencyChangeHelper(currency) {
-    handleCurrencyChange(review === undefined ? 0 : review.id, currency);
+    handleCurrencyChange(review === undefined ? 0 : review.id, review.key, currency);
   }
   function handleCommentChangeHelper(comment) {
-    handleCommentChange(review === undefined ? 0 : review.id, comment);
+    handleCommentChange(review === undefined ? 0 : review.id, review.key, comment);
   }
 
   const displayClass = localActive
     ? "icon-button-container transportation-active"
     : "icon-button-container";
-  if (!loaded) return "Loading";
+  if (!loaded) return <SimpleLoader />;
   return (
     <div>
       <div

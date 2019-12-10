@@ -15,12 +15,11 @@ function CityReviewCard({
   handleRatingChange,
   handleCurrencyChange,
   handleCommentChange,
-  urlUsername
+  urlUsername,
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [, handleComment] = useState("");
   const [commentActive, handleCommentClick] = useState(urlUsername ? true : false);
-
   useEffect(() => {
     handleCommentClick(false);
     handleComment(review.comment);
@@ -30,16 +29,16 @@ function CityReviewCard({
     handleCommentClick(!commentActive);
   }
   function handleRatingChangeHelper(rating) {
-    handleRatingChange(review.id, rating);
+    handleRatingChange(review.id, review.key, rating);
   }
   function handleCostChangeHelper(cost) {
-    handleCostChange(review.id, cost);
+    handleCostChange(review.id, review.key, cost);
   }
   function handleCurrencyChangeHelper(currency) {
-    handleCurrencyChange(review.id, currency);
+    handleCurrencyChange(review.id, review.key, currency);
   }
   function handleCommentChangeHelper(comment) {
-    handleCommentChange(review.id, comment);
+    handleCommentChange(review.id, review.key, comment);
   }
   let options = "";
   switch (page) {
@@ -68,7 +67,7 @@ function CityReviewCard({
               <select
                 className="crc-input-title"
                 defaultValue={review.attraction_type}
-                onChange={e => handleType(review.id, e.target.value)}
+                onChange={e => handleType(review.id, review.key, e.target.value)}
               >
                 {options.map(option => {
                   return <option key={option}>{option}</option>;
@@ -78,7 +77,7 @@ function CityReviewCard({
                 className="crc-input"
                 placeholder={review.attraction_name}
                 defaultValue={review.attraction_name}
-                onChange={e => handleInputChange(review.id, e.target.value)}
+                onChange={e => handleInputChange(review.id, review.key, e.target.value)}
               ></input>
             </>
           ) : (

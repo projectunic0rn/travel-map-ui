@@ -70,7 +70,7 @@ function App({ userAuthenticated }) {
                   <Header
                     userLoggedIn={userLoggedIn}
                     color={data.user.color}
-                    avatarIndex={data.user.avatarIndex}
+                    avatarIndex={data.user.avatarIndex !== null ? data.user.avatarIndex : 1}
                   />
                   <Switch>
                     <Route

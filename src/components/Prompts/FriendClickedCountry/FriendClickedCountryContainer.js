@@ -32,7 +32,7 @@ function FriendClickedCountryContainer(props) {
         username: clickedCountryArray[i].username,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 1,
-        avatarIndex: clickedCountryArray[i].avatarIndex,
+        avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
         color: clickedCountryArray[i].color
       });
     } else if (
@@ -57,7 +57,7 @@ function FriendClickedCountryContainer(props) {
         username: clickedCountryArray[i].username,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 0,
-        avatarIndex: clickedCountryArray[i].avatarIndex,
+        avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
         color: clickedCountryArray[i].color
       });
     } else {
@@ -66,7 +66,7 @@ function FriendClickedCountryContainer(props) {
         username: clickedCountryArray[i].username,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 1,
-        avatarIndex: clickedCountryArray[i].avatarIndex,
+        avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
         color: clickedCountryArray[i].color
       });
     }

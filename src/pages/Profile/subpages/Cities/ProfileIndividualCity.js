@@ -56,8 +56,10 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
     handleLoaded(true);
   }, [page, cityReviews]);
   function updateLocalReviews(updatedReviews) {
+    console.log(updatedReviews)
     let localReviews = [...localCityReviews];
     localReviews.push(updatedReviews);
+    console.log(localReviews)
     handleLocalCityReviews(localReviews);
     handleLoaded(true);
   }
@@ -138,7 +140,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
             <span className="city-review-title">{city.city.toLowerCase()}</span>
             <span className="city-review-subtitle">
               <span className="city-review-separator">|</span>{" "}
-              {city.country.toLowerCase()}
+              {city.country.length > 10 ? city.countryISO : city.country.toLowerCase()}
             </span>
           </div>
         </div>

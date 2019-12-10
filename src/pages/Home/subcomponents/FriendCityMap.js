@@ -288,7 +288,7 @@ class FriendCityMap extends Component {
               days: data[i].Places_visited[j].days,
               year: data[i].Places_visited[j].year,
               tripTiming: 0,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
             pastCount++;
@@ -310,7 +310,7 @@ class FriendCityMap extends Component {
               days: data[i].Places_visiting[j].days,
               year: data[i].Places_visiting[j].year,
               tripTiming: 1,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
             futureCount++;
@@ -335,7 +335,7 @@ class FriendCityMap extends Component {
           days: data[i].Place_living.days,
           year: data[i].Place_living.year,
           tripTiming: 2,
-          avatarIndex: data[i].avatarIndex,
+          avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
           color: data[i].color
         });
         liveCount++;
@@ -427,7 +427,6 @@ class FriendCityMap extends Component {
       activePopup,
       filter
     } = this.state;
-    console.log(this.state.clickedCityArray);
     if (loading) return <div>Loading...</div>;
     return (
       <>
