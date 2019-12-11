@@ -56,8 +56,7 @@
     border-radius: 0;
     cursor: text;
     background: none;
-    color: rgb(168, 168, 172);
-
+    color: rgb(168, 168, 172) !important;
     &:focus {
       outline: 0;
     }
@@ -188,7 +187,7 @@
     border-radius: 0 3px 0 0;
     cursor: pointer;
     background-color: transparent;
-    color: transparent !important;
+    color: red;
   }
 
   .mapboxgl-popup-close-button:hover {

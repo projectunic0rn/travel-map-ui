@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Mutation } from "react-apollo";
+import ValidationMutation from "../../../../components/common/ValidationMutation/ValidationMutation";
+
 import { UPDATE_BASIC_INFO } from "../../../../GraphQL";
 
 const genderOptions = [
@@ -18,6 +19,10 @@ export default function Basics({
 }) {
   const [edit, handleEdit] = useState(false);
   const [userBasics, handleUserBasicChange] = useState({});
+  const [errors, setErrors] = useState({
+    full_name: "",
+    phone_number: ""
+  });
 
   useEffect(() => {
     let userBasicInfo = {
@@ -30,9 +35,9 @@ export default function Basics({
     handleUserBasicChange(userBasicInfo);
   }, [userData]);
 
-  function handleUserBasicChangeHelper(value, type) {
+  function handleInput(e) {
     let userBasicInfo = userBasics;
-    userBasicInfo[type] = value;
+    userBasicInfo[e.target.id] = e.target.value;
     handleUserBasicChange(userBasicInfo);
   }
   function handleEditButton() {
@@ -43,148 +48,118 @@ export default function Basics({
     let newUserData = userData;
     newUserData.full_name = userBasics.full_name;
     newUserData.phone_number = userBasics.phone_number;
-    newUserData.email = userBasics.email;
     newUserData.gender = userBasics.gender;
     newUserData.birthday = userBasics.birthday;
     handleUserDataChange(newUserData);
   }
+
+  function onInputError(err) {
+    let { full_name, phone_number } = err;
+    setErrors({ full_name, phone_number });
+  }
+
+  const { full_name, phone_number, gender, birthday } = userBasics;
   return (
-    <div className="settings-basics-container">
-      <div className="settings-basics-primary">
-        <div className="settings-basics-sub-container">
-          <span className="settings-subheader">FULL NAME</span>
-          {!edit ? (
-            <span
-              className="settings-basics-input basics-data"
-              id="basics-fullname"
-            >
-              {userBasics.full_name}
-            </span>
-          ) : (
+    <div className="basics-container">
+      <div className="input-container">
+        <span className="input-header">Full Name</span>
+        {!edit ? (
+          <span className="placeholder">{full_name}</span>
+        ) : (
+          <>
             <input
-              className="settings-basics-input"
-              onChange={e =>
-                handleUserBasicChangeHelper(e.target.value, "full_name")
-              }
-              defaultValue={userBasics.full_name}
-              id={"basics-fullname"}
-            ></input>
-          )}
-        </div>
+              className="input"
+              onChange={handleInput}
+              defaultValue={full_name}
+              type="text"
+              id="full_name"
+            />
+            {errors.full_name && (
+              <span className="error">{errors.full_name}</span>
+            )}
+          </>
+        )}
       </div>
-      <div className="settings-basics-primary">
-        <div className="settings-basics-sub-container">
-          <span className="settings-subheader">EMAIL</span>
-          {!edit ? (
-            <span className="settings-basics-input basics-data">
-              {userBasics.email}
-            </span>
-          ) : (
-            <input
-              className="settings-basics-input"
-              onChange={e =>
-                handleUserBasicChangeHelper(e.target.value, "email")
-              }
-              defaultValue={userBasics.email}
-            ></input>
+      {!edit ? (
+        <div className="input-container">
+          <span className="input-header">Phone Number</span>
+          <span className="placeholder">{phone_number === null ? "none entered" : phone_number}</span>
+        </div>
+      ) : (
+        <div className="input-container">
+          <span className="input-header">Phone Number</span>
+          <input
+            type="tel"
+            id="phone_number"
+            className="input"
+            defaultValue={phone_number}
+            onChange={handleInput}
+          />
+          {errors.phone_number && (
+            <span className="error">{errors.phone_number}</span>
           )}
         </div>
-        <div className="settings-basics-sub-container">
-          <span className="settings-subheader">PHONE NUMBER</span>
-          {!edit ? (
-            <span
-              className="settings-basics-input basics-data"
-              id="basics-phone"
-            >
-              {userBasics.phone_number}
-            </span>
-          ) : (
-            <input
-              className="settings-basics-input"
-              id="basics-phone"
-              onChange={e =>
-                handleUserBasicChangeHelper(e.target.value, "phone_number")
-              }
-              defaultValue={userBasics.phone_number}
-            ></input>
-          )}
+      )}
+      {!edit ? (
+        <div className="input-container">
+          <span className="input-header">Gender</span>
+          <span className="placeholder">{gender === null ? "none selected" : gender}</span>
         </div>
-      </div>
-      <div className="settings-basics-primary">
-        <div className="settings-basics-sub-container">
-          <span className="settings-subheader">GENDER</span>
-          {!edit ? (
-            <span
-              className="settings-basics-input basics-data"
-              id="gender-select"
-            >
-              {userBasics.gender}
-            </span>
-          ) : (
-            <select
-              className="settings-basics-input"
-              id="gender-select"
-              defaultValue={userBasics.gender}
-              onChange={e =>
-                handleUserBasicChangeHelper(e.target.value, "gender")
-              }
-            >
-              {genderOptions.map(option => {
-                return (
-                  <option value={option} key={option}>
-                    {option}
-                  </option>
-                );
-              })}
-            </select>
-          )}
-        </div>
-        <div className="settings-basics-sub-container">
-          <span className="settings-subheader">BIRTHDAY</span>
-          {!edit ? (
-            <input
-              id="birthday-data"
-              className="settings-basics-input"
-              type="date"
-              defaultValue={userBasics.birthday}
-              readOnly
-            ></input>
-          ) : (
-            <input
-              id="birthday-input"
-              className="settings-basics-input"
-              type="date"
-              defaultValue={userBasics.birthday}
-              onChange={e =>
-                handleUserBasicChangeHelper(e.target.value, "birthday")
-              }
-            ></input>
-          )}
-        </div>
-      </div>{" "}
-      {urlUsername ? null : (
-        <div className="settings-edit-button-container">
-          <Mutation
-            mutation={UPDATE_BASIC_INFO}
-            variables={{ userBasics }}
-            onCompleted={handleDataSave}
+      ) : (
+        <div className="input-container">
+          <span className="input-header">Gender</span>
+          <select
+            className="input"
+            id="gender"
+            defaultValue={userBasics.gender}
+            onChange={handleInput}
           >
-            {mutation =>
-              edit ? (
-                <span className="settings-edit-button" onClick={mutation}>
-                  Update
-                </span>
-              ) : (
-                <span
-                  className="settings-edit-button"
-                  onClick={handleEditButton}
-                >
-                  Edit
-                </span>
-              )
-            }
-          </Mutation>
+            {genderOptions.map(option => {
+              return (
+                <option value={option} key={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
         </div>
+      )}
+      {!edit ? (
+        <div className="input-container">
+          <span className="input-header">Birthday</span>
+          <span className="placeholder">{birthday === null ? "none selected" : birthday}</span>
+        </div>
+      ) : (
+        <div className="input-container">
+          <span className="input-header">Birthday</span>
+          <input
+            type="date"
+            id="birthday"
+            className="input"
+            defaultValue={birthday}
+            onChange={handleInput}
+          />
+        </div>
+      )}
+      {urlUsername ? null : (
+        <ValidationMutation
+          mutation={UPDATE_BASIC_INFO}
+          variables={{ userBasics }}
+          onCompleted={handleDataSave}
+          onInputError={onInputError}
+        >
+          {mutation =>
+            edit ? (
+              <span className="large confirm button" onClick={mutation}>
+                Update
+              </span>
+            ) : (
+              <span className="large button" onClick={handleEditButton}>
+                Edit
+              </span>
+            )
+          }
+        </ValidationMutation>
       )}
     </div>
   );

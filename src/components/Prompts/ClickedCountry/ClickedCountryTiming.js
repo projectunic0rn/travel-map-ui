@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import Swal from "sweetalert2";
 import DeleteCitiesPopup from "./DeleteCitiesPopup";
-import TrashIcon from '../../../icons/TrashIcon';
+import TrashIcon from "../../../icons/TrashIcon";
 
 function ClickedCountryTiming(props) {
   const [countryISO] = useState(props.country);
@@ -14,15 +14,18 @@ function ClickedCountryTiming(props) {
   }
   function handleDeleteButton() {
     let popupText =
-      "Do you want to delete all cities associated with " + props.countryName + "?";
-    const swalParams = {
+      "Do you want to delete all cities associated with " +
+      props.countryName +
+      "?";
+    Swal.fire({
       type: "question",
       customClass: {
         container: "live-swal-prompt"
       },
-      text: popupText
-    };
-    Swal.fire(swalParams).then(result => {
+      text: popupText,
+      showCancelButton: true,
+      cancelButtonColor: "#cb7678"
+    }).then(result => {
       if (result.value) {
         handleDeletePopup(true);
       }
@@ -43,7 +46,10 @@ function ClickedCountryTiming(props) {
       </span>
       {props.previousTrips ? (
         <div className="previous-trips-button" onClick={handleDeleteButton}>
-         <div className = 'trash-icon-container'><TrashIcon /></div><div>delete cities</div>
+          <div className="trash-icon-container">
+            <TrashIcon />
+          </div>
+          <div>delete cities</div>
         </div>
       ) : null}
       {deletePopup ? (

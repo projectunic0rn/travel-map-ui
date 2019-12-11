@@ -10,6 +10,7 @@ import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FriendClickedCountryContainer from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryContainer";
+import FriendClickedCountryBlank from '../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank';
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
@@ -37,7 +38,9 @@ const FriendCountryMap = props => {
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
 
   useEffect(() => {
+    console.log(props.tripData)
     handleLoadedCountries(props.tripData);
+    console.log('fire')
   }, [props.tripData]);
 
   function handleLoadedCountries(data) {
@@ -68,7 +71,7 @@ const FriendCountryMap = props => {
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
               tripTiming: 0,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
           }
@@ -97,7 +100,7 @@ const FriendCountryMap = props => {
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
               tripTiming: 1,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
           }
@@ -114,11 +117,11 @@ const FriendCountryMap = props => {
         ) {
           liveCount++;
         }
-        if (
-          !countryArray.some(city => {
-            return city.cityId === data[i].Place_living.cityId;
-          })
-        ) {
+        // if (
+        //   !countryArray.some(city => {
+        //     return city.cityId === data[i].Place_living.cityId;
+        //   })
+        // ) {
           countryArray.push({
             id: data[i].Place_living.id,
             username: data[i].username,
@@ -129,10 +132,10 @@ const FriendCountryMap = props => {
             country: data[i].Place_living.country,
             countryId: data[i].Place_living.countryId,
             tripTiming: 2,
-            avatarIndex: data[i].avatarIndex,
+            avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
             color: data[i].color
           });
-        }
+        // }
       }
     }
     handleCountryArray(countryArray);
@@ -335,7 +338,7 @@ const FriendCountryMap = props => {
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
-          component={FriendClickedCountryContainer}
+          component={clickedCountryArray.length < 1 ? FriendClickedCountryBlank : FriendClickedCountryContainer}
           componentProps={{
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,

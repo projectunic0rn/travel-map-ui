@@ -5,29 +5,40 @@ import UserAvatar from "../../../UserAvatar/UserAvatar";
 
 function UserTripCard(props) {
   return (
-    <div className="user-trip-card">
-      <NavLink to={`/profiles/${props.trip.username}/`}>
+    <NavLink
+      to={{
+        pathname: props.trip.cities === undefined
+          ? `/profiles/${
+              props.trip.username
+            }/cities/${props.trip.city.toLowerCase()}/${
+              props.trip.tripTiming
+            }/${props.trip.id}/`
+          : `/profiles/${props.trip.username}/cities`,
+          state: { searchText: props.trip.country }
+      }}
+    >
+      <div className="user-trip-card">
         <div className="user-profile-image">
           <UserAvatar
-            avatarIndex={props.trip.avatarIndex}
+            avatarIndex={props.trip.avatarIndex !== null ? props.trip.avatarIndex : 1}
             color={props.trip.color}
           />
         </div>
-      </NavLink>
-      <div className="utc-user-info-container">
-        <span className="utc-username">{props.trip.username}</span>
-        <span className="utc-duration">
-          {props.metricValue} {props.metric}
-        </span>
+        <div className="utc-user-info-container">
+          <span className="utc-username">{props.trip.username}</span>
+          <span className="utc-duration">
+            {props.metricValue} {props.metric}
+          </span>
+        </div>
+        <div
+          className={
+            "utc-year-container utc-year-container-" + props.trip.tripTiming
+          }
+        >
+          <p className="utc-year">{props.trip.year}</p>
+        </div>
       </div>
-      <div
-        className={
-          "utc-year-container utc-year-container-" + props.trip.tripTiming
-        }
-      >
-        <p />
-      </div>
-    </div>
+    </NavLink>
   );
 }
 

@@ -33,19 +33,32 @@
     width: 100%;
     min-height: 120px;
     padding: 30px;
+    a {
+      width: 100%;
+    }
     .clicked-country-info-names {
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
       flex: 2;
-      span:nth-child(1) {
+      cursor: pointer;
+      .click-place-text {
+        position: absolute;
+        top: -24px;
+        font-weight: 550;
+        color: #be929a;
+        font-size: 16px;
+        width: 100%;
+      }
+      span:nth-child(2) {
         font-size: 20px;
         font-weight: 550;
         letter-spacing: 4px;
         text-transform: uppercase;
         color: #4f5867;
       }
-      span:nth-child(2) {
+      span:nth-child(3) {
         font-size: 14px;
         font-weight: 550;
         color: #9fa0a1;
@@ -134,4 +147,9 @@
     background: #cb7678;
     color: rgb(228, 228, 232);
   }
+}
+
+.no-review-text-dark {
+  margin-left: 20px;
+  font-size: 20px;
 }

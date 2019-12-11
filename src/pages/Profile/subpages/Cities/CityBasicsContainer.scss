@@ -1,0 +1,319 @@
+/* general style for the form */
+.nl-form {
+  width: 700px;
+  margin: 0px auto;
+  font-size: 40px;
+  line-height: 1.5;
+  color: rgb(228, 228, 232);
+  font-family: "Segoe UI", sans-serif;
+  font-weight: 300;
+}
+
+.nl-form ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* normalize the input elements, make them look like everything else */
+.nl-form input,
+.nl-form select,
+.nl-form button {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  display: inline-block;
+  width: 470px;
+  padding: 0;
+  margin: 0 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.nl-form input:focus {
+  outline: none;
+}
+
+/* custom field (drop-down, text element) styling  */
+.nl-field {
+  display: inline-block;
+  position: relative;
+}
+
+.nl-field.nl-field-open {
+  z-index: 10000;
+}
+
+/* the toggle is the visible part in the form */
+.nl-field-toggle,
+.nl-form input,
+.nl-form select {
+  line-height: inherit;
+  display: inline-block;
+  color: #a7e1ff;
+  cursor: pointer;
+  border-bottom: 1px dashed rgb(150, 150, 150);
+}
+
+/* drop-down list / text element */
+.nl-field ul {
+  position: absolute;
+  visibility: hidden;
+  background: #76c3bd;
+  left: -0.5em;
+  top: 50%;
+  font-size: 80%;
+  opacity: 0;
+  -webkit-transform: translateY(-40%) scale(0.9);
+  -moz-transform: translateY(-40%) scale(0.9);
+  transform: translateY(-40%) scale(0.9);
+  -webkit-transition: visibility 0s 0.3s, opacity 0.3s, -webkit-transform 0.3s;
+  -moz-transition: visibility 0s 0.3s, opacity 0.3s, -moz-transform 0.3s;
+  transition: visibility 0s 0.3s, opacity 0.3s, transform 0.3s;
+}
+
+.nl-field.nl-field-open ul {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transform: translateY(-50%) scale(1);
+  -moz-transform: translateY(-50%) scale(1);
+  transform: translateY(-50%) scale(1);
+  -webkit-transition: visibility 0s 0s, opacity 0.3s, -webkit-transform 0.3s;
+  -moz-transition: visibility 0s 0s, opacity 0.3s, -moz-transform 0.3s;
+  transition: visibility 0s 0s, opacity 0.3s, transform 0.3s;
+}
+
+.nl-field ul li {
+  color: #fff;
+  position: relative;
+}
+
+.nl-dd ul li {
+  padding: 0 1.5em 0 0.5em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nl-dd ul li.nl-dd-checked {
+  color: rgb(40, 40, 40);
+}
+
+.no-touch .nl-dd ul li:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.no-touch .nl-dd ul li:hover:active {
+  color: rgb(40, 40, 40);
+}
+
+/* icons for some elements */
+.nl-dd ul li.nl-dd-checked:before,
+.nl-submit:before,
+.nl-field-go:before {
+  font-family: "nlicons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.nl-dd ul li.nl-dd-checked:before {
+  content: "\e000";
+  position: absolute;
+  right: 1em;
+  font-size: 50%;
+  line-height: 3;
+}
+
+.nl-ti-text ul {
+  min-width: 8em;
+}
+
+.nl-ti-text ul li.nl-ti-input input {
+  width: 100%;
+  padding: 0.2em 2em 0.2em 0.5em;
+  border-bottom: none;
+  color: #fff;
+}
+
+.nl-form .nl-field-go {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
+  width: 1.8em;
+  text-align: center;
+  color: transparent;
+}
+
+.nl-field-go:before {
+  content: "\e001";
+  font-size: 75%;
+  color: #fff;
+  width: 100%;
+  line-height: 2.5;
+  display: block;
+}
+
+#trip-entry-input {
+  width: 650px;
+}
+#trip-entry-input::-webkit-input-placeholder {
+  color: rgb(40, 40, 40);
+}
+
+/* custom placeholder color */
+.trip-entry-input::-webkit-input-placeholder {
+  color: rgb(40, 40, 40);
+}
+
+.trip-entry-input:active::-webkit-input-placeholder,
+.trip-entry-input:focus::-webkit-input-placeholder {
+  color: rgb(40, 40, 40);
+}
+
+.trip-entry-input::-moz-placeholder {
+  color: rgb(40, 40, 40);
+}
+
+.trip-entry-input:active::-moz-placeholder,
+.trip-entry-input:focus::-moz-placeholder {
+  color: rgb(40, 40, 40);
+}
+
+.trip-entry-input:-ms-input-placeholder {
+  color: rgb(40, 40, 40);
+}
+
+.trip-entry-input:active::-ms-input-placeholder,
+.trip-entry-input:focus::-ms-input-placeholder {
+  color: rgb(40, 40, 40);
+}
+
+/* example field below text input */
+.nl-ti-text ul li.nl-ti-example {
+  font-size: 40%;
+  font-style: italic;
+  font-weight: 400;
+  padding: 0.4em 1em;
+  color: rgba(0, 0, 0, 0.2);
+  border-top: 1px dashed rgba(255, 255, 255, 0.7);
+}
+
+.nl-ti-text ul li.nl-ti-example em {
+  color: #fff;
+}
+
+/* submit button */
+.nl-submit-wrap {
+  margin-top: 1.4em;
+  display: flex;
+  justify-content: center;
+}
+
+.nl-form .nl-submit {
+  line-height: 3;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  background: rgb(74, 189, 219);
+  color: #fff;
+  padding: 0 1em 0 0;
+  font-size: 40%;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.nl-submit:before {
+  content: "\e001";
+  color: #fff;
+  float: left;
+  padding: 0 0.7em;
+  margin: 0 0.8em 0 0;
+  color: rgb(40, 40, 40);
+}
+
+.no-touch .nl-form .nl-submit:hover,
+.no-touch .nl-form .nl-submit:active {
+  color: rgb(40, 40, 40);
+}
+
+.no-touch .nl-form .nl-submit:hover:before {
+  color: rgb(40, 40, 40);
+}
+
+/* overlay becomes visible when a field is opened */
+.nl-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: 9999;
+  visibility: hidden;
+  -webkit-transition: visibility 0s 0.3s, opacity 0.3s;
+  -moz-transition: visibility 0s 0.3s, opacity 0.3s;
+  transition: visibility 0s 0.3s, opacity 0.3s;
+}
+
+.nl-field.nl-field-open ~ .nl-overlay {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  transition-delay: 0s;
+}
+
+.trip-data-span, .trip-duration {
+  color: #a7e1ff;
+  border-bottom: 1px solid rgb(248, 248, 252);
+  max-width: 100px;
+  margin: 0 16px;
+  text-align: center;
+}
+
+.trip-duration-input {
+  color: #a7e1ff;
+  border-bottom: 1px solid rgb(54, 169, 199);
+  max-width: 100px;
+  margin: 0 16px;
+  text-align-last: center;
+}
+
+.trip-duration-input::placeholder {
+  color: rgb(40, 40, 40);
+}
+
+#trip-entry-date {
+  width: 470px;
+  text-align-last: center;
+}
+
+#trip-entry-travel-year {
+  width: 120px;
+  text-align-last: center;
+}
+
+#trip-entry-travel-type {
+  width: 220px;
+  text-align-last: center;
+}
+
+#trip-entry-travel-company {
+  width: 360px;
+  text-align-last: center;
+}
+
+#trip-entry-travel-timing {
+  width: 200px;
+  text-align-last: center;
+}

@@ -41,7 +41,7 @@ export default function AvatarGrid(props) {
       avatar.avatarIndex = avatarIndex;
     }
     handleAvatarChange(avatar);
-  }, [red, blue, green, avatarIndex]);
+  }, [red, blue, green, avatarIndex, props.customProps.avatarIndex]);
   function handleAvatarSave() {
     props.customProps.closePopup();
     props.customProps.refetch();

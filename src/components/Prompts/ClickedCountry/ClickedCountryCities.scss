@@ -68,10 +68,11 @@
       border-radius: 0;
       cursor: text;
       background: none;
-      color: #aba9a9;
+      color: #aba9a9 !important;
 
       &:focus {
         outline: 0;
+        color: #aba9a9 !important;
       }
     }
 

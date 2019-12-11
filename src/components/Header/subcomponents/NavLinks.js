@@ -16,7 +16,7 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
               <NavLink exact to="/friends">
                 Friends
               </NavLink>
-              <NavLink to="/profile">Profile</NavLink>
+              <NavLink to="/profile/cities">Profile</NavLink>
             </Fragment>
           );
         } else {

@@ -2,6 +2,7 @@ $container: 1600px;
 @import "./scss/colors";
 @import "./components/Header/Header";
 @import "./pages/Profile/Profile";
+@import "./pages/Place/Place";
 @import "./pages/Landing/Landing";
 @import "./pages/Home/MapPage";
 @import "./components/Prompts/PopupPrompts";
@@ -10,6 +11,9 @@ $container: 1600px;
 
 * {
   box-sizing: border-box;
+  &:focus {
+    outline: none;
+  }
 }
 
 html,
@@ -34,6 +38,10 @@ body {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+
+a {
+  text-decoration: none;
 }
 
 code {
@@ -67,4 +75,133 @@ code {
 
 .display-none {
   display: none;
+}
+
+.button,
+.button:link,
+.button:visited {
+  cursor: pointer;
+  padding: 13px 15px;
+  border: 1px solid #333;
+  color: #333;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  transition: all 0.2s ease-in-out;
+  background: #f8f8fc;
+  font-size: 1.1em;
+  padding: 10px 20px 10px 20px;
+
+  &.large {
+    padding: 15px 35px 15px 35px;
+  }
+
+  &.confirm {
+    background: #a7e1ff;
+    color: #5f91b7;
+    &:hover {
+      background: #5791b7;
+      color: #a7e1ff;
+    }
+  }
+
+  &.warning {
+    background: #ffc7db;
+    color: red;
+    &:hover {
+      background: red;
+      color: #ecd7db;
+    }
+  }
+  &:hover {
+    background: #333;
+    border: 1px solid #333;
+    color: #fefefe;
+    border-radius: 30px;
+  }
+
+  &.disabled {
+    cursor: wait;
+    color: black;
+    background: repeating-linear-gradient(
+      45deg,
+      #f8f8fc,
+      #f8f8fc 5px,
+      #ccc 5px,
+      #ccc 10px
+    );
+    background-repeat: repeat-x;
+    background-position: 0px 0px;
+    background-size: 1500px 1500px;
+    animation: slide 2s infinite linear;
+  }
+}
+
+@keyframes slide {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 200px 0px;
+  }
+}
+.input {
+  padding: 13px 15px;
+  border: 1px solid #333;
+  color: #333;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  transition: all 0.2s ease-in-out;
+  background: #f8f8fc;
+  display: block;
+  width: 250px;
+
+  &:hover {
+    border: 1px solid #333;
+    border-radius: 30px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.disabled {
+    cursor: wait;
+    background: repeating-linear-gradient(
+      45deg,
+      #f8f8fc,
+      #f8f8fc 5px,
+      #ccc 5px,
+      #ccc 10px
+    );
+    background-repeat: repeat-x;
+    background-position: 0px 0px;
+    background-size: 1500px 1500px;
+    animation: slide 2s infinite linear;
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: black;
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: black;
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: black;
+    }
+  }
+}
+
+@keyframes slide {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 200px 0px;
+  }
 }

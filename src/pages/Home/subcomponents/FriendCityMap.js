@@ -5,7 +5,9 @@ import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
+import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
+import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -30,7 +32,8 @@ class FriendCityMap extends Component {
       loading: true,
       activePopup: false,
       cityTooltip: null,
-      hoveredCityArray: null
+      hoveredCityArray: null,
+      filter: false
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -45,6 +48,7 @@ class FriendCityMap extends Component {
     this.handleLoadedCities = this.handleLoadedCities.bind(this);
     this.handleActiveTimings = this.handleActiveTimings.bind(this);
     this.showPopup = this.showPopup.bind(this);
+    this.showFilter = this.showFilter.bind(this);
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
@@ -127,7 +131,7 @@ class FriendCityMap extends Component {
                     r="50"
                   />
                   <circle
-                    style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
@@ -168,7 +172,7 @@ class FriendCityMap extends Component {
                     r="50"
                   />
                   <circle
-                    style={{ fill: "rgba(115, 167, 195, 1.0)" }}
+                    style={{ fill: "rgba(115, 167, 195, 0.75)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
@@ -210,7 +214,7 @@ class FriendCityMap extends Component {
                     r="50"
                   />
                   <circle
-                    style={{ fill: "rgba(150, 177, 168, 1.0)" }}
+                    style={{ fill: "rgba(150, 177, 168, 0.75)" }}
                     key={"circle2" + city.id}
                     cx="50"
                     cy="50"
@@ -249,8 +253,7 @@ class FriendCityMap extends Component {
     } else {
       hoveredCityArray = this.state.clickedCityArray.filter(
         city =>
-          city.cityId ===
-          parseFloat(typedCity.result.id.slice(10, 16), 10)
+          city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
       );
     }
     this.setState({
@@ -282,8 +285,10 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visited[j].city_longitude,
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
+              days: data[i].Places_visited[j].days,
+              year: data[i].Places_visited[j].year,
               tripTiming: 0,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
             pastCount++;
@@ -302,8 +307,10 @@ class FriendCityMap extends Component {
               longitude: data[i].Places_visiting[j].city_longitude,
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
+              days: data[i].Places_visiting[j].days,
+              year: data[i].Places_visiting[j].year,
               tripTiming: 1,
-              avatarIndex: data[i].avatarIndex,
+              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
             futureCount++;
@@ -311,26 +318,28 @@ class FriendCityMap extends Component {
         }
       }
       if (data != null && data[i].Place_living !== null) {
-        if (
-          !clickedCityArray.some(city => {
-            return city.cityId === data[i].Place_living.cityId;
-          })
-        ) {
-          clickedCityArray.push({
-            id: data[i].Place_living.id,
-            username: data[i].username,
-            cityId: data[i].Place_living.cityId,
-            city: data[i].Place_living.city,
-            latitude: data[i].Place_living.city_latitude,
-            longitude: data[i].Place_living.city_longitude,
-            country: data[i].Place_living.country,
-            countryId: data[i].Place_living.countryId,
-            tripTiming: 2,
-            avatarIndex: data[i].avatarIndex,
-            color: data[i].color
-          });
-          liveCount++;
-        }
+        // if (
+        //   !clickedCityArray.some(city => {
+        //     return city.cityId === data[i].Place_living.cityId;
+        //   })
+        // ) {
+        clickedCityArray.push({
+          id: data[i].Place_living.id,
+          username: data[i].username,
+          cityId: data[i].Place_living.cityId,
+          city: data[i].Place_living.city,
+          latitude: data[i].Place_living.city_latitude,
+          longitude: data[i].Place_living.city_longitude,
+          country: data[i].Place_living.country,
+          countryId: data[i].Place_living.countryId,
+          days: data[i].Place_living.days,
+          year: data[i].Place_living.year,
+          tripTiming: 2,
+          avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
+          color: data[i].color
+        });
+        liveCount++;
+        // }
       }
     }
     this.setState(
@@ -348,10 +357,24 @@ class FriendCityMap extends Component {
     });
   }
 
-  showPopup() {
+  showFilter() {
+    let filter = !this.state.filter;
     let activePopup = !this.state.activePopup;
     this.setState({
+      filter,
       activePopup
+    });
+  }
+
+  showPopup() {
+    let activePopup = !this.state.activePopup;
+    let filter = this.state.filter;
+    if (!activePopup) {
+      filter = false;
+    }
+    this.setState({
+      activePopup,
+      filter
     });
   }
 
@@ -372,6 +395,8 @@ class FriendCityMap extends Component {
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
+          closeButton={true}
+          onClose={() => this.setState({ cityTooltip: null })}
         >
           <div
             className="popup-text"
@@ -387,7 +412,8 @@ class FriendCityMap extends Component {
   handleHoveredCityArray(hoveredCityArray) {
     this.setState({
       activePopup: true,
-      hoveredCityArray
+      hoveredCityArray,
+      clickedCity: hoveredCityArray
     });
   }
 
@@ -398,7 +424,8 @@ class FriendCityMap extends Component {
       markerFutureDisplay,
       markerLiveDisplay,
       loading,
-      activePopup
+      activePopup,
+      filter
     } = this.state;
     if (loading) return <div>Loading...</div>;
     return (
@@ -413,7 +440,11 @@ class FriendCityMap extends Component {
             </button>
           </div>
           <div className="map-header-filler" />
-          <div className="map-header-filler" />
+          <div className="map-header-filter">
+            <button onClick={() => this.showFilter()}>
+              Filter Map
+            </button>
+          </div>
         </div>
         <div className="city-map-container">
           <MapGL
@@ -453,7 +484,12 @@ class FriendCityMap extends Component {
           <PopupPrompt
             activePopup={activePopup}
             showPopup={this.showPopup}
-            component={FriendClickedCityContainer}
+            component={
+              filter ? FilterCityMap : 
+              this.state.hoveredCityArray.length < 1
+                ? FriendClickedCityBlank
+                : FriendClickedCityContainer
+            }
             componentProps={{
               hoveredCityArray: this.state.hoveredCityArray,
               clickedCity: this.state.clickedCity

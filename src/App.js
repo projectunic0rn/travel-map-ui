@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
-import socket from "./socket";
 
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
 import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
+import Place from "./pages/Place/Place";
 import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
@@ -19,16 +19,9 @@ import { UserProvider } from "./utils/UserContext";
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
-  const [mapPage, handleMapPageChange] = useState(0);
+  const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
-
-  socket.on("new-friend-request", data => {
-    alert(data.senderData.username + " has sent you a friend request!");
-  });
-
-  socket.on("trip-created", username => {
-    alert(username + " has created a new trip!");
-  });
+  const [loaded, handleLoaded] = useState(false);
 
   const swalParams = {
     type: "info",
@@ -65,17 +58,19 @@ function App({ userAuthenticated }) {
             notifyOnNetworkStatusChange
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
+            onCompleted={() => handleLoaded(true)}
           >
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
               handleUserData(data);
+              if (!loaded) return null;
               return (
                 <Fragment>
                   <Header
                     userLoggedIn={userLoggedIn}
                     color={data.user.color}
-                    avatarIndex={data.user.avatarIndex}
+                    avatarIndex={data.user.avatarIndex !== null ? data.user.avatarIndex : 1}
                   />
                   <Switch>
                     <Route
@@ -93,7 +88,7 @@ function App({ userAuthenticated }) {
                     />
                     <Route
                       path="/profiles/:username/"
-                      component={UserProfile}
+                      render={props => <UserProfile {...props} />}
                     />
                     <Route
                       path="/profile/"
@@ -102,6 +97,14 @@ function App({ userAuthenticated }) {
                           {...props}
                           user={data.user}
                           refetch={refetch}
+                        />
+                      )}
+                    />
+                    <Route
+                      path="/place/"
+                      render={props => (
+                        <Place
+
                         />
                       )}
                     />
