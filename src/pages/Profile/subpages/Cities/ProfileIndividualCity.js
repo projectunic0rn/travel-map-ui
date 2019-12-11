@@ -21,6 +21,7 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
     cityReviews
   );
   const [page, handlePage] = useState("basics");
+
   useEffect(() => {
     handleLoaded(false);
     handleLocalCityReviews(cityReviews)

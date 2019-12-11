@@ -97,7 +97,7 @@ function LogisticsInputContainer({ reviews, city, urlUsername, refetch }) {
         : (newCityReview.PlaceLivingId = city.id);
       localCityReviews.push(newCityReview);
     } else {
-      activeComponents.splice(activeComponents.indexOf(index), 1);
+      activeComponents.splice(activeComponents.indexOf(transportTypes[index]), 1);
       let deleteIndex = localCityReviews.findIndex(
         review => review.attraction_name === transportTypes[index]
       );

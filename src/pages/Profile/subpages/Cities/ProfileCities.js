@@ -30,14 +30,18 @@ export default function ProfileCities({
   useEffect(() => {
     let combinedResults = [];
     for (let i in cityData.Places_visited) {
-      cityData.Places_visited[i].timing = "past";
-      combinedResults.push(cityData.Places_visited[i]);
+      if (cityData.Places_visited[i].city !== "") {
+        cityData.Places_visited[i].timing = "past";
+        combinedResults.push(cityData.Places_visited[i]);
+      }
     }
     for (let i in cityData.Places_visiting) {
-      cityData.Places_visiting[i].timing = "future";
-      combinedResults.push(cityData.Places_visiting[i]);
+      if (cityData.Places_visiting[i].city !== "") {
+        cityData.Places_visiting[i].timing = "future";
+        combinedResults.push(cityData.Places_visiting[i]);
+      }
     }
-    if (cityData.Place_living !== null) {
+    if (cityData.Place_living !== null && cityData.Place_living.city !== "") {
       cityData.Place_living.timing = "live";
       combinedResults.push(cityData.Place_living);
     }

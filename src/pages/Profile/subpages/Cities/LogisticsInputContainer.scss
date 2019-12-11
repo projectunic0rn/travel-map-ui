@@ -9,6 +9,10 @@
   flex-direction: column;
   width: 100%;
   flex-wrap: wrap;
+  div .comment-container .comment-icon-modal {
+    max-width: 545px;
+    margin-left: 4px;
+  }
 }
 .icon-button-container {
   display: flex;

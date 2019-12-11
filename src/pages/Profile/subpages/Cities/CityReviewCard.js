@@ -77,6 +77,7 @@ function CityReviewCard({
                 className="crc-input"
                 placeholder={review.attraction_name}
                 defaultValue={review.attraction_name}
+                maxLength="33"
                 onChange={e => handleInputChange(review.id, review.key, e.target.value)}
               ></input>
             </>

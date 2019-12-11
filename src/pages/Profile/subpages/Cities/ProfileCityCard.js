@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
 
+import { Mutation } from "react-apollo";
+import {
+  REMOVE_PLACE_VISITING,
+  REMOVE_PLACE_VISITED,
+  REMOVE_PLACE_LIVING
+} from "../../../../GraphQL";
+
 import CalendarIcon from "../../../../icons/CalendarIcon";
 import LocationIcon from "../../../../icons/LocationIcon";
 import FoodieIcon from "../../../../icons/InterestIcons/FoodieIcon";
 import CircleIcon from "../../../../icons/CircleIcon";
-import LogisticsIcon from "../../../../icons/LogisticsIcon";
 import ActivitiesIcon from "../../../../icons/InterestIcons/GuidedTouristIcon";
 import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 
@@ -90,8 +96,17 @@ function ProfileCityCard({ cityData, color, handleSelectedCity, urlUsername }) {
         }
       >
         <div className="pcc-city-info">
-          <span className="pcc-city">{cityData.city}</span>
-          <span className="pcc-country">{cityData.country}</span>
+          <span
+            className="pcc-city"
+            style={cityData.city.length > 18 ? { fontSize: "24px" } : null}
+          >
+            {cityData.city}
+          </span>
+          <span className="pcc-country">
+            {cityData.country.length < 25
+              ? cityData.country
+              : cityData.countryISO}
+          </span>
         </div>
         <div className="pcc-city-stats">
           <div className="pcc-stat" id="pcc-days">

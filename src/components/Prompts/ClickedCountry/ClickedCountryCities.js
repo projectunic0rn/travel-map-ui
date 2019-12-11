@@ -229,13 +229,17 @@ class ClickedCountryCities extends Component {
       };
       Swal.fire(swalParams).then(result => {
         if (result.value) {
-          this.props.showPopup();
-          this.props.updateMap();
+          this.setState(
+            {
+              swalNotFired: false,
+              livePopup: true
+            },
+            () => {
+              this.props.showPopup();
+              this.props.updateMap();
+            }
+          );
         }
-      });
-      this.setState({
-        swalNotFired: false,
-        livePopup: true
       });
     }
   }
@@ -318,8 +322,12 @@ class ClickedCountryCities extends Component {
             <button
               className="submit-cities"
               style={style}
-              onClick={(this.props.timing === 2 && this.props.tripData.Place_living !== null) ? () => this.handleLivePopup("country") :
-                mutation}
+              onClick={
+                this.props.timing === 2 &&
+                this.props.tripData.Place_living !== null
+                  ? () => this.handleLivePopup("country")
+                  : mutation
+              }
             >
               Save
             </button>
@@ -351,7 +359,7 @@ class ClickedCountryCities extends Component {
         <div className="city-lived-popup">
           {this.state.livePopup ? (
             <CityLivedPopup
-            handleAddCity = {this.props.updateMap}
+              handleAddCity={this.props.updateMap}
               country={this.state.country}
               cities={
                 this.state.mapCities.length > 0

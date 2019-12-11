@@ -89,7 +89,7 @@ function TransportationIconContainer({
             <FeedbackBox
               review={localReview}
               edit={edit}
-              comment={localReview.comment}
+              comment={review.comment}
               handleCommentClick={handleCommentClickHandler}
               handleRatingChange={handleRatingChangeHelper}
               handleCostChange={handleCostChangeHelper}
@@ -98,7 +98,7 @@ function TransportationIconContainer({
           </div>
         ) : null}
       </div>
-      <div className={commentActive ? "comment-container" : "display-none"}>
+      <div className={commentActive && feedbackState ? "comment-container" : "display-none"}>
         <CommentIconTextbox
           edit={edit}
           handleCommentText={handleComment}

@@ -48,7 +48,6 @@ function App({ userAuthenticated }) {
     window.addEventListener("resize", resizeListener);
     return () => window.removeEventListener("resize", resizeListener);
   }, [swalNotFired, swalParams]);
-
   return (
     <Router>
       <UserProvider value={{ userLoggedIn, setUserLoggedIn, userData }}>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
@@ -333,17 +334,17 @@ class CityMap extends Component {
       //     return city.cityId === data.Place_living.cityId;
       //   })
       // )
-        if (data.Place_living.cityId !== 0) {
-          clickedCityArray.push({
-            id: data.Place_living.id,
-            cityId: data.Place_living.cityId,
-            city: data.Place_living.city,
-            latitude: data.Place_living.city_latitude,
-            longitude: data.Place_living.city_longitude,
-            tripTiming: 2
-          });
-          liveCount++;
-        }
+      if (data.Place_living.cityId !== 0) {
+        clickedCityArray.push({
+          id: data.Place_living.id,
+          cityId: data.Place_living.cityId,
+          city: data.Place_living.city,
+          latitude: data.Place_living.city_latitude,
+          longitude: data.Place_living.city_longitude,
+          tripTiming: 2
+        });
+        liveCount++;
+      }
     }
     this.setState(
       {
@@ -571,8 +572,15 @@ class CityMap extends Component {
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
+          closeButton={false}
         >
-          {cityTooltip.city}
+          <NavLink
+            to={{
+              pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${cityTooltip.tripTiming}/${cityTooltip.id}/`
+            }}
+          >
+            {cityTooltip.city}
+          </NavLink>
           <Mutation
             mutation={setMutation}
             variables={

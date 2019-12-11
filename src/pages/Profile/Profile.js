@@ -35,6 +35,10 @@ export default function Profile({ user, urlUsername, refetch }) {
     handleCity(selectedCityData);
   }
   useEffect(() => {
+    handleUserData(user);
+  }, [user]);
+
+  useEffect(() => {
     let userData = user;
     let cityArray = [0];
     let countryArray = [0];
@@ -92,6 +96,28 @@ export default function Profile({ user, urlUsername, refetch }) {
           handleSelectedCity(newData);
           handleCityReviews(newData.CityReviews);
         }
+      } else if (window.location.pathname.split("/")[1] === "profile") {
+        let splitUrl = window.location.pathname.split("/");
+        if (splitUrl[4] === "0") {
+          let newData = cityData.Places_visited.find(
+            element => element.id === Number(splitUrl[5])
+          );
+          newData.timing = "past";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        } else if (splitUrl[4] === "1") {
+          let newData = cityData.Places_visiting.find(
+            element => element.id === Number(splitUrl[5])
+          );
+          newData.timing = "future";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        } else if (splitUrl[4] === "2") {
+          let newData = cityData.Place_living;
+          newData.timing = "live";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        }
       } else if (window.location.pathname.split("/")[4] !== undefined) {
         let splitUrl = window.location.pathname.split("/");
         if (splitUrl[5] === "0") {
@@ -118,7 +144,6 @@ export default function Profile({ user, urlUsername, refetch }) {
       handleLoaded(true);
     }
   }, [cityData]);
-
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
