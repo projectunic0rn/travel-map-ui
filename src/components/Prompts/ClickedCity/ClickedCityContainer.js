@@ -31,6 +31,7 @@ function ClickedCityContainer(props) {
       <div className="clicked-country-header" />
       <div className="clicked-country-info">
         <div className="clicked-country-info-names">
+          <span></span>
           <span>{props.customProps.cityInfo.result.text}</span>
           <span>Country: {countryName}</span>
         </div>

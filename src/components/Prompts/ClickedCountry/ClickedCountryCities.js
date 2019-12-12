@@ -260,6 +260,7 @@ class ClickedCountryCities extends Component {
           longitude={cityTooltip.city_longitude}
           latitude={cityTooltip.city_latitude}
           closeOnClick={false}
+          closeButton={false}
           style={{
             background: "rgba(115, 167, 195, 0.75)",
             color: "rgb(248, 248, 252)"
