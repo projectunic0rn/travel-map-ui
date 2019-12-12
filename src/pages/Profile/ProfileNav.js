@@ -18,6 +18,13 @@ function ProfileNav({ handleSearchText, urlUsername, searchText }) {
           to={urlUsername ? `/profiles/${urlUsername}` : "/profile"}
         >
           Trips
+        </NavLink> */}
+        <NavLink
+          to={
+            urlUsername ? `/profiles/${urlUsername}/cities` : "/profile/cities"
+          }
+        >
+          cities
         </NavLink>
         <NavLink
           to={
@@ -27,13 +34,6 @@ function ProfileNav({ handleSearchText, urlUsername, searchText }) {
           }
         >
           Friends
-        </NavLink> */}
-        <NavLink
-          to={
-            urlUsername ? `/profiles/${urlUsername}/cities` : "/profile/cities"
-          }
-        >
-          cities
         </NavLink>
         <NavLink
           to={

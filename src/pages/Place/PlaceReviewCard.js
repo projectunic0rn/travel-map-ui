@@ -192,13 +192,15 @@ function PlaceReviewCard({
                     </>
                   </div>
                   <div
-                      className={review.cost !== null ? "cost-container" : "display-none"}
-                    >
-                      <CostIconModal
-                        cost={review.cost}
-                        currency={review.currency}
-                      />
-                    </div>
+                    className={
+                      review.cost !== null ? "cost-container" : "display-none"
+                    }
+                  >
+                    <CostIconModal
+                      cost={review.cost}
+                      currency={review.currency}
+                    />
+                  </div>
                 </div>
                 <div className="comment-container">
                   {review.comment !== null ? review.comment : "No comments yet"}

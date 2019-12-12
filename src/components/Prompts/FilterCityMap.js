@@ -7,11 +7,9 @@ import Loader from "../../components/common/Loader/Loader";
 function FilterCityMap() {
   const [interestTagArray, handleInterestTag] = useState([]);
   function handleInterestTagHelper(tag) {
-    console.log(tag);
     let newInterestTagArray = interestTagArray;
     newInterestTagArray.push(tag);
     handleInterestTag(newInterestTagArray);
-    console.log(interestTagArray);
   }
   return (
     <Query
@@ -23,7 +21,6 @@ function FilterCityMap() {
       {({ loading, error, data, refetch }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
-        console.log(data);
         return (
           <div className="clicked-country-container filter-city-container">
             <div className="clicked-country-header">Add filters</div>

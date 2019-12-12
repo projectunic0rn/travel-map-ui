@@ -57,10 +57,8 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
     handleLoaded(true);
   }, [page, cityReviews]);
   function updateLocalReviews(updatedReviews) {
-    console.log(updatedReviews)
     let localReviews = [...localCityReviews];
     localReviews.push(updatedReviews);
-    console.log(localReviews)
     handleLocalCityReviews(localReviews);
     handleLoaded(true);
   }

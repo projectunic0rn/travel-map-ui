@@ -38,7 +38,7 @@
     flex-direction: column;
     align-items: center;
     min-width: 76px;
-    min-height: 80px;
+    min-height: 70px;
     margin-right: 8px;
     .user-avatar {
       display: flex;
@@ -66,6 +66,9 @@
       margin-left: 12px;
       margin-top: 8px;
       height: 100%;
+      .pr-feedback-subcontainer {
+        min-height: 30px;
+      }
       svg {
         height: 30px;
         margin: 0 4px;

@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
 import Settings from "./subpages/Settings";
+import Friends from "./subpages/Friends";
 import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
 import Loader from "../../components/common/Loader/Loader";
 
@@ -198,6 +199,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     handleSelectedCity={handleSelectedCity}
                     urlUsername={urlUsername}
                     handleOriginalSearch={handleSearchText}
+                    refetch={refetch}
                   />
                 )}
               />
@@ -215,6 +217,16 @@ export default function Profile({ user, urlUsername, refetch }) {
                     cityReviews={cityReviews}
                     refetch={refetch}
                     urlUsername={urlUsername}
+                  />
+                )}
+              />
+              <Route
+                path="/profile/friends"
+                render={props => (
+                  <Friends
+                    {...props}
+                    searchText={searchText}
+                    handlePageRender={handlePageRender}
                   />
                 )}
               />

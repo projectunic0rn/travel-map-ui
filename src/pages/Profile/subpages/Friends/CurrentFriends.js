@@ -5,7 +5,7 @@ import FriendCard from "./FriendCard";
 let fakeData = [
   {
     id: 2,
-    username: "User2",
+    username: "user2",
     Place_living: {
       city: "Fremont",
       countryISO: "US"
@@ -21,7 +21,7 @@ let fakeData = [
   },
   {
     id: 3,
-    username: "User3",
+    username: "user3",
     Place_living: {
       city: "San Jose",
       countryISO: "US"
@@ -35,7 +35,23 @@ let fakeData = [
     Places_visited: null,
     countryISO: "US",
     interests: ["photographer"]
-  }
+  },
+  {
+    id: 4,
+    username: "user4",
+    Place_living: {
+      city: "Rome",
+      countryISO: "IT"
+    },
+    Places_visiting: [
+      {
+        city: "San Diego",
+        countryISO: "US"
+      }
+    ],
+    Places_visited: null,
+    interests: ["art connoisseur", "shopaholic", "relaxer"]
+  },
 ];
 export default function CurrentFriends({searchText}) {
   const [filteredFriendsAvailable, handleFilteredFriendsAvailable] = useState(

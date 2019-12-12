@@ -14,7 +14,8 @@ export default function ProfileCities({
   cityData,
   urlUsername,
   location,
-  handleOriginalSearch
+  handleOriginalSearch,
+  refetch
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
@@ -54,7 +55,7 @@ export default function ProfileCities({
     );
     setResults(filteredArray);
     handleLoaded(true);
-  }, [searchText, timing]);
+  }, [searchText, timing, cityData]);
 
   if (!loaded) return "Loading...";
   return (
@@ -103,6 +104,7 @@ export default function ProfileCities({
             key={city.city + city.timing + index}
             urlUsername={urlUsername}
             cityData={city}
+            refetch={refetch}
             color={
               city.timing === "past"
                 ? "#CB7678"
@@ -125,5 +127,6 @@ ProfileCities.propTypes = {
   cityData: PropTypes.object,
   urlUsername: PropTypes.string,
   location: PropTypes.object,
-  handleOriginalSearch: PropTypes.func
+  handleOriginalSearch: PropTypes.func,
+  refetch: PropTypes.func
 };

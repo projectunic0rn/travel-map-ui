@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Route, NavLink } from "react-router-dom";
 
 import FriendsIcon from "../../../icons/FriendsIcon";
 import SearchIcon from "../../../icons/SearchIcon";
 import AddFriendIcon from "../../../icons/AddFriendIcon";
+import MenuIcon from "../../../icons/MenuIcon";
 import FindFriends from "./Friends/FindFriends";
 import FriendRequests from "./Friends/FriendRequests";
 import CurrentFriends from "./Friends/CurrentFriends";
 
 export default function Friends({ searchText, urlUsername }) {
+  const [expanded, handleToggle] = useState(false);
   return (
     <div className="friends content">
-      <div className="sidebar-filter">
+      <div
+        className={
+          expanded ? "sidebar-filter sidebar-filter-active" : "sidebar-filter"
+        }
+      >
+        <a onClick={() => handleToggle(!expanded)}>
+          {expanded ? <div></div> : null}
+          <MenuIcon />
+        </a>
         <NavLink
           exact
           to={
@@ -21,9 +31,9 @@ export default function Friends({ searchText, urlUsername }) {
               : "/profile/friends"
           }
         >
-          <FriendsIcon /> current
+          {expanded ? "current" : null} <FriendsIcon />
         </NavLink>
-        {!urlUsername && (
+        {/* {!urlUsername && (
           <>
             <NavLink to="/profile/friends/requests">
               <AddFriendIcon /> requests
@@ -32,9 +42,9 @@ export default function Friends({ searchText, urlUsername }) {
               <SearchIcon /> find
             </NavLink>
           </>
-        )}
+        )} */}
       </div>
-      <div className="content-results">
+      <div className="content-results friends-content">
         <Route
           exact
           path={
@@ -44,7 +54,7 @@ export default function Friends({ searchText, urlUsername }) {
           }
           component={() => <CurrentFriends searchText={searchText} />}
         />
-        {!urlUsername && (
+        {/* {!urlUsername && (
           <>
             <Route
               path="/profile/friends/requests"
@@ -55,7 +65,7 @@ export default function Friends({ searchText, urlUsername }) {
               render={() => <FindFriends searchText={searchText} />}
             />
           </>
-        )}
+        )} */}
       </div>
     </div>
   );
