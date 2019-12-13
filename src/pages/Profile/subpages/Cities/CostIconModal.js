@@ -17,6 +17,7 @@ function CostIconModal({
             onChange={e => handleCostChange(e.target.value)}
             className="cost-icon-text"
             placeholder="Cost/person"
+            maxLength={6}
             defaultValue={cost !== "" && cost !== null ? cost : null}
           />
           <select

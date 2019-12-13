@@ -556,6 +556,15 @@ export const REMOVE_PLACE_VISITED = gql`
   }
 `;
 
+export const REMOVE_CITY_REVIEW = gql`
+  mutation removeCityReviews($id: Int!) {
+    removeCityReviews(CityReviewId: $id) {
+      comment
+    }
+  }
+`;
+
+
 export const LOGIN_USER = gql`
   mutation loginUser($username: String!, $password: String!) {
     loginUser(username: $username, password: $password) {

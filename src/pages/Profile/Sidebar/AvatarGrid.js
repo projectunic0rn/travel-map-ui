@@ -163,6 +163,7 @@ export default function AvatarGrid(props) {
             type="number"
             min="0"
             max="255"
+            maxLength={3}
           ></input>
         </div>
         <div className="color-picker-input">
@@ -173,6 +174,7 @@ export default function AvatarGrid(props) {
             type="number"
             min="0"
             max="255"
+            maxLength={3}
           ></input>
         </div>
         <div className="color-picker-input">
@@ -183,6 +185,7 @@ export default function AvatarGrid(props) {
             type="number"
             min="0"
             max="255"
+            maxLength={3}
           ></input>
         </div>
       </div>

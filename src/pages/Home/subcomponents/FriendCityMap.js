@@ -8,6 +8,7 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
+import Loader from '../../../components/common/Loader/Loader';
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -427,7 +428,7 @@ class FriendCityMap extends Component {
       activePopup,
       filter
     } = this.state;
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loader />;
     return (
       <>
         <div

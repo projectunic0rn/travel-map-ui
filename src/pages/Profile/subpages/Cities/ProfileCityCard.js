@@ -17,7 +17,13 @@ import CircleIcon from "../../../../icons/CircleIcon";
 import ActivitiesIcon from "../../../../icons/InterestIcons/GuidedTouristIcon";
 import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 
-function ProfileCityCard({ cityData, color, refetch, handleSelectedCity, urlUsername }) {
+function ProfileCityCard({
+  cityData,
+  color,
+  refetch,
+  handleSelectedCity,
+  urlUsername
+}) {
   const [loaded, handleLoaded] = useState(false);
   const [localCityData] = useState(cityData);
   const [placeCount, handlePlaceCount] = useState(0);
@@ -40,6 +46,7 @@ function ProfileCityCard({ cityData, color, refetch, handleSelectedCity, urlUser
       ? REMOVE_PLACE_VISITING
       : REMOVE_PLACE_LIVING
   );
+  const [deletePrompt, handleDelete] = useState(false);
   useEffect(() => {
     let places = 0;
     let activities = 0;
@@ -165,11 +172,27 @@ function ProfileCityCard({ cityData, color, refetch, handleSelectedCity, urlUser
         onCompleted={() => refetch()}
       >
         {mutation => (
-          <button className="button" onClick={mutation}>
-            <TrashIcon />
-          </button>
+          <div
+            className={deletePrompt ? "delete-prompt" : "delete-prompt-hide"}
+          >
+            <span>Are you sure you want to delete {cityData.city}?</span>
+            <div>
+              <button className="button confirm" onClick={mutation}>
+                Yes
+              </button>
+              <button
+                className="button deny"
+                onClick={() => handleDelete(false)}
+              >
+                No
+              </button>
+            </div>
+          </div>
         )}
       </Mutation>
+      <button className="button trash" onClick={() => handleDelete(true)}>
+        <TrashIcon />
+      </button>
     </div>
   );
 }

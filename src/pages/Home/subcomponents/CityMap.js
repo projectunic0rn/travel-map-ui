@@ -15,6 +15,7 @@ import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
 import TrashIcon from "../../../icons/TrashIcon";
+import Loader from '../../../components/common/Loader/Loader';
 
 class CityMap extends Component {
   constructor(props) {
@@ -613,7 +614,7 @@ class CityMap extends Component {
       activePopup,
       clickedCity
     } = this.state;
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loader />;
     return (
       <>
         <div className="map-header-container" style={{ position: "absolute" }}>

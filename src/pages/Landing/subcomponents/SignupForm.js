@@ -53,6 +53,7 @@ class SignupForm extends Component {
             name="username"
             id="username"
             placeholder="enter a username"
+            maxLength={20}
           />
           <label htmlFor="username">username</label>
         </div>
@@ -67,6 +68,7 @@ class SignupForm extends Component {
             name="fullname"
             id="fullname"
             placeholder="enter your full name"
+            maxLength={60}
           />
           <label htmlFor="fullname">full name</label>
         </div>
@@ -78,6 +80,7 @@ class SignupForm extends Component {
             name="email"
             id="email"
             placeholder="enter your email address"
+            maxLength={60}
           />
           <label htmlFor="email">email</label>
         </div>
@@ -93,6 +96,7 @@ class SignupForm extends Component {
             name="password"
             id="password"
             placeholder="enter a password"
+            maxLength={60}
           />
           <label htmlFor="password">password</label>
         </div>

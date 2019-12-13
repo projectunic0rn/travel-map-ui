@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { Mutation } from "react-apollo";
+import { REMOVE_CITY_REVIEW } from "../../../../GraphQL";
 
 import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 import FeedbackBox from "./FeedbackBox";
@@ -16,11 +18,17 @@ function CityReviewCard({
   handleCurrencyChange,
   handleCommentChange,
   urlUsername,
+  refetch
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [, handleComment] = useState("");
-  const [commentActive, handleCommentClick] = useState(urlUsername ? true : false);
+  const [commentActive, handleCommentClick] = useState(
+    urlUsername ? true : false
+  );
+  const [deletePrompt, handleDelete] = useState(false);
+  const id = review.id;
   useEffect(() => {
+    handleLoaded(false);
     handleCommentClick(false);
     handleComment(review.comment);
     handleLoaded(true);
@@ -67,7 +75,9 @@ function CityReviewCard({
               <select
                 className="crc-input-title"
                 defaultValue={review.attraction_type}
-                onChange={e => handleType(review.id, review.key, e.target.value)}
+                onChange={e =>
+                  handleType(review.id, review.key, e.target.value)
+                }
               >
                 {options.map(option => {
                   return <option key={option}>{option}</option>;
@@ -78,7 +88,9 @@ function CityReviewCard({
                 placeholder={review.attraction_name}
                 defaultValue={review.attraction_name}
                 maxLength="33"
-                onChange={e => handleInputChange(review.id, review.key, e.target.value)}
+                onChange={e =>
+                  handleInputChange(review.id, review.key, e.target.value)
+                }
               ></input>
             </>
           ) : (
@@ -97,6 +109,37 @@ function CityReviewCard({
           handleCostChange={handleCostChangeHelper}
           handleCurrencyChange={handleCurrencyChangeHelper}
         />
+        {edit ? (
+          <>
+            <Mutation
+              mutation={REMOVE_CITY_REVIEW}
+              variables={{id}}
+              onCompleted={() => refetch()}
+            >
+              {mutation => (
+                <div
+                  className={
+                    deletePrompt ? "delete-prompt" : "delete-prompt-hide"
+                  }
+                >
+                  <span>Are you sure you want to delete this review?</span>
+                  <div>
+                    <button className="button confirm" onClick={mutation}>
+                      Yes
+                    </button>
+                    <button
+                      className="button deny"
+                      onClick={() => handleDelete(false)}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Mutation>
+            <button className="close-button-round" onClick={() => handleDelete(true)}></button>
+          </>
+        ) : null}
       </div>
       <div className={commentActive ? "comment-container" : "display-none"}>
         <CommentIconTextbox
@@ -104,7 +147,7 @@ function CityReviewCard({
           handleCommentText={handleComment}
           comment={review.comment}
           handleCommentChange={handleCommentChangeHelper}
-          closeComment = {handleCommentClickHandler}
+          closeComment={handleCommentClickHandler}
         />
       </div>
     </div>
@@ -121,7 +164,8 @@ CityReviewCard.propTypes = {
   handleCostChange: PropTypes.func,
   handleCurrencyChange: PropTypes.func,
   handleCommentChange: PropTypes.func,
-  urlUsername: PropTypes.bool
+  urlUsername: PropTypes.bool,
+  refetch: PropTypes.func
 };
 
 export default CityReviewCard;

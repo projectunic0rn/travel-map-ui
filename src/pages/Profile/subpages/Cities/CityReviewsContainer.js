@@ -8,6 +8,7 @@ import {
 } from "../../../../GraphQL";
 
 import CityReviewCard from "./CityReviewCard";
+import Loader from '../../../../components/common/Loader/Loader';
 
 export default function CityReviewsContainer({
   page,
@@ -97,7 +98,7 @@ export default function CityReviewsContainer({
     }
     mutation();
   }
-  if (!loaded) return "Loading";
+  if (!loaded) return <Loader />;
   return (
     <>
       {localCityReviews.length < 1 ? (
@@ -121,6 +122,7 @@ export default function CityReviewsContainer({
             handleCurrencyChange={handleCurrencyChange}
             handleCommentChange={handleCommentChange}
             urlUsername={true}
+            refetch={refetch}
           />
         ))
       )}

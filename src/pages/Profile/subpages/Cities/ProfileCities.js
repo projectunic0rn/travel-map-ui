@@ -7,6 +7,7 @@ import PastIcon from "../../../../icons/PastIcon";
 import FutureIcon from "../../../../icons/FutureIcon";
 import LiveIcon from "../../../../icons/LiveIcon";
 import ProfileCityCard from "./ProfileCityCard";
+import Loader from '../../../../components/common/Loader/Loader';
 
 export default function ProfileCities({
   searchText,
@@ -57,7 +58,7 @@ export default function ProfileCities({
     handleLoaded(true);
   }, [searchText, timing, cityData]);
 
-  if (!loaded) return "Loading...";
+  if (!loaded) return <Loader />;
   return (
     <div className="profile-cities content">
       <div

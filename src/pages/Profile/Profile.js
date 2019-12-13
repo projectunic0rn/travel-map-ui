@@ -81,21 +81,27 @@ export default function Profile({ user, urlUsername, refetch }) {
           let newData = cityData.Places_visited.find(
             element => element.id === selectedCity.id
           );
-          newData.timing = "past";
-          handleSelectedCity(newData);
-          handleCityReviews(newData.CityReviews);
+          if (newData !== undefined) {
+            newData.timing = "past";
+            handleSelectedCity(newData);
+            handleCityReviews(newData.CityReviews);
+          }
         } else if (selectedCity.timing === "future") {
           let newData = cityData.Places_visiting.find(
             element => element.id === selectedCity.id
           );
-          newData.timing = "future";
-          handleSelectedCity(newData);
-          handleCityReviews(newData.CityReviews);
+          if (newData !== undefined) {
+            newData.timing = "future";
+            handleSelectedCity(newData);
+            handleCityReviews(newData.CityReviews);
+          }
         } else if (selectedCity.timing === "live") {
           let newData = cityData.Place_living;
-          newData.timing = "live";
-          handleSelectedCity(newData);
-          handleCityReviews(newData.CityReviews);
+          if (newData !== undefined) {
+            newData.timing = "live";
+            handleSelectedCity(newData);
+            handleCityReviews(newData.CityReviews);
+          }
         }
       } else if (window.location.pathname.split("/")[1] === "profile") {
         let splitUrl = window.location.pathname.split("/");

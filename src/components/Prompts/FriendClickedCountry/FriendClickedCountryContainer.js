@@ -175,6 +175,7 @@ function FriendClickedCountryContainer(props) {
   function handleNewNavPosition(position) {
     handleNavPosition(position);
   }
+  
   return (
     <div className="clicked-country-container">
       <div className="clicked-country-header">
