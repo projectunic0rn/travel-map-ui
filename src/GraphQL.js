@@ -128,6 +128,11 @@ export const GET_ALL_FRIEND_INFO = gql`
         id
         name
       }
+      Place_living {
+        id
+        city
+        countryISO
+      }
     }
   }
 `;
@@ -138,6 +143,14 @@ export const GET_ALL_USER_INFO = gql`
       id
       username
       full_name
+      gender
+      birthday
+      color
+      avatarIndex
+      UserInterests {
+        id
+        name
+      }
       Places_visited {
         id
         country

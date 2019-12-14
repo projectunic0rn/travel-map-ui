@@ -1,9 +1,9 @@
 .friends-content {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  justify-content: space-around;
+  align-content: flex-start;
   margin: 28px 20px 28px 0px;
-  overflow-y: scroll;
   min-height: 200px;
   .friend-card {
     display: flex;
@@ -15,6 +15,16 @@
     background: rgb(248, 248, 252);
     border-radius: 16px;
     box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
+    .fc-user-interests {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      margin-top: 12px;
+      span {
+        margin: 1px 16px;
+      }
+    }
     .fc-user-info {
       position: relative;
       display: flex;
@@ -45,19 +55,6 @@
           font-size: 16px;
           font-weight: 400;
           color: #b4b4b4;
-        }
-      }
-
-      .fc-user-interests {
-        position: absolute;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        width: 48px;
-        right: 24px;
-        top: 12px;
-        span {
-          margin: 1px 2px;
         }
       }
     }
@@ -112,6 +109,9 @@
         background: #c2d7e5;
         color: #5791b7;
         box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
+        &:hover {
+          background: rgb(220, 220, 220);
+        }
       }
       .fc-accept {
         cursor: pointer;
