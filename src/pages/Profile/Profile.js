@@ -227,11 +227,12 @@ export default function Profile({ user, urlUsername, refetch }) {
                 )}
               />
               <Route
-                path="/profile/friends"
+               exact path={urlUsername ? `/profiles/${urlUsername}/friends` : '/profile/friends'}
                 render={props => (
                   <Friends
                     {...props}
                     searchText={searchText}
+                    urlUsername={urlUsername}
                     handlePageRender={handlePageRender}
                   />
                 )}
