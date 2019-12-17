@@ -100,7 +100,7 @@ export default function ProfileCities({
         </button>
       </div>
       <div className="content-results">
-        {results.length  < 1 ? <span className = 'no-cities-text'>No cities recorded yet</span> : null}
+        {results.length  < 1 ? <span className = 'no-cities-text'>No cities recorded yet!</span> : null}
         {results.map((city, index) => (
           <ProfileCityCard
             key={city.city + city.timing + index}

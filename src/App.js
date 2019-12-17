@@ -8,7 +8,9 @@ import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
 import Header from "./components/Header/Header";
 import Landing from "./pages/Landing/Landing";
 import MapPage from "./pages/Home/MapPage";
+import NewUserMap from "./pages/Home/NewUserMap";
 import FriendMapPage from "./pages/Home/FriendMapPage";
+import FriendReadonlyMap from "./pages/Home/FriendReadonlyMap";
 import Profile from "./pages/Profile/Profile";
 import Place from "./pages/Place/Place";
 import UserProfile from "./pages/Profile/UserProfile";
@@ -69,7 +71,9 @@ function App({ userAuthenticated }) {
                   <Header
                     userLoggedIn={userLoggedIn}
                     color={data.user.color}
-                    avatarIndex={data.user.avatarIndex !== null ? data.user.avatarIndex : 1}
+                    avatarIndex={
+                      data.user.avatarIndex !== null ? data.user.avatarIndex : 1
+                    }
                   />
                   <Switch>
                     <Route
@@ -99,15 +103,10 @@ function App({ userAuthenticated }) {
                         />
                       )}
                     />
-                    <Route
-                      path="/place/"
-                      render={props => (
-                        <Place
-
-                        />
-                      )}
-                    />
+                    <Route path="/place/" render={props => <Place />} />
                     <Route path="/friends/" component={FriendMapPage} />
+                    <Route path="/public/" component={FriendReadonlyMap} />
+                    <Route path="/new/" component={NewUserMap} />
                     <Route component={PageNotFound} />
                   </Switch>
                 </Fragment>

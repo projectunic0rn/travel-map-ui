@@ -5,12 +5,11 @@ import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
 
-class FriendCityMap extends Component {
+class FriendReadonlyCity extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,13 +28,11 @@ class FriendCityMap extends Component {
       tripTimingCounts: [0, 0, 0],
       clickedCity: null,
       clickedCityArray: [],
-      filteredCityArray: [],
       activeTimings: [1, 1, 1],
       loading: true,
       activePopup: false,
       cityTooltip: null,
-      hoveredCityArray: null,
-      filter: false
+      hoveredCityArray: null
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -50,14 +47,13 @@ class FriendCityMap extends Component {
     this.handleLoadedCities = this.handleLoadedCities.bind(this);
     this.handleActiveTimings = this.handleActiveTimings.bind(this);
     this.showPopup = this.showPopup.bind(this);
-    this.showFilter = this.showFilter.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
   }
 
   componentDidMount() {
+    console.log(this.props.tripData);
     window.addEventListener("resize", this.resize);
     this.resize();
     this.handleLoadedCities(this.props.tripData);
@@ -275,86 +271,76 @@ class FriendCityMap extends Component {
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    for (let i in data) {
-      if (data != null && data[i].Places_visited.length !== 0) {
-        for (let j = 0; j < data[i].Places_visited.length; j++) {
-          if (data[i].Places_visited[j].cityId !== 0) {
-            clickedCityArray.push({
-              id: data[i].Places_visited[j].id,
-              username: data[i].username,
-              cityId: data[i].Places_visited[j].cityId,
-              city: data[i].Places_visited[j].city,
-              latitude: data[i].Places_visited[j].city_latitude,
-              longitude: data[i].Places_visited[j].city_longitude,
-              country: data[i].Places_visited[j].country,
-              countryId: data[i].Places_visited[j].countryId,
-              days: data[i].Places_visited[j].days,
-              year: data[i].Places_visited[j].year,
-              tripTiming: 0,
-              avatarIndex:
-                data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-              color: data[i].color
-            });
-            pastCount++;
-          }
+    if (data != null && data.Places_visited.length !== 0) {
+      for (let j = 0; j < data.Places_visited.length; j++) {
+        if (data.Places_visited[j].cityId !== 0) {
+          clickedCityArray.push({
+            id: data.Places_visited[j].id,
+            username: data.username,
+            cityId: data.Places_visited[j].cityId,
+            city: data.Places_visited[j].city,
+            latitude: data.Places_visited[j].city_latitude,
+            longitude: data.Places_visited[j].city_longitude,
+            country: data.Places_visited[j].country,
+            countryId: data.Places_visited[j].countryId,
+            days: data.Places_visited[j].days,
+            year: data.Places_visited[j].year,
+            tripTiming: 0,
+            avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
+            color: data.color
+          });
+          pastCount++;
         }
-      }
-      if (data != null && data[i].Places_visiting.length !== 0) {
-        for (let j = 0; j < data[i].Places_visiting.length; j++) {
-          if (data[i].Places_visiting[j].cityId !== 0) {
-            clickedCityArray.push({
-              id: data[i].Places_visiting[j].id,
-              username: data[i].username,
-              cityId: data[i].Places_visiting[j].cityId,
-              city: data[i].Places_visiting[j].city,
-              latitude: data[i].Places_visiting[j].city_latitude,
-              longitude: data[i].Places_visiting[j].city_longitude,
-              country: data[i].Places_visiting[j].country,
-              countryId: data[i].Places_visiting[j].countryId,
-              days: data[i].Places_visiting[j].days,
-              year: data[i].Places_visiting[j].year,
-              tripTiming: 1,
-              avatarIndex:
-                data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-              color: data[i].color
-            });
-            futureCount++;
-          }
-        }
-      }
-      if (data != null && data[i].Place_living !== null) {
-        // if (
-        //   !clickedCityArray.some(city => {
-        //     return city.cityId === data[i].Place_living.cityId;
-        //   })
-        // ) {
-        clickedCityArray.push({
-          id: data[i].Place_living.id,
-          username: data[i].username,
-          cityId: data[i].Place_living.cityId,
-          city: data[i].Place_living.city,
-          latitude: data[i].Place_living.city_latitude,
-          longitude: data[i].Place_living.city_longitude,
-          country: data[i].Place_living.country,
-          countryId: data[i].Place_living.countryId,
-          days: data[i].Place_living.days,
-          year: data[i].Place_living.year,
-          tripTiming: 2,
-          avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-          color: data[i].color
-        });
-        liveCount++;
-        // }
       }
     }
-    let filteredCityArray = clickedCityArray;
+    if (data != null && data.Places_visiting.length !== 0) {
+      for (let j = 0; j < data.Places_visiting.length; j++) {
+        if (data.Places_visiting[j].cityId !== 0) {
+          clickedCityArray.push({
+            id: data.Places_visiting[j].id,
+            username: data.username,
+            cityId: data.Places_visiting[j].cityId,
+            city: data.Places_visiting[j].city,
+            latitude: data.Places_visiting[j].city_latitude,
+            longitude: data.Places_visiting[j].city_longitude,
+            country: data.Places_visiting[j].country,
+            countryId: data.Places_visiting[j].countryId,
+            days: data.Places_visiting[j].days,
+            year: data.Places_visiting[j].year,
+            tripTiming: 1,
+            avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
+            color: data.color
+          });
+          futureCount++;
+        }
+      }
+    }
+    if (data != null && data.Place_living !== null) {
+      clickedCityArray.push({
+        id: data.Place_living.id,
+        username: data.username,
+        cityId: data.Place_living.cityId,
+        city: data.Place_living.city,
+        latitude: data.Place_living.city_latitude,
+        longitude: data.Place_living.city_longitude,
+        country: data.Place_living.country,
+        countryId: data.Place_living.countryId,
+        days: data.Place_living.days,
+        year: data.Place_living.year,
+        tripTiming: 2,
+        avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
+        color: data.color
+      });
+      liveCount++;
+      // }
+    }
+
     this.setState(
       {
         clickedCityArray,
-        filteredCityArray,
         tripTimingCounts: [pastCount, futureCount, liveCount]
       },
-      () => this.handleLoadedMarkers(filteredCityArray)
+      () => this.handleLoadedMarkers(clickedCityArray)
     );
   }
 
@@ -364,24 +350,10 @@ class FriendCityMap extends Component {
     });
   }
 
-  showFilter() {
-    let filter = !this.state.filter;
-    let activePopup = !this.state.activePopup;
-    this.setState({
-      filter,
-      activePopup
-    });
-  }
-
   showPopup() {
     let activePopup = !this.state.activePopup;
-    let filter = this.state.filter;
-    if (!activePopup) {
-      filter = false;
-    }
     this.setState({
-      activePopup,
-      filter
+      activePopup
     });
   }
 
@@ -424,19 +396,6 @@ class FriendCityMap extends Component {
     });
   }
 
-  handleFilter(filterParams) {
-    let origCityArray = this.state.clickedCityArray;
-    let filteredCityArray = origCityArray.filter(city =>
-      city.username.includes(filterParams.username)
-    );
-    console.log(filteredCityArray)
-    this.setState({
-      filteredCityArray
-    }, () => {
-      this.handleLoadedMarkers(filteredCityArray)
-    })
-  }
-
   render() {
     const {
       viewport,
@@ -444,8 +403,7 @@ class FriendCityMap extends Component {
       markerFutureDisplay,
       markerLiveDisplay,
       loading,
-      activePopup,
-      filter
+      activePopup
     } = this.state;
     if (loading) return <Loader />;
     return (
@@ -460,8 +418,8 @@ class FriendCityMap extends Component {
             </button>
           </div>
           <div className="map-header-filler" />
-          <div className="map-header-filter">
-            <button onClick={() => this.showFilter()}>Filter Map</button>
+          <div className="map-header-cta">
+            <button>Create your own map</button>
           </div>
         </div>
         <div className="city-map-container">
@@ -503,14 +461,11 @@ class FriendCityMap extends Component {
             activePopup={activePopup}
             showPopup={this.showPopup}
             component={
-              filter
-                ? FilterCityMap
-                : this.state.hoveredCityArray.length < 1
+              this.state.hoveredCityArray.length < 1
                 ? FriendClickedCityBlank
                 : FriendClickedCityContainer
             }
             componentProps={{
-              handleFilter: this.handleFilter,
               hoveredCityArray: this.state.hoveredCityArray,
               clickedCity: this.state.clickedCity
             }}
@@ -521,9 +476,9 @@ class FriendCityMap extends Component {
   }
 }
 
-FriendCityMap.propTypes = {
+FriendReadonlyCity.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func
 };
 
-export default FriendCityMap;
+export default FriendReadonlyCity;

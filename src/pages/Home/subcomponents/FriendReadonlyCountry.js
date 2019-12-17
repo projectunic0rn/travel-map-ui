@@ -6,15 +6,15 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
-
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
+import FriendClickedCountryContainer from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryContainer";
+import FriendClickedCountryBlank from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
-const CountryMap = props => {
+const FriendReadonlyCountry = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -26,29 +26,114 @@ const CountryMap = props => {
     { name: "South America", coordinates: [-58.3816, -20.6037] },
     { name: "East Asia", coordinates: [121.4737, 31.2304] }
   ];
-  const [clickedCountry, handleNewCountry] = useState(0);
-  const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
+  const [clickedCountryArray, handleClickedCountryArray] = useState(0);
+  const [countryArray, handleCountryArray] = useState([]);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  const [activePopup, showPopup] = useState(false);
+  const [activePopup, showPopup] = useState(null);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
 
   useEffect(() => {
+    handleLoadedCountries(props.tripData);
+  }, [props.tripData]);
+
+  function handleLoadedCountries(data) {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].tripTiming === 0) {
-        pastCount++;
-      } else if (clickedCountryArray[i].tripTiming === 1) {
-        futureCount++;
-      } else if (clickedCountryArray[i].tripTiming === 2) {
-        liveCount++;
+    if (data != null && data.Places_visited.length !== 0) {
+      for (let j = 0; j < data.Places_visited.length; j++) {
+        if (
+          !countryArray.some(country => {
+            return (
+              country.countryId === data.Places_visited[j].countryId &&
+              country.tripTiming === 0
+            );
+          })
+        ) {
+          pastCount++;
+        }
+        if (data.Places_visited[j].cityId !== undefined) {
+          countryArray.push({
+            id: data.Places_visited[j].id,
+            username: data.username,
+            cityId: data.Places_visited[j].cityId,
+            city: data.Places_visited[j].city,
+            latitude: data.Places_visited[j].city_latitude,
+            longitude: data.Places_visited[j].city_longitude,
+            country: data.Places_visited[j].country,
+            countryId: data.Places_visited[j].countryId,
+            tripTiming: 0,
+            avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
+            color: data.color
+          });
+        }
       }
     }
+    if (data != null && data.Places_visiting.length !== 0) {
+      for (let j = 0; j < data.Places_visiting.length; j++) {
+        if (
+          !countryArray.some(country => {
+            return (
+              country.countryId === data.Places_visiting[j].countryId &&
+              country.tripTiming === 1
+            );
+          })
+        ) {
+          futureCount++;
+        }
+        if (data.Places_visiting[j].cityId !== undefined) {
+          countryArray.push({
+            id: data.Places_visiting[j].id,
+            username: data.username,
+            cityId: data.Places_visiting[j].cityId,
+            city: data.Places_visiting[j].city,
+            latitude: data.Places_visiting[j].city_latitude,
+            longitude: data.Places_visiting[j].city_longitude,
+            country: data.Places_visiting[j].country,
+            countryId: data.Places_visiting[j].countryId,
+            tripTiming: 1,
+            avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
+            color: data.color
+          });
+        }
+      }
+    }
+    if (data != null && data.Place_living !== null) {
+      if (
+        !countryArray.some(country => {
+          return (
+            country.countryId === data.Place_living.countryId &&
+            country.tripTiming === 2
+          );
+        })
+      ) {
+        liveCount++;
+      }
+      // if (
+      //   !countryArray.some(city => {
+      //     return city.cityId === data.Place_living.cityId;
+      //   })
+      // ) {
+      countryArray.push({
+        id: data.Place_living.id,
+        username: data.username,
+        cityId: data.Place_living.cityId,
+        city: data.Place_living.city,
+        latitude: data.Place_living.city_latitude,
+        longitude: data.Place_living.city_longitude,
+        country: data.Place_living.country,
+        countryId: data.Place_living.countryId,
+        tripTiming: 2,
+        avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
+        color: data.color
+      });
+      // }
+    }
+    handleCountryArray(countryArray);
     handleTripTiming([pastCount, futureCount, liveCount]);
-  }, [clickedCountryArray]);
+  }
 
   function handleContinentClick(evt) {
     const continentId = evt.target.getAttribute("data-continent");
@@ -61,28 +146,16 @@ const CountryMap = props => {
     handleChangeCenter([0, 20]);
     handleChangeZoom(1);
   }
-  
-  function handleWheel(event) {
-    if (event.deltaY > 0) {
-      let newZoom = zoom/1.1;
-      handleChangeZoom(newZoom);
-    }
-    if (event.deltaY < 0) {
-      let newZoom = zoom*1.1;
-      handleChangeZoom(newZoom)
-    }
-  }
+
   function computedStyles(geography) {
     let isCountryIncluded = false;
     let countryTiming = null;
     let countryTimingArray = [];
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
+    for (let i in countryArray) {
+      if (countryArray[i].countryId === geography.id) {
         isCountryIncluded = true;
-        countryTiming = clickedCountryArray[i].tripTiming;
-        if (
-          countryTimingArray.indexOf(clickedCountryArray[i].tripTiming) === -1
-        ) {
+        countryTiming = countryArray[i].tripTiming;
+        if (countryTimingArray.indexOf(countryArray[i].tripTiming) === -1) {
           countryTimingArray.push(countryTiming);
         }
       }
@@ -107,6 +180,7 @@ const CountryMap = props => {
         outline: "none"
       }
     };
+
     if (isCountryIncluded) {
       let countryTimingArraySorted = countryTimingArray.sort((a, b) => a - b);
       switch (countryTimingArraySorted.join()) {
@@ -180,8 +254,11 @@ const CountryMap = props => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    showPopup(true);
-    handleNewCountry(geography);
+    let clickedCountryArray = countryArray.filter(
+      country => country.countryId === geography.id
+    );
+    handleClickedCountryArray(clickedCountryArray);
+    showPopup(1);
   }
 
   function countryInfo(geography) {
@@ -189,49 +266,12 @@ const CountryMap = props => {
     handleCapitalName(geography.properties.capital);
   }
 
-  function handleTripTimingHelper(timing) {
-    let countryArray = clickedCountryArray;
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
-    countryArray.push({
-      countryId: clickedCountry.id,
-      tripTiming: timing
-    });
-    switch (timing) {
-      case 0:
-        pastCount++;
-        break;
-      case 1:
-        futureCount++;
-        break;
-      case 2:
-        liveCount++;
-        break;
-      default:
-        break;
-    }
-    handleTripTiming([pastCount, futureCount, liveCount]);
-    addCountry(countryArray);
-  }
-
-  function checkForPreviousTrips(geography) {
-    let previousTrips = false;
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
-        previousTrips = true;
-      }
-    }
-    return previousTrips;
-  }
-
   function handleActiveTimings(timings) {
     handleTimingCheckbox(timings);
   }
-
   return (
     <>
-      <div className="map-header-container">
+      <div className="map-header-container" style={{ position: "relative" }}>
         <div className="map-header-button">
           <button onClick={() => props.handleMapTypeChange(1)}>
             Go to City Map
@@ -277,7 +317,6 @@ const CountryMap = props => {
                   cacheId={i}
                   geography={geography}
                   projection={projection}
-                  onWheel={handleWheel}
                   onMouseEnter={() => countryInfo(geography)}
                   onClick={() => handleClickedCountry(geography)}
                   style={computedStyles(geography)}
@@ -288,37 +327,39 @@ const CountryMap = props => {
         </ZoomableGroup>
       </ComposableMap>
 
+      {activePopup ? (
+        <PopupPrompt
+          activePopup={activePopup}
+          showPopup={showPopup}
+          component={
+            clickedCountryArray.length < 1
+              ? FriendClickedCountryBlank
+              : FriendClickedCountryContainer
+          }
+          componentProps={{
+            clickedCountryArray: clickedCountryArray,
+            countryName: countryName,
+            capitalName: capitalName,
+            refetch: props.refetch
+          }}
+        />
+      ) : null}
       <MapScorecard
         tripTimingCounts={tripTimingCounts}
         activeTimings={activeTimings}
         sendActiveTimings={handleActiveTimings}
       />
       <MapInfoContainer countryName={countryName} capitalName={capitalName} />
-
-      {activePopup ? (
-        <PopupPrompt
-          activePopup={activePopup}
-          showPopup={showPopup}
-          component={ClickedCountryContainer}
-          componentProps={{
-            countryInfo: clickedCountry,
-            handleTripTiming: handleTripTimingHelper,
-            previousTrips: checkForPreviousTrips(clickedCountry),
-            tripData: props.tripData,
-            refetch: props.refetch
-          }}
-        />
-      ) : null}
     </>
   );
 };
 
-CountryMap.propTypes = {
+FriendReadonlyCountry.propTypes = {
   handleClickedCountry: PropTypes.func,
   clickedCountryArray: PropTypes.array,
+  tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   refetch: PropTypes.func
 };
 
-export default CountryMap;
+export default FriendReadonlyCountry;

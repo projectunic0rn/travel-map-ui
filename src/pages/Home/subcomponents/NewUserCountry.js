@@ -14,7 +14,7 @@ import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
-const CountryMap = props => {
+const NewUserCountry = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -313,7 +313,7 @@ const CountryMap = props => {
   );
 };
 
-CountryMap.propTypes = {
+NewUserCountry.propTypes = {
   handleClickedCountry: PropTypes.func,
   clickedCountryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
@@ -321,4 +321,4 @@ CountryMap.propTypes = {
   refetch: PropTypes.func
 };
 
-export default CountryMap;
+export default NewUserCountry;

@@ -2,20 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker, Popup } from "react-map-gl";
+import MapGL, { Marker } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 
-import {
-  REMOVE_PLACE_VISITING,
-  REMOVE_PLACE_VISITED,
-  REMOVE_PLACE_LIVING
-} from "../../../GraphQL";
 import MapScorecard from "./MapScorecard";
-import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
-import Loader from '../../../components/common/Loader/Loader';
+import Loader from "../../../components/common/Loader/Loader";
 
-class CityMap extends Component {
+class NewUserCity extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,12 +29,12 @@ class CityMap extends Component {
       clickedCity: null,
       clickedCityArray: [],
       activeTimings: [1, 1, 1],
-      loading: true,
-      activePopup: false,
+      loading: false,
       cityTooltip: null,
-      placeVisitingId: null,
-      placeVisitedId: null,
-      placeLivingId: null
+      places_visited: [],
+      places_visiting: [],
+      place_living: [],
+      timingState: 0
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -52,16 +45,12 @@ class CityMap extends Component {
     this.handleMapMovement = this.handleMapMovement.bind(this);
     this.handleOnResult = this.handleOnResult.bind(this);
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
-    this.handleLoadedMarkers = this.handleLoadedMarkers.bind(this);
-    this.handleLoadedCities = this.handleLoadedCities.bind(this);
     this.handleActiveTimings = this.handleActiveTimings.bind(this);
-    this.showPopup = this.showPopup.bind(this);
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this.handleTripTimingCityHelper = this.handleTripTimingCityHelper.bind(
       this
     );
     this.handleTripTiming = this.handleTripTiming.bind(this);
-    this._renderPopup = this._renderPopup.bind(this);
     this.deleteCity = this.deleteCity.bind(this);
   }
 
@@ -69,7 +58,6 @@ class CityMap extends Component {
     this.setState({ windowWidth: window.innerWidth });
     window.addEventListener("resize", this.resize);
     this.resize();
-    this.handleLoadedCities(this.props.tripData);
   }
 
   componentWillUnmount() {
@@ -126,165 +114,47 @@ class CityMap extends Component {
     });
   }
 
-  handleLoadedMarkers(markers) {
-    let markerPastDisplay = [];
-    let markerFutureDisplay = [];
-    let markerLiveDisplay = this.state.markerLiveDisplay;
-    markers.map(city => {
-      if (city.city !== undefined && city.city !== "") {
-        let color = "red";
-        switch (city.tripTiming) {
-          case 0:
-            color = "rgba(203, 118, 120, 0.25)";
-            markerPastDisplay.push(
-              <Marker
-                key={city.id}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitedId: city.id
-                      })
-                    }
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 1.0)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-            break;
-          case 1:
-            color = "rgba(115, 167, 195, 0.25)";
-            markerFutureDisplay.push(
-              <Marker
-                key={city.id}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitingId: city.id
-                      })
-                    }
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(115, 167, 195, 1.0)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-
-            break;
-          case 2:
-            color = "rgba(150, 177, 168, 0.25)";
-            markerLiveDisplay.push(
-              <Marker
-                key={city.id}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeLivingId: city.id
-                      })
-                    }
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(150, 177, 168, 1.0)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-            break;
-          default:
-            break;
-        }
-      }
-      return null;
-    });
-    this.setState({
-      markerPastDisplay,
-      markerFutureDisplay,
-      markerLiveDisplay,
-      loading: 0
-    });
-  }
-
   handleOnResult(event) {
     let markers = this.state.markers;
     markers.push(event);
+    let countryName;
+    let countryISO;
+    let context;
+    let cityId;
+    for (let i in event.result.context) {
+      if (event.result.context[i].id.slice(0, 7) === "country") {
+        context = i;
+        countryName = event.result.context[i]["text_en-US"];
+        countryISO = event.result.context[i]["short_code"].toUpperCase();
+      }
+    }
+    if (event.result.properties.wikidata !== undefined) {
+      cityId = parseFloat(event.result.properties.wikidata.slice(1), 10);
+    } else {
+      cityId = parseFloat(event.result.id.slice(10, 16), 10);
+    }
+    let newCityEntry = {
+      countryName,
+      countryId: parseInt(event.result.context[context].id.slice(8, 14)),
+      countryISO,
+      city: event.result.text,
+      cityId,
+      city_latitude: event.result.center[1],
+      city_longitude: event.result.center[0],
+      tripTiming: this.state.timingState
+    };
+    console.log(newCityEntry)
+
     this.setState({
       markers: markers
     });
     this.handleTypedCity(event);
+    this.handleTripTimingCityHelper(newCityEntry, this.state.timingState)
   }
 
   handleTypedCity(city) {
     this.setState({
-      clickedCity: city,
-      activePopup: true
+      clickedCity: city
     });
   }
 
@@ -292,78 +162,9 @@ class CityMap extends Component {
     this.setState({ gl: gl });
   }
 
-  handleLoadedCities(data) {
-    const { tripTimingCounts, clickedCityArray } = this.state;
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
-    if (data != null && data.Places_visited.length !== 0) {
-      for (let i = 0; i < data.Places_visited.length; i++) {
-        if (data.Places_visited[i].cityId !== 0) {
-          clickedCityArray.push({
-            id: data.Places_visited[i].id,
-            cityId: data.Places_visited[i].cityId,
-            city: data.Places_visited[i].city,
-            latitude: data.Places_visited[i].city_latitude,
-            longitude: data.Places_visited[i].city_longitude,
-            tripTiming: 0
-          });
-          pastCount++;
-        }
-      }
-    }
-    if (data != null && data.Places_visiting.length !== 0) {
-      for (let i = 0; i < data.Places_visiting.length; i++) {
-        if (data.Places_visiting[i].cityId !== 0) {
-          clickedCityArray.push({
-            id: data.Places_visiting[i].id,
-            cityId: data.Places_visiting[i].cityId,
-            city: data.Places_visiting[i].city,
-            latitude: data.Places_visiting[i].city_latitude,
-            longitude: data.Places_visiting[i].city_longitude,
-            tripTiming: 1
-          });
-          futureCount++;
-        }
-      }
-    }
-    if (data != null && data.Place_living !== null) {
-      // if (
-      //   !clickedCityArray.some(city => {
-      //     return city.cityId === data.Place_living.cityId;
-      //   })
-      // )
-      if (data.Place_living.cityId !== 0) {
-        clickedCityArray.push({
-          id: data.Place_living.id,
-          cityId: data.Place_living.cityId,
-          city: data.Place_living.city,
-          latitude: data.Place_living.city_latitude,
-          longitude: data.Place_living.city_longitude,
-          tripTiming: 2
-        });
-        liveCount++;
-      }
-    }
-    this.setState(
-      {
-        clickedCityArray,
-        tripTimingCounts: [pastCount, futureCount, liveCount]
-      },
-      () => this.handleLoadedMarkers(clickedCityArray)
-    );
-  }
-
   handleActiveTimings(timings) {
     this.setState({
       activeTimings: timings
-    });
-  }
-
-  showPopup() {
-    let activePopup = !this.state.activePopup;
-    this.setState({
-      activePopup
     });
   }
 
@@ -438,7 +239,6 @@ class CityMap extends Component {
         );
         this.setState({
           clickedCityArray,
-          activePopup: false,
           tripTimingCounts,
           markerPastDisplay,
           loading: 0
@@ -486,7 +286,6 @@ class CityMap extends Component {
         );
         this.setState({
           clickedCityArray,
-          activePopup: false,
           tripTimingCounts,
           markerFutureDisplay,
           loading: 0
@@ -528,7 +327,6 @@ class CityMap extends Component {
         );
         this.setState({
           clickedCityArray,
-          activePopup: false,
           tripTimingCounts,
           markerLiveDisplay,
           loading: 0
@@ -539,52 +337,6 @@ class CityMap extends Component {
     }
   }
 
-  _renderPopup() {
-    const {
-      cityTooltip,
-      placeVisitedId,
-      placeVisitingId,
-      placeLivingId
-    } = this.state;
-    let setMutation = null;
-    if (cityTooltip !== null) {
-      switch (cityTooltip.tripTiming) {
-        case 0:
-          setMutation = REMOVE_PLACE_VISITED;
-          break;
-        case 1:
-          setMutation = REMOVE_PLACE_VISITING;
-          break;
-        case 2:
-          setMutation = REMOVE_PLACE_LIVING;
-          break;
-        default:
-          break;
-      }
-    }
-    return (
-      cityTooltip && (
-        <Popup
-          className="city-map-tooltip"
-          tipSize={5}
-          anchor="top"
-          longitude={cityTooltip.longitude}
-          latitude={cityTooltip.latitude}
-          closeOnClick={false}
-          closeButton={false}
-        >
-          <NavLink
-            to={{
-              pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${cityTooltip.tripTiming}/${cityTooltip.id}/`
-            }}
-          >
-            {cityTooltip.city}
-          </NavLink>
-        </Popup>
-      )
-    );
-  }
-
   render() {
     const {
       viewport,
@@ -592,7 +344,6 @@ class CityMap extends Component {
       markerFutureDisplay,
       markerLiveDisplay,
       loading,
-      activePopup,
       clickedCity
     } = this.state;
     if (loading) return <Loader />;
@@ -631,7 +382,6 @@ class CityMap extends Component {
             {this.state.activeTimings[0] ? markerPastDisplay : null}
             {this.state.activeTimings[1] ? markerFutureDisplay : null}
             {this.state.activeTimings[2] ? markerLiveDisplay : null}
-            {this._renderPopup()}
           </MapGL>
         </div>
         <div className="city-map-scorecard">
@@ -641,29 +391,16 @@ class CityMap extends Component {
             sendActiveTimings={this.handleActiveTimings}
           />
         </div>
-        {activePopup ? (
-          <PopupPrompt
-            activePopup={activePopup}
-            showPopup={this.showPopup}
-            component={ClickedCityContainer}
-            componentProps={{
-              cityInfo: clickedCity,
-              handleTripTiming: this.handleTripTiming,
-              tripData: this.props.tripData,
-              refetch: this.props.refetch
-            }}
-          />
-        ) : null}
       </>
     );
   }
 }
 
-CityMap.propTypes = {
+NewUserCity.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func,
   refetch: PropTypes.func
 };
 
-export default CityMap;
+export default NewUserCity;
