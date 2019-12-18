@@ -5,11 +5,6 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 
-import {
-  REMOVE_PLACE_VISITING,
-  REMOVE_PLACE_VISITED,
-  REMOVE_PLACE_LIVING
-} from "../../../GraphQL";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
@@ -541,27 +536,8 @@ class CityMap extends Component {
 
   _renderPopup() {
     const {
-      cityTooltip,
-      placeVisitedId,
-      placeVisitingId,
-      placeLivingId
+      cityTooltip
     } = this.state;
-    let setMutation = null;
-    if (cityTooltip !== null) {
-      switch (cityTooltip.tripTiming) {
-        case 0:
-          setMutation = REMOVE_PLACE_VISITED;
-          break;
-        case 1:
-          setMutation = REMOVE_PLACE_VISITING;
-          break;
-        case 2:
-          setMutation = REMOVE_PLACE_LIVING;
-          break;
-        default:
-          break;
-      }
-    }
     return (
       cityTooltip && (
         <Popup

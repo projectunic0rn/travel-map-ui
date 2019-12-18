@@ -100,12 +100,12 @@ class NewUserCity extends Component {
   }
 
   handleGeocoderViewportChange(viewport) {
-    const geocoderDefaultOverrides = { transitionDuration: 1000 };
+    // const geocoderDefaultOverrides = { transitionDuration: 1000 };
 
-    return this.handleViewportChange({
-      ...viewport,
-      ...geocoderDefaultOverrides
-    });
+    // return this.handleViewportChange({
+    //   ...viewport,
+    //   ...geocoderDefaultOverrides
+    // });
   }
 
   handleMapMovement(newBounds) {
@@ -143,7 +143,6 @@ class NewUserCity extends Component {
       city_longitude: event.result.center[0],
       tripTiming: this.state.timingState
     };
-    console.log(newCityEntry)
 
     this.setState({
       markers: markers
@@ -171,7 +170,7 @@ class NewUserCity extends Component {
   handleTripTiming(city, timing) {
     this.setState(
       {
-        loading: true
+
       },
       () => this.handleTripTimingCityHelper(city, timing)
     );
@@ -179,9 +178,6 @@ class NewUserCity extends Component {
 
   handleTripTimingCityHelper(city, timing) {
     let { clickedCityArray, tripTimingCounts } = this.state;
-    city.tripTiming = timing;
-    city.latitude = city.city_latitude;
-    city.longitude = city.city_longitude;
     clickedCityArray.push({
       city: city.city,
       cityId: city.cityId,
@@ -199,18 +195,21 @@ class NewUserCity extends Component {
     switch (timing) {
       case 0:
         pastCount++;
+        this.handleActiveTimings([0, 0, 0]);
         tripTimingCounts[0] = pastCount;
         color = "rgba(203, 118, 120, 0.25)";
         markerPastDisplay.push(
           <Marker
-            key={city.id}
+            key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
+            offsetLeft={-5}
+            offsetTop={-10}
           >
             <svg
-              key={"svg" + city.id}
-              height={10}
-              width={10}
+              key={"svg" + city.cityId}
+              height={20}
+              width={20}
               viewBox="0 0 100 100"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -218,18 +217,18 @@ class NewUserCity extends Component {
                 onMouseOver={() =>
                   this.setState({
                     cityTooltip: city,
-                    placeVisitedId: city.id
+                    placeVisitedId: city.cityId
                   })
                 }
                 style={{ fill: color }}
-                key={"circle" + city.id}
+                key={"circle" + city.cityId}
                 cx="50"
                 cy="50"
                 r="50"
               />
               <circle
                 style={{ fill: "rgba(203, 118, 120, 1.0)" }}
-                key={"circle2" + city.id}
+                key={"circle2" + city.cityId}
                 cx="50"
                 cy="50"
                 r="20"
@@ -240,8 +239,9 @@ class NewUserCity extends Component {
         this.setState({
           clickedCityArray,
           tripTimingCounts,
-          markerPastDisplay,
-          loading: 0
+          markerPastDisplay
+        }, () => {
+            this.handleActiveTimings([1, 1, 1]);
         });
         break;
       case 1:
@@ -250,14 +250,14 @@ class NewUserCity extends Component {
         color = "rgba(115, 167, 195, 0.25)";
         markerFutureDisplay.push(
           <Marker
-            key={city.id}
+            key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
           >
             <svg
-              key={"svg" + city.id}
-              height={10}
-              width={10}
+              key={"svg" + city.cityId}
+              height={20}
+              width={20}
               viewBox="0 0 100 100"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -265,18 +265,18 @@ class NewUserCity extends Component {
                 onMouseOver={() =>
                   this.setState({
                     cityTooltip: city,
-                    placeVisitingId: city.id
+                    placeVisitingId: city.cityId
                   })
                 }
                 style={{ fill: color }}
-                key={"circle" + city.id}
+                key={"circle" + city.cityId}
                 cx="50"
                 cy="50"
                 r="50"
               />
               <circle
                 style={{ fill: "rgba(115, 167, 195, 1.0)" }}
-                key={"circle2" + city.id}
+                key={"circle2" + city.cityId}
                 cx="50"
                 cy="50"
                 r="20"
@@ -288,7 +288,7 @@ class NewUserCity extends Component {
           clickedCityArray,
           tripTimingCounts,
           markerFutureDisplay,
-          loading: 0
+          loading: false
         });
         break;
       case 2:
@@ -297,27 +297,27 @@ class NewUserCity extends Component {
         color = "rgba(150, 177, 168, 0.25)";
         markerLiveDisplay.push(
           <Marker
-            key={city.id}
+            key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
           >
             <svg
-              key={"svg" + city.id}
-              height={10}
-              width={10}
+              key={"svg" + city.cityId}
+              height={20}
+              width={20}
               viewBox="0 0 100 100"
               xmlns="http://www.w3.org/2000/svg"
             >
               <circle
                 style={{ fill: color }}
-                key={"circle" + city.id}
+                key={"circle" + city.cityId}
                 cx="50"
                 cy="50"
                 r="50"
               />
               <circle
                 style={{ fill: "rgba(150, 177, 168, 1.0)" }}
-                key={"circle2" + city.id}
+                key={"circle2" + city.cityId}
                 cx="50"
                 cy="50"
                 r="20"
@@ -329,7 +329,7 @@ class NewUserCity extends Component {
           clickedCityArray,
           tripTimingCounts,
           markerLiveDisplay,
-          loading: 0
+          loading: false
         });
         break;
       default:

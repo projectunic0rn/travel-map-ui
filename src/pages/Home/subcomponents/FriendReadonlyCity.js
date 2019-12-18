@@ -53,7 +53,6 @@ class FriendReadonlyCity extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.tripData);
     window.addEventListener("resize", this.resize);
     this.resize();
     this.handleLoadedCities(this.props.tripData);
