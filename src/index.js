@@ -3,8 +3,11 @@ import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import jwt_decode from "jwt-decode";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import App from "./App";
+import FriendReadonlyMap from "./pages/Home/FriendReadonlyMap";
+import NewUserMap from "./pages/Home/NewUserMap";
 import * as serviceWorker from "./serviceWorker";
 
 require("dotenv").config();
@@ -38,7 +41,7 @@ if (process.env.NODE_ENV === "production") {
 }
 const client = new ApolloClient({
   uri: clientUrl,
-  request: async (operation) => {
+  request: async operation => {
     {
       const token = await localStorage.getItem("token");
       operation.setContext({
@@ -52,7 +55,18 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App userAuthenticated={userAuthenticated} />
+    <Router>
+      <Switch>
+        <Route path="/new/" component={NewUserMap} />
+        <Route path="/public" component={FriendReadonlyMap} />
+        <Route
+          path="/"
+          render={props => (
+            <App {...props} userAuthenticated={userAuthenticated} />
+          )}
+        />
+      </Switch>
+    </Router>
   </ApolloProvider>,
   document.getElementById("root")
 );

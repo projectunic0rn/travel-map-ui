@@ -171,7 +171,11 @@ export default function Profile({ user, urlUsername, refetch }) {
                 urlUsername={urlUsername}
                 userData={userData}
                 city={
-                  user.Place_living !== null ? user.Place_living.city : "City"
+                  user.Place_living !== null
+                    ? user.Place_living.city !== null
+                      ? user.Place_living.city
+                      : "City"
+                    : "City"
                 }
                 country={
                   user.Place_living !== null
@@ -227,7 +231,12 @@ export default function Profile({ user, urlUsername, refetch }) {
                 )}
               />
               <Route
-               exact path={urlUsername ? `/profiles/${urlUsername}/friends` : '/profile/friends'}
+                exact
+                path={
+                  urlUsername
+                    ? `/profiles/${urlUsername}/friends`
+                    : "/profile/friends"
+                }
                 render={props => (
                   <Friends
                     {...props}

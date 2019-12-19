@@ -81,11 +81,11 @@ function FriendCard({ friend, currentFriend }) {
               {age ? ", " + age : null}
             </span>
             <span className="fc-user-location">
-              {friend.Place_living !== null
-                ? friend.Place_living.city +
+              {friend.Place_living !== null 
+                ? friend.Place_living.city !== "" ? friend.Place_living.city +
                   ", " +
                   friend.Place_living.countryISO
-                : "City, Country"}
+                : "City, " + friend.Place_living.countryISO : "City, Country"}
             </span>
           </div>
         </div>

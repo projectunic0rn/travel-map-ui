@@ -1,0 +1,76 @@
+.new-user-timing-control {
+  position: absolute;
+  top: 8px;
+  left: calc(50% - 300px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 600px;
+  height: 60px;
+  padding: 8px;
+  border-radius: 8px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 30px;
+  color: rgb(248, 248, 252);
+  select {
+    background: none;
+    border: none;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 30px;
+    color: rgb(248, 248, 252);
+    margin-left: 4px;
+    border-bottom: 1px solid rgb(248, 248, 252);
+    option {
+      background: #DEE2E6;
+      color: rgb(74, 89, 90);
+    }
+  }
+}
+
+.city-new-map-container {
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  left: 0;
+  .new-map-share {
+      display: flex;
+      fill: #A7E1FF;
+      position: absolute;
+      right: 40px;
+      top: 20px;
+      z-index: 2000;
+      cursor: pointer;
+      font-size: 24px;
+      color: rgb(200, 200, 200);
+      svg {
+          width: 30px;
+          margin-left: 16px;
+      }
+  }
+  .mapboxgl-control-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    .mapboxgl-ctrl-top-left {
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      min-width: 600px;
+      left: calc(50% - 310px) !important;
+      .mapboxgl-ctrl-geocoder {
+        top: 60px;
+        min-width: 600px;
+        box-shadow: 0 3px 6px 2px rgba(black, 0.15);
+        background: rgb(248, 248, 252);
+        input {
+            color: rgb(74, 89, 90) !important;
+          min-width: 560px;
+        }
+      }
+    }
+  }
+}
+
+.city-new-map-scorecard {
+  display: none;
+}

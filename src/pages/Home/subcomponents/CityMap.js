@@ -547,7 +547,9 @@ class CityMap extends Component {
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
-          closeButton={false}
+          closeButton={true}
+          onClose={() => this.setState({cityTooltip: null})}
+
         >
           <NavLink
             to={{
