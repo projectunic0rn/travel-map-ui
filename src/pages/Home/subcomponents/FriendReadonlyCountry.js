@@ -111,11 +111,6 @@ const FriendReadonlyCountry = props => {
       ) {
         liveCount++;
       }
-      // if (
-      //   !countryArray.some(city => {
-      //     return city.cityId === data.Place_living.cityId;
-      //   })
-      // ) {
       countryArray.push({
         id: data.Place_living.id,
         username: data.username,

@@ -22,7 +22,7 @@ function App({ userAuthenticated }) {
   const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
-
+console.log(userAuthenticated)
   const swalParams = {
     type: "info",
     text:

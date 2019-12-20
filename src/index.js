@@ -13,7 +13,6 @@ import * as serviceWorker from "./serviceWorker";
 require("dotenv").config();
 
 let userAuthenticated = false;
-
 // Check if the user is logged in
 if (localStorage.getItem("token")) {
   // Decode the token
@@ -52,7 +51,6 @@ const client = new ApolloClient({
     }
   }
 });
-
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
@@ -62,7 +60,10 @@ ReactDOM.render(
         <Route
           path="/"
           render={props => (
-            <App {...props} userAuthenticated={userAuthenticated} />
+            <App
+              {...props}
+              userAuthenticated={localStorage.getItem("token") !== null}
+            />
           )}
         />
       </Switch>
