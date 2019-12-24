@@ -173,7 +173,6 @@ class ClickedCountryCities extends Component {
   }
 
   handleOnResult(event) {
-    console.log(event.result.center);
     let cities = this.state.mapCities;
     let cityArrayElement = {
       city: event.result.text,
@@ -309,12 +308,10 @@ class ClickedCountryCities extends Component {
       case 2:
         mutationType = ADD_PLACE_LIVING;
         cities = mapCities[0];
-        console.log(cities);
         break;
       default:
         break;
     }
-    console.log(cities);
     return (
       <div className="city-choosing-container">
         <Mutation

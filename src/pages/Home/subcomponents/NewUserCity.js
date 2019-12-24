@@ -11,7 +11,8 @@ import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import NewUserMapSignup from './NewUserMapSignup';
+import NewUserMapSignup from "./NewUserMapSignup";
+import NewUserSuggestions from "./NewUserSuggestions";
 
 class NewUserCity extends Component {
   constructor(props) {
@@ -41,7 +42,8 @@ class NewUserCity extends Component {
       place_living: [],
       timingState: 0,
       deletePrompt: false,
-      activePopup: false
+      activePopup: false,
+      suggestPopup: true
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -52,6 +54,7 @@ class NewUserCity extends Component {
     this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
     this.handleActiveTimings = this.handleActiveTimings.bind(this);
     this.handleTypedCity = this.handleTypedCity.bind(this);
+    this.handleClickedCity = this.handleClickedCity.bind(this);
     this.handleTripTimingCityHelper = this.handleTripTimingCityHelper.bind(
       this
     );
@@ -61,6 +64,7 @@ class NewUserCity extends Component {
     this.handleLoadedMarkers = this.handleLoadedMarkers.bind(this);
     this.handleLoadedCities = this.handleLoadedCities.bind(this);
     this.showPopup = this.showPopup.bind(this);
+    this.showSuggest = this.showSuggest.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +74,7 @@ class NewUserCity extends Component {
     if (localStorage.clickedCityArray !== undefined) {
       var getObject = JSON.parse(localStorage.getItem("clickedCityArray"));
       this.handleLoadedCities(getObject);
+      console.log(getObject);
     }
     setInterval(() => {
       localStorage.setItem(
@@ -433,6 +438,21 @@ class NewUserCity extends Component {
     this.handleTripTimingCityHelper(newCityEntry, this.state.timingState);
   }
 
+  handleClickedCity(newCity) {
+    console.log(newCity);
+    if (
+      this.state.clickedCityArray.some(
+        city =>
+          city.cityId === newCity.cityId &&
+          city.tripTiming === this.state.timingState
+      )
+    ) {
+      return;
+    } else {
+      this.handleTripTimingCityHelper(newCity, this.state.timingState);
+    }
+  }
+
   evalLiveClick(newCity, event) {
     let liveCityIndex;
     let liveCity = this.state.clickedCityArray.filter((city, index) => {
@@ -707,6 +727,13 @@ class NewUserCity extends Component {
     });
   }
 
+  showSuggest() {
+    let suggestPopup = !this.state.suggestPopup;
+    this.setState({
+      suggestPopup
+    });
+  }
+
   render() {
     const {
       viewport,
@@ -716,8 +743,10 @@ class NewUserCity extends Component {
       loading,
       clickedCityArray,
       deletePrompt,
-      activePopup
+      activePopup,
+      suggestPopup
     } = this.state;
+    console.log(this.state.clickedCityArray);
     if (loading) return <Loader />;
     return (
       <>
@@ -751,6 +780,12 @@ class NewUserCity extends Component {
             <span className="new-map-share">
               Share map
               <span onClick={this.showPopup}>
+                <ShareIcon />
+              </span>
+            </span>
+            <span className="new-map-suggest">
+              Suggestions
+              <span onClick={this.showSuggest}>
                 <ShareIcon />
               </span>
             </span>
@@ -804,6 +839,17 @@ class NewUserCity extends Component {
               clickedCityArray: clickedCityArray
             }}
           />
+        ) : suggestPopup ? (
+          <div className="city-suggestions-prompt">
+            <PopupPrompt
+              activePopup={suggestPopup}
+              showPopup={this.showSuggest}
+              component={NewUserSuggestions}
+              componentProps={{
+                handleClickedCity: this.handleClickedCity
+              }}
+            />
+          </div>
         ) : null}
       </>
     );

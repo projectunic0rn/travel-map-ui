@@ -47,6 +47,21 @@
       margin-left: 16px;
     }
   }
+  .new-map-suggest {
+    display: flex;
+    fill: #a7e1ff;
+    position: absolute;
+    right: 40px;
+    top: 140px;
+    z-index: 2000;
+    cursor: pointer;
+    font-size: 24px;
+    color: rgb(200, 200, 200);
+    svg {
+      width: 30px;
+      margin-left: 16px;
+    }
+  }
   .new-map-clear {
     display: flex;
     fill: #a7e1ff;
