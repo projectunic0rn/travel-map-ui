@@ -2,6 +2,7 @@
   background: none;
   box-shadow: none;
   .suggested-cities-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,6 +11,24 @@
     max-height: 600px;
     background: none;
     margin: 0;
+    .sc-instructions {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      color: #E9ECEE;
+      font-size: 32px;
+      top: -80px;
+      text-align: center;
+    }
+    .sc-lower-instructions {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      color: #E9ECEE;
+      font-size: 28px;
+      bottom: -10px;
+      text-align: center;
+    }
     .suggested-cities-nav {
       display: flex;
       align-items: center;

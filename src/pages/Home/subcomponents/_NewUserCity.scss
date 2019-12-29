@@ -32,57 +32,65 @@
   display: flex;
   width: 100vw;
   left: 0;
+  .sc-controls {
+    background: #dee2e6;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    right: 40px;
+    top: 20px;
+    height: 200px;
+    width: 80px;
+    z-index: 2000;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  }
   .new-map-share {
     display: flex;
-    fill: #a7e1ff;
-    position: absolute;
-    right: 40px;
-    top: 30px;
-    z-index: 2000;
+    fill: #92bad0;
+    z-index: 1000;
     cursor: pointer;
     font-size: 24px;
     color: rgb(200, 200, 200);
     svg {
       width: 30px;
-      margin-left: 16px;
+    }
+    &:hover {
+      fill: #528fb1;
     }
   }
   .new-map-suggest {
     display: flex;
-    fill: #a7e1ff;
-    position: absolute;
-    right: 40px;
-    top: 140px;
-    z-index: 2000;
+    fill: #92bad0;
+    z-index: 1000;
     cursor: pointer;
     font-size: 24px;
     color: rgb(200, 200, 200);
     svg {
       width: 30px;
-      margin-left: 16px;
+    }
+    &:hover {
+      fill: #528fb1;
     }
   }
   .new-map-clear {
     display: flex;
-    fill: #a7e1ff;
-    position: absolute;
-    right: 34px;
-    top: 80px;
     z-index: 2000;
     font-size: 24px;
     color: rgb(200, 200, 200);
     .clear-map-button {
       position: relative;
-      margin-left: 16px;
       width: 40px;
       height: 40px;
       border: none;
-      background: #a7e1ff;
-      border: 1px solid #528fb1;
+      background: #92bad0;
+      border: 1px solid #92bad0;
       border-radius: 50%;
       cursor: pointer;
       &:hover {
-        background: #c2d7e5;
+        background: #528fb1;
       }
       &:before,
       &:after {
@@ -92,7 +100,7 @@
         content: " ";
         height: 21px;
         width: 4px;
-        background-color: #528fb1;
+        background-color: #dee2e6;
       }
       &:before {
         transform: rotate(45deg);

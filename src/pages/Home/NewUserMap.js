@@ -5,11 +5,13 @@ import NewUserCity from "./subcomponents/NewUserCity";
 import Loader from "../../components/common/Loader/Loader";
 
 const NewUserMap = () => {
-  const [clickedCountryArray, addCountry] = useState([]);
+  const [clickedCountryArray] = useState([]);
   const [tripData, handleTripData] = useState([]);
-  const [loaded, handleLoaded] = useState(true);
+  const [loaded] = useState(true);
   const [mapPage, handleMapPageChange] = useState(1);
-
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
   function deleteCity(cityId, timing) {
     let cityIndex = null;
     let tripDataType = null;
@@ -47,17 +49,10 @@ const NewUserMap = () => {
   return (
     <div className="map-container">
       <div className={mapPage ? "map city-map" : "map country-map"}>
-        {mapPage ? (
-          <NewUserCity
-            handleMapTypeChange={() => handleMapPageChange(0)}
-            deleteCity={deleteCity}
-          />
-        ) : (
-          <NewUserCountry
-            clickedCountryArray={clickedCountryArray}
-            handleMapTypeChange={() => handleMapPageChange(1)}
-          />
-        )}
+        <NewUserCity
+          handleMapTypeChange={() => handleMapPageChange(0)}
+          deleteCity={deleteCity}
+        />
       </div>
     </div>
   );

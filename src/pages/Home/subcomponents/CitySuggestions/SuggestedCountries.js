@@ -2,14 +2,27 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { CountryInfo } from "../../../../CountryInfo";
 
-export default function SuggestedCountries({ contArray, countryArray, handleCountries }) {
+export default function SuggestedCountries({
+  contArray,
+  countryArray,
+  handleCountries
+}) {
   const [filteredCountryArray, handleFilteredCountryArray] = useState([]);
-  const [confirmedCountryArray, handleConfirmedCountryArray] = useState(countryArray);
+  const [confirmedCountryArray, handleConfirmedCountryArray] = useState(
+    countryArray
+  );
   useEffect(() => {
     let filteredCountries = CountryInfo.filter(country =>
       contArray.includes(country.properties.continent)
     );
     handleFilteredCountryArray(filteredCountries);
+  }, [contArray]);
+  useEffect(() => {
+    let newArray = countryArray.filter(country => {
+        return contArray.includes(country.properties.continent)
+    });
+    handleConfirmedCountryArray(newArray)
+    handleCountries(newArray);
   }, [contArray]);
   function handleCountryClick(country) {
     let newConfirmedCountryArray = [...confirmedCountryArray];
@@ -40,8 +53,17 @@ export default function SuggestedCountries({ contArray, countryArray, handleCoun
       </span>
     );
   });
-  console.log(countryDisplay.length)
-  return <div className="sc-continents">{countryDisplay.length < 1 ? <span className = 'sc-choice-empty'>Select continents you have been to!</span> : countryDisplay}</div>;
+  return (
+    <div className="sc-continents">
+      {countryDisplay.length < 1 ? (
+        <span className="sc-choice-empty">
+          Select continents you have been to!
+        </span>
+      ) : (
+        countryDisplay
+      )}
+    </div>
+  );
 }
 
 SuggestedCountries.propTypes = {

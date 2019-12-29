@@ -113,7 +113,7 @@ class SignupForm extends Component {
           )}
         </ValidationMutation>
         <span className="form-switch">
-          I already have an account.{" "}
+          I already have an account.
           <span onClick={handleFormSwitch}>Login</span>
         </span>
       </form>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink, withRouter } from "react-router-dom";
 import { Query } from "react-apollo";
 import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
 import FriendReadonlyCountry from "./subcomponents/FriendReadonlyCountry";
@@ -70,6 +71,7 @@ const FriendReadonlyMap = () => {
   if (window.location.pathname.split("/")[2] === undefined) {
     return <PageNotFound />;
   }
+  console.log(tripData);
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
@@ -86,6 +88,11 @@ const FriendReadonlyMap = () => {
         if (!loaded) return <Loader />;
         return (
           <div className="map-container">
+            <div className="map-header-cta">
+              <NavLink to={`/new`}>
+                <button>CREATE MY MAP</button>
+              </NavLink>
+            </div>
             <div className={cityOrCountry ? "map city-map" : "map country-map"}>
               {cityOrCountry ? (
                 <FriendReadonlyCity
@@ -108,4 +115,4 @@ const FriendReadonlyMap = () => {
   );
 };
 
-export default FriendReadonlyMap;
+export default withRouter(FriendReadonlyMap);

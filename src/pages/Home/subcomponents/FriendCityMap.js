@@ -59,8 +59,9 @@ class FriendCityMap extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
+    let tripData = this.props.tripData;
     this.resize();
-    this.handleLoadedCities(this.props.tripData);
+    this.handleLoadedCities(tripData);
   }
 
   componentWillUnmount() {

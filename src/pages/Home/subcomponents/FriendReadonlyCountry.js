@@ -352,7 +352,7 @@ const FriendReadonlyCountry = props => {
 FriendReadonlyCountry.propTypes = {
   handleClickedCountry: PropTypes.func,
   clickedCountryArray: PropTypes.array,
-  tripData: PropTypes.array,
+  tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
   refetch: PropTypes.func
 };

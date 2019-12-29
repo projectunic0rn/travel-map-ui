@@ -10,6 +10,7 @@ import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
 import TrashIcon from "../../../icons/TrashIcon";
+import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserMapSignup from "./NewUserMapSignup";
 import NewUserSuggestions from "./NewUserSuggestions";
@@ -43,7 +44,9 @@ class NewUserCity extends Component {
       timingState: 0,
       deletePrompt: false,
       activePopup: false,
-      suggestPopup: true
+      suggestPopup: false,
+      suggestedCountryArray: [],
+      suggestedContinentArray: []
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -65,6 +68,8 @@ class NewUserCity extends Component {
     this.handleLoadedCities = this.handleLoadedCities.bind(this);
     this.showPopup = this.showPopup.bind(this);
     this.showSuggest = this.showSuggest.bind(this);
+    this.handleContinents = this.handleContinents.bind(this);
+    this.handleCountries = this.handleCountries.bind(this);
   }
 
   componentDidMount() {
@@ -74,7 +79,6 @@ class NewUserCity extends Component {
     if (localStorage.clickedCityArray !== undefined) {
       var getObject = JSON.parse(localStorage.getItem("clickedCityArray"));
       this.handleLoadedCities(getObject);
-      console.log(getObject);
     }
     setInterval(() => {
       localStorage.setItem(
@@ -179,7 +183,8 @@ class NewUserCity extends Component {
       markerPastDisplay: [],
       markerFutureDisplay: [],
       markerLiveDisplay: [],
-      deletePrompt: false
+      deletePrompt: false,
+      tripTimingCounts: [0, 0, 0]
     });
   }
 
@@ -387,13 +392,19 @@ class NewUserCity extends Component {
   }
 
   handleOnResult(event) {
+    console.log(event);
     let markers = this.state.markers;
     markers.push(event);
-    let country;
-    let countryISO;
-    let context;
+    let country = "";
+    let countryISO = "";
+    let context = 0;
     let cityId;
     for (let i in event.result.context) {
+      context = 0;
+      if (event.result.context.length === 1) {
+        countryISO = event.result.context[0].short_code.toUpperCase();
+        country = event.result.context[0]["text_en-US"];
+      }
       if (event.result.context[i].id.slice(0, 7) === "country") {
         context = i;
         country = event.result.context[i]["text_en-US"];
@@ -420,10 +431,19 @@ class NewUserCity extends Component {
     ) {
       return;
     }
+    console.log(event.result);
+    console.log(context);
     let newCityEntry = {
-      country,
-      countryId: parseInt(event.result.context[context].id.slice(8, 14)),
-      countryISO,
+      country:
+        event.result.context !== undefined ? country : event.result.place_name,
+      countryId:
+        event.result.context !== undefined
+          ? parseInt(event.result.context[context].id.slice(8, 14))
+          : parseInt(event.result.id.slice(7, 13)),
+      countryISO:
+        event.result.context !== undefined
+          ? countryISO
+          : event.result.properties.short_code.toUpperCase(),
       city: event.result.text,
       cityId,
       city_latitude: event.result.center[1],
@@ -734,6 +754,18 @@ class NewUserCity extends Component {
     });
   }
 
+  handleContinents(contArray) {
+    this.setState({
+      suggestedContinentArray: contArray
+    });
+  }
+
+  handleCountries(countryArray) {
+    this.setState({
+      suggestedCountryArray: countryArray
+    });
+  }
+
   render() {
     const {
       viewport,
@@ -746,49 +778,49 @@ class NewUserCity extends Component {
       activePopup,
       suggestPopup
     } = this.state;
-    console.log(this.state.clickedCityArray);
     if (loading) return <Loader />;
     return (
       <>
         <div className="city-new-map-container">
           <div className="map-header-button">
-            <span className="new-map-clear">
-              Clear map
-              <button
-                onClick={() => this.setState({ deletePrompt: true })}
-                className="clear-map-button"
-              ></button>
-              <div
-                className={
-                  deletePrompt ? "delete-prompt" : "delete-prompt-hide"
-                }
-              >
-                Are you sure you wish to delete all cities?
-                <span>
-                  <button className="button confirm" onClick={this.deleteAll}>
-                    Yes
-                  </button>
-                  <button
-                    className="button deny"
-                    onClick={() => this.setState({ deletePrompt: false })}
-                  >
-                    No
-                  </button>
+            <div className="sc-controls">
+              <span className="new-map-clear">
+                <button
+                  onClick={() => this.setState({ deletePrompt: true })}
+                  className="clear-map-button"
+                ></button>
+                <div
+                  className={
+                    deletePrompt ? "delete-prompt" : "delete-prompt-hide"
+                  }
+                >
+                  Are you sure you wish to delete all cities?
+                  <span>
+                    <button className="button confirm" onClick={this.deleteAll}>
+                      Yes
+                    </button>
+                    <button
+                      className="button deny"
+                      onClick={() => this.setState({ deletePrompt: false })}
+                    >
+                      No
+                    </button>
+                  </span>
+                </div>
+              </span>
+              {this.state.timingState !== 2 ? (
+                <span className="new-map-suggest">
+                  <span onClick={this.showSuggest}>
+                    <SuggestionsIcon />
+                  </span>
                 </span>
-              </div>
-            </span>
-            <span className="new-map-share">
-              Share map
-              <span onClick={this.showPopup}>
-                <ShareIcon />
+              ) : null}
+              <span className="new-map-share">
+                <span onClick={this.showPopup}>
+                  <ShareIcon />
+                </span>
               </span>
-            </span>
-            <span className="new-map-suggest">
-              Suggestions
-              <span onClick={this.showSuggest}>
-                <ShareIcon />
-              </span>
-            </span>
+            </div>
           </div>
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
@@ -846,7 +878,12 @@ class NewUserCity extends Component {
               showPopup={this.showSuggest}
               component={NewUserSuggestions}
               componentProps={{
-                handleClickedCity: this.handleClickedCity
+                suggestedContinents: this.state.suggestedContinentArray,
+                suggestedCountries: this.state.suggestedCountryArray,
+                handleContinents: this.handleContinents,
+                handleCountries: this.handleCountries,
+                handleClickedCity: this.handleClickedCity,
+                timing: this.state.timingState
               }}
             />
           </div>

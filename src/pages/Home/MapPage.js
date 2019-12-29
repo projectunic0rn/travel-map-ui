@@ -1,13 +1,43 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useMutation } from "@apollo/react-hooks";
+import { ADD_MULTIPLE_PLACES } from "../../GraphQL";
+
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
 
-const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
+const MapPage = ({
+  mapPage,
+  refetch,
+  user,
+  handleMapPageChange,
+  clickedCityArray
+}) => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [loaded, handleLoaded] = useState(false);
+  const [addMultiplePlaces, { data, loading, error }] = useMutation(
+    ADD_MULTIPLE_PLACES,
+    {
+      onCompleted(data) {
+        localStorage.removeItem("clickedCityArray");
+        refetch();
+      }
+    }
+  );
+  console.log(user);
+  useEffect(() => {
+    if (
+      clickedCityArray !== null &&
+      localStorage.getItem("clickedCityArray") !== null &&
+      user.Place_living === null &&
+      user.Places_visited.length < 1 &&
+      user.Places_visiting.length < 1
+    ) {
+      addMultiplePlaces({ variables: { clickedCityArray } });
+    }
+  }, []);
 
   useEffect(() => {
     handleTripData(user);
@@ -18,7 +48,7 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
       if (userData != null && userData.Places_visited.length !== 0) {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
-            !countryArray.some((country) => {
+            !countryArray.some(country => {
               return (
                 country.countryId === userData.Places_visited[i].countryId &&
                 country.tripTiming === 0
@@ -35,7 +65,7 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
       if (userData != null && userData.Places_visiting.length !== 0) {
         for (let i = 0; i < userData.Places_visiting.length; i++) {
           if (
-            !countryArray.some((country) => {
+            !countryArray.some(country => {
               return (
                 country.countryId === userData.Places_visiting[i].countryId &&
                 country.tripTiming === 1
@@ -51,7 +81,7 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
       }
       if (userData != null && userData.Place_living !== null) {
         if (
-          !countryArray.some((country) => {
+          !countryArray.some(country => {
             return (
               country.countryId === userData.Place_living.countryId &&
               country.tripTiming === 2
@@ -133,7 +163,8 @@ MapPage.propTypes = {
   user: PropTypes.object,
   refetch: PropTypes.func,
   mapPage: PropTypes.number,
-  handleMapPageChange: PropTypes.func
+  handleMapPageChange: PropTypes.func,
+  clickedCityArray: PropTypes.array
 };
 
 export default MapPage;

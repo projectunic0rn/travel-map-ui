@@ -5,8 +5,10 @@ import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
+import ReadonlySignupPrompt from "../../../components/Prompts/ReadonlySignupPrompt";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
+
 import Loader from "../../../components/common/Loader/Loader";
 
 class FriendReadonlyCity extends Component {
@@ -54,8 +56,16 @@ class FriendReadonlyCity extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
+    let tripData = this.props.tripData;
     this.resize();
-    this.handleLoadedCities(this.props.tripData);
+    this.handleLoadedCities(tripData);
+    let clickedCityArray = tripData.Places_visited.concat(
+      tripData.Places_visiting
+    ).concat(tripData.Place_living);
+    localStorage.setItem(
+      "friendClickedCityArray",
+      JSON.stringify(clickedCityArray)
+    );
   }
 
   componentWillUnmount() {
@@ -314,7 +324,11 @@ class FriendReadonlyCity extends Component {
         }
       }
     }
-    if (data != null && data.Place_living !== null) {
+    if (
+      data != null &&
+      data.Place_living !== null &&
+      data.Place_living.cityId !== 0
+    ) {
       clickedCityArray.push({
         id: data.Place_living.id,
         username: data.username,
@@ -331,7 +345,6 @@ class FriendReadonlyCity extends Component {
         color: data.color
       });
       liveCount++;
-      // }
     }
 
     this.setState(
@@ -409,6 +422,7 @@ class FriendReadonlyCity extends Component {
       <>
         <div
           className="map-header-container"
+          id="map-header-readonly"
           style={{ position: "absolute", left: "calc(50% - 500px)" }}
         >
           <div className="map-header-button">
@@ -417,9 +431,6 @@ class FriendReadonlyCity extends Component {
             </button>
           </div>
           <div className="map-header-filler" />
-          <div className="map-header-cta">
-            <button>Create your own map</button>
-          </div>
         </div>
         <div className="city-map-container">
           <MapGL
@@ -460,6 +471,7 @@ class FriendReadonlyCity extends Component {
             activePopup={activePopup}
             showPopup={this.showPopup}
             component={
+              localStorage.token === undefined ? ReadonlySignupPrompt : 
               this.state.hoveredCityArray.length < 1
                 ? FriendClickedCityBlank
                 : FriendClickedCityContainer
@@ -476,7 +488,7 @@ class FriendReadonlyCity extends Component {
 }
 
 FriendReadonlyCity.propTypes = {
-  tripData: PropTypes.array,
+  tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func
 };
 

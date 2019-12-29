@@ -1,19 +1,23 @@
 export const CountryInfo = [
   {
-    type: "Polygon",
-    arcs: [[0]],
     id: 10,
     properties: {
       name: "Aruba",
       ISO2: "AW",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Oranjestad"
+      capital: "Oranjestad",
+      cities: [
+        {
+          city: "Oranjestad",
+          cityId: 131243,
+          city_latitude: 12.51667,
+          city_longitude: -70.03333
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[1, 2, 3, 4, 5, 6]],
     id: 165632,
     properties: {
       name: "Afghanistan",
@@ -24,8 +28,6 @@ export const CountryInfo = [
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[7, 8, 9, 10]], [[11, 12, 13]]],
     id: 158878,
     properties: {
       name: "Angola",
@@ -36,8 +38,6 @@ export const CountryInfo = [
     }
   },
   {
-    type: "Polygon",
-    arcs: [[14]],
     id: 501,
     properties: {
       name: "Anguilla",
@@ -45,195 +45,173 @@ export const CountryInfo = [
     }
   },
   {
-    type: "Polygon",
-    arcs: [[15, 16, 17, 18, 19]],
     id: 118434,
     properties: {
       name: "Albania",
       ISO2: "AL",
       continent: "Europe",
       color: "#1f77b4",
-      capital: "Tirana"
+      capital: "Tirana",
+      cities: [
+        {
+          city: "Tirana",
+          cityId: 19689,
+          city_latitude: 41.33,
+          city_longitude: 19.82
+        },
+        {
+          city: "Durrës",
+          cityId: 83285,
+          city_latitude: 41.32417,
+          city_longitude: 19.45583
+        },
+        {
+          city: "Sarandë",
+          cityId: 193226,
+          city_latitude: 39.88333,
+          city_longitude: 20.01667
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[20]], [[21]], [[22]]],
-    id: 502,
+    id: 696512,
     properties: {
       name: "Åland Islands",
-      color: "#1f77b4"
+      color: "#1f77b4",
+      ISO2: "AX",
+      continent: "Europe",
+      cities: [
+        {
+          city: "Finström",
+          cityId: 51914,
+          city_latitude: 60.22917,
+          city_longitude: 19.98889
+        },
+        {
+          city: "Jomala",
+          cityId: 176178,
+          city_latitude: 60.15,
+          city_longitude: 19.95
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[23, 24]],
     id: 127952,
     properties: {
       name: "Andorra",
       ISO2: "AD",
       color: "#1f77b4",
       capital: "Andorra la Vella",
-      continent: "Europe"
+      continent: "Europe",
+      cities: [
+        {
+          city: "Andorra la Vella",
+          cityId: 1863,
+          city_latitude: 42.5,
+          city_longitude: 1.5
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[25]], [[26]], [[27]], [[28]], [[29, 30, 31, 32, 33], [34]]],
     id: 121034,
     properties: {
       name: "United Arab Emirates",
       ISO2: "AE",
       continent: "Asia",
       color: "#1f77b4",
-      capital: "Abu Dhabi"
+      capital: "Abu Dhabi",
+      cities: [
+        {
+          city: "Dubai",
+          cityId: 612,
+          city_latitude: 25.2684,
+          city_longitude: 55.2962
+        },
+        {
+          city: "Abu Dhabi",
+          cityId: 1519,
+          city_latitude: 24.4748,
+          city_longitude: 54.3706
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[35]], [[36, 37]], [[38]], [[39, 40, 41, 42, 43, 44]]],
     id: 101928,
     properties: {
       name: "Argentina",
       ISO2: "AR",
       color: "#1f77b4",
       continent: "SouthAmerica",
-      capital: "Buenos Aires"
+      capital: "Buenos Aires",
+      cities: [
+        {
+          city: "Buenos Aires",
+          cityId: 1486,
+          city_latitude: -34.59972,
+          city_longitude: -58.38194
+        },
+        {
+          city: "Córdoba",
+          cityId: 44210,
+          city_latitude: -31.41667,
+          city_longitude: -64.18333
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[45]], [[46, 47, 48, 49, 50], [51]]],
     id: 816505,
     properties: {
       name: "Armenia",
       ISO2: "AM",
       continent: "Europe",
       color: "#1f77b4",
-      capital: "Yerevan"
+      capital: "Yerevan",
+      cities: [
+        {
+          city: "Yerevan",
+          cityId: 1953,
+          city_latitude: 40.18333,
+          city_longitude: 44.51667
+        },
+        {
+          city: "Gyumri",
+          cityId: 199500,
+          city_latitude: 40.783135,
+          city_longitude: 43.839368
+        },
+        {
+          city: "Vagharshapat",
+          cityId: 541780,
+          city_latitude: 40.1626138308903,
+          city_longitude: 44.2924288194627
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[52]],
     id: 4,
     properties: {
       name: "American Samoa",
+      ISO2: "AS",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Pago Pago"
+      capital: "Pago Pago",
+      cities: [
+        {
+          city: "Pago Pago",
+          cityId: 51678,
+          city_latitude: -14.2807,
+          city_longitude: -170.686
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[53]],
-      [[54]],
-      [[55]],
-      [[56]],
-      [[57]],
-      [[58]],
-      [[59]],
-      [[60]],
-      [[61]],
-      [[62]],
-      [[63]],
-      [[64]],
-      [[65]],
-      [[66]],
-      [[67]],
-      [[68]],
-      [[69]],
-      [[70]],
-      [[71]],
-      [[72]],
-      [[73]],
-      [[74]],
-      [[75]],
-      [[76]],
-      [[77]],
-      [[78]],
-      [[79]],
-      [[80]],
-      [[81]],
-      [[82]],
-      [[83]],
-      [[84]],
-      [[85]],
-      [[86]],
-      [[87]],
-      [[88]],
-      [[89]],
-      [[90]],
-      [[91]],
-      [[92]],
-      [[93]],
-      [[94]],
-      [[95]],
-      [[96]],
-      [[97]],
-      [[98]],
-      [[99]],
-      [[100]],
-      [[101]],
-      [[102]],
-      [[103]],
-      [[104]],
-      [[105]],
-      [[106]],
-      [[107]],
-      [[108]],
-      [[109]],
-      [[110]],
-      [[111]],
-      [[112]],
-      [[113]],
-      [[114]],
-      [[115]],
-      [[116]],
-      [[117]],
-      [[118]],
-      [[119]],
-      [[120]],
-      [[121]],
-      [[122]],
-      [[123]],
-      [[124]],
-      [[125]],
-      [[126]],
-      [[127]],
-      [[128]],
-      [[129]],
-      [[130]],
-      [[131]],
-      [[132]],
-      [[133]],
-      [[134]],
-      [[135]],
-      [[136]],
-      [[137]],
-      [[138]],
-      [[139]],
-      [[140]],
-      [[141]],
-      [[142]],
-      [[143]],
-      [[144]],
-      [[145]],
-      [[146]],
-      [[147]],
-      [[148]],
-      [[149]],
-      [[150]],
-      [[151]],
-      [[152]],
-      [[153]],
-      [[154]],
-      [[155]],
-      [[156]],
-      [[157]],
-      [[158]]
-    ],
     id: 503,
     properties: {
       name: "Antarctica",
@@ -242,8 +220,6 @@ export const CountryInfo = [
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[159]], [[160]], [[161]]],
     id: 504,
     properties: {
       name: "French Southern Territories",
@@ -251,96 +227,114 @@ export const CountryInfo = [
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[162]], [[163]]],
     id: 110116,
     properties: {
       name: "Antigua and Barbuda",
       ISO2: "AG",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Saint John's"
+      capital: "Saint John's",
+      cities: [
+        {
+          city: "St. John's",
+          cityId: 36262,
+          city_latitude: 17.124304,
+          city_longitude: -61.848624
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[164]],
-      [[165]],
-      [[166]],
-      [[167]],
-      [[168]],
-      [[169]],
-      [[170]],
-      [[171]],
-      [[172]],
-      [[173]],
-      [[174]],
-      [[175]],
-      [[176]],
-      [[177]],
-      [[178]],
-      [[179]],
-      [[180]],
-      [[181]],
-      [[182]],
-      [[183]],
-      [[184]],
-      [[185]],
-      [[186]],
-      [[187]],
-      [[188]],
-      [[189]],
-      [[190]],
-      [[191]],
-      [[192]],
-      [[193]],
-      [[194]],
-      [[195]],
-      [[196]],
-      [[197]],
-      [[198]],
-      [[199]],
-      [[200]],
-      [[201]],
-      [[202]]
-    ],
     id: 305068,
     properties: {
       name: "Australia",
       ISO2: "AU",
       color: "#1f77b4",
-      continent: "Australia",
-      capital: "Canberra"
+      continent: "Oceania",
+      capital: "Canberra",
+      cities: [
+        {
+          city: "Sydney",
+          cityId: 3130,
+          city_latitude: -33.868,
+          city_longitude: 151.21
+        },
+        {
+          city: "Melbourne",
+          cityId: 3141,
+          city_latitude: -37.8142,
+          city_longitude: 144.9632
+        },
+        {
+          city: "Brisbane",
+          cityId: 34932,
+          city_latitude: -27.469,
+          city_longitude: 153.0235
+        },
+        {
+          city: "Perth",
+          cityId: 3183,
+          city_latitude: -31.9527,
+          city_longitude: 115.8605
+        },
+        {
+          city: "Gold Coast",
+          cityId: 140075,
+          city_latitude: -28.0024,
+          city_longitude: 153.4146
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[203, 204, 205, 206, 207, 208, 209, 210, 211]],
     id: 906629,
     properties: {
       name: "Austria",
       ISO2: "AT",
       color: "#1f77b4",
       continent: "Europe",
-      capital: "Vienna"
+      capital: "Vienna",
+      cities: [
+        {
+          city: "Vienna",
+          cityId: 1741,
+          city_latitude: 48.20833,
+          city_longitude: 16.37306
+        },
+        {
+          city: "Innsbruck",
+          cityId: 1735,
+          city_latitude: 47.26667,
+          city_longitude: 11.38333
+        },
+        {
+          city: "Hallstatt",
+          cityId: 131633,
+          city_latitude: 47.55583,
+          city_longitude: 13.64667
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[212, 213, -48]], [[214]], [[215, -51, 216, 217, 218], [219]]],
     id: 726141,
     properties: {
       name: "Azerbaijan",
       ISO2: "AZ",
       continent: "Asia",
       color: "#aec7e8",
-      capital: "Baku"
+      capital: "Baku",
+      cities: [
+        {
+          city: "Baku",
+          cityId: 9248,
+          city_latitude: 40.36666,
+          city_longitude: 49.83518
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[220, 221, 222]],
     id: 512617,
     properties: {
       name: "Burundi",
@@ -351,20 +345,36 @@ export const CountryInfo = [
     }
   },
   {
-    type: "Polygon",
-    arcs: [[223, 224, 225, 226, 227, 228, 229]],
     id: 213630,
     properties: {
       name: "Belgium",
       ISO2: "BE",
       color: "#1f77b4",
       continent: "Europe",
-      capital: "Brussels"
+      capital: "Brussels",
+      cities: [
+        {
+          city: "Brussels",
+          cityId: 239,
+          city_latitude: 50.8467,
+          city_longitude: 4.3547
+        },
+        {
+          city: "Antwerp",
+          cityId: 1847918,
+          city_latitude: 51.2206,
+          city_longitude: 4.3997
+        },
+        {
+          city: "Bruges",
+          cityId: 12994,
+          city_latitude: 51.20944,
+          city_longitude: 3.22
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[230, 231, 232, 233, 234]],
     id: 119718,
     properties: {
       name: "Benin",
@@ -375,8 +385,6 @@ export const CountryInfo = [
     }
   },
   {
-    type: "Polygon",
-    arcs: [[-232, 235, 236, 237, 238, 239]],
     id: 254067,
     properties: {
       name: "Burkina Faso",
@@ -387,16 +395,6 @@ export const CountryInfo = [
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[240]],
-      [[241]],
-      [[242]],
-      [[243]],
-      [[244]],
-      [[245]],
-      [[246, 247, 248]]
-    ],
     id: 887043,
     properties: {
       name: "Bangladesh",
@@ -407,71 +405,102 @@ export const CountryInfo = [
     }
   },
   {
-    type: "Polygon",
-    arcs: [[249, 250, 251, 252, 253, 254]],
     id: 630815,
     properties: {
       name: "Bulgaria",
       ISO2: "BG",
       continent: "Europe",
       color: "#1f77b4",
-      capital: "Sofia"
+      capital: "Sofia",
+      cities: [
+        {
+          city: "Sofia",
+          cityId: 472,
+          city_latitude: 42.7,
+          city_longitude: 23.33333
+        },
+        {
+          city: "Burgas",
+          cityId: 6509,
+          city_latitude: 42.5,
+          city_longitude: 27.46667
+        },
+        {
+          city: "Veliko Tarnovo",
+          cityId: 173474,
+          city_latitude: 43.08222,
+          city_longitude: 25.63167
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[255]],
     id: 558174,
     properties: {
       name: "Bahrain",
       ISO2: "BH",
       color: "#1f77b4",
       continent: "Asia",
-      capital: "Manama"
+      capital: "Manama",
+      cities: [
+        {
+          city: "Manama",
+          cityId: 3882,
+          city_latitude: 26.21667,
+          city_longitude: 50.58306
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[256]],
-      [[257]],
-      [[258]],
-      [[259]],
-      [[260]],
-      [[261]],
-      [[262]],
-      [[263]],
-      [[264]],
-      [[265]],
-      [[266]],
-      [[267]],
-      [[268]],
-      [[269]],
-      [[270]]
-    ],
     id: 992328,
     properties: {
       name: "The Bahamas",
       ISO2: "BS",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Nassau"
+      capital: "Nassau",
+      cities: [
+        {
+          city: "Nassau",
+          cityId: 2467,
+          city_latitude: 25.032412,
+          city_longitude: -77.39811
+        },
+        {
+          city: "Cockburn Town",
+          cityId: 9195237,
+          city_latitude: 24.051245,
+          city_longitude: -74.528332
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[271, 272, 273, 274, 275]],
     id: 380691,
     properties: {
       name: "Bosnia and Herzegovina",
       ISO2: "BA",
       color: "#1f77b4",
       continent: "Europe",
-      capital: "Sarajevo"
+      capital: "Sarajevo",
+      cities: [
+        {
+          city: "Sarajevo",
+          cityId: 11194,
+          city_latitude: 43.86667,
+          city_longitude: 18.41667
+        },
+        {
+          city: "Mostar",
+          cityId: 93347,
+          city_latitude: 43.34944,
+          city_longitude: 17.8125
+        }
+      ]
     }
   },
   {
-    type: null,
     id: 505,
     properties: {
       name: "Saint Barthélemy",
@@ -479,36 +508,74 @@ export const CountryInfo = [
     }
   },
   {
-    type: "Polygon",
-    arcs: [[276, 277, 278, 279, 280]],
     id: 156626,
     properties: {
       name: "Belarus",
       ISO2: "BY",
       continent: "Europe",
       color: "#1f77b4",
-      capital: "Minsk"
+      capital: "Minsk",
+      cities: [
+        {
+          city: "Minsk",
+          cityId: 2280,
+          city_latitude: 53.90225,
+          city_longitude: 27.56184
+        },
+        {
+          city: "Gomel",
+          cityId: 2678,
+          city_latitude: 52.44167,
+          city_longitude: 30.98333
+        },
+        {
+          city: "Grodno",
+          cityId: 181376,
+          city_latitude: 53.66667,
+          city_longitude: 23.81667
+        },
+        {
+          city: "Mogilyov",
+          cityId: 154835,
+          city_latitude: 53.91667,
+          city_longitude: 30.35
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[281]], [[282]], [[283, 284, 285]]],
     id: 133757,
     properties: {
       name: "Belize",
       ISO2: "BZ",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Belmopan"
+      capital: "Belmopan",
+      cities: [
+        {
+          city: "Belize City",
+          cityId: 108223,
+          city_latitude: 17.49861,
+          city_longitude: -88.18861
+        }
+      ]
     }
   },
   {
-    id: 22,
+    id: 136247,
     properties: {
       name: "Bermuda",
       continent: "Europe",
       color: "#1f77b4",
-      capital: "Hamilton"
+      capital: "Hamilton",
+      cities: [
+        {
+          city: "Hamilton",
+          cityId: 30985,
+          city_latitude: 32.301136,
+          city_longitude: -64.793053
+        }
+      ]
     }
   },
   {
@@ -518,7 +585,21 @@ export const CountryInfo = [
       ISO2: "BO",
       continent: "SouthAmerica",
       color: "#aec7e8",
-      capital: "La Paz"
+      capital: "La Paz",
+      cities: [
+        {
+          city: "La Paz",
+          cityId: 1491,
+          city_latitude: -16.49417,
+          city_longitude: -68.1475
+        },
+        {
+          city: "Sucre",
+          cityId: 2907,
+          city_latitude: -19.05,
+          city_longitude: -65.25
+        }
+      ]
     }
   },
   {
@@ -558,7 +639,15 @@ export const CountryInfo = [
       ISO2: "BB",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Bridgetown"
+      capital: "Bridgetown",
+      cities: [
+        {
+          city: "Bridgetown",
+          cityId: 36168,
+          city_latitude: 13.09611,
+          city_longitude: -59.60833
+        }
+      ]
     }
   },
   {
@@ -607,7 +696,33 @@ export const CountryInfo = [
       ISO2: "CA",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "Ottawa"
+      capital: "Ottawa",
+      cities: [
+        {
+          city: "Toronto",
+          cityId: 172,
+          city_latitude: 43.6529,
+          city_longitude: -79.3849
+        },
+        {
+          city: "Vancouver",
+          cityId: 24639,
+          city_latitude: 49.2609,
+          city_longitude: -123.1139
+        },
+        {
+          city: "Montreal",
+          cityId: 340,
+          city_latitude: 45.5088,
+          city_longitude: -73.554
+        },
+        {
+          city: "Banff",
+          cityId: 58337,
+          city_latitude: 51.1778,
+          city_longitude: -115.5683
+        }
+      ]
     }
   },
   {
@@ -617,7 +732,39 @@ export const CountryInfo = [
       ISO2: "CH",
       color: "#aec7e8",
       continent: "Europe",
-      capital: "Bern"
+      capital: "Bern",
+      cities: [
+        {
+          city: "Zurich",
+          cityId: 72,
+          city_latitude: 47.37861,
+          city_longitude: 8.54
+        },
+        {
+          city: "Geneva",
+          cityId: 71,
+          city_latitude: 46.2,
+          city_longitude: 6.15
+        },
+        {
+          city: "Bern",
+          cityId: 70,
+          city_latitude: 46.95083,
+          city_longitude: 7.43861
+        },
+        {
+          city: "Lauterbrunnen",
+          cityId: 64011,
+          city_latitude: 46.59972,
+          city_longitude: 7.90861
+        },
+        {
+          city: "Lucerne",
+          cityId: 4191,
+          city_latitude: 47.04972,
+          city_longitude: 8.3
+        }
+      ]
     }
   },
   {
@@ -627,7 +774,15 @@ export const CountryInfo = [
       ISO2: "CL",
       color: "#ff7f0e",
       continent: "SouthAmerica",
-      capital: "Santiago"
+      capital: "Santiago",
+      cities: [
+        {
+          city: "Santiago",
+          cityId: 2887,
+          city_latitude: -33.45,
+          city_longitude: -70.66667
+        }
+      ]
     }
   },
   {
@@ -637,7 +792,63 @@ export const CountryInfo = [
       ISO2: "CN",
       color: "#aec7e8",
       continent: "Asia",
-      capital: "Beijing"
+      capital: "Beijing",
+      cities: [
+        {
+          city: "Shenzhen",
+          cityId: 15174,
+          city_latitude: 22.535383,
+          city_longitude: 114.05471
+        },
+        {
+          city: "Guangzhou",
+          cityId: 16572,
+          city_latitude: 23.1288,
+          city_longitude: 113.25898
+        },
+        {
+          city: "Shanghai",
+          cityId: 8686,
+          city_latitude: 31.16667,
+          city_longitude: 121.46667
+        },
+        {
+          city: "Beijing",
+          cityId: 956,
+          city_latitude: 39.905,
+          city_longitude: 116.39139
+        },
+        {
+          city: "Hangzhou",
+          cityId: 4970,
+          city_latitude: 30.2741,
+          city_longitude: 120.15507
+        },
+        {
+          city: "Zhuhai",
+          cityId: 59095,
+          city_latitude: 22.26667,
+          city_longitude: 113.56667
+        },
+        {
+          city: "Suzhou",
+          cityId: 42622,
+          city_latitude: 31.30401,
+          city_longitude: 120.61642
+        },
+        {
+          city: "Guilin",
+          cityId: 189633,
+          city_latitude: 25.26667,
+          city_longitude: 110.28333
+        },
+        {
+          city: "Nanjing",
+          cityId: 16666,
+          city_latitude: 32.05,
+          city_longitude: 118.76667
+        }
+      ]
     }
   },
   {
@@ -685,8 +896,16 @@ export const CountryInfo = [
     properties: {
       name: "Cook Islands",
       ISO2: "CK",
-      continent: "Australia",
-      color: "#1f77b4"
+      continent: "Oceania",
+      color: "#1f77b4",
+      cities: [
+        {
+          city: "Arutanga",
+          cityId: 686022,
+          city_latitude: -18.8640828930114,
+          city_longitude: -159.797824574634
+        }
+      ]
     }
   },
   {
@@ -696,7 +915,15 @@ export const CountryInfo = [
       ISO2: "CO",
       color: "#ffbb78",
       continent: "SouthAmerica",
-      capital: "Bogota"
+      capital: "Bogota",
+      cities: [
+        {
+          city: "Bogotá",
+          cityId: 2841,
+          city_latitude: 4.59889,
+          city_longitude: -74.08083
+        }
+      ]
     }
   },
   {
@@ -725,7 +952,15 @@ export const CountryInfo = [
       ISO2: "CR",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "San Jose"
+      capital: "San Jose",
+      cities: [
+        {
+          city: "San José",
+          cityId: 3070,
+          city_latitude: 9.93333,
+          city_longitude: -84.08333
+        }
+      ]
     }
   },
   {
@@ -735,7 +970,15 @@ export const CountryInfo = [
       ISO2: "CU",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Havana"
+      capital: "Havana",
+      cities: [
+        {
+          city: "Havana",
+          cityId: 1563,
+          city_latitude: 23.11667,
+          city_longitude: -82.38333
+        }
+      ]
     }
   },
   {
@@ -744,7 +987,16 @@ export const CountryInfo = [
       name: "Curaçao",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Willemstad"
+      capital: "Willemstad",
+      ISO2: "CW",
+      cities: [
+        {
+          city: "Willemstad",
+          cityId: 132679,
+          city_latitude: 12.118383,
+          city_longitude: -68.893907
+        }
+      ]
     }
   },
   {
@@ -753,36 +1005,105 @@ export const CountryInfo = [
       name: "Cayman Islands",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "George Town"
+      ISO2: "KY",
+      capital: "George Town",
+      cities: [
+        {
+          city: "George Town",
+          cityId: 172996,
+          city_latitude: 19.3034,
+          city_longitude: -81.3863
+        },
+        {
+          city: "West Bay",
+          cityId: 14223057,
+          city_latitude: 19.37306,
+          city_longitude: -81.405
+        },
+        {
+          city: "Bodden Town",
+          cityId: 5501,
+          city_latitude: 19.3027,
+          city_longitude: -81.2707
+        }
+      ]
     }
   },
   {
-    id: 507,
+    id: 193514,
     properties: {
-      name: "Northern Cyprus",
+      name: "Turkish Republic of Northern Cyprus",
       continent: "Europe",
-      color: "#1f77b4"
+      color: "#1f77b4",
+      ISO2: "CY",
+      cities: [
+        {
+          city: "Kyrenia",
+          cityId: 206760,
+          city_latitude: 35.34028,
+          city_longitude: 33.31917
+        }
+      ]
     }
   },
   {
-    id: 52,
+    id: 143348,
     properties: {
       name: "Cyprus",
       continent: "Europe",
       color: "#aec7e8",
-      capital: "Nicosia"
+      capital: "Nicosia",
+      ISO2: "CY",
+      cities: [
+        {
+          city: "Larnaca",
+          cityId: 171882,
+          city_latitude: 34.91667,
+          city_longitude: 33.63333
+        },
+        {
+          city: "Limassol",
+          cityId: 185632,
+          city_latitude: 34.68361,
+          city_longitude: 33.03444
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[599, -211, 600, 601]],
     id: 701240,
     properties: {
       name: "Czech Republic",
       ISO2: "CZ",
       color: "#aec7e8",
       continent: "Europe",
-      capital: "Prague"
+      capital: "Prague",
+      cities: [
+        {
+          city: "Prague",
+          cityId: 1085,
+          city_latitude: 50.08861,
+          city_longitude: 14.42139
+        },
+        {
+          city: "Český Krumlov",
+          cityId: 188082,
+          city_latitude: 48.81099,
+          city_longitude: 14.31521
+        },
+        {
+          city: "Plzeň",
+          cityId: 43453,
+          city_latitude: 49.74139,
+          city_longitude: 13.3825
+        },
+        {
+          city: "Liberec",
+          cityId: 146351,
+          city_latitude: 50.76444,
+          city_longitude: 15.04694
+        }
+      ]
     }
   },
   {
@@ -811,13 +1132,23 @@ export const CountryInfo = [
           cityId: 1794,
           city_latitude: 50.11361,
           city_longitude: 8.67972
+        },
+        {
+          city: "Düsseldorf",
+          cityId: 1718,
+          city_latitude: 51.21667,
+          city_longitude: 6.81667
+        },
+        {
+          city: "Hamburg",
+          cityId: 1055,
+          city_latitude: 53.55,
+          city_longitude: 10
         }
       ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[615, 616, 617, 618]],
     id: 157368,
     properties: {
       name: "Djibouti",
@@ -828,57 +1159,60 @@ export const CountryInfo = [
     }
   },
   {
-    type: "Polygon",
-    arcs: [[619]],
     id: 140226,
     properties: {
       name: "Dominica",
       ISO2: "DM",
       color: "#1f77b4",
       capital: "Roseau",
-      continent: "NorthAmerica"
+      continent: "NorthAmerica",
+      cities: [
+        {
+          city: "Roseau",
+          cityId: 992011,
+          city_latitude: 15.2984622160058,
+          city_longitude: -61.3875049073249
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[620]],
-      [[621]],
-      [[622]],
-      [[623]],
-      [[624]],
-      [[625]],
-      [[626]],
-      [[627]],
-      [[628]],
-      [[629]],
-      [[630]],
-      [[-613, 631]]
-    ],
     id: 123993,
     properties: {
       name: "Denmark",
       ISO2: "DK",
       color: "#ffbb78",
       continent: "Europe",
-      capital: "Copenhagen"
+      capital: "Copenhagen",
+      cities: [
+        {
+          city: "Copenhagen",
+          cityId: 1748,
+          city_latitude: 55.67611,
+          city_longitude: 12.56889
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[632, 633]],
     id: 328320,
     properties: {
       name: "Dominican Republic",
       ISO2: "DO",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Santo Domingo"
+      capital: "Santo Domingo",
+      cities: [
+        {
+          city: "Punta Cana",
+          cityId: 1568095,
+          city_latitude: 18.55827,
+          city_longitude: -68.36815
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[634, 635, 636, 637, 638, 639, 640, 641]],
     id: 182962,
     properties: {
       name: "Algeria",
@@ -889,42 +1223,54 @@ export const CountryInfo = [
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[642]],
-      [[643]],
-      [[644]],
-      [[645]],
-      [[646]],
-      [[647]],
-      [[648]],
-      [[649]],
-      [[650, 651, -568]]
-    ],
     id: 100232,
     properties: {
       name: "Ecuador",
       ISO2: "EC",
       continent: "SouthAmerica",
       color: "#2ca02c",
-      capital: "Quito"
+      capital: "Quito",
+      cities: [
+        {
+          city: "Quito",
+          cityId: 2900,
+          city_latitude: -0.21861,
+          city_longitude: -78.50972
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[652, 653, 654, 655, 656, 657]],
     id: 146327,
     properties: {
       name: "Egypt",
       ISO2: "EG",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Cairo"
+      capital: "Cairo",
+      cities: [
+        {
+          city: "Cairo",
+          cityId: 85,
+          city_latitude: 30.05611,
+          city_longitude: 31.23944
+        },
+        {
+          city: "Sharm El Sheikh",
+          cityId: 706320,
+          city_latitude: 27.8518,
+          city_longitude: 34.305
+        },
+        {
+          city: "Hurghada",
+          cityId: 733089,
+          city_latitude: 27.1,
+          city_longitude: 33.83
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[658]], [[659]], [[-617, 660, 661, 662]]],
     id: 298596,
     properties: {
       name: "Eritrea",
@@ -948,25 +1294,71 @@ export const CountryInfo = [
           cityId: 1492,
           city_latitude: 41.3825,
           city_longitude: 2.17694
+        },
+        {
+          city: "Madrid",
+          cityId: 2807,
+          city_latitude: 40.41889,
+          city_longitude: -3.69194
+        },
+        {
+          city: "Seville",
+          cityId: 8717,
+          city_latitude: 37.38333,
+          city_longitude: -5.98333
+        },
+        {
+          city: "Oviedo",
+          cityId: 21414421,
+          city_latitude: 43.36342,
+          city_longitude: -5.8423
+        },
+        {
+          city: "San Sebastián",
+          cityId: 10313,
+          city_latitude: 43.32,
+          city_longitude: -1.98
+        },
+        {
+          city: "Mayorga",
+          cityId: 1915094,
+          city_latitude: 42.16663,
+          city_longitude: -5.2627
+        },
+        {
+          city: "Antigua",
+          cityId: 575670,
+          city_latitude: 28.41602,
+          city_longitude: -14.01185
         }
       ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[679]], [[680]], [[681]], [[682, 683, 684]]],
     id: 582795,
     properties: {
       name: "Estonia",
       ISO2: "EE",
       continent: "Europe",
       color: "#1f77b4",
-      capital: "Tallinn"
+      capital: "Tallinn",
+      cities: [
+        {
+          city: "Krabi",
+          cityId: 321523,
+          city_latitude: 57.611,
+          city_longitude: 26.835
+        },
+        {
+          city: "Tallinn",
+          cityId: 1770,
+          city_latitude: 59.4372,
+          city_longitude: 24.7454
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[-616, 685, 686, 687, 688, 689, -661]],
     id: 987909,
     properties: {
       name: "Ethiopia",
@@ -977,57 +1369,72 @@ export const CountryInfo = [
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[690]],
-      [[691]],
-      [[692]],
-      [[693]],
-      [[694]],
-      [[695]],
-      [[696]],
-      [[697, 698, 699, 700]]
-    ],
     id: 817706,
     properties: {
       name: "Finland",
       ISO2: "FI",
       color: "#1f77b4",
       continent: "Europe",
-      capital: "Helsinki"
+      capital: "Helsinki",
+      cities: [
+        {
+          city: "Helsinki",
+          cityId: 1757,
+          city_latitude: 60.17333,
+          city_longitude: 24.94861
+        },
+        {
+          city: "Tampere",
+          cityId: 40840,
+          city_latitude: 61.49806,
+          city_longitude: 23.76083
+        },
+        {
+          city: "Oulu",
+          cityId: 47048,
+          city_latitude: 65.01667,
+          city_longitude: 25.46667
+        },
+        {
+          city: "Espoo",
+          cityId: 47034,
+          city_latitude: 60.21,
+          city_longitude: 24.66
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[701]],
-      [[702]],
-      [[703]],
-      [[704]],
-      [[705]],
-      [[706]],
-      [[707]],
-      [[708]],
-      [[709]],
-      [[710]],
-      [[711]],
-      [[712]],
-      [[713]],
-      [[714]],
-      [[715]]
-    ],
     id: 182825,
     properties: {
       name: "Fiji",
       ISO2: "FJ",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Suva"
+      capital: "Suva",
+      cities: [
+        {
+          city: "Suva",
+          cityId: 38807,
+          city_latitude: -18.135982,
+          city_longitude: 178.442814
+        },
+        {
+          city: "Nadi",
+          cityId: 619443,
+          city_latitude: -17.773534,
+          city_longitude: 177.412786
+        },
+        {
+          city: "Lautoka",
+          cityId: 856662,
+          city_latitude: -17.598539,
+          city_longitude: 177.465672
+        }
+      ]
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [[[716]], [[717]], [[718]], [[719]], [[720]], [[721]]],
     id: 508,
     properties: {
       name: "Falkland Islands (Malvinas)",
@@ -1035,44 +1442,146 @@ export const CountryInfo = [
     }
   },
   {
-    type: "MultiPolygon",
-    arcs: [
-      [[722]],
-      [[723]],
-      [[726]],
-      [[727]],
-      [[728]],
-      [[729]],
-      [[730]],
-      [[731]],
-      [[732, -609, -473, 733, 734, 735, 736, -676, -24, -675, 737, -226]]
-    ],
-    id: 975953,
+    id: 986548,
     properties: {
       name: "France",
       ISO2: "FR",
       color: "#ffbb78",
       continent: "Europe",
-      capital: "Paris"
+      capital: "Paris",
+      cities: [
+        {
+          city: "Paris",
+          cityId: 90,
+          city_latitude: 48.85658,
+          city_longitude: 2.35183
+        },
+        {
+          city: "Nice",
+          cityId: 33959,
+          city_latitude: 43.70194,
+          city_longitude: 7.26833
+        },
+        {
+          city: "Le Mont-Saint-Michel",
+          cityId: 20892,
+          city_latitude: 48.63583,
+          city_longitude: -1.51028
+        },
+        {
+          city: "Strasbourg",
+          cityId: 6602,
+          city_latitude: 48.57333,
+          city_longitude: 7.75222
+        },
+        {
+          city: "Lyon",
+          cityId: 456,
+          city_latitude: 45.75889,
+          city_longitude: 4.84139
+        },
+        {
+          city: "Marseille",
+          cityId: 23482,
+          city_latitude: 43.29667,
+          city_longitude: 5.37639
+        },
+        {
+          city: "Lille",
+          cityId: 648,
+          city_latitude: 50.63194,
+          city_longitude: 3.0575
+        },
+        {
+          city: "Toulon",
+          cityId: 44160,
+          city_latitude: 43.125,
+          city_longitude: 5.93056
+        },
+        {
+          city: "Toulouse",
+          cityId: 7880,
+          city_latitude: 43.60444,
+          city_longitude: 1.44194
+        },
+        {
+          city: "Bordeaux",
+          cityId: 1479,
+          city_latitude: 44.83778,
+          city_longitude: -0.57944
+        },
+        {
+          city: "Nantes",
+          cityId: 12191,
+          city_latitude: 47.21722,
+          city_longitude: -1.55389
+        },
+        {
+          city: "Carcassonne",
+          cityId: 6582,
+          city_latitude: 43.21583,
+          city_longitude: 2.35139
+        },
+        {
+          city: "Annecy",
+          cityId: 50189,
+          city_latitude: 45.89917,
+          city_longitude: 6.12944
+        }
+      ]
     }
   },
   {
-    type: "Polygon",
-    arcs: [[-309, 724, 725]],
-    id: 73,
+    id: 27499,
     properties: {
       name: "French Guiana",
       ISO2: "GF",
       color: "#d62728",
       continent: "Africa",
-      capital: "Cayenne"
+      capital: "Cayenne",
+      cities: [
+        {
+          city: "Cayenne",
+          cityId: 44401,
+          city_latitude: 4.93861,
+          city_longitude: -52.335
+        },
+        {
+          city: "Matoury",
+          cityId: 816739,
+          city_latitude: 4.85056,
+          city_longitude: -52.33111
+        },
+        {
+          city: "Saint Laurent du Maroni",
+          cityId: 950313,
+          city_latitude: 5.3422,
+          city_longitude: -54.046
+        },
+        {
+          city: "Kourou",
+          cityId: 273312,
+          city_latitude: 5.15833,
+          city_longitude: -52.64278
+        }
+      ]
     }
   },
   {
-    id: 509,
+    id: 111241,
     properties: {
       name: "Faroe Islands",
-      color: "#1f77b4"
+      color: "#1f77b4",
+      ISO2: "FO",
+      continent: "Europe",
+      cities: [
+        {
+          city: "Tórshavn",
+          cityId: 10704,
+          city_latitude: 62.008579,
+          city_longitude: -6.777412
+        }
+      ]
     }
   },
   {
@@ -1082,7 +1591,21 @@ export const CountryInfo = [
       ISO2: "FM",
       color: "#1f77b4",
       capital: "Palikir",
-      continent: "Oceania"
+      continent: "Oceania",
+      cities: [
+        {
+          city: "Palikir",
+          cityId: 969438,
+          city_latitude: 6.92074400347191,
+          city_longitude: 158.162714252248
+        },
+        {
+          city: "Colonia",
+          cityId: 365126,
+          city_latitude: 9.51624213182563,
+          city_longitude: 138.121628947556
+        }
+      ]
     }
   },
   {
@@ -1102,7 +1625,39 @@ export const CountryInfo = [
       ISO2: "GB",
       color: "#1f77b4",
       continent: "Europe",
-      capital: "London"
+      capital: "London",
+      cities: [
+        {
+          city: "London",
+          cityId: 84,
+          city_latitude: 51.50722,
+          city_longitude: -0.1275
+        },
+        {
+          city: "Edinburgh",
+          cityId: 23436,
+          city_latitude: 55.95,
+          city_longitude: -3.19889
+        },
+        {
+          city: "Stratford-upon-Avon",
+          cityId: 189288,
+          city_latitude: 52.19,
+          city_longitude: -1.71
+        },
+        {
+          city: "Glasgow",
+          cityId: 4093,
+          city_latitude: 55.87,
+          city_longitude: -4.27
+        },
+        {
+          city: "Liverpool",
+          cityId: 24826,
+          city_latitude: 53.41667,
+          city_longitude: -3
+        }
+      ]
     }
   },
   {
@@ -1110,9 +1665,17 @@ export const CountryInfo = [
     properties: {
       name: "Georgia",
       ISO2: "GE",
-      continent: "Europe",
+      continent: "Asia",
       color: "#ff7f0e",
-      capital: "Tbilisi"
+      capital: "Tbilisi",
+      cities: [
+        {
+          city: "Tbilisi",
+          cityId: 994,
+          city_latitude: 41.71667,
+          city_longitude: 44.78333
+        }
+      ]
     }
   },
   {
@@ -1129,7 +1692,15 @@ export const CountryInfo = [
       ISO2: "GH",
       color: "#ffbb78",
       continent: "Africa",
-      capital: "Accra"
+      capital: "Accra",
+      cities: [
+        {
+          city: "Accra",
+          cityId: 3761,
+          city_latitude: 5.661083,
+          city_longitude: -0.202815
+        }
+      ]
     }
   },
   {
@@ -1179,7 +1750,27 @@ export const CountryInfo = [
       ISO2: "GR",
       continent: "Europe",
       color: "#aec7e8",
-      capital: "Athens"
+      capital: "Athens",
+      cities: [
+        {
+          city: "Heraklion",
+          cityId: 160544,
+          city_latitude: 35.33333,
+          city_longitude: 25.13333
+        },
+        {
+          city: "Athens",
+          cityId: 1524,
+          city_latitude: 38,
+          city_longitude: 23.71667
+        },
+        {
+          city: "Milos",
+          cityId: 150639,
+          city_latitude: 36.75,
+          city_longitude: 24.4333
+        }
+      ]
     }
   },
   {
@@ -1189,7 +1780,15 @@ export const CountryInfo = [
       ISO2: "GD",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "Saint George's"
+      capital: "Saint George's",
+      cities: [
+        {
+          city: "St. George's",
+          cityId: 41547,
+          city_latitude: 12.04444,
+          city_longitude: -61.74167
+        }
+      ]
     }
   },
   {
@@ -1199,7 +1798,21 @@ export const CountryInfo = [
       ISO2: "GL",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Nuuk"
+      capital: "Nuuk",
+      cities: [
+        {
+          city: "Nuuk",
+          cityId: 226,
+          city_latitude: 64.176,
+          city_longitude: -51.7389
+        },
+        {
+          city: "Sisimiut",
+          cityId: 744176,
+          city_latitude: 66.9374603320881,
+          city_longitude: -53.6668959259987
+        }
+      ]
     }
   },
   {
@@ -1209,16 +1822,33 @@ export const CountryInfo = [
       ISO2: "GT",
       continent: "NorthAmerica",
       color: "#aec7e8",
-      capital: "Guatemala City"
+      capital: "Guatemala City",
+      cities: [
+        {
+          city: "Guatemala City",
+          cityId: 1555,
+          city_latitude: 14.62278,
+          city_longitude: -90.53139
+        }
+      ]
     }
   },
   {
-    id: 79,
+    id: 406885,
     properties: {
       name: "Guam",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Hagatna"
+      capital: "Hagatna",
+      ISO2: "GU",
+      cities: [
+        {
+          city: "Dededo",
+          cityId: 1182147,
+          city_latitude: 13.492299,
+          city_longitude: 144.846238
+        }
+      ]
     }
   },
   {
@@ -1228,7 +1858,15 @@ export const CountryInfo = [
       ISO2: "GY",
       continent: "SouthAmerica",
       color: "#ffbb78",
-      capital: "Georgetown"
+      capital: "Georgetown",
+      cities: [
+        {
+          city: "Georgetown",
+          cityId: 10717,
+          city_latitude: 6.78333,
+          city_longitude: -58.16667
+        }
+      ]
     }
   },
   {
@@ -1254,7 +1892,15 @@ export const CountryInfo = [
       ISO2: "HN",
       continent: "NorthAmerica",
       color: "#ff7f0e",
-      capital: "Tegucigalpa"
+      capital: "Tegucigalpa",
+      cities: [
+        {
+          city: "Tegucigalpa",
+          cityId: 3238,
+          city_latitude: 14.09417,
+          city_longitude: -87.20667
+        }
+      ]
     }
   },
   {
@@ -1264,7 +1910,45 @@ export const CountryInfo = [
       ISO2: "HR",
       continent: "Europe",
       color: "#aec7e8",
-      capital: "Zagreb"
+      capital: "Zagreb",
+      cities: [
+        {
+          city: "Vis",
+          cityId: 924442,
+          city_latitude: 43.06028,
+          city_longitude: 16.18361
+        },
+        {
+          city: "Dubrovnik",
+          cityId: 1722,
+          city_latitude: 42.64028,
+          city_longitude: 18.10833
+        },
+        {
+          city: "Rovinj",
+          cityId: 5316,
+          city_latitude: 45.08333,
+          city_longitude: 13.63333
+        },
+        {
+          city: "Split",
+          cityId: 1663,
+          city_latitude: 43.51,
+          city_longitude: 16.45
+        },
+        {
+          city: "Plitvička Jezera",
+          cityId: 1277540,
+          city_latitude: 44.88044,
+          city_longitude: 15.61604
+        },
+        {
+          city: "Zagreb",
+          cityId: 1435,
+          city_latitude: 45.8,
+          city_longitude: 15.95
+        }
+      ]
     }
   },
   {
@@ -1274,7 +1958,21 @@ export const CountryInfo = [
       ISO2: "HT",
       continent: "NorthAmerica",
       color: "#aec7e8",
-      capital: "Port au Prince"
+      capital: "Port au Prince",
+      cities: [
+        {
+          city: "Port-au-Prince",
+          cityId: 34261,
+          city_latitude: 18.5473,
+          city_longitude: -72.3396
+        },
+        {
+          city: "Jacmel",
+          cityId: 11056,
+          city_latitude: 18.2353,
+          city_longitude: -72.5375
+        }
+      ]
     }
   },
   {
@@ -1284,7 +1982,15 @@ export const CountryInfo = [
       ISO2: "HU",
       continent: "Europe",
       color: "#ff7f0e",
-      capital: "Budapest"
+      capital: "Budapest",
+      cities: [
+        {
+          city: "Budapest",
+          cityId: 1781,
+          city_latitude: 47.49833,
+          city_longitude: 19.04083
+        }
+      ]
     }
   },
   {
@@ -1294,7 +2000,27 @@ export const CountryInfo = [
       ISO2: "ID",
       continent: "Asia",
       color: "#1f77b4",
-      capital: "Jakarta"
+      capital: "Jakarta",
+      cities: [
+        {
+          city: "Denpasar",
+          cityId: 11506,
+          city_latitude: -8.65,
+          city_longitude: 115.21667
+        },
+        {
+          city: "Jakarta",
+          cityId: 3630,
+          city_latitude: -6.16667,
+          city_longitude: 106.8
+        },
+        {
+          city: "Bandung",
+          cityId: 10389,
+          city_latitude: -6.95,
+          city_longitude: 107.56667
+        }
+      ]
     }
   },
   {
@@ -1303,7 +2029,21 @@ export const CountryInfo = [
       name: "Isle of Man",
       color: "#1f77b4",
       capital: "Douglas",
-      continent: "Europe"
+      continent: "Europe",
+      cities: [
+        {
+          city: "Laxey",
+          cityId: 1026205,
+          city_latitude: 54.22778,
+          city_longitude: -4.40194
+        },
+        {
+          city: "Castletown",
+          cityId: 158530,
+          city_latitude: 54.07417,
+          city_longitude: -4.65389
+        }
+      ]
     }
   },
   {
@@ -1313,7 +2053,57 @@ export const CountryInfo = [
       ISO2: "IN",
       continent: "Asia",
       color: "#ff7f0e",
-      capital: "New Delhi"
+      capital: "New Delhi",
+      cities: [
+        {
+          city: "Chennai",
+          cityId: 1352,
+          city_latitude: 13.09,
+          city_longitude: 80.27
+        },
+        {
+          city: "Mumbai",
+          cityId: 1156,
+          city_latitude: 18.96667,
+          city_longitude: 72.83333
+        },
+        {
+          city: "Delhi",
+          cityId: 1353,
+          city_latitude: 28.66667,
+          city_longitude: 77.21667
+        },
+        {
+          city: "Agra",
+          cityId: 42941,
+          city_latitude: 27.18,
+          city_longitude: 78.02
+        },
+        {
+          city: "Jaipur",
+          cityId: 66485,
+          city_latitude: 26.91667,
+          city_longitude: 75.86667
+        },
+        {
+          city: "Kolkata",
+          cityId: 1348,
+          city_latitude: 22.54111,
+          city_longitude: 88.33778
+        },
+        {
+          city: "Goa",
+          cityId: 320336,
+          city_latitude: 15.530383,
+          city_longitude: 73.894634
+        },
+        {
+          city: "Manali",
+          cityId: 143931,
+          city_latitude: 32.235189,
+          city_longitude: 77.19044
+        }
+      ]
     }
   },
   {
@@ -1348,16 +2138,22 @@ export const CountryInfo = [
       capital: "Ireland",
       cities: [
         {
-          "city": "Dublin",
-          "cityId": 1761,
-          "city_latitude": 53.3425,
-          "city_longitude": -6.26583,
+          city: "Dublin",
+          cityId: 1761,
+          city_latitude: 53.3425,
+          city_longitude: -6.26583
         },
         {
-          "city": "Cork",
-          "cityId": 36647,
-          "city_latitude": 51.9,
-          "city_longitude": -8.47306,
+          city: "Cork",
+          cityId: 36647,
+          city_latitude: 51.9,
+          city_longitude: -8.47306
+        },
+        {
+          city: "Causeway",
+          cityId: 3775823,
+          city_latitude: 52.41444,
+          city_longitude: -9.73347
         }
       ]
     }
@@ -1369,7 +2165,15 @@ export const CountryInfo = [
       ISO2: "IR",
       continent: "Asia",
       color: "#ff7f0e",
-      capital: "Tehran"
+      capital: "Tehran",
+      cities: [
+        {
+          city: "Tehran",
+          cityId: 3616,
+          city_latitude: 35.696,
+          city_longitude: 51.401
+        }
+      ]
     }
   },
   {
@@ -1379,7 +2183,15 @@ export const CountryInfo = [
       ISO2: "IQ",
       continent: "Asia",
       color: "#ffbb78",
-      capital: "Baghdad"
+      capital: "Baghdad",
+      cities: [
+        {
+          city: "Baghdad",
+          cityId: 1530,
+          city_latitude: 33.35,
+          city_longitude: 44.41667
+        }
+      ]
     }
   },
   {
@@ -1399,7 +2211,21 @@ export const CountryInfo = [
       ISO2: "IL",
       continent: "Asia",
       color: "#aec7e8",
-      capital: "Tel Aviv"
+      capital: "Tel Aviv",
+      cities: [
+        {
+          city: "Jerusalem",
+          cityId: 1218,
+          city_latitude: 31.771667,
+          city_longitude: 35.186166
+        },
+        {
+          city: "Tel Aviv",
+          cityId: 33935,
+          city_latitude: 32.083148,
+          city_longitude: 34.780915
+        }
+      ]
     }
   },
   {
@@ -1434,6 +2260,42 @@ export const CountryInfo = [
           cityId: 2044,
           city_latitude: 43.77139,
           city_longitude: 11.25417
+        },
+        {
+          city: "Naples",
+          cityId: 2634,
+          city_latitude: 40.83333,
+          city_longitude: 14.25
+        },
+        {
+          city: "Turin",
+          cityId: 495,
+          city_latitude: 45.06667,
+          city_longitude: 7.7
+        },
+        {
+          city: "Verona",
+          cityId: 2028,
+          city_latitude: 45.43816,
+          city_longitude: 10.99374
+        },
+        {
+          city: "Bologna",
+          cityId: 1891,
+          city_latitude: 44.49389,
+          city_longitude: 11.34278
+        },
+        {
+          city: "Genoa",
+          cityId: 1449,
+          city_latitude: 44.40719,
+          city_longitude: 8.93398
+        },
+        {
+          city: "Perugia",
+          cityId: 3437,
+          city_latitude: 43.1121,
+          city_longitude: 12.3888
         }
       ]
     }
@@ -1445,7 +2307,21 @@ export const CountryInfo = [
       ISO2: "JM",
       continent: "NorthAmerica",
       color: "#1f77b4",
-      capital: "Kingston"
+      capital: "Kingston",
+      cities: [
+        {
+          city: "Kingston",
+          cityId: 34692,
+          city_latitude: 18.017589,
+          city_longitude: -76.80273
+        },
+        {
+          city: "Negril",
+          cityId: 974239,
+          city_latitude: 18.241579,
+          city_longitude: -78.351911
+        }
+      ]
     }
   },
   {
@@ -1463,7 +2339,15 @@ export const CountryInfo = [
       ISO2: "JO",
       continent: "Asia",
       color: "#2ca02c",
-      capital: "Amman"
+      capital: "Amman",
+      cities: [
+        {
+          city: "Amman",
+          cityId: 3805,
+          city_latitude: 31.95,
+          city_longitude: 35.93333
+        }
+      ]
     }
   },
   {
@@ -1476,10 +2360,40 @@ export const CountryInfo = [
       capital: "Tokyo",
       cities: [
         {
-          "city": "Tokyo",
-          "cityId": 1490,
-          "city_latitude": 35.68,
-          "city_longitude": 139.77,
+          city: "Tokyo",
+          cityId: 1490,
+          city_latitude: 35.68,
+          city_longitude: 139.77
+        },
+        {
+          city: "Osaka-shi",
+          cityId: 35765,
+          city_latitude: 34.69361,
+          city_longitude: 135.50194
+        },
+        {
+          city: "Kyoto",
+          cityId: 34600,
+          city_latitude: 35.01167,
+          city_longitude: 135.76806
+        },
+        {
+          city: "Chiba",
+          cityId: 170616,
+          city_latitude: 35.6,
+          city_longitude: 140.1
+        },
+        {
+          city: "Fukuoka",
+          cityId: 26600,
+          city_latitude: 33.59028,
+          city_longitude: 130.40194
+        },
+        {
+          city: "Sapporo",
+          cityId: 37951,
+          city_latitude: 43.05,
+          city_longitude: 141.35
         }
       ]
     }
@@ -1508,7 +2422,15 @@ export const CountryInfo = [
       ISO2: "KE",
       continent: "Africa",
       color: "#ffbb78",
-      capital: "Nairobi"
+      capital: "Nairobi",
+      cities: [
+        {
+          city: "Nairobi",
+          cityId: 3870,
+          city_latitude: -1.28333,
+          city_longitude: 36.81667
+        }
+      ]
     }
   },
   {
@@ -1528,7 +2450,15 @@ export const CountryInfo = [
       ISO2: "KH",
       continent: "Asia",
       color: "#1f77b4",
-      capital: "Phnom Penh"
+      capital: "Phnom Penh",
+      cities: [
+        {
+          city: "Siem Reap District",
+          cityId: 4929292,
+          city_latitude: 13.33333,
+          city_longitude: 103.83333
+        }
+      ]
     }
   },
   {
@@ -1538,7 +2468,27 @@ export const CountryInfo = [
       ISO2: "KI",
       color: "#1f77b4",
       capital: "Tarawa Atoll",
-      continent: "Oceania"
+      continent: "Oceania",
+      cities: [
+        {
+          city: "Tarawa",
+          cityId: 2486,
+          city_latitude: 1.3603744,
+          city_longitude: 173.155174
+        },
+        {
+          city: "Betio",
+          cityId: 276150,
+          city_latitude: 1.35670928080754,
+          city_longitude: 172.932453257963
+        },
+        {
+          city: "Bairiki",
+          cityId: 272894,
+          city_latitude: 1.32961937464474,
+          city_longitude: 172.977754175663
+        }
+      ]
     }
   },
   {
@@ -1548,7 +2498,21 @@ export const CountryInfo = [
       ISO2: "KN",
       color: "#1f77b4",
       capital: "Basseterre",
-      continent: "NorthAmerica"
+      continent: "NorthAmerica",
+      cities: [
+        {
+          city: "Saint Paul Capisterre",
+          cityId: 4490232,
+          city_latitude: 17.39861,
+          city_longitude: -62.82389
+        },
+        {
+          city: "Basseterre",
+          cityId: 41295,
+          city_latitude: 17.29833,
+          city_longitude: -62.73417
+        }
+      ]
     }
   },
   {
@@ -1558,7 +2522,15 @@ export const CountryInfo = [
       ISO2: "KR",
       continent: "Asia",
       color: "#1f77b4",
-      capital: "Seoul"
+      capital: "Seoul",
+      cities: [
+        {
+          city: "Seoul",
+          cityId: 8684,
+          city_latitude: 37.58333,
+          city_longitude: 127
+        }
+      ]
     }
   },
   {
@@ -1568,7 +2540,21 @@ export const CountryInfo = [
       ISO2: "RS",
       continent: "Europe",
       color: "#d62728",
-      capital: "Pristina"
+      capital: "Prishtina",
+      cities: [
+        {
+          city: "Prishtina",
+          cityId: 25270,
+          city_latitude: 42.66667,
+          city_longitude: 21.16667
+        },
+        {
+          city: "Gjilan",
+          cityId: 739808,
+          city_latitude: 42.46667,
+          city_longitude: 21.46667
+        }
+      ]
     }
   },
   {
@@ -1598,7 +2584,15 @@ export const CountryInfo = [
       ISO2: "LB",
       continent: "Asia",
       color: "#ff7f0e",
-      capital: "Beirut"
+      capital: "Beirut",
+      cities: [
+        {
+          city: "Beirut",
+          cityId: 3820,
+          city_latitude: 33.88694,
+          city_longitude: 35.51306
+        }
+      ]
     }
   },
   {
@@ -1628,7 +2622,27 @@ export const CountryInfo = [
       ISO2: "LC",
       color: "#1f77b4",
       capital: "Castries",
-      continent: "NorthAmerica"
+      continent: "NorthAmerica",
+      cities: [
+        {
+          city: "Castries",
+          cityId: 41699,
+          city_latitude: 14.01667,
+          city_longitude: -60.98333
+        },
+        {
+          city: "Vieux-Fort",
+          cityId: 484581,
+          city_latitude: 13.7833,
+          city_longitude: -60.9667
+        },
+        {
+          city: "Micoud",
+          cityId: 945355,
+          city_latitude: 13.8167,
+          city_longitude: -60.9333
+        }
+      ]
     }
   },
   {
@@ -1638,7 +2652,27 @@ export const CountryInfo = [
       ISO2: "LI",
       continent: "Europe",
       color: "#ff7f0e",
-      capital: "Vaduz"
+      capital: "Vaduz",
+      cities: [
+        {
+          city: "Vaduz",
+          cityId: 1844,
+          city_latitude: 47.13972,
+          city_longitude: 9.52194
+        },
+        {
+          city: "Schaan",
+          cityId: 49657,
+          city_latitude: 47.16667,
+          city_longitude: 9.51667
+        },
+        {
+          city: "Triesen",
+          cityId: 49654,
+          city_latitude: 47.086288,
+          city_longitude: 9.541559
+        }
+      ]
     }
   },
   {
@@ -1648,7 +2682,15 @@ export const CountryInfo = [
       ISO2: "LK",
       continent: "Asia",
       color: "#1f77b4",
-      capital: "Colombo"
+      capital: "Colombo",
+      cities: [
+        {
+          city: "Colombo",
+          cityId: 35381,
+          city_latitude: 6.91667,
+          city_longitude: 79.83333
+        }
+      ]
     }
   },
   {
@@ -1668,7 +2710,27 @@ export const CountryInfo = [
       ISO2: "LT",
       continent: "Europe",
       color: "#aec7e8",
-      capital: "Vilnius"
+      capital: "Vilnius",
+      cities: [
+        {
+          city: "Vilnius",
+          cityId: 216,
+          city_latitude: 54.68333,
+          city_longitude: 25.28333
+        },
+        {
+          city: "Kaunas",
+          cityId: 4115712,
+          city_latitude: 54.9,
+          city_longitude: 23.93333
+        },
+        {
+          city: "Klaipėda",
+          cityId: 776965,
+          city_latitude: 55.7075,
+          city_longitude: 21.14278
+        }
+      ]
     }
   },
   {
@@ -1678,7 +2740,15 @@ export const CountryInfo = [
       ISO2: "LU",
       continent: "Europe",
       color: "#2ca02c",
-      capital: "Luxembourg"
+      capital: "Luxembourg",
+      cities: [
+        {
+          city: "Luxembourg",
+          cityId: 1842,
+          city_latitude: 49.61056,
+          city_longitude: 6.13278
+        }
+      ]
     }
   },
   {
@@ -1688,25 +2758,51 @@ export const CountryInfo = [
       ISO2: "LV",
       continent: "Europe",
       color: "#ff7f0e",
-      capital: "Riga"
+      capital: "Riga",
+      cities: [
+        {
+          city: "Sigulda",
+          cityId: 465698,
+          city_latitude: 57.15389,
+          city_longitude: 24.85444
+        }
+      ]
     }
   },
   {
     id: 117,
     properties: {
-      name: "Macao",
+      name: "Macau",
       color: "#1f77b4",
       capital: "N/A",
-      continent: "Asia"
+      continent: "Asia",
+      ISO2: "MO",
+      cities: [
+        {
+          city: "Macau",
+          cityId: 14773,
+          city_latitude: 22.19816,
+          city_longitude: 113.54348
+        }
+      ]
     }
   },
   {
-    id: 183,
+    id: 871187,
     properties: {
       name: "St. Martin (French part)",
       color: "#1f77b4",
       capital: "Marigot",
-      continent: "NorthAmerica"
+      continent: "NorthAmerica",
+      ISO2: "MF",
+      cities: [
+        {
+          city: "Marigot",
+          cityId: 200605,
+          city_latitude: 18.066352,
+          city_longitude: -63.082125
+        }
+      ]
     }
   },
   {
@@ -1716,7 +2812,21 @@ export const CountryInfo = [
       ISO2: "MA",
       continent: "Africa",
       color: "#aec7e8",
-      capital: "Rabat"
+      capital: "Rabat",
+      cities: [
+        {
+          city: "Marrakesh",
+          cityId: 101625,
+          city_latitude: 31.62947,
+          city_longitude: -7.98108
+        },
+        {
+          city: "Casablanca",
+          cityId: 7903,
+          city_latitude: 33.59917,
+          city_longitude: -7.62
+        }
+      ]
     }
   },
   {
@@ -1726,7 +2836,15 @@ export const CountryInfo = [
       ISO2: "MC",
       color: "#1f77b4",
       capital: "Monaco",
-      continent: "Europe"
+      continent: "Europe",
+      cities: [
+        {
+          city: "Monaco",
+          cityId: 235,
+          city_latitude: 43.73125,
+          city_longitude: 7.41974
+        }
+      ]
     }
   },
   {
@@ -1736,7 +2854,27 @@ export const CountryInfo = [
       ISO2: "MD",
       color: "#1f77b4",
       capital: "Chisinau",
-      continent: "Europe"
+      continent: "Europe",
+      cities: [
+        {
+          city: "Tiraspol",
+          cityId: 132572,
+          city_latitude: 46.85,
+          city_longitude: 29.63333
+        },
+        {
+          city: "Bălți",
+          cityId: 37801,
+          city_latitude: 46.821282,
+          city_longitude: 29.474506
+        },
+        {
+          city: "Chișinău",
+          cityId: 21197,
+          city_latitude: 47.00556,
+          city_longitude: 28.8575
+        }
+      ]
     }
   },
   {
@@ -1766,7 +2904,21 @@ export const CountryInfo = [
       ISO2: "MX",
       continent: "NorthAmerica",
       color: "#ff7f0e",
-      capital: "Mexico City"
+      capital: "Mexico City",
+      cities: [
+        {
+          city: "Mexico City",
+          cityId: 1489,
+          city_latitude: 19.41944,
+          city_longitude: -99.14556
+        },
+        {
+          city: "Cancún",
+          cityId: 8969,
+          city_latitude: 21.16056,
+          city_longitude: -86.8475
+        }
+      ]
     }
   },
   {
@@ -1776,7 +2928,15 @@ export const CountryInfo = [
       ISO2: "MH",
       color: "#1f77b4",
       capital: "Majuro",
-      continent: "Oceania"
+      continent: "Oceania",
+      cities: [
+        {
+          city: "Majuro",
+          cityId: 695873,
+          city_latitude: 7.09099243879369,
+          city_longitude: 171.381635377184
+        }
+      ]
     }
   },
   {
@@ -1786,7 +2946,27 @@ export const CountryInfo = [
       ISO2: "MK",
       continent: "Europe",
       color: "#ff7f0e",
-      capital: "Skopje"
+      capital: "Skopje",
+      cities: [
+        {
+          city: "Skopje",
+          cityId: 384,
+          city_latitude: 41.98333,
+          city_longitude: 21.43333
+        },
+        {
+          city: "Ohrid Municipality",
+          cityId: 1125333,
+          city_latitude: 41.14056,
+          city_longitude: 20.8025
+        },
+        {
+          city: "Bitola Municipality",
+          cityId: 159380,
+          city_latitude: 41.03333,
+          city_longitude: 21.33333
+        }
+      ]
     }
   },
   {
@@ -1826,7 +3006,27 @@ export const CountryInfo = [
       ISO2: "ME",
       continent: "Europe",
       color: "#ff7f0e",
-      capital: "Podgorica"
+      capital: "Podgorica",
+      cities: [
+        {
+          city: "Podgorica",
+          cityId: 23564,
+          city_latitude: 42.43972,
+          city_longitude: 19.26611
+        },
+        {
+          city: "Budva",
+          cityId: 174237,
+          city_latitude: 42.28472,
+          city_longitude: 18.84528
+        },
+        {
+          city: "Kotor Municipality",
+          cityId: 4856305,
+          city_latitude: 42.43333,
+          city_longitude: 18.76667
+        }
+      ]
     }
   },
   {
@@ -1840,12 +3040,27 @@ export const CountryInfo = [
     }
   },
   {
-    id: 146,
+    id: 737625,
     properties: {
       name: "Northern Mariana Islands",
+      ISO2: "MP",
       color: "#1f77b4",
       capital: "Capital Hill/Saipan",
-      continent: "Oceania"
+      continent: "Oceania",
+      cities: [
+        {
+          city: "Saipan",
+          cityId: 51679,
+          city_latitude: 15.2123,
+          city_longitude: 145.7545
+        },
+        {
+          city: "Tinian",
+          cityId: 325652,
+          city_latitude: 15.0143,
+          city_longitude: 145.6326
+        }
+      ]
     }
   },
   {
@@ -1903,7 +3118,45 @@ export const CountryInfo = [
       ISO2: "MY",
       continent: "Asia",
       color: "#aec7e8",
-      capital: "Kuala Lumpur"
+      capital: "Kuala Lumpur",
+      cities: [
+        {
+          city: "Kuala Lumpur",
+          cityId: 1865,
+          city_latitude: 3.15972,
+          city_longitude: 101.7
+        },
+        {
+          city: "Johor Bahru",
+          cityId: 231318,
+          city_latitude: 1.48333,
+          city_longitude: 103.73333
+        },
+        {
+          city: "Penang",
+          cityId: 188096,
+          city_latitude: 5.438184,
+          city_longitude: 100.209709
+        },
+        {
+          city: "Malacca City",
+          cityId: 61089,
+          city_latitude: 2.18889,
+          city_longitude: 102.25111
+        },
+        {
+          city: "Kota Kinabalu",
+          cityId: 137271,
+          city_latitude: 5.97139,
+          city_longitude: 116.09528
+        },
+        {
+          city: "Langkawi",
+          cityId: 273303,
+          city_latitude: 6.35,
+          city_longitude: 99.8
+        }
+      ]
     }
   },
   {
@@ -1917,12 +3170,21 @@ export const CountryInfo = [
     }
   },
   {
-    id: 141,
+    id: 102873,
     properties: {
       name: "New Caledonia",
+      ISO2: "NC",
       color: "#1f77b4",
       capital: "Noumea",
-      continent: "Oceania"
+      continent: "Oceania",
+      cities: [
+        {
+          city: "Nouméa",
+          cityId: 9733,
+          city_latitude: -22.275595,
+          city_longitude: 166.439931
+        }
+      ]
     }
   },
   {
@@ -1949,7 +3211,15 @@ export const CountryInfo = [
       ISO2: "NG",
       color: "#d62728",
       continent: "Africa",
-      capital: "Abuja"
+      capital: "Abuja",
+      cities: [
+        {
+          city: "Lagos",
+          cityId: 8673,
+          city_latitude: 6.45,
+          city_longitude: 3.4
+        }
+      ]
     }
   },
   {
@@ -1959,7 +3229,15 @@ export const CountryInfo = [
       ISO2: "NI",
       color: "#ffbb78",
       continent: "NorthAmerica",
-      capital: "Managua"
+      capital: "Managua",
+      cities: [
+        {
+          city: "Managua",
+          cityId: 3274,
+          city_latitude: 12.14,
+          city_longitude: -86.274
+        }
+      ]
     }
   },
   {
@@ -1976,7 +3254,27 @@ export const CountryInfo = [
       ISO2: "NL",
       color: "#ffbb78",
       continent: "Europe",
-      capital: "Amsterdam"
+      capital: "Amsterdam",
+      cities: [
+        {
+          city: "Amsterdam",
+          cityId: 727,
+          city_latitude: 52.378,
+          city_longitude: 4.9
+        },
+        {
+          city: "The Hague",
+          cityId: 36600,
+          city_latitude: 52.08417,
+          city_longitude: 4.3175
+        },
+        {
+          city: "Utrecht",
+          cityId: 803,
+          city_latitude: 52.08889,
+          city_longitude: 5.11556
+        }
+      ]
     }
   },
   {
@@ -2000,12 +3298,21 @@ export const CountryInfo = [
     }
   },
   {
-    id: 138,
+    id: 602184,
     properties: {
       name: "Nauru",
+      ISO2: "NR",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "N/A"
+      capital: "N/A",
+      cities: [
+        {
+          city: "Arijejen",
+          cityId: 371277,
+          city_latitude: -0.522979574556388,
+          city_longitude: 166.914103953168
+        }
+      ]
     }
   },
   {
@@ -2034,6 +3341,18 @@ export const CountryInfo = [
           cityId: 33474434,
           city_latitude: -45.03023,
           city_longitude: 168.66271
+        },
+        {
+          city: "Christchurch",
+          cityId: 79990,
+          city_latitude: -43.53,
+          city_longitude: 172.62028
+        },
+        {
+          city: "Dunedin",
+          cityId: 133073,
+          city_latitude: -45.86667,
+          city_longitude: 170.5
         }
       ]
     }
@@ -2065,7 +3384,15 @@ export const CountryInfo = [
       ISO2: "PA",
       color: "#2ca02c",
       continent: "NorthAmerica",
-      capital: "Panama City"
+      capital: "Panama City",
+      cities: [
+        {
+          city: "Panama City",
+          cityId: 3306,
+          city_latitude: 9,
+          city_longitude: -79.5
+        }
+      ]
     }
   },
   {
@@ -2082,7 +3409,21 @@ export const CountryInfo = [
       ISO2: "PE",
       color: "#98df8a",
       continent: "SouthAmerica",
-      capital: "Lima"
+      capital: "Lima",
+      cities: [
+        {
+          city: "Lima",
+          cityId: 2868,
+          city_latitude: -12,
+          city_longitude: -76.8333
+        },
+        {
+          city: "Cusco",
+          cityId: 5582862,
+          city_latitude: -13.5,
+          city_longitude: -72
+        }
+      ]
     }
   },
   {
@@ -2092,7 +3433,21 @@ export const CountryInfo = [
       ISO2: "PH",
       color: "#1f77b4",
       continent: "Asia",
-      capital: "Manila"
+      capital: "Manila",
+      cities: [
+        {
+          city: "Manila",
+          cityId: 6749659,
+          city_latitude: 14.58333,
+          city_longitude: 121
+        },
+        {
+          city: "Cebu City",
+          cityId: 1467,
+          city_latitude: 10.30984,
+          city_longitude: 123.893107
+        }
+      ]
     }
   },
   {
@@ -2102,7 +3457,15 @@ export const CountryInfo = [
       ISO2: "PW",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Melekeok"
+      capital: "Melekeok",
+      cities: [
+        {
+          city: "Koror",
+          cityId: 527748,
+          city_latitude: 7.329366,
+          city_longitude: 134.473301
+        }
+      ]
     }
   },
   {
@@ -2112,7 +3475,33 @@ export const CountryInfo = [
       ISO2: "PG",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Port Moresby"
+      capital: "Port Moresby",
+      cities: [
+        {
+          city: "Lae",
+          cityId: 922727,
+          city_latitude: -6.73258959261364,
+          city_longitude: 147.002108925954
+        },
+        {
+          city: "Mount Hagen",
+          cityId: 1017362,
+          city_latitude: -5.855876,
+          city_longitude: 144.229508
+        },
+        {
+          city: "Wewak",
+          cityId: 129583,
+          city_latitude: -3.55421968447919,
+          city_longitude: 143.627090351656
+        },
+        {
+          city: "Kokopo",
+          cityId: 1017369,
+          city_latitude: -4.343031,
+          city_longitude: 152.281275
+        }
+      ]
     }
   },
   {
@@ -2122,7 +3511,21 @@ export const CountryInfo = [
       ISO2: "PL",
       color: "#ffbb78",
       continent: "Europe",
-      capital: "Warsaw"
+      capital: "Warsaw",
+      cities: [
+        {
+          city: "Warsaw",
+          cityId: 270,
+          city_latitude: 52.21667,
+          city_longitude: 21.03333
+        },
+        {
+          city: "Zakopane",
+          cityId: 144786,
+          city_latitude: 49.3,
+          city_longitude: 19.96667
+        }
+      ]
     }
   },
   {
@@ -2132,7 +3535,15 @@ export const CountryInfo = [
       ISO2: "PR",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "San Juan"
+      capital: "San Juan",
+      cities: [
+        {
+          city: "San Juan",
+          cityId: 41211,
+          city_latitude: 18.3744,
+          city_longitude: -66.0571
+        }
+      ]
     }
   },
   {
@@ -2159,6 +3570,30 @@ export const CountryInfo = [
           cityId: 597,
           city_latitude: 38.71667,
           city_longitude: -9.16667
+        },
+        {
+          city: "Porto",
+          cityId: 36433,
+          city_latitude: 41.15,
+          city_longitude: -8.6
+        },
+        {
+          city: "Portimão",
+          cityId: 543542,
+          city_latitude: 37.13333,
+          city_longitude: -8.53333
+        },
+        {
+          city: "Maiorca",
+          cityId: 1009683,
+          city_latitude: 40.16667,
+          city_longitude: -8.75
+        },
+        {
+          city: "Ponta Delgada",
+          cityId: 208149,
+          city_latitude: 37.74,
+          city_longitude: -25.67
         }
       ]
     }
@@ -2170,7 +3605,15 @@ export const CountryInfo = [
       ISO2: "PY",
       color: "#ffbb78",
       continent: "SouthAmerica",
-      capital: "Asuncion"
+      capital: "Asuncion",
+      cities: [
+        {
+          city: "Asunción",
+          cityId: 2933,
+          city_latitude: -25.3,
+          city_longitude: -57.63333
+        }
+      ]
     }
   },
   {
@@ -2183,12 +3626,27 @@ export const CountryInfo = [
     }
   },
   {
-    id: 69,
+    id: 576226,
     properties: {
       name: "French Polynesia",
+      ISO2: "PF",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Papeete"
+      capital: "Papeete",
+      cities: [
+        {
+          city: "Faaa",
+          cityId: 1022934,
+          city_latitude: -16.592271,
+          city_longitude: -151.429208
+        },
+        {
+          city: "Papeete",
+          cityId: 130800,
+          city_latitude: -17.63576,
+          city_longitude: -149.453446
+        }
+      ]
     }
   },
   {
@@ -2198,7 +3656,15 @@ export const CountryInfo = [
       ISO2: "QA",
       color: "#1f77b4",
       continent: "Asia",
-      capital: "Doha"
+      capital: "Doha",
+      cities: [
+        {
+          city: "Doha",
+          cityId: 3861,
+          city_latitude: 25.3,
+          city_longitude: 51.53333
+        }
+      ]
     }
   },
   {
@@ -2208,7 +3674,21 @@ export const CountryInfo = [
       ISO2: "RO",
       color: "#ffbb78",
       continent: "Europe",
-      capital: "Bucharest"
+      capital: "Bucharest",
+      cities: [
+        {
+          city: "Bucharest",
+          cityId: 19660,
+          city_latitude: 44.4,
+          city_longitude: 26.08333
+        },
+        {
+          city: "Brașov",
+          cityId: 82174,
+          city_latitude: 45.65,
+          city_longitude: 25.6
+        }
+      ]
     }
   },
   {
@@ -2218,7 +3698,21 @@ export const CountryInfo = [
       ISO2: "RU",
       color: "#2ca02c",
       continent: "Asia",
-      capital: "Moscow"
+      capital: "Moscow",
+      cities: [
+        {
+          city: "Moscow",
+          cityId: 649,
+          city_latitude: 55.75583,
+          city_longitude: 37.61778
+        },
+        {
+          city: "Saint Petersburg",
+          cityId: 656,
+          city_latitude: 59.95,
+          city_longitude: 30.31667
+        }
+      ]
     }
   },
   {
@@ -2245,7 +3739,27 @@ export const CountryInfo = [
       ISO2: "SA",
       color: "#98df8a",
       continent: "Asia",
-      capital: "Riyadh"
+      capital: "Riyadh",
+      cities: [
+        {
+          city: "Mecca",
+          cityId: 5806,
+          city_latitude: 21.4225,
+          city_longitude: 39.82611
+        },
+        {
+          city: "Riyadh",
+          cityId: 3692,
+          city_latitude: 24.633333,
+          city_longitude: 46.716667
+        },
+        {
+          city: "Dammam",
+          cityId: 160320,
+          city_latitude: 26.4344,
+          city_longitude: 50.0982
+        }
+      ]
     }
   },
   {
@@ -2285,7 +3799,15 @@ export const CountryInfo = [
       ISO2: "SG",
       color: "#1f77b4",
       continent: "Asia",
-      capital: "Singapore"
+      capital: "Singapore",
+      cities: [
+        {
+          city: "Singapore",
+          cityId: 334,
+          city_latitude: 1.351616,
+          city_longitude: 103.808053
+        }
+      ]
     }
   },
   {
@@ -2309,7 +3831,33 @@ export const CountryInfo = [
       ISO2: "SB",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Honiara"
+      capital: "Honiara",
+      cities: [
+        {
+          city: "Auki",
+          cityId: 853202,
+          city_latitude: -8.77060733066011,
+          city_longitude: 160.699265487492
+        },
+        {
+          city: "Honiara",
+          cityId: 40921,
+          city_latitude: -9.441418,
+          city_longitude: 159.946099
+        },
+        {
+          city: "Buala",
+          cityId: 879424,
+          city_latitude: -8.14554593197124,
+          city_longitude: 159.593036575243
+        },
+        {
+          city: "Gizo",
+          cityId: 1236908,
+          city_latitude: -8.078264,
+          city_longitude: 156.83718
+        }
+      ]
     }
   },
   {
@@ -2329,7 +3877,15 @@ export const CountryInfo = [
       ISO2: "SV",
       color: "#ffbb78",
       continent: "NorthAmerica",
-      capital: "San Salvador"
+      capital: "San Salvador",
+      cities: [
+        {
+          city: "San Salvador",
+          cityId: 3110,
+          city_latitude: 13.69,
+          city_longitude: -89.19
+        }
+      ]
     }
   },
   {
@@ -2339,7 +3895,21 @@ export const CountryInfo = [
       ISO2: "SM",
       color: "#1f77b4",
       continent: "Europe",
-      capital: "San Marino"
+      capital: "San Marino",
+      cities: [
+        {
+          city: "San Marino",
+          cityId: 1848,
+          city_latitude: 43.93201,
+          city_longitude: 12.44845
+        },
+        {
+          city: "Serravalle",
+          cityId: 185412,
+          city_latitude: 43.97556,
+          city_longitude: 12.47833
+        }
+      ]
     }
   },
   {
@@ -2374,7 +3944,27 @@ export const CountryInfo = [
       ISO2: "RS",
       color: "#2ca02c",
       continent: "Europe",
-      capital: "Belgrade"
+      capital: "Belgrade",
+      cities: [
+        {
+          city: "Belgrade",
+          cityId: 3711,
+          city_latitude: 44.81667,
+          city_longitude: 20.46667
+        },
+        {
+          city: "Novi Sad",
+          cityId: 55630,
+          city_latitude: 45.26444,
+          city_longitude: 19.83167
+        },
+        {
+          city: "Niš",
+          cityId: 129259,
+          city_latitude: 43.31917,
+          city_longitude: 21.89611
+        }
+      ]
     }
   },
   {
@@ -2394,7 +3984,27 @@ export const CountryInfo = [
       ISO2: "SR",
       color: "#2ca02c",
       continent: "Africa",
-      capital: "Paramaribo"
+      capital: "Paramaribo",
+      cities: [
+        {
+          city: "Paramaribo",
+          cityId: 3001,
+          city_latitude: 5.86667,
+          city_longitude: -55.16667
+        },
+        {
+          city: "Lelydorp",
+          cityId: 501661,
+          city_latitude: 5.69335833350831,
+          city_longitude: -55.2141142822802
+        },
+        {
+          city: "Marienburg",
+          cityId: 688371,
+          city_latitude: 5.87812950041858,
+          city_longitude: -55.0444701779634
+        }
+      ]
     }
   },
   {
@@ -2404,7 +4014,15 @@ export const CountryInfo = [
       ISO2: "SK",
       color: "#2ca02c",
       continent: "Europe",
-      capital: "Bratislava"
+      capital: "Bratislava",
+      cities: [
+        {
+          city: "Bratislava",
+          cityId: 1780,
+          city_latitude: 48.14472,
+          city_longitude: 17.11278
+        }
+      ]
     }
   },
   {
@@ -2414,7 +4032,15 @@ export const CountryInfo = [
       ISO2: "SI",
       color: "#98df8a",
       continent: "Europe",
-      capital: "Ljubljana"
+      capital: "Ljubljana",
+      cities: [
+        {
+          city: "Ljubljana",
+          cityId: 437,
+          city_latitude: 46.05,
+          city_longitude: 14.51667
+        }
+      ]
     }
   },
   {
@@ -2424,7 +4050,21 @@ export const CountryInfo = [
       ISO2: "SE",
       color: "#ff7f0e",
       continent: "Europe",
-      capital: "Stockholm"
+      capital: "Stockholm",
+      cities: [
+        {
+          city: "Stockholm",
+          cityId: 1754,
+          city_latitude: 59.32944,
+          city_longitude: 18.06861
+        },
+        {
+          city: "Malmö",
+          cityId: 2211,
+          city_latitude: 55.60556,
+          city_longitude: 13
+        }
+      ]
     }
   },
   {
@@ -2438,12 +4078,21 @@ export const CountryInfo = [
     }
   },
   {
-    id: 172,
+    id: 668888,
     properties: {
       name: "Sint Maarten",
+      ISO2: "SX",
       color: "#aec7e8",
       continent: "NorthAmerica",
-      capital: "Philipsburg"
+      capital: "Philipsburg",
+      cities: [
+        {
+          city: "Philipsburg",
+          cityId: 30958,
+          city_latitude: 18.011549,
+          city_longitude: -63.039896
+        }
+      ]
     }
   },
   {
@@ -2473,7 +4122,15 @@ export const CountryInfo = [
       ISO2: "TC",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "N/A"
+      capital: "N/A",
+      cities: [
+        {
+          city: "Grand Turk Island",
+          cityId: 1473924,
+          city_latitude: 21.47222,
+          city_longitude: -71.13889
+        }
+      ]
     }
   },
   {
@@ -2503,7 +4160,39 @@ export const CountryInfo = [
       ISO2: "TH",
       color: "#2ca02c",
       continent: "Asia",
-      capital: "Bangkok"
+      capital: "Bangkok",
+      cities: [
+        {
+          city: "Bangkok",
+          cityId: 1861,
+          city_latitude: 13.75,
+          city_longitude: 100.51667
+        },
+        {
+          city: "Phuket",
+          cityId: 844430,
+          city_latitude: 7.88806,
+          city_longitude: 98.3975
+        },
+        {
+          city: "Pattaya",
+          cityId: 170919,
+          city_latitude: 12.92306,
+          city_longitude: 100.87194
+        },
+        {
+          city: "Ko Samui",
+          cityId: 270375,
+          city_latitude: 9.5,
+          city_longitude: 100
+        },
+        {
+          city: "Mueang Chiang Mai",
+          cityId: 476008,
+          city_latitude: 18.79028,
+          city_longitude: 98.98444
+        }
+      ]
     }
   },
   {
@@ -2542,7 +4231,15 @@ export const CountryInfo = [
       ISO2: "TO",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Nuku'alofa"
+      capital: "Nuku'alofa",
+      cities: [
+        {
+          city: "Nuku'alofa",
+          cityId: 38834,
+          city_latitude: -21.138087,
+          city_longitude: -175.195375
+        }
+      ]
     }
   },
   {
@@ -2552,7 +4249,27 @@ export const CountryInfo = [
       ISO2: "TT",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "Port of Spain"
+      capital: "Port of Spain",
+      cities: [
+        {
+          city: "Couva",
+          cityId: 2602007,
+          city_latitude: 10.41667,
+          city_longitude: -61.45
+        },
+        {
+          city: "Port of Spain",
+          cityId: 39178,
+          city_latitude: 10.66667,
+          city_longitude: -61.51667
+        },
+        {
+          city: "Chaguanas",
+          cityId: 36575,
+          city_latitude: 10.5172,
+          city_longitude: -61.415
+        }
+      ]
     }
   },
   {
@@ -2572,7 +4289,33 @@ export const CountryInfo = [
       ISO2: "TR",
       color: "#d62728",
       continent: "Asia",
-      capital: "Ankara"
+      capital: "Ankara",
+      cities: [
+        {
+          city: "Antalya",
+          cityId: 6487,
+          city_latitude: 36.9,
+          city_longitude: 30.68333
+        },
+        {
+          city: "Istanbul",
+          cityId: 406,
+          city_latitude: 41.01,
+          city_longitude: 28.96028
+        },
+        {
+          city: "Muğla",
+          cityId: 216912,
+          city_latitude: 37.21667,
+          city_longitude: 28.36667
+        },
+        {
+          city: "Edirne",
+          cityId: 43387,
+          city_latitude: 41.67806,
+          city_longitude: 26.55944
+        }
+      ]
     }
   },
   {
@@ -2582,7 +4325,15 @@ export const CountryInfo = [
       ISO2: "TW",
       capital: "Taipei",
       color: "#1f77b4",
-      continent: "Asia"
+      continent: "Asia",
+      cities: [
+        {
+          city: "Taipei",
+          cityId: 1867,
+          city_latitude: 25.03333,
+          city_longitude: 121.63333
+        }
+      ]
     }
   },
   {
@@ -2612,7 +4363,21 @@ export const CountryInfo = [
       ISO2: "UA",
       color: "#98df8a",
       continent: "Europe",
-      capital: "Kiev"
+      capital: "Kiev",
+      cities: [
+        {
+          city: "Kiev",
+          cityId: 1899,
+          city_latitude: 50.4501,
+          city_longitude: 30.5241
+        },
+        {
+          city: "Chornobyl",
+          cityId: 129677,
+          city_latitude: 51.2705,
+          city_longitude: 30.2194
+        }
+      ]
     }
   },
   {
@@ -2622,7 +4387,15 @@ export const CountryInfo = [
       ISO2: "UY",
       color: "#ffbb78",
       continent: "SouthAmerica",
-      capital: "Montevideo"
+      capital: "Montevideo",
+      cities: [
+        {
+          city: "Montevideo",
+          cityId: 1335,
+          city_latitude: -34.86694,
+          city_longitude: -56.16667
+        }
+      ]
     }
   },
   {
@@ -2645,6 +4418,78 @@ export const CountryInfo = [
           cityId: 62,
           city_latitude: 37.7648,
           city_longitude: -122.463
+        },
+        {
+          city: "New York City",
+          cityId: 60,
+          city_latitude: 40.7648,
+          city_longitude: -73.9808
+        },
+        {
+          city: "Las Vegas",
+          cityId: 23768,
+          city_latitude: 36.1663,
+          city_longitude: -115.1492
+        },
+        {
+          city: "Miami",
+          cityId: 8652,
+          city_latitude: 25.7743,
+          city_longitude: -80.1937
+        },
+        {
+          city: "Los Angeles",
+          cityId: 65,
+          city_latitude: 34.0544,
+          city_longitude: -118.2439
+        },
+        {
+          city: "Orlando",
+          cityId: 49233,
+          city_latitude: 28.5421,
+          city_longitude: -81.379
+        },
+        {
+          city: "Honolulu",
+          cityId: 18094,
+          city_latitude: 21.3045,
+          city_longitude: -157.8557
+        },
+        {
+          city: "Washington",
+          cityId: 61,
+          city_latitude: 38.895,
+          city_longitude: -77.0366
+        },
+        {
+          city: "Chicago",
+          cityId: 1297,
+          city_latitude: 41.8756,
+          city_longitude: -87.6244
+        },
+        {
+          city: "Boston",
+          cityId: 100,
+          city_latitude: 42.3605,
+          city_longitude: -71.0596
+        },
+        {
+          city: "San Jose",
+          cityId: 16553,
+          city_latitude: 37.2751,
+          city_longitude: -121.8261
+        },
+        {
+          city: "Houston",
+          cityId: 16555,
+          city_latitude: 29.7589,
+          city_longitude: -95.3677
+        },
+        {
+          city: "Philadelphia",
+          cityId: 1345,
+          city_latitude: 40.0115,
+          city_longitude: -75.1327
         }
       ]
     }
@@ -2666,7 +4511,15 @@ export const CountryInfo = [
       ISO2: "VC",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "Kingstown"
+      capital: "Kingstown",
+      cities: [
+        {
+          city: "Kingstown",
+          cityId: 41474,
+          city_latitude: 13.161647,
+          city_longitude: -61.221612
+        }
+      ]
     }
   },
   {
@@ -2676,25 +4529,69 @@ export const CountryInfo = [
       ISO2: "VE",
       color: "#2ca02c",
       continent: "SouthAmerica",
-      capital: "Caracas"
+      capital: "Caracas",
+      cities: [
+        {
+          city: "Caracas",
+          cityId: 1533,
+          city_latitude: 10.5,
+          city_longitude: -66.93333
+        },
+        {
+          city: "Maracaibo",
+          cityId: 171632,
+          city_latitude: 10.63333,
+          city_longitude: -71.63333
+        }
+      ]
     }
   },
   {
-    id: 28,
+    id: 498024,
     properties: {
       name: "British Virgin Islands",
+      ISO2: "VG",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "Road Town"
+      capital: "Road Town",
+      cities: [
+        {
+          city: "Tortola",
+          cityId: 827604,
+          city_latitude: 18.41667,
+          city_longitude: -64.58333
+        },
+        {
+          city: "Road Town",
+          cityId: 179431,
+          city_latitude: 18.43333,
+          city_longitude: -64.61667
+        }
+      ]
     }
   },
   {
-    id: 213,
+    id: 83280,
     properties: {
       name: "U.S. Virgin Islands",
+      ISO2: "VI",
       color: "#1f77b4",
       continent: "NorthAmerica",
-      capital: "Charlotte Amalie"
+      capital: "Charlotte Amalie",
+      cities: [
+        {
+          city: "Charlotte Amalie",
+          cityId: 51681,
+          city_latitude: 18.3419,
+          city_longitude: -64.9307
+        },
+        {
+          city: "St Croix",
+          cityId: 808903,
+          city_latitude: 17.73,
+          city_longitude: -64.75
+        }
+      ]
     }
   },
   {
@@ -2704,7 +4601,39 @@ export const CountryInfo = [
       ISO2: "VN",
       color: "#ffbb78",
       continent: "Asia",
-      capital: "Hanoi"
+      capital: "Hanoi",
+      cities: [
+        {
+          city: "Ho Chi Minh City",
+          cityId: 1854,
+          city_latitude: 10.81667,
+          city_longitude: 106.63333
+        },
+        {
+          city: "Hanoi",
+          cityId: 1858,
+          city_latitude: 21,
+          city_longitude: 105.75
+        },
+        {
+          city: "Hạ Long",
+          cityId: 36077,
+          city_latitude: 20.95,
+          city_longitude: 107.08333
+        },
+        {
+          city: "Hue",
+          cityId: 36167,
+          city_latitude: 16.46667,
+          city_longitude: 107.58333
+        },
+        {
+          city: "Hội An",
+          cityId: 36160,
+          city_latitude: 15.88333,
+          city_longitude: 108.33333
+        }
+      ]
     }
   },
   {
@@ -2714,7 +4643,21 @@ export const CountryInfo = [
       ISO2: "VU",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Port Vila"
+      capital: "Port Vila",
+      cities: [
+        {
+          city: "Port Vila",
+          cityId: 37806,
+          city_latitude: -17.731392,
+          city_longitude: 168.306222
+        },
+        {
+          city: "Luganville",
+          cityId: 876557,
+          city_latitude: -15.51522,
+          city_longitude: 167.165287
+        }
+      ]
     }
   },
   {
@@ -2731,7 +4674,15 @@ export const CountryInfo = [
       ISO2: "WS",
       color: "#1f77b4",
       continent: "Oceania",
-      capital: "Apia"
+      capital: "Apia",
+      cities: [
+        {
+          city: "Apia",
+          cityId: 36260,
+          city_latitude: -13.836945,
+          city_longitude: -171.802879
+        }
+      ]
     }
   },
   {
@@ -2751,7 +4702,21 @@ export const CountryInfo = [
       ISO2: "ZA",
       color: "#ff7f0e",
       continent: "Africa",
-      capital: "Pretoria"
+      capital: "Pretoria",
+      cities: [
+        {
+          city: "Johannesburg",
+          cityId: 34647,
+          city_latitude: -26.1633,
+          city_longitude: 28.0328
+        },
+        {
+          city: "Cape Town",
+          cityId: 5465,
+          city_latitude: -33.9351,
+          city_longitude: 18.4289
+        }
+      ]
     }
   },
   {
@@ -2771,7 +4736,15 @@ export const CountryInfo = [
       ISO2: "ZW",
       color: "#d62728",
       continent: "Africa",
-      capital: "Harare"
+      capital: "Harare",
+      cities: [
+        {
+          city: "Harare",
+          cityId: 3921,
+          city_latitude: -17.82917,
+          city_longitude: 31.05222
+        }
+      ]
     }
   }
 ];

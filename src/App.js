@@ -22,7 +22,7 @@ function App({ userAuthenticated }) {
   const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
-console.log(userAuthenticated)
+  const [clickedCityArray, handleClickedCityArray] = useState(JSON.parse(localStorage.getItem('clickedCityArray')));
   const swalParams = {
     type: "info",
     text:
@@ -31,7 +31,9 @@ console.log(userAuthenticated)
   };
 
   const [swalNotFired, setSwalNotFired] = useState(true);
-
+  useEffect(() => {
+    handleClickedCityArray(JSON.parse(localStorage.getItem('clickedCityArray')))
+  }, [localStorage.getItem('clickedCityArray')])
   useEffect(() => {
     if (window.innerWidth < 600 && swalNotFired) {
       Swal.fire(swalParams);
@@ -48,6 +50,7 @@ console.log(userAuthenticated)
     window.addEventListener("resize", resizeListener);
     return () => window.removeEventListener("resize", resizeListener);
   }, [swalNotFired, swalParams]);
+
   return (
     <Router>
       <UserProvider value={{ userLoggedIn, setUserLoggedIn, userData }}>
@@ -57,7 +60,9 @@ console.log(userAuthenticated)
             notifyOnNetworkStatusChange
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
-            onCompleted={() => handleLoaded(true)}
+            onCompleted={() => {
+              handleLoaded(true);
+            }}
           >
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
@@ -84,6 +89,7 @@ console.log(userAuthenticated)
                           refetch={refetch}
                           mapPage={mapPage}
                           handleMapPageChange={handleMapPageChange}
+                          clickedCityArray={clickedCityArray}
                         />
                       )}
                     />

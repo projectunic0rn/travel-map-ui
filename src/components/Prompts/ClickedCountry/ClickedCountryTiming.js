@@ -37,11 +37,11 @@ function ClickedCountryTiming(props) {
   }
   return (
     <div className="clicked-country-timing-container">
-      <span onClick={() => handleAddCountryTiming(0)}>I visited here</span>
-      <span onClick={() => handleAddCountryTiming(1)}>
+      <span className = 'past-timing' onClick={() => handleAddCountryTiming(0)}>I visited here</span>
+      <span className = 'future-timing' onClick={() => handleAddCountryTiming(1)}>
         I plan to visit here
       </span>
-      <span onClick={() => handleAddCountryTiming(2)}>
+      <span className = 'live-timing' onClick={() => handleAddCountryTiming(2)}>
         I live here currently
       </span>
       {props.previousTrips ? (

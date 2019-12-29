@@ -483,6 +483,15 @@ export const GET_PROFILE_BASICS = gql`
 `;
 
 //MUTATIONS
+export const ADD_MULTIPLE_PLACES = gql`
+  mutation addMultiplePlaces($clickedCityArray: [Places_visited!]) {
+    addMultiplePlaces(clickedCityArray: $clickedCityArray) {
+      id
+      city
+    }
+  }
+`;
+
 export const ADD_PLACE_VISITED = gql`
   mutation addPlaceVisited($country: Country!, $cities: [City!]) {
     addPlaceVisited(country: $country, cities: $cities) {
@@ -576,7 +585,6 @@ export const REMOVE_CITY_REVIEW = gql`
     }
   }
 `;
-
 
 export const LOGIN_USER = gql`
   mutation loginUser($username: String!, $password: String!) {
