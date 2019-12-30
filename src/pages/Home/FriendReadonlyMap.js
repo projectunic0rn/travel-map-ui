@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import MetaTags from "react-meta-tags";
 import { NavLink, withRouter } from "react-router-dom";
 import { Query } from "react-apollo";
 import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
@@ -82,25 +81,6 @@ const FriendReadonlyMap = () => {
       partialRefetch={true}
       onCompleted={data => handleTripDataHelper(data.user)}
     >
-      <MetaTags>
-        <title>geornal</title>
-        <meta name="title" content="Geornal - World Map" />
-        <meta
-          name="description"
-          content="World map showing cities I have been to and want to visit"
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https:geornal.herokuapp.com/public/GreenwithMV"
-        />
-        <meta property="og:title" content="My Travel Geornal" />
-        <meta
-          property="og:description"
-          content="World map showing cities I have been to and want to visit"
-        />
-        <meta property="og:image" content="%PUBLIC_URL%/SitePreview.PNG" />
-      </MetaTags>
       {({ loading, error, data, refetch }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
