@@ -20,10 +20,10 @@ class NewUserCity extends Component {
     this.state = {
       windowWidth: undefined,
       viewport: {
-        width: 400,
-        height: 400,
-        latitude: 0,
-        longitude: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        latitude: 20,
+        longitude: 8,
         zoom: 1.5
       },
       markers: [],
@@ -69,12 +69,14 @@ class NewUserCity extends Component {
     this.showSuggest = this.showSuggest.bind(this);
     this.handleContinents = this.handleContinents.bind(this);
     this.handleCountries = this.handleCountries.bind(this);
+    this.setInitialZoom = this.setInitialZoom.bind(this);
   }
 
   componentDidMount() {
     this.setState({ windowWidth: window.innerWidth });
     window.addEventListener("resize", this.resize);
     this.resize();
+    this.setInitialZoom();
     if (localStorage.clickedCityArray !== undefined) {
       var getObject = JSON.parse(localStorage.getItem("clickedCityArray"));
       this.handleLoadedCities(getObject);
@@ -89,6 +91,24 @@ class NewUserCity extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.resize);
+  }
+
+  setInitialZoom() {
+    let viewport = this.state.viewport;
+    if (window.innerWidth >= 2400) {
+      viewport.zoom = 2.2;
+    } else if (window.innerWidth >= 1750) {
+      viewport.zoom = 1.75;
+    } else if (window.innerWidth <= 900) {
+      viewport.zoom = 0.75;
+    } else if (window.innerWidth <= 1200) {
+      viewport.zoom = 1.0;
+    } else if (window.innerWidth <= 1400) {
+      viewport.zoom = 1.25;
+    }
+    this.setState({
+      viewport: { ...this.state.viewport, ...viewport }
+    });
   }
 
   deleteCity(cityTooltip) {
@@ -125,7 +145,7 @@ class NewUserCity extends Component {
           {
             clickedCityArray,
             markerPastDisplay: markerDisplay,
-            cityTooltip: null,
+            cityTooltip: null
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -147,7 +167,7 @@ class NewUserCity extends Component {
           {
             clickedCityArray,
             markerFutureDisplay: markerDisplay,
-            cityTooltip: null,
+            cityTooltip: null
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -169,7 +189,7 @@ class NewUserCity extends Component {
           {
             clickedCityArray,
             markerLiveDisplay: markerDisplay,
-            cityTooltip: null,
+            cityTooltip: null
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -181,7 +201,7 @@ class NewUserCity extends Component {
     }
     this.setState({
       tripTimingCounts: [pastCount, futureCount, liveCount]
-    })
+    });
   }
 
   deleteAll() {
@@ -198,6 +218,9 @@ class NewUserCity extends Component {
   }
 
   resize() {
+    console.log("resize");
+    console.log(this.state.windowWidth);
+    console.log(window.innerWidth);
     this.setState({ windowWidth: window.innerWidth });
     this.handleViewportChange({
       width: window.innerWidth,
@@ -206,6 +229,7 @@ class NewUserCity extends Component {
   }
 
   handleViewportChange(viewport) {
+    console.log(viewport);
     this.setState({
       viewport: { ...this.state.viewport, ...viewport }
     });
@@ -462,7 +486,6 @@ class NewUserCity extends Component {
     });
     this.handleTypedCity(event);
     this.handleTripTimingCityHelper(newCityEntry, this.state.timingState);
-
   }
 
   handleClickedCity(newCity) {
@@ -785,12 +808,22 @@ class NewUserCity extends Component {
       suggestPopup
     } = this.state;
     if (loading) return <Loader />;
+    console.log(viewport.zoom);
     return (
       <>
         <div className="city-new-map-container">
           <div className="map-header-button">
             <div className="sc-controls">
+              {this.state.timingState !== 2 ? (
+                <span className="new-map-suggest">
+                  <span className="sc-control-label">Tap cities</span>
+                  <span onClick={this.showSuggest}>
+                    <SuggestionsIcon />
+                  </span>
+                </span>
+              ) : null}
               <span className="new-map-clear">
+                <span className="sc-control-label">Clear</span>
                 <button
                   onClick={() => this.setState({ deletePrompt: true })}
                   className="clear-map-button"
@@ -814,14 +847,9 @@ class NewUserCity extends Component {
                   </span>
                 </div>
               </span>
-              {this.state.timingState !== 2 ? (
-                <span className="new-map-suggest">
-                  <span onClick={this.showSuggest}>
-                    <SuggestionsIcon />
-                  </span>
-                </span>
-              ) : null}
+
               <span className="new-map-share">
+                <span className="sc-control-label">Share/Save</span>
                 <span onClick={this.showPopup}>
                   <ShareIcon />
                 </span>
@@ -831,11 +859,14 @@ class NewUserCity extends Component {
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
             ref={this.mapRef}
+            width="100%"
+            height="100%"
             {...viewport}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
             onViewportChange={this.handleViewportChange}
+            minZoom={0.25}
           >
             <Geocoder
               mapRef={this.mapRef}

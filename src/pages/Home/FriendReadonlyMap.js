@@ -88,11 +88,11 @@ const FriendReadonlyMap = () => {
         if (!loaded) return <Loader />;
         return (
           <div className="map-container">
-            <div className="map-header-cta">
+            {cityOrCountry ? <div className="map-header-cta">
               <NavLink to={`/new`}>
                 <button>CREATE MY MAP</button>
               </NavLink>
-            </div>
+            </div> : null}
             <div className={cityOrCountry ? "map city-map" : "map country-map"}>
               {cityOrCountry ? (
                 <FriendReadonlyCity

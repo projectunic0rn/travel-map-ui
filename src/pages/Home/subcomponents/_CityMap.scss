@@ -209,12 +209,19 @@
 .map-header-cta {
   position: absolute;
   top: 16px;
-  right: 80px;
+  right: calc(50% - 480px);
   display: flex;
   justify-content: center;
   max-width: 267px;
   flex: 1 1;
-  z-index: 200;
+  z-index: 2;
+  @media screen and (max-width: 1200px) {
+
+  }
+  @media screen and (max-width: 1000px) {
+    top: 72px;
+    right: calc(50% - 220px);
+  }
   button {
     width: 200px;
     height: 40px;

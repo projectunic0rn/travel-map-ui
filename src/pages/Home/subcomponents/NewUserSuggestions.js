@@ -42,13 +42,7 @@ export default function NewUserSuggestions(props) {
           </span>
         )}
       </div>
-      {page === 2 ? (
-        <div className="sc-lower-instructions">
-          <span>
-            For cities not listed above, exit popup and type in manually
-          </span>
-        </div>
-      ) : null}
+
       <div className="suggested-cities-nav">
         <span
           id={page === 0 ? "span-active" : null}
@@ -92,6 +86,13 @@ export default function NewUserSuggestions(props) {
           )
         }[page]
       }
+            {page === 2 ? (
+        <div className="sc-lower-instructions">
+          <span>
+            For cities not listed above, exit popup and type in manually
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 }

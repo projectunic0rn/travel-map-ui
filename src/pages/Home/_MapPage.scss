@@ -20,6 +20,9 @@
     .rsm-svg {
       max-width: 1500px;
       transform: translate(0, -30px);
+      @media (max-width: 1000px) {
+        transform: translateY(20px);
+      }
     }
   }
   .map {
@@ -84,7 +87,12 @@
         justify-content: center;
         max-width: 267px;
         flex: 1;
-        z-index: 2000;
+        z-index: 2;
+        @media screen and (max-width: 1000px) {
+          position: absolute;
+          top: 72px;
+          left: calc(50% - 220px);
+        }
         button {
           width: 200px;
           height: 40px;
@@ -140,6 +148,9 @@
       justify-content: center;
       align-content: center;
       margin: 8px auto;
+      @media (max-width: 1000px) {
+        transform: translateY(40px);
+      }
       button {
         z-index: 2;
         background: none;

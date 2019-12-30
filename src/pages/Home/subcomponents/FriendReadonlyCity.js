@@ -16,8 +16,8 @@ class FriendReadonlyCity extends Component {
     super(props);
     this.state = {
       viewport: {
-        width: 400,
-        height: 400,
+        width: window.innerWidth,
+        height: window.innerHeight,
         latitude: 0,
         longitude: 0,
         zoom: 1.5
@@ -52,12 +52,14 @@ class FriendReadonlyCity extends Component {
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
+    this.setInitialZoom = this.setInitialZoom.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
     let tripData = this.props.tripData;
     this.resize();
+    this.setInitialZoom();
     this.handleLoadedCities(tripData);
     for (let i in tripData.Places_visited) {
       tripData.Places_visited[i].tripTiming = 0;
@@ -81,7 +83,26 @@ class FriendReadonlyCity extends Component {
     window.removeEventListener("resize", this.resize);
   }
 
+  setInitialZoom() {
+    let viewport = this.state.viewport;
+    if (window.innerWidth >= 2400) {
+      viewport.zoom = 2.2;
+    } else if (window.innerWidth >= 1750) {
+      viewport.zoom = 1.75;
+    } else if (window.innerWidth <= 900) {
+      viewport.zoom = 0.75;
+    } else if (window.innerWidth <= 1200) {
+      viewport.zoom = 1.0;
+    } else if (window.innerWidth <= 1400) {
+      viewport.zoom = 1.25;
+    }
+    this.setState({
+      viewport: { ...this.state.viewport, ...viewport }
+    });
+  }
+
   resize() {
+    console.log(this.state.viewport)
     this.handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight
@@ -445,11 +466,14 @@ class FriendReadonlyCity extends Component {
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
             ref={this.mapRef}
+            width="100%"
+            height="100%"
             {...viewport}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
             onViewportChange={this.handleViewportChange}
+            minZoom={0.25}
           >
             {this.state.activeTimings[0] ? markerPastDisplay : null}
             {this.state.activeTimings[1] ? markerFutureDisplay : null}
