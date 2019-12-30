@@ -1,4 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
+import MetaTags from 'react-meta-tags';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
@@ -22,7 +23,9 @@ function App({ userAuthenticated }) {
   const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
-  const [clickedCityArray, handleClickedCityArray] = useState(JSON.parse(localStorage.getItem('clickedCityArray')));
+  const [clickedCityArray, handleClickedCityArray] = useState(
+    JSON.parse(localStorage.getItem("clickedCityArray"))
+  );
   const swalParams = {
     type: "info",
     text:
@@ -32,8 +35,10 @@ function App({ userAuthenticated }) {
 
   const [swalNotFired, setSwalNotFired] = useState(true);
   useEffect(() => {
-    handleClickedCityArray(JSON.parse(localStorage.getItem('clickedCityArray')))
-  }, [localStorage.getItem('clickedCityArray')])
+    handleClickedCityArray(
+      JSON.parse(localStorage.getItem("clickedCityArray"))
+    );
+  }, [localStorage.getItem("clickedCityArray")]);
   useEffect(() => {
     if (window.innerWidth < 600 && swalNotFired) {
       Swal.fire(swalParams);
@@ -53,6 +58,25 @@ function App({ userAuthenticated }) {
 
   return (
     <Router>
+      <MetaTags>
+        <title>geornal</title>
+        <meta name="title" content="Geornal - World Map" />
+        <meta
+          name="description"
+          content="World map showing cities I have been to and want to visit"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https:geornal.herokuapp.com/public/GreenwithMV"
+        />
+        <meta property="og:title" content="My Travel Geornal" />
+        <meta
+          property="og:description"
+          content="World map showing cities I have been to and want to visit"
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/SitePreview.PNG" />
+      </MetaTags>
       <UserProvider value={{ userLoggedIn, setUserLoggedIn, userData }}>
         {userLoggedIn ? (
           <Query
