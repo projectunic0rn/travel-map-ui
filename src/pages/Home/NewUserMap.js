@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import NewUserCountry from "./subcomponents/NewUserCountry";
 import NewUserCity from "./subcomponents/NewUserCity";
 import Loader from "../../components/common/Loader/Loader";
 
 const NewUserMap = () => {
-  const [clickedCountryArray] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [loaded] = useState(true);
   const [mapPage, handleMapPageChange] = useState(1);

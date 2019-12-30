@@ -5,7 +5,6 @@ import ClickedCityTiming from "./ClickedCityTiming";
 function ClickedCityContainer(props) {
   const [previousTimings, handlePreviousTimings] = useState([0, 0, 0]);
   useEffect(() => {
-    console.log(props.customProps);
     let previousPast = props.customProps.tripData.Places_visited.some(city => {
       return city.city === props.customProps.cityInfo.result.text;
     });
@@ -22,8 +21,6 @@ function ClickedCityContainer(props) {
 
     handlePreviousTimings([previousPast, previousFuture, previousLive]);
   }, [props.customProps.tripData]);
-  console.log(previousTimings);
-  console.log(props.customProps.tripData);
   let countryName;
   let countryISO;
   let context;

@@ -71,7 +71,7 @@ const FriendReadonlyMap = () => {
   if (window.location.pathname.split("/")[2] === undefined) {
     return <PageNotFound />;
   }
-  console.log(tripData);
+
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
@@ -209,7 +208,7 @@ class NewUserCity extends Component {
   }
 
   handleLoadedCities(data) {
-    const { tripTimingCounts, clickedCityArray } = this.state;
+    const { tripTimingCounts } = this.state;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -392,7 +391,6 @@ class NewUserCity extends Component {
   }
 
   handleOnResult(event) {
-    console.log(event);
     let markers = this.state.markers;
     markers.push(event);
     let country = "";
@@ -431,8 +429,6 @@ class NewUserCity extends Component {
     ) {
       return;
     }
-    console.log(event.result);
-    console.log(context);
     let newCityEntry = {
       country:
         event.result.context !== undefined ? country : event.result.place_name,
@@ -456,10 +452,10 @@ class NewUserCity extends Component {
     });
     this.handleTypedCity(event);
     this.handleTripTimingCityHelper(newCityEntry, this.state.timingState);
+
   }
 
   handleClickedCity(newCity) {
-    console.log(newCity);
     if (
       this.state.clickedCityArray.some(
         city =>
@@ -655,7 +651,7 @@ class NewUserCity extends Component {
       case 2:
         liveCount++;
         this.handleActiveTimings([0, 0, 0]);
-        tripTimingCounts[1] = liveCount;
+        tripTimingCounts[2] = liveCount;
         color = "rgba(150, 177, 168, 0.25)";
         markerLiveDisplay.push(
           <Marker
@@ -834,6 +830,7 @@ class NewUserCity extends Component {
             <Geocoder
               mapRef={this.mapRef}
               onResult={this.handleOnResult}
+              limit={10}
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }

@@ -268,7 +268,6 @@ class CityMap extends Component {
   }
 
   handleOnResult(event) {
-    console.log(event);
     let markers = this.state.markers;
     markers.push(event);
     this.setState({
@@ -278,7 +277,6 @@ class CityMap extends Component {
   }
 
   handleTypedCity(city) {
-    console.log(this.state.clickedCityArray)
     this.setState({
       clickedCity: city,
       activePopup: true

@@ -24,7 +24,27 @@ export const CountryInfo = [
       ISO2: "AF",
       color: "#1f77b4",
       continent: "Asia",
-      capital: "Kabul"
+      capital: "Kabul",
+      cities: [
+        {
+          city: "Kabul",
+          cityId: 5838,
+          city_latitude: 34.525835,
+          city_longitude: 69.160091
+        },
+        {
+          city: "Kandahar",
+          cityId: 70384,
+          city_latitude: 31.625771851922,
+          city_longitude: 65.714477095753
+        },
+        {
+          city: "Herat",
+          cityId: 794967,
+          city_latitude: 34.3508273197484,
+          city_longitude: 62.2164002805948
+        }
+      ]
     }
   },
   {
@@ -34,7 +54,27 @@ export const CountryInfo = [
       ISO2: "AO",
       continent: "Africa",
       color: "#1f77b4",
-      capital: "Luanda"
+      capital: "Luanda",
+      cities: [
+        {
+          city: "Luanda",
+          cityId: 3897,
+          city_latitude: -8.83333,
+          city_longitude: 13.23333
+        },
+        {
+          city: "Lobito",
+          cityId: 3835944,
+          city_latitude: -12.36667,
+          city_longitude: 13.53333
+        },
+        {
+          city: "Lubango",
+          cityId: 25625,
+          city_latitude: -14.85,
+          city_longitude: 13.61
+        }
+      ]
     }
   },
   {
@@ -341,7 +381,15 @@ export const CountryInfo = [
       ISO2: "BI",
       continent: "Africa",
       color: "#1f77b4",
-      capital: "Bujumbura"
+      capital: "Bujumbura",
+      cities: [
+        {
+          city: "Bujumbura",
+          cityId: 3854,
+          city_latitude: -3.365051,
+          city_longitude: 29.352243
+        }
+      ]
     }
   },
   {
@@ -381,7 +429,27 @@ export const CountryInfo = [
       ISO2: "BJ",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Porto Novo"
+      capital: "Porto Novo",
+      cities: [
+        {
+          city: "Cotonou",
+          cityId: 43595,
+          city_latitude: 6.373391,
+          city_longitude: 2.4401
+        },
+        {
+          city: "Porto-Novo",
+          cityId: 3799,
+          city_latitude: 6.487424,
+          city_longitude: 2.621176
+        },
+        {
+          city: "Parakou",
+          cityId: 366711,
+          city_latitude: 9.34001597883356,
+          city_longitude: 2.62782571837306
+        }
+      ]
     }
   },
   {
@@ -391,7 +459,27 @@ export const CountryInfo = [
       ISO2: "BF",
       color: "#aec7e8",
       continent: "Africa",
-      capital: "Ouagadougou"
+      capital: "Ouagadougou",
+      cities: [
+        {
+          city: "Ouagadougou",
+          cityId: 3777,
+          city_latitude: 12.363142,
+          city_longitude: -1.529773
+        },
+        {
+          city: "Bobo Dioulasso",
+          cityId: 223761,
+          city_latitude: 11.187327,
+          city_longitude: -4.301808
+        },
+        {
+          city: "Banfora",
+          cityId: 639674,
+          city_latitude: 10.626402,
+          city_longitude: -4.752147
+        }
+      ]
     }
   },
   {
@@ -401,7 +489,27 @@ export const CountryInfo = [
       ISO2: "BD",
       color: "#1f77b4",
       continent: "Asia",
-      capital: "Dhaka"
+      capital: "Dhaka",
+      cities: [
+        {
+          city: "Dhaka",
+          cityId: 1354,
+          city_latitude: 23.7,
+          city_longitude: 90.36667
+        },
+        {
+          city: "Khulna",
+          cityId: 206654,
+          city_latitude: 22.5,
+          city_longitude: 89.3333
+        },
+        {
+          city: "Chittagong",
+          cityId: 376749,
+          city_latitude: 22.31667,
+          city_longitude: 91.81667
+        }
+      ]
     }
   },
   {
@@ -448,6 +556,18 @@ export const CountryInfo = [
           cityId: 3882,
           city_latitude: 26.21667,
           city_longitude: 50.58306
+        },
+        {
+          city: "Riffa/Albuhair",
+          cityId: 359327,
+          city_latitude: 26.14,
+          city_longitude: 50.57
+        },
+        {
+          city: "Muharraq",
+          cityId: 270500,
+          city_latitude: 26.25,
+          city_longitude: 50.61667
         }
       ]
     }
@@ -657,16 +777,51 @@ export const CountryInfo = [
       ISO2: "BN",
       color: "#1f77b4",
       continent: "Asia",
-      capital: "Bandar Seri Begawan"
+      capital: "Bandar Seri Begawan",
+      cities: [
+        {
+          city: "Bandar Seri Begawan",
+          cityId: 9279,
+          city_latitude: 4.91667,
+          city_longitude: 114.91667
+        },
+        {
+          city: "Kuala Belait",
+          cityId: 588045,
+          city_latitude: 4.58333,
+          city_longitude: 114.18333
+        },
+        {
+          city: "Seria",
+          cityId: 2159472,
+          city_latitude: 4.6,
+          city_longitude: 114.33333
+        }
+      ]
     }
   },
   {
-    id: 23,
+    id: 716016,
     properties: {
       name: "Bhutan",
+      ISO2: "BT",
       continent: "Asia",
       color: "#1f77b4",
-      capital: "Thimphu"
+      capital: "Thimphu",
+      cities: [
+        {
+          city: "Punakha",
+          cityId: 826112,
+          city_latitude: 27.610188,
+          city_longitude: 89.859455
+        },
+        {
+          city: "Phuntsholing",
+          cityId: 874977,
+          city_latitude: 26.8639725074886,
+          city_longitude: 89.3853214289993
+        }
+      ]
     }
   },
   {
@@ -676,7 +831,27 @@ export const CountryInfo = [
       ISO2: "BW",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Gaborone"
+      capital: "Gaborone",
+      cities: [
+        {
+          city: "Gaborone",
+          cityId: 3919,
+          city_latitude: -24.65694,
+          city_longitude: 25.90861
+        },
+        {
+          city: "Maun",
+          cityId: 170732,
+          city_latitude: -19.98333,
+          city_longitude: 23.41667
+        },
+        {
+          city: "Molepolole",
+          cityId: 170725,
+          city_latitude: -24.4066,
+          city_longitude: 25.4951
+        }
+      ]
     }
   },
   {
@@ -686,7 +861,27 @@ export const CountryInfo = [
       ISO2: "CF",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Bangui"
+      capital: "Bangui",
+      cities: [
+        {
+          city: "Bangui",
+          cityId: 3832,
+          city_latitude: 4.36139,
+          city_longitude: 18.55528
+        },
+        {
+          city: "Bimbo",
+          cityId: 667257,
+          city_latitude: 4.33255483936286,
+          city_longitude: 18.5250511486083
+        },
+        {
+          city: "Mbaïki",
+          cityId: 113716,
+          city_latitude: 3.87051577256858,
+          city_longitude: 17.9950754810125
+        }
+      ]
     }
   },
   {
@@ -858,7 +1053,27 @@ export const CountryInfo = [
       ISO2: "CI",
       color: "#ff7f0e",
       continent: "Africa",
-      capital: "Yamoussoukro"
+      capital: "Yamoussoukro",
+      cities: [
+        {
+          city: "Yamoussoukro",
+          cityId: 3768,
+          city_latitude: 6.806,
+          city_longitude: -5.272
+        },
+        {
+          city: "Abidjan",
+          cityId: 1515,
+          city_latitude: 5.3198,
+          city_longitude: -4.0164
+        },
+        {
+          city: "Bouaké",
+          cityId: 124497,
+          city_latitude: 7.69060581222487,
+          city_longitude: -5.02984086982906
+        }
+      ]
     }
   },
   {
@@ -868,7 +1083,27 @@ export const CountryInfo = [
       ISO2: "CH",
       color: "#aec7e8",
       continent: "Africa",
-      capital: "Yaounde"
+      capital: "Yaounde",
+      cities: [
+        {
+          city: "Yaounde",
+          cityId: 3808,
+          city_latitude: 3.864768,
+          city_longitude: 11.520526
+        },
+        {
+          city: "Bafoussam",
+          cityId: 39708,
+          city_latitude: 5.47580833698542,
+          city_longitude: 10.4215564951301
+        },
+        {
+          city: "Douala",
+          cityId: 132830,
+          city_latitude: 4.0424,
+          city_longitude: 9.707925
+        }
+      ]
     }
   },
   {
@@ -878,7 +1113,27 @@ export const CountryInfo = [
       ISO2: "CD",
       color: "#aec7e8",
       continent: "Africa",
-      capital: "Kinshasa"
+      capital: "Kinshasa",
+      cities: [
+        {
+          city: "Kinshasa",
+          cityId: 3838,
+          city_latitude: -4.33167,
+          city_longitude: 15.31389
+        },
+        {
+          city: "Lubumbashi",
+          cityId: 187593,
+          city_latitude: -11.671,
+          city_longitude: 27.482
+        },
+        {
+          city: "Mbuji-Mayi",
+          cityId: 774717,
+          city_latitude: -6.12589415573588,
+          city_longitude: 23.5998110566288
+        }
+      ]
     }
   },
   {
@@ -888,7 +1143,15 @@ export const CountryInfo = [
       ISO2: "CG",
       color: "#ff7f0e",
       continent: "Africa",
-      capital: "Brazzaville"
+      capital: "Brazzaville",
+      cities: [
+        {
+          city: "Brazzaville",
+          cityId: 3844,
+          city_latitude: -4.2694,
+          city_longitude: 15.2712
+        }
+      ]
     }
   },
   {
@@ -933,16 +1196,57 @@ export const CountryInfo = [
       ISO2: "KM",
       continent: "Africa",
       color: "#1f77b4",
-      capital: "Moroni"
+      capital: "Moroni",
+      cities: [
+        {
+          city: "Moroni",
+          cityId: 976675,
+          city_latitude: -11.6931254583379,
+          city_longitude: 43.25430437
+        },
+        {
+          city: "Domoni",
+          cityId: 315978,
+          city_latitude: -11.4910235979891,
+          city_longitude: 43.2787076197565
+        },
+        {
+          city: "Fomboni",
+          cityId: 600461,
+          city_latitude: -12.2841004900231,
+          city_longitude: 43.741686232388
+        }
+      ]
     }
   },
   {
-    id: 33,
+    id: 117842,
     properties: {
       name: "Cape Verde",
+      ISO2: "CV",
       continent: "Africa",
       color: "#1f77b4",
-      capital: "Praia"
+      capital: "Praia",
+      cities: [
+        {
+          city: "Tarrafal",
+          cityId: 673948,
+          city_latitude: 16.9562714269745,
+          city_longitude: -25.3104658797383
+        },
+        {
+          city: "Santa Maria",
+          cityId: 497445,
+          city_latitude: 16.631216,
+          city_longitude: -22.912061
+        },
+        {
+          city: "Mindelo",
+          cityId: 142904,
+          city_latitude: 16.871542,
+          city_longitude: -24.98767
+        }
+      ]
     }
   },
   {
@@ -1155,7 +1459,21 @@ export const CountryInfo = [
       ISO2: "DJ",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Djibouti"
+      capital: "Djibouti",
+      cities: [
+        {
+          city: "Djibouti",
+          cityId: 3604,
+          city_latitude: 11.595,
+          city_longitude: 43.14806
+        },
+        {
+          city: "Tadjourah",
+          cityId: 687015,
+          city_latitude: 11.7851745535076,
+          city_longitude: 42.88469186984
+        }
+      ]
     }
   },
   {
@@ -1219,7 +1537,27 @@ export const CountryInfo = [
       ISO2: "DZ",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Algiers"
+      capital: "Algiers",
+      cities: [
+        {
+          city: "Algiers",
+          cityId: 3561,
+          city_latitude: 36.77639,
+          city_longitude: 3.05861
+        },
+        {
+          city: "Oran",
+          cityId: 131818,
+          city_latitude: 35.69694,
+          city_longitude: -0.63306
+        },
+        {
+          city: "Constantine",
+          cityId: 187346,
+          city_latitude: 36.365,
+          city_longitude: 6.61472
+        }
+      ]
     }
   },
   {
@@ -1266,6 +1604,18 @@ export const CountryInfo = [
           cityId: 733089,
           city_latitude: 27.1,
           city_longitude: 33.83
+        },
+        {
+          city: "Giza",
+          cityId: 81788,
+          city_latitude: 30.01,
+          city_longitude: 31.21
+        },
+        {
+          city: "Alexandria",
+          cityId: 87,
+          city_latitude: 31.2,
+          city_longitude: 29.91667
         }
       ]
     }
@@ -1277,7 +1627,15 @@ export const CountryInfo = [
       ISO2: "ER",
       continent: "Africa",
       color: "#aec7e8",
-      capital: "Asmara"
+      capital: "Asmara",
+      cities: [
+        {
+          city: "Asmara",
+          cityId: 3642,
+          city_latitude: 15.32235,
+          city_longitude: 38.914589
+        }
+      ]
     }
   },
   {
@@ -1365,7 +1723,27 @@ export const CountryInfo = [
       ISO2: "ET",
       color: "#ff7f0e",
       continent: "Africa",
-      capital: "Addis Ababa"
+      capital: "Addis Ababa",
+      cities: [
+        {
+          city: "Addis Ababa",
+          cityId: 3624,
+          city_latitude: 9.02722,
+          city_longitude: 38.73694
+        },
+        {
+          city: "Dessie",
+          cityId: 598056,
+          city_latitude: 11.1226044090282,
+          city_longitude: 39.6349822450429
+        },
+        {
+          city: "Bahir Dar",
+          cityId: 464699,
+          city_latitude: 11.588551,
+          city_longitude: 37.384398
+        }
+      ]
     }
   },
   {
@@ -1537,7 +1915,7 @@ export const CountryInfo = [
       name: "French Guiana",
       ISO2: "GF",
       color: "#d62728",
-      continent: "Africa",
+      continent: "SouthAmerica",
       capital: "Cayenne",
       cities: [
         {
@@ -1615,7 +1993,27 @@ export const CountryInfo = [
       ISO2: "GA",
       color: "#ffbb78",
       continent: "Africa",
-      capital: "Libreville"
+      capital: "Libreville",
+      cities: [
+        {
+          city: "Libreville",
+          cityId: 3825,
+          city_latitude: 0.399624,
+          city_longitude: 9.4565
+        },
+        {
+          city: "Port-Gentil",
+          cityId: 501715,
+          city_latitude: -0.704394,
+          city_longitude: 8.775819
+        },
+        {
+          city: "Franceville",
+          cityId: 102095,
+          city_latitude: -1.63436284010477,
+          city_longitude: 13.5895130597055
+        }
+      ]
     }
   },
   {
@@ -1699,6 +2097,18 @@ export const CountryInfo = [
           cityId: 3761,
           city_latitude: 5.661083,
           city_longitude: -0.202815
+        },
+        {
+          city: "Tamale",
+          cityId: 217040,
+          city_latitude: 9.440933,
+          city_longitude: -0.837541
+        },
+        {
+          city: "Takoradi",
+          cityId: 2022168,
+          city_latitude: 4.901209,
+          city_longitude: -1.774001
         }
       ]
     }
@@ -1708,9 +2118,16 @@ export const CountryInfo = [
     properties: {
       name: "Guinea",
       ISO2: "GN",
-      color: "#ffbb78",
       capital: "Conakry",
-      continent: "Africa"
+      continent: "Africa",
+      cities: [
+        {
+          city: "Conakry",
+          cityId: 3733,
+          city_latitude: 9.50917,
+          city_longitude: -13.71222
+        }
+      ]
     }
   },
   {
@@ -1718,7 +2135,6 @@ export const CountryInfo = [
     properties: {
       name: "The Gambia",
       ISO2: "GM",
-      color: "#1f77b4",
       continent: "Africa",
       capital: "Banjul"
     }
@@ -1729,8 +2145,15 @@ export const CountryInfo = [
       name: "Guinea-Bissau",
       ISO2: "GW",
       continent: "Africa",
-      color: "#2ca02c",
-      capital: "Bissau"
+      capital: "Bissau",
+      cities: [
+        {
+          city: "Bissau",
+          cityId: 3739,
+          city_latitude: 11.85917,
+          city_longitude: -15.59556
+        }
+      ]
     }
   },
   {
@@ -1738,9 +2161,22 @@ export const CountryInfo = [
     properties: {
       name: "Equatorial Guinea",
       ISO2: "GQ",
-      color: "#2ca02c",
       continent: "Africa",
-      capital: "Malabo"
+      capital: "Malabo",
+      cities: [
+        {
+          city: "Malabo",
+          cityId: 3818,
+          city_latitude: 3.725428,
+          city_longitude: 8.757188
+        },
+        {
+          city: "Bata",
+          cityId: 320792,
+          city_latitude: 1.855077,
+          city_longitude: 9.79347
+        }
+      ]
     }
   },
   {
@@ -1749,7 +2185,6 @@ export const CountryInfo = [
       name: "Greece",
       ISO2: "GR",
       continent: "Europe",
-      color: "#aec7e8",
       capital: "Athens",
       cities: [
         {
@@ -1778,7 +2213,6 @@ export const CountryInfo = [
     properties: {
       name: "Grenada",
       ISO2: "GD",
-      color: "#1f77b4",
       continent: "NorthAmerica",
       capital: "Saint George's",
       cities: [
@@ -1797,7 +2231,6 @@ export const CountryInfo = [
       name: "Greenland",
       ISO2: "GL",
       continent: "NorthAmerica",
-      color: "#1f77b4",
       capital: "Nuuk",
       cities: [
         {
@@ -1821,7 +2254,6 @@ export const CountryInfo = [
       name: "Guatemala",
       ISO2: "GT",
       continent: "NorthAmerica",
-      color: "#aec7e8",
       capital: "Guatemala City",
       cities: [
         {
@@ -1838,7 +2270,6 @@ export const CountryInfo = [
     properties: {
       name: "Guam",
       continent: "NorthAmerica",
-      color: "#1f77b4",
       capital: "Hagatna",
       ISO2: "GU",
       cities: [
@@ -1857,7 +2288,6 @@ export const CountryInfo = [
       name: "Guyana",
       ISO2: "GY",
       continent: "SouthAmerica",
-      color: "#ffbb78",
       capital: "Georgetown",
       cities: [
         {
@@ -1870,19 +2300,32 @@ export const CountryInfo = [
     }
   },
   {
-    id: 86,
+    id: 15807,
     properties: {
       name: "Hong Kong",
+      ISO2: "HK",
       continent: "Asia",
-      color: "#ff7f0e",
-      capital: "Central"
+      capital: "Central",
+      cities: [
+        {
+          city: "Hong Kong",
+          cityId: 8646,
+          city_latitude: 22.27833,
+          city_longitude: 114.15861
+        },
+        {
+          city: "Tsuen Wan District",
+          cityId: 878514,
+          city_latitude: 22.3716605,
+          city_longitude: 114.1134699
+        }
+      ]
     }
   },
   {
     id: 511,
     properties: {
       name: "Heard Island and McDonald Islands",
-      color: "#1f77b4"
     }
   },
   {
@@ -2412,7 +2855,27 @@ export const CountryInfo = [
       ISO2: "KZ",
       continent: "Asia",
       color: "#ff7f0e",
-      capital: "Astana"
+      capital: "Almaty",
+      cities: [
+        {
+          city: "Almaty",
+          cityId: 35493,
+          city_latitude: 43.25,
+          city_longitude: 76.9
+        },
+        {
+          city: "Semey",
+          cityId: 61944,
+          city_latitude: 50.40983,
+          city_longitude: 80.246893
+        },
+        {
+          city: "Karaganda",
+          cityId: 496346,
+          city_latitude: 49.8163211148173,
+          city_longitude: 73.1034203711897
+        }
+      ]
     }
   },
   {
@@ -2429,6 +2892,24 @@ export const CountryInfo = [
           cityId: 3870,
           city_latitude: -1.28333,
           city_longitude: 36.81667
+        },
+        {
+          city: "Mombasa",
+          cityId: 225641,
+          city_latitude: -4.05,
+          city_longitude: 39.66667
+        },
+        {
+          city: "City of Kisumu",
+          cityId: 214485,
+          city_latitude: -0.1,
+          city_longitude: 34.75
+        },
+        {
+          city: "Nakuru",
+          cityId: 239421,
+          city_latitude: -0.28333,
+          city_longitude: 36.06667
         }
       ]
     }
@@ -2440,7 +2921,27 @@ export const CountryInfo = [
       ISO2: "KG",
       continent: "Asia",
       color: "#ffbb78",
-      capital: "Bishkek"
+      capital: "Bishkek",
+      cities: [
+        {
+          city: "Bishkek",
+          cityId: 9361,
+          city_latitude: 42.86667,
+          city_longitude: 74.56667
+        },
+        {
+          city: "Tokmok",
+          cityId: 854333,
+          city_latitude: 42.834119,
+          city_longitude: 75.290013
+        },
+        {
+          city: "Karakol",
+          cityId: 900514,
+          city_latitude: 42.4916507250257,
+          city_longitude: 78.3900778926909
+        }
+      ]
     }
   },
   {
@@ -2564,7 +3065,21 @@ export const CountryInfo = [
       ISO2: "KW",
       continent: "Asia",
       color: "#2ca02c",
-      capital: "Kuwait City"
+      capital: "Kuwait City",
+      cities: [
+        {
+          city: "Kuwait City",
+          cityId: 35178,
+          city_latitude: 29.375,
+          city_longitude: 47.98
+        },
+        {
+          city: "Al Ahmadi",
+          cityId: 980396,
+          city_latitude: 29.09056,
+          city_longitude: 48.06528
+        }
+      ]
     }
   },
   {
@@ -2574,7 +3089,33 @@ export const CountryInfo = [
       ISO2: "LA",
       continent: "Asia",
       color: "#ff7f0e",
-      capital: "Vientiane"
+      capital: "Vientiane",
+      cities: [
+        {
+          city: "Vientiane",
+          cityId: 9326,
+          city_latitude: 17.96667,
+          city_longitude: 102.6
+        },
+        {
+          city: "Thakhek District",
+          cityId: 7709364,
+          city_latitude: 17.39639,
+          city_longitude: 104.87444
+        },
+        {
+          city: "Pak Sé District",
+          cityId: 7125390,
+          city_latitude: 15.13139,
+          city_longitude: 105.81611
+        },
+        {
+          city: "Luang Prabang District",
+          cityId: 6695010,
+          city_latitude: 19.8225,
+          city_longitude: 102.15222
+        }
+      ]
     }
   },
   {
@@ -2602,7 +3143,27 @@ export const CountryInfo = [
       ISO2: "LR",
       continent: "Africa",
       color: "#2ca02c",
-      capital: "Monrovia"
+      capital: "Monrovia",
+      cities: [
+        {
+          city: "Monrovia",
+          cityId: 3748,
+          city_latitude: 6.297724,
+          city_longitude: -10.779029
+        },
+        {
+          city: "Voinjama",
+          cityId: 497196,
+          city_latitude: 8.4224800548598,
+          city_longitude: -9.75261004641652
+        },
+        {
+          city: "Gbarnga",
+          cityId: 298892,
+          city_latitude: 6.99626928194465,
+          city_longitude: -9.47090500965714
+        }
+      ]
     }
   },
   {
@@ -2612,7 +3173,21 @@ export const CountryInfo = [
       ISO2: "LY",
       continent: "Africa",
       color: "#aec7e8",
-      capital: "Tripoli"
+      capital: "Tripoli",
+      cities: [
+        {
+          city: "Tripoli",
+          cityId: 3579,
+          city_latitude: 32.892,
+          city_longitude: 13.178
+        },
+        {
+          city: "Misrata",
+          cityId: 324848,
+          city_latitude: 32.3744501462424,
+          city_longitude: 15.0905412621796
+        }
+      ]
     }
   },
   {
@@ -2689,6 +3264,18 @@ export const CountryInfo = [
           cityId: 35381,
           city_latitude: 6.91667,
           city_longitude: 79.83333
+        },
+        {
+          city: "Kandy",
+          cityId: 203197,
+          city_latitude: 7.295044,
+          city_longitude: 80.625828
+        },
+        {
+          city: "Galle",
+          cityId: 319366,
+          city_latitude: 6.043279,
+          city_longitude: 80.223192
         }
       ]
     }
@@ -2700,7 +3287,15 @@ export const CountryInfo = [
       ISO2: "LS",
       continent: "Africa",
       color: "#1f77b4",
-      capital: "Maseru"
+      capital: "Maseru",
+      cities: [
+        {
+          city: "Maseru",
+          cityId: 3909,
+          city_latitude: -29.344175,
+          city_longitude: 27.496523
+        }
+      ]
     }
   },
   {
@@ -2825,6 +3420,24 @@ export const CountryInfo = [
           cityId: 7903,
           city_latitude: 33.59917,
           city_longitude: -7.62
+        },
+        {
+          city: "Fes",
+          cityId: 80985,
+          city_latitude: 34.04417,
+          city_longitude: -5.00194
+        },
+        {
+          city: "Rabat",
+          cityId: 3551,
+          city_latitude: 34.02528,
+          city_longitude: -6.83611
+        },
+        {
+          city: "Tangier",
+          cityId: 126148,
+          city_latitude: 35.78472,
+          city_longitude: -5.8125
         }
       ]
     }
@@ -2884,7 +3497,27 @@ export const CountryInfo = [
       ISO2: "MG",
       continent: "Africa",
       color: "#1f77b4",
-      capital: "Antananarivo"
+      capital: "Antananarivo",
+      cities: [
+        {
+          city: "Toamasina",
+          cityId: 178067,
+          city_latitude: -18.15,
+          city_longitude: 49.41667
+        },
+        {
+          city: "Antsirabe I",
+          cityId: 275291,
+          city_latitude: -19.8556,
+          city_longitude: 47.0376
+        },
+        {
+          city: "Antananarivo",
+          cityId: 3915,
+          city_latitude: -18.93861,
+          city_longitude: 47.52139
+        }
+      ]
     }
   },
   {
@@ -2894,7 +3527,33 @@ export const CountryInfo = [
       ISO2: "MV",
       color: "#1f77b4",
       capital: "Male",
-      continent: "Asia"
+      continent: "Asia",
+      cities: [
+        {
+          city: "Malé",
+          cityId: 9347,
+          city_latitude: 4.16667,
+          city_longitude: 73.5
+        },
+        {
+          city: "Dhiddhoo",
+          cityId: 3025720,
+          city_latitude: 6.887666,
+          city_longitude: 73.104691
+        },
+        {
+          city: "Kulhudhuffushi",
+          cityId: 3185775,
+          city_latitude: 6.625896,
+          city_longitude: 73.055491
+        },
+        {
+          city: "Eydhafushi",
+          cityId: 2461849,
+          city_latitude: 5.113112,
+          city_longitude: 73.056342
+        }
+      ]
     }
   },
   {
@@ -2976,7 +3635,15 @@ export const CountryInfo = [
       ISO2: "ML",
       continent: "Africa",
       color: "#2ca02c",
-      capital: "Bamako"
+      capital: "Bamako",
+      cities: [
+        {
+          city: "Bamako",
+          cityId: 3703,
+          city_latitude: 12.64583,
+          city_longitude: -7.99222
+        }
+      ]
     }
   },
   {
@@ -2996,7 +3663,27 @@ export const CountryInfo = [
       ISO2: "MM",
       continent: "Asia",
       color: "#ffbb78",
-      capital: "Naypyidaw"
+      capital: "Naypyidaw",
+      cities: [
+        {
+          city: "Naypyidaw",
+          cityId: 37400,
+          city_latitude: 19.80278,
+          city_longitude: 96.15833
+        },
+        {
+          city: "Yangon",
+          cityId: 37995,
+          city_latitude: 16.8,
+          city_longitude: 96.15
+        },
+        {
+          city: "Mandalay",
+          cityId: 185518,
+          city_latitude: 21.97694,
+          city_longitude: 96.08694
+        }
+      ]
     }
   },
   {
@@ -3036,7 +3723,27 @@ export const CountryInfo = [
       ISO2: "MN",
       continent: "Asia",
       color: "#ff7f0e",
-      capital: "Ulaanbaatar"
+      capital: "Ulaanbaatar",
+      cities: [
+        {
+          city: "Ulaanbaatar",
+          cityId: 23430,
+          city_latitude: 47.91667,
+          city_longitude: 106.91667
+        },
+        {
+          city: "Darkhan",
+          cityId: 235571,
+          city_latitude: 49.471365,
+          city_longitude: 105.953196
+        },
+        {
+          city: "Choibalsan",
+          cityId: 568482,
+          city_latitude: 48.0688183542411,
+          city_longitude: 114.524135151878
+        }
+      ]
     }
   },
   {
@@ -3070,7 +3777,21 @@ export const CountryInfo = [
       ISO2: "MZ",
       continent: "Africa",
       color: "#1f77b4",
-      capital: "Maputo"
+      capital: "Maputo",
+      cities: [
+        {
+          city: "Maputo",
+          cityId: 3889,
+          city_latitude: -25.91528,
+          city_longitude: 32.57639
+        },
+        {
+          city: "Beira",
+          cityId: 211563,
+          city_latitude: -19.833,
+          city_longitude: 34.85
+        }
+      ]
     }
   },
   {
@@ -3080,7 +3801,15 @@ export const CountryInfo = [
       ISO2: "MR",
       continent: "Africa",
       color: "#98df8a",
-      capital: "Nouakchott"
+      capital: "Nouakchott",
+      cities: [
+        {
+          city: "Nouakchott",
+          cityId: 3688,
+          city_latitude: 18.07833,
+          city_longitude: -15.97444
+        }
+      ]
     }
   },
   {
@@ -3098,7 +3827,27 @@ export const CountryInfo = [
       ISO2: "MU",
       color: "#1f77b4",
       capital: "Port Louis",
-      continent: "Africa"
+      continent: "Africa",
+      cities: [
+        {
+          city: "Vacoas-Phoenix",
+          cityId: 768552,
+          city_latitude: -20.2987648442761,
+          city_longitude: 57.4927337374538
+        },
+        {
+          city: "Port Louis",
+          cityId: 3929,
+          city_latitude: -20.149085,
+          city_longitude: 57.494365
+        },
+        {
+          city: "Beau Bassin - Rose Hill",
+          cityId: 977610,
+          city_latitude: -20.2342689688805,
+          city_longitude: 57.4693446233869
+        }
+      ]
     }
   },
   {
@@ -3108,7 +3857,21 @@ export const CountryInfo = [
       ISO2: "MW",
       continent: "Africa",
       color: "#aec7e8",
-      capital: "Lilongwe"
+      capital: "Lilongwe",
+      cities: [
+        {
+          city: "Mzuzu",
+          cityId: 853713,
+          city_latitude: -11.4607517968567,
+          city_longitude: 34.0226421877742
+        },
+        {
+          city: "Zomba",
+          cityId: 219117,
+          city_latitude: -15.38333,
+          city_longitude: 35.33333
+        }
+      ]
     }
   },
   {
@@ -3166,7 +3929,15 @@ export const CountryInfo = [
       ISO2: "NA",
       continent: "Africa",
       color: "#aec7e8",
-      capital: "Windhoek"
+      capital: "Windhoek",
+      cities: [
+        {
+          city: "Windhoek",
+          cityId: 3935,
+          city_latitude: -22.560084,
+          city_longitude: 17.072984
+        }
+      ]
     }
   },
   {
@@ -3194,7 +3965,15 @@ export const CountryInfo = [
       ISO2: "NE",
       continent: "Africa",
       color: "#98df8a",
-      capital: "Niamey"
+      capital: "Niamey",
+      cities: [
+        {
+          city: "Niamey",
+          cityId: 3674,
+          city_latitude: 13.52,
+          city_longitude: 2.109
+        }
+      ]
     }
   },
   {
@@ -3218,6 +3997,12 @@ export const CountryInfo = [
           cityId: 8673,
           city_latitude: 6.45,
           city_longitude: 3.4
+        },
+        {
+          city: "Abuja",
+          cityId: 3787,
+          city_latitude: 9.05,
+          city_longitude: 7.5
         }
       ]
     }
@@ -3294,7 +4079,27 @@ export const CountryInfo = [
       ISO2: "NP",
       color: "#ffbb78",
       continent: "Asia",
-      capital: "Kathmandu"
+      capital: "Kathmandu",
+      cities: [
+        {
+          city: "Kathmandu",
+          cityId: 3037,
+          city_latitude: 27.71667,
+          city_longitude: 85.36667
+        },
+        {
+          city: "Pokhara",
+          cityId: 6640,
+          city_latitude: 28.20972,
+          city_longitude: 83.98528
+        },
+        {
+          city: "Lalitpur",
+          cityId: 6647,
+          city_latitude: 27.6676406860351,
+          city_longitude: 85.3199081420899
+        }
+      ]
     }
   },
   {
@@ -3364,7 +4169,27 @@ export const CountryInfo = [
       ISO2: "OM",
       color: "#aec7e8",
       continent: "Asia",
-      capital: "Muscat"
+      capital: "Muscat",
+      cities: [
+        {
+          city: "Muscat",
+          cityId: 3826,
+          city_latitude: 23.61389,
+          city_longitude: 58.59222
+        },
+        {
+          city: "Salalah",
+          cityId: 1294439,
+          city_latitude: 17.01972,
+          city_longitude: 54.08972
+        },
+        {
+          city: "Nizwa",
+          cityId: 1915327,
+          city_latitude: 22.93333,
+          city_longitude: 57.53333
+        }
+      ]
     }
   },
   {
@@ -3374,7 +4199,39 @@ export const CountryInfo = [
       ISO2: "PK",
       color: "#2ca02c",
       continent: "Asia",
-      capital: "Islamabad"
+      capital: "Islamabad",
+      cities: [
+        {
+          city: "Islamabad",
+          cityId: 1362,
+          city_latitude: 33.719361,
+          city_longitude: 73.074144
+        },
+        {
+          city: "Faisalabad",
+          cityId: 173985,
+          city_latitude: 31.41547,
+          city_longitude: 73.0908
+        },
+        {
+          city: "Hyderabad",
+          cityId: 1640079,
+          city_latitude: 25.376287,
+          city_longitude: 68.343238
+        },
+        {
+          city: "Karachi",
+          cityId: 8660,
+          city_latitude: 24.870862,
+          city_longitude: 67.114544
+        },
+        {
+          city: "Lahore",
+          cityId: 11739,
+          city_latitude: 31.497754,
+          city_longitude: 74.360106
+        }
+      ]
     }
   },
   {
@@ -3553,7 +4410,21 @@ export const CountryInfo = [
       ISO2: "KP",
       color: "#ff7f0e",
       continent: "Asia",
-      capital: "Pyongyang"
+      capital: "Pyongyang",
+      cities: [
+        {
+          city: "Pyongyang",
+          cityId: 18808,
+          city_latitude: 39.03,
+          city_longitude: 125.73
+        },
+        {
+          city: "Hamhung",
+          cityId: 130736,
+          city_latitude: 39.9149960453682,
+          city_longitude: 127.544184559956
+        }
+      ]
     }
   },
   {
@@ -3617,12 +4488,27 @@ export const CountryInfo = [
     }
   },
   {
-    id: 214,
+    id: 834347,
     properties: {
-      name: "Palestinian Territory",
+      name: "Palestine",
+      ISO2: "PK",
       color: "#98df8a",
       continent: "Asia",
-      capital: "East Jerusalem"
+      capital: "East Jerusalem",
+      cities: [
+        {
+          city: "Ramallah",
+          cityId: 158119,
+          city_latitude: 31.907173,
+          city_longitude: 35.217225
+        },
+        {
+          city: "Nablus",
+          cityId: 214178,
+          city_latitude: 32.207791,
+          city_longitude: 35.29375
+        }
+      ]
     }
   },
   {
@@ -3722,7 +4608,21 @@ export const CountryInfo = [
       ISO2: "RW",
       color: "#ff7f0e",
       continent: "Africa",
-      capital: "Kigali"
+      capital: "Kigali",
+      cities: [
+        {
+          city: "Gitega",
+          cityId: 715778,
+          city_latitude: -1.79792257889,
+          city_longitude: 29.6082580648363
+        },
+        {
+          city: "Kigali",
+          cityId: 3859,
+          city_latitude: -1.957714,
+          city_longitude: 30.08238
+        }
+      ]
     }
   },
   {
@@ -3769,7 +4669,21 @@ export const CountryInfo = [
       ISO2: "SD",
       color: "#ffbb78",
       continent: "Africa",
-      capital: "Khartoum"
+      capital: "Khartoum",
+      cities: [
+        {
+          city: "Khartoum",
+          cityId: 1963,
+          city_latitude: 15.588,
+          city_longitude: 32.525
+        },
+        {
+          city: "Port Sudan",
+          cityId: 882364,
+          city_latitude: 19.6192170411821,
+          city_longitude: 37.2117092460394
+        }
+      ]
     }
   },
   {
@@ -3779,7 +4693,21 @@ export const CountryInfo = [
       ISO2: "SS",
       color: "#2ca02c",
       continent: "Africa",
-      capital: "Juba"
+      capital: "Juba",
+      cities: [
+        {
+          city: "Juba",
+          cityId: 432652,
+          city_latitude: 4.84720176263264,
+          city_longitude: 31.5951654966921
+        },
+        {
+          city: "Bor",
+          cityId: 364142,
+          city_latitude: 6.20399271682071,
+          city_longitude: 31.558728441596
+        }
+      ]
     }
   },
   {
@@ -3789,7 +4717,15 @@ export const CountryInfo = [
       ISO2: "SN",
       color: "#d62728",
       continent: "Africa",
-      capital: "Dakar"
+      capital: "Dakar",
+      cities: [
+        {
+          city: "Dakar",
+          cityId: 3718,
+          city_latitude: 14.712019,
+          city_longitude: -17.457171
+        }
+      ]
     }
   },
   {
@@ -3867,7 +4803,15 @@ export const CountryInfo = [
       ISO2: "SL",
       color: "#98df8a",
       continent: "Africa",
-      capital: "Freetown"
+      capital: "Freetown",
+      cities: [
+        {
+          city: "Freetown",
+          cityId: 3780,
+          city_latitude: 8.470207,
+          city_longitude: -13.272474
+        }
+      ]
     }
   },
   {
@@ -3927,7 +4871,27 @@ export const CountryInfo = [
       ISO2: "SO",
       color: "#2ca02c",
       continent: "Africa",
-      capital: "Mogadishu"
+      capital: "Mogadishu",
+      cities: [
+        {
+          city: "Mogadishu",
+          cityId: 2449,
+          city_latitude: 2.04083,
+          city_longitude: 45.3425
+        },
+        {
+          city: "Kismaayo",
+          cityId: 943818,
+          city_latitude: -0.3582,
+          city_longitude: 42.5454
+        },
+        {
+          city: "Bossaso",
+          cityId: 80038,
+          city_latitude: 11.26,
+          city_longitude: 49.19
+        }
+      ]
     }
   },
   {
@@ -3974,7 +4938,21 @@ export const CountryInfo = [
       ISO2: "ST",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Sao Tome"
+      capital: "Sao Tome",
+      cities: [
+        {
+          city: "Santo Amaro",
+          cityId: 651967,
+          city_latitude: 0.366728055582598,
+          city_longitude: 6.68976003304124
+        },
+        {
+          city: "São João",
+          cityId: 135971,
+          city_latitude: 0.13888012056799,
+          city_longitude: 6.64687469601631
+        }
+      ]
     }
   },
   {
@@ -3983,7 +4961,7 @@ export const CountryInfo = [
       name: "Suriname",
       ISO2: "SR",
       color: "#2ca02c",
-      continent: "Africa",
+      continent: "SouthAmerica",
       capital: "Paramaribo",
       cities: [
         {
@@ -4074,7 +5052,15 @@ export const CountryInfo = [
       ISO2: "SZ",
       color: "#aec7e8",
       continent: "Africa",
-      capital: "Mbabana"
+      capital: "Mbabana",
+      cities: [
+        {
+          city: "Mbabane",
+          cityId: 3904,
+          city_latitude: -26.314901,
+          city_longitude: 31.13396
+        }
+      ]
     }
   },
   {
@@ -4102,7 +5088,15 @@ export const CountryInfo = [
       ISO2: "SC",
       color: "#1f77b4",
       continent: "Africa",
-      capital: "Victoria"
+      capital: "Victoria",
+      cities: [
+        {
+          city: "Victoria",
+          cityId: 3940,
+          city_latitude: -4.622025,
+          city_longitude: 55.44684
+        }
+      ]
     }
   },
   {
@@ -4112,7 +5106,15 @@ export const CountryInfo = [
       ISO2: "SY",
       color: "#98df8a",
       continent: "Asia",
-      capital: "Damascus"
+      capital: "Damascus",
+      cities: [
+        {
+          city: "Damascus",
+          cityId: 3766,
+          city_latitude: 33.51306,
+          city_longitude: 36.29194
+        }
+      ]
     }
   },
   {
@@ -4140,7 +5142,21 @@ export const CountryInfo = [
       ISO2: "TD",
       color: "#ff9896",
       continent: "Africa",
-      capital: "N'Djamena"
+      capital: "N'Djamena",
+      cities: [
+        {
+          city: "N'Djamena",
+          cityId: 3659,
+          city_latitude: 12.11639,
+          city_longitude: 15.07222
+        },
+        {
+          city: "Moundou",
+          cityId: 640146,
+          city_latitude: 8.56546376600733,
+          city_longitude: 16.0738309565932
+        }
+      ]
     }
   },
   {
@@ -4150,7 +5166,21 @@ export const CountryInfo = [
       ISO2: "TG",
       color: "#2ca02c",
       continent: "Africa",
-      capital: "Lome"
+      capital: "Lome",
+      cities: [
+        {
+          city: "Lomé",
+          cityId: 532728,
+          city_latitude: 6.12584590163645,
+          city_longitude: 1.22493267059326
+        },
+        {
+          city: "Sokodé",
+          cityId: 845097,
+          city_latitude: 8.985788,
+          city_longitude: 1.146629
+        }
+      ]
     }
   },
   {
@@ -4202,7 +5232,21 @@ export const CountryInfo = [
       ISO2: "TJ",
       color: "#2ca02c",
       continent: "Asia",
-      capital: "Dushanbe"
+      capital: "Dushanbe",
+      cities: [
+        {
+          city: "Dushanbe",
+          cityId: 9365,
+          city_latitude: 38.57306,
+          city_longitude: 68.78639
+        },
+        {
+          city: "Kulob",
+          cityId: 132043,
+          city_latitude: 37.911699,
+          city_longitude: 69.777366
+        }
+      ]
     }
   },
   {
@@ -4212,16 +5256,51 @@ export const CountryInfo = [
       ISO2: "TM",
       color: "#ffbb78",
       continent: "Asia",
-      capital: "Ashgabat"
+      capital: "Ashgabat",
+      cities: [
+        {
+          city: "Ashgabat",
+          cityId: 23438,
+          city_latitude: 37.941489,
+          city_longitude: 58.396032
+        },
+        {
+          city: "Mary",
+          cityId: 5713,
+          city_latitude: 37.592743,
+          city_longitude: 61.850864
+        }
+      ]
     }
   },
   {
-    id: 194,
+    id: 482317,
     properties: {
-      name: "Timor Leste",
+      name: "East Timor",
+      ISO2: "TL",
       color: "#aec7e8",
       continent: "Asia",
-      capital: "Dili"
+      capital: "Dili",
+      cities: [
+        {
+          city: "Atabae",
+          cityId: 384385,
+          city_latitude: -8.81531991992193,
+          city_longitude: 125.155089944601
+        },
+        {
+          city: "Balibó",
+          cityId: 37539,
+          city_latitude: -8.96868091787698,
+          city_longitude: 125.040598092601
+        },
+        {
+          city: "Lolotoe",
+          cityId: 689619,
+          city_latitude: -9.16598996648096,
+          city_longitude: 125.271569984034
+        }
+      ]
     }
   },
   {
@@ -4279,7 +5358,27 @@ export const CountryInfo = [
       ISO2: "TN",
       color: "#ff7f0e",
       continent: "Africa",
-      capital: "Tunis"
+      capital: "Tunis",
+      cities: [
+        {
+          city: "Tunis",
+          cityId: 3572,
+          city_latitude: 36.80083,
+          city_longitude: 10.18
+        },
+        {
+          city: "Sfax",
+          cityId: 857475,
+          city_latitude: 34.7397390328738,
+          city_longitude: 10.7598515320569
+        },
+        {
+          city: "Carthage",
+          cityId: 474078,
+          city_latitude: 36.851627037039,
+          city_longitude: 10.3304406814277
+        }
+      ]
     }
   },
   {
@@ -4343,7 +5442,21 @@ export const CountryInfo = [
       ISO2: "TZ",
       color: "#2ca02c",
       continent: "Africa",
-      capital: "Dodoma"
+      capital: "Dodoma",
+      cities: [
+        {
+          city: "Arusha Chini",
+          cityId: 247032,
+          city_latitude: -3.53250554223516,
+          city_longitude: 37.3320427816361
+        },
+        {
+          city: "Dar es Salaam",
+          cityId: 1960,
+          city_latitude: -6.818,
+          city_longitude: 39.279
+        }
+      ]
     }
   },
   {
@@ -4353,7 +5466,21 @@ export const CountryInfo = [
       ISO2: "UG",
       color: "#98df8a",
       continent: "Africa",
-      capital: "Kampala"
+      capital: "Kampala",
+      cities: [
+        {
+          city: "Kampala District",
+          cityId: 926417,
+          city_latitude: 0.31667,
+          city_longitude: 32.56667
+        },
+        {
+          city: "Lira",
+          cityId: 852424,
+          city_latitude: 2.78333306342621,
+          city_longitude: 33.1833329703659
+        }
+      ]
     }
   },
   {
@@ -4501,7 +5628,27 @@ export const CountryInfo = [
       ISO2: "UZ",
       color: "#98df8a",
       continent: "Asia",
-      capital: "Tashkent"
+      capital: "Tashkent",
+      cities: [
+        {
+          city: "Tashkent",
+          cityId: 269,
+          city_latitude: 41.3,
+          city_longitude: 69.26667
+        },
+        {
+          city: "Samarkand",
+          cityId: 5753,
+          city_latitude: 39.65417,
+          city_longitude: 66.95972
+        },
+        {
+          city: "Bukhara",
+          cityId: 5764,
+          city_latitude: 39.77472,
+          city_longitude: 64.42861
+        }
+      ]
     }
   },
   {
@@ -4692,7 +5839,27 @@ export const CountryInfo = [
       ISO2: "YE",
       color: "#d62728",
       continent: "Asia",
-      capital: "Sana'a"
+      capital: "Sana'a",
+      cities: [
+        {
+          city: "Sana'a",
+          cityId: 2471,
+          city_latitude: 15.35,
+          city_longitude: 44.2
+        },
+        {
+          city: "Aden",
+          cityId: 131694,
+          city_latitude: 12.790961,
+          city_longitude: 45.007226
+        },
+        {
+          city: "Ta'izz",
+          cityId: 466216,
+          city_latitude: 13.584882,
+          city_longitude: 44.023895
+        }
+      ]
     }
   },
   {
@@ -4715,6 +5882,18 @@ export const CountryInfo = [
           cityId: 5465,
           city_latitude: -33.9351,
           city_longitude: 18.4289
+        },
+        {
+          city: "Port Elizaberth",
+          cityId: 125434,
+          city_latitude: -33.918,
+          city_longitude: 25.5701
+        },
+        {
+          city: "Durban",
+          cityId: 5468,
+          city_latitude: -29.8579,
+          city_longitude: 31.0292
         }
       ]
     }
@@ -4726,7 +5905,21 @@ export const CountryInfo = [
       ISO2: "ZM",
       color: "#98df8a",
       continent: "Africa",
-      capital: "Lusaka"
+      capital: "Lusaka",
+      cities: [
+        {
+          city: "Lusaka",
+          cityId: 3881,
+          city_latitude: -15.419,
+          city_longitude: 28.282
+        },
+        {
+          city: "Ndola",
+          cityId: 195189,
+          city_latitude: -12.9693055675945,
+          city_longitude: 28.6365893762559
+        }
+      ]
     }
   },
   {

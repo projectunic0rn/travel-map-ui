@@ -19,7 +19,6 @@ export default function SuggestedCities({ countryArray, handleCityClick }) {
         city => countryIds.indexOf(city.countryId) !== -1
       );
       filteredCities = filteredCities.filter((elem, index, self) => self.findIndex((t) => {return (t.cityId === elem.cityId)}) === index)
-      console.log(filteredCities)
     }
     for (let i in countryArray) {
       for (let j in countryArray[i].properties.cities) {
@@ -35,7 +34,6 @@ export default function SuggestedCities({ countryArray, handleCityClick }) {
 
     handleFilteredCityArray(filteredCities);
   }, [countryArray]);
-  console.log(filteredCityArray)
   let cityDisplay = filteredCityArray.map(city => {
     return (
       <SuggestedCity

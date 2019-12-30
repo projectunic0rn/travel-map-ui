@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
@@ -9,6 +9,51 @@ import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
+
+class Markers extends PureComponent {
+  render() {
+    const {data} = this.props;
+    return data.map(city => (
+      <Marker
+                key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
+                latitude={city.latitude}
+                longitude={city.longitude}
+                offsetLeft={-5}
+                offsetTop={-10}
+              >
+                <svg
+                  key={"svg" + city.id}
+                  height={20}
+                  width={20}
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    onMouseOver={() =>
+                      this.setState({
+                        cityTooltip: city,
+                        placeVisitedId: city.id
+                      })
+                    }
+                    style={{ fill: "rgba(203, 118, 120, 0.25)" }}
+                    key={"circle" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                  <circle
+                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
+                </svg>
+              </Marker>
+    ));
+  }
+}
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -105,51 +150,30 @@ class FriendCityMap extends Component {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
-            color = "rgba(203, 118, 120, 0.25)";
+            if (
+              markerPastDisplay.some(marker => {
+                return marker.cityId === city.cityId
+              })
+            ) {
+              break;
+            }
             markerPastDisplay.push(
-              <Marker
-                key={city.id}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitedId: city.id
-                      })
-                    }
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
+              city
             );
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
+            if (
+              markerFutureDisplay.some(marker => {
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
+              })
+            ) {
+              break;
+            }
             markerFutureDisplay.push(
               <Marker
                 key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
@@ -189,9 +213,17 @@ class FriendCityMap extends Component {
             break;
           case 2:
             color = "rgba(150, 177, 168, 0.25)";
+            if (
+              markerLiveDisplay.some(marker => {
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
+              })
+            ) {
+              break;
+            }
             markerLiveDisplay.push(
               <Marker
                 key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
@@ -430,12 +462,14 @@ class FriendCityMap extends Component {
     let filteredCityArray = origCityArray.filter(city =>
       city.username.includes(filterParams.username)
     );
-    console.log(filteredCityArray)
-    this.setState({
-      filteredCityArray
-    }, () => {
-      this.handleLoadedMarkers(filteredCityArray)
-    })
+    this.setState(
+      {
+        filteredCityArray
+      },
+      () => {
+        this.handleLoadedMarkers(filteredCityArray);
+      }
+    );
   }
 
   render() {
@@ -461,9 +495,9 @@ class FriendCityMap extends Component {
             </button>
           </div>
           <div className="map-header-filler" />
-          <div className="map-header-filter">
+          {/* <div className="map-header-filter">
             <button onClick={() => this.showFilter()}>Filter Map</button>
-          </div>
+          </div> */}
         </div>
         <div className="city-map-container">
           <MapGL
@@ -475,7 +509,7 @@ class FriendCityMap extends Component {
             }
             onViewportChange={this.handleViewportChange}
           >
-            {this.state.activeTimings[0] ? markerPastDisplay : null}
+            {this.state.activeTimings[0] ? <Markers data = {markerPastDisplay}/> : null}
             {this.state.activeTimings[1] ? markerFutureDisplay : null}
             {this.state.activeTimings[2] ? markerLiveDisplay : null}
             {this._renderPopup()}
@@ -524,7 +558,8 @@ class FriendCityMap extends Component {
 
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
-  handleMapTypeChange: PropTypes.func
+  handleMapTypeChange: PropTypes.func, 
+  data: PropTypes.array
 };
 
 export default FriendCityMap;

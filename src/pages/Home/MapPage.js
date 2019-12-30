@@ -6,6 +6,7 @@ import { ADD_MULTIPLE_PLACES } from "../../GraphQL";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
+import ShareIcon from "../../icons/ShareIcon";
 
 const MapPage = ({
   mapPage,
@@ -17,16 +18,12 @@ const MapPage = ({
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [loaded, handleLoaded] = useState(false);
-  const [addMultiplePlaces, { data, loading, error }] = useMutation(
-    ADD_MULTIPLE_PLACES,
-    {
-      onCompleted(data) {
-        localStorage.removeItem("clickedCityArray");
-        refetch();
-      }
+  const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
+    onCompleted() {
+      localStorage.removeItem("clickedCityArray");
+      refetch();
     }
-  );
-  console.log(user);
+  });
   useEffect(() => {
     if (
       clickedCityArray !== null &&
@@ -135,10 +132,27 @@ const MapPage = ({
     handleTripData(tripData);
     refetch();
   }
+  function shareMap() {
+    let copyText = document.getElementById("myShareLink");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+  }
+
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
       <div className={mapPage ? "map city-map" : "map country-map"}>
+        <div className="personal-map-share" onClick={shareMap}>
+          <input
+            type="text"
+            defaultValue={"https://geornal.herokuapp.com/public/" + user.username}
+            id="myShareLink"
+          ></input>
+          <span>SHARE MY MAP</span>
+          <ShareIcon />
+        </div>
         {mapPage ? (
           <CityMap
             tripData={tripData}

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { GET_ALL_FRIEND_INFO } from "../../GraphQL";
-import Loader from "../../components/common/Loader/Loader";
+import Loader from '../common/Loader/Loader';
 
 function FilterCityMap(props) {
   const [username, handleUsernameChange] = useState("");
@@ -12,7 +12,6 @@ function FilterCityMap(props) {
     newInterestTagArray.push(tag);
     handleInterestTag(newInterestTagArray);
   }
-  console.log(props);
   function handleApplyFilter() {
     props.customProps.handleFilter({
       username: username

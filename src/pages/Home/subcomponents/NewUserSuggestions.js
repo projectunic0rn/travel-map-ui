@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import SuggestedContinents from "./CitySuggestions/SuggestedContinents";
@@ -22,7 +22,6 @@ export default function NewUserSuggestions(props) {
     props.customProps.handleCountries(countryArray);
   }
   function handleCityClick(city) {
-    console.log(city);
     props.customProps.handleClickedCity(city);
   }
   return (

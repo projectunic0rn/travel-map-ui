@@ -62789,9 +62789,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 320, 321 ] ],
-          "id": 23,
+          "id": 716016,
           "properties": {
             "name": "Bhutan",
+            "ISO2": "BT",
             "continent": "Asia",
             "color": "#1f77b4",
             "capital": "Thimphu"
@@ -63155,11 +63156,12 @@
             [ [ 580 ] ],
             [ [ 581 ] ]
           ],
-          "id": 33,
+          "id": 117842,
           "properties": {
             "name": "Cape Verde",
             "continent": "Africa",
             "color": "#1f77b4",
+            "ISO2": "CV",
             "capital": "Praia"
           }
         },
@@ -63547,7 +63549,7 @@
             "name": "French Guiana",
             "ISO2": "GF",
             "color": "#d62728",
-            "continent": "Africa", 
+            "continent": "SouthAmerica", 
             "capital": "Cayenne"
           }
         },
@@ -63861,9 +63863,10 @@
             [ [ 866 ] ],
             [ [ -521, 867 ] ]
           ],
-          "id": 86,
+          "id": 15807,
           "properties": {
             "name": "Hong Kong",
+            "ISO2": "HK",
             "continent": "Asia",
             "color": "#ff7f0e", 
             "capital": "Central"
@@ -64345,7 +64348,7 @@
             "ISO2": "KZ",
             "continent": "Asia",
             "color": "#ff7f0e", 
-            "capital": "Astana"
+            "capital": "Almaty"
           }
         },
         {
@@ -65410,9 +65413,10 @@
             [ [ -658, 1483, -1079 ] ],
             [ [ -1076, -1096 ] ]
           ],
-          "id": 214,
+          "id": 834347,
           "properties": {
-            "name": "Palestinian Territory",
+            "name": "Palestine",
+            "ISO2": "PK",
             "color": "#98df8a", 
             "continent": "Asia", 
             "capital": "East Jerusalem"
@@ -65823,7 +65827,7 @@
             "name": "Suriname",
             "ISO2": "SR",
             "color": "#2ca02c", 
-            "continent": "Africa", 
+            "continent": "SouthAmerica", 
             "capital": "Paramaribo"
           }
         },
@@ -66019,9 +66023,10 @@
             [ [ -903, 1688 ] ],
             [ [ 1689 ] ]
           ],
-          "id": 194,
+          "id": 482317,
           "properties": {
-            "name": "Timor Leste",
+            "name": "East Timor",
+            "ISO2": "TL",
             "color": "#aec7e8", 
             "continent": "Asia", 
             "capital": "Dili"
