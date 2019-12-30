@@ -22,6 +22,7 @@ export default function NewUserSuggestions(props) {
     props.customProps.handleCountries(countryArray);
   }
   function handleCityClick(city) {
+    console.log(city);
     props.customProps.handleClickedCity(city);
   }
   return (

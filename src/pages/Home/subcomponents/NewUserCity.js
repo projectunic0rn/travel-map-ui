@@ -105,6 +105,10 @@ class NewUserCity extends Component {
     let markerIndex;
     let clickedCityArray;
     let markerDisplay;
+    let tripTimingCounts = this.state.tripTimingCounts;
+    let pastCount = tripTimingCounts[0];
+    let futureCount = tripTimingCounts[1];
+    let liveCount = tripTimingCounts[2];
     switch (cityTooltip.tripTiming) {
       case 0:
         this.state.markerPastDisplay.filter((city, index) => {
@@ -116,11 +120,12 @@ class NewUserCity extends Component {
         clickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = this.state.markerPastDisplay;
         markerDisplay.splice(markerIndex, 1);
+        pastCount--;
         this.setState(
           {
             clickedCityArray,
             markerPastDisplay: markerDisplay,
-            cityTooltip: null
+            cityTooltip: null,
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -137,11 +142,12 @@ class NewUserCity extends Component {
         clickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = this.state.markerFutureDisplay;
         markerDisplay.splice(markerIndex, 1);
+        futureCount--;
         this.setState(
           {
             clickedCityArray,
             markerFutureDisplay: markerDisplay,
-            cityTooltip: null
+            cityTooltip: null,
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -158,11 +164,12 @@ class NewUserCity extends Component {
         clickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = this.state.markerLiveDisplay;
         markerDisplay.splice(markerIndex, 1);
+        liveCount--;
         this.setState(
           {
             clickedCityArray,
             markerLiveDisplay: markerDisplay,
-            cityTooltip: null
+            cityTooltip: null,
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -172,6 +179,9 @@ class NewUserCity extends Component {
       default:
         break;
     }
+    this.setState({
+      tripTimingCounts: [pastCount, futureCount, liveCount]
+    })
   }
 
   deleteAll() {

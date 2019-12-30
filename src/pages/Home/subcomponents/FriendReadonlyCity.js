@@ -59,6 +59,15 @@ class FriendReadonlyCity extends Component {
     let tripData = this.props.tripData;
     this.resize();
     this.handleLoadedCities(tripData);
+    for (let i in tripData.Places_visited) {
+      tripData.Places_visited[i].tripTiming = 0;
+    }
+    for (let i in tripData.Places_visiting) {
+      tripData.Places_visiting[i].tripTiming = 1;
+    }
+    if (tripData.Place_living !== null) {
+      tripData.Place_living.tripTiming = 2;
+    }
     let clickedCityArray = tripData.Places_visited.concat(
       tripData.Places_visiting
     ).concat(tripData.Place_living);
