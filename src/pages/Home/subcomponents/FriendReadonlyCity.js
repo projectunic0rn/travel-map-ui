@@ -102,7 +102,6 @@ class FriendReadonlyCity extends Component {
   }
 
   resize() {
-    console.log(this.state.viewport)
     this.handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight

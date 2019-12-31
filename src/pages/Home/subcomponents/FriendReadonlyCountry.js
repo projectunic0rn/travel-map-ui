@@ -18,8 +18,6 @@ const FriendReadonlyCountry = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
 
   const [zoom, handleChangeZoom] = useState(1);
-  console.log(center, zoom);
-  console.log(window.innerWidth)
   const continents = [
     { name: "Europe", coordinates: [16.5417, 47.3769] },
     { name: "West Asia", coordinates: [103.8198, 1.3521] },

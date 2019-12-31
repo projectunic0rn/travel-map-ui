@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import SuggestedCity from "./SuggestedCity";
 
-export default function SuggestedCities({ countryArray, handleCityClick }) {
+export default function SuggestedCities({ countryArray, handleCityClick, timing }) {
   const [filteredCityArray, handleFilteredCityArray] = useState([]);
 
   useEffect(() => {
@@ -19,6 +19,9 @@ export default function SuggestedCities({ countryArray, handleCityClick }) {
         city => city !== null && countryIds.indexOf(city.countryId) !== -1 
       );
       filteredCities = filteredCities.filter((elem, index, self) => self.findIndex((t) => {return (t.cityId === elem.cityId)}) === index)
+      for (let i in filteredCities) {
+        filteredCities[i].tripTiming = timing;
+      }
     }
     for (let i in countryArray) {
       for (let j in countryArray[i].properties.cities) {
@@ -26,6 +29,7 @@ export default function SuggestedCities({ countryArray, handleCityClick }) {
         newCityData.country = countryArray[i].properties.name;
         newCityData.countryId = countryArray[i].id;
         newCityData.countryISO = countryArray[i].properties.ISO2;
+        newCityData.tripTiming = timing;
         if (!filteredCities.some(city => city.cityId === newCityData.cityId)) {
           filteredCities.push(newCityData);
         }
@@ -58,5 +62,6 @@ export default function SuggestedCities({ countryArray, handleCityClick }) {
 
 SuggestedCities.propTypes = {
   countryArray: PropTypes.array,
-  handleCityClick: PropTypes.func
+  handleCityClick: PropTypes.func,
+  timing: PropTypes.number
 };

@@ -847,7 +847,6 @@ class NewUserCity extends Component {
       suggestPopup
     } = this.state;
     if (loading) return <Loader />;
-    console.log(viewport.zoom);
     return (
       <>
         <div className="city-new-map-container">

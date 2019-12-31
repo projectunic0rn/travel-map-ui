@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import SuggestedContinents from "./CitySuggestions/SuggestedContinents";
@@ -82,6 +82,7 @@ export default function NewUserSuggestions(props) {
             <SuggestedCities
               countryArray={countryArray}
               handleCityClick={handleCityClick}
+              timing={props.customProps.timing}
             />
           )
         }[page]

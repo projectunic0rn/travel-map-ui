@@ -1,4 +1,4 @@
-.city-suggestions-prompt .popup-container .popup-card-container{
+.city-suggestions-prompt .popup-container .popup-card-container {
   background: none;
   box-shadow: none;
   .suggested-cities-container {
@@ -15,7 +15,7 @@
       position: absolute;
       display: flex;
       flex-direction: column;
-      color: #E9ECEE;
+      color: #e9ecee;
       font-size: 32px;
       top: -80px;
       text-align: center;
@@ -24,7 +24,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      color: #E9ECEE;
+      color: #e9ecee;
       font-size: 28px;
       bottom: -10px;
       text-align: center;
@@ -41,7 +41,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #2D2B2B;
+        color: #2d2b2b;
         font-weight: 200;
         font-size: 15px;
         letter-spacing: 1.5px;
@@ -52,7 +52,7 @@
         z-index: 200;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
-        background: #DEE2E6;
+        background: #dee2e6;
         border-bottom: 7px solid rgba(50, 50, 50, 0.5);
       }
       span:nth-child(1) {
@@ -91,7 +91,7 @@
         font-size: 24px;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        background: #F1F3F5;
+        background: #f1f3f5;
         box-shadow: 0 0px 2px 2px rgba(0, 0, 0, 0.5);
         &:hover {
           background: rgb(220, 220, 220);
@@ -181,7 +181,7 @@
       }
       #sc-Antarctica-active {
         border-left: 12px solid #4f5867;
-        background: #DEE2E6;
+        background: #dee2e6;
         color: #4f5867;
         transform: translateY(-12px);
         z-index: 404;
@@ -194,7 +194,7 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        background: #F1F3F5;
+        background: #f1f3f5;
         flex: 1;
         font-family: "Segoe UI", sans-serif;
         font-size: 24px;
@@ -211,10 +211,24 @@
       }
       .sc-city-choice {
         opacity: 1;
-        border-left: 12px solid #CFD4DA;
-        transition: all .25s ease-in-out;
-        -moz-transition: all .25s ease-in-out;
-        -webkit-transition: all .25s ease-in-out;
+        border-left: 12px solid #cfd4da;
+        transition: all 0.25s ease-in-out;
+        -moz-transition: all 0.25s ease-in-out;
+        -webkit-transition: all 0.25s ease-in-out;
+        min-height: 80px;
+        .sc-city-text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 100%;
+          .sc-country {
+            text-transform: uppercase;
+            color: #adb5bd;
+            font-size: 16px;
+            font-weight: 550;
+            letter-spacing: 1.5px;
+          }
+        }
       }
       .sc-city-choice-none {
         opacity: 0;
@@ -227,8 +241,8 @@
         justify-content: center;
         text-align: center;
         width: 100%;
-        background: #F1F3F5;
-        color: #656F80;
+        background: #f1f3f5;
+        color: #656f80;
         flex: 1;
         font-family: "Segoe UI", sans-serif;
         font-size: 24px;
@@ -251,7 +265,7 @@
   stroke-dashoffset: 166;
   stroke-width: 2;
   stroke-miterlimit: 10;
-  stroke: #769F93;
+  stroke: #769f93;
   fill: none;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
@@ -262,11 +276,12 @@
   border-radius: 50%;
   display: block;
   stroke-width: 2;
-  stroke: #769F93;
+  stroke: #769f93;
   stroke-miterlimit: 10;
   margin: 10% auto;
-  box-shadow: inset 0px 0px 0px #D1DCDB;
-  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+  box-shadow: inset 0px 0px 0px #d1dcdb;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
 }
 
 .checkmark__check {
@@ -282,7 +297,8 @@
   }
 }
 @keyframes scale {
-  0%, 100% {
+  0%,
+  100% {
     transform: none;
   }
   50% {
@@ -291,6 +307,6 @@
 }
 @keyframes fill {
   100% {
-    box-shadow: inset 0px 0px 0px 30px #D1DCDB;
+    box-shadow: inset 0px 0px 0px 30px #d1dcdb;
   }
 }

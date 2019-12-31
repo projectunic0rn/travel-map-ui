@@ -11,14 +11,19 @@ export default function SuggestedCity({ city, handleCityClick }) {
   }
   return (
     <span
-      className={removed ? "sc-city-choice-none sc-country-choice sc-city-choice" : "sc-country-choice sc-city-choice"}
+      className={
+        removed
+          ? "sc-city-choice-none sc-country-choice sc-city-choice"
+          : "sc-country-choice sc-city-choice"
+      }
       key={city.cityId}
       onClick={() => handleCityClickHelper(city)}
     >
       {!clicked ? (
-        <span>
-          {city.city}, {city.countryISO}
-        </span>
+        <div className = 'sc-city-text'>
+          <span>{city.city}</span>
+          <span className = 'sc-country'>{city.country}</span>
+        </div>
       ) : (
         <svg
           className="checkmark"
