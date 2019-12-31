@@ -1,6 +1,6 @@
 .map-info-container {
-    /*position: absolute;*/
-    margin-top: -30px;
+    position: absolute;
+    bottom: -140px;
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -8,6 +8,9 @@
     height: fit-content;
     z-index: 1;
     transform: translate(-40px, 40px);
+    @media (max-width: "900px") {
+        transform: translate(-20px, 40px);
+      }
     .map-info-country {
         font-size: 42px;
         font-weight: 300;

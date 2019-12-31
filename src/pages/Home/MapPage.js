@@ -144,10 +144,16 @@ const MapPage = ({
   return (
     <div className="map-container">
       <div className={mapPage ? "map city-map" : "map country-map"}>
-        <div className="personal-map-share" onClick={shareMap}>
+        <div
+          className="personal-map-share"
+          id={mapPage === 1 ? "city-map-share" : "country-map-share"}
+          onClick={shareMap}
+        >
           <input
             type="text"
-            defaultValue={"https://geornal.herokuapp.com/public/" + user.username}
+            defaultValue={
+              "https://geornal.herokuapp.com/public/" + user.username
+            }
             id="myShareLink"
           ></input>
           <span>SHARE MY MAP</span>

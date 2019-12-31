@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   height: calc(100% - 30px);
-  width: 80vw;
+  width: 100vw;
   margin: 0 auto;
   .country-map {
     margin: 0px auto 0 auto;
@@ -18,10 +18,26 @@
     position: relative;
     text-align: center;
     .rsm-svg {
-      max-width: 1500px;
-      transform: translate(0, -30px);
-      @media (max-width: 1000px) {
-        transform: translateY(20px);
+      min-width: 1500px;
+      min-height: calc(100% - 100px);
+      transform: translate(0, -0px);
+      @media (max-width: 1600px) {
+        min-width: 1200px;
+      }
+      @media (max-width: 1250px) {
+        min-width: 1000px;
+      }
+      @media (max-width: 1050px) {
+        min-width: 800px;
+        transform: translateY(0px);
+      }
+      @media (max-width: 850px) {
+        min-width: 600px;
+        transform: translateY(-40px);
+      }
+      @media (max-width: 650px) {
+        min-width: 500px;
+        transform: translateY(-80px);
       }
     }
   }
@@ -30,6 +46,9 @@
     height: calc(100% - 400px);
     &:focus {
       outline: none;
+    }
+    #country-map-share {
+      top: 16px;
     }
     .personal-map-share {
       position: absolute;
@@ -46,7 +65,7 @@
       color: rgb(248, 248, 252);
       border-radius: 24px;
       border: 2px solid #fff;
-      box-shadow: 0 0 14px 2px rgba(167,225,255,.75);
+      box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.75);
       width: 200px;
       z-index: 5000;
       font-weight: 700;
@@ -77,7 +96,7 @@
       width: 1020px;
       margin: 20px auto;
       align-items: center;
-      @media (min-width: 900px) {
+      @media (min-width: 1000px) {
         flex-direction: row;
         min-width: 900px;
         margin: 0px auto;
@@ -175,5 +194,24 @@
         }
       }
     }
+  }
+}
+
+#country-header {
+  display: flex;
+  flex-direction: column-reverse;
+  max-width: 1020px;
+  width: 100%;
+  margin: 20px auto;
+  align-items: center;
+  @media (min-width: 1000px) {
+    flex-direction: row;
+    min-width: 900px;
+    margin: 0px auto;
+  }
+  #country-button {
+    position: relative;
+    top: 0;
+    left: 0;
   }
 }

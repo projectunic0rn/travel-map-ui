@@ -67,6 +67,13 @@ export default function MapScorecard({
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
+      console.log(pos1)
+      console.log(pos2)
+      console.log(pos3)
+      console.log(pos4)
+      console.log(elmnt.offsetLeft)
+      console.log(elmnt.offsetTop)
+      console.log(elmnt)
       // set the element's new position:
       elmnt.style.top = elmnt.offsetTop - pos2 + "px";
       elmnt.style.left = elmnt.offsetLeft - pos1 + "px";

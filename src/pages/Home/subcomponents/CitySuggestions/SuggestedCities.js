@@ -16,7 +16,7 @@ export default function SuggestedCities({ countryArray, handleCityClick }) {
         localStorage.getItem("friendClickedCityArray")
       );
       filteredCities = friendCities.filter(
-        city => countryIds.indexOf(city.countryId) !== -1
+        city => city !== null && countryIds.indexOf(city.countryId) !== -1 
       );
       filteredCities = filteredCities.filter((elem, index, self) => self.findIndex((t) => {return (t.cityId === elem.cityId)}) === index)
     }
