@@ -107,7 +107,7 @@ class FriendCityMap extends Component {
           case 0:
             if (
               markerPastDisplay.some(marker => {
-                return marker.cityId === city.cityId
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
               })
             ) {
               break;
