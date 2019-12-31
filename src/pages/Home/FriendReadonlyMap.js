@@ -88,6 +88,7 @@ const FriendReadonlyMap = () => {
         if (!loaded) return <Loader />;
         return (
           <div className="map-container">
+            <span className = 'user-map-name'>{username + "'s Map"}</span>
             {cityOrCountry ? <div className="map-header-cta">
               <NavLink to={`/new`}>
                 <button>CREATE MY MAP</button>

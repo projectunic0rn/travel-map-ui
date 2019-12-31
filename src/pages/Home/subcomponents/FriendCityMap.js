@@ -10,51 +10,6 @@ import FriendClickedCityContainer from "../../../components/Prompts/FriendClicke
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
 
-class Markers extends PureComponent {
-  render() {
-    const {data} = this.props;
-    return data.map(city => (
-      <Marker
-                key={city.id}
-                id={city.tripTiming + "-" + city.cityId}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitedId: city.id
-                      })
-                    }
-                    style={{ fill: "rgba(203, 118, 120, 0.25)" }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-    ));
-  }
-}
-
 class FriendCityMap extends Component {
   constructor(props) {
     super(props);
@@ -158,7 +113,43 @@ class FriendCityMap extends Component {
               break;
             }
             markerPastDisplay.push(
-              city
+              <Marker
+                key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
+                latitude={city.latitude}
+                longitude={city.longitude}
+                offsetLeft={-5}
+                offsetTop={-10}
+              >
+                <svg
+                  key={"svg" + city.id}
+                  height={20}
+                  width={20}
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    onMouseOver={() =>
+                      this.setState({
+                        cityTooltip: city,
+                        placeVisitedId: city.id
+                      })
+                    }
+                    style={{ fill: "rgba(203, 118, 120, 0.25)" }}
+                    key={"circle" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                  <circle
+                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
+                </svg>
+              </Marker>
             );
             break;
           case 1:
@@ -509,7 +500,7 @@ class FriendCityMap extends Component {
             }
             onViewportChange={this.handleViewportChange}
           >
-            {this.state.activeTimings[0] ? <Markers data = {markerPastDisplay}/> : null}
+            {this.state.activeTimings[0] ? markerPastDisplay : null}
             {this.state.activeTimings[1] ? markerFutureDisplay : null}
             {this.state.activeTimings[2] ? markerLiveDisplay : null}
             {this._renderPopup()}

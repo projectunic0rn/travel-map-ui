@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import SuggestedContinents from "./CitySuggestions/SuggestedContinents";
@@ -13,6 +13,7 @@ export default function NewUserSuggestions(props) {
   const [countryArray, handleCountries] = useState(
     props.customProps.suggestedCountries
   );
+
   function handleContinentsHelper(contArray) {
     handleContinents(contArray);
     props.customProps.handleContinents(contArray);
@@ -22,7 +23,6 @@ export default function NewUserSuggestions(props) {
     props.customProps.handleCountries(countryArray);
   }
   function handleCityClick(city) {
-    console.log(city);
     props.customProps.handleClickedCity(city);
   }
   return (
@@ -86,7 +86,7 @@ export default function NewUserSuggestions(props) {
           )
         }[page]
       }
-            {page === 2 ? (
+      {page === 2 ? (
         <div className="sc-lower-instructions">
           <span>
             For cities not listed above, exit popup and type in manually

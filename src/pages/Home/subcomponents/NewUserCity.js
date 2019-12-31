@@ -30,6 +30,7 @@ class NewUserCity extends Component {
       markerPastDisplay: [],
       markerFutureDisplay: [],
       markerLiveDisplay: [],
+      markerRecentDisplay: [],
       gl: null,
       tripTimingCounts: [0, 0, 0],
       clickedCity: null,
@@ -200,7 +201,8 @@ class NewUserCity extends Component {
         break;
     }
     this.setState({
-      tripTimingCounts: [pastCount, futureCount, liveCount]
+      tripTimingCounts: [pastCount, futureCount, liveCount],
+      markerRecentDisplay: null
     });
   }
 
@@ -212,15 +214,13 @@ class NewUserCity extends Component {
       markerPastDisplay: [],
       markerFutureDisplay: [],
       markerLiveDisplay: [],
+      markerRecentDisplay: null,
       deletePrompt: false,
       tripTimingCounts: [0, 0, 0]
     });
   }
 
   resize() {
-    console.log("resize");
-    console.log(this.state.windowWidth);
-    console.log(window.innerWidth);
     this.setState({ windowWidth: window.innerWidth });
     this.handleViewportChange({
       width: window.innerWidth,
@@ -229,7 +229,6 @@ class NewUserCity extends Component {
   }
 
   handleViewportChange(viewport) {
-    console.log(viewport);
     this.setState({
       viewport: { ...this.state.viewport, ...viewport }
     });
@@ -571,6 +570,7 @@ class NewUserCity extends Component {
     let markerPastDisplay = this.state.markerPastDisplay;
     let markerFutureDisplay = this.state.markerFutureDisplay;
     let markerLiveDisplay = this.state.markerLiveDisplay;
+    let markerRecentDisplay = this.state.markerRecentDisplay;
     let color = "";
     switch (this.state.timingState) {
       case 0:
@@ -586,41 +586,55 @@ class NewUserCity extends Component {
             offsetLeft={-5}
             offsetTop={-10}
           >
-            <svg
-              key={"svg" + city.cityId}
-              height={20}
-              width={20}
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                onMouseOver={() =>
-                  this.setState({
-                    cityTooltip: city,
-                    placeVisitedId: city.cityId
-                  })
-                }
-                style={{ fill: color }}
-                key={"circle" + city.cityId}
-                cx="50"
-                cy="50"
-                r="50"
-              />
-              <circle
-                style={{ fill: "rgba(203, 118, 120, 1.0)" }}
-                key={"circle2" + city.cityId}
-                cx="50"
-                cy="50"
-                r="20"
-              />
-            </svg>
+            <div
+              onMouseOver={() =>
+                this.setState({
+                  cityTooltip: city,
+                  placeVisitedId: city.cityId
+                })
+              }
+              style={{
+                backgroundColor: color
+              }}
+              key={"circle" + city.cityId}
+              className="dot"
+            />
+            <div
+              onMouseOver={() =>
+                this.setState({
+                  cityTooltip: city,
+                  placeVisitedId: city.cityId
+                })
+              }
+              style={{
+                backgroundColor: "rgba(203, 118, 120, 1)"
+              }}
+              key={"circle2" + city.cityId}
+              className="dot-inner"
+            />
+          </Marker>
+        );
+        markerRecentDisplay = (
+          <Marker
+            key={city.cityId}
+            latitude={city.city_latitude}
+            longitude={city.city_longitude}
+            offsetLeft={-5}
+            offsetTop={-10}
+          >
+            <div
+              style={{ border: "10px solid rgba(203, 118, 120, 1)" }}
+              key={"circle3" + city.cityId}
+              className="pulse"
+            />
           </Marker>
         );
         this.setState(
           {
             clickedCityArray,
             tripTimingCounts,
-            markerPastDisplay
+            markerPastDisplay,
+            markerRecentDisplay
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -640,41 +654,53 @@ class NewUserCity extends Component {
             offsetLeft={-5}
             offsetTop={-10}
           >
-            <svg
-              key={"svg" + city.cityId}
-              height={20}
-              width={20}
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                onMouseOver={() =>
-                  this.setState({
-                    cityTooltip: city,
-                    placeVisitingId: city.cityId
-                  })
-                }
-                style={{ fill: color }}
-                key={"circle" + city.cityId}
-                cx="50"
-                cy="50"
-                r="50"
-              />
-              <circle
-                style={{ fill: "rgba(115, 167, 195, 1.0)" }}
-                key={"circle2" + city.cityId}
-                cx="50"
-                cy="50"
-                r="20"
-              />
-            </svg>
+            <div
+              onMouseOver={() =>
+                this.setState({
+                  cityTooltip: city,
+                  placeVisitingId: city.cityId
+                })
+              }
+              style={{
+                backgroundColor: color
+              }}
+              key={"circle" + city.cityId}
+              className="dot"
+            />
+            <div
+              onMouseOver={() =>
+                this.setState({
+                  cityTooltip: city,
+                  placeVisitingId: city.cityId
+                })
+              }
+              style={{ backgroundColor: "rgba(115, 167, 195, 1.0)" }}
+              key={"circle2" + city.cityId}
+              className="dot-inner"
+            />
+          </Marker>
+        );
+        markerRecentDisplay = (
+          <Marker
+            key={city.cityId}
+            latitude={city.city_latitude}
+            longitude={city.city_longitude}
+            offsetLeft={-5}
+            offsetTop={-10}
+          >
+            <div
+              style={{ border: "10px solid rgba(115, 167, 195, 1.0)" }}
+              key={"circle3" + city.cityId}
+              className="pulse"
+            />
           </Marker>
         );
         this.setState(
           {
             clickedCityArray,
             tripTimingCounts,
-            markerFutureDisplay
+            markerFutureDisplay,
+            markerRecentDisplay
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -694,41 +720,51 @@ class NewUserCity extends Component {
             offsetLeft={-5}
             offsetTop={-10}
           >
-            <svg
-              key={"svg" + city.cityId}
-              height={20}
-              width={20}
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                onMouseOver={() =>
-                  this.setState({
-                    cityTooltip: city,
-                    placeVisitingId: city.cityId
-                  })
-                }
-                style={{ fill: color }}
-                key={"circle" + city.cityId}
-                cx="50"
-                cy="50"
-                r="50"
-              />
-              <circle
-                style={{ fill: "rgba(150, 177, 168, 1.0)" }}
-                key={"circle2" + city.cityId}
-                cx="50"
-                cy="50"
-                r="20"
-              />
-            </svg>
+            <div
+              onMouseOver={() =>
+                this.setState({
+                  cityTooltip: city,
+                  placeLivingId: city.cityId
+                })
+              }
+              style={{ backgroundColor: color }}
+              key={"circle" + city.cityId}
+              className="dot"
+            />
+            <div
+              onMouseOver={() =>
+                this.setState({
+                  cityTooltip: city,
+                  placeLivingId: city.cityId
+                })
+              }
+              style={{ backgroundColor: "rgba(150, 177, 168, 1.0)" }}
+              key={"circle2" + city.cityId}
+              className="dot-inner"
+            />
+          </Marker>
+        );
+        markerRecentDisplay = (
+          <Marker
+            key={city.cityId}
+            latitude={city.city_latitude}
+            longitude={city.city_longitude}
+            offsetLeft={-5}
+            offsetTop={-10}
+          >
+            <div
+              style={{ border: "10px solid rgba(150, 177, 168, 1.0)" }}
+              key={"circle3" + city.cityId}
+              className="pulse"
+            />
           </Marker>
         );
         this.setState(
           {
             clickedCityArray,
             tripTimingCounts,
-            markerLiveDisplay
+            markerLiveDisplay,
+            markerRecentDisplay
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -742,7 +778,9 @@ class NewUserCity extends Component {
 
   handleTimingChange(value) {
     this.setState({
-      timingState: Number(value)
+      timingState: Number(value),
+      suggestedContinentArray: [],
+      suggestedCountryArray: []
     });
   }
 
@@ -801,6 +839,7 @@ class NewUserCity extends Component {
       markerPastDisplay,
       markerFutureDisplay,
       markerLiveDisplay,
+      markerRecentDisplay,
       loading,
       clickedCityArray,
       deletePrompt,
@@ -882,6 +921,7 @@ class NewUserCity extends Component {
             {this.state.activeTimings[0] ? markerPastDisplay : null}
             {this.state.activeTimings[1] ? markerFutureDisplay : null}
             {this.state.activeTimings[2] ? markerLiveDisplay : null}
+            {markerRecentDisplay}
             {this._renderPopup()}
           </MapGL>
         </div>
