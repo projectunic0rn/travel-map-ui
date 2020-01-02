@@ -73,7 +73,7 @@ const FriendMapPage = () => {
     <Query
       query={GET_ALL_USER_COUNTRIES}
       notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
+      // fetchPolicy={"cache-and-network"}
       partialRefetch={true}
       onCompleted={data => handleTripDataHelper(data.users)}
     >

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker, Popup } from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
+import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
@@ -9,6 +11,27 @@ import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
+
+const ClusterMarker = ({ longitude, latitude, pointCount, color }) => (
+  <Marker longitude={longitude} latitude={latitude}>
+    <div
+      style={{
+        width: pointCount*2 + 'px',
+        height: pointCount*2 + 'px',
+        minHeight: '20px',
+        minWidth: '20px',
+        color: '#fff',
+        background: color,
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
+      {pointCount}
+    </div>
+  </Marker>
+);
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -120,6 +143,7 @@ class FriendCityMap extends Component {
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
+                style={{ background: "rgba(203, 118, 120, 0.25)" }}
               >
                 <svg
                   key={"svg" + city.id}
@@ -464,6 +488,7 @@ class FriendCityMap extends Component {
   }
 
   render() {
+
     const {
       viewport,
       markerPastDisplay,
@@ -471,7 +496,9 @@ class FriendCityMap extends Component {
       markerLiveDisplay,
       loading,
       activePopup,
-      filter
+      filter,
+      activeTimings
+
     } = this.state;
     if (loading) return <Loader />;
     return (
@@ -486,24 +513,54 @@ class FriendCityMap extends Component {
             </button>
           </div>
           <div className="map-header-filler" />
-          {/* <div className="map-header-filter">
-            <button onClick={() => this.showFilter()}>Filter Map</button>
-          </div> */}
         </div>
         <div className="city-map-container">
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
             ref={this.mapRef}
             {...viewport}
-            mapboxApiAccessToken={
+            accessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
             onViewportChange={this.handleViewportChange}
+            zoom={viewport.zoom}
+            style={{
+              width: "100vw",
+              minHeight: "calc(100% - 120px)",
+              position: "relative"
+            }}
           >
-            {this.state.activeTimings[0] ? markerPastDisplay : null}
-            {this.state.activeTimings[1] ? markerFutureDisplay : null}
-            {this.state.activeTimings[2] ? markerLiveDisplay : null}
             {this._renderPopup()}
+            {activeTimings[0] ? <Cluster
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker color={"rgba(203, 118, 120, 0.5)"} {...cluster}/>
+              )}
+            >
+              {markerPastDisplay}
+            </Cluster> : null}
+            {activeTimings[1] ? <Cluster
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker color={"rgba(115, 167, 195, 0.5)"} {...cluster}/>
+              )}
+            >
+              {markerFutureDisplay}
+              </Cluster> : null}
+              {activeTimings[2] ? <Cluster
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker color={"rgba(150, 177, 168, 0.5)"} {...cluster}/>
+              )}
+            >
+              {markerLiveDisplay}
+              </Cluster> : null}
             <Geocoder
               mapRef={this.mapRef}
               onResult={this.handleOnResult}
@@ -549,7 +606,7 @@ class FriendCityMap extends Component {
 
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
-  handleMapTypeChange: PropTypes.func, 
+  handleMapTypeChange: PropTypes.func,
   data: PropTypes.array
 };
 
