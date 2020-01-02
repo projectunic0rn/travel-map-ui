@@ -81,7 +81,7 @@ const FriendMapPage = () => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
         handleLoadedCountries(data);
-        if (!loaded) return "Loading";
+        if (!loaded) return <Loader />;
         return (
           <div className="map-container">
             <div className={cityOrCountry ? "map city-map" : "map country-map"}>

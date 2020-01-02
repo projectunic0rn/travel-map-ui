@@ -229,13 +229,17 @@ class ClickedCountryCities extends Component {
       };
       Swal.fire(swalParams).then(result => {
         if (result.value) {
-          this.props.showPopup();
-          this.props.updateMap();
+          this.setState(
+            {
+              swalNotFired: false,
+              livePopup: true
+            },
+            () => {
+              this.props.showPopup();
+              this.props.updateMap();
+            }
+          );
         }
-      });
-      this.setState({
-        swalNotFired: false,
-        livePopup: true
       });
     }
   }
@@ -256,6 +260,7 @@ class ClickedCountryCities extends Component {
           longitude={cityTooltip.city_longitude}
           latitude={cityTooltip.city_latitude}
           closeOnClick={false}
+          closeButton={false}
           style={{
             background: "rgba(115, 167, 195, 0.75)",
             color: "rgb(248, 248, 252)"
@@ -318,8 +323,12 @@ class ClickedCountryCities extends Component {
             <button
               className="submit-cities"
               style={style}
-              onClick={(this.props.timing === 2 && this.props.tripData.Place_living !== null) ? () => this.handleLivePopup("country") :
-                mutation}
+              onClick={
+                this.props.timing === 2 &&
+                this.props.tripData.Place_living !== null
+                  ? () => this.handleLivePopup("country")
+                  : mutation
+              }
             >
               Save
             </button>
@@ -351,7 +360,7 @@ class ClickedCountryCities extends Component {
         <div className="city-lived-popup">
           {this.state.livePopup ? (
             <CityLivedPopup
-            handleAddCity = {this.props.updateMap}
+              handleAddCity={this.props.updateMap}
               country={this.state.country}
               cities={
                 this.state.mapCities.length > 0

@@ -81,30 +81,54 @@ function ClickedCityTiming(props) {
 
   return (
     <div className="clicked-country-timing-container">
-      <Mutation
-        mutation={ADD_PLACE_VISITED}
-        variables={{ country, cities }}
-        onCompleted={data => handleAddCity(data, 0)}
-      >
-        {mutation => <span onClick={mutation}>I visited here</span>}
-      </Mutation>
-      <Mutation
-        mutation={ADD_PLACE_VISITING}
-        variables={{ country, cities }}
-        onCompleted={data => handleAddCity(data, 1)}
-      >
-        {mutation => <span onClick={mutation}>I plan to visit here</span>}
-      </Mutation>
-      {tripData.Place_living === null ? (
+      {!props.previousTimings[0] ? (
         <Mutation
-          mutation={ADD_PLACE_LIVING}
+          mutation={ADD_PLACE_VISITED}
           variables={{ country, cities }}
-          onCompleted={data => handleAddCity(data, 2)}
+          onCompleted={data => handleAddCity(data, 0)}
         >
-          {mutation => <span onClick={mutation}>I live here currently</span>}
+          {mutation => (
+            <span className="past-timing" onClick={mutation}>
+              I visited here
+            </span>
+          )}
         </Mutation>
       ) : (
-        <span onClick={() => evalLiveClick()}>I live here currently</span>
+        <span className="past-timing unclickable-timing">I visited here</span>
+      )}
+      {!props.previousTimings[1] ? (
+        <Mutation
+          mutation={ADD_PLACE_VISITING}
+          variables={{ country, cities }}
+          onCompleted={data => handleAddCity(data, 1)}
+        >
+          {mutation => (
+            <span className="future-timing" onClick={mutation}>
+              I plan to visit here
+            </span>
+          )}
+        </Mutation>
+      ) : (
+        <span className="future-timing unclickable-timing">I plan to visit here</span>
+      )}
+      {!props.previousTimings[2] ? (
+        tripData.Place_living === null ? (
+          <Mutation
+            mutation={ADD_PLACE_LIVING}
+            variables={{ country, cities }}
+            onCompleted={data => handleAddCity(data, 2)}
+          >
+            {mutation => (
+              <span className="live-timing" onClick={mutation}>
+                I live here currently
+              </span>
+            )}
+          </Mutation>
+        ) : (
+          <span className="live-timing" onClick={() => evalLiveClick()}>I live here currently</span>
+        )
+      ) : (
+        <span className="live-timing unclickable-timing">I live here currently</span>
       )}
       {props.previousTrips ? (
         <div className="previous-trips-button">delete trips</div>
@@ -132,7 +156,8 @@ ClickedCityTiming.propTypes = {
   cityId: PropTypes.number,
   countryISO: PropTypes.string,
   refetch: PropTypes.func,
-  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  previousTimings: PropTypes.array
 };
 
 export default ClickedCityTiming;

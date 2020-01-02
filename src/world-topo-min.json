@@ -62221,10 +62221,12 @@
             [ [ 21 ] ],
             [ [ 22 ] ]
           ],
-          "id": 502,
+          "id": 696512,
           "properties": {
             "name": "Åland Islands",
-            "color": "#1f77b4"
+            "color": "#1f77b4",
+            "ISO2": "AX",
+            "continent": "Europe"
           }
         },
         {
@@ -62298,129 +62300,13 @@
         {
           "type": "Polygon",
           "arcs": [ [ 52 ] ],
-          "id": 4,
+          "id": 620069,
           "properties": {
             "name": "American Samoa",
+            "ISO2": "AS",
             "continent": "NorthAmerica",
             "color": "#1f77b4", 
             "capital": "Pago Pago"
-          }
-        },
-        {
-          "type": "MultiPolygon",
-          "arcs": [
-            [ [ 53 ] ],
-            [ [ 54 ] ],
-            [ [ 55 ] ],
-            [ [ 56 ] ],
-            [ [ 57 ] ],
-            [ [ 58 ] ],
-            [ [ 59 ] ],
-            [ [ 60 ] ],
-            [ [ 61 ] ],
-            [ [ 62 ] ],
-            [ [ 63 ] ],
-            [ [ 64 ] ],
-            [ [ 65 ] ],
-            [ [ 66 ] ],
-            [ [ 67 ] ],
-            [ [ 68 ] ],
-            [ [ 69 ] ],
-            [ [ 70 ] ],
-            [ [ 71 ] ],
-            [ [ 72 ] ],
-            [ [ 73 ] ],
-            [ [ 74 ] ],
-            [ [ 75 ] ],
-            [ [ 76 ] ],
-            [ [ 77 ] ],
-            [ [ 78 ] ],
-            [ [ 79 ] ],
-            [ [ 80 ] ],
-            [ [ 81 ] ],
-            [ [ 82 ] ],
-            [ [ 83 ] ],
-            [ [ 84 ] ],
-            [ [ 85 ] ],
-            [ [ 86 ] ],
-            [ [ 87 ] ],
-            [ [ 88 ] ],
-            [ [ 89 ] ],
-            [ [ 90 ] ],
-            [ [ 91 ] ],
-            [ [ 92 ] ],
-            [ [ 93 ] ],
-            [ [ 94 ] ],
-            [ [ 95 ] ],
-            [ [ 96 ] ],
-            [ [ 97 ] ],
-            [ [ 98 ] ],
-            [ [ 99 ] ],
-            [ [ 100 ] ],
-            [ [ 101 ] ],
-            [ [ 102 ] ],
-            [ [ 103 ] ],
-            [ [ 104 ] ],
-            [ [ 105 ] ],
-            [ [ 106 ] ],
-            [ [ 107 ] ],
-            [ [ 108 ] ],
-            [ [ 109 ] ],
-            [ [ 110 ] ],
-            [ [ 111 ] ],
-            [ [ 112 ] ],
-            [ [ 113 ] ],
-            [ [ 114 ] ],
-            [ [ 115 ] ],
-            [ [ 116 ] ],
-            [ [ 117 ] ],
-            [ [ 118 ] ],
-            [ [ 119 ] ],
-            [ [ 120 ] ],
-            [ [ 121 ] ],
-            [ [ 122 ] ],
-            [ [ 123 ] ],
-            [ [ 124 ] ],
-            [ [ 125 ] ],
-            [ [ 126 ] ],
-            [ [ 127 ] ],
-            [ [ 128 ] ],
-            [ [ 129 ] ],
-            [ [ 130 ] ],
-            [ [ 131 ] ],
-            [ [ 132 ] ],
-            [ [ 133 ] ],
-            [ [ 134 ] ],
-            [ [ 135 ] ],
-            [ [ 136 ] ],
-            [ [ 137 ] ],
-            [ [ 138 ] ],
-            [ [ 139 ] ],
-            [ [ 140 ] ],
-            [ [ 141 ] ],
-            [ [ 142 ] ],
-            [ [ 143 ] ],
-            [ [ 144 ] ],
-            [ [ 145 ] ],
-            [ [ 146 ] ],
-            [ [ 147 ] ],
-            [ [ 148 ] ],
-            [ [ 149 ] ],
-            [ [ 150 ] ],
-            [ [ 151 ] ],
-            [ [ 152 ] ],
-            [ [ 153 ] ],
-            [ [ 154 ] ],
-            [ [ 155 ] ],
-            [ [ 156 ] ],
-            [ [ 157 ] ],
-            [ [ 158 ] ]
-          ],
-          "id": 503,
-          "properties": {
-            "name": "Antarctica",
-            "color": "#1f77b4",
-            "continent":  "Antarctica"
           }
         },
         {
@@ -62499,7 +62385,7 @@
             "name": "Australia",
             "ISO2": "AU",
             "color": "#1f77b4",
-            "continent": "Australia", 
+            "continent": "Oceania", 
             "capital": "Canberra"
           }
         },
@@ -62706,7 +62592,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ 286 ] ],
-          "id": 22,
+          "id": 136247,
           "properties": {
             "name": "Bermuda",
             "continent": "Europe",
@@ -62786,9 +62672,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 320, 321 ] ],
-          "id": 23,
+          "id": 716016,
           "properties": {
             "name": "Bhutan",
+            "ISO2": "BT",
             "continent": "Asia",
             "color": "#1f77b4",
             "capital": "Thimphu"
@@ -63105,7 +62992,7 @@
           "properties": {
             "name": "Cook Islands",
             "ISO2": "CK",
-            "continent": "Australia",
+            "continent": "Oceania",
             "color": "#1f77b4"
           }
         },
@@ -63152,11 +63039,12 @@
             [ [ 580 ] ],
             [ [ 581 ] ]
           ],
-          "id": 33,
+          "id": 117842,
           "properties": {
             "name": "Cape Verde",
             "continent": "Africa",
             "color": "#1f77b4",
+            "ISO2": "CV",
             "capital": "Praia"
           }
         },
@@ -63209,33 +63097,36 @@
             [ [ 594 ] ],
             [ [ 595 ] ]
           ],
-          "id": 37,
+          "id": 822942,
           "properties": {
             "name": "Cayman Islands",
             "continent": "NorthAmerica",
             "color": "#1f77b4", 
-            "capital": "George Town"
+            "capital": "George Town", 
+            "ISO2": "KY"
           }
         },
         {
           "type": "Polygon",
           "arcs": [ [ 596, 597 ] ],
-          "id": 507,
+          "id": 193514,
           "properties": {
-            "name": "Northern Cyprus",
+            "name": "Turkish Republic of Northern Cyprus",
             "continent": "Europe",
-            "color": "#1f77b4"
+            "color": "#1f77b4", 
+            "ISO2": "CY"
           }
         },
         {
           "type": "Polygon",
           "arcs": [ [ -597, 598 ] ],
-          "id": 52,
+          "id": 143348,
           "properties": {
             "name": "Cyprus",
             "continent": "Europe",
             "color": "#aec7e8",
-            "capital": "Nicosia"
+            "capital": "Nicosia",
+            "ISO2": "CY"
           }
         },
         {
@@ -63524,7 +63415,7 @@
             [ [ 731 ] ],
             [ [ 732, -609, -473, 733, 734, 735, 736, -676, -24, -675, 737, -226 ] ]
           ],
-          "id": 975953,
+          "id": 986548,
           "properties": {
             "name": "France",
             "ISO2": "FR",
@@ -63536,12 +63427,12 @@
         {
           "type": "Polygon",
           "arcs": [ [ -309, 724, 725 ] ],
-          "id": 73,
+          "id": 27499,
           "properties": {
             "name": "French Guiana",
             "ISO2": "GF",
             "color": "#d62728",
-            "continent": "Africa", 
+            "continent": "SouthAmerica", 
             "capital": "Cayenne"
           }
         },
@@ -63554,10 +63445,12 @@
             [ [ 741 ] ],
             [ [ 742 ] ]
           ],
-          "id": 509,
+          "id": 111241,
           "properties": {
             "name": "Faroe Islands",
-            "color": "#1f77b4"
+            "color": "#1f77b4",
+            "ISO2": "FO",
+            "continent": "Europe"
           }
         },
         {
@@ -63825,12 +63718,13 @@
         {
           "type": "Polygon",
           "arcs": [ [ 861 ] ],
-          "id": 79,
+          "id": 406885,
           "properties": {
             "name": "Guam",
             "continent": "NorthAmerica",
             "color": "#1f77b4", 
-            "capital": "Hagatna"
+            "capital": "Hagatna",
+            "ISO2": "GU"
           }
         },
         {
@@ -63852,9 +63746,10 @@
             [ [ 866 ] ],
             [ [ -521, 867 ] ]
           ],
-          "id": 86,
+          "id": 15807,
           "properties": {
             "name": "Hong Kong",
+            "ISO2": "HK",
             "continent": "Asia",
             "color": "#ff7f0e", 
             "capital": "Central"
@@ -64083,7 +63978,7 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1034 ] ],
-          "id": 94,
+          "id": 392025,
           "properties": {
             "name": "Isle of Man",
             "color": "#1f77b4", 
@@ -64336,7 +64231,7 @@
             "ISO2": "KZ",
             "continent": "Asia",
             "color": "#ff7f0e", 
-            "capital": "Astana"
+            "capital": "Almaty"
           }
         },
         {
@@ -64625,9 +64520,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1210, 1211 ] ],
-          "id": 183,
+          "id": 871187,
           "properties": {
             "name": "St. Martin (French part)",
+            "ISO2": "MF",
             "color": "#1f77b4", 
             "capital": "Marigot", 
             "continent": "NorthAmerica"
@@ -64842,10 +64738,11 @@
             [ [ 1270 ] ],
             [ [ 1271 ] ]
           ],
-          "id": 146,
+          "id": 737625,
           "properties": {
             "name": "Northern Mariana Islands",
             "color": "#1f77b4", 
+            "ISO2": "MP",
             "capital": "Capital Hill/Saipan", 
             "continent": "Oceania"
           }
@@ -64961,9 +64858,10 @@
             [ [ 1307 ] ],
             [ [ 1308 ] ]
           ],
-          "id": 141,
+          "id": 102873,
           "properties": {
             "name": "New Caledonia",
+            "ISO2": "NC",
             "color": "#1f77b4", 
             "capital": "Noumea", 
             "continent": "Oceania"
@@ -65107,9 +65005,10 @@
         },
         {
           "type": null,
-          "id": 138,
+          "id": 602184,
           "properties": {
             "name": "Nauru",
+            "ISO2": "NR",
             "color": "#1f77b4", 
             "continent": "Oceania",
             "capital": "N/A"
@@ -65397,9 +65296,10 @@
             [ [ -658, 1483, -1079 ] ],
             [ [ -1076, -1096 ] ]
           ],
-          "id": 214,
+          "id": 834347,
           "properties": {
-            "name": "Palestinian Territory",
+            "name": "Palestine",
+            "ISO2": "PK",
             "color": "#98df8a", 
             "continent": "Asia", 
             "capital": "East Jerusalem"
@@ -65420,9 +65320,10 @@
             [ [ 1493 ] ],
             [ [ 1494 ] ]
           ],
-          "id": 69,
+          "id": 576226,
           "properties": {
             "name": "French Polynesia",
+            "ISO2": "PF",
             "color": "#1f77b4", 
             "continent": "Oceania",
             "capital": "Papeete"
@@ -65809,7 +65710,7 @@
             "name": "Suriname",
             "ISO2": "SR",
             "color": "#2ca02c", 
-            "continent": "Africa", 
+            "continent": "SouthAmerica", 
             "capital": "Paramaribo"
           }
         },
@@ -65871,9 +65772,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ -1211, 1663 ] ],
-          "id": 172,
+          "id": 668888,
           "properties": {
             "name": "Sint Maarten",
+            "ISO2": "SX",
             "color": "#aec7e8", 
             "continent": "NorthAmerica", 
             "capital": "Philipsburg"
@@ -66004,9 +65906,10 @@
             [ [ -903, 1688 ] ],
             [ [ 1689 ] ]
           ],
-          "id": 194,
+          "id": 482317,
           "properties": {
-            "name": "Timor Leste",
+            "name": "East Timor",
+            "ISO2": "TL",
             "color": "#aec7e8", 
             "continent": "Asia", 
             "capital": "Dili"
@@ -66309,9 +66212,10 @@
         {
           "type": "Polygon",
           "arcs": [ [ 1821 ] ],
-          "id": 28,
+          "id": 498024,
           "properties": {
             "name": "British Virgin Islands",
+            "ISO2": "VG",
             "color": "#1f77b4", 
             "continent": "NorthAmerica",
             "capital": "Road Town"
@@ -66324,9 +66228,10 @@
             [ [ 1823 ] ],
             [ [ 1824 ] ]
           ],
-          "id": 213,
+          "id": 83280,
           "properties": {
             "name": "U.S. Virgin Islands",
+            "ISO2": "VI",
             "color": "#1f77b4", 
             "continent": "NorthAmerica", 
             "capital": "Charlotte Amalie"

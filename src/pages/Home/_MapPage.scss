@@ -2,22 +2,43 @@
 @import "./subcomponents/MapSearch";
 @import "./subcomponents/MapScorecard";
 @import "./subcomponents/CityMap";
+@import "./subcomponents/NewUserCity";
+@import "./subcomponents/NewUserSuggestions";
 
 .map-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   height: calc(100% - 30px);
-  width: 80vw;
+  width: 100vw;
   margin: 0 auto;
   .country-map {
     margin: 0px auto 0 auto;
-    max-width: 90vw;
+    max-width: 85vw;
     position: relative;
     text-align: center;
     .rsm-svg {
-      max-width: 1500px;
-      transform: translate(0, -30px);
+      min-width: 1500px;
+      min-height: calc(100% - 100px);
+      transform: translate(0, -0px);
+      @media (max-width: 1600px) {
+        min-width: 1200px;
+      }
+      @media (max-width: 1250px) {
+        min-width: 1000px;
+      }
+      @media (max-width: 1050px) {
+        min-width: 800px;
+        transform: translateY(0px);
+      }
+      @media (max-width: 850px) {
+        min-width: 600px;
+        transform: translateY(-40px);
+      }
+      @media (max-width: 650px) {
+        min-width: 500px;
+        transform: translateY(-80px);
+      }
     }
   }
   .map {
@@ -26,6 +47,48 @@
     &:focus {
       outline: none;
     }
+    #country-map-share {
+      top: 16px;
+    }
+    .personal-map-share {
+      position: absolute;
+      top: 74px;
+      right: calc(50% - 480px);
+      display: flex;
+      align-items: center;
+      height: 40px;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      padding-left: 28px;
+      font-family: "Segoe UI", sans-serif;
+      background: #73a7c3;
+      color: rgb(248, 248, 252);
+      border-radius: 24px;
+      border: 2px solid #fff;
+      box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.75);
+      width: 200px;
+      z-index: 5000;
+      font-weight: 700;
+      cursor: pointer;
+      #myShareLink {
+        opacity: 0;
+        z-index: -100;
+        position: absolute;
+      }
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: rgb(248, 248, 252);
+        margin-left: 12px;
+      }
+      &:hover {
+        background: rgb(248, 248, 252);
+        color: #73a7c3;
+        svg {
+          fill: #73a7c3;
+        }
+      }
+    }
     .map-header-container {
       display: flex;
       flex-direction: column;
@@ -33,7 +96,7 @@
       width: 1020px;
       margin: 20px auto;
       align-items: center;
-      @media (min-width: 900px) {
+      @media (min-width: 1000px) {
         flex-direction: row;
         min-width: 900px;
         margin: 0px auto;
@@ -43,16 +106,21 @@
         justify-content: center;
         max-width: 267px;
         flex: 1;
-        z-index: 2000;
+        z-index: 2;
+        @media screen and (max-width: 1000px) {
+          position: absolute;
+          top: 72px;
+          left: calc(50% - 220px);
+        }
         button {
           width: 200px;
           height: 40px;
-          background: #3f4b57;
+          background: rgb(248, 248, 252);
           border: none;
           border-radius: 24px;
           box-shadow: 0 1px 1px 1px #3f4b57;
           font-size: 18px;
-          color: rgb(150, 150, 150);
+          color: rgb(79, 89, 90);
           cursor: pointer;
           &:focus {
             outline: none;
@@ -91,6 +159,7 @@
       .map-header-filler {
         flex: 1;
         height: 72px;
+        max-width: 267px;
       }
     }
     .continent-container {
@@ -98,6 +167,9 @@
       justify-content: center;
       align-content: center;
       margin: 8px auto;
+      @media (max-width: 1000px) {
+        transform: translateY(40px);
+      }
       button {
         z-index: 2;
         background: none;
@@ -122,5 +194,24 @@
         }
       }
     }
+  }
+}
+
+#country-header {
+  display: flex;
+  flex-direction: column-reverse;
+  max-width: 1020px;
+  width: 100%;
+  margin: 20px auto;
+  align-items: center;
+  @media (min-width: 1000px) {
+    flex-direction: row;
+    min-width: 900px;
+    margin: 0px auto;
+  }
+  #country-button {
+    position: relative;
+    top: 0;
+    left: 0;
   }
 }

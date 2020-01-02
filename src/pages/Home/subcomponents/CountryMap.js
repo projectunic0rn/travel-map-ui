@@ -61,7 +61,17 @@ const CountryMap = props => {
     handleChangeCenter([0, 20]);
     handleChangeZoom(1);
   }
-
+  
+  function handleWheel(event) {
+    if (event.deltaY > 0) {
+      let newZoom = zoom/1.1;
+      handleChangeZoom(newZoom);
+    }
+    if (event.deltaY < 0) {
+      let newZoom = zoom*1.1;
+      handleChangeZoom(newZoom)
+    }
+  }
   function computedStyles(geography) {
     let isCountryIncluded = false;
     let countryTiming = null;
@@ -267,6 +277,7 @@ const CountryMap = props => {
                   cacheId={i}
                   geography={geography}
                   projection={projection}
+                  onWheel={handleWheel}
                   onMouseEnter={() => countryInfo(geography)}
                   onClick={() => handleClickedCountry(geography)}
                   style={computedStyles(geography)}

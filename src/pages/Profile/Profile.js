@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
 import Settings from "./subpages/Settings";
+import Friends from "./subpages/Friends";
 import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
 import Loader from "../../components/common/Loader/Loader";
 
@@ -34,6 +35,10 @@ export default function Profile({ user, urlUsername, refetch }) {
     handleCityReviews(reviews);
     handleCity(selectedCityData);
   }
+  useEffect(() => {
+    handleUserData(user);
+  }, [user]);
+
   useEffect(() => {
     let userData = user;
     let cityArray = [0];
@@ -76,17 +81,45 @@ export default function Profile({ user, urlUsername, refetch }) {
           let newData = cityData.Places_visited.find(
             element => element.id === selectedCity.id
           );
-          newData.timing = "past";
-          handleSelectedCity(newData);
-          handleCityReviews(newData.CityReviews);
+          if (newData !== undefined) {
+            newData.timing = "past";
+            handleSelectedCity(newData);
+            handleCityReviews(newData.CityReviews);
+          }
         } else if (selectedCity.timing === "future") {
           let newData = cityData.Places_visiting.find(
             element => element.id === selectedCity.id
           );
+          if (newData !== undefined) {
+            newData.timing = "future";
+            handleSelectedCity(newData);
+            handleCityReviews(newData.CityReviews);
+          }
+        } else if (selectedCity.timing === "live") {
+          let newData = cityData.Place_living;
+          if (newData !== undefined) {
+            newData.timing = "live";
+            handleSelectedCity(newData);
+            handleCityReviews(newData.CityReviews);
+          }
+        }
+      } else if (window.location.pathname.split("/")[1] === "profile") {
+        let splitUrl = window.location.pathname.split("/");
+        if (splitUrl[4] === "0") {
+          let newData = cityData.Places_visited.find(
+            element => element.id === Number(splitUrl[5])
+          );
+          newData.timing = "past";
+          handleSelectedCity(newData);
+          handleCityReviews(newData.CityReviews);
+        } else if (splitUrl[4] === "1") {
+          let newData = cityData.Places_visiting.find(
+            element => element.id === Number(splitUrl[5])
+          );
           newData.timing = "future";
           handleSelectedCity(newData);
           handleCityReviews(newData.CityReviews);
-        } else if (selectedCity.timing === "live") {
+        } else if (splitUrl[4] === "2") {
           let newData = cityData.Place_living;
           newData.timing = "live";
           handleSelectedCity(newData);
@@ -118,7 +151,6 @@ export default function Profile({ user, urlUsername, refetch }) {
       handleLoaded(true);
     }
   }, [cityData]);
-
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
@@ -139,7 +171,11 @@ export default function Profile({ user, urlUsername, refetch }) {
                 urlUsername={urlUsername}
                 userData={userData}
                 city={
-                  user.Place_living !== null ? user.Place_living.city : "City"
+                  user.Place_living !== null
+                    ? user.Place_living.city !== null
+                      ? user.Place_living.city
+                      : "City"
+                    : "City"
                 }
                 country={
                   user.Place_living !== null
@@ -173,6 +209,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     handleSelectedCity={handleSelectedCity}
                     urlUsername={urlUsername}
                     handleOriginalSearch={handleSearchText}
+                    refetch={refetch}
                   />
                 )}
               />
@@ -190,6 +227,22 @@ export default function Profile({ user, urlUsername, refetch }) {
                     cityReviews={cityReviews}
                     refetch={refetch}
                     urlUsername={urlUsername}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path={
+                  urlUsername
+                    ? `/profiles/${urlUsername}/friends`
+                    : "/profile/friends"
+                }
+                render={props => (
+                  <Friends
+                    {...props}
+                    searchText={searchText}
+                    urlUsername={urlUsername}
+                    handlePageRender={handlePageRender}
                   />
                 )}
               />

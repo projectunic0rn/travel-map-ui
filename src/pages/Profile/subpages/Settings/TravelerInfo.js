@@ -95,7 +95,7 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
           <span className="traveler-settings-header">
             Travel Tags
             {showSaveButton ? (
-              <button className="confrim button" onClick={mutation}>
+              <button className="button" onClick={mutation}>
                 <SaveIcon />
               </button>
             ) : null}

@@ -88,6 +88,7 @@ export default function Contact({
                 className="input"
                 type="text"
                 defaultValue={item.link}
+                maxLength={40}
               ></input>
             </>
           ) : item.link !== "" ? (

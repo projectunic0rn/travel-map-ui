@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { GET_ALL_FRIEND_INFO } from "../../GraphQL";
-import Loader from "../../components/common/Loader/Loader";
+import Loader from '../common/Loader/Loader';
 
-function FilterCityMap() {
+function FilterCityMap(props) {
+  const [username, handleUsernameChange] = useState("");
   const [interestTagArray, handleInterestTag] = useState([]);
   function handleInterestTagHelper(tag) {
-    console.log(tag);
     let newInterestTagArray = interestTagArray;
     newInterestTagArray.push(tag);
     handleInterestTag(newInterestTagArray);
-    console.log(interestTagArray);
+  }
+  function handleApplyFilter() {
+    props.customProps.handleFilter({
+      username: username
+    })
   }
   return (
     <Query
@@ -23,12 +27,11 @@ function FilterCityMap() {
       {({ loading, error, data, refetch }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
-        console.log(data);
         return (
           <div className="clicked-country-container filter-city-container">
             <div className="clicked-country-header">Add filters</div>
             <div className="filter-city-users">
-              <input type="text" placeholder="Add a user name"></input>
+              <input type="text" placeholder="Add a user name" onChange = {(e) => handleUsernameChange(e.target.value)}></input>
             </div>
             <div className="filter-city-interest-tags">
               <select
@@ -86,7 +89,7 @@ function FilterCityMap() {
               </select>
             </div>
             <div className="filter-city-buttons">
-              <span className="button large">Apply</span>
+              <span className="button large" onClick={handleApplyFilter}>Apply</span>
               <span className="button large">Clear</span>
             </div>
           </div>
@@ -96,6 +99,8 @@ function FilterCityMap() {
   );
 }
 
-FilterCityMap.propTypes = {};
+FilterCityMap.propTypes = {
+  customProps: PropTypes.object
+};
 
 export default FilterCityMap;

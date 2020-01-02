@@ -53,6 +53,7 @@ function CityBasicsContainer({ city, refetch, urlUsername }) {
         {edit && city.timing !== "live" ? (
           <input
             className="trip-duration"
+            maxLength={5}
             onChange={e => handleCityDays(e.target.value)}
             defaultValue={cityBasics.days === null ? 0 : cityBasics.days}
           ></input>

@@ -86,6 +86,7 @@ function ClickedCountryContainer(props) {
         style={page === 1 ? { minHeight: "60px" } : null}
       >
         <div className="clicked-country-info-names">
+          <span></span>
           <span>{props.customProps.countryInfo.properties.name}</span>
           <span>
             Capital: {props.customProps.countryInfo.properties.capital}

@@ -1,13 +1,40 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useMutation } from "@apollo/react-hooks";
+import { ADD_MULTIPLE_PLACES } from "../../GraphQL";
+
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
+import ShareIcon from "../../icons/ShareIcon";
 
-const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
+const MapPage = ({
+  mapPage,
+  refetch,
+  user,
+  handleMapPageChange,
+  clickedCityArray
+}) => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [loaded, handleLoaded] = useState(false);
+  const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
+    onCompleted() {
+      localStorage.removeItem("clickedCityArray");
+      refetch();
+    }
+  });
+  useEffect(() => {
+    if (
+      clickedCityArray !== null &&
+      localStorage.getItem("clickedCityArray") !== null &&
+      user.Place_living === null &&
+      user.Places_visited.length < 1 &&
+      user.Places_visiting.length < 1
+    ) {
+      addMultiplePlaces({ variables: { clickedCityArray } });
+    }
+  }, []);
 
   useEffect(() => {
     handleTripData(user);
@@ -18,7 +45,7 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
       if (userData != null && userData.Places_visited.length !== 0) {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
-            !countryArray.some((country) => {
+            !countryArray.some(country => {
               return (
                 country.countryId === userData.Places_visited[i].countryId &&
                 country.tripTiming === 0
@@ -35,7 +62,7 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
       if (userData != null && userData.Places_visiting.length !== 0) {
         for (let i = 0; i < userData.Places_visiting.length; i++) {
           if (
-            !countryArray.some((country) => {
+            !countryArray.some(country => {
               return (
                 country.countryId === userData.Places_visiting[i].countryId &&
                 country.tripTiming === 1
@@ -51,7 +78,7 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
       }
       if (userData != null && userData.Place_living !== null) {
         if (
-          !countryArray.some((country) => {
+          !countryArray.some(country => {
             return (
               country.countryId === userData.Place_living.countryId &&
               country.tripTiming === 2
@@ -105,10 +132,33 @@ const MapPage = ({ mapPage, refetch, user, handleMapPageChange }) => {
     handleTripData(tripData);
     refetch();
   }
+  function shareMap() {
+    let copyText = document.getElementById("myShareLink");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+  }
+
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
       <div className={mapPage ? "map city-map" : "map country-map"}>
+        <div
+          className="personal-map-share"
+          id={mapPage === 1 ? "city-map-share" : "country-map-share"}
+          onClick={shareMap}
+        >
+          <input
+            type="text"
+            defaultValue={
+              "https://geornal.herokuapp.com/public/" + user.username
+            }
+            id="myShareLink"
+          ></input>
+          <span>SHARE MY MAP</span>
+          <ShareIcon />
+        </div>
         {mapPage ? (
           <CityMap
             tripData={tripData}
@@ -133,7 +183,8 @@ MapPage.propTypes = {
   user: PropTypes.object,
   refetch: PropTypes.func,
   mapPage: PropTypes.number,
-  handleMapPageChange: PropTypes.func
+  handleMapPageChange: PropTypes.func,
+  clickedCityArray: PropTypes.array
 };
 
 export default MapPage;

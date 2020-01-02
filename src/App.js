@@ -1,4 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
+import MetaTags from 'react-meta-tags';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
@@ -22,7 +23,9 @@ function App({ userAuthenticated }) {
   const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
-
+  const [clickedCityArray, handleClickedCityArray] = useState(
+    JSON.parse(localStorage.getItem("clickedCityArray"))
+  );
   const swalParams = {
     type: "info",
     text:
@@ -31,7 +34,11 @@ function App({ userAuthenticated }) {
   };
 
   const [swalNotFired, setSwalNotFired] = useState(true);
-
+  useEffect(() => {
+    handleClickedCityArray(
+      JSON.parse(localStorage.getItem("clickedCityArray"))
+    );
+  }, [localStorage.getItem("clickedCityArray")]);
   useEffect(() => {
     if (window.innerWidth < 600 && swalNotFired) {
       Swal.fire(swalParams);
@@ -51,6 +58,25 @@ function App({ userAuthenticated }) {
 
   return (
     <Router>
+      <MetaTags>
+        <title>geornal</title>
+        <meta name="title" content="Geornal - World Map" />
+        <meta
+          name="description"
+          content="World map showing cities I have been to and want to visit"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https:geornal.herokuapp.com/public/GreenwithMV"
+        />
+        <meta property="og:title" content="My Travel Geornal" />
+        <meta
+          property="og:description"
+          content="World map showing cities I have been to and want to visit"
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/SitePreview.PNG" />
+      </MetaTags>
       <UserProvider value={{ userLoggedIn, setUserLoggedIn, userData }}>
         {userLoggedIn ? (
           <Query
@@ -58,7 +84,9 @@ function App({ userAuthenticated }) {
             notifyOnNetworkStatusChange
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
-            onCompleted={() => handleLoaded(true)}
+            onCompleted={() => {
+              handleLoaded(true);
+            }}
           >
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
@@ -70,7 +98,9 @@ function App({ userAuthenticated }) {
                   <Header
                     userLoggedIn={userLoggedIn}
                     color={data.user.color}
-                    avatarIndex={data.user.avatarIndex !== null ? data.user.avatarIndex : 1}
+                    avatarIndex={
+                      data.user.avatarIndex !== null ? data.user.avatarIndex : 1
+                    }
                   />
                   <Switch>
                     <Route
@@ -83,6 +113,7 @@ function App({ userAuthenticated }) {
                           refetch={refetch}
                           mapPage={mapPage}
                           handleMapPageChange={handleMapPageChange}
+                          clickedCityArray={clickedCityArray}
                         />
                       )}
                     />
@@ -100,14 +131,7 @@ function App({ userAuthenticated }) {
                         />
                       )}
                     />
-                    <Route
-                      path="/place/"
-                      render={props => (
-                        <Place
-
-                        />
-                      )}
-                    />
+                    <Route path="/place/" render={props => <Place />} />
                     <Route path="/friends/" component={FriendMapPage} />
                     <Route component={PageNotFound} />
                   </Switch>

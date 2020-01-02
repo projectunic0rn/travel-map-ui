@@ -38,9 +38,7 @@ const FriendCountryMap = props => {
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
 
   useEffect(() => {
-    console.log(props.tripData)
     handleLoadedCountries(props.tripData);
-    console.log('fire')
   }, [props.tripData]);
 
   function handleLoadedCountries(data) {

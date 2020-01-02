@@ -6,6 +6,7 @@ import { GET_USER_AVATAR } from "../../GraphQL";
 import SimpleLoader from "../../components/common/SimpleLoader/SimpleLoader";
 import FeedbackBoxStatic from "./FeedbackBoxStatic";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import CostIconModal from "../Profile/subpages/Cities/CostIconModal";
 
 function PlaceReviewCard({
   user,
@@ -171,20 +172,35 @@ function PlaceReviewCard({
               <div className="place-review-user">
                 <UserAvatar avatarIndex={avatarIndex} color={avatarColor} />
                 <span className="pr-username">{username}</span>
+                <FeedbackBoxStatic review={review} comment={review.comment} />
               </div>
               <div className="pr-card-content">
                 <div className="place-review-card">
                   <div className="pr-input-container">
                     <>
                       <span className="pr-input-title">
-                        {review.attraction_name} <span>{cityOrCountry !== "city" ? "(" + user.city + ")" : null}</span>
+                        {review.attraction_name}
                       </span>
                       <span className="pr-input-span">
-                        {review.attraction_type}
+                        {review.attraction_type}{" "}
+                        <span>
+                          {cityOrCountry !== "city"
+                            ? "(" + user.city + ")"
+                            : null}
+                        </span>
                       </span>
                     </>
                   </div>
-                  <FeedbackBoxStatic review={review} comment={review.comment} />
+                  <div
+                    className={
+                      review.cost !== null ? "cost-container" : "display-none"
+                    }
+                  >
+                    <CostIconModal
+                      cost={review.cost}
+                      currency={review.currency}
+                    />
+                  </div>
                 </div>
                 <div className="comment-container">
                   {review.comment !== null ? review.comment : "No comments yet"}

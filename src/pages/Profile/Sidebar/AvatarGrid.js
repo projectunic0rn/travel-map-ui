@@ -37,11 +37,15 @@ export default function AvatarGrid(props) {
       let color = "rgb(" + red + ", " + green + ", " + blue + ")";
       avatar.color = color;
     }
+    handleAvatarChange(avatar);
+  }, [red, blue, green]);
+  useEffect(() => {
+    let avatar = userAvatar;
     if (avatarIndex !== props.customProps.avatarIndex) {
       avatar.avatarIndex = avatarIndex;
     }
     handleAvatarChange(avatar);
-  }, [red, blue, green, avatarIndex, props.customProps.avatarIndex]);
+  }, [avatarIndex, props.customProps.avatarIndex]);
   function handleAvatarSave() {
     props.customProps.closePopup();
     props.customProps.refetch();
@@ -159,6 +163,7 @@ export default function AvatarGrid(props) {
             type="number"
             min="0"
             max="255"
+            maxLength={3}
           ></input>
         </div>
         <div className="color-picker-input">
@@ -169,6 +174,7 @@ export default function AvatarGrid(props) {
             type="number"
             min="0"
             max="255"
+            maxLength={3}
           ></input>
         </div>
         <div className="color-picker-input">
@@ -179,6 +185,7 @@ export default function AvatarGrid(props) {
             type="number"
             min="0"
             max="255"
+            maxLength={3}
           ></input>
         </div>
       </div>

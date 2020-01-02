@@ -57,7 +57,6 @@ export default function Basics({
     let { full_name, phone_number } = err;
     setErrors({ full_name, phone_number });
   }
-
   const { full_name, phone_number, gender, birthday } = userBasics;
   return (
     <div className="basics-container">
@@ -83,7 +82,7 @@ export default function Basics({
       {!edit ? (
         <div className="input-container">
           <span className="input-header">Phone Number</span>
-          <span className="placeholder">{phone_number === null ? "none entered" : phone_number}</span>
+          <span className="placeholder">{!phone_number ? "none entered" : phone_number}</span>
         </div>
       ) : (
         <div className="input-container">

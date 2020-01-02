@@ -1,85 +1,152 @@
-.profile-city-card {
-  position: relative;
+.pcc-card-container {
   display: flex;
-  flex-direction: column;
-  width: 300px;
-  height: 120px;
-  background: rgb(248, 248, 252);
-  box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  padding: 4px 12px;
-  margin: 0 40px 20px 0;
-  .pcc-city-info {
+  position: relative;
+  .delete-prompt {
+    opacity: 1;
+    z-index: 2002;
+  }
+  .delete-prompt-hide {
+    opacity: 0;
+    z-index: -10;
+  }
+  .delete-prompt,
+  .delete-prompt-hide {
+    position: absolute;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.5);
+    right: 40px;
+    top: 0px;
+    background: rgb(248, 248, 252);
+    height: 120px;
+    width: 300px;
     display: flex;
     flex-direction: column;
-    min-height: 74px;
-    border-bottom: 0.5px solid #e1e3e5;
-    font-family: "Segoe UI", sans-serif;
-    .pcc-city {
-      font-size: 28px;
-      color: rgb(44, 48, 53);
-      text-transform: lowercase;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0 16px 0;
+    transition: all 0.2s ease-in-out;
+    font-size: 18px;
+    span {
+      display: flex;
+      justify-content: center;
+      padding: 4px;
+      text-align: center;
     }
-    .pcc-country {
-      font-size: 16px;
-      font-weight: 550;
-      color: rgb(148, 148, 148);
-      text-transform: uppercase;
-      letter-spacing: 2px;
+    .confirm {
+      background: rgb(248, 248, 252);
+      color: $primary-green;
+      &:hover {
+        background: $primary-green;
+        color: white;
+      }
+    }
+    .deny {
+      background: $primary-red;
     }
   }
-  .pcc-city-stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 270px;
-    height: 100%;
-    .pcc-stat {
-      span {
-        margin-left: 8px;
-        font-size: 18px;
-        font-weight: 550;
-        color: #4f545a;
-      }
-      svg {
-        transform: translateY(2px);
-      }
+  .trash {
+    position: absolute;
+    border: none;
+    right: 40px;
+    top: -4px;
+    background: none;
+    max-height: 30px;
+    svg {
+      fill: rgb(180, 180, 180);
     }
-    #pcc-days {
+    &:hover {
+      background: none;
+      border: none;
       svg {
         fill: #cb7678;
-      }
-    }
-    #pcc-places {
-      svg {
-        fill: #73a7c3;
-      }
-    }
-    #pcc-meals {
-      svg {
-        fill: #96b1a8;
-      }
-    }
-    #pcc-activities {
-      svg {
-        fill: #dbc071;
+        transform: scale(1.1) translateX(4px) translateY(2px);
       }
     }
   }
-  .circle-icon {
-    position: absolute;
-    right: -30px;
-    top: calc(50% - 30px);
-    height: 60px;
-    width: 60px;
+  .profile-city-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 120px;
+    background: rgb(248, 248, 252);
+    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 4px 12px;
+    margin: 0 40px 20px 0;
+    .pcc-city-info {
+      display: flex;
+      flex-direction: column;
+      min-height: 74px;
+      border-bottom: 0.5px solid #e1e3e5;
+      font-family: "Segoe UI", sans-serif;
+      .pcc-city {
+        font-size: 28px;
+        color: rgb(44, 48, 53);
+        text-transform: lowercase;
+      }
+      .pcc-country {
+        font-size: 16px;
+        font-weight: 550;
+        color: rgb(148, 148, 148);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+    }
+    .pcc-city-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 270px;
+      height: 100%;
+      .pcc-stat {
+        span {
+          margin-left: 8px;
+          font-size: 18px;
+          font-weight: 550;
+          color: #4f545a;
+        }
+        svg {
+          transform: translateY(2px);
+        }
+      }
+      #pcc-days {
+        svg {
+          fill: #cb7678;
+        }
+      }
+      #pcc-places {
+        svg {
+          fill: #73a7c3;
+        }
+      }
+      #pcc-meals {
+        svg {
+          fill: #96b1a8;
+        }
+      }
+      #pcc-activities {
+        svg {
+          fill: #dbc071;
+        }
+      }
+    }
+    .circle-icon {
+      position: absolute;
+      right: -30px;
+      top: calc(50% - 30px);
+      height: 60px;
+      width: 60px;
+      z-index: 3000;
+    }
   }
-}
 
-.add-button-container {
+  .add-button-container {
     width: 680px;
     display: flex;
     justify-content: flex-end;
-  #add-review {
-    background: #a7e1ff;
+    #add-review {
+      background: #a7e1ff;
+    }
   }
 }

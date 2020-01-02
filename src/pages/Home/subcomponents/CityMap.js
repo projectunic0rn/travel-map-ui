@@ -1,19 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 
-import { Mutation } from "react-apollo";
-import {
-  REMOVE_PLACE_VISITING,
-  REMOVE_PLACE_VISITED,
-  REMOVE_PLACE_LIVING
-} from "../../../GraphQL";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
-import TrashIcon from "../../../icons/TrashIcon";
+import Loader from '../../../components/common/Loader/Loader';
 
 class CityMap extends Component {
   constructor(props) {
@@ -333,17 +328,17 @@ class CityMap extends Component {
       //     return city.cityId === data.Place_living.cityId;
       //   })
       // )
-        if (data.Place_living.cityId !== 0) {
-          clickedCityArray.push({
-            id: data.Place_living.id,
-            cityId: data.Place_living.cityId,
-            city: data.Place_living.city,
-            latitude: data.Place_living.city_latitude,
-            longitude: data.Place_living.city_longitude,
-            tripTiming: 2
-          });
-          liveCount++;
-        }
+      if (data.Place_living.cityId !== 0) {
+        clickedCityArray.push({
+          id: data.Place_living.id,
+          cityId: data.Place_living.cityId,
+          city: data.Place_living.city,
+          latitude: data.Place_living.city_latitude,
+          longitude: data.Place_living.city_longitude,
+          tripTiming: 2
+        });
+        liveCount++;
+      }
     }
     this.setState(
       {
@@ -541,27 +536,8 @@ class CityMap extends Component {
 
   _renderPopup() {
     const {
-      cityTooltip,
-      placeVisitedId,
-      placeVisitingId,
-      placeLivingId
+      cityTooltip
     } = this.state;
-    let setMutation = null;
-    if (cityTooltip !== null) {
-      switch (cityTooltip.tripTiming) {
-        case 0:
-          setMutation = REMOVE_PLACE_VISITED;
-          break;
-        case 1:
-          setMutation = REMOVE_PLACE_VISITING;
-          break;
-        case 2:
-          setMutation = REMOVE_PLACE_LIVING;
-          break;
-        default:
-          break;
-      }
-    }
     return (
       cityTooltip && (
         <Popup
@@ -571,25 +547,17 @@ class CityMap extends Component {
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
+          closeButton={true}
+          onClose={() => this.setState({cityTooltip: null})}
+
         >
-          {cityTooltip.city}
-          <Mutation
-            mutation={setMutation}
-            variables={
-              cityTooltip.tripTiming === 0
-                ? { placeVisitedId }
-                : cityTooltip.tripTiming === 1
-                ? { placeVisitingId }
-                : { placeLivingId }
-            }
-            onCompleted={() =>
-              this.deleteCity(cityTooltip.id, cityTooltip.tripTiming)
-            }
+          <NavLink
+            to={{
+              pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${cityTooltip.tripTiming}/${cityTooltip.id}/`
+            }}
           >
-            {mutation => (
-              <TrashIcon cityKey={cityTooltip.cityId} trashClicked={mutation} />
-            )}
-          </Mutation>
+            {cityTooltip.city}
+          </NavLink>
         </Popup>
       )
     );
@@ -605,7 +573,7 @@ class CityMap extends Component {
       activePopup,
       clickedCity
     } = this.state;
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loader />;
     return (
       <>
         <div className="map-header-container" style={{ position: "absolute" }}>

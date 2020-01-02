@@ -8,6 +8,7 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
+import Loader from "../../../components/common/Loader/Loader";
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class FriendCityMap extends Component {
       tripTimingCounts: [0, 0, 0],
       clickedCity: null,
       clickedCityArray: [],
+      filteredCityArray: [],
       activeTimings: [1, 1, 1],
       loading: true,
       activePopup: false,
@@ -49,6 +51,7 @@ class FriendCityMap extends Component {
     this.handleActiveTimings = this.handleActiveTimings.bind(this);
     this.showPopup = this.showPopup.bind(this);
     this.showFilter = this.showFilter.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
@@ -56,8 +59,9 @@ class FriendCityMap extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
+    let tripData = this.props.tripData;
     this.resize();
-    this.handleLoadedCities(this.props.tripData);
+    this.handleLoadedCities(tripData);
   }
 
   componentWillUnmount() {
@@ -101,10 +105,17 @@ class FriendCityMap extends Component {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
-            color = "rgba(203, 118, 120, 0.25)";
+            if (
+              markerPastDisplay.some(marker => {
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
+              })
+            ) {
+              break;
+            }
             markerPastDisplay.push(
               <Marker
                 key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
@@ -124,7 +135,7 @@ class FriendCityMap extends Component {
                         placeVisitedId: city.id
                       })
                     }
-                    style={{ fill: color }}
+                    style={{ fill: "rgba(203, 118, 120, 0.25)" }}
                     key={"circle" + city.id}
                     cx="50"
                     cy="50"
@@ -143,9 +154,17 @@ class FriendCityMap extends Component {
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
+            if (
+              markerFutureDisplay.some(marker => {
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
+              })
+            ) {
+              break;
+            }
             markerFutureDisplay.push(
               <Marker
                 key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
@@ -185,9 +204,17 @@ class FriendCityMap extends Component {
             break;
           case 2:
             color = "rgba(150, 177, 168, 0.25)";
+            if (
+              markerLiveDisplay.some(marker => {
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
+              })
+            ) {
+              break;
+            }
             markerLiveDisplay.push(
               <Marker
                 key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
                 latitude={city.latitude}
                 longitude={city.longitude}
                 offsetLeft={-5}
@@ -288,7 +315,8 @@ class FriendCityMap extends Component {
               days: data[i].Places_visited[j].days,
               year: data[i].Places_visited[j].year,
               tripTiming: 0,
-              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
+              avatarIndex:
+                data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
             pastCount++;
@@ -310,7 +338,8 @@ class FriendCityMap extends Component {
               days: data[i].Places_visiting[j].days,
               year: data[i].Places_visiting[j].year,
               tripTiming: 1,
-              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
+              avatarIndex:
+                data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
             futureCount++;
@@ -342,12 +371,14 @@ class FriendCityMap extends Component {
         // }
       }
     }
+    let filteredCityArray = clickedCityArray;
     this.setState(
       {
         clickedCityArray,
+        filteredCityArray,
         tripTimingCounts: [pastCount, futureCount, liveCount]
       },
-      () => this.handleLoadedMarkers(clickedCityArray)
+      () => this.handleLoadedMarkers(filteredCityArray)
     );
   }
 
@@ -417,6 +448,21 @@ class FriendCityMap extends Component {
     });
   }
 
+  handleFilter(filterParams) {
+    let origCityArray = this.state.clickedCityArray;
+    let filteredCityArray = origCityArray.filter(city =>
+      city.username.includes(filterParams.username)
+    );
+    this.setState(
+      {
+        filteredCityArray
+      },
+      () => {
+        this.handleLoadedMarkers(filteredCityArray);
+      }
+    );
+  }
+
   render() {
     const {
       viewport,
@@ -427,7 +473,7 @@ class FriendCityMap extends Component {
       activePopup,
       filter
     } = this.state;
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loader />;
     return (
       <>
         <div
@@ -440,11 +486,9 @@ class FriendCityMap extends Component {
             </button>
           </div>
           <div className="map-header-filler" />
-          <div className="map-header-filter">
-            <button onClick={() => this.showFilter()}>
-              Filter Map
-            </button>
-          </div>
+          {/* <div className="map-header-filter">
+            <button onClick={() => this.showFilter()}>Filter Map</button>
+          </div> */}
         </div>
         <div className="city-map-container">
           <MapGL
@@ -485,12 +529,14 @@ class FriendCityMap extends Component {
             activePopup={activePopup}
             showPopup={this.showPopup}
             component={
-              filter ? FilterCityMap : 
-              this.state.hoveredCityArray.length < 1
+              filter
+                ? FilterCityMap
+                : this.state.hoveredCityArray.length < 1
                 ? FriendClickedCityBlank
                 : FriendClickedCityContainer
             }
             componentProps={{
+              handleFilter: this.handleFilter,
               hoveredCityArray: this.state.hoveredCityArray,
               clickedCity: this.state.clickedCity
             }}
@@ -503,7 +549,8 @@ class FriendCityMap extends Component {
 
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
-  handleMapTypeChange: PropTypes.func
+  handleMapTypeChange: PropTypes.func, 
+  data: PropTypes.array
 };
 
 export default FriendCityMap;

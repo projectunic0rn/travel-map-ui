@@ -3,7 +3,7 @@
   display: flex;
   position: relative;
   align-items: center;
-  background: #e0e0eb;
+  background: #f8f8fc;
   max-width: 700px;
   width: 700px;
   height: 80px;
@@ -13,6 +13,49 @@
   box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.5);
   margin: 4px 0;
   padding: 8px 16px;
+  .delete-prompt {
+    opacity: 1;
+    z-index: 2002;
+  }
+  .delete-prompt-hide {
+    opacity: 0;
+    z-index: -10;
+  }
+  .delete-prompt,
+  .delete-prompt-hide {
+    position: absolute;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.5);
+    right: 40px;
+    top: 0px;
+    background: rgb(248, 248, 252);
+    height: 120px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0 16px 0;
+    transition: all 0.2s ease-in-out;
+    font-size: 18px;
+    span {
+      display: flex;
+      justify-content: center;
+      padding: 4px;
+      text-align: center;
+    }
+    .confirm {
+      background: rgb(248, 248, 252);
+      color: $primary-green;
+      &:hover {
+        background: $primary-green;
+        color: white;
+      }
+    }
+    .deny {
+      background: $primary-red;
+    }
+  }
   .crc-input-container {
     display: flex;
     flex-direction: column;
@@ -264,4 +307,36 @@
 
 #feedback-comment-sub {
   margin: 0 12px 0 8px;
+}
+
+.close-button-round {
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  width: 30px;
+  height: 30px;
+  opacity: 0.5;
+  border: none;
+  background: $primary-red;
+  border: 1px solid white;
+  border-radius: 50%;
+  transition: 0.2s opacity ease-in-out;
+  &:hover {
+    opacity: 1.0;
+  }
+  &:before, &:after {
+    position: absolute;
+    left: 13px;
+    top: 6px;
+    content: ' ';
+    height: 16px;
+    width: 2px;
+    background-color: white;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
 }

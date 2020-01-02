@@ -15,10 +15,10 @@
   animation: 1s loader-container infinite;
 
   .first {
-    border-top: 10px solid #ccc;
-    border-bottom: 10px solid #abc;
-    border-right: 10px solid #cba;
-    border-left: 10px solid #cba;
+    border-top: 10px solid $light-green;
+    border-bottom: 10px solid $light-blue;
+    border-right: 10px solid $light-red;
+    border-left: 10px solid $light-yellow;
     height: 90px;
     width: 90px;
     border-radius: 50%;
@@ -28,10 +28,10 @@
     animation: 1s first infinite;
 
     .second {
-      border-left: 20px solid #abc;
-      border-right: 20px solid #ccc;
-      border-top: 20px solid #abc;
-      border-bottom: 20px solid #ccc;
+      border-left: 20px solid $light-green;
+      border-right: 20px solid $light-blue;
+      border-top: 20px solid $light-green;
+      border-bottom: 20px solid $light-blue;
       height: 1px;
       width: 1px;
       border-radius: 50%;

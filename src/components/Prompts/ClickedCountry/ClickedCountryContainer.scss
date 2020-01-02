@@ -88,15 +88,22 @@
         font-weight: 700;
       }
     }
-    span:nth-child(1) {
+    .unclickable-timing {
+      cursor: none;
+      opacity: 0.35;
+      &:hover {
+        cursor: no-drop;
+      }
+    }
+    .past-timing {
       color: #cb7678;
       background: #ecd7db;
     }
-    span:nth-child(2) {
+    .future-timing {
       color: #73a7c3;
       background: #c2d7e5;
     }
-    span:nth-child(3) {
+    .live-timing {
       color: #96b1a8;
       background: #d1dcdb;
     }

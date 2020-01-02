@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 function CommentIconTextbox({
   edit,
   comment,
-  handleSaveComment,
   handleCommentChange,
   closeComment
 }) {
@@ -46,9 +45,8 @@ function CommentIconTextbox({
 CommentIconTextbox.propTypes = {
   comment: PropTypes.string,
   edit: PropTypes.bool,
-  handleSaveComment: PropTypes.func,
   handleCommentChange: PropTypes.func,
-  closeComment: PropTypes.func
+  closeComment: PropTypes.func,
 };
 
 export default CommentIconTextbox;

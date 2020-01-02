@@ -128,6 +128,11 @@ export const GET_ALL_FRIEND_INFO = gql`
         id
         name
       }
+      Place_living {
+        id
+        city
+        countryISO
+      }
     }
   }
 `;
@@ -138,6 +143,14 @@ export const GET_ALL_USER_INFO = gql`
       id
       username
       full_name
+      gender
+      birthday
+      color
+      avatarIndex
+      UserInterests {
+        id
+        name
+      }
       Places_visited {
         id
         country
@@ -470,6 +483,15 @@ export const GET_PROFILE_BASICS = gql`
 `;
 
 //MUTATIONS
+export const ADD_MULTIPLE_PLACES = gql`
+  mutation addMultiplePlaces($clickedCityArray: [Places_visited!]) {
+    addMultiplePlaces(clickedCityArray: $clickedCityArray) {
+      id
+      city
+    }
+  }
+`;
+
 export const ADD_PLACE_VISITED = gql`
   mutation addPlaceVisited($country: Country!, $cities: [City!]) {
     addPlaceVisited(country: $country, cities: $cities) {
@@ -552,6 +574,14 @@ export const REMOVE_PLACE_VISITED = gql`
   mutation removePlaceVisited($placeVisitedId: Int!) {
     removePlaceVisited(placeVisitedId: $placeVisitedId) {
       city
+    }
+  }
+`;
+
+export const REMOVE_CITY_REVIEW = gql`
+  mutation removeCityReviews($id: Int!) {
+    removeCityReviews(CityReviewId: $id) {
+      comment
     }
   }
 `;

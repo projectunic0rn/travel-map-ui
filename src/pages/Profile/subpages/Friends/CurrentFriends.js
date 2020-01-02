@@ -1,65 +1,50 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import FriendCard from "./FriendCard";
+import { Query } from "react-apollo";
+import { GET_ALL_USER_INFO } from "../../../../GraphQL";
 
-let fakeData = [
-  {
-    id: 2,
-    username: "User2",
-    Place_living: {
-      city: "Fremont",
-      countryISO: "US"
-    },
-    Places_visiting: [
-      {
-        city: "San Diego",
-        countryISO: "US"
-      }
-    ],
-    Places_visited: null,
-    interests: ["art connoisseur", "shopaholic", "relaxer"]
-  },
-  {
-    id: 3,
-    username: "User3",
-    Place_living: {
-      city: "San Jose",
-      countryISO: "US"
-    },
-    Places_visiting: [
-      {
-        city: "San Diego",
-        countryISO: "US"
-      }
-    ],
-    Places_visited: null,
-    countryISO: "US",
-    interests: ["photographer"]
-  }
-];
-export default function CurrentFriends({searchText}) {
+import FriendCard from "./FriendCard";
+import Loader from "../../../../components/common/Loader/Loader";
+
+export default function CurrentFriends({ searchText }) {
   const [filteredFriendsAvailable, handleFilteredFriendsAvailable] = useState(
     []
   );
-
+  const [loaded, handleLoaded] = useState(false);
+  const [friends, handleFriends] = useState(null);
   useEffect(() => {
-    if (searchText !== "") {
-      let potentialFriends = fakeData.filter(friend => {
-        return (
-          friend.username.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
-        );
-      });
-      handleFilteredFriendsAvailable(potentialFriends);
-    } else {
-      handleFilteredFriendsAvailable(fakeData);
+    if (loaded) {
+      if (searchText !== "") {
+        let potentialFriends = friends.filter(friend => {
+          return (
+            friend.username.toLowerCase().indexOf(searchText.toLowerCase()) !==
+            -1
+          );
+        });
+        handleFilteredFriendsAvailable(potentialFriends);
+      } else {
+        handleFilteredFriendsAvailable(friends);
+      }
     }
   }, [searchText]);
-  return (
-    <>
-      {filteredFriendsAvailable.map(friend => (
-        <FriendCard key = {friend.id} friend={friend} currentFriend={true}/>
-      ))}
-    </>
+  return (<Query
+      query={GET_ALL_USER_INFO}
+      notifyOnNetworkStatusChange
+      fetchPolicy={"cache-and-network"}
+      partialRefetch={true}
+      onCompleted={() => handleLoaded(true)}
+    >
+      {({ loading, error, data, refetch }) => {
+        if (loading) return <Loader />;
+        if (error) return `Error! ${error}`;
+        handleFriends(data.users);
+        handleFilteredFriendsAvailable(data.users);
+        if (!loaded) return <Loader />;
+        return filteredFriendsAvailable.map(friend => (
+          <FriendCard key={friend.id} friend={friend} currentFriend={true} />
+        ));
+      }}
+    </Query>
   );
 }
 
