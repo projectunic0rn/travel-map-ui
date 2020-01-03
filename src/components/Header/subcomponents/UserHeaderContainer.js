@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import UsernameDropdown from "./UsernameDropdown";
 import { GET_LOGGEDIN_USER } from "../../../GraphQL";
@@ -30,7 +32,10 @@ function UserHeaderContainer({ color, avatarIndex }) {
                   onClickOut={() => handleDropdownClick(false)}
                 />
               ) : null}
-              <UserAvatar color={color} avatarIndex={avatarIndex} />
+              <NavLink exact to="/profile/cities">
+                {" "}
+                <UserAvatar color={color} avatarIndex={avatarIndex} />
+              </NavLink>
             </div>
           </div>
         );
@@ -41,7 +46,7 @@ function UserHeaderContainer({ color, avatarIndex }) {
 
 UserHeaderContainer.propTypes = {
   setUserLoggedIn: PropTypes.func,
-  color: PropTypes.string, 
+  color: PropTypes.string,
   avatarIndex: PropTypes.number
 };
 

@@ -65,6 +65,7 @@ export default function Sidebar({
                 avatarIndex={userData.avatarIndex}
                 color={userData.color}
                 refetch={refetch}
+                urlUsername={urlUsername}
               />
               <UserActivity
                 friendCount={fakeUser.friendCount}

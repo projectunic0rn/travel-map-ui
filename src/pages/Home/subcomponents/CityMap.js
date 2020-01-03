@@ -594,6 +594,7 @@ class CityMap extends Component {
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
             onViewportChange={this.handleViewportChange}
+            style={{maxHeight: "calc(100%)"}}
           >
             <Geocoder
               mapRef={this.mapRef}

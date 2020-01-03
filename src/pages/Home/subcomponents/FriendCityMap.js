@@ -527,6 +527,7 @@ class FriendCityMap extends Component {
             style={{
               width: "100vw",
               minHeight: "calc(100% - 120px)",
+              maxHeight: "calc(100%)",
               position: "relative"
             }}
           >
@@ -609,5 +610,12 @@ FriendCityMap.propTypes = {
   handleMapTypeChange: PropTypes.func,
   data: PropTypes.array
 };
+
+ClusterMarker.propTypes = {
+  latitude: PropTypes.number, 
+  longitude: PropTypes.number, 
+  pointCount: PropTypes.number, 
+  color: PropTypes.string
+}
 
 export default FriendCityMap;

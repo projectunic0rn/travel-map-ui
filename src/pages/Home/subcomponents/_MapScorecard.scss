@@ -38,7 +38,12 @@
   @media (max-width: "900px") {
     transform: translate(-20px, -140px);
   }
-
+  .scorecard-instructions {
+    position: absolute;
+    top: -24px;
+    color: #DEE2E6;
+    font-size: 14px;
+  }
   .drag-icon {
     fill: $light-green;
     height: 30px;

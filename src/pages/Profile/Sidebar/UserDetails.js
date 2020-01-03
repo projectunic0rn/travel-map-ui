@@ -11,7 +11,8 @@ export default function UserDetails({
   country,
   color,
   avatarIndex,
-  refetch
+  refetch,
+  urlUsername
 }) {
   const [avatarClick, handleAvatarClick] = useState(false);
   const [avatarHover, handleAvatarHover] = useState(false);
@@ -20,23 +21,29 @@ export default function UserDetails({
   }
   return (
     <div className="user-details-block">
-      <div
-        className="user-avatar-container"
-        onClick={() => handleAvatarClick(true)}
-        onMouseOver={() => handleAvatarHover(true)}
-        onMouseOut={() => handleAvatarHover(false)}
-      >
-        {avatarHover ? (
-          <span className="avatar-hover-text" style={{ opacity: 1 }}>
-            Click to change avatar
-          </span>
-        ) : (
-          <span className="avatar-hover-text" style={{ opacity: 0 }}>
-            Click to change avatar
-          </span>
-        )}
-        <UserAvatar color={color} avatarIndex={avatarIndex} />
-      </div>
+      {!urlUsername ? (
+        <div
+          className="user-avatar-container"
+          onClick={() => handleAvatarClick(true)}
+          onMouseOver={() => handleAvatarHover(true)}
+          onMouseOut={() => handleAvatarHover(false)}
+        >
+          {avatarHover ? (
+            <span className="avatar-hover-text" style={{ opacity: 1 }}>
+              Click to change avatar
+            </span>
+          ) : (
+            <span className="avatar-hover-text" style={{ opacity: 0 }}>
+              Click to change avatar
+            </span>
+          )}
+          <UserAvatar color={color} avatarIndex={avatarIndex} />
+        </div>
+      ) : (
+        <div className="user-avatar-container">
+          <UserAvatar color={color} avatarIndex={avatarIndex} />
+        </div>
+      )}
       {avatarClick ? (
         <PopupPrompt
           activePopup={true}
@@ -71,5 +78,6 @@ UserDetails.propTypes = {
   country: PropTypes.string,
   color: PropTypes.string,
   avatarIndex: PropTypes.number,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  urlUsername: PropTypes.string
 };

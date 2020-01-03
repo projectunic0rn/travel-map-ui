@@ -29,6 +29,7 @@ export default function Security({ history }) {
       );
       setUserLoggedIn(false);
       if (approval) {
+        onRemoveUser();
         return mutation();
       }
     }

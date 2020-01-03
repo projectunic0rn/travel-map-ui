@@ -62597,7 +62597,8 @@
             "name": "Bermuda",
             "continent": "Europe",
             "color": "#1f77b4",
-            "capital": "Hamilton"
+            "capital": "Hamilton",
+            "ISO2": "BM"
           }
         },
         {
