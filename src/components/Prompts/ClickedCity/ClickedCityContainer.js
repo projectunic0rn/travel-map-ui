@@ -85,6 +85,9 @@ function ClickedCityContainer(props) {
                   : parseInt(props.customProps.cityInfo.result.id.slice(7, 13))
               }
               previousTimings={previousTimings}
+              geornalScore={props.customProps.geornalScore}
+              travelScoreIndexArray={props.customProps.travelScoreIndexArray}
+              countryIdArray={props.customProps.countryIdArray}
             />
           )
         }[0]

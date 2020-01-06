@@ -4,18 +4,20 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
+import { Mutation, graphql, withApollo } from "react-apollo";
+import { ADD_MULTIPLE_PLACES } from "../../../GraphQL";
 
 import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
+import SaveIcon from "../../../icons/SaveIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import NewUserMapSignup from "./NewUserMapSignup";
 import NewUserSuggestions from "./NewUserSuggestions";
 
-class NewUserCity extends Component {
+class CityMapTrial extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,11 +33,10 @@ class NewUserCity extends Component {
       markerPastDisplay: [],
       markerFutureDisplay: [],
       markerLiveDisplay: [],
-      markerRecentDisplay: [],
       gl: null,
       tripTimingCounts: [0, 0, 0],
       clickedCity: null,
-      clickedCityArray: [],
+      loadedClickedCityArray: this.props.clickedCityArray,
       activeTimings: [1, 1, 1],
       loading: false,
       cityTooltip: null,
@@ -50,7 +51,8 @@ class NewUserCity extends Component {
       suggestedContinentArray: [],
       travelScore: 0,
       countryIdArray: [],
-      travelScoreIndexArray: []
+      travelScoreIndexArray: [],
+      clickedCityArray: []
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -67,7 +69,6 @@ class NewUserCity extends Component {
     );
     this.handleTripTiming = this.handleTripTiming.bind(this);
     this.deleteCity = this.deleteCity.bind(this);
-    this.deleteAll = this.deleteAll.bind(this);
     this.handleLoadedMarkers = this.handleLoadedMarkers.bind(this);
     this.handleLoadedCities = this.handleLoadedCities.bind(this);
     this.showPopup = this.showPopup.bind(this);
@@ -80,20 +81,12 @@ class NewUserCity extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.tripData);
     this.setState({ windowWidth: window.innerWidth });
     window.addEventListener("resize", this.resize);
     this.resize();
     this.setInitialZoom();
-    if (localStorage.clickedCityArray !== undefined) {
-      var getObject = JSON.parse(localStorage.getItem("clickedCityArray"));
-      this.handleLoadedCities(getObject);
-    }
-    setInterval(() => {
-      localStorage.setItem(
-        "clickedCityArray",
-        JSON.stringify(this.state.clickedCityArray)
-      );
-    }, 30000);
+    this.handleLoadedCities(this.props.clickedCityArray);
   }
 
   componentWillUnmount() {
@@ -118,10 +111,18 @@ class NewUserCity extends Component {
     });
   }
 
+  shareMap() {
+    let copyText = document.getElementById("myShareLink");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+  }
+
   deleteCity(cityTooltip) {
     this.handleActiveTimings([0, 0, 0]);
     let cityArrayIndex;
-    this.state.clickedCityArray.filter((city, index) => {
+    this.state.loadedClickedCityArray.filter((city, index) => {
       if (
         city.cityId === cityTooltip.cityId &&
         city.tripTiming === cityTooltip.tripTiming
@@ -130,7 +131,7 @@ class NewUserCity extends Component {
       }
     });
     let markerIndex;
-    let clickedCityArray;
+    let loadedClickedCityArray;
     let markerDisplay;
     let tripTimingCounts = this.state.tripTimingCounts;
     let pastCount = tripTimingCounts[0];
@@ -143,14 +144,14 @@ class NewUserCity extends Component {
             markerIndex = index;
           }
         });
-        clickedCityArray = this.state.clickedCityArray;
-        clickedCityArray.splice(cityArrayIndex, 1);
+        loadedClickedCityArray = this.state.loadedClickedCityArray;
+        loadedClickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = this.state.markerPastDisplay;
         markerDisplay.splice(markerIndex, 1);
         pastCount--;
         this.setState(
           {
-            clickedCityArray,
+            loadedClickedCityArray,
             markerPastDisplay: markerDisplay,
             cityTooltip: null
           },
@@ -165,14 +166,14 @@ class NewUserCity extends Component {
             markerIndex = index;
           }
         });
-        clickedCityArray = this.state.clickedCityArray;
-        clickedCityArray.splice(cityArrayIndex, 1);
+        loadedClickedCityArray = this.state.loadedClickedCityArray;
+        loadedClickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = this.state.markerFutureDisplay;
         markerDisplay.splice(markerIndex, 1);
         futureCount--;
         this.setState(
           {
-            clickedCityArray,
+            loadedClickedCityArray,
             markerFutureDisplay: markerDisplay,
             cityTooltip: null
           },
@@ -187,14 +188,14 @@ class NewUserCity extends Component {
             markerIndex = index;
           }
         });
-        clickedCityArray = this.state.clickedCityArray;
-        clickedCityArray.splice(cityArrayIndex, 1);
+        loadedClickedCityArray = this.state.loadedClickedCityArray;
+        loadedClickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = this.state.markerLiveDisplay;
         markerDisplay.splice(markerIndex, 1);
         liveCount--;
         this.setState(
           {
-            clickedCityArray,
+            loadedClickedCityArray,
             markerLiveDisplay: markerDisplay,
             cityTooltip: null
           },
@@ -207,22 +208,7 @@ class NewUserCity extends Component {
         break;
     }
     this.setState({
-      tripTimingCounts: [pastCount, futureCount, liveCount],
-      markerRecentDisplay: null
-    });
-  }
-
-  deleteAll() {
-    localStorage.removeItem("clickedCityArray");
-    this.setState({
-      clickedCityArray: [],
-      markers: [],
-      markerPastDisplay: [],
-      markerFutureDisplay: [],
-      markerLiveDisplay: [],
-      markerRecentDisplay: null,
-      deletePrompt: false,
-      tripTimingCounts: [0, 0, 0]
+      tripTimingCounts: [pastCount, futureCount, liveCount]
     });
   }
 
@@ -268,7 +254,6 @@ class NewUserCity extends Component {
     });
     this.setState(
       {
-        clickedCityArray: data,
         tripTimingCounts: [pastCount, futureCount, liveCount]
       },
       () => {
@@ -433,14 +418,14 @@ class NewUserCity extends Component {
   }
 
   calculateTravelScore() {
-    const { clickedCityArray, travelScore } = this.state;
+    const { loadedClickedCityArray, travelScore } = this.state;
     let newTravelScore = travelScore;
     let lat;
     let long;
     let travelScoreIndex;
     let travelScoreIndexArray = [];
     let countryIdArray = [];
-    let filteredClickedCityArray = clickedCityArray.filter(
+    let filteredClickedCityArray = loadedClickedCityArray.filter(
       city => city.tripTiming === 0 || city.tripTiming === 2
     );
     for (let i in filteredClickedCityArray) {
@@ -572,13 +557,14 @@ class NewUserCity extends Component {
     }
     if (
       this.state.timingState === 2 &&
-      this.state.clickedCityArray.some(city => city.tripTiming === 2)
+      (this.state.loadedClickedCityArray.some(city => city.tripTiming === 2) ||
+        this.state.clickedCityArray.some(city => city.tripTiming === 2))
     ) {
       this.evalLiveClick(event.result.text, event);
       return;
     }
     if (
-      this.state.clickedCityArray.some(
+      this.state.loadedClickedCityArray.some(
         city =>
           city.cityId === cityId && city.tripTiming === this.state.timingState
       )
@@ -612,7 +598,7 @@ class NewUserCity extends Component {
 
   handleClickedCity(newCity) {
     if (
-      this.state.clickedCityArray.some(
+      this.state.loadedClickedCityArray.some(
         city =>
           city.cityId === newCity.cityId &&
           city.tripTiming === this.state.timingState
@@ -625,11 +611,20 @@ class NewUserCity extends Component {
   }
 
   evalLiveClick(newCity, event) {
+    let whichArray = "loaded";
     let liveCityIndex;
-    let liveCity = this.state.clickedCityArray.filter((city, index) => {
+    let liveCity = this.state.loadedClickedCityArray.filter((city, index) => {
       liveCityIndex = index;
       return city.tripTiming === 2;
     });
+    if (liveCity.length < 1) {
+      liveCity = this.state.clickedCityArray.filter((city, index) => {
+        liveCityIndex = index;
+        whichArray = "new";
+        return city.tripTiming === 2;
+      });
+    }
+    console.log(liveCity);
     let popupText =
       "You currently live in " +
       liveCity[0].city +
@@ -648,7 +643,9 @@ class NewUserCity extends Component {
     };
     Swal.fire(swalParams).then(result => {
       if (result.value) {
-        this.state.clickedCityArray.splice(liveCityIndex, 1);
+        whichArray === "loaded"
+          ? this.state.loadedClickedCityArray.splice(liveCityIndex, 1)
+          : this.state.clickedCityArray.splice(liveCityIndex, 1);
         this.state.markerLiveDisplay.splice(0, 1);
         this.handleOnResult(event);
       }
@@ -696,7 +693,6 @@ class NewUserCity extends Component {
     let markerPastDisplay = this.state.markerPastDisplay;
     let markerFutureDisplay = this.state.markerFutureDisplay;
     let markerLiveDisplay = this.state.markerLiveDisplay;
-    let markerRecentDisplay = this.state.markerRecentDisplay;
     let color = "";
     switch (this.state.timingState) {
       case 0:
@@ -738,16 +734,6 @@ class NewUserCity extends Component {
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
-          </Marker>
-        );
-        markerRecentDisplay = (
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
-          >
             <div
               style={{ border: "10px solid rgba(203, 118, 120, 1)" }}
               key={"circle3" + city.cityId}
@@ -755,12 +741,12 @@ class NewUserCity extends Component {
             />
           </Marker>
         );
+
         this.setState(
           {
             clickedCityArray,
             tripTimingCounts,
-            markerPastDisplay,
-            markerRecentDisplay
+            markerPastDisplay
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -804,16 +790,6 @@ class NewUserCity extends Component {
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
-          </Marker>
-        );
-        markerRecentDisplay = (
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
-          >
             <div
               style={{ border: "10px solid rgba(115, 167, 195, 1.0)" }}
               key={"circle3" + city.cityId}
@@ -821,12 +797,12 @@ class NewUserCity extends Component {
             />
           </Marker>
         );
+
         this.setState(
           {
             clickedCityArray,
             tripTimingCounts,
-            markerFutureDisplay,
-            markerRecentDisplay
+            markerFutureDisplay
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -868,16 +844,6 @@ class NewUserCity extends Component {
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
-          </Marker>
-        );
-        markerRecentDisplay = (
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
-          >
             <div
               style={{ border: "10px solid rgba(150, 177, 168, 1.0)" }}
               key={"circle3" + city.cityId}
@@ -885,12 +851,12 @@ class NewUserCity extends Component {
             />
           </Marker>
         );
+
         this.setState(
           {
             clickedCityArray,
             tripTimingCounts,
-            markerLiveDisplay,
-            markerRecentDisplay
+            markerLiveDisplay
           },
           () => {
             this.handleActiveTimings([1, 1, 1]);
@@ -965,8 +931,8 @@ class NewUserCity extends Component {
       markerPastDisplay,
       markerFutureDisplay,
       markerLiveDisplay,
-      markerRecentDisplay,
       loading,
+      loadedClickedCityArray,
       clickedCityArray,
       deletePrompt,
       activePopup,
@@ -976,50 +942,53 @@ class NewUserCity extends Component {
     if (loading) return <Loader />;
     return (
       <>
-        <div className="city-new-map-container">
+        <div className="city-map-container">
           <div className="map-header-button">
-            <div className="sc-controls">
-              {this.state.timingState !== 2 ? (
+            {/* <button onClick={() => this.props.handleMapTypeChange(0)}>
+              Go to Country Map
+            </button> */}
+            <Mutation
+              mutation={ADD_MULTIPLE_PLACES}
+              variables={{ clickedCityArray }}
+              onCompleted={() => this.props.refetch()}
+            >
+              {mutation => (
+                <div
+                  className="personal-map-save"
+                  id="city-map-share"
+                  onClick={mutation}
+                >
+                  <span>SAVE MY MAP</span>
+                  <SaveIcon />
+                </div>
+              )}
+            </Mutation>
+            <div
+              className="personal-map-share"
+              id="city-map-share"
+              onClick={this.shareMap}
+            >
+              <input
+                type="text"
+                defaultValue={
+                  "https://geornal.herokuapp.com/public/" +
+                  this.props.tripData.username
+                }
+                id="myShareLink"
+              ></input>
+              <span>SHARE MY MAP</span>
+              <ShareIcon />
+            </div>
+            {this.state.timingState !== 2 ? (
+              <div className="sc-controls" onClick={this.showSuggest}>
                 <span className="new-map-suggest">
                   <span className="sc-control-label">Tap cities</span>
                   <span onClick={this.showSuggest}>
                     <SuggestionsIcon />
                   </span>
                 </span>
-              ) : null}
-              <span className="new-map-clear">
-                <span className="sc-control-label">Clear</span>
-                <button
-                  onClick={() => this.setState({ deletePrompt: true })}
-                  className="clear-map-button"
-                ></button>
-                <div
-                  className={
-                    deletePrompt ? "delete-prompt" : "delete-prompt-hide"
-                  }
-                >
-                  Are you sure you wish to delete all cities?
-                  <span>
-                    <button className="button confirm" onClick={this.deleteAll}>
-                      Yes
-                    </button>
-                    <button
-                      className="button deny"
-                      onClick={() => this.setState({ deletePrompt: false })}
-                    >
-                      No
-                    </button>
-                  </span>
-                </div>
-              </span>
-
-              <span className="new-map-share">
-                <span className="sc-control-label">Share/Save</span>
-                <span onClick={this.showPopup}>
-                  <ShareIcon />
-                </span>
-              </span>
-            </div>
+              </div>
+            ) : null}
           </div>
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
@@ -1032,6 +1001,7 @@ class NewUserCity extends Component {
             }
             onViewportChange={this.handleViewportChange}
             minZoom={0.25}
+            style={{ maxHeight: "calc(100%)" }}
           >
             <Geocoder
               mapRef={this.mapRef}
@@ -1047,22 +1017,21 @@ class NewUserCity extends Component {
             {this.state.activeTimings[0] ? markerPastDisplay : null}
             {this.state.activeTimings[1] ? markerFutureDisplay : null}
             {this.state.activeTimings[2] ? markerLiveDisplay : null}
-            {markerRecentDisplay}
             {this._renderPopup()}
           </MapGL>
         </div>
-        <div className="city-new-map-scorecard">
+        <div className="city-map-scorecard">
           <MapScorecard
             tripTimingCounts={this.state.tripTimingCounts}
             activeTimings={this.state.activeTimings}
             sendActiveTimings={this.handleActiveTimings}
           />
           <span className="georney-score">
-            <span className="gs-title">{"GeorneyScore™"}</span>
+            <span className="gs-title">{"GeorneyScore"}</span>
             <span className="gs-score">{Math.ceil(travelScore)}</span>
           </span>
         </div>
-        <div className="new-user-timing-control">
+        <div className="user-timing-control">
           Enter the
           <select onChange={e => this.handleTimingChange(e.target.value)}>
             <option value={0}>cities you have visited</option>
@@ -1070,16 +1039,7 @@ class NewUserCity extends Component {
             <option value={2}>city you live in</option>
           </select>
         </div>
-        {activePopup ? (
-          <PopupPrompt
-            activePopup={activePopup}
-            showPopup={this.showPopup}
-            component={NewUserMapSignup}
-            componentProps={{
-              clickedCityArray: clickedCityArray
-            }}
-          />
-        ) : suggestPopup ? (
+        {suggestPopup ? (
           <div className="city-suggestions-prompt">
             <PopupPrompt
               activePopup={suggestPopup}
@@ -1101,11 +1061,12 @@ class NewUserCity extends Component {
   }
 }
 
-NewUserCity.propTypes = {
+CityMapTrial.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  clickedCityArray: PropTypes.array
 };
 
-export default NewUserCity;
+export default CityMapTrial

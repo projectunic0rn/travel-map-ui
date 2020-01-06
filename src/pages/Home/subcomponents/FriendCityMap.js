@@ -12,26 +12,33 @@ import FriendClickedCityContainer from "../../../components/Prompts/FriendClicke
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
 
-const ClusterMarker = ({ longitude, latitude, pointCount, color }) => (
-  <Marker longitude={longitude} latitude={latitude}>
-    <div
-      style={{
-        width: pointCount*2 + 'px',
-        height: pointCount*2 + 'px',
-        minHeight: '20px',
-        minWidth: '20px',
-        color: '#fff',
-        background: color,
-        borderRadius: '50%',
-        display: 'flex',
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      {pointCount}
-    </div>
-  </Marker>
-);
+function ClusterMarker(props) {
+  function onClick() {
+    const { onClick, ...cluster } = props;
+    onClick(cluster);
+  }
+  return (
+    <Marker longitude={props.longitude} latitude={props.latitude}>
+      <div
+        style={{
+          width: props.pointCount * 2 + "px",
+          height: props.pointCount * 2 + "px",
+          minHeight: "20px",
+          minWidth: "20px",
+          color: "#fff",
+          background: props.color,
+          borderRadius: "50%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        onClick={onClick}
+      >
+        {props.pointCount}
+      </div>
+    </Marker>
+  );
+}
 
 class FriendCityMap extends Component {
   constructor(props) {
@@ -61,6 +68,10 @@ class FriendCityMap extends Component {
       filter: false
     };
     this.mapRef = React.createRef();
+    this._clusterPast = React.createRef();
+    this._clusterFuture = React.createRef();
+    this._clusterLive = React.createRef();
+    this.clusterClick = this.clusterClick.bind(this);
     this.resize = this.resize.bind(this);
     this.handleViewportChange = this.handleViewportChange.bind(this);
     this.handleGeocoderViewportChange = this.handleGeocoderViewportChange.bind(
@@ -487,8 +498,36 @@ class FriendCityMap extends Component {
     );
   }
 
-  render() {
+  clusterClick(cluster) {
+    const { clusterId, longitude, latitude } = cluster;
+    let supercluster;
+    switch (cluster.type) {
+      case 0:
+        supercluster = this._clusterPast.current.getCluster();
+        break;
+      case 1:
+        supercluster = this._clusterFuture.current.getCluster();
+        break;
+      case 2:
+        supercluster = this._clusterLive.current.getCluster();
+        break;
+      default:
+        break;
+    }
+    const zoom = supercluster.getClusterExpansionZoom(clusterId);
+    this.setState(state => {
+      const newVewport = {
+        ...state.viewport,
+        latitude,
+        longitude,
+        zoom
+      };
 
+      return { ...state, viewport: newVewport };
+    });
+  }
+
+  render() {
     const {
       viewport,
       markerPastDisplay,
@@ -498,7 +537,6 @@ class FriendCityMap extends Component {
       activePopup,
       filter,
       activeTimings
-
     } = this.state;
     if (loading) return <Loader />;
     return (
@@ -532,36 +570,60 @@ class FriendCityMap extends Component {
             }}
           >
             {this._renderPopup()}
-            {activeTimings[0] ? <Cluster
-              radius={40}
-              extent={1024}
-              nodeSize={64}
-              component={cluster => (
-                <ClusterMarker color={"rgba(203, 118, 120, 0.5)"} {...cluster}/>
-              )}
-            >
-              {markerPastDisplay}
-            </Cluster> : null}
-            {activeTimings[1] ? <Cluster
-              radius={40}
-              extent={1024}
-              nodeSize={64}
-              component={cluster => (
-                <ClusterMarker color={"rgba(115, 167, 195, 0.5)"} {...cluster}/>
-              )}
-            >
-              {markerFutureDisplay}
-              </Cluster> : null}
-              {activeTimings[2] ? <Cluster
-              radius={40}
-              extent={1024}
-              nodeSize={64}
-              component={cluster => (
-                <ClusterMarker color={"rgba(150, 177, 168, 0.5)"} {...cluster}/>
-              )}
-            >
-              {markerLiveDisplay}
-              </Cluster> : null}
+            {activeTimings[0] ? (
+              <Cluster
+                ref={this._clusterPast}
+                radius={40}
+                extent={1024}
+                nodeSize={64}
+                component={cluster => (
+                  <ClusterMarker
+                    onClick={this.clusterClick}
+                    color={"rgba(203, 118, 120, 0.5)"}
+                    {...cluster}
+                    type={0}
+                  />
+                )}
+              >
+                {markerPastDisplay}
+              </Cluster>
+            ) : null}
+            {activeTimings[1] ? (
+              <Cluster
+                ref={this._clusterFuture}
+                radius={40}
+                extent={1024}
+                nodeSize={64}
+                component={cluster => (
+                  <ClusterMarker
+                    onClick={this.clusterClick}
+                    color={"rgba(115, 167, 195, 0.5)"}
+                    {...cluster}
+                    type={1}
+                  />
+                )}
+              >
+                {markerFutureDisplay}
+              </Cluster>
+            ) : null}
+            {activeTimings[2] ? (
+              <Cluster
+                ref={this._clusterLive}
+                radius={40}
+                extent={1024}
+                nodeSize={64}
+                component={cluster => (
+                  <ClusterMarker
+                    onClick={this.clusterClick}
+                    color={"rgba(150, 177, 168, 0.5)"}
+                    {...cluster}
+                    type={2}
+                  />
+                )}
+              >
+                {markerLiveDisplay}
+              </Cluster>
+            ) : null}
             <Geocoder
               mapRef={this.mapRef}
               onResult={this.handleOnResult}
@@ -612,10 +674,10 @@ FriendCityMap.propTypes = {
 };
 
 ClusterMarker.propTypes = {
-  latitude: PropTypes.number, 
-  longitude: PropTypes.number, 
-  pointCount: PropTypes.number, 
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+  pointCount: PropTypes.number,
   color: PropTypes.string
-}
+};
 
 export default FriendCityMap;

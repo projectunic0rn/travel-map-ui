@@ -4489,7 +4489,7 @@ export const CountryInfo = [
     }
   },
   {
-    id: 834347,
+    id: 168809,
     properties: {
       name: "Palestine",
       ISO2: "PK",

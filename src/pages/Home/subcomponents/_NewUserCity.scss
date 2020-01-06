@@ -235,6 +235,23 @@
     top: calc(100% - 120px);
     left: calc(50% - 60px);
   }
+  .georney-score {
+    position: absolute;
+    transform: translate(-20px, -130px);
+    display: flex;
+    flex-direction: column;
+    
+
+    .gs-title {
+      color: #CFD4DA;
+    }
+    .gs-score {
+      color: #A7E1FF;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 32px;
+    }
+  }
 }
 .new-user-signup {
   max-width: 320px;

@@ -5,10 +5,11 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 
+import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCityContainer from "../../../components/Prompts/ClickedCity/ClickedCityContainer";
-import Loader from '../../../components/common/Loader/Loader';
+import Loader from "../../../components/common/Loader/Loader";
 
 class CityMap extends Component {
   constructor(props) {
@@ -36,7 +37,10 @@ class CityMap extends Component {
       cityTooltip: null,
       placeVisitingId: null,
       placeVisitedId: null,
-      placeLivingId: null
+      placeLivingId: null,
+      travelScore: 0,
+      countryIdArray: [],
+      travelScoreIndexArray: []
     };
     this.mapRef = React.createRef();
     this.resize = this.resize.bind(this);
@@ -57,7 +61,7 @@ class CityMap extends Component {
     );
     this.handleTripTiming = this.handleTripTiming.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
-    this.deleteCity = this.deleteCity.bind(this);
+    // this.deleteCity = this.deleteCity.bind(this);
   }
 
   componentDidMount() {
@@ -65,32 +69,33 @@ class CityMap extends Component {
     window.addEventListener("resize", this.resize);
     this.resize();
     this.handleLoadedCities(this.props.tripData);
+    console.log(this.props.tripData)
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.resize);
   }
 
-  deleteCity(cityId, timing) {
-    let tripTimingCounts = this.state.tripTimingCounts;
-    let clickedCityArray = this.state.clickedCityArray;
-    let cityIndex = null;
-    clickedCityArray.find((city, i) => {
-      if (city.id === cityId) {
-        cityIndex = i;
-        return true;
-      } else {
-        return false;
-      }
-    });
-    clickedCityArray.splice(cityIndex, 1);
-    tripTimingCounts[timing]--;
-    this.props.deleteCity(cityId, timing);
-    this.setState(
-      { tripTimingCounts, clickedCityArray, cityTooltip: null },
-      () => this.handleLoadedMarkers(this.state.clickedCityArray)
-    );
-  }
+  // deleteCity(cityId, timing) {
+  //   let tripTimingCounts = this.state.tripTimingCounts;
+  //   let clickedCityArray = this.state.clickedCityArray;
+  //   let cityIndex = null;
+  //   clickedCityArray.find((city, i) => {
+  //     if (city.id === cityId) {
+  //       cityIndex = i;
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+  //   clickedCityArray.splice(cityIndex, 1);
+  //   tripTimingCounts[timing]--;
+  //   this.props.deleteCity(cityId, timing);
+  //   this.setState(
+  //     { tripTimingCounts, clickedCityArray, cityTooltip: null },
+  //     () => this.handleLoadedMarkers(this.state.clickedCityArray)
+  //   );
+  // }
 
   resize() {
     this.setState({ windowWidth: window.innerWidth });
@@ -301,6 +306,7 @@ class CityMap extends Component {
             city: data.Places_visited[i].city,
             latitude: data.Places_visited[i].city_latitude,
             longitude: data.Places_visited[i].city_longitude,
+            countryId: data.Places_visited[i].countryId,
             tripTiming: 0
           });
           pastCount++;
@@ -316,6 +322,7 @@ class CityMap extends Component {
             city: data.Places_visiting[i].city,
             latitude: data.Places_visiting[i].city_latitude,
             longitude: data.Places_visiting[i].city_longitude,
+            countryId: data.Places_visiting[i].countryId,
             tripTiming: 1
           });
           futureCount++;
@@ -335,6 +342,7 @@ class CityMap extends Component {
           city: data.Place_living.city,
           latitude: data.Place_living.city_latitude,
           longitude: data.Place_living.city_longitude,
+          countryId: data.Place_living.countryId,
           tripTiming: 2
         });
         liveCount++;
@@ -345,8 +353,72 @@ class CityMap extends Component {
         clickedCityArray,
         tripTimingCounts: [pastCount, futureCount, liveCount]
       },
-      () => this.handleLoadedMarkers(clickedCityArray)
+      () => {
+        this.handleLoadedMarkers(clickedCityArray);
+        this.calculateTravelScore();
+      }
     );
+  }
+
+  calculateTravelScore() {
+    const { clickedCityArray, travelScore } = this.state;
+    let newTravelScore = travelScore;
+    let lat;
+    let long;
+    let travelScoreIndex;
+    let travelScoreIndexArray = [];
+    let countryIdArray = [];
+    let filteredClickedCityArray = clickedCityArray.filter(
+      city => city.tripTiming === 0 || city.tripTiming === 2
+    );
+    console.log(filteredClickedCityArray)
+    for (let i in filteredClickedCityArray) {
+      if (
+        countryIdArray.indexOf(filteredClickedCityArray[i].countryId) === -1
+      ) {
+        newTravelScore += 10;
+      }
+      countryIdArray.push(filteredClickedCityArray[i].countryId);
+      console.log(countryIdArray)
+      lat = filteredClickedCityArray[i].latitude;
+      long = filteredClickedCityArray[i].longitude;
+      if (lat > 0) {
+        lat = Math.floor(lat);
+      } else {
+        lat = Math.floor(lat) + 1;
+      }
+      if (long > 0) {
+        long = Math.floor(long);
+      } else {
+        long = Math.floor(long) + 1;
+      }
+      if (lat > 0 && long < 0) {
+        travelScoreIndex = (89 - lat) * 360 + 180 + long - 1;
+      } else if (lat > 0 && long >= 0) {
+        travelScoreIndex = (89 - lat) * 360 + 180 + long;
+      } else if (lat <= 0 && long < 0) {
+        travelScoreIndex = (90 - lat) * 360 + 180 + long - 1;
+      } else if (lat <= 0 && long >= 0) {
+        travelScoreIndex = (90 - lat) * 360 + 180 + long;
+      }
+      if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
+        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+      }
+      travelScoreIndexArray.push(travelScoreIndex);
+      console.log(
+        filteredClickedCityArray[i].city +
+          ": " +
+          travelScoreIndex +
+          ", " +
+          TravelScoreCalculator[travelScoreIndex]
+      );
+    }
+    console.log(newTravelScore);
+    this.setState({
+      travelScore: newTravelScore,
+      countryIdArray,
+      travelScoreIndexArray
+    });
   }
 
   handleActiveTimings(timings) {
@@ -535,9 +607,7 @@ class CityMap extends Component {
   }
 
   _renderPopup() {
-    const {
-      cityTooltip
-    } = this.state;
+    const { cityTooltip } = this.state;
     return (
       cityTooltip && (
         <Popup
@@ -548,12 +618,13 @@ class CityMap extends Component {
           latitude={cityTooltip.latitude}
           closeOnClick={false}
           closeButton={true}
-          onClose={() => this.setState({cityTooltip: null})}
-
+          onClose={() => this.setState({ cityTooltip: null })}
         >
           <NavLink
             to={{
-              pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${cityTooltip.tripTiming}/${cityTooltip.id}/`
+              pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
+                cityTooltip.tripTiming
+              }/${cityTooltip.id}/`
             }}
           >
             {cityTooltip.city}
@@ -571,7 +642,8 @@ class CityMap extends Component {
       markerLiveDisplay,
       loading,
       activePopup,
-      clickedCity
+      clickedCity,
+      travelScore
     } = this.state;
     if (loading) return <Loader />;
     return (
@@ -594,7 +666,7 @@ class CityMap extends Component {
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
             onViewportChange={this.handleViewportChange}
-            style={{maxHeight: "calc(100%)"}}
+            style={{ maxHeight: "calc(100%)" }}
           >
             <Geocoder
               mapRef={this.mapRef}
@@ -619,6 +691,10 @@ class CityMap extends Component {
             activeTimings={this.state.activeTimings}
             sendActiveTimings={this.handleActiveTimings}
           />
+          <span className="georney-score">
+            <span className="gs-title">{"GeorneyScore"}</span>
+            <span className="gs-score">{Math.ceil(travelScore)}</span>
+          </span>
         </div>
         {activePopup ? (
           <PopupPrompt
@@ -629,7 +705,10 @@ class CityMap extends Component {
               cityInfo: clickedCity,
               handleTripTiming: this.handleTripTiming,
               tripData: this.props.tripData,
-              refetch: this.props.refetch
+              refetch: this.props.refetch,
+              geornalScore: this.state.geornalScore,
+              countryIdArray: this.state.countryIdArray,
+              travelScoreIndexArray: this.state.travelScoreIndexArray
             }}
           />
         ) : null}
@@ -641,7 +720,6 @@ class CityMap extends Component {
 CityMap.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
-  deleteCity: PropTypes.func,
   refetch: PropTypes.func
 };
 
