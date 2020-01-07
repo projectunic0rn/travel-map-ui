@@ -4,6 +4,7 @@
 @import "./subcomponents/CityMap";
 @import "./subcomponents/NewUserCity";
 @import "./subcomponents/NewUserSuggestions";
+@import "./subcomponents/FriendCityMap";
 
 .map-container {
   display: flex;
@@ -54,10 +55,11 @@
     .map-header-container {
       display: flex;
       flex-direction: column;
-      max-width: 1020px;
-      width: 1020px;
+      max-width: 1120px;
+      width: 1120px;
       margin: 20px auto;
       align-items: center;
+      justify-content: flex-end;
       @media (min-width: 1000px) {
         flex-direction: row;
         min-width: 900px;
@@ -65,7 +67,7 @@
       }
       .map-header-button {
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         max-width: 267px;
         flex: 1;
         z-index: 2;

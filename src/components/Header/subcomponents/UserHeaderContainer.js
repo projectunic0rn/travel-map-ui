@@ -25,7 +25,9 @@ function UserHeaderContainer({ color, avatarIndex }) {
                 className="header-username"
                 onMouseOver={() => handleDropdownClick(true)}
               >
-                {data.user.username}
+                <NavLink exact to="/profile/cities">
+                  {data.user.username}
+                </NavLink>
               </span>
               {dropdown ? (
                 <UsernameDropdown
@@ -33,7 +35,6 @@ function UserHeaderContainer({ color, avatarIndex }) {
                 />
               ) : null}
               <NavLink exact to="/profile/cities">
-                {" "}
                 <UserAvatar color={color} avatarIndex={avatarIndex} />
               </NavLink>
             </div>

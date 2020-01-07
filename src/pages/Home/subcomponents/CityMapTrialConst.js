@@ -23,7 +23,7 @@ function CityMapTrialConst(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
-    latitude: 20,
+    latitude: 25,
     longitude: 8,
     zoom: 1.5
   });
@@ -51,7 +51,9 @@ function CityMapTrialConst(props) {
     onCompleted() {}
   });
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
-    onCompleted() {}
+    onCompleted() {
+      props.refetch();
+    }
   });
   const mapRef = useRef();
 
@@ -59,7 +61,8 @@ function CityMapTrialConst(props) {
     handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
     resize();
-    setInitialZoom();
+    let newZoom = setInitialZoom();
+    handleViewportChange({ zoom: newZoom });
     handleLoadedCities(props.clickedCityArray);
     return function cleanup() {
       window.removeEventListener("resize", resize);
@@ -93,20 +96,34 @@ function CityMapTrialConst(props) {
     updateGeorneyScore({ variables: { travelScore } });
   }
 
+  function resize() {
+    handleWindowWidth(window.innerWidth);
+    handleViewportChange({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      zoom: setInitialZoom()
+    });
+  }
+
+  function handleViewportChange(newViewport) {
+    handleViewport({ ...viewport, ...newViewport });
+  }
+
   function setInitialZoom() {
-    let newViewport = viewport;
+    console.log("zoom");
+    let zoom;
     if (window.innerWidth >= 2400) {
-      newViewport.zoom = 2.2;
+      zoom = 2.2;
     } else if (window.innerWidth >= 1750) {
-      newViewport.zoom = 1.75;
+      zoom = 1.75;
     } else if (window.innerWidth <= 900) {
-      newViewport.zoom = 0.75;
+      zoom = 0.75;
     } else if (window.innerWidth <= 1200) {
-      newViewport.zoom = 1.0;
+      zoom = 1.0;
     } else if (window.innerWidth <= 1400) {
-      newViewport.zoom = 1.25;
+      zoom = 1.25;
     }
-    handleViewport(newViewport);
+    return zoom;
   }
 
   function shareMap() {
@@ -249,14 +266,6 @@ function CityMapTrialConst(props) {
     }
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     calculateNewTravelScore(cityTooltip, "delete");
-  }
-
-  function resize() {
-    handleWindowWidth(window.innerWidth);
-    let newViewport = viewport;
-    newViewport.width = window.innerWidth;
-    newViewport.height = window.innerHeight;
-    handleViewport(newViewport);
   }
 
   function handleLoadedCities(data) {
@@ -839,7 +848,7 @@ function CityMapTrialConst(props) {
   function handleCountries(countryArray) {
     handleSuggestedCountryArray(countryArray);
   }
-
+  console.log(viewport);
   if (loading) return <Loader />;
   return (
     <>
@@ -921,11 +930,11 @@ function CityMapTrialConst(props) {
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
         />
-        <span className="georney-score">
-          <span className="gs-title">{"GeorneyScore"}</span>
-          <span className="gs-score">{Math.ceil(travelScore)}</span>
-        </span>
       </div>
+      <span className="georney-score">
+        <span className="gs-title">{"GeorneyScore"}</span>
+        <span className="gs-score">{Math.ceil(travelScore)}</span>
+      </span>
       <div className="user-timing-control">
         Enter the
         <select onChange={e => handleTimingChange(e.target.value)}>

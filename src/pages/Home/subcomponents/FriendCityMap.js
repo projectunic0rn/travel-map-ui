@@ -550,9 +550,8 @@ class FriendCityMap extends Component {
               Go to Country Map
             </button>
           </div>
-          <div className="map-header-filler" />
         </div>
-        <div className="city-map-container">
+        <div className="city-map-container" id="friend-city-map-container">
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
             ref={this.mapRef}

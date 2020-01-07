@@ -84,7 +84,7 @@ const FriendMapPage = () => {
         if (!loaded) return <Loader />;
         return (
           <div className="map-container">
-            <div className={cityOrCountry ? "map city-map" : "map country-map"}>
+            <div className={cityOrCountry ? "map city-map friend-city-map" : "map country-map friend-country-map"}>
               {cityOrCountry ? (
                 <FriendCityMap
                   tripData={tripData}

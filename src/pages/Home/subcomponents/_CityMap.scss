@@ -14,7 +14,7 @@
   top: 108px;
   @media (min-width: 900px) {
     left: calc(50% - 460px);
-    top: 58px;
+    top: 80px;
   }
   @media (min-width: 1000px) {
     left: calc(50% - 500px);
@@ -369,34 +369,37 @@
     top: calc(100% - 120px);
     left: calc(50% - 60px);
   }
-  .georney-score {
-    position: absolute;
-    transform: translate(5px, -130px);
-    display: flex;
-    flex-direction: column;
 
-    .gs-title {
-      color: #cfd4da;
-      font-weight: 550;
-    }
-    .gs-score {
-      margin-top: 8px;
-      color: #92BAD0;
-      font-weight: 700;
-      font-size: 32px;
-      line-height: 32px;
-      border: 4px solid #92BAD0;
-      border-radius: 50%;
-      height: 100px;
-      width: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #F1F3F5
-    }
+}
+.georney-score {
+  position: absolute;
+  bottom: 60px;
+  left: calc(50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .gs-title {
+    color: #cfd4da;
+    font-weight: 550;
+    font-size: 24px;
+  }
+  .gs-score {
+    margin-top: 8px;
+    color: #92BAD0;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 32px;
+    border: 4px solid #92BAD0;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F1F3F5
   }
 }
-
 .user-timing-control {
   position: absolute;
   top: 60px;
@@ -479,7 +482,7 @@
   border-radius: 24px;
   border: 2px solid #fff;
   width: 200px;
-  z-index: 5000;
+  z-index: 1;
   font-weight: 700;
   cursor: pointer;
   #myShareLink {
