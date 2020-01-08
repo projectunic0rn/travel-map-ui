@@ -162,18 +162,10 @@ const MapPage = ({
         newTravelScore += TravelScoreCalculator[travelScoreIndex];
       }
       travelScoreIndexArray.push(travelScoreIndex);
-      console.log(
-        filteredClickedCityArray[i].city +
-          ": " +
-          travelScoreIndex +
-          ", " +
-          TravelScoreCalculator[travelScoreIndex]
-      );
     }
     handleTravelScore(newTravelScore);
     handleTravelScoreIndexArray(travelScoreIndexArray);
     handleCountryIdArray(countryIdArray);
-    console.log(travelScore)
     addMultiplePlaces({ variables: { clickedCityArray } });
   }
 

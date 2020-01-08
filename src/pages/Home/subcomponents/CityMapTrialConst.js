@@ -25,7 +25,7 @@ function CityMapTrialConst(props) {
     height: window.innerHeight,
     latitude: 25,
     longitude: 8,
-    zoom: 1.5
+    zoom: setInitialZoom()
   });
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
@@ -36,7 +36,7 @@ function CityMapTrialConst(props) {
     props.clickedCityArray
   );
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
-  const [loading, handleLoaded] = useState(false);
+  const [loading, handleLoaded] = useState(true);
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [timingState, handleTimingState] = useState(0);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
@@ -61,8 +61,6 @@ function CityMapTrialConst(props) {
     handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
     resize();
-    let newZoom = setInitialZoom();
-    handleViewportChange({ zoom: newZoom });
     handleLoadedCities(props.clickedCityArray);
     return function cleanup() {
       window.removeEventListener("resize", resize);
@@ -110,7 +108,6 @@ function CityMapTrialConst(props) {
   }
 
   function setInitialZoom() {
-    console.log("zoom");
     let zoom;
     if (window.innerWidth >= 2400) {
       zoom = 2.2;
@@ -122,6 +119,8 @@ function CityMapTrialConst(props) {
       zoom = 1.0;
     } else if (window.innerWidth <= 1400) {
       zoom = 1.25;
+    } else if (window.innerWidth < 1750) {
+      zoom = 1.5;
     }
     return zoom;
   }
@@ -848,7 +847,6 @@ function CityMapTrialConst(props) {
   function handleCountries(countryArray) {
     handleSuggestedCountryArray(countryArray);
   }
-  console.log(viewport);
   if (loading) return <Loader />;
   return (
     <>
@@ -903,7 +901,7 @@ function CityMapTrialConst(props) {
           mapboxApiAccessToken={
             "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
           }
-          onViewportChange={handleViewport}
+          onViewportChange={handleViewportChange}
           minZoom={0.25}
           style={{ maxHeight: "calc(100%)" }}
         >

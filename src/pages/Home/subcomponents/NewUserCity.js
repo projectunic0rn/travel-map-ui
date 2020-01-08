@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "react-map-gl";
@@ -15,113 +15,126 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserMapSignup from "./NewUserMapSignup";
 import NewUserSuggestions from "./NewUserSuggestions";
 
-class NewUserCity extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      windowWidth: undefined,
-      viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        latitude: 20,
-        longitude: 8,
-        zoom: 1.5
-      },
-      markers: [],
-      markerPastDisplay: [],
-      markerFutureDisplay: [],
-      markerLiveDisplay: [],
-      markerRecentDisplay: [],
-      gl: null,
-      tripTimingCounts: [0, 0, 0],
-      clickedCity: null,
-      clickedCityArray: [],
-      activeTimings: [1, 1, 1],
-      loading: false,
-      cityTooltip: null,
-      places_visited: [],
-      places_visiting: [],
-      place_living: [],
-      timingState: 0,
-      deletePrompt: false,
-      activePopup: false,
-      suggestPopup: false,
-      suggestedCountryArray: [],
-      suggestedContinentArray: [],
-      travelScore: 0,
-      countryIdArray: [],
-      travelScoreIndexArray: []
-    };
-    this.mapRef = React.createRef();
-    this.resize = this.resize.bind(this);
-    this.handleViewportChange = this.handleViewportChange.bind(this);
-    this._renderPopup = this._renderPopup.bind(this);
-    this.handleMapMovement = this.handleMapMovement.bind(this);
-    this.handleOnResult = this.handleOnResult.bind(this);
-    this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
-    this.handleActiveTimings = this.handleActiveTimings.bind(this);
-    this.handleTypedCity = this.handleTypedCity.bind(this);
-    this.handleClickedCity = this.handleClickedCity.bind(this);
-    this.handleTripTimingCityHelper = this.handleTripTimingCityHelper.bind(
-      this
-    );
-    this.handleTripTiming = this.handleTripTiming.bind(this);
-    this.deleteCity = this.deleteCity.bind(this);
-    this.deleteAll = this.deleteAll.bind(this);
-    this.handleLoadedMarkers = this.handleLoadedMarkers.bind(this);
-    this.handleLoadedCities = this.handleLoadedCities.bind(this);
-    this.showPopup = this.showPopup.bind(this);
-    this.showSuggest = this.showSuggest.bind(this);
-    this.handleContinents = this.handleContinents.bind(this);
-    this.handleCountries = this.handleCountries.bind(this);
-    this.setInitialZoom = this.setInitialZoom.bind(this);
-    this.calculateTravelScore = this.calculateTravelScore.bind(this);
-    this.calculateNewTravelScore = this.calculateNewTravelScore.bind(this);
-  }
+function NewUserCity() {
+  const [windowWidth, handleWindowWidth] = useState(undefined);
+  const [viewport, handleViewport] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    latitude: 20,
+    longitude: 8,
+    zoom: setInitialZoom()
+  });
+  const [markers, handleMarkers] = useState([]);
+  const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
+  const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
+  const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
+  const [markerRecentDisplay, handleMarkerRecentDisplay] = useState([]);
+  const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
+  const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
+  const [loading, handleLoaded] = useState(true);
+  const [cityTooltip, handleCityTooltip] = useState(null);
+  const [timingState, handleTimingState] = useState(0);
+  const [deletePrompt, handleDeletePrompt] = useState(false);
+  const [activePopup, handleActivePopup] = useState(false);
+  const [suggestPopup, handleSuggestedPopup] = useState(false);
+  const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
+  const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
+  const [travelScore, handleTravelScore] = useState(0);
+  const [countryIdArray, handleCountryIdArray] = useState([]);
+  const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
+  const [clickedCityArray, handleClickedCityArray] = useState([]);
+  const [newLiveCity, handleNewLiveCity] = useState();
+  const mapRef = useRef();
 
-  componentDidMount() {
-    this.setState({ windowWidth: window.innerWidth });
-    window.addEventListener("resize", this.resize);
-    this.resize();
-    this.setInitialZoom();
+  useEffect(() => {
+    handleWindowWidth(window.innerWidth);
+    window.addEventListener("resize", resize);
+    resize();
     if (localStorage.clickedCityArray !== undefined) {
       var getObject = JSON.parse(localStorage.getItem("clickedCityArray"));
-      this.handleLoadedCities(getObject);
+      handleLoadedCities(getObject);
+      handleLoaded(false);
     }
-    setInterval(() => {
+    handleLoaded(false);
+    return function cleanup() {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  useEffect(() => {
+    let oldActiveTimings = [...activeTimings];
+    handleActiveTimings([0, 0, 0]);
+    handleActiveTimings(oldActiveTimings);
+  }, [
+    clickedCityArray,
+    markerPastDisplay,
+    markerFutureDisplay,
+    markerLiveDisplay
+  ]);
+  useEffectSkipFirstLive(() => {}, [newLiveCity]);
+  useEffectSkipFirstLocal(() => {}, [clickedCityArray]);
+
+  function useEffectSkipFirstLive() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      handleOnResult(newLiveCity);
+    }, [newLiveCity]);
+  }
+  function useEffectSkipFirstLocal() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
       localStorage.setItem(
         "clickedCityArray",
-        JSON.stringify(this.state.clickedCityArray)
+        JSON.stringify(clickedCityArray)
       );
-    }, 30000);
+    }, [clickedCityArray]);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
-  }
-
-  setInitialZoom() {
-    let viewport = this.state.viewport;
-    if (window.innerWidth >= 2400) {
-      viewport.zoom = 2.2;
-    } else if (window.innerWidth >= 1750) {
-      viewport.zoom = 1.75;
-    } else if (window.innerWidth <= 900) {
-      viewport.zoom = 0.75;
-    } else if (window.innerWidth <= 1200) {
-      viewport.zoom = 1.0;
-    } else if (window.innerWidth <= 1400) {
-      viewport.zoom = 1.25;
-    }
-    this.setState({
-      viewport: { ...this.state.viewport, ...viewport }
+  function resize() {
+    handleWindowWidth(window.innerWidth);
+    handleViewportChange({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      latitude: 25,
+      longitude: 8,
+      zoom: setInitialZoom()
     });
   }
 
-  deleteCity(cityTooltip) {
-    this.handleActiveTimings([0, 0, 0]);
+  function handleViewportChange(newViewport) {
+    handleViewport({ ...viewport, ...newViewport });
+  }
+
+  function setInitialZoom() {
+    let zoom;
+    if (window.innerWidth >= 2400) {
+      zoom = 2.2;
+    } else if (window.innerWidth >= 1750) {
+      zoom = 1.75;
+    } else if (window.innerWidth <= 900) {
+      zoom = 0.75;
+    } else if (window.innerWidth <= 1200) {
+      zoom = 1.0;
+    } else if (window.innerWidth <= 1400) {
+      zoom = 1.25;
+    } else if (window.innerWidth < 1750) {
+      zoom = 1.5;
+    }
+    return zoom;
+  }
+
+  function deleteCity(cityTooltip) {
     let cityArrayIndex;
-    this.state.clickedCityArray.filter((city, index) => {
+    let newClickedCityArray = [...clickedCityArray];
+    newClickedCityArray.filter((city, index) => {
       if (
         city.cityId === cityTooltip.cityId &&
         city.tripTiming === cityTooltip.tripTiming
@@ -130,124 +143,74 @@ class NewUserCity extends Component {
       }
     });
     let markerIndex;
-    let clickedCityArray;
     let markerDisplay;
-    let tripTimingCounts = this.state.tripTimingCounts;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
     switch (cityTooltip.tripTiming) {
       case 0:
-        this.state.markerPastDisplay.filter((city, index) => {
+        markerPastDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
             markerIndex = index;
           }
         });
-        clickedCityArray = this.state.clickedCityArray;
-        clickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = this.state.markerPastDisplay;
+        newClickedCityArray.splice(cityArrayIndex, 1);
+        markerDisplay = [...markerPastDisplay];
         markerDisplay.splice(markerIndex, 1);
         pastCount--;
-        this.setState(
-          {
-            clickedCityArray,
-            markerPastDisplay: markerDisplay,
-            cityTooltip: null
-          },
-          () => {
-            this.handleActiveTimings([1, 1, 1]);
-          }
-        );
+        handleClickedCityArray(newClickedCityArray);
+        handleMarkerPastDisplay(markerDisplay);
+        handleCityTooltip(null);
+
         break;
       case 1:
-        this.state.markerFutureDisplay.filter((city, index) => {
+        markerFutureDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
             markerIndex = index;
           }
         });
-        clickedCityArray = this.state.clickedCityArray;
-        clickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = this.state.markerFutureDisplay;
+        newClickedCityArray.splice(cityArrayIndex, 1);
+        markerDisplay = [...markerFutureDisplay];
         markerDisplay.splice(markerIndex, 1);
         futureCount--;
-        this.setState(
-          {
-            clickedCityArray,
-            markerFutureDisplay: markerDisplay,
-            cityTooltip: null
-          },
-          () => {
-            this.handleActiveTimings([1, 1, 1]);
-          }
-        );
+        handleClickedCityArray(newClickedCityArray);
+        handleMarkerFutureDisplay(markerDisplay);
+        handleCityTooltip(null);
         break;
       case 2:
-        this.state.markerLiveDisplay.filter((city, index) => {
+        markerLiveDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
             markerIndex = index;
           }
         });
-        clickedCityArray = this.state.clickedCityArray;
-        clickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = this.state.markerLiveDisplay;
+        newClickedCityArray.splice(cityArrayIndex, 1);
+        markerDisplay = [...markerLiveDisplay];
         markerDisplay.splice(markerIndex, 1);
         liveCount--;
-        this.setState(
-          {
-            clickedCityArray,
-            markerLiveDisplay: markerDisplay,
-            cityTooltip: null
-          },
-          () => {
-            this.handleActiveTimings([1, 1, 1]);
-          }
-        );
+        handleClickedCityArray(newClickedCityArray);
+        handleMarkerLiveDisplay(markerDisplay);
+        handleCityTooltip(null);
         break;
       default:
         break;
     }
-    this.setState({
-      tripTimingCounts: [pastCount, futureCount, liveCount],
-      markerRecentDisplay: null
-    });
+    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    calculateNewTravelScore(cityTooltip, "delete");
   }
 
-  deleteAll() {
+  function deleteAll() {
     localStorage.removeItem("clickedCityArray");
-    this.setState({
-      clickedCityArray: [],
-      markers: [],
-      markerPastDisplay: [],
-      markerFutureDisplay: [],
-      markerLiveDisplay: [],
-      markerRecentDisplay: null,
-      deletePrompt: false,
-      tripTimingCounts: [0, 0, 0]
-    });
+    handleClickedCityArray([]);
+    handleMarkers([]);
+    handleMarkerPastDisplay([]);
+    handleMarkerFutureDisplay([]);
+    handleMarkerLiveDisplay([]);
+    handleMarkerRecentDisplay([]);
+    handleDeletePrompt(false);
+    handleTripTimingCounts([0, 0, 0]);
   }
 
-  resize() {
-    this.setState({ windowWidth: window.innerWidth });
-    this.handleViewportChange({
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
-  }
-
-  handleViewportChange(viewport) {
-    this.setState({
-      viewport: { ...this.state.viewport, ...viewport }
-    });
-  }
-
-  handleMapMovement(newBounds) {
-    this.setState({
-      bounds: newBounds
-    });
-  }
-
-  handleLoadedCities(data) {
-    const { tripTimingCounts } = this.state;
+  function handleLoadedCities(data) {
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -266,29 +229,23 @@ class NewUserCity extends Component {
           break;
       }
     });
-    this.setState(
-      {
-        clickedCityArray: data,
-        tripTimingCounts: [pastCount, futureCount, liveCount]
-      },
-      () => {
-        this.handleLoadedMarkers(data);
-        this.calculateTravelScore();
-      }
-    );
+    handleClickedCityArray(data);
+    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    handleLoadedMarkers(data);
+    calculateTravelScore();
   }
 
-  handleLoadedMarkers(markers) {
+  function handleLoadedMarkers(markers) {
     let markerPastDisplay = [];
     let markerFutureDisplay = [];
-    let markerLiveDisplay = this.state.markerLiveDisplay;
+    let markerLiveDisplay = [];
     markers.map(city => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
             color = "rgba(203, 118, 120, 0.25)";
-            this.handleActiveTimings([0, 0, 0]);
+            handleActiveTimings([0, 0, 0]);
             markerPastDisplay.push(
               <Marker
                 key={city.cityId}
@@ -305,12 +262,7 @@ class NewUserCity extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitedId: city.cityId
-                      })
-                    }
+                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.cityId}
                     cx="50"
@@ -330,7 +282,7 @@ class NewUserCity extends Component {
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
-            this.handleActiveTimings([0, 0, 0]);
+            handleActiveTimings([0, 0, 0]);
             markerFutureDisplay.push(
               <Marker
                 key={city.cityId}
@@ -347,12 +299,7 @@ class NewUserCity extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitingId: city.cityId
-                      })
-                    }
+                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.cityId}
                     cx="50"
@@ -373,7 +320,7 @@ class NewUserCity extends Component {
             break;
           case 2:
             color = "rgba(150, 177, 168, 0.25)";
-            this.handleActiveTimings([0, 0, 0]);
+            handleActiveTimings([0, 0, 0]);
             markerLiveDisplay.push(
               <Marker
                 key={city.cityId}
@@ -390,12 +337,7 @@ class NewUserCity extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeLivingId: city.cityId
-                      })
-                    }
+                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.cityId}
                     cx="50"
@@ -419,93 +361,15 @@ class NewUserCity extends Component {
       }
       return null;
     });
-    this.setState(
-      {
-        markerPastDisplay,
-        markerFutureDisplay,
-        markerLiveDisplay,
-        loading: 0
-      },
-      () => {
-        this.handleActiveTimings([1, 1, 1]);
-      }
-    );
+    handleMarkerPastDisplay(markerPastDisplay);
+    handleMarkerFutureDisplay(markerFutureDisplay);
+    handleMarkerLiveDisplay(markerLiveDisplay);
+    handleLoaded(false);
+    handleActiveTimings([1, 1, 1]);
   }
 
-  calculateTravelScore() {
-    const { clickedCityArray, travelScore } = this.state;
-    let newTravelScore = travelScore;
-    let lat;
-    let long;
+  function calculateTravelScoreIndex(lat, long) {
     let travelScoreIndex;
-    let travelScoreIndexArray = [];
-    let countryIdArray = [];
-    let filteredClickedCityArray = clickedCityArray.filter(
-      city => city.tripTiming === 0 || city.tripTiming === 2
-    );
-    for (let i in filteredClickedCityArray) {
-      if (
-        countryIdArray.indexOf(filteredClickedCityArray[i].countryId) === -1
-      ) {
-        newTravelScore += 10;
-      }
-      countryIdArray.push(filteredClickedCityArray[i].countryId);
-      lat = filteredClickedCityArray[i].city_latitude;
-      long = filteredClickedCityArray[i].city_longitude;
-      if (lat > 0) {
-        lat = Math.floor(lat);
-      } else {
-        lat = Math.floor(lat) + 1;
-      }
-      if (long > 0) {
-        long = Math.floor(long);
-      } else {
-        long = Math.floor(long) + 1;
-      }
-      if (lat > 0 && long < 0) {
-        travelScoreIndex = (89 - lat) * 360 + 180 + long - 1;
-      } else if (lat > 0 && long >= 0) {
-        travelScoreIndex = (89 - lat) * 360 + 180 + long;
-      } else if (lat <= 0 && long < 0) {
-        travelScoreIndex = (90 - lat) * 360 + 180 + long - 1;
-      } else if (lat <= 0 && long >= 0) {
-        travelScoreIndex = (90 - lat) * 360 + 180 + long;
-      }
-      if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator[travelScoreIndex];
-      }
-      travelScoreIndexArray.push(travelScoreIndex);
-      console.log(
-        filteredClickedCityArray[i].city +
-          ": " +
-          travelScoreIndex +
-          ", " +
-          TravelScoreCalculator[travelScoreIndex]
-      );
-    }
-    console.log(newTravelScore);
-    this.setState({
-      travelScore: newTravelScore,
-      countryIdArray,
-      travelScoreIndexArray
-    });
-  }
-
-  calculateNewTravelScore(newCityEntry) {
-    console.log(newCityEntry);
-    const { travelScore, travelScoreIndexArray, countryIdArray } = this.state;
-    let newTravelScore = travelScore;
-    let lat;
-    let long;
-    let travelScoreIndex;
-    let newTravelScoreIndexArray = travelScoreIndexArray;
-    let newCountryIdArray = countryIdArray;
-    if (countryIdArray.indexOf(newCityEntry.countryId) === -1) {
-      newTravelScore += 10;
-    }
-    newCountryIdArray.push(newCityEntry.countryId);
-    lat = newCityEntry.city_latitude;
-    long = newCityEntry.city_longitude;
     if (lat > 0) {
       lat = Math.floor(lat);
     } else {
@@ -525,29 +389,100 @@ class NewUserCity extends Component {
     } else if (lat <= 0 && long >= 0) {
       travelScoreIndex = (90 - lat) * 360 + 180 + long;
     }
-    if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-      newTravelScore += TravelScoreCalculator[travelScoreIndex];
-    }
-    console.log(
-      newCityEntry.city +
-        ": " +
-        travelScoreIndex +
-        ", " +
-        TravelScoreCalculator[travelScoreIndex]
-    );
-    console.log(newTravelScore);
-    newTravelScoreIndexArray.push(travelScoreIndex);
-
-    this.setState({
-      travelScore: newTravelScore,
-      countryIdArray: newCountryIdArray,
-      travelScoreIndexArray: newTravelScoreIndexArray
-    });
+    return travelScoreIndex;
   }
 
-  handleOnResult(event) {
-    console.log(event);
-    let markers = this.state.markers;
+  function calculateTravelScore() {
+    let newTravelScore = travelScore;
+    let lat;
+    let long;
+    let travelScoreIndex;
+    let travelScoreIndexArray = [];
+    let countryIdArray = [];
+    let filteredClickedCityArray = clickedCityArray.filter(
+      city => city.tripTiming === 0 || city.tripTiming === 2
+    );
+    for (let i in filteredClickedCityArray) {
+      if (
+        countryIdArray.indexOf(filteredClickedCityArray[i].countryId) === -1
+      ) {
+        newTravelScore += 10;
+      }
+      countryIdArray.push(filteredClickedCityArray[i].countryId);
+      lat = filteredClickedCityArray[i].city_latitude;
+      long = filteredClickedCityArray[i].city_longitude;
+      travelScoreIndex = calculateTravelScoreIndex(lat, long);
+      if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
+        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+      }
+      travelScoreIndexArray.push(travelScoreIndex);
+    }
+    handleTravelScore(newTravelScore);
+    handleCountryIdArray(countryIdArray);
+    handleTravelScoreIndexArray(travelScoreIndexArray);
+  }
+  function calculateNewTravelScore(newCityEntry, type) {
+    let newTravelScore = travelScore;
+    let lat;
+    let long;
+    let travelScoreIndex;
+    let newTravelScoreIndexArray = [...travelScoreIndexArray];
+    let newCountryIdArray = [...countryIdArray];
+    if (type === "add") {
+      if (countryIdArray.indexOf(newCityEntry.countryId) === -1) {
+        newTravelScore += 10;
+      }
+
+      newCountryIdArray.push(newCityEntry.countryId);
+
+      lat = newCityEntry.city_latitude;
+      long = newCityEntry.city_longitude;
+      travelScoreIndex = calculateTravelScoreIndex(lat, long);
+      if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
+        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+      }
+
+      newTravelScoreIndexArray.push(travelScoreIndex);
+    } else {
+      let findCountryIds = [];
+      for (let i in newCountryIdArray) {
+        if (findCountryIds.length > 1) {
+          i = newCountryIdArray.length;
+        } else if (newCountryIdArray[i] === newCityEntry.countryId) {
+          findCountryIds.push(i);
+        }
+      }
+      if (findCountryIds.length === 1) {
+        newTravelScore -= 10;
+      }
+
+      newCountryIdArray.splice(Number(findCountryIds[0]), 1);
+
+      lat = newCityEntry.city_latitude;
+      long = newCityEntry.city_longitude;
+      travelScoreIndex = calculateTravelScoreIndex(lat, long);
+      let findTravelIndexes = [];
+
+      for (let i in newTravelScoreIndexArray) {
+        if (findTravelIndexes.length > 1) {
+          return;
+        } else if (newTravelScoreIndexArray[i] === travelScoreIndex) {
+          findTravelIndexes.push(i);
+        }
+      }
+
+      if (findTravelIndexes.length === 1) {
+        newTravelScore -= TravelScoreCalculator[travelScoreIndex];
+
+        newTravelScoreIndexArray.splice(Number(findTravelIndexes[0]), 1);
+      }
+    }
+    handleTravelScore(newTravelScore);
+    handleCountryIdArray(newCountryIdArray);
+    handleTravelScoreIndexArray(newTravelScoreIndexArray);
+  }
+
+  function handleOnResult(event) {
     markers.push(event);
     let country = "";
     let countryISO = "";
@@ -570,19 +505,12 @@ class NewUserCity extends Component {
     } else {
       cityId = parseFloat(event.result.id.slice(10, 16), 10);
     }
+
     if (
-      this.state.timingState === 2 &&
-      this.state.clickedCityArray.some(city => city.tripTiming === 2)
+      timingState === 2 &&
+      clickedCityArray.some(city => city.tripTiming === 2)
     ) {
-      this.evalLiveClick(event.result.text, event);
-      return;
-    }
-    if (
-      this.state.clickedCityArray.some(
-        city =>
-          city.cityId === cityId && city.tripTiming === this.state.timingState
-      )
-    ) {
+      evalLiveClick(event.result.text, event);
       return;
     }
     let newCityEntry = {
@@ -600,41 +528,28 @@ class NewUserCity extends Component {
       cityId,
       city_latitude: event.result.center[1],
       city_longitude: event.result.center[0],
-      tripTiming: this.state.timingState
+      tripTiming: timingState
     };
+    handleMarkers(markers);
 
-    this.setState({
-      markers: markers
-    });
-    this.handleTypedCity(event);
-    this.handleTripTimingCityHelper(newCityEntry, this.state.timingState);
+    handleTripTimingCityHelper(newCityEntry);
   }
 
-  handleClickedCity(newCity) {
-    if (
-      this.state.clickedCityArray.some(
-        city =>
-          city.cityId === newCity.cityId &&
-          city.tripTiming === this.state.timingState
-      )
-    ) {
-      return;
-    } else {
-      this.handleTripTimingCityHelper(newCity, this.state.timingState);
-    }
-  }
-
-  evalLiveClick(newCity, event) {
+  function evalLiveClick(newCity, event) {
+    let whichArray = "loaded";
     let liveCityIndex;
-    let liveCity = this.state.clickedCityArray.filter((city, index) => {
+    let liveCity = clickedCityArray.filter((city, index) => {
       liveCityIndex = index;
+      whichArray = "new";
       return city.tripTiming === 2;
     });
+
+    let previousCity = liveCity[0];
     let popupText =
       "You currently live in " +
-      liveCity[0].city +
+      previousCity.city +
       ", " +
-      liveCity[0].countryISO +
+      previousCity.countryISO +
       ". Would you like to update this to " +
       newCity +
       "?";
@@ -647,40 +562,20 @@ class NewUserCity extends Component {
       text: popupText
     };
     Swal.fire(swalParams).then(result => {
-      if (result.value) {
-        this.state.clickedCityArray.splice(liveCityIndex, 1);
-        this.state.markerLiveDisplay.splice(0, 1);
-        this.handleOnResult(event);
+      if (result.value && whichArray === "new") {
+        deleteCity(previousCity);
+        handleNewLiveCity(event);
       }
     });
   }
 
-  handleTypedCity(city) {
-    this.setState({
-      clickedCity: city
-    });
-  }
-
-  _onWebGLInitialized(gl) {
-    this.setState({ gl: gl });
-  }
-
-  handleActiveTimings(timings) {
-    this.setState({
-      activeTimings: timings
-    });
-  }
-
-  handleTripTiming(city, timing) {
-    this.setState({}, () => this.handleTripTimingCityHelper(city, timing));
-  }
-
-  handleTripTimingCityHelper(city, timing) {
-    let { clickedCityArray, tripTimingCounts } = this.state;
-    if (timing !== 1) {
-      this.calculateNewTravelScore(city);
+  function handleTripTimingCityHelper(city) {
+    if (timingState !== 1) {
+      calculateNewTravelScore(city, "add");
     }
-    clickedCityArray.push({
+
+    let newClickedCityArray = [...clickedCityArray];
+    newClickedCityArray.push({
       country: city.country,
       countryISO: city.countryISO,
       countryId: city.countryId,
@@ -688,23 +583,22 @@ class NewUserCity extends Component {
       cityId: city.cityId,
       city_latitude: city.city_latitude,
       city_longitude: city.city_longitude,
-      tripTiming: timing
+      tripTiming: timingState
     });
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    let markerPastDisplay = this.state.markerPastDisplay;
-    let markerFutureDisplay = this.state.markerFutureDisplay;
-    let markerLiveDisplay = this.state.markerLiveDisplay;
-    let markerRecentDisplay = this.state.markerRecentDisplay;
+    let newMarkerPastDisplay = [...markerPastDisplay];
+    let newMarkerFutureDisplay = [...markerFutureDisplay];
+    let newMarkerLiveDisplay = [...markerLiveDisplay];
+    let markerRecentDisplay;
     let color = "";
-    switch (this.state.timingState) {
+    switch (timingState) {
       case 0:
         pastCount++;
-        this.handleActiveTimings([0, 0, 0]);
         tripTimingCounts[0] = pastCount;
         color = "rgba(203, 118, 120, 0.25)";
-        markerPastDisplay.push(
+        newMarkerPastDisplay.push(
           <Marker
             key={city.cityId}
             latitude={city.city_latitude}
@@ -713,12 +607,7 @@ class NewUserCity extends Component {
             offsetTop={-10}
           >
             <div
-              onMouseOver={() =>
-                this.setState({
-                  cityTooltip: city,
-                  placeVisitedId: city.cityId
-                })
-              }
+              onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color
               }}
@@ -726,12 +615,7 @@ class NewUserCity extends Component {
               className="dot"
             />
             <div
-              onMouseOver={() =>
-                this.setState({
-                  cityTooltip: city,
-                  placeVisitedId: city.cityId
-                })
-              }
+              onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(203, 118, 120, 1)"
               }}
@@ -755,24 +639,16 @@ class NewUserCity extends Component {
             />
           </Marker>
         );
-        this.setState(
-          {
-            clickedCityArray,
-            tripTimingCounts,
-            markerPastDisplay,
-            markerRecentDisplay
-          },
-          () => {
-            this.handleActiveTimings([1, 1, 1]);
-          }
-        );
+        handleClickedCityArray(newClickedCityArray);
+        handleTripTimingCounts(tripTimingCounts);
+        handleMarkerPastDisplay(newMarkerPastDisplay);
+        handleMarkerRecentDisplay(markerRecentDisplay);
         break;
       case 1:
         futureCount++;
-        this.handleActiveTimings([0, 0, 0]);
         tripTimingCounts[1] = futureCount;
         color = "rgba(115, 167, 195, 0.25)";
-        markerFutureDisplay.push(
+        newMarkerFutureDisplay.push(
           <Marker
             key={city.cityId}
             latitude={city.city_latitude}
@@ -781,12 +657,7 @@ class NewUserCity extends Component {
             offsetTop={-10}
           >
             <div
-              onMouseOver={() =>
-                this.setState({
-                  cityTooltip: city,
-                  placeVisitingId: city.cityId
-                })
-              }
+              onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color
               }}
@@ -794,12 +665,7 @@ class NewUserCity extends Component {
               className="dot"
             />
             <div
-              onMouseOver={() =>
-                this.setState({
-                  cityTooltip: city,
-                  placeVisitingId: city.cityId
-                })
-              }
+              onMouseOver={() => handleCityTooltip(city)}
               style={{ backgroundColor: "rgba(115, 167, 195, 1.0)" }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -821,24 +687,16 @@ class NewUserCity extends Component {
             />
           </Marker>
         );
-        this.setState(
-          {
-            clickedCityArray,
-            tripTimingCounts,
-            markerFutureDisplay,
-            markerRecentDisplay
-          },
-          () => {
-            this.handleActiveTimings([1, 1, 1]);
-          }
-        );
+        handleClickedCityArray(newClickedCityArray);
+        handleTripTimingCounts(tripTimingCounts);
+        handleMarkerFutureDisplay(newMarkerFutureDisplay);
+        handleMarkerRecentDisplay(markerRecentDisplay);
         break;
       case 2:
         liveCount++;
-        this.handleActiveTimings([0, 0, 0]);
         tripTimingCounts[2] = liveCount;
         color = "rgba(150, 177, 168, 0.25)";
-        markerLiveDisplay.push(
+        newMarkerLiveDisplay.push(
           <Marker
             key={city.cityId}
             latitude={city.city_latitude}
@@ -847,23 +705,13 @@ class NewUserCity extends Component {
             offsetTop={-10}
           >
             <div
-              onMouseOver={() =>
-                this.setState({
-                  cityTooltip: city,
-                  placeLivingId: city.cityId
-                })
-              }
+              onMouseOver={() => handleCityTooltip(city)}
               style={{ backgroundColor: color }}
               key={"circle" + city.cityId}
               className="dot"
             />
             <div
-              onMouseOver={() =>
-                this.setState({
-                  cityTooltip: city,
-                  placeLivingId: city.cityId
-                })
-              }
+              onMouseOver={() => handleCityTooltip(city)}
               style={{ backgroundColor: "rgba(150, 177, 168, 1.0)" }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -885,33 +733,22 @@ class NewUserCity extends Component {
             />
           </Marker>
         );
-        this.setState(
-          {
-            clickedCityArray,
-            tripTimingCounts,
-            markerLiveDisplay,
-            markerRecentDisplay
-          },
-          () => {
-            this.handleActiveTimings([1, 1, 1]);
-          }
-        );
+        handleClickedCityArray(newClickedCityArray);
+        handleTripTimingCounts(tripTimingCounts);
+        handleMarkerLiveDisplay(newMarkerLiveDisplay);
+        handleMarkerRecentDisplay(markerRecentDisplay);
         break;
       default:
         break;
     }
   }
-
-  handleTimingChange(value) {
-    this.setState({
-      timingState: Number(value),
-      suggestedContinentArray: [],
-      suggestedCountryArray: []
-    });
+  function handleTimingChange(value) {
+    handleTimingState(Number(value));
+    handleSuggestedContinentArray([]);
+    handleSuggestedCountryArray([]);
   }
 
-  _renderPopup() {
-    const { cityTooltip } = this.state;
+  function _renderPopup() {
     return (
       cityTooltip && (
         <Popup
@@ -922,10 +759,10 @@ class NewUserCity extends Component {
           latitude={cityTooltip.city_latitude}
           closeOnClick={false}
           closeButton={true}
-          onClose={() => this.setState({ cityTooltip: null })}
+          onClose={() => handleCityTooltip(null)}
         >
           {cityTooltip.city} <br />
-          <span onClick={() => this.deleteCity(cityTooltip)}>
+          <span onClick={() => deleteCity(cityTooltip)}>
             <TrashIcon />
           </span>
         </Popup>
@@ -933,172 +770,149 @@ class NewUserCity extends Component {
     );
   }
 
-  showPopup() {
-    let activePopup = !this.state.activePopup;
-    this.setState({
-      activePopup
-    });
+  function showPopup() {
+    handleActivePopup(!activePopup);
   }
 
-  showSuggest() {
-    let suggestPopup = !this.state.suggestPopup;
-    this.setState({
-      suggestPopup
-    });
+  function showSuggest() {
+    handleSuggestedPopup(!suggestPopup);
   }
 
-  handleContinents(contArray) {
-    this.setState({
-      suggestedContinentArray: contArray
-    });
+  function handleContinents(contArray) {
+    handleSuggestedContinentArray(contArray);
   }
 
-  handleCountries(countryArray) {
-    this.setState({
-      suggestedCountryArray: countryArray
-    });
+  function handleCountries(countryArray) {
+    handleSuggestedCountryArray(countryArray);
   }
 
-  render() {
-    const {
-      viewport,
-      markerPastDisplay,
-      markerFutureDisplay,
-      markerLiveDisplay,
-      markerRecentDisplay,
-      loading,
-      clickedCityArray,
-      deletePrompt,
-      activePopup,
-      suggestPopup,
-      travelScore
-    } = this.state;
-    if (loading) return <Loader />;
-    return (
-      <>
-        <div className="city-new-map-container">
-          <div className="map-header-button">
-            <div className="sc-controls">
-              {this.state.timingState !== 2 ? (
-                <span className="new-map-suggest">
-                  <span className="sc-control-label">Tap cities</span>
-                  <span onClick={this.showSuggest}>
-                    <SuggestionsIcon />
-                  </span>
-                </span>
-              ) : null}
-              <span className="new-map-clear">
-                <span className="sc-control-label">Clear</span>
-                <button
-                  onClick={() => this.setState({ deletePrompt: true })}
-                  className="clear-map-button"
-                ></button>
-                <div
-                  className={
-                    deletePrompt ? "delete-prompt" : "delete-prompt-hide"
-                  }
-                >
-                  Are you sure you wish to delete all cities?
-                  <span>
-                    <button className="button confirm" onClick={this.deleteAll}>
-                      Yes
-                    </button>
-                    <button
-                      className="button deny"
-                      onClick={() => this.setState({ deletePrompt: false })}
-                    >
-                      No
-                    </button>
-                  </span>
-                </div>
-              </span>
-
-              <span className="new-map-share">
-                <span className="sc-control-label">Share/Save</span>
-                <span onClick={this.showPopup}>
-                  <ShareIcon />
+  if (loading) return <Loader />;
+  return (
+    <>
+      <div className="city-new-map-container">
+        <div className="map-header-button">
+          <div className="sc-controls">
+            {timingState !== 2 ? (
+              <span className="new-map-suggest">
+                <span className="sc-control-label">Tap cities</span>
+                <span onClick={showSuggest}>
+                  <SuggestionsIcon />
                 </span>
               </span>
-            </div>
+            ) : null}
+            <span className="new-map-clear">
+              <span className="sc-control-label">Clear</span>
+              <button
+                onClick={() => handleDeletePrompt(true)}
+                className="clear-map-button"
+              ></button>
+              <div
+                className={
+                  deletePrompt ? "delete-prompt" : "delete-prompt-hide"
+                }
+              >
+                Are you sure you wish to delete all cities?
+                <span>
+                  <button className="button confirm" onClick={deleteAll}>
+                    Yes
+                  </button>
+                  <button
+                    className="button deny"
+                    onClick={() => handleDeletePrompt(false)}
+                  >
+                    No
+                  </button>
+                </span>
+              </div>
+            </span>
+
+            <span className="new-map-share">
+              <span className="sc-control-label">Share/Save</span>
+              <span onClick={showPopup}>
+                <ShareIcon />
+              </span>
+            </span>
           </div>
-          <MapGL
-            mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
-            ref={this.mapRef}
-            width="100%"
-            height="100%"
-            {...viewport}
+        </div>
+        <MapGL
+          mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
+          ref={mapRef}
+          width="100%"
+          height="100%"
+          {...viewport}
+          mapboxApiAccessToken={
+            "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
+          }
+          onViewportChange={handleViewportChange}
+          minZoom={0.25}
+          style={{ maxHeight: "calc(100%)" }}
+        >
+          <Geocoder
+            mapRef={mapRef}
+            onResult={e => handleOnResult(e)}
+            limit={10}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
-            onViewportChange={this.handleViewportChange}
-            minZoom={0.25}
-          >
-            <Geocoder
-              mapRef={this.mapRef}
-              onResult={this.handleOnResult}
-              limit={10}
-              mapboxApiAccessToken={
-                "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
-              }
-              position="top-left"
-              types={"place"}
-              placeholder={"Type a city..."}
-            />
-            {this.state.activeTimings[0] ? markerPastDisplay : null}
-            {this.state.activeTimings[1] ? markerFutureDisplay : null}
-            {this.state.activeTimings[2] ? markerLiveDisplay : null}
-            {markerRecentDisplay}
-            {this._renderPopup()}
-          </MapGL>
-        </div>
-        <div className="city-new-map-scorecard">
-          <MapScorecard
-            tripTimingCounts={this.state.tripTimingCounts}
-            activeTimings={this.state.activeTimings}
-            sendActiveTimings={this.handleActiveTimings}
+            position="top-left"
+            types={"place"}
+            placeholder={"Type a city..."}
           />
-          <span className="georney-score">
-            <span className="gs-title">{"GeorneyScore™"}</span>
-            <span className="gs-score">{Math.ceil(travelScore)}</span>
-          </span>
-        </div>
-        <div className="new-user-timing-control">
-          Enter the
-          <select onChange={e => this.handleTimingChange(e.target.value)}>
-            <option value={0}>cities you have visited</option>
-            <option value={1}>cities you want to visit</option>
-            <option value={2}>city you live in</option>
-          </select>
-        </div>
-        {activePopup ? (
+          {activeTimings[0] ? markerPastDisplay : null}
+          {activeTimings[1] ? markerFutureDisplay : null}
+          {activeTimings[2] ? markerLiveDisplay : null}
+          {markerRecentDisplay}
+          {_renderPopup()}
+        </MapGL>
+      </div>
+      <div className="city-new-map-scorecard">
+        <MapScorecard
+          tripTimingCounts={tripTimingCounts}
+          activeTimings={activeTimings}
+          sendActiveTimings={handleActiveTimings}
+        />
+      </div>
+      <span className="georney-score">
+          <span className="gs-title">{"GeorneyScore"}</span>
+          <span className="gs-score">{Math.ceil(travelScore)}</span>
+        </span>
+      <div className="new-user-timing-control">
+        Enter the
+        <select onChange={e => handleTimingChange(e.target.value)}>
+          <option value={0}>cities you have visited</option>
+          <option value={1}>cities you want to visit</option>
+          <option value={2}>city you live in</option>
+        </select>
+      </div>
+      {activePopup ? (
+        <PopupPrompt
+          activePopup={activePopup}
+          showPopup={showPopup}
+          component={NewUserMapSignup}
+          componentProps={{
+            clickedCityArray: clickedCityArray
+          }}
+        />
+      ) : suggestPopup ? (
+        <div className="city-suggestions-prompt">
           <PopupPrompt
-            activePopup={activePopup}
-            showPopup={this.showPopup}
-            component={NewUserMapSignup}
+            activePopup={suggestPopup}
+            showPopup={showSuggest}
+            component={NewUserSuggestions}
             componentProps={{
-              clickedCityArray: clickedCityArray
+              suggestedContinents: suggestedContinentArray,
+              suggestedCountries: suggestedCountryArray,
+              handleContinents: handleContinents,
+              handleCountries: handleCountries,
+              timing: timingState,
+              handleClickedCity: handleTripTimingCityHelper,
+
             }}
           />
-        ) : suggestPopup ? (
-          <div className="city-suggestions-prompt">
-            <PopupPrompt
-              activePopup={suggestPopup}
-              showPopup={this.showSuggest}
-              component={NewUserSuggestions}
-              componentProps={{
-                suggestedContinents: this.state.suggestedContinentArray,
-                suggestedCountries: this.state.suggestedCountryArray,
-                handleContinents: this.handleContinents,
-                handleCountries: this.handleCountries,
-                handleClickedCity: this.handleClickedCity,
-                timing: this.state.timingState
-              }}
-            />
-          </div>
-        ) : null}
-      </>
-    );
-  }
+        </div>
+      ) : null}
+    </>
+  );
 }
 
 NewUserCity.propTypes = {

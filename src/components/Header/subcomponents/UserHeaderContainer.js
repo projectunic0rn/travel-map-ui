@@ -19,7 +19,9 @@ function UserHeaderContainer({ color, avatarIndex }) {
         if (loading) return null;
         if (error) return `Error! ${error}`;
         return (
-          <div className="user-header-container">
+          <div
+            className="user-header-container"
+          >
             <div className="user-link">
               <span
                 className="header-username"

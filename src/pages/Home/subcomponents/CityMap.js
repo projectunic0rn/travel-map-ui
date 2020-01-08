@@ -69,7 +69,6 @@ class CityMap extends Component {
     window.addEventListener("resize", this.resize);
     this.resize();
     this.handleLoadedCities(this.props.tripData);
-    console.log(this.props.tripData)
   }
 
   componentWillUnmount() {
@@ -371,7 +370,6 @@ class CityMap extends Component {
     let filteredClickedCityArray = clickedCityArray.filter(
       city => city.tripTiming === 0 || city.tripTiming === 2
     );
-    console.log(filteredClickedCityArray)
     for (let i in filteredClickedCityArray) {
       if (
         countryIdArray.indexOf(filteredClickedCityArray[i].countryId) === -1
@@ -379,7 +377,6 @@ class CityMap extends Component {
         newTravelScore += 10;
       }
       countryIdArray.push(filteredClickedCityArray[i].countryId);
-      console.log(countryIdArray)
       lat = filteredClickedCityArray[i].latitude;
       long = filteredClickedCityArray[i].longitude;
       if (lat > 0) {
@@ -405,15 +402,7 @@ class CityMap extends Component {
         newTravelScore += TravelScoreCalculator[travelScoreIndex];
       }
       travelScoreIndexArray.push(travelScoreIndex);
-      console.log(
-        filteredClickedCityArray[i].city +
-          ": " +
-          travelScoreIndex +
-          ", " +
-          TravelScoreCalculator[travelScoreIndex]
-      );
     }
-    console.log(newTravelScore);
     this.setState({
       travelScore: newTravelScore,
       countryIdArray,

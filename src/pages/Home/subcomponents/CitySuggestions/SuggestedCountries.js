@@ -15,15 +15,10 @@ export default function SuggestedCountries({
     let filteredCountries = CountryInfo.filter(country =>
       contArray.includes(country.properties.continent)
     );
-    console.log(filteredCountries[1].properties.name)
-    console.log(filteredCountries[2].properties.name)
-    console.log(filteredCountries[2].properties.name < filteredCountries[1].properties.name)
-
     filteredCountries.sort((a, b) =>
       b.properties.name.toUpperCase() - a.properties.name.toUpperCase() ? -1 : 1
     );
 
-    console.log(filteredCountries);
     handleFilteredCountryArray(filteredCountries);
   }, [contArray]);
   useEffect(() => {

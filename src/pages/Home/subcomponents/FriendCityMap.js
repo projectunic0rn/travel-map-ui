@@ -676,7 +676,8 @@ ClusterMarker.propTypes = {
   latitude: PropTypes.number,
   longitude: PropTypes.number,
   pointCount: PropTypes.number,
-  color: PropTypes.string
+  color: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 export default FriendCityMap;
