@@ -276,19 +276,14 @@
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
     cursor: pointer;
-    @media screen and (max-width: 1200px) {
-      top: calc(100% - 250px);
-      right: calc(25%);
-    }
-    @media screen and (max-width: 900px) {
-      top: calc(100% - 350px);
-      right: calc(50% - 100px);
-    }
     &:hover {
       svg {
         fill: #528fb1;
       }
     }
+  }
+  .sc-controls-left {
+    left: calc(50% - 366px);
   }
 
   .new-map-suggest {
@@ -303,7 +298,8 @@
       position: absolute;
       display: flex;
       justify-content: center;
-      top: 36px;
+      text-align: center;
+      top: 40px;
       left: -18px;
       font-size: 12px;
       border-radius: 8px;
@@ -311,6 +307,7 @@
       color: #dee2e6;
       font-weight: 550;
     }
+
     svg {
       width: 18px;
       transform: translateY(2px);
@@ -355,6 +352,12 @@
   }
 }
 
+#map-change-icon {
+  svg {
+    width: 28px;
+  }
+}
+
 .city-map-scorecard {
   position: absolute;
   width: 200px;
@@ -371,28 +374,29 @@
   }
 
 }
-.georney-score {
+.city-map .georney-score {
   position: absolute;
   bottom: 60px;
-  left: calc(50%);
+  left: calc(50% - 100px);
+  width: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
+z-index: 30;
   .gs-title {
     color: #cfd4da;
     font-weight: 550;
     font-size: 24px;
   }
   .gs-score {
-    margin-top: 8px;
+    margin-top: 4px;
     color: #92BAD0;
     font-weight: 700;
     font-size: 32px;
     line-height: 32px;
     border: 4px solid #92BAD0;
     border-radius: 50%;
-    height: 100px;
+    height: 80px;
     width: 100px;
     display: flex;
     justify-content: center;
@@ -433,7 +437,7 @@
 }
 
 .personal-map-share {
-  top: 50px;
+  top: 60px;
   color: #769f93;
   background: $light-green;
   box-shadow: 0 0 14px 2px rgba(255, 225, 167, 0.75);

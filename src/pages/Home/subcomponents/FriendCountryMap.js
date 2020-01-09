@@ -10,9 +10,10 @@ import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FriendClickedCountryContainer from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryContainer";
-import FriendClickedCountryBlank from '../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank';
+import FriendClickedCountryBlank from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
+import MapChangeIcon from '../../../icons/MapChangeIcon';
 
 /* Need to make it so that duplicate country trips do not count as multiple
 scorecard values */
@@ -69,7 +70,8 @@ const FriendCountryMap = props => {
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
               tripTiming: 0,
-              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
+              avatarIndex:
+                data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
           }
@@ -98,7 +100,8 @@ const FriendCountryMap = props => {
               country: data[i].Places_visiting[j].country,
               countryId: data[i].Places_visiting[j].countryId,
               tripTiming: 1,
-              avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
+              avatarIndex:
+                data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color
             });
           }
@@ -120,19 +123,19 @@ const FriendCountryMap = props => {
         //     return city.cityId === data[i].Place_living.cityId;
         //   })
         // ) {
-          countryArray.push({
-            id: data[i].Place_living.id,
-            username: data[i].username,
-            cityId: data[i].Place_living.cityId,
-            city: data[i].Place_living.city,
-            latitude: data[i].Place_living.city_latitude,
-            longitude: data[i].Place_living.city_longitude,
-            country: data[i].Place_living.country,
-            countryId: data[i].Place_living.countryId,
-            tripTiming: 2,
-            avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-            color: data[i].color
-          });
+        countryArray.push({
+          id: data[i].Place_living.id,
+          username: data[i].username,
+          cityId: data[i].Place_living.cityId,
+          city: data[i].Place_living.city,
+          latitude: data[i].Place_living.city_latitude,
+          longitude: data[i].Place_living.city_longitude,
+          country: data[i].Place_living.country,
+          countryId: data[i].Place_living.countryId,
+          tripTiming: 2,
+          avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
+          color: data[i].color
+        });
         // }
       }
     }
@@ -278,9 +281,20 @@ const FriendCountryMap = props => {
     <>
       <div className="map-header-container" style={{ position: "relative" }}>
         <div className="map-header-button">
-          <button onClick={() => props.handleMapTypeChange(1)}>
-            Go to City Map
-          </button>
+          <div
+            className="sc-controls sc-controls-left"
+            onClick={() => props.handleMapTypeChange(1)}
+          >
+            <span className="new-map-suggest">
+              <span className="sc-control-label">City map</span>
+              <span
+                id="map-change-icon"
+                onClick={() => props.handleMapTypeChange(1)}
+              >
+                <MapChangeIcon />
+              </span>
+            </span>
+          </div>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />
@@ -336,7 +350,11 @@ const FriendCountryMap = props => {
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
-          component={clickedCountryArray.length < 1 ? FriendClickedCountryBlank : FriendClickedCountryContainer}
+          component={
+            clickedCountryArray.length < 1
+              ? FriendClickedCountryBlank
+              : FriendClickedCountryContainer
+          }
           componentProps={{
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,

@@ -38,9 +38,26 @@ export default function TravelerInfo({ userData, handleUserDataChange }) {
     [userData.UserInterests],
     userInterests
   );
+
+  useEffect(() => {
+    let newInterestArray = userInterests.map(interest => interest.name).filter(interest => interest !== "").sort();
+    let originalInterestArray = userData.UserInterests.map(interest => interest.name).filter(interest => interest !== "").sort();
+    if (newInterestArray.length !== originalInterestArray.length) {
+      handleShowSave(true);
+      return;
+    }
+    for (let i in newInterestArray) {
+      if (newInterestArray[i] !== originalInterestArray[i]) {
+        handleShowSave(true);
+        return;
+      }
+      handleShowSave(false);
+    }
+
+  }, [userInterests]);
+
   function handleTagClick(tag) {
-    handleShowSave(true);
-    let tags = userInterests;
+    let tags = [...userInterests];
     let newTag = true;
     let nullAvailable = false;
     if (tags.length === 0) {

@@ -8,6 +8,7 @@ import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FilterCityMap from "../../../components/Prompts/FilterCityMap";
+import MapChangeIcon from '../../../icons/MapChangeIcon';
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
@@ -45,11 +46,11 @@ class FriendCityMap extends Component {
     super(props);
     this.state = {
       viewport: {
-        width: 400,
-        height: 400,
-        latitude: 0,
-        longitude: 0,
-        zoom: 1.5
+        width: window.innerWidth,
+        height: window.innerHeight,
+        latitude: 25,
+        longitude: 8,
+        zoom: this.setInitialZoom()
       },
       markers: [],
       markerPastDisplay: [],
@@ -89,6 +90,7 @@ class FriendCityMap extends Component {
     this.handleTypedCity = this.handleTypedCity.bind(this);
     this._renderPopup = this._renderPopup.bind(this);
     this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
+    this.setInitialZoom = this.setInitialZoom.bind(this);
   }
 
   componentDidMount() {
@@ -105,7 +107,8 @@ class FriendCityMap extends Component {
   resize() {
     this.handleViewportChange({
       width: window.innerWidth,
-      height: window.innerHeight
+      height: window.innerHeight,
+      zoom: this.setInitialZoom()
     });
   }
 
@@ -113,6 +116,24 @@ class FriendCityMap extends Component {
     this.setState({
       viewport: { ...this.state.viewport, ...viewport }
     });
+  }
+
+  setInitialZoom() {
+    let zoom;
+    if (window.innerWidth >= 2400) {
+      zoom = 2.2;
+    } else if (window.innerWidth >= 1750) {
+      zoom = 1.75;
+    } else if (window.innerWidth <= 900) {
+      zoom = 0.75;
+    } else if (window.innerWidth <= 1200) {
+      zoom = 1.0;
+    } else if (window.innerWidth <= 1400) {
+      zoom = 1.25;
+    } else if (window.innerWidth < 1750) {
+      zoom = 1.5;
+    }
+    return zoom;
   }
 
   handleGeocoderViewportChange(viewport) {
@@ -546,9 +567,14 @@ class FriendCityMap extends Component {
           style={{ position: "absolute", left: "calc(50% - 500px)" }}
         >
           <div className="map-header-button">
-            <button onClick={() => this.props.handleMapTypeChange(0)}>
-              Go to Country Map
-            </button>
+          <div className="sc-controls sc-controls-left" onClick={() => this.props.handleMapTypeChange(0)}>
+            <span className="new-map-suggest">
+              <span className="sc-control-label">Country map</span>
+              <span id="map-change-icon" onClick={() => this.props.handleMapTypeChange(0)}>
+                <MapChangeIcon />
+              </span>
+            </span>
+          </div>
           </div>
         </div>
         <div className="city-map-container" id="friend-city-map-container">

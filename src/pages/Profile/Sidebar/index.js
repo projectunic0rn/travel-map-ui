@@ -66,6 +66,7 @@ export default function Sidebar({
                 color={userData.color}
                 refetch={refetch}
                 urlUsername={urlUsername}
+                georneyScore={userData.georneyScore}
               />
               <UserActivity
                 friendCount={fakeUser.friendCount}

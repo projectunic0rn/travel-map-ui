@@ -12,7 +12,8 @@ export default function UserDetails({
   color,
   avatarIndex,
   refetch,
-  urlUsername
+  urlUsername,
+  georneyScore
 }) {
   const [avatarClick, handleAvatarClick] = useState(false);
   const [avatarHover, handleAvatarHover] = useState(false);
@@ -67,6 +68,9 @@ export default function UserDetails({
         <span className="seperator">, </span>
         <span className="country">{country}</span>
       </div>
+      <div className = 'user-georney-score'>
+        <span>{Math.ceil(georneyScore)}</span>
+      </div>
     </div>
   );
 }
@@ -79,5 +83,6 @@ UserDetails.propTypes = {
   color: PropTypes.string,
   avatarIndex: PropTypes.number,
   refetch: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
+  georneyScore: PropTypes.number
 };

@@ -20,6 +20,7 @@
   }
 }
 #friend-city-map-container {
+ 
   .mapboxgl-control-container {
     .mapboxgl-ctrl-top-left {
       height: 20px;
@@ -28,7 +29,7 @@
       min-width: 600px;
       left: calc(50% - 310px) !important;
       .mapboxgl-ctrl-geocoder {
-        top:5px;
+        top: 5px;
         min-width: 600px;
         box-shadow: 0 3px 6px 2px rgba(black, 0.15);
         background: rgb(248, 248, 252);
@@ -48,6 +49,63 @@
           min-width: 560px;
         }
       }
+    }
+  }
+}
+
+.friend-city-map {
+  .map-header-container .map-header-button .sc-controls {
+    background: #f8f8fc;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    left: calc(50% - 316px);
+    top: 0px;
+    height: 42px;
+    width: 60px;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+    cursor: pointer;
+    &:hover {
+      svg {
+        fill: #528fb1;
+      }
+    }
+  }
+  .sc-controls-left {
+    left: calc(50% - 366px);
+  }
+
+  .new-map-suggest {
+    display: flex;
+    position: relative;
+    fill: #92bad0;
+    z-index: 1000;
+    cursor: pointer;
+    font-size: 24px;
+    color: rgb(200, 200, 200);
+    .sc-control-label {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      top: 40px;
+      left: -18px;
+      font-size: 12px;
+      border-radius: 8px;
+      min-width: 56px;
+      color: #dee2e6;
+      font-weight: 550;
+    }
+
+    svg {
+      width: 18px;
+      transform: translateY(2px);
+    }
+    &:hover {
+      fill: #528fb1;
     }
   }
 }

@@ -13,6 +13,7 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
+import MapChangeIcon from '../../../icons/MapChangeIcon';
 
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -164,7 +165,7 @@ const CountryMap = props => {
           } else if (activeTimings[1] && activeTimings[2]) {
             countryStyles.default.fill = "#dbf1f4";
           } else if (activeTimings[0]) {
-            countryStyles.default.fill = "#DBC071";
+            countryStyles.default.fill = "#CB7678";
           } else if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           } else if (activeTimings[2]) {
@@ -233,9 +234,14 @@ const CountryMap = props => {
     <>
       <div className="map-header-container">
         <div className="map-header-button">
-          <button onClick={() => props.handleMapTypeChange(1)}>
-            Go to City Map
-          </button>
+        <div className="sc-controls sc-controls-left" onClick={() => props.handleMapTypeChange(1)}>
+            <span className="new-map-suggest">
+              <span className="sc-control-label">City map</span>
+              <span id="map-change-icon" onClick={() => props.handleMapTypeChange(1)}>
+                <MapChangeIcon />
+              </span>
+            </span>
+          </div>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />

@@ -12,6 +12,7 @@ import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
+import MapChangeIcon from '../../../icons/MapChangeIcon';
 import SaveIcon from "../../../icons/SaveIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
@@ -852,6 +853,14 @@ function CityMapTrialConst(props) {
     <>
       <div className="city-map-container">
         <div className="map-header-button">
+          <div className="sc-controls sc-controls-left" onClick={() => props.handleMapTypeChange(0)}>
+            <span className="new-map-suggest">
+              <span className="sc-control-label">Country map</span>
+              <span id="map-change-icon" onClick={() => props.handleMapTypeChange(0)}>
+                <MapChangeIcon />
+              </span>
+            </span>
+          </div>
           <div
             className={
               clickedCityArray.length > 0

@@ -54,10 +54,10 @@
     
     .map-header-container {
       display: flex;
-      flex-direction: column;
-      max-width: 1120px;
-      width: 1120px;
-      margin: 20px auto;
+      // flex-direction: column;
+      // max-width: 1120px;
+      // width: 1120px;
+      // margin: 20px auto;
       align-items: center;
       justify-content: flex-end;
       @media (min-width: 1000px) {
@@ -72,9 +72,9 @@
         flex: 1;
         z-index: 2;
         @media screen and (max-width: 1000px) {
-          position: absolute;
-          top: 72px;
-          left: calc(50% - 220px);
+          // position: absolute;
+          // top: 72px;
+          // left: calc(50% - 220px);
         }
         button {
           width: 200px;
@@ -131,6 +131,7 @@
       justify-content: center;
       align-content: center;
       margin: 8px auto;
+      transform: translateY(8px);
       @media (max-width: 1000px) {
         transform: translateY(40px);
       }
@@ -177,5 +178,59 @@
     position: relative;
     top: 0;
     left: 0;
+  }
+}
+
+.country-map .map-header-container .map-header-button .sc-controls {
+  background: #f8f8fc;
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  top: 15px;
+  height: 42px;
+  width: 60px;
+  z-index: 1000;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+  cursor: pointer;
+  &:hover {
+    svg {
+      fill: #528fb1;
+    }
+  }
+}
+.sc-controls-left {
+  left: calc(50% - 334px);
+}
+
+.new-map-suggest {
+  display: flex;
+  position: relative;
+  fill: #92bad0;
+  z-index: 1000;
+  cursor: pointer;
+  font-size: 24px;
+  color: rgb(200, 200, 200);
+  .sc-control-label {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    top: 40px;
+    left: -18px;
+    font-size: 12px;
+    border-radius: 8px;
+    min-width: 56px;
+    color: #dee2e6;
+    font-weight: 550;
+  }
+
+  svg {
+    width: 18px;
+    transform: translateY(2px);
+  }
+  &:hover {
+    fill: #528fb1;
   }
 }
