@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker, Popup } from "react-map-gl";
+import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
+import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 
@@ -14,6 +15,34 @@ import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserMapSignup from "./NewUserMapSignup";
 import NewUserSuggestions from "./NewUserSuggestions";
+
+function ClusterMarker(props) {
+  function onClick() {
+    const { onClick, ...cluster } = props;
+    onClick(cluster);
+  }
+  return (
+    <Marker longitude={props.longitude} latitude={props.latitude}>
+      <div
+        style={{
+          width: props.pointCount * 2 + "px",
+          height: props.pointCount * 2 + "px",
+          minHeight: "20px",
+          minWidth: "20px",
+          color: "#fff",
+          background: props.color,
+          borderRadius: "50%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        onClick={onClick}
+      >
+        {props.pointCount}
+      </div>
+    </Marker>
+  );
+}
 
 function NewUserCity() {
   const [windowWidth, handleWindowWidth] = useState(undefined);
@@ -45,6 +74,8 @@ function NewUserCity() {
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [newLiveCity, handleNewLiveCity] = useState();
   const mapRef = useRef();
+  const clusterPast = useRef();
+  const clusterFuture = useRef();
 
   useEffect(() => {
     handleWindowWidth(window.innerWidth);
@@ -786,6 +817,31 @@ function NewUserCity() {
     handleSuggestedCountryArray(countryArray);
   }
 
+  function clusterClick(cluster) {
+    const { clusterId, longitude, latitude } = cluster;
+    let supercluster;
+    switch (cluster.type) {
+      case 0:
+        supercluster = clusterPast.current.getCluster();
+        break;
+      case 1:
+        supercluster = clusterFuture.current.getCluster();
+        break;
+      default:
+        break;
+    }
+    const zoom = supercluster.getClusterExpansionZoom(clusterId);
+    const newViewport = {
+      ...viewport,
+      latitude,
+      longitude,
+      zoom
+    };
+    handleViewport(newViewport);
+
+    return { viewport: newViewport };
+  }
+
   if (loading) return <Loader />;
   return (
     <>
@@ -840,12 +896,17 @@ function NewUserCity() {
           width="100%"
           height="100%"
           {...viewport}
-          mapboxApiAccessToken={
+          accessToken={
             "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
           }
           onViewportChange={handleViewportChange}
           minZoom={0.25}
-          style={{ maxHeight: "calc(100%)" }}
+          style={{
+            width: "100vw",
+            minHeight: "calc(100% - 120px)",
+            maxHeight: "calc(100%)",
+            position: "relative"
+          }}
         >
           <Geocoder
             mapRef={mapRef}
@@ -858,8 +919,43 @@ function NewUserCity() {
             types={"place"}
             placeholder={"Type a city..."}
           />
-          {activeTimings[0] ? markerPastDisplay : null}
-          {activeTimings[1] ? markerFutureDisplay : null}
+          {activeTimings[0] ? (
+            <Cluster
+              ref={clusterPast}
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(203, 118, 120, 0.5)"}
+                  {...cluster}
+                  type={0}
+                />
+              )}
+            >
+              {markerPastDisplay}
+            </Cluster>
+          ) : null}
+          {activeTimings[1] ? (
+            <Cluster
+              ref={clusterFuture}
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(115, 167, 195, 0.5)"}
+                  {...cluster}
+                  type={1}
+                />
+              )}
+            >
+              {markerFutureDisplay}
+            </Cluster>
+          ) : null}
+          {activeTimings[2] ? markerLiveDisplay : null}
           {activeTimings[2] ? markerLiveDisplay : null}
           {markerRecentDisplay}
           {_renderPopup()}
@@ -920,6 +1016,14 @@ NewUserCity.propTypes = {
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func,
   refetch: PropTypes.func
+};
+
+ClusterMarker.propTypes = {
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+  pointCount: PropTypes.number,
+  color: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 export default NewUserCity;

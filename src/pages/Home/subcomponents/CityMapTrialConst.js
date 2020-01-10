@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker, Popup } from "react-map-gl";
+import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
+import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/react-hooks";
@@ -12,12 +13,40 @@ import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
-import MapChangeIcon from '../../../icons/MapChangeIcon';
+import MapChangeIcon from "../../../icons/MapChangeIcon";
 import SaveIcon from "../../../icons/SaveIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
+
+function ClusterMarker(props) {
+  function onClick() {
+    const { onClick, ...cluster } = props;
+    onClick(cluster);
+  }
+  return (
+    <Marker longitude={props.longitude} latitude={props.latitude}>
+      <div
+        style={{
+          width: props.pointCount * 2 + "px",
+          height: props.pointCount * 2 + "px",
+          minHeight: "20px",
+          minWidth: "20px",
+          color: "#fff",
+          background: props.color,
+          borderRadius: "50%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        onClick={onClick}
+      >
+        {props.pointCount}
+      </div>
+    </Marker>
+  );
+}
 
 function CityMapTrialConst(props) {
   const [windowWidth, handleWindowWidth] = useState(undefined);
@@ -57,7 +86,8 @@ function CityMapTrialConst(props) {
     }
   });
   const mapRef = useRef();
-
+  const clusterPast = useRef();
+  const clusterFuture = useRef();
   useEffect(() => {
     handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
@@ -848,15 +878,47 @@ function CityMapTrialConst(props) {
   function handleCountries(countryArray) {
     handleSuggestedCountryArray(countryArray);
   }
+
+  function clusterClick(cluster) {
+    const { clusterId, longitude, latitude } = cluster;
+    let supercluster;
+    switch (cluster.type) {
+      case 0:
+        supercluster = clusterPast.current.getCluster();
+        break;
+      case 1:
+        supercluster = clusterFuture.current.getCluster();
+        break;
+      default:
+        break;
+    }
+    const zoom = supercluster.getClusterExpansionZoom(clusterId);
+    const newViewport = {
+      ...viewport,
+      latitude,
+      longitude,
+      zoom
+    };
+    handleViewport(newViewport);
+
+    return { viewport: newViewport };
+  }
+
   if (loading) return <Loader />;
   return (
     <>
       <div className="city-map-container">
         <div className="map-header-button">
-          <div className="sc-controls sc-controls-left" onClick={() => props.handleMapTypeChange(0)}>
+          <div
+            className="sc-controls sc-controls-left"
+            onClick={() => props.handleMapTypeChange(0)}
+          >
             <span className="new-map-suggest">
               <span className="sc-control-label">Country map</span>
-              <span id="map-change-icon" onClick={() => props.handleMapTypeChange(0)}>
+              <span
+                id="map-change-icon"
+                onClick={() => props.handleMapTypeChange(0)}
+              >
                 <MapChangeIcon />
               </span>
             </span>
@@ -907,13 +969,55 @@ function CityMapTrialConst(props) {
           width="100%"
           height="100%"
           {...viewport}
-          mapboxApiAccessToken={
+          accessToken={
             "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
           }
           onViewportChange={handleViewportChange}
           minZoom={0.25}
-          style={{ maxHeight: "calc(100%)" }}
+          style={{
+            width: "100vw",
+            minHeight: "calc(100% - 120px)",
+            maxHeight: "calc(100%)",
+            position: "relative"
+          }}
         >
+          {activeTimings[0] ? (
+            <Cluster
+              ref={clusterPast}
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(203, 118, 120, 0.5)"}
+                  {...cluster}
+                  type={0}
+                />
+              )}
+            >
+              {markerPastDisplay}
+            </Cluster>
+          ) : null}
+          {activeTimings[1] ? (
+            <Cluster
+              ref={clusterFuture}
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(115, 167, 195, 0.5)"}
+                  {...cluster}
+                  type={1}
+                />
+              )}
+            >
+              {markerFutureDisplay}
+            </Cluster>
+          ) : null}
+          {activeTimings[2] ? markerLiveDisplay : null}
           <Geocoder
             mapRef={mapRef}
             onResult={e => handleOnResult(e)}
@@ -924,10 +1028,9 @@ function CityMapTrialConst(props) {
             position="top-left"
             types={"place"}
             placeholder={"Type a city..."}
+            inputValue={""}
           />
-          {activeTimings[0] ? markerPastDisplay : null}
-          {activeTimings[1] ? markerFutureDisplay : null}
-          {activeTimings[2] ? markerLiveDisplay : null}
+
           {_renderPopup()}
         </MapGL>
       </div>
@@ -977,6 +1080,14 @@ CityMapTrialConst.propTypes = {
   deleteCity: PropTypes.func,
   refetch: PropTypes.func,
   clickedCityArray: PropTypes.array
+};
+
+ClusterMarker.propTypes = {
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+  pointCount: PropTypes.number,
+  color: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 export default CityMapTrialConst;

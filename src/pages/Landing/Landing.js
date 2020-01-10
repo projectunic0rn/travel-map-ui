@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { NavLink, withRouter } from "react-router-dom";
 import {
   ComposableMap,
   ZoomableGroup,
@@ -123,12 +124,25 @@ class Landing extends Component {
           </ZoomableGroup>
         </ComposableMap>
         <div className="landing-motto-container">
-          <span>THE WORLD IS FULL OF</span>
-          <span className="rotating-word">{placeWords[wordIndex]}</span>
-          <span>PLACES.</span>
-          <span className="landing-motto-two">
-            <span>explore</span> and <span>share</span> them.
-          </span>
+          <div className="landing-motto">
+            <span>Save travel memories.</span>
+            <span>Help friends make their own.</span>
+          </div>
+          <div className="landing-motto-sub">
+            <p>
+              All of us are world travelers and none of us have seen the whole
+              world. <br />
+              We can all learn from each other to improve our own trips.
+            </p>
+            <p>
+              Use Geornal to showcase your personal travel map, write reviews of
+              your most memorable experiences, and see where your friends have
+              been to help guide decisions on where to go next.
+            </p>
+          </div>
+          <NavLink exact to={`/new`}>
+            <button className="button new-map-button">Make my map</button>
+          </NavLink>
           <div className="border-bar-container">
             <span className="landing-green-bar" />
             <span className="landing-red-bar" />
@@ -148,4 +162,4 @@ Landing.propTypes = {
   handleUserLogin: PropTypes.func
 };
 
-export default Landing;
+export default withRouter(Landing);

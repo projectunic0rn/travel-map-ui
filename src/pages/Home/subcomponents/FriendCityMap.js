@@ -595,7 +595,7 @@ class FriendCityMap extends Component {
             }}
           >
             {this._renderPopup()}
-            {activeTimings[0] ? (
+           {activeTimings[0] ? (
               <Cluster
                 ref={this._clusterPast}
                 radius={40}
@@ -634,7 +634,7 @@ class FriendCityMap extends Component {
             {activeTimings[2] ? (
               <Cluster
                 ref={this._clusterLive}
-                radius={40}
+                radius={40} 
                 extent={1024}
                 nodeSize={64}
                 component={cluster => (
