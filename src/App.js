@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import MetaTags from 'react-meta-tags';
+import MetaTags from "react-meta-tags";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
@@ -17,6 +17,7 @@ import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
+import NewUserMap from "./pages/Home/NewUserMap";
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
@@ -141,9 +142,18 @@ function App({ userAuthenticated }) {
           </Query>
         ) : (
           <>
-            <Header />
-            <Landing />
-            
+            <Switch>
+              <Route path="/new/" component={NewUserMap} />
+              <Route
+                path="/"
+                render={props => (
+                  <>
+                    <Header />
+                    <Landing />
+                  </>
+                )}
+              />
+            </Switch>
           </>
         )}
       </UserProvider>

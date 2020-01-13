@@ -1,54 +1,56 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
 
-import PromptNavMenu from "../PromptNavMenu";
-import UserTripCard from "./subcomponents/UserTripCard";
+import PromptNavMenu from "../../../components/Prompts/PromptNavMenu";
+import FakeUserTripCard from "./FakeUserTripCard";
 import PersonIcon from "../../../icons/PersonIcon";
 import CalendarIcon from "../../../icons/CalendarIcon";
-import { ComposableMap } from "react-simple-maps";
 
 const userVisitTimings = ["PAST", "FUTURE", "LIVE"];
-
-function FriendClickedCityContainer(props) {
+const hoveredCityArray = [
+  {
+    username: "user1",
+    days: 32,
+    year: 2017,
+    tripTiming: 0,
+    avatarIndex: 4,
+    color: "rgb(200, 46, 100)"
+  },
+  {
+    username: "user4",
+    days: 26,
+    year: 2012,
+    tripTiming: 0,
+    avatarIndex: 2,
+    color: "#C8B343"
+  },
+  {
+    username: "user2",
+    days: 15,
+    year: 2020,
+    tripTiming: 1,
+    avatarIndex: 3,
+    color: "#769F93"
+  },
+  {
+    username: "user9",
+    days: 15,
+    year: 2022,
+    tripTiming: 1,
+    avatarIndex: 1,
+    color: "#528FB1"
+  },
+  {
+    username: "user5",
+    days: 730,
+    year: null,
+    tripTiming: 2,
+    avatarIndex: 8,
+    color: "#8E81E1"
+  }
+];
+function FakeClickedFriendCityContainer() {
   const [navPosition, handleNavPosition] = useState(0);
-  const [cityName, handleCityName] = useState(null);
-  const [countryName, handleCountryName] = useState(null);
-  const [friendsWithTrips, handleFriendsWithTrips] = useState(0);
-  const [cityHover, handleCityHover] = useState(true);
-  useEffect(() => {
-    if (props.customProps.hoveredCityArray.length < 1) {
-      handleCityName(props.customProps.clickedCity.result["text_en-US"]);
-      if (props.customProps.cityInfo.result.context !== undefined) {
-      for (let i in props.customProps.clickedCity.result.context) {
-        if (
-          props.customProps.clickedCity.result.context[i].id.slice(0, 7) ===
-          "country"
-        ) {
-          handleCountryName(
-            props.customProps.clickedCity.result.context[i]["text_en-US"]
-          );
-        }
-      }
-    } else {
-      handleCountryName(props.customProps.cityInfo.result.place_name)
-    }
-    } else {
-      handleCityName(props.customProps.hoveredCityArray[0].city);
-      handleCountryName(props.customProps.hoveredCityArray[0].country);
-      let uniqueFriends = props.customProps.hoveredCityArray
-        .map(trip => trip.username)
-        .filter((value, index, self) => self.indexOf(value) === index);
-      handleFriendsWithTrips(uniqueFriends);
-    }
-  }, [
-    props.customProps.clickedCity.result,
-    props.customProps.hoveredCityArray
-  ]);
-
-  let hoveredCityArray = props.customProps.hoveredCityArray.sort(
-    (cityA, cityB) => cityA.tripTiming - cityB.tripTiming
-  );
 
   let filteredHoveredCityArray = [];
   let friendTrips = null;
@@ -62,7 +64,7 @@ function FriendClickedCityContainer(props) {
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
-              <UserTripCard
+              <FakeUserTripCard
                 trip={city}
                 key={i}
                 metric={<CalendarIcon />}
@@ -79,7 +81,7 @@ function FriendClickedCityContainer(props) {
               <div className="user-trip-title">
                 {userVisitTimings[city.tripTiming]}
               </div>
-              <UserTripCard
+              <FakeUserTripCard
                 trip={city}
                 key={i}
                 metric={<CalendarIcon />}
@@ -89,7 +91,7 @@ function FriendClickedCityContainer(props) {
           );
         } else {
           return (
-            <UserTripCard
+            <FakeUserTripCard
               trip={city}
               key={i}
               metric={<CalendarIcon />}
@@ -106,7 +108,7 @@ function FriendClickedCityContainer(props) {
       userTripTitle = <div className="user-trip-title">PAST</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
         return (
-          <UserTripCard
+          <FakeUserTripCard
             trip={city}
             key={i}
             metric={<CalendarIcon />}
@@ -122,7 +124,7 @@ function FriendClickedCityContainer(props) {
       userTripTitle = <div className="user-trip-title">FUTURE</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
         return (
-          <UserTripCard
+          <FakeUserTripCard
             trip={city}
             key={i}
             metric={<CalendarIcon />}
@@ -138,7 +140,7 @@ function FriendClickedCityContainer(props) {
       userTripTitle = <div className="user-trip-title">LIVE</div>;
       friendTrips = filteredHoveredCityArray.map((city, i) => {
         return (
-          <UserTripCard
+          <FakeUserTripCard
             trip={city}
             key={i}
             metric={<CalendarIcon />}
@@ -155,33 +157,21 @@ function FriendClickedCityContainer(props) {
     handleNavPosition(position);
   }
   return (
-    <div className="clicked-country-container">
+    <div className="clicked-country-container" id="fake-clicked-friend-city">
       <div className="clicked-country-header">
         <div className="clicked-country-info-value">
-          {friendsWithTrips.length}
+          {5}
           <PersonIcon />
         </div>
       </div>
       <div className="clicked-country-info">
-        <NavLink to={`/place/city/${props.customProps.hoveredCityArray[0].cityId}/`}>
-          <div
-            className="clicked-country-info-names"
-            onMouseOver={() => handleCityHover(true)}
-            onMouseOut={() => handleCityHover(false)}
-          >
-            {cityHover ? (
-              <span className="click-place-text" style={{ opacity: 1 }}>
-                Click to see all city reviews
-              </span>
-            ) : (
-              <span className="click-place-text" style={{ opacity: 0 }}>
-                Click to see all city reviews
-              </span>
-            )}
-            <span>{cityName}</span>
-            <span>{countryName}</span>
-          </div>
-        </NavLink>
+        <div className="clicked-country-info-names">
+          <span className="click-place-text" style={{ opacity: 1 }}>
+            Click to see all city reviews
+          </span>
+          <span>Auckland</span>
+          <span>New Zealand</span>
+        </div>
       </div>
       <PromptNavMenu handleNavPosition={handleNewNavPosition} />
       <div className="friend-trip-container">
@@ -192,9 +182,9 @@ function FriendClickedCityContainer(props) {
   );
 }
 
-FriendClickedCityContainer.propTypes = {
+FakeClickedFriendCityContainer.propTypes = {
   customProps: PropTypes.object,
   handleTripTiming: PropTypes.func
 };
 
-export default FriendClickedCityContainer;
+export default FakeClickedFriendCityContainer;

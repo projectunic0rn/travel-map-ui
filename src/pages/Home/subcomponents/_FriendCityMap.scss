@@ -15,7 +15,6 @@
   }
 }
 #friend-city-map-container {
- 
   .mapboxgl-control-container {
     .mapboxgl-ctrl-top-left {
       height: 20px;
@@ -49,30 +48,6 @@
 }
 
 .friend-city-map {
-  .map-header-container .map-header-button .sc-controls {
-    background: #f8f8fc;
-    position: absolute;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    left: calc(50% - 316px);
-    top: 0px;
-    height: 42px;
-    width: 60px;
-    z-index: 1000;
-    border-radius: 8px;
-    box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
-    cursor: pointer;
-    &:hover {
-      svg {
-        fill: #528fb1;
-      }
-    }
-  }
-  .sc-controls-left {
-    left: calc(50% - 366px);
-  }
-
   .new-map-suggest {
     display: flex;
     position: relative;
@@ -102,5 +77,41 @@
     &:hover {
       fill: #528fb1;
     }
+  }
+  .map-header-container .map-header-button .sc-controls {
+    background: #f8f8fc;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    top: 0px;
+    height: 42px;
+    width: 60px;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+    cursor: pointer;
+    &:hover {
+      svg {
+        fill: #528fb1;
+      }
+    }
+  }
+  .sc-controls-left {
+    left: calc(50% - 316px);
+  }
+  .sc-controls-right {
+    left: calc(50% + 358px);
+    svg {
+      transform: translateY(0px);
+      width: 24px;
+    }
+  }
+}
+
+#fc-filter-active {
+  background: #92BAD0;
+  span span svg {
+    fill: rgb(248, 248, 252);
   }
 }

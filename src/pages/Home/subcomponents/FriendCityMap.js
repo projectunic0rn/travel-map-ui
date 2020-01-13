@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -8,7 +8,8 @@ import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FilterCityMap from "../../../components/Prompts/FilterCityMap";
-import MapChangeIcon from '../../../icons/MapChangeIcon';
+import MapChangeIcon from "../../../icons/MapChangeIcon";
+import FilterIcon from "../../../icons/FilterIcon";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
@@ -41,84 +42,61 @@ function ClusterMarker(props) {
   );
 }
 
-class FriendCityMap extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        latitude: 25,
-        longitude: 8,
-        zoom: this.setInitialZoom()
-      },
-      markers: [],
-      markerPastDisplay: [],
-      markerFutureDisplay: [],
-      markerLiveDisplay: [],
-      gl: null,
-      tripTimingCounts: [0, 0, 0],
-      clickedCity: null,
-      clickedCityArray: [],
-      filteredCityArray: [],
-      activeTimings: [1, 1, 1],
-      loading: true,
-      activePopup: false,
-      cityTooltip: null,
-      hoveredCityArray: null,
-      filter: false
+function FriendCityMap(props) {
+  const [windowWidth, handleWindowWidth] = useState(undefined);
+  const [viewport, handleViewport] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    latitude: 25,
+    longitude: 8,
+    zoom: setInitialZoom()
+  });
+  const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
+  const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
+  const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
+  const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
+  const [filteredTripTimingCounts, handleFilteredTripTimingCounts] = useState(
+    null
+  );
+  const [clickedCityArray, handleClickedCityArray] = useState([]);
+  const [filteredCityArray, handleFilteredCityArray] = useState([]);
+  const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
+  const [loading, handleLoaded] = useState(true);
+  const [activePopup, handleActivePopup] = useState(false);
+  const [cityTooltip, handleCityTooltip] = useState(null);
+  const [hoveredCityArray, handleHoveredCityArray] = useState(null);
+  const [filter, handleFilter] = useState(false);
+  const [filterSettings, handleFilterSettings] = useState([]);
+  const [clickedCity, handleClickedCity] = useState(null);
+  const mapRef = useRef();
+  const clusterPast = useRef();
+  const clusterFuture = useRef();
+  const clusterLive = useRef();
+
+  useEffect(() => {
+    handleWindowWidth(window.innerWidth);
+    window.addEventListener("resize", resize);
+    resize();
+    handleLoadedCities(props.tripData);
+    return function cleanup() {
+      window.removeEventListener("resize", resize);
     };
-    this.mapRef = React.createRef();
-    this._clusterPast = React.createRef();
-    this._clusterFuture = React.createRef();
-    this._clusterLive = React.createRef();
-    this.clusterClick = this.clusterClick.bind(this);
-    this.resize = this.resize.bind(this);
-    this.handleViewportChange = this.handleViewportChange.bind(this);
-    this.handleGeocoderViewportChange = this.handleGeocoderViewportChange.bind(
-      this
-    );
-    this.handleMapMovement = this.handleMapMovement.bind(this);
-    this.handleOnResult = this.handleOnResult.bind(this);
-    this._onWebGLInitialized = this._onWebGLInitialized.bind(this);
-    this.handleLoadedMarkers = this.handleLoadedMarkers.bind(this);
-    this.handleLoadedCities = this.handleLoadedCities.bind(this);
-    this.handleActiveTimings = this.handleActiveTimings.bind(this);
-    this.showPopup = this.showPopup.bind(this);
-    this.showFilter = this.showFilter.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
-    this.handleTypedCity = this.handleTypedCity.bind(this);
-    this._renderPopup = this._renderPopup.bind(this);
-    this.handleHoveredCityArray = this.handleHoveredCityArray.bind(this);
-    this.setInitialZoom = this.setInitialZoom.bind(this);
-  }
+  }, []);
 
-  componentDidMount() {
-    window.addEventListener("resize", this.resize);
-    let tripData = this.props.tripData;
-    this.resize();
-    this.handleLoadedCities(tripData);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
-  }
-
-  resize() {
-    this.handleViewportChange({
+  function resize() {
+    handleWindowWidth(window.innerWidth);
+    handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
-      zoom: this.setInitialZoom()
+      zoom: setInitialZoom()
     });
   }
 
-  handleViewportChange(viewport) {
-    this.setState({
-      viewport: { ...this.state.viewport, ...viewport }
-    });
+  function handleViewportChange(newViewport) {
+    handleViewport({ ...viewport, ...newViewport });
   }
 
-  setInitialZoom() {
+  function setInitialZoom() {
     let zoom;
     if (window.innerWidth >= 2400) {
       zoom = 2.2;
@@ -136,30 +114,16 @@ class FriendCityMap extends Component {
     return zoom;
   }
 
-  handleGeocoderViewportChange(viewport) {
-    const geocoderDefaultOverrides = { transitionDuration: 1000 };
-
-    return this.handleViewportChange({
-      ...viewport,
-      ...geocoderDefaultOverrides
-    });
-  }
-
-  handleMapMovement(newBounds) {
-    this.setState({
-      bounds: newBounds
-    });
-  }
-
-  handleLoadedMarkers(markers) {
+  function handleLoadedMarkers(markers) {
     let markerPastDisplay = [];
     let markerFutureDisplay = [];
-    let markerLiveDisplay = this.state.markerLiveDisplay;
+    let markerLiveDisplay = [];
     markers.map(city => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
+            handleActiveTimings([0, 0, 0]);
             if (
               markerPastDisplay.some(marker => {
                 return marker.props.id === city.tripTiming + "-" + city.cityId;
@@ -185,12 +149,7 @@ class FriendCityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitedId: city.id
-                      })
-                    }
+                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: "rgba(203, 118, 120, 0.25)" }}
                     key={"circle" + city.id}
                     cx="50"
@@ -210,6 +169,7 @@ class FriendCityMap extends Component {
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
+            handleActiveTimings([0, 0, 0]);
             if (
               markerFutureDisplay.some(marker => {
                 return marker.props.id === city.tripTiming + "-" + city.cityId;
@@ -234,12 +194,7 @@ class FriendCityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitingId: city.id
-                      })
-                    }
+                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -260,6 +215,7 @@ class FriendCityMap extends Component {
             break;
           case 2:
             color = "rgba(150, 177, 168, 0.25)";
+            handleActiveTimings([0, 0, 0]);
             if (
               markerLiveDisplay.some(marker => {
                 return marker.props.id === city.tripTiming + "-" + city.cityId;
@@ -284,12 +240,7 @@ class FriendCityMap extends Component {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <circle
-                    onMouseOver={() =>
-                      this.setState({
-                        cityTooltip: city,
-                        placeVisitingId: city.id
-                      })
-                    }
+                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -313,45 +264,37 @@ class FriendCityMap extends Component {
       }
       return null;
     });
-    this.setState({
-      markerPastDisplay,
-      markerFutureDisplay,
-      markerLiveDisplay,
-      loading: 0
-    });
+    handleMarkerPastDisplay(markerPastDisplay);
+    handleMarkerFutureDisplay(markerFutureDisplay);
+    handleMarkerLiveDisplay(markerLiveDisplay);
+    handleLoaded(false);
+    handleActiveTimings([1, 1, 1]);
   }
 
-  handleOnResult(event) {
-    this.handleTypedCity(event);
+  function handleOnResult(event) {
+    handleTypedCity(event);
   }
 
-  handleTypedCity(typedCity) {
+  function handleTypedCity(typedCity) {
     let hoveredCityArray = [];
     if (typedCity.result.properties.wikidata !== undefined) {
-      hoveredCityArray = this.state.clickedCityArray.filter(
+      hoveredCityArray = clickedCityArray.filter(
         city =>
           city.cityId ===
           parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
       );
     } else {
-      hoveredCityArray = this.state.clickedCityArray.filter(
+      hoveredCityArray = clickedCityArray.filter(
         city =>
           city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
       );
     }
-    this.setState({
-      clickedCity: typedCity,
-      hoveredCityArray,
-      activePopup: true
-    });
+    handleClickedCity(typedCity);
+    handleHoveredCityArray(hoveredCityArray);
+    handleActivePopup(true);
   }
 
-  _onWebGLInitialized(gl) {
-    this.setState({ gl: gl });
-  }
-
-  handleLoadedCities(data) {
-    const { tripTimingCounts, clickedCityArray } = this.state;
+  function handleLoadedCities(data) {
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -428,45 +371,31 @@ class FriendCityMap extends Component {
       }
     }
     let filteredCityArray = clickedCityArray;
-    this.setState(
-      {
-        clickedCityArray,
-        filteredCityArray,
-        tripTimingCounts: [pastCount, futureCount, liveCount]
-      },
-      () => this.handleLoadedMarkers(filteredCityArray)
-    );
+    handleClickedCityArray(clickedCityArray);
+    handleFilteredCityArray(filteredCityArray);
+    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    handleLoadedMarkers(filteredCityArray);
   }
 
-  handleActiveTimings(timings) {
-    this.setState({
-      activeTimings: timings
-    });
+  function showFilter() {
+    handleFilter(!filter);
+    handleActivePopup(!activePopup);
   }
 
-  showFilter() {
-    let filter = !this.state.filter;
-    let activePopup = !this.state.activePopup;
-    this.setState({
-      filter,
-      activePopup
-    });
-  }
-
-  showPopup() {
-    let activePopup = !this.state.activePopup;
-    let filter = this.state.filter;
-    if (!activePopup) {
-      filter = false;
+  function showPopup() {
+    if (activePopup) {
+      handleFilter(false);
     }
-    this.setState({
-      activePopup,
-      filter
-    });
+    handleActivePopup(!activePopup);
   }
 
-  _renderPopup() {
-    const { cityTooltip, clickedCityArray } = this.state;
+  function handleHoveredCityArrayHelper(hoveredCityArray) {
+    handleActivePopup(true);
+    handleHoveredCityArray(hoveredCityArray);
+    handleClickedCity(hoveredCityArray);
+  }
+
+  function _renderPopup() {
     let hoveredCityArray = [];
     if (cityTooltip !== null) {
       hoveredCityArray = clickedCityArray.filter(
@@ -483,11 +412,11 @@ class FriendCityMap extends Component {
           latitude={cityTooltip.latitude}
           closeOnClick={false}
           closeButton={true}
-          onClose={() => this.setState({ cityTooltip: null })}
+          onClose={() => handleCityTooltip(null)}
         >
           <div
             className="popup-text"
-            onClick={() => this.handleHoveredCityArray(hoveredCityArray)}
+            onClick={() => handleHoveredCityArrayHelper(hoveredCityArray)}
           >
             {cityTooltip.city}
           </div>
@@ -496,200 +425,234 @@ class FriendCityMap extends Component {
     );
   }
 
-  handleHoveredCityArray(hoveredCityArray) {
-    this.setState({
-      activePopup: true,
-      hoveredCityArray,
-      clickedCity: hoveredCityArray
-    });
+  function handleFilterCleared() {
+    let filteredCityArray = [...clickedCityArray];
+    handleFilteredCityArray(filteredCityArray);
+    handleFilteredTripTimingCounts(null);
+    handleLoadedMarkers(filteredCityArray);
+    handleFilterSettings([]);
   }
 
-  handleFilter(filterParams) {
-    let origCityArray = this.state.clickedCityArray;
-    let filteredCityArray = origCityArray.filter(city =>
-      city.username.includes(filterParams.username)
-    );
-    this.setState(
-      {
-        filteredCityArray
-      },
-      () => {
-        this.handleLoadedMarkers(filteredCityArray);
+  function handleFilterHelper(filterParams) {
+    let origCityArray = [...clickedCityArray];
+    let filteredCityArray;
+    if (filterParams.username.length > 0) {
+      filteredCityArray = origCityArray.filter(
+        city => filterParams.username.indexOf(city.username) !== -1
+      );
+      handleFilteredCityArray(filteredCityArray);
+      handleLoadedMarkers(filteredCityArray);
+    } else if (filterParams.username.length < 1) {
+      handleFilterCleared();
+      handleFilterSettings(filterParams);
+      return;
+    }
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    for (let i in filteredCityArray) {
+      switch (filteredCityArray[i].tripTiming) {
+        case 0:
+          pastCount++;
+          break;
+        case 1:
+          futureCount++;
+          break;
+        case 2:
+          liveCount++;
+          break;
+        default:
+          break;
       }
-    );
+    }
+
+    handleFilteredTripTimingCounts([pastCount, futureCount, liveCount]);
+    handleFilterSettings(filterParams);
   }
 
-  clusterClick(cluster) {
+  function clusterClick(cluster) {
     const { clusterId, longitude, latitude } = cluster;
     let supercluster;
     switch (cluster.type) {
       case 0:
-        supercluster = this._clusterPast.current.getCluster();
+        supercluster = clusterPast.current.getCluster();
         break;
       case 1:
-        supercluster = this._clusterFuture.current.getCluster();
+        supercluster = clusterFuture.current.getCluster();
         break;
       case 2:
-        supercluster = this._clusterLive.current.getCluster();
+        supercluster = clusterLive.current.getCluster();
         break;
       default:
         break;
     }
     const zoom = supercluster.getClusterExpansionZoom(clusterId);
-    this.setState(state => {
-      const newVewport = {
-        ...state.viewport,
-        latitude,
-        longitude,
-        zoom
-      };
+    const newViewport = {
+      ...viewport,
+      latitude,
+      longitude,
+      zoom
+    };
+    handleViewport(newViewport);
 
-      return { ...state, viewport: newVewport };
-    });
+    return { viewport: newViewport };
   }
 
-  render() {
-    const {
-      viewport,
-      markerPastDisplay,
-      markerFutureDisplay,
-      markerLiveDisplay,
-      loading,
-      activePopup,
-      filter,
-      activeTimings
-    } = this.state;
-    if (loading) return <Loader />;
-    return (
-      <>
-        <div
-          className="map-header-container"
-          style={{ position: "absolute", left: "calc(50% - 500px)" }}
-        >
-          <div className="map-header-button">
-          <div className="sc-controls sc-controls-left" onClick={() => this.props.handleMapTypeChange(0)}>
+  if (loading) return <Loader />;
+  return (
+    <>
+      <div
+        className="map-header-container"
+        style={{ position: "absolute", left: "calc(50% - 500px)" }}
+      >
+        <div className="map-header-button">
+          <div
+            className="sc-controls sc-controls-left"
+            onClick={() => props.handleMapTypeChange(0)}
+          >
             <span className="new-map-suggest">
               <span className="sc-control-label">Country map</span>
-              <span id="map-change-icon" onClick={() => this.props.handleMapTypeChange(0)}>
+              <span
+                id="map-change-icon"
+                onClick={() => props.handleMapTypeChange(0)}
+              >
                 <MapChangeIcon />
               </span>
             </span>
           </div>
+          <div
+            id={filteredTripTimingCounts !== null ? "fc-filter-active" : null}
+            className="sc-controls sc-controls-right"
+            onClick={showFilter}
+          >
+            <span className="new-map-suggest">
+              <span className="sc-control-label">Filter</span>
+              <span onClick={showFilter}>
+                <FilterIcon />
+              </span>
+            </span>
           </div>
         </div>
-        <div className="city-map-container" id="friend-city-map-container">
-          <MapGL
-            mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
-            ref={this.mapRef}
-            {...viewport}
-            accessToken={
+      </div>
+      <div className="city-map-container" id="friend-city-map-container">
+        <MapGL
+          mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
+          ref={mapRef}
+          {...viewport}
+          accessToken={
+            "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
+          }
+          onViewportChange={handleViewportChange}
+          zoom={viewport.zoom}
+          style={{
+            width: "100vw",
+            minHeight: "calc(100% - 120px)",
+            maxHeight: "calc(100%)",
+            position: "relative"
+          }}
+        >
+          {_renderPopup()}
+          {activeTimings[0] ? (
+            <Cluster
+              ref={clusterPast}
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(203, 118, 120, 0.5)"}
+                  {...cluster}
+                  type={0}
+                />
+              )}
+            >
+              {markerPastDisplay}
+            </Cluster>
+          ) : null}
+          {activeTimings[1] ? (
+            <Cluster
+              ref={clusterFuture}
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(115, 167, 195, 0.5)"}
+                  {...cluster}
+                  type={1}
+                />
+              )}
+            >
+              {markerFutureDisplay}
+            </Cluster>
+          ) : null}
+          {activeTimings[2] ? (
+            <Cluster
+              ref={clusterLive}
+              radius={40}
+              extent={1024}
+              nodeSize={64}
+              component={cluster => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(150, 177, 168, 0.5)"}
+                  {...cluster}
+                  type={2}
+                />
+              )}
+            >
+              {markerLiveDisplay}
+            </Cluster>
+          ) : null}
+          <Geocoder
+            mapRef={mapRef}
+            onResult={handleOnResult}
+            // onViewportChange={handleGeocoderViewportChange}
+            mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
-            onViewportChange={this.handleViewportChange}
-            zoom={viewport.zoom}
-            style={{
-              width: "100vw",
-              minHeight: "calc(100% - 120px)",
-              maxHeight: "calc(100%)",
-              position: "relative"
-            }}
-          >
-            {this._renderPopup()}
-           {activeTimings[0] ? (
-              <Cluster
-                ref={this._clusterPast}
-                radius={40}
-                extent={1024}
-                nodeSize={64}
-                component={cluster => (
-                  <ClusterMarker
-                    onClick={this.clusterClick}
-                    color={"rgba(203, 118, 120, 0.5)"}
-                    {...cluster}
-                    type={0}
-                  />
-                )}
-              >
-                {markerPastDisplay}
-              </Cluster>
-            ) : null}
-            {activeTimings[1] ? (
-              <Cluster
-                ref={this._clusterFuture}
-                radius={40}
-                extent={1024}
-                nodeSize={64}
-                component={cluster => (
-                  <ClusterMarker
-                    onClick={this.clusterClick}
-                    color={"rgba(115, 167, 195, 0.5)"}
-                    {...cluster}
-                    type={1}
-                  />
-                )}
-              >
-                {markerFutureDisplay}
-              </Cluster>
-            ) : null}
-            {activeTimings[2] ? (
-              <Cluster
-                ref={this._clusterLive}
-                radius={40} 
-                extent={1024}
-                nodeSize={64}
-                component={cluster => (
-                  <ClusterMarker
-                    onClick={this.clusterClick}
-                    color={"rgba(150, 177, 168, 0.5)"}
-                    {...cluster}
-                    type={2}
-                  />
-                )}
-              >
-                {markerLiveDisplay}
-              </Cluster>
-            ) : null}
-            <Geocoder
-              mapRef={this.mapRef}
-              onResult={this.handleOnResult}
-              onViewportChange={this.handleGeocoderViewportChange}
-              mapboxApiAccessToken={
-                "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
-              }
-              position="top-left"
-              types={"place"}
-              placeholder={"Type a city..."}
-            />
-          </MapGL>
-        </div>
-        <div className="city-map-scorecard">
-          <MapScorecard
-            tripTimingCounts={this.state.tripTimingCounts}
-            activeTimings={this.state.activeTimings}
-            sendActiveTimings={this.handleActiveTimings}
+            position="top-left"
+            types={"place"}
+            placeholder={"Type a city..."}
           />
-        </div>
-        {activePopup ? (
-          <PopupPrompt
-            activePopup={activePopup}
-            showPopup={this.showPopup}
-            component={
-              filter
-                ? FilterCityMap
-                : this.state.hoveredCityArray.length < 1
-                ? FriendClickedCityBlank
-                : FriendClickedCityContainer
-            }
-            componentProps={{
-              handleFilter: this.handleFilter,
-              hoveredCityArray: this.state.hoveredCityArray,
-              clickedCity: this.state.clickedCity
-            }}
-          />
-        ) : null}
-      </>
-    );
-  }
+        </MapGL>
+      </div>
+      <div className="city-map-scorecard">
+        <MapScorecard
+          tripTimingCounts={
+            filteredTripTimingCounts !== null
+              ? filteredTripTimingCounts
+              : tripTimingCounts
+          }
+          activeTimings={activeTimings}
+          sendActiveTimings={handleActiveTimings}
+        />
+      </div>
+      {activePopup ? (
+        <PopupPrompt
+          activePopup={activePopup}
+          showPopup={showPopup}
+          component={
+            filter
+              ? FilterCityMap
+              : hoveredCityArray.length < 1
+              ? FriendClickedCityBlank
+              : FriendClickedCityContainer
+          }
+          componentProps={{
+            filterSettings: filterSettings,
+            handleFilter: handleFilterHelper,
+            hoveredCityArray: hoveredCityArray,
+            clickedCity: clickedCity,
+            closePopup: showPopup,
+            handleFilterCleared: handleFilterCleared
+          }}
+        />
+      ) : null}
+    </>
+  );
 }
 
 FriendCityMap.propTypes = {
