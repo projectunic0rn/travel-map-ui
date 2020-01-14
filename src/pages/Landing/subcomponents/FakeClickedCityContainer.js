@@ -7,8 +7,8 @@ function FakeClickedCityContainer() {
       <div className="clicked-country-info">
         <div className="clicked-country-info-names">
           <span></span>
-          <span>Auckland</span>
-          <span>Country: New Zealand</span>
+          <span>Banff</span>
+          <span>Canada</span>
         </div>
       </div>
       <div className="clicked-country-timing-container">

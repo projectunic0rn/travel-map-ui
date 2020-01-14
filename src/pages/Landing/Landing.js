@@ -6,6 +6,9 @@ import MapGL, { Marker } from "react-map-gl";
 
 import FakeClickedCityContainer from "./subcomponents/FakeClickedCityContainer";
 import FakeClickedFriendCityContainer from "./subcomponents/FakeClickedFriendCity";
+import FakeReviewCard from "./subcomponents/FakeReviewCard";
+import FakePlaceReviewCard from "./subcomponents/FakePlaceReviewCard";
+import Footer from "./Footer";
 
 let incomingCities = [
   {
@@ -187,10 +190,6 @@ function Landing() {
     zoom: setInitialZoom()
   });
   const [markers, handleMarkers] = useState([]);
-  const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
-  const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
-  const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
-  const [loading, handleLoaded] = useState(true);
   const mapRef = useRef();
 
   useEffect(() => {
@@ -267,7 +266,7 @@ function Landing() {
           style={{ "z-index": "-1" }}
         >
           <MapGL
-            mapStyle={"mapbox://styles/mvance43776/ck5btmnmw3ieg1dmrl61syi6q"}
+            mapStyle={"mapbox://styles/mvance43776/ck5d5iota033i1iphduio56d1"}
             ref={mapRef}
             width="100%"
             height="100%"
@@ -335,9 +334,6 @@ function Landing() {
             <span className="landing-yellow-bar" />
           </div>
         </div>
-        {/* <div className="landing-form-container">
-          <LandingForm handleUserLogin={() => this.props.handleUserLogin(1)} />
-        </div> */}
       </div>
       <div className="landing-second-page">
         <div className="landing-additional-info-container">
@@ -352,11 +348,11 @@ function Landing() {
               type="text"
               list="country-choice"
               name="country-search"
-              value={"Auckland, NZ"}
+              value={"Banff, CA"}
             />
             <span>----></span>
           </div>
-          <div>
+          <div className="landing-graphic-container">
             <FakeClickedCityContainer />
           </div>
         </div>
@@ -368,7 +364,11 @@ function Landing() {
             <span>make geornal entries for your trips</span>
           </subheader>
         </div>
-        <div></div>
+        <div className="landing-graphic-container">
+          <div className="fake-review-container">
+            <FakeReviewCard />
+          </div>
+        </div>
       </div>
       <div className="landing-fourth-page">
         <div className="landing-additional-info-container">
@@ -383,15 +383,29 @@ function Landing() {
               type="text"
               list="country-choice"
               name="country-search"
-              value={"Auckland, NZ"}
+              value={"Banff, CA"}
             />
             <span>----></span>
           </div>
-          <div>
+          <div className="landing-graphic-container">
             <FakeClickedFriendCityContainer />
           </div>
         </div>
       </div>
+      <div className="landing-fifth-page">
+        <div className="landing-additional-info-container">
+          <subheader>
+            <span>4</span>
+            <span>see all reviews for a city from multiple friends</span>
+          </subheader>
+        </div>{" "}
+        <div className="landing-graphic-container">
+          <div className="fake-review-container">
+            <FakePlaceReviewCard />
+          </div>
+        </div>
+      </div>
+      <Footer />
     </>
   );
 }

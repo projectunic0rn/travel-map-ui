@@ -82,7 +82,7 @@ class LoginForm extends Component {
           {(mutation, { loading }) => (
             <div>
               <button
-                className="login-button"
+                className="login-button button"
                 onClick={(e) => {
                   e.preventDefault();
                   mutation();

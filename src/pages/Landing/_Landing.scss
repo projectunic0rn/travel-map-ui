@@ -93,16 +93,22 @@
 
 .landing-second-page,
 .landing-third-page,
-.landing-fourth-page {
+.landing-fourth-page,
+.landing-fifth-page {
   min-height: 450px;
   display: flex;
   padding-top: 24px;
-
   display: flex;
   justify-content: center;
   .landing-additional-info-container {
     max-width: 1560px;
     position: relative;
+    width: 1560px;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .landing-graphic-container {
+    display: flex;
     width: 1560px;
   }
   subheader {
@@ -120,10 +126,8 @@
     }
     span:nth-child(1) {
       font-weight: 550;
-
       border-radius: 50%;
-      width: 60px;
-
+      min-width: 60px;
       justify-content: center;
     }
     span:nth-child(2) {
@@ -139,7 +143,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     position: absolute;
     top: 40px;
-    right: 40px;
+    left: 900px;
     .live-timing {
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
@@ -153,7 +157,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     position: absolute;
     top: 40px;
-    right: 40px;
+    left: 900px;
     .clicked-country-header {
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
@@ -183,7 +187,12 @@
   }
 }
 
-.landing-third-page {
+.landing-fifth-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 600px;
   background: rgb(248, 248, 252);
   subheader {
     span {
@@ -193,11 +202,50 @@
       border: 6px solid #73a7c3;
     }
   }
+  .fake-review-container {
+    margin-left: 60px;
+    max-width: 828px;
+    background: #656f80;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.landing-third-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 600px;
+  background: rgb(248, 248, 252);
+  subheader {
+    span {
+      color: #73a7c3;
+    }
+    span:nth-child(1) {
+      border: 6px solid #73a7c3;
+    }
+  }
+  .fake-review-container {
+    margin-left: 60px;
+    max-width: 764px;
+    background: #656f80;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.25);
+    .comment-container textarea {
+      background: rgb(226, 223, 223);
+    }
+    .city-review-card-container:nth-child(2) {
+      margin-top: 24px;
+    }
+  }
 }
 
 .landing-fourth-page {
   background: #73a7c3;
-  min-height: 600px;
+  min-height: 660px;
   subheader {
     span {
       color: rgb(248, 248, 252);
@@ -205,6 +253,30 @@
     span:nth-child(1) {
       border: 6px solid rgb(248, 248, 252);
     }
+  }
+}
+
+.footer-container {
+  background: rgb(248, 248, 252);
+  .footer-bottom-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px;
+    align-items: center;
+    background: #252931;
+    color: #656f80;
+    font-size: 12px;
+    min-height: 60px;
+  }
+  svg {
+    width: 200px;
+  }
+  a {
+    color: #656f80;
+    border-bottom: 1px solid #665f80;
+    padding-bottom: 4px;
+    margin-right: 4px;
+    font-weight: 550;
   }
 }
 

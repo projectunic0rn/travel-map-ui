@@ -6,7 +6,6 @@ import PromptNavMenu from "../PromptNavMenu";
 import UserTripCard from "./subcomponents/UserTripCard";
 import PersonIcon from "../../../icons/PersonIcon";
 import CalendarIcon from "../../../icons/CalendarIcon";
-import { ComposableMap } from "react-simple-maps";
 
 const userVisitTimings = ["PAST", "FUTURE", "LIVE"];
 

@@ -107,7 +107,7 @@ class SignupForm extends Component {
           onInputError={(err) => this.handleInvalidCredentials(err)}
         >
           {(mutation, { loading }) => (
-            <button className="login-button" onClick={mutation}>
+            <button className="login-button button" onClick={mutation}>
               {loading ? "Signing Up..." : "Sign Up"}
             </button>
           )}

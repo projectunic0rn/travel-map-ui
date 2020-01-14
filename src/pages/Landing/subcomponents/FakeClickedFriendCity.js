@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 
 import PromptNavMenu from "../../../components/Prompts/PromptNavMenu";
@@ -169,8 +169,8 @@ function FakeClickedFriendCityContainer() {
           <span className="click-place-text" style={{ opacity: 1 }}>
             Click to see all city reviews
           </span>
-          <span>Auckland</span>
-          <span>New Zealand</span>
+          <span>Banff</span>
+          <span>Canada</span>
         </div>
       </div>
       <PromptNavMenu handleNavPosition={handleNewNavPosition} />
