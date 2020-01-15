@@ -10,7 +10,7 @@ import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
 export default function Header({ userLoggedIn, avatarIndex, color }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn ? false : true);
+  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn || window.innerWidth < 1200 ? false : true);
 
   return (
     <Fragment>

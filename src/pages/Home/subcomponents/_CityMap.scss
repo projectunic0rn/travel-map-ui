@@ -364,9 +364,9 @@
   height: 80px;
   top: 240px;
   left: calc(50% - 560px);
-  @media screen and (max-width: 1200px) {
-    top: calc(100% - 130px);
-    left: calc(25%);
+  @media screen and (max-width: 1250px) {
+    top: calc(100% - 40px);
+    left: calc(12.5%);
   }
   @media screen and (max-width: 900px) {
     top: calc(100% - 120px);
@@ -449,6 +449,9 @@ z-index: 30;
     background: rgb(248, 248, 252);
     color: #769f93;
   }
+  @media screen and (max-width: 1250px) {
+    top: calc(100% - 154px);
+  }
 }
 
 .personal-map-save {
@@ -469,6 +472,9 @@ z-index: 30;
     svg path {
       fill: #73a7c3;
     }
+  }
+  @media screen and (max-width: 1250px) {
+    top: calc(100% - 110px);
   }
 }
 
@@ -497,6 +503,9 @@ z-index: 30;
   svg {
     width: 24px;
     height: 24px;
+  }
+  @media screen and (max-width: 1250px) {
+    right: calc(50% - 440px);
   }
 }
 

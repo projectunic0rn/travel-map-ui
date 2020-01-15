@@ -41,13 +41,13 @@ function App({ userAuthenticated }) {
     );
   }, [localStorage.getItem("clickedCityArray")]);
   useEffect(() => {
-    if (window.innerWidth < 600 && swalNotFired) {
+    if (window.innerWidth < 1000 && swalNotFired) {
       Swal.fire(swalParams);
       setSwalNotFired(false);
     }
 
     function resizeListener() {
-      if (window.innerWidth < 600 && swalNotFired) {
+      if (window.innerWidth < 1000 && swalNotFired) {
         Swal.fire(swalParams);
         setSwalNotFired(false);
       }

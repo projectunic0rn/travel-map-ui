@@ -11,6 +11,12 @@
     @media (max-width: "900px") {
         transform: translate(-20px, 40px);
       }
+      @media (max-height: 900px) {
+        transform: translate(-40px, 230px);
+      }
+      @media (max-height: 800px) {
+        display: none;
+      }
     .map-info-country {
         font-size: 42px;
         font-weight: 300;

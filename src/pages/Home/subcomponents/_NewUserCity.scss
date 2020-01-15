@@ -50,8 +50,8 @@
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
     @media screen and (max-width: 1200px) {
-      top: calc(100% - 250px);
-      right: calc(25%);
+      top: calc(100% - 150px);
+      right: calc(5%);
     }
     @media screen and (max-width: 900px) {
       top: calc(100% - 350px);
@@ -229,8 +229,8 @@
   top: 180px;
   left: calc(50% - 560px);
   @media screen and (max-width: 1200px) {
-    top: calc(100% - 130px);
-    left: calc(25%);
+    top: calc(100% - 40px);
+    left: calc(7.5%);
   }
   @media screen and (max-width: 900px) {
     top: calc(100% - 120px);
@@ -261,6 +261,15 @@
   flex-direction: column;
   margin-top: 80px;
   align-items: center;
+  @media (max-height: 700px) {
+    max-height: 500px;
+  }
+  @media (max-height: 550px) {
+    max-height: 450px;
+  }
+  @media (max-height: 480px) {
+    max-height: 420px;
+  }
   .new-user-signup-cta {
     display: flex;
     align-items: center;
