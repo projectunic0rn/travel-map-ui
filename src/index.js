@@ -4,6 +4,8 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import jwt_decode from "jwt-decode";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { createBrowserHistory } from 'history';
+import ReactGA from 'react-ga';
 
 import App from "./App";
 import FriendReadonlyMap from "./pages/Home/FriendReadonlyMap";
@@ -11,6 +13,16 @@ import NewUserMap from "./pages/Home/NewUserMap";
 import * as serviceWorker from "./serviceWorker";
 
 require("dotenv").config();
+
+const trackingId = "UA-156249933-1"; // Replace with your Google Analytics tracking ID
+ReactGA.initialize(trackingId);
+
+const history = createBrowserHistory();
+
+history.listen(location => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
 
 let userAuthenticated = false;
 // Check if the user is logged in
@@ -53,7 +65,7 @@ const client = new ApolloClient({
 });
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route path="/new/" component={NewUserMap} />
         <Route path="/public" component={FriendReadonlyMap} />
