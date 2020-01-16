@@ -113,7 +113,7 @@ function CityReviewCard({
           <>
             <Mutation
               mutation={REMOVE_CITY_REVIEW}
-              variables={{id}}
+              variables={{ id }}
               onCompleted={() => refetch()}
             >
               {mutation => (
@@ -123,7 +123,7 @@ function CityReviewCard({
                   }
                 >
                   <span>Are you sure you want to delete this review?</span>
-                  <div>
+                  <>
                     <button className="button confirm" onClick={mutation}>
                       Yes
                     </button>
@@ -133,11 +133,14 @@ function CityReviewCard({
                     >
                       No
                     </button>
-                  </div>
+                  </>
                 </div>
               )}
             </Mutation>
-            <button className="close-button-round" onClick={() => handleDelete(true)}></button>
+            <button
+              className="close-button-round"
+              onClick={() => handleDelete(true)}
+            ></button>
           </>
         ) : null}
       </div>

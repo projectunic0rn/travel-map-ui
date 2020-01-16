@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
 import MetaTags from "react-meta-tags";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -6,11 +6,8 @@ import Swal from "sweetalert2";
 import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
 
-import Header from "./components/Header/Header";
-import Landing from "./pages/Landing/Landing";
-import MapPage from "./pages/Home/MapPage";
-import FriendMapPage from "./pages/Home/FriendMapPage";
 import Profile from "./pages/Profile/Profile";
+import Header from "./components/Header/Header";
 import Place from "./pages/Place/Place";
 import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
@@ -18,6 +15,10 @@ import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
 import NewUserMap from "./pages/Home/NewUserMap";
+
+const Landing = lazy(() => import("./pages/Landing/Landing"));
+const MapPage = lazy(() => import("./pages/Home/MapPage"));
+const FriendMapPage = lazy(() => import("./pages/Home/FriendMapPage"));
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
@@ -108,14 +109,16 @@ function App({ userAuthenticated }) {
                       exact
                       path="/"
                       render={props => (
-                        <MapPage
-                          {...props}
-                          user={data.user}
-                          refetch={refetch}
-                          mapPage={mapPage}
-                          handleMapPageChange={handleMapPageChange}
-                          clickedCityArray={clickedCityArray}
-                        />
+                        <Suspense fallback={<Loader />}>
+                          <MapPage
+                            {...props}
+                            user={data.user}
+                            refetch={refetch}
+                            mapPage={mapPage}
+                            handleMapPageChange={handleMapPageChange}
+                            clickedCityArray={clickedCityArray}
+                          />
+                        </Suspense>
                       )}
                     />
                     <Route
@@ -133,7 +136,14 @@ function App({ userAuthenticated }) {
                       )}
                     />
                     <Route path="/place/" render={props => <Place />} />
-                    <Route path="/friends/" component={FriendMapPage} />
+                    <Route
+                      path="/friends/"
+                      render={props => 
+                        <Suspense fallback={<Loader />}>
+                          <FriendMapPage />
+                        </Suspense>
+                      }
+                    />
                     <Route component={PageNotFound} />
                   </Switch>
                 </Fragment>
@@ -148,8 +158,10 @@ function App({ userAuthenticated }) {
                 path="/"
                 render={props => (
                   <>
-                    <Header />
-                    <Landing />
+                    <Suspense fallback={<Loader />}>
+                      <Header />
+                      <Landing />
+                    </Suspense>
                   </>
                 )}
               />

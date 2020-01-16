@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 function CostIcon({ value, onClick }) {
   return (
-    <div>
+    <>
       <svg
         className={
           value
@@ -20,7 +20,7 @@ function CostIcon({ value, onClick }) {
           d="M16 30h20m-18 6h14m6-20h-2.1a16 16 0 0 0 0 32H38"
         />
       </svg>
-    </div>
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, withRouter } from "react-router-dom";
+import Swal from "sweetalert2";
 import { Query } from "react-apollo";
 import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
 import FriendReadonlyCountry from "./subcomponents/FriendReadonlyCountry";
@@ -13,7 +14,33 @@ const FriendReadonlyMap = () => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const username = window.location.pathname.split("/")[2];
+  const swalParams = {
+    type: "info",
+    text:
+      "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally.",
+    confirmButtonColor: "#656F80"
+  };
 
+  const [swalNotFired, setSwalNotFired] = useState(true);
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
+  useEffect(() => {
+    if (window.innerWidth < 1000 && swalNotFired) {
+      Swal.fire(swalParams);
+      setSwalNotFired(false);
+    }
+
+    function resizeListener() {
+      if (window.innerWidth < 1000 && swalNotFired) {
+        Swal.fire(swalParams);
+        setSwalNotFired(false);
+      }
+    }
+
+    window.addEventListener("resize", resizeListener);
+    return () => window.removeEventListener("resize", resizeListener);
+  }, [swalNotFired, swalParams]);
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
     let userData = data.user;
@@ -88,12 +115,12 @@ const FriendReadonlyMap = () => {
         if (!loaded) return <Loader />;
         return (
           <div className="map-container">
-            <span className = 'user-map-name'>{username + "'s Map"}</span>
-            {cityOrCountry ? <div className="map-header-cta">
+            <span className="user-map-name">{username + "'s Map"}</span>
+            {cityOrCountry ? (
               <NavLink to={`/new`}>
-                <button>CREATE MY MAP</button>
+                <button className="create-map">CREATE MY MAP</button>
               </NavLink>
-            </div> : null}
+            ) : null}
             <div className={cityOrCountry ? "map city-map" : "map country-map"}>
               {cityOrCountry ? (
                 <FriendReadonlyCity
