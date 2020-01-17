@@ -6,7 +6,7 @@ import { UserConsumer } from "../../../utils/UserContext";
 export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
   return (
     <UserConsumer>
-      {(context) => {
+      {context => {
         if (context.userLoggedIn) {
           return (
             <>
@@ -17,6 +17,10 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
                 Friends
               </NavLink>
               <NavLink to="/profile/cities">Profile</NavLink>
+              <span className="nav-secondary">
+                {/* <NavLink to="/faq">FAQ</NavLink> */}
+                <NavLink to="/beta">Beta</NavLink>
+              </span>
             </>
           );
         } else {

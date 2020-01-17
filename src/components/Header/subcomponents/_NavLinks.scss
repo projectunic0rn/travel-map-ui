@@ -33,6 +33,13 @@
     height: 50px;
     margin-right: 8px;
   }
+  .nav-secondary {
+    display: flex;
+    transform: translateX(200px);
+    @media (max-width: 1200px) {
+      transform: translateX(150px);
+    }
+  }
 }
 
 @media (min-width: 765px) {

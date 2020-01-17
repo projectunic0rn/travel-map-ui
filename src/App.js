@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
 
+import Beta from './Beta';
+import FAQ from './FAQ';
 import Profile from "./pages/Profile/Profile";
 import Header from "./components/Header/Header";
 import Place from "./pages/Place/Place";
@@ -144,6 +146,8 @@ function App({ userAuthenticated }) {
                         </Suspense>
                       )}
                     />
+                    <Route path="/beta/" component={Beta} />
+                    <Route path="/faq/" component={FAQ} />
                     <Route component={PageNotFound} />
                   </Switch>
                 </Fragment>

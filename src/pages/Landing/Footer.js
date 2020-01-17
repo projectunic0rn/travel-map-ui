@@ -10,7 +10,7 @@ function Footer() {
           <a href='https://projectunicorn.net/'>Project-Unicorn</a>
           programming group
         </span>
-        <span>geornal-contact@gmail.com</span>
+        <span>geornal.contact@gmail.com</span>
       </div>
     </div>
   );
