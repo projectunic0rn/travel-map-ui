@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
@@ -526,6 +527,14 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
 FriendReadonlyCity.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func
+};
+
+ClusterMarker.propTypes = {
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+  pointCount: PropTypes.number,
+  color: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 export default FriendReadonlyCity;

@@ -138,11 +138,11 @@ function App({ userAuthenticated }) {
                     <Route path="/place/" render={props => <Place />} />
                     <Route
                       path="/friends/"
-                      render={props => 
+                      render={props => (
                         <Suspense fallback={<Loader />}>
                           <FriendMapPage />
                         </Suspense>
-                      }
+                      )}
                     />
                     <Route component={PageNotFound} />
                   </Switch>

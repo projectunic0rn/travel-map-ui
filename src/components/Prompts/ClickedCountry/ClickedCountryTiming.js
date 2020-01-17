@@ -49,7 +49,7 @@ function ClickedCountryTiming(props) {
           <div className="trash-icon-container">
             <TrashIcon />
           </div>
-          <>delete cities</>
+          <div>delete cities</div>
         </div>
       ) : null}
       {deletePopup ? (

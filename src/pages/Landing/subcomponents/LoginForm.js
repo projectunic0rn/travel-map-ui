@@ -80,7 +80,7 @@ class LoginForm extends Component {
           onInputError={(err) => this.handleInvalidCredentials(err)}
         >
           {(mutation, { loading }) => (
-            <>
+            <div>
               <button
                 className="login-button button"
                 onClick={(e) => {
@@ -90,7 +90,7 @@ class LoginForm extends Component {
               >
                 {!loading ? "Login" : "Logging in..."}
               </button>
-            </>
+            </div>
           )}
         </ValidationMutation>
         <span className="form-switch">
