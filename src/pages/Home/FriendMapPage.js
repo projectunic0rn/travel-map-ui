@@ -4,6 +4,7 @@ import { GET_ALL_USER_COUNTRIES } from "../../GraphQL";
 import FriendCountryMap from "./subcomponents/FriendCountryMap";
 import FriendCityMap from "./subcomponents/FriendCityMap";
 import Loader from "../../components/common/Loader/Loader";
+import LeaderboardCard from "./subcomponents/LeaderboardCard";
 
 const FriendMapPage = () => {
   const [loaded, handleLoaded] = useState(false);
@@ -73,7 +74,6 @@ const FriendMapPage = () => {
     <Query
       query={GET_ALL_USER_COUNTRIES}
       notifyOnNetworkStatusChange
-      // fetchPolicy={"cache-and-network"}
       partialRefetch={true}
       onCompleted={data => handleTripDataHelper(data.users)}
     >
@@ -82,13 +82,21 @@ const FriendMapPage = () => {
         if (error) return `Error! ${error}`;
         handleLoadedCountries(data);
         if (!loaded) return <Loader />;
+        console.log(data);
         return (
           <div className="map-container">
-            <div className={cityOrCountry ? "map city-map friend-city-map" : "map country-map friend-country-map"}>
+            <div
+              className={
+                cityOrCountry
+                  ? "map city-map friend-city-map"
+                  : "map country-map friend-country-map"
+              }
+            >
               {cityOrCountry ? (
                 <FriendCityMap
                   tripData={tripData}
                   handleMapTypeChange={handleMapTypeChange}
+                  data={data}
                 />
               ) : (
                 <FriendCountryMap

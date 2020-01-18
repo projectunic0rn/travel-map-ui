@@ -136,6 +136,10 @@ const FriendReadonlyMap = () => {
                 />
               )}
             </div>
+            <span className="georney-score">
+          <span className="gs-title">{"GeorneyScore"}</span>
+          <span className="gs-score">{Math.ceil(data.user.georneyScore)}</span>
+        </span>
           </div>
         );
       }}

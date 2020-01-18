@@ -8,8 +8,10 @@ import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FilterCityMap from "../../../components/Prompts/FilterCityMap";
+import LeaderboardPrompt from "../../../components/Prompts/LeaderboardPrompt";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import FilterIcon from "../../../icons/FilterIcon";
+import LeaderboardIcon from '../../../icons/LeaderboardIcon';
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
@@ -66,12 +68,14 @@ function FriendCityMap(props) {
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [hoveredCityArray, handleHoveredCityArray] = useState(null);
   const [filter, handleFilter] = useState(false);
+  const [leaderboard, handleLeaderboard] = useState(false);
   const [filterSettings, handleFilterSettings] = useState([]);
   const [clickedCity, handleClickedCity] = useState(null);
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
   const clusterLive = useRef();
+  console.log(filteredCityArray);
 
   useEffect(() => {
     handleWindowWidth(window.innerWidth);
@@ -532,11 +536,23 @@ function FriendCityMap(props) {
               </span>
             </span>
           </div>
+          <div
+            id={leaderboard ? "fc-leaderboard-active" : null}
+            className="sc-controls sc-controls-right-two"
+            onClick={() => handleLeaderboard(!leaderboard)}
+          >
+            <span className="new-map-suggest">
+              <span className="sc-control-label">Leaders</span>
+              <span onClick={() => handleLeaderboard(!leaderboard)}>
+                <LeaderboardIcon />
+              </span>
+            </span>
+          </div>
         </div>
       </div>
       <div className="city-map-container" id="friend-city-map-container">
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
+          mapStyle={"mapbox://styles/mvance43776/ck5jbypgg18rc1imunr6yam2x"}
           ref={mapRef}
           {...viewport}
           accessToken={
@@ -651,6 +667,7 @@ function FriendCityMap(props) {
           }}
         />
       ) : null}
+      {leaderboard ? <LeaderboardPrompt users={props.data.users} /> : null}
     </>
   );
 }

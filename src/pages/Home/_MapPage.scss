@@ -40,7 +40,6 @@
         min-width: 500px;
         transform: translateY(-80px);
       }
-
     }
   }
   .map {
@@ -52,7 +51,7 @@
     #country-map-share {
       top: 16px;
     }
-    
+
     .map-header-container {
       display: flex;
       // flex-direction: column;
@@ -233,5 +232,37 @@
   }
   &:hover {
     fill: #528fb1;
+  }
+}
+
+.public-country-map-header {
+  .map-search-container {
+    position: absolute;
+    top: 0px;
+    left: calc(50% - 268px);
+  }
+  .sc-controls {
+    background: #f8f8fc;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    left: calc(50% - 336px);
+    top: 14px;
+    height: 42px;
+    width: 60px;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+    cursor: pointer;
+    &:hover {
+      svg {
+        fill: #528fb1;
+      }
+    }
+    .sc-control-label {
+      top: 38px;
+      color: #dee2e6;
+    }
   }
 }

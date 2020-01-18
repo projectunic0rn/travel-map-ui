@@ -108,9 +108,17 @@
       width: 24px;
     }
   }
+  .sc-controls-right-two {
+    left: calc(50% + 424px);
+    svg {
+      transform: translateY(0px);
+      width: 24px;
+    }
+  }
 }
 
-#fc-filter-active {
+#fc-filter-active,
+#fc-leaderboard-active {
   background: #92bad0;
   span span svg {
     fill: rgb(248, 248, 252);
@@ -171,6 +179,72 @@
   .map-scorecard-container {
     @media (max-height: 900px) {
       transform: translate(-40px, -140px);
+    }
+  }
+}
+
+.leaderboard-container {
+  position: absolute;
+  left: 40px;
+  bottom: 20px;
+  width: 300px;
+  height: 406px;
+  max-height: 406px;
+  overflow-y: hidden;
+  data {
+    display: flex;
+    flex-direction: column;
+    height: 360px;
+    max-height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .leaderboard-title {
+    font-size: 20px;
+    font-weight: 550;
+    color: #dee2e6;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .leaderboard-card {
+    position: relative;
+    max-height: 67px;
+    margin-right: 4px;
+    .lc-rank {
+      font-size: 24px;
+      font-weight: 100;
+      transform: translateX( 8px);
+      color: #656F80;
+    }
+    .utc-username {
+      font-size: 18px;
+    }
+    .utc-location {
+      font-size: 14px;
+      color: #adb5bd;
+    }
+    .user-georney-score {
+      position: absolute;
+      top: 0px;
+      right: -60px;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 30;
+      span {
+        margin-top: 4px;
+        color: #92bad0;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32px;
+        height: 60px;
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 }

@@ -334,6 +334,9 @@ function Landing() {
             <span className="landing-yellow-bar" />
           </div>
         </div>
+        <div className="arrow-container">
+            <div className="arrow-down"></div>
+        </div>
       </div>
       <div className="landing-second-page">
         <div className="landing-additional-info-container">

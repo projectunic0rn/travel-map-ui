@@ -215,6 +215,7 @@ export const GET_ALL_CITY_DETAILS = gql`
       id
       username
       full_name
+      georneyScore
       Places_visited {
         id
         country

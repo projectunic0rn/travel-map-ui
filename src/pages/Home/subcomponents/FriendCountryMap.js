@@ -227,7 +227,7 @@ const FriendCountryMap = props => {
           break;
         case "1,2":
           if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#dbf1f4";
+            countryStyles.default.fill = "#8caeb0";
           } else if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           } else if (activeTimings[2]) {
@@ -244,7 +244,7 @@ const FriendCountryMap = props => {
           } else if (activeTimings[0] && activeTimings[2]) {
             countryStyles.default.fill = "#DBC071";
           } else if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#dbf1f4";
+            countryStyles.default.fill = "#8caeb0";
           } else if (activeTimings[0]) {
             countryStyles.default.fill = "#DBC071";
           } else if (activeTimings[1]) {
