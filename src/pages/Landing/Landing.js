@@ -184,7 +184,7 @@ function Landing() {
   const [windowWidth, handleWindowWidth] = useState(undefined);
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
-    height: window.innerHeight,
+    height: window.innerHeight+120,
     latitude: 0,
     longitude: 0,
     zoom: setInitialZoom()
@@ -231,7 +231,7 @@ function Landing() {
     handleWindowWidth(window.innerWidth);
     handleViewportChange({
       width: window.innerWidth,
-      height: window.innerHeight,
+      height: window.innerHeight+120,
       zoom: setInitialZoom()
     });
   }
@@ -239,20 +239,17 @@ function Landing() {
   function handleViewportChange(newViewport) {
     handleViewport({ ...viewport, ...newViewport });
   }
+
   function setInitialZoom() {
     let zoom;
-    if (window.innerWidth >= 2400) {
-      zoom = 2.2;
-    } else if (window.innerWidth >= 1750) {
-      zoom = 1.75;
-    } else if (window.innerWidth <= 900) {
-      zoom = 0.75;
-    } else if (window.innerWidth <= 1200) {
-      zoom = 1.0;
-    } else if (window.innerWidth <= 1400) {
-      zoom = 1.25;
-    } else if (window.innerWidth < 1750) {
-      zoom = 1.5;
+    if (window.innerWidth <= 2 * window.innerHeight) {
+      zoom = window.innerWidth * 0.0009;
+    } else {
+      if (window.innerHeight >= 500) {
+        zoom = window.innerHeight * 0.0017;
+      } else {
+        zoom = window.innerHeight * 0.0008;
+      }
     }
     return zoom;
   }
@@ -269,17 +266,15 @@ function Landing() {
             mapStyle={"mapbox://styles/mvance43776/ck5d5iota033i1iphduio56d1"}
             ref={mapRef}
             width="100%"
-            height="100%"
             {...viewport}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
             onViewportChange={handleViewportChange}
-            minZoom={0.25}
             style={{
               width: "100vw",
-              minHeight: "calc(100% - 120px)",
-              maxHeight: "calc(100%)",
+              minHeight: "calc(100%)",
+              maxHeight: "calc(100% + 120px)",
               position: "relative"
             }}
           >

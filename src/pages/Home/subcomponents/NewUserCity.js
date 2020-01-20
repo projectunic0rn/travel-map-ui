@@ -45,13 +45,12 @@ function ClusterMarker(props) {
 }
 
 function NewUserCity() {
-  const [windowWidth, handleWindowWidth] = useState(undefined);
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
     latitude: 20,
     longitude: 8,
-    zoom: setInitialZoom()
+    zoom: 1
   });
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
@@ -78,15 +77,14 @@ function NewUserCity() {
   const clusterFuture = useRef();
 
   useEffect(() => {
-    handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
     resize();
     if (localStorage.clickedCityArray !== undefined) {
       var getObject = JSON.parse(localStorage.getItem("clickedCityArray"));
       handleLoadedCities(getObject);
+    } else {
       handleLoaded(false);
     }
-    handleLoaded(false);
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
@@ -102,6 +100,7 @@ function NewUserCity() {
     markerFutureDisplay,
     markerLiveDisplay
   ]);
+  
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
   useEffectSkipFirstLocal(() => {}, [clickedCityArray]);
 
@@ -130,11 +129,10 @@ function NewUserCity() {
   }
 
   function resize() {
-    handleWindowWidth(window.innerWidth);
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
-      latitude: 25,
+      latitude: 20,
       longitude: 8,
       zoom: setInitialZoom()
     });
@@ -145,19 +143,16 @@ function NewUserCity() {
   }
 
   function setInitialZoom() {
+    console.log("setInitialZoom");
     let zoom;
-    if (window.innerWidth >= 2400) {
-      zoom = 2.2;
-    } else if (window.innerWidth >= 1750) {
-      zoom = 1.75;
-    } else if (window.innerWidth <= 900) {
-      zoom = 0.75;
-    } else if (window.innerWidth <= 1200) {
-      zoom = 1.0;
-    } else if (window.innerWidth <= 1400) {
-      zoom = 1.25;
-    } else if (window.innerWidth < 1750) {
-      zoom = 1.5;
+    if (window.innerWidth <= 2 * window.innerHeight) {
+      zoom = window.innerWidth * 0.0009;
+    } else {
+      if (window.innerHeight >= 500) {
+        zoom = window.innerHeight * 0.0017;
+      } else {
+        zoom = window.innerHeight * 0.0008;
+      }
     }
     return zoom;
   }
@@ -239,6 +234,7 @@ function NewUserCity() {
     handleMarkerRecentDisplay([]);
     handleDeletePrompt(false);
     handleTripTimingCounts([0, 0, 0]);
+    handleTravelScore(0);
   }
 
   function handleLoadedCities(data) {
@@ -263,7 +259,7 @@ function NewUserCity() {
     handleClickedCityArray(data);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     handleLoadedMarkers(data);
-    calculateTravelScore();
+    calculateTravelScore(data);
   }
 
   function handleLoadedMarkers(markers) {
@@ -423,14 +419,16 @@ function NewUserCity() {
     return travelScoreIndex;
   }
 
-  function calculateTravelScore() {
+  function calculateTravelScore(data) {
+    console.log("calculateTravelScore");
     let newTravelScore = travelScore;
     let lat;
     let long;
     let travelScoreIndex;
     let travelScoreIndexArray = [];
     let countryIdArray = [];
-    let filteredClickedCityArray = clickedCityArray.filter(
+    console.log(data);
+    let filteredClickedCityArray = data.filter(
       city => city.tripTiming === 0 || city.tripTiming === 2
     );
     for (let i in filteredClickedCityArray) {
@@ -891,18 +889,16 @@ function NewUserCity() {
           </div>
         </div>
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
+          mapStyle={"mapbox://styles/mvance43776/ck5lohlv32f6j1is5evbps7e4"}
           ref={mapRef}
-          width="100%"
           height="100%"
           {...viewport}
           accessToken={
             "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
           }
           onViewportChange={handleViewportChange}
-          minZoom={0.25}
           style={{
-            width: "100vw",
+            width: "100%",
             minHeight: "calc(100% - 120px)",
             maxHeight: "calc(100%)",
             position: "relative"
@@ -969,9 +965,9 @@ function NewUserCity() {
         />
       </div>
       <span className="georney-score">
-          <span className="gs-title">{"GeorneyScore"}</span>
-          <span className="gs-score">{Math.ceil(travelScore)}</span>
-        </span>
+        <span className="gs-title">{"GeorneyScore"}</span>
+        <span className="gs-score">{Math.ceil(travelScore)}</span>
+      </span>
       <div className="new-user-timing-control">
         Enter the
         <select onChange={e => handleTimingChange(e.target.value)}>
@@ -1001,8 +997,7 @@ function NewUserCity() {
               handleContinents: handleContinents,
               handleCountries: handleCountries,
               timing: timingState,
-              handleClickedCity: handleTripTimingCityHelper,
-
+              handleClickedCity: handleTripTimingCityHelper
             }}
           />
         </div>
@@ -1010,13 +1005,6 @@ function NewUserCity() {
     </>
   );
 }
-
-NewUserCity.propTypes = {
-  tripData: PropTypes.object,
-  handleMapTypeChange: PropTypes.func,
-  deleteCity: PropTypes.func,
-  refetch: PropTypes.func
-};
 
 ClusterMarker.propTypes = {
   latitude: PropTypes.number,
@@ -1026,4 +1014,4 @@ ClusterMarker.propTypes = {
   onClick: PropTypes.func
 };
 
-export default NewUserCity;
+export default React.memo(NewUserCity);

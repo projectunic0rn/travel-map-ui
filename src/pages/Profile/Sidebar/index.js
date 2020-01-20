@@ -22,6 +22,9 @@ export default function Sidebar({
   };
   const [age, handleAge] = useState("");
   useEffect(() => {
+    console.log('sidebar loaded')
+  }, [])
+  useEffect(() => {
     calculateAge(userData.birthday);
   }, [userData]);
 
@@ -48,11 +51,12 @@ export default function Sidebar({
       <Query
         query={urlUsername ? GET_USER_COUNTRIES : GET_LOGGEDIN_USER}
         notifyOnNetworkStatusChange
-        fetchPolicy={"cache-and-network"}
+        fetchPolicy={"cache-only"}
         partialRefetch={true}
         variables={urlUsername ? { username: urlUsername } : {}}
       >
         {({ loading, error, data }) => {
+          console.log('query')
           if (loading) return <SimpleLoader color="#ccc" />;
           if (error) return <p>{error.toString()}</p>;
           return (

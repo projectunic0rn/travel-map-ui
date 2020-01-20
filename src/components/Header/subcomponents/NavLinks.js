@@ -18,7 +18,7 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
               </NavLink>
               <NavLink to="/profile/cities">Profile</NavLink>
               <span className="nav-secondary">
-                {/* <NavLink to="/faq">FAQ</NavLink> */}
+                <NavLink to="/faq">FAQ</NavLink>
                 <NavLink to="/beta">Beta</NavLink>
               </span>
             </>

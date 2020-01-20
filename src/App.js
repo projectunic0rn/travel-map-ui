@@ -7,7 +7,7 @@ import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
 
 import Beta from './Beta';
-import FAQ from './FAQ';
+import FAQ from './pages/FAQ/FAQ';
 import Profile from "./pages/Profile/Profile";
 import Header from "./components/Header/Header";
 import Place from "./pages/Place/Place";
@@ -89,6 +89,7 @@ function App({ userAuthenticated }) {
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
             onCompleted={() => {
+              console.log('app query completed')
               handleLoaded(true);
             }}
           >

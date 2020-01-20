@@ -60,7 +60,6 @@ const MapPage = ({
 
   useEffect(() => {
     handleTripData(user);
-
     function handleLoadedCountries(data) {
       let countryArray = clickedCountryArray;
       let userData = data;
@@ -169,40 +168,9 @@ const MapPage = ({
     addMultiplePlaces({ variables: { clickedCityArray } });
   }
 
-  function deleteCity(cityId, timing) {
-    let cityIndex = null;
-    let tripDataType = null;
-    switch (timing) {
-      case 0:
-        tripDataType = tripData.Places_visited;
-        break;
-      case 1:
-        tripDataType = tripData.Places_visiting;
-        break;
-      case 2:
-        tripDataType = tripData.Place_living;
-        break;
-      default:
-        break;
-    }
-    if (timing === 0 || timing === 1) {
-      tripDataType.find((city, i) => {
-        if (city.id === cityId) {
-          cityIndex = i;
-          return true;
-        } else {
-          return false;
-        }
-      });
-      tripDataType.splice(cityIndex, 1);
-    } else {
-      if (tripDataType.id === cityId) {
-        tripData.Place_living = {};
-      }
-    }
-    handleTripData(tripData);
-    refetch();
-  }
+
+
+
 
   if (!loaded) return <Loader />;
   return (
@@ -212,7 +180,6 @@ const MapPage = ({
           <CityMap
             tripData={tripData}
             handleMapTypeChange={() => handleMapPageChange(0)}
-            deleteCity={deleteCity}
             refetch={refetch}
             clickedCityArray={newClickedCityArray}
           />
