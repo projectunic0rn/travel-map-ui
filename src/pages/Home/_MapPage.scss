@@ -4,6 +4,7 @@
 @import "./subcomponents/CityMap";
 @import "./subcomponents/NewUserCity";
 @import "./subcomponents/NewUserSuggestions";
+@import "./subcomponents/FriendCityMap";
 
 .map-container {
   display: flex;
@@ -50,52 +51,15 @@
     #country-map-share {
       top: 16px;
     }
-    .personal-map-share {
-      position: absolute;
-      top: 74px;
-      right: calc(50% - 480px);
-      display: flex;
-      align-items: center;
-      height: 40px;
-      font-size: 14px;
-      letter-spacing: 1.5px;
-      padding-left: 28px;
-      font-family: "Segoe UI", sans-serif;
-      background: #73a7c3;
-      color: rgb(248, 248, 252);
-      border-radius: 24px;
-      border: 2px solid #fff;
-      box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.75);
-      width: 200px;
-      z-index: 5000;
-      font-weight: 700;
-      cursor: pointer;
-      #myShareLink {
-        opacity: 0;
-        z-index: -100;
-        position: absolute;
-      }
-      svg {
-        width: 24px;
-        height: 24px;
-        fill: rgb(248, 248, 252);
-        margin-left: 12px;
-      }
-      &:hover {
-        background: rgb(248, 248, 252);
-        color: #73a7c3;
-        svg {
-          fill: #73a7c3;
-        }
-      }
-    }
+
     .map-header-container {
       display: flex;
-      flex-direction: column;
-      max-width: 1020px;
-      width: 1020px;
-      margin: 20px auto;
+      // flex-direction: column;
+      // max-width: 1120px;
+      // width: 1120px;
+      // margin: 20px auto;
       align-items: center;
+      justify-content: flex-end;
       @media (min-width: 1000px) {
         flex-direction: row;
         min-width: 900px;
@@ -103,14 +67,14 @@
       }
       .map-header-button {
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         max-width: 267px;
         flex: 1;
         z-index: 2;
         @media screen and (max-width: 1000px) {
-          position: absolute;
-          top: 72px;
-          left: calc(50% - 220px);
+          // position: absolute;
+          // top: 72px;
+          // left: calc(50% - 220px);
         }
         button {
           width: 200px;
@@ -167,6 +131,7 @@
       justify-content: center;
       align-content: center;
       margin: 8px auto;
+      transform: translateY(8px);
       @media (max-width: 1000px) {
         transform: translateY(40px);
       }
@@ -213,5 +178,91 @@
     position: relative;
     top: 0;
     left: 0;
+  }
+}
+
+.country-map .map-header-container .map-header-button .sc-controls {
+  background: #f8f8fc;
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  top: 15px;
+  height: 42px;
+  width: 60px;
+  z-index: 1000;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+  cursor: pointer;
+  &:hover {
+    svg {
+      fill: #528fb1;
+    }
+  }
+}
+.sc-controls-left {
+  left: calc(50% - 334px);
+}
+
+.new-map-suggest {
+  display: flex;
+  position: relative;
+  fill: #92bad0;
+  z-index: 1000;
+  cursor: pointer;
+  font-size: 24px;
+  color: rgb(200, 200, 200);
+  .sc-control-label {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    top: 40px;
+    left: -18px;
+    font-size: 12px;
+    border-radius: 8px;
+    min-width: 56px;
+    color: #dee2e6;
+    font-weight: 550;
+  }
+
+  svg {
+    width: 18px;
+    transform: translateY(2px);
+  }
+  &:hover {
+    fill: #528fb1;
+  }
+}
+
+.public-country-map-header {
+  .map-search-container {
+    position: absolute;
+    top: 0px;
+    left: calc(50% - 268px);
+  }
+  .sc-controls {
+    background: #f8f8fc;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    left: calc(50% - 336px);
+    top: 14px;
+    height: 42px;
+    width: 60px;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+    cursor: pointer;
+    &:hover {
+      svg {
+        fill: #528fb1;
+      }
+    }
+    .sc-control-label {
+      top: 38px;
+      color: #dee2e6;
+    }
   }
 }

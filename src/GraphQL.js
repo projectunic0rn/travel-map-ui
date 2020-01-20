@@ -25,6 +25,7 @@ export const GET_ALL_USER_COUNTRIES = gql`
       birthday
       avatarIndex
       color
+      georneyScore
       UserInterests {
         id
         name
@@ -124,6 +125,7 @@ export const GET_ALL_FRIEND_INFO = gql`
       full_name
       gender
       birthday
+      georneyScore
       UserInterests {
         id
         name
@@ -147,6 +149,7 @@ export const GET_ALL_USER_INFO = gql`
       birthday
       color
       avatarIndex
+      georneyScore
       UserInterests {
         id
         name
@@ -212,6 +215,7 @@ export const GET_ALL_CITY_DETAILS = gql`
       id
       username
       full_name
+      georneyScore
       Places_visited {
         id
         country
@@ -306,6 +310,7 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       birthday
       avatarIndex
       color
+      georneyScore
       UserInterests {
         id
         name
@@ -424,6 +429,7 @@ export const GET_USER_COUNTRIES = gql`
       birthday
       avatarIndex
       color
+      georneyScore
       UserInterests {
         id
         name
@@ -491,6 +497,15 @@ export const ADD_MULTIPLE_PLACES = gql`
     }
   }
 `;
+
+export const UPDATE_GEORNEY_SCORE = gql`
+  mutation updateGeorneyScore($travelScore: Float!) {
+    updateGeorneyScore(georneyScore: $travelScore) {
+      username
+      georneyScore
+    }
+  }
+`; 
 
 export const ADD_PLACE_VISITED = gql`
   mutation addPlaceVisited($country: Country!, $cities: [City!]) {

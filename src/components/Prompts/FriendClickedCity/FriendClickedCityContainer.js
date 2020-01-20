@@ -82,7 +82,7 @@ function FriendClickedCityContainer(props) {
                 trip={city}
                 key={i}
                 metric={<CalendarIcon />}
-                metricValue={0}
+                metricValue={city.days}
               />
             </Fragment>
           );
@@ -92,7 +92,7 @@ function FriendClickedCityContainer(props) {
               trip={city}
               key={i}
               metric={<CalendarIcon />}
-              metricValue={0}
+              metricValue={city.days}
             />
           );
         }

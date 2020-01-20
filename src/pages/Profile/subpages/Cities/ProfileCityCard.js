@@ -190,9 +190,11 @@ function ProfileCityCard({
           </div>
         )}
       </Mutation>
-      <button className="button trash" onClick={() => handleDelete(true)}>
-        <TrashIcon />
-      </button>
+      {!urlUsername ? (
+        <button className="button trash" onClick={() => handleDelete(true)}>
+          <TrashIcon />
+        </button>
+      ) : null}
     </div>
   );
 }

@@ -1,22 +1,26 @@
-import React, { useState, Fragment, useEffect } from "react";
-import MetaTags from 'react-meta-tags';
+import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
+import MetaTags from "react-meta-tags";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
 
-import Header from "./components/Header/Header";
-import Landing from "./pages/Landing/Landing";
-import MapPage from "./pages/Home/MapPage";
-import FriendMapPage from "./pages/Home/FriendMapPage";
+import Beta from './Beta';
+import FAQ from './pages/FAQ/FAQ';
 import Profile from "./pages/Profile/Profile";
+import Header from "./components/Header/Header";
 import Place from "./pages/Place/Place";
 import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
+import NewUserMap from "./pages/Home/NewUserMap";
+
+const Landing = lazy(() => import("./pages/Landing/Landing"));
+const MapPage = lazy(() => import("./pages/Home/MapPage"));
+const FriendMapPage = lazy(() => import("./pages/Home/FriendMapPage"));
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
@@ -40,13 +44,13 @@ function App({ userAuthenticated }) {
     );
   }, [localStorage.getItem("clickedCityArray")]);
   useEffect(() => {
-    if (window.innerWidth < 600 && swalNotFired) {
+    if (window.innerWidth < 1000 && swalNotFired) {
       Swal.fire(swalParams);
       setSwalNotFired(false);
     }
 
     function resizeListener() {
-      if (window.innerWidth < 600 && swalNotFired) {
+      if (window.innerWidth < 1000 && swalNotFired) {
         Swal.fire(swalParams);
         setSwalNotFired(false);
       }
@@ -85,6 +89,7 @@ function App({ userAuthenticated }) {
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
             onCompleted={() => {
+              console.log('app query completed')
               handleLoaded(true);
             }}
           >
@@ -107,14 +112,16 @@ function App({ userAuthenticated }) {
                       exact
                       path="/"
                       render={props => (
-                        <MapPage
-                          {...props}
-                          user={data.user}
-                          refetch={refetch}
-                          mapPage={mapPage}
-                          handleMapPageChange={handleMapPageChange}
-                          clickedCityArray={clickedCityArray}
-                        />
+                        <Suspense fallback={<Loader />}>
+                          <MapPage
+                            {...props}
+                            user={data.user}
+                            refetch={refetch}
+                            mapPage={mapPage}
+                            handleMapPageChange={handleMapPageChange}
+                            clickedCityArray={clickedCityArray}
+                          />
+                        </Suspense>
                       )}
                     />
                     <Route
@@ -132,7 +139,16 @@ function App({ userAuthenticated }) {
                       )}
                     />
                     <Route path="/place/" render={props => <Place />} />
-                    <Route path="/friends/" component={FriendMapPage} />
+                    <Route
+                      path="/friends/"
+                      render={props => (
+                        <Suspense fallback={<Loader />}>
+                          <FriendMapPage />
+                        </Suspense>
+                      )}
+                    />
+                    <Route path="/beta/" component={Beta} />
+                    <Route path="/faq/" component={FAQ} />
                     <Route component={PageNotFound} />
                   </Switch>
                 </Fragment>
@@ -141,8 +157,20 @@ function App({ userAuthenticated }) {
           </Query>
         ) : (
           <>
-            <Header />
-            <Landing />
+            <Switch>
+              <Route path="/new/" component={NewUserMap} />
+              <Route
+                path="/"
+                render={props => (
+                  <>
+                    <Suspense fallback={<Loader />}>
+                      <Header />
+                      <Landing />
+                    </Suspense>
+                  </>
+                )}
+              />
+            </Switch>
           </>
         )}
       </UserProvider>

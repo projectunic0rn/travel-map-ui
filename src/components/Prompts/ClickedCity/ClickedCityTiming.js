@@ -20,7 +20,10 @@ function ClickedCityTiming(props) {
     countryISO,
     countryId,
     cityId,
-    tripData
+    tripData,
+    geornalScore,
+    travelScoreIndexArray,
+    countryIdArray
   } = props;
   let country = {
     country: clickedCountry,

@@ -8,6 +8,7 @@ $container: 1600px;
 @import "./components/Prompts/PopupPrompts";
 @import "./components/common/common";
 @import "./icons/Icons";
+@import "./pages/FAQ/Faq.scss";
 
 * {
   box-sizing: border-box;
@@ -203,5 +204,29 @@ code {
   }
   100% {
     background-position: 200px 0px;
+  }
+}
+
+.beta-container {
+  border-radius: 24px;
+  background: rgb(248, 248, 252);
+  max-width: 1560px;
+  margin: 24px auto;
+  padding: 24px;
+  color: #2D2B2B;
+  @media screen and (max-width: 1600px) {
+    max-width: 1400px;
+  }
+  @media screen and (max-width: 1400px) {
+    max-width: 1200px;
+  }
+  @media screen and (max-width: 1200px) {
+    max-width: 1000px;
+  }
+  @media screen and (max-width: 1000px) {
+    max-width: 800px;
+  }
+  h1 {
+    color: #656F80;
   }
 }

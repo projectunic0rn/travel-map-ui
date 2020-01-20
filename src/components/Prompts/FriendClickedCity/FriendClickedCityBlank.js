@@ -7,7 +7,7 @@ function FriendClickedCityBlank(props) {
   const [countryName, handleCountryName] = useState(null);
   useEffect(() => {
     handleCityName(props.customProps.clickedCity.result["text_en-US"]);
-    if (props.customProps.cityInfo.result.context !== undefined) {
+    if (props.customProps.clickedCity.result.context !== undefined) {
     for (let i in props.customProps.clickedCity.result.context) {
       if (
         props.customProps.clickedCity.result.context[i].id.slice(0, 7) ===
@@ -19,7 +19,7 @@ function FriendClickedCityBlank(props) {
       }
     }
   } else {
-    handleCountryName(props.customProps.cityInfo.result.place_name);
+    handleCountryName(props.customProps.clickedCity.result.place_name);
   }
   }, [props.customProps.clickedCity.result]);
   return (

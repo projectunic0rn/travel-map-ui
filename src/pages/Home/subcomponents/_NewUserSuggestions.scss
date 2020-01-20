@@ -1,3 +1,4 @@
+
 .city-suggestions-prompt .popup-container .popup-card-container {
   background: none;
   box-shadow: none;
@@ -11,6 +12,15 @@
     max-height: 600px;
     background: none;
     margin: 0;
+    @media (max-height: 700px) {
+      max-height: 500px;
+    }
+    @media (max-height: 550px) {
+      max-height: 450px;
+    }
+    @media (max-height: 480px) {
+      max-height: 420px;
+    }
     .sc-instructions {
       position: absolute;
       display: flex;
@@ -78,6 +88,7 @@
       flex-direction: column;
       align-items: center;
       width: 320px;
+      max-height: calc(100% - 120px);
       flex: 1;
       overflow-y: auto;
       background: none;
@@ -172,19 +183,6 @@
         color: rgb(192, 148, 71);
         transform: translateY(-10px);
         z-index: 405;
-      }
-      #sc-Antarctica {
-        border-left: 12px solid #4f5867;
-        color: #4f5867;
-        transform: translateY(-12px);
-        z-index: 394;
-      }
-      #sc-Antarctica-active {
-        border-left: 12px solid #4f5867;
-        background: #dee2e6;
-        color: #4f5867;
-        transform: translateY(-12px);
-        z-index: 404;
       }
       .sc-choice-active {
         background: rgb(74, 89, 155);

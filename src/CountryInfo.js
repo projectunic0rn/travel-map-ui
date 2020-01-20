@@ -686,6 +686,7 @@ export const CountryInfo = [
     properties: {
       name: "Bermuda",
       continent: "Europe",
+      ISO2: "BM",
       color: "#1f77b4",
       capital: "Hamilton",
       cities: [
@@ -4488,7 +4489,7 @@ export const CountryInfo = [
     }
   },
   {
-    id: 834347,
+    id: 168809,
     properties: {
       name: "Palestine",
       ISO2: "PK",

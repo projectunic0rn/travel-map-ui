@@ -84,6 +84,7 @@ export default function MapScorecard({
   return (
     <div id="map-scorecard-container" className="map-scorecard-container">
       <DragIcon id="scorecard-drag-icon" />
+      <span className = 'scorecard-instructions'>Click checkboxes to filter map</span>
       <input
         className="scorecard-checkbox"
         id="past"

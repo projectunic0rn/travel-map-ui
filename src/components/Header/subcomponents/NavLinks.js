@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
@@ -6,10 +6,10 @@ import { UserConsumer } from "../../../utils/UserContext";
 export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
   return (
     <UserConsumer>
-      {(context) => {
+      {context => {
         if (context.userLoggedIn) {
           return (
-            <Fragment>
+            <>
               <NavLink exact to="/">
                 Personal
               </NavLink>
@@ -17,11 +17,15 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
                 Friends
               </NavLink>
               <NavLink to="/profile/cities">Profile</NavLink>
-            </Fragment>
+              <span className="nav-secondary">
+                <NavLink to="/faq">FAQ</NavLink>
+                <NavLink to="/beta">Beta</NavLink>
+              </span>
+            </>
           );
         } else {
           return (
-            <div>
+            <>
               <Link
                 to="#"
                 onClick={toggleFormIsOpen}
@@ -29,7 +33,7 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
               >
                 Login
               </Link>
-            </div>
+            </>
           );
         }
       }}

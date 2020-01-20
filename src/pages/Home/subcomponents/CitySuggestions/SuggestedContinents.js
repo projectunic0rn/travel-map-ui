@@ -7,8 +7,7 @@ const continents = [
   "Europe",
   "NorthAmerica",
   "Oceania",
-  "SouthAmerica",
-  "Antarctica"
+  "SouthAmerica"
 ];
 
 export default function SuggestedContinents({ handleContinents, contArray }) {

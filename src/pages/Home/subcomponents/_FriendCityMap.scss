@@ -1,8 +1,3 @@
-.mapboxgl-ctrl-geocoder--input,
-.mapboxgl-ctrl-geocoder--input:focus {
-  color: orange !important;
-}
-
 .map-header-cta {
   button {
     position: absolute;
@@ -17,5 +12,239 @@
     font-size: 18px;
     color: #969696;
     cursor: pointer;
+  }
+}
+
+#friend-city-map-container {
+  .mapboxgl-control-container {
+    .mapboxgl-ctrl-top-left {
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      min-width: 600px;
+      left: calc(50% - 310px) !important;
+      .mapboxgl-ctrl-geocoder {
+        top: 5px;
+        min-width: 600px;
+        box-shadow: 0 3px 6px 2px rgba(black, 0.15);
+        background: rgb(248, 248, 252);
+        @media screen and (max-width: 600px) {
+          min-width: 500px;
+        }
+        @media screen and (max-width: 450px) {
+          min-width: 400px;
+          top: 80px;
+        }
+        @media screen and (max-width: 320px) {
+          max-width: 300px;
+          min-width: 300px;
+        }
+        input {
+          color: rgb(74, 89, 90) !important;
+          min-width: 560px;
+        }
+      }
+    }
+  }
+}
+
+.friend-city-map {
+  .new-map-suggest {
+    display: flex;
+    position: relative;
+    fill: #92bad0;
+    z-index: 1000;
+    cursor: pointer;
+    font-size: 24px;
+    color: rgb(200, 200, 200);
+    .sc-control-label {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      top: 40px;
+      left: -18px;
+      font-size: 12px;
+      border-radius: 8px;
+      min-width: 56px;
+      color: #dee2e6;
+      font-weight: 550;
+    }
+
+    svg {
+      width: 18px;
+      transform: translateY(2px);
+    }
+    &:hover {
+      fill: #528fb1;
+    }
+  }
+  .map-header-container .map-header-button .sc-controls {
+    background: #f8f8fc;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    top: 0px;
+    height: 42px;
+    width: 60px;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+    cursor: pointer;
+    &:hover {
+      svg {
+        fill: #528fb1;
+      }
+    }
+  }
+  .sc-controls-left {
+    left: calc(50% - 316px);
+  }
+  .sc-controls-right {
+    left: calc(50% + 358px);
+    svg {
+      transform: translateY(0px);
+      width: 24px;
+    }
+  }
+  .sc-controls-right-two {
+    left: calc(50% + 424px);
+    svg {
+      transform: translateY(0px);
+      width: 24px;
+    }
+  }
+}
+
+#fc-filter-active,
+#fc-leaderboard-active {
+  background: #92bad0;
+  span span svg {
+    fill: rgb(248, 248, 252);
+  }
+}
+
+.create-map {
+  position: absolute;
+  right: calc(50% - 520px);
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  padding-left: 28px;
+  font-family: "Segoe UI", sans-serif;
+  border-radius: 24px;
+  border: 2px solid #fff;
+  width: 200px;
+  z-index: 1;
+  font-weight: 700;
+  cursor: pointer;
+  top: 75px;
+  color: rgb(248, 248, 252);
+  background: #73a7c3;
+  box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.75);
+  svg {
+    margin-left: 18px;
+    path {
+      fill: rgb(248, 248, 252);
+    }
+  }
+  &:hover {
+    background: rgb(248, 248, 252);
+    color: #73a7c3;
+
+    svg path {
+      fill: #73a7c3;
+    }
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+  @media screen and (max-width: 1100px) {
+    right: calc(50% - 130px);
+    top: calc(100% - 120px);
+  }
+}
+
+#readonly-map-scorecard {
+  left: calc(50% - 600px);
+  top: 180px;
+  @media screen and (max-width: 1250px) {
+    left: calc(100% - 200px);
+    top: calc(100% - 60px);
+  }
+  .map-scorecard-container {
+    @media (max-height: 900px) {
+      transform: translate(-40px, -140px);
+    }
+  }
+}
+
+.leaderboard-container {
+  position: absolute;
+  left: 40px;
+  bottom: 20px;
+  width: 300px;
+  height: 406px;
+  max-height: 406px;
+  overflow-y: hidden;
+  data {
+    display: flex;
+    flex-direction: column;
+    height: 360px;
+    max-height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .leaderboard-title {
+    font-size: 20px;
+    font-weight: 550;
+    color: #dee2e6;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .leaderboard-card {
+    position: relative;
+    max-height: 67px;
+    margin-right: 4px;
+    .lc-rank {
+      font-size: 24px;
+      font-weight: 100;
+      transform: translateX( 8px);
+      color: #656F80;
+    }
+    .utc-username {
+      font-size: 18px;
+    }
+    .utc-location {
+      font-size: 14px;
+      color: #adb5bd;
+    }
+    .user-georney-score {
+      position: absolute;
+      top: 0px;
+      right: -60px;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 30;
+      span {
+        margin-top: 4px;
+        color: #92bad0;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32px;
+        height: 60px;
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
   }
 }

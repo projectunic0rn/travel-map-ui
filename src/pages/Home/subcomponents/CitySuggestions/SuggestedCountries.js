@@ -15,13 +15,17 @@ export default function SuggestedCountries({
     let filteredCountries = CountryInfo.filter(country =>
       contArray.includes(country.properties.continent)
     );
+    filteredCountries.sort((a, b) =>
+      b.properties.name.toUpperCase() - a.properties.name.toUpperCase() ? -1 : 1
+    );
+
     handleFilteredCountryArray(filteredCountries);
   }, [contArray]);
   useEffect(() => {
     let newArray = countryArray.filter(country => {
-        return contArray.includes(country.properties.continent)
+      return contArray.includes(country.properties.continent);
     });
-    handleConfirmedCountryArray(newArray)
+    handleConfirmedCountryArray(newArray);
     handleCountries(newArray);
   }, [contArray]);
   function handleCountryClick(country) {

@@ -88,6 +88,9 @@ function FriendCard({ friend, currentFriend }) {
                 : "City, " + friend.Place_living.countryISO : "City, Country"}
             </span>
           </div>
+          <div className = 'fc-georney-score'>
+            <span>{Math.ceil(friend.georneyScore)}</span>
+          </div>
         </div>
         <div className="fc-user-metrics">
           <span className="fc-user-metric">
@@ -108,6 +111,7 @@ function FriendCard({ friend, currentFriend }) {
 
         <div className="fc-user-interests">
           {friend.UserInterests.map(interest => (
+            interest.name !== "" ?
             <span key={interest.name + interest.id}>
               <InterestIcon
                 icon={interest.name}
@@ -121,7 +125,7 @@ function FriendCard({ friend, currentFriend }) {
                     : null
                 }
               />
-            </span>
+            </span> : null
           ))}
         </div>
       </div>

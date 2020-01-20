@@ -13,6 +13,7 @@ import FriendClickedCountryContainer from "../../../components/Prompts/FriendCli
 import FriendClickedCountryBlank from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
+import MapChangeIcon from '../../../icons/MapChangeIcon';
 
 const FriendReadonlyCountry = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -215,7 +216,7 @@ const FriendReadonlyCountry = props => {
           break;
         case "1,2":
           if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#dbf1f4";
+            countryStyles.default.fill = "#8caeb0";
           } else if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           } else if (activeTimings[2]) {
@@ -232,7 +233,7 @@ const FriendReadonlyCountry = props => {
           } else if (activeTimings[0] && activeTimings[2]) {
             countryStyles.default.fill = "#DBC071";
           } else if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#dbf1f4";
+            countryStyles.default.fill = "#8caeb0";
           } else if (activeTimings[0]) {
             countryStyles.default.fill = "#DBC071";
           } else if (activeTimings[1]) {
@@ -267,11 +268,24 @@ const FriendReadonlyCountry = props => {
   }
   return (
     <>
-      <div className="map-header-container" id="country-header" style={{ position: "relative" }}>
-        <div className="map-header-button" id="country-button">
-          <button onClick={() => props.handleMapTypeChange(1)}>
-            Go to City Map
-          </button>
+      <div
+        className="map-header-container public-country-map-header"
+        id="country-header"
+        style={{ position: "relative" }}
+      >
+        <div
+          className="sc-controls sc-controls-left"
+          onClick={() => props.handleMapTypeChange(1)}
+        >
+          <span className="new-map-suggest">
+            <span className="sc-control-label">City map</span>
+            <span
+              id="map-change-icon"
+              onClick={() => props.handleMapTypeChange(1)}
+            >
+              <MapChangeIcon />
+            </span>
+          </span>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />

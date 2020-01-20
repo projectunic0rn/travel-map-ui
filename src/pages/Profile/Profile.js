@@ -41,6 +41,7 @@ export default function Profile({ user, urlUsername, refetch }) {
 
   useEffect(() => {
     let userData = user;
+    console.log(user)
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
@@ -73,6 +74,7 @@ export default function Profile({ user, urlUsername, refetch }) {
     }
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
+    console.log(countryArray)
   }, [user]);
   useEffect(() => {
     if (cityData !== undefined) {
@@ -160,6 +162,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       partialRefetch={true}
     >
       {({ loading, error, data, refetch }) => {
+        console.log('profile query')
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
         handleCityData(data.user);

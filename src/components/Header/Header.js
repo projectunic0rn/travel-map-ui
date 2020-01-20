@@ -1,15 +1,16 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 import NavLinks from "./subcomponents/NavLinks";
 import SiteLogo from "./subcomponents/SiteLogo";
-import SiteText from '../../icons/SiteText';
+import SiteText from "../../icons/SiteText";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
 export default function Header({ userLoggedIn, avatarIndex, color }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn ? false : true);
+  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn || window.innerWidth < 1200 ? false : true);
 
   return (
     <Fragment>
@@ -17,7 +18,11 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
         <div className="header-content">
           <div className="site-logo-container">
             <SiteLogo />
-            <span className="site-title"><SiteText/></span>
+            <NavLink exact to="/">
+              <span className="site-title">
+                <SiteText />
+              </span>
+            </NavLink>
           </div>
           <div className="nav-menu-container">
             <NavLinks
@@ -40,7 +45,9 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             </div>
             {formIsOpen ? <LandingForm setFormIsOpen={setFormIsOpen} /> : ""}
           </div>
-          {userLoggedIn ? <UserHeaderContainer color={color} avatarIndex={avatarIndex} /> : null}
+          {userLoggedIn ? (
+            <UserHeaderContainer color={color} avatarIndex={avatarIndex} />
+          ) : null}
         </div>
       </header>
       <div
@@ -59,6 +66,6 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
 Header.propTypes = {
   userLoggedIn: PropTypes.bool,
   setUserLoggedIn: PropTypes.func,
-  color: PropTypes.string, 
+  color: PropTypes.string,
   avatarIndex: PropTypes.number
 };

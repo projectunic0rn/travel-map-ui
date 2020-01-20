@@ -1,12 +1,12 @@
 .map-search-container {
   display: flex;
   align-items: center;
-  max-width: 400px;
+  max-width: 600px;
   height: 40px;
   margin: 16px auto 16px;
   border-radius: 4px;
   box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.15);
-  background: #3f4b57;
+  background: rgb(248, 248, 252);
   label {
     text-transform: none;
     transform: translate(-20px, -4px);
@@ -14,7 +14,7 @@
   input {
     display: flex;
     align-items: center;
-    width: 360px;
+    width: 500px;
     border-bottom: none;
     font-size: 1.5em;
     font-family: "Segoe UI";
