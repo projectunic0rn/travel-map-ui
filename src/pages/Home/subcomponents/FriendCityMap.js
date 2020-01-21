@@ -552,7 +552,7 @@ function FriendCityMap(props) {
       </div>
       <div className="city-map-container" id="friend-city-map-container">
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck5jbypgg18rc1imunr6yam2x"}
+          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
           ref={mapRef}
           {...viewport}
           accessToken={

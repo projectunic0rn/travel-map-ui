@@ -82,7 +82,6 @@ const FriendMapPage = () => {
         if (error) return `Error! ${error}`;
         handleLoadedCountries(data);
         if (!loaded) return <Loader />;
-        console.log(data);
         return (
           <div className="map-container">
             <div

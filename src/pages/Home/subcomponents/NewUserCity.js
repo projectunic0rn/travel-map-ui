@@ -143,7 +143,6 @@ function NewUserCity() {
   }
 
   function setInitialZoom() {
-    console.log("setInitialZoom");
     let zoom;
     if (window.innerWidth <= 2 * window.innerHeight) {
       zoom = window.innerWidth * 0.0009;
@@ -420,14 +419,12 @@ function NewUserCity() {
   }
 
   function calculateTravelScore(data) {
-    console.log("calculateTravelScore");
     let newTravelScore = travelScore;
     let lat;
     let long;
     let travelScoreIndex;
     let travelScoreIndexArray = [];
     let countryIdArray = [];
-    console.log(data);
     let filteredClickedCityArray = data.filter(
       city => city.tripTiming === 0 || city.tripTiming === 2
     );
@@ -889,7 +886,7 @@ function NewUserCity() {
           </div>
         </div>
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck5lohlv32f6j1is5evbps7e4"}
+          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
           ref={mapRef}
           height="100%"
           {...viewport}

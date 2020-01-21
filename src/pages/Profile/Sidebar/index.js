@@ -22,7 +22,6 @@ export default function Sidebar({
   };
   const [age, handleAge] = useState("");
   useEffect(() => {
-    console.log('sidebar loaded')
   }, [])
   useEffect(() => {
     calculateAge(userData.birthday);
@@ -56,7 +55,6 @@ export default function Sidebar({
         variables={urlUsername ? { username: urlUsername } : {}}
       >
         {({ loading, error, data }) => {
-          console.log('query')
           if (loading) return <SimpleLoader color="#ccc" />;
           if (error) return <p>{error.toString()}</p>;
           return (

@@ -42,7 +42,6 @@ function ClusterMarker(props) {
 }
 
 function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
-  const [windowWidth, handleWindowWidth] = useState(undefined);
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -66,7 +65,6 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
   const clusterFuture = useRef();
 
   useEffect(() => {
-    handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
     resize();
     handleLoadedCities(tripData);
@@ -110,7 +108,6 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
   }
 
   function resize() {
-    handleWindowWidth(window.innerWidth);
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
@@ -271,7 +268,6 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     }
     handleActivePopup(true);
     handleHoveredCityArray(newHoveredCityArray);
-    // handleClickedCity
   }
 
   function handleLoadedCities(data) {
@@ -346,7 +342,6 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     }
     handleClickedCityArray(clickedCityArray);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
-    console.log(data);
     handleLoadedMarkers(clickedCityArray);
   }
 
@@ -428,7 +423,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
           </div>
         </div>
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck1z8uys40agd1cqmbuyt7wio"}
+          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
           ref={mapRef}
           width="100%"
           height="100%"
