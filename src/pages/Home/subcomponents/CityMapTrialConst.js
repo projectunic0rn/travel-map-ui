@@ -88,10 +88,8 @@ function CityMapTrialConst(props) {
   const clusterPast = useRef();
   const clusterFuture = useRef();
   useEffect(() => {
-    console.log("city map loaded change: " + loading);
   }, [loading]);
   useEffect(() => {
-    console.log('city map loaded')
     window.addEventListener("resize", resize);
     resize();
     handleLoadedCities(props.clickedCityArray);
@@ -123,13 +121,11 @@ function CityMapTrialConst(props) {
     }, [newLiveCity]);
   }
   function saveClicked() {
-    console.log('saveClicked');
     addMultiplePlaces({ variables: { clickedCityArray } });
     updateGeorneyScore({ variables: { travelScore } });
   }
 
   function resize() {
-    console.log('resize')
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
@@ -138,13 +134,10 @@ function CityMapTrialConst(props) {
   }
 
   function handleViewportChange(newViewport) {
-    console.log('handleViewportChange')
-    console.log('handleViewport')
     handleViewport({ ...viewport, ...newViewport });
   }
 
   function setInitialZoom() {
-    console.log('setInitialZoom')
     let zoom;
     if (window.innerWidth >= 2400) {
       zoom = 2.2;
@@ -163,7 +156,6 @@ function CityMapTrialConst(props) {
   }
 
   function shareMap() {
-    console.log('shareMap')
     let copyText = document.getElementById("myShareLink");
     copyText.select();
     copyText.setSelectionRange(0, 99999);
@@ -172,7 +164,6 @@ function CityMapTrialConst(props) {
   }
 
   function deleteCity(cityTooltip) {
-    console.log('deleteCity')
     let cityArrayIndex;
     let newClickedCityArray = [...clickedCityArray];
     newClickedCityArray.filter((city, index) => {
@@ -240,7 +231,6 @@ function CityMapTrialConst(props) {
   }
 
   function deleteLoadedCity(cityTooltip) {
-    console.log('deleteLoadedCity')
     let cityArrayIndex;
     let newClickedCityArray = [...loadedClickedCityArray];
     newClickedCityArray.filter((city, index) => {
@@ -308,7 +298,6 @@ function CityMapTrialConst(props) {
   }
 
   function handleLoadedCities(data) {
-    console.log('handleLoadedCities')
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -333,7 +322,6 @@ function CityMapTrialConst(props) {
   }
 
   function handleLoadedMarkers(markers) {
-    console.log('handleLoadedMarkers')
     let markerPastDisplay = [];
     let markerFutureDisplay = [];
     let markerLiveDisplay = [];
@@ -467,7 +455,6 @@ function CityMapTrialConst(props) {
   }
 
   function calculateTravelScoreIndex(lat, long) {
-    console.log('calculateTravelScoreIndex')
     let travelScoreIndex;
     if (lat > 0) {
       lat = Math.floor(lat);
@@ -492,7 +479,6 @@ function CityMapTrialConst(props) {
   }
 
   function calculateTravelScore() {
-    console.log('calculateTravelScore')
     let newTravelScore = travelScore;
     let lat;
     let long;
@@ -523,7 +509,6 @@ function CityMapTrialConst(props) {
   }
 
   function calculateNewTravelScore(newCityEntry, type) {
-    console.log('calculateNewTravelScore')
     let newTravelScore = travelScore;
     let lat;
     let long;
@@ -585,7 +570,6 @@ function CityMapTrialConst(props) {
   }
 
   function handleOnResult(event) {
-    console.log('handleOnResult')
     markers.push(event);
     let country = "";
     let countryISO = "";
@@ -653,7 +637,6 @@ function CityMapTrialConst(props) {
   }
 
   function evalLiveClick(newCity, event) {
-    console.log('evalLiveClick')
     let whichArray = "loaded";
     let liveCityIndex;
     let liveCity = loadedClickedCityArray.filter((city, index) => {
@@ -697,7 +680,6 @@ function CityMapTrialConst(props) {
   }
 
   function handleTripTimingCityHelper(city) {
-    console.log('handleTripTimingCityHelper')
     if (timingState !== 1) {
       calculateNewTravelScore(city, "add");
     }
@@ -840,14 +822,12 @@ function CityMapTrialConst(props) {
   }
 
   function handleTimingChange(value) {
-    console.log('handleTimingChange')
     handleTimingState(Number(value));
     handleSuggestedContinentArray([]);
     handleSuggestedCountryArray([]);
   }
 
   function _renderPopup() {
-    console.log('renderPopup')
     return (
       cityTooltip && (
         <Popup
@@ -887,22 +867,18 @@ function CityMapTrialConst(props) {
   }
 
   function showSuggest() {
-    console.log('showSuggest')
     handleSuggestedPopup(!suggestPopup);
   }
 
   function handleContinents(contArray) {
-    console.log('handleContinents')
     handleSuggestedContinentArray(contArray);
   }
 
   function handleCountries(countryArray) {
-    console.log('handleCountries')
     handleSuggestedCountryArray(countryArray);
   }
 
   function clusterClick(cluster) {
-    console.log('clusterClick')
     const { clusterId, longitude, latitude } = cluster;
     let supercluster;
     switch (cluster.type) {
@@ -922,7 +898,6 @@ function CityMapTrialConst(props) {
       longitude,
       zoom
     };
-    console.log('handleViewport')
     handleViewport(newViewport);
 
     return { viewport: newViewport };
@@ -988,7 +963,7 @@ function CityMapTrialConst(props) {
           ) : null}
         </div>
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck5lohlv32f6j1is5evbps7e4"}
+          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
           ref={mapRef}
           width="100%"
           height="100%"
