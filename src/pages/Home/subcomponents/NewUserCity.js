@@ -72,6 +72,7 @@ function NewUserCity() {
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [newLiveCity, handleNewLiveCity] = useState();
+  const [importedCities, handleImportedCities] = useState([]);
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
@@ -100,7 +101,7 @@ function NewUserCity() {
     markerFutureDisplay,
     markerLiveDisplay
   ]);
-  
+
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
   useEffectSkipFirstLocal(() => {}, [clickedCityArray]);
 
@@ -237,10 +238,14 @@ function NewUserCity() {
   }
 
   function handleLoadedCities(data) {
+    console.log(data);
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    data.map(city => {
+    let filteredData = data.filter(city => {
+      return city !== undefined && city !== null;
+    });
+    filteredData.map(city => {
       switch (city.tripTiming) {
         case 0:
           pastCount++;
@@ -255,10 +260,10 @@ function NewUserCity() {
           break;
       }
     });
-    handleClickedCityArray(data);
+    handleClickedCityArray(filteredData);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
-    handleLoadedMarkers(data);
-    calculateTravelScore(data);
+    handleLoadedMarkers(filteredData);
+    calculateTravelScore(filteredData);
   }
 
   function handleLoadedMarkers(markers) {
@@ -557,7 +562,6 @@ function NewUserCity() {
       tripTiming: timingState
     };
     handleMarkers(markers);
-
     handleTripTimingCityHelper(newCityEntry);
   }
 
@@ -596,6 +600,7 @@ function NewUserCity() {
   }
 
   function handleTripTimingCityHelper(city) {
+    console.log(city);
     if (timingState !== 1) {
       calculateNewTravelScore(city, "add");
     }
@@ -665,6 +670,7 @@ function NewUserCity() {
             />
           </Marker>
         );
+        console.log(newMarkerPastDisplay);
         handleClickedCityArray(newClickedCityArray);
         handleTripTimingCounts(tripTimingCounts);
         handleMarkerPastDisplay(newMarkerPastDisplay);
@@ -837,6 +843,165 @@ function NewUserCity() {
     return { viewport: newViewport };
   }
 
+  function importTripAdvisor() {
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const url =
+      "https://www.tripadvisor.com/TravelMap-a_uid.6BFC0A35505494FDDE0625EB8379B966";
+
+    let getStringBetween = function(str, start, end) {
+      "use strict";
+      var left = str.substring(str.indexOf(start) + start.length);
+      return left.substring(left.indexOf(end), -left.length);
+    };
+    (async () => {
+      const Response = await fetch(proxyUrl + url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept:
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+          "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4",
+          "Upgrade-Insecure-Requests": "1",
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+        },
+        body: JSON.stringify({})
+      });
+      const html = await Response.text();
+      var str = getStringBetween(
+        html,
+        '"idKeys":["memberId"],"properties":{"country":',
+        "</html>"
+      );
+      var taPlaces = JSON.parse(
+        '{"' +
+          getStringBetween(
+            html,
+            '"store":{"',
+            ',"modules.membercenter.model.FriendCount'
+          ) +
+          "}"
+      )["modules.unimplemented.entity.LightWeightPin"];
+      let taPlacesArray = Object.values(taPlaces);
+      for (let i in taPlacesArray) {
+        if (taPlacesArray[i].flags.indexOf("fave") !== -1) {
+          taPlacesArray[i].flags.splice(
+            taPlacesArray[i].flags.indexOf("fave"),
+            1
+          );
+        }
+      }
+      handleImportedCities(taPlacesArray);
+    })();
+  }
+
+  useEffectSkipFirstImport(() => {}, [importedCities]);
+
+  function useEffectSkipFirstImport() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      if (importedCities.length > 0) {
+        fetchMapbox();
+      }
+    }, [importedCities]);
+  }
+
+  function fetchMapbox() {
+    let importedCitiesFormatted = [];
+    let loading = false;
+    for (let i in importedCities) {
+      let longLat = importedCities[i].lng + ", " + importedCities[i].lat;
+      fetch(
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+          longLat +
+          ".json?types=place&access_token=pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
+      )
+        .then(res => res.json())
+        .then(result => {
+          let sortedResult = result.features.sort((a, b) => {
+            if (
+              a.properties.wikidata !== undefined &&
+              b.properties.wikidata !== undefined
+            ) {
+              return (
+                a.properties.wikidata.length - b.properties.wikidata.length
+              );
+            }
+          });
+          let formattedCity;
+          loading = true;
+          formattedCity = handleOnImport({ result: sortedResult[0] });
+          loading = false;
+          return formattedCity;
+        })
+        .then(formattedCity => {
+          console.log(formattedCity);
+          if (!loading) {
+            console.log(importedCitiesFormatted);
+            importedCitiesFormatted.push(formattedCity);
+            if (importedCitiesFormatted.length === importedCities.length) {
+              console.log("finished");
+              handleLoadedCities(importedCitiesFormatted);
+            }
+          }
+        });
+    }
+  }
+
+  function handleOnImport(event) {
+    let country = "";
+    let countryISO = "";
+    let context = 0;
+    let cityId;
+    try {
+      for (let i in event.result.context) {
+        context = 0;
+        if (event.result.context.length === 1) {
+          countryISO = event.result.context[0].short_code.toUpperCase();
+          country = event.result.context[0]["text"];
+        }
+        if (event.result.context[i].id.slice(0, 7) === "country") {
+          context = i;
+          country = event.result.context[i]["text"];
+          countryISO = event.result.context[i]["short_code"].toUpperCase();
+        }
+      }
+      if (event.result.properties.wikidata !== undefined) {
+        cityId = parseFloat(event.result.properties.wikidata.slice(1), 10);
+      } else {
+        cityId = parseFloat(event.result.id.slice(10, 16), 10);
+      }
+
+      let newCity = {
+        country:
+          event.result.context !== undefined
+            ? country
+            : event.result.place_name,
+        countryId:
+          event.result.context !== undefined
+            ? parseInt(event.result.context[context].id.slice(8, 14))
+            : parseInt(event.result.id.slice(7, 13)),
+        countryISO:
+          event.result.context !== undefined
+            ? countryISO
+            : event.result.properties.short_code.toUpperCase(),
+        city: event.result.text,
+        cityId,
+        city_latitude: event.result.center[1],
+        city_longitude: event.result.center[0],
+        tripTiming: timingState
+      };
+      console.log(newCity);
+      return newCity;
+    } catch (err) {
+      return undefined;
+    }
+  }
+
   if (loading) return <Loader />;
   return (
     <>
@@ -881,6 +1046,12 @@ function NewUserCity() {
               <span className="sc-control-label">Share/Save</span>
               <span onClick={showPopup}>
                 <ShareIcon />
+              </span>
+            </span>
+            <span className="new-map-share">
+              <span className="sc-control-label">Share/Save</span>
+              <span onClick={importTripAdvisor}>
+                <SuggestionsIcon />
               </span>
             </span>
           </div>
