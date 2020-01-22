@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
@@ -11,38 +10,13 @@ import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
 import TrashIcon from "../../../icons/TrashIcon";
+import ImportIcon from "../../../icons/ImportIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserMapSignup from "./NewUserMapSignup";
 import NewUserSuggestions from "./NewUserSuggestions";
-
-function ClusterMarker(props) {
-  function onClick() {
-    const { onClick, ...cluster } = props;
-    onClick(cluster);
-  }
-  return (
-    <Marker longitude={props.longitude} latitude={props.latitude}>
-      <div
-        style={{
-          width: props.pointCount * 2 + "px",
-          height: props.pointCount * 2 + "px",
-          minHeight: "20px",
-          minWidth: "20px",
-          color: "#fff",
-          background: props.color,
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-        onClick={onClick}
-      >
-        {props.pointCount}
-      </div>
-    </Marker>
-  );
-}
+import ImportPopup from "./ImportPopup";
+import ClusterMarker from "./ClusterMarker";
 
 function NewUserCity() {
   const [viewport, handleViewport] = useState({
@@ -65,6 +39,7 @@ function NewUserCity() {
   const [deletePrompt, handleDeletePrompt] = useState(false);
   const [activePopup, handleActivePopup] = useState(false);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
+  const [importPopup, handleImportPopup] = useState(true);
   const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
   const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
   const [travelScore, handleTravelScore] = useState(0);
@@ -238,7 +213,6 @@ function NewUserCity() {
   }
 
   function handleLoadedCities(data) {
-    console.log(data);
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -600,7 +574,6 @@ function NewUserCity() {
   }
 
   function handleTripTimingCityHelper(city) {
-    console.log(city);
     if (timingState !== 1) {
       calculateNewTravelScore(city, "add");
     }
@@ -670,7 +643,6 @@ function NewUserCity() {
             />
           </Marker>
         );
-        console.log(newMarkerPastDisplay);
         handleClickedCityArray(newClickedCityArray);
         handleTripTimingCounts(tripTimingCounts);
         handleMarkerPastDisplay(newMarkerPastDisplay);
@@ -810,6 +782,10 @@ function NewUserCity() {
     handleSuggestedPopup(!suggestPopup);
   }
 
+  function showImport() {
+    handleImportPopup(!importPopup);
+  }
+
   function handleContinents(contArray) {
     handleSuggestedContinentArray(contArray);
   }
@@ -841,165 +817,6 @@ function NewUserCity() {
     handleViewport(newViewport);
 
     return { viewport: newViewport };
-  }
-
-  function importTripAdvisor() {
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-    const url =
-      "https://www.tripadvisor.com/TravelMap-a_uid.6BFC0A35505494FDDE0625EB8379B966";
-
-    let getStringBetween = function(str, start, end) {
-      "use strict";
-      var left = str.substring(str.indexOf(start) + start.length);
-      return left.substring(left.indexOf(end), -left.length);
-    };
-    (async () => {
-      const Response = await fetch(proxyUrl + url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4",
-          "Upgrade-Insecure-Requests": "1",
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
-        },
-        body: JSON.stringify({})
-      });
-      const html = await Response.text();
-      var str = getStringBetween(
-        html,
-        '"idKeys":["memberId"],"properties":{"country":',
-        "</html>"
-      );
-      var taPlaces = JSON.parse(
-        '{"' +
-          getStringBetween(
-            html,
-            '"store":{"',
-            ',"modules.membercenter.model.FriendCount'
-          ) +
-          "}"
-      )["modules.unimplemented.entity.LightWeightPin"];
-      let taPlacesArray = Object.values(taPlaces);
-      for (let i in taPlacesArray) {
-        if (taPlacesArray[i].flags.indexOf("fave") !== -1) {
-          taPlacesArray[i].flags.splice(
-            taPlacesArray[i].flags.indexOf("fave"),
-            1
-          );
-        }
-      }
-      handleImportedCities(taPlacesArray);
-    })();
-  }
-
-  useEffectSkipFirstImport(() => {}, [importedCities]);
-
-  function useEffectSkipFirstImport() {
-    const isFirst = useRef(true);
-    useEffect(() => {
-      if (isFirst.current) {
-        isFirst.current = false;
-        return;
-      }
-      if (importedCities.length > 0) {
-        fetchMapbox();
-      }
-    }, [importedCities]);
-  }
-
-  function fetchMapbox() {
-    let importedCitiesFormatted = [];
-    let loading = false;
-    for (let i in importedCities) {
-      let longLat = importedCities[i].lng + ", " + importedCities[i].lat;
-      fetch(
-        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-          longLat +
-          ".json?types=place&access_token=pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
-      )
-        .then(res => res.json())
-        .then(result => {
-          let sortedResult = result.features.sort((a, b) => {
-            if (
-              a.properties.wikidata !== undefined &&
-              b.properties.wikidata !== undefined
-            ) {
-              return (
-                a.properties.wikidata.length - b.properties.wikidata.length
-              );
-            }
-          });
-          let formattedCity;
-          loading = true;
-          formattedCity = handleOnImport({ result: sortedResult[0] });
-          loading = false;
-          return formattedCity;
-        })
-        .then(formattedCity => {
-          console.log(formattedCity);
-          if (!loading) {
-            console.log(importedCitiesFormatted);
-            importedCitiesFormatted.push(formattedCity);
-            if (importedCitiesFormatted.length === importedCities.length) {
-              console.log("finished");
-              handleLoadedCities(importedCitiesFormatted);
-            }
-          }
-        });
-    }
-  }
-
-  function handleOnImport(event) {
-    let country = "";
-    let countryISO = "";
-    let context = 0;
-    let cityId;
-    try {
-      for (let i in event.result.context) {
-        context = 0;
-        if (event.result.context.length === 1) {
-          countryISO = event.result.context[0].short_code.toUpperCase();
-          country = event.result.context[0]["text"];
-        }
-        if (event.result.context[i].id.slice(0, 7) === "country") {
-          context = i;
-          country = event.result.context[i]["text"];
-          countryISO = event.result.context[i]["short_code"].toUpperCase();
-        }
-      }
-      if (event.result.properties.wikidata !== undefined) {
-        cityId = parseFloat(event.result.properties.wikidata.slice(1), 10);
-      } else {
-        cityId = parseFloat(event.result.id.slice(10, 16), 10);
-      }
-
-      let newCity = {
-        country:
-          event.result.context !== undefined
-            ? country
-            : event.result.place_name,
-        countryId:
-          event.result.context !== undefined
-            ? parseInt(event.result.context[context].id.slice(8, 14))
-            : parseInt(event.result.id.slice(7, 13)),
-        countryISO:
-          event.result.context !== undefined
-            ? countryISO
-            : event.result.properties.short_code.toUpperCase(),
-        city: event.result.text,
-        cityId,
-        city_latitude: event.result.center[1],
-        city_longitude: event.result.center[0],
-        tripTiming: timingState
-      };
-      console.log(newCity);
-      return newCity;
-    } catch (err) {
-      return undefined;
-    }
   }
 
   if (loading) return <Loader />;
@@ -1041,17 +858,16 @@ function NewUserCity() {
                 </span>
               </div>
             </span>
-
             <span className="new-map-share">
               <span className="sc-control-label">Share/Save</span>
               <span onClick={showPopup}>
                 <ShareIcon />
               </span>
             </span>
-            <span className="new-map-share">
-              <span className="sc-control-label">Share/Save</span>
-              <span onClick={importTripAdvisor}>
-                <SuggestionsIcon />
+            <span className="new-map-import">
+              <span className="sc-control-label">Import</span>
+              <span onClick={showImport}>
+                <ImportIcon />
               </span>
             </span>
           </div>
@@ -1120,7 +936,6 @@ function NewUserCity() {
             </Cluster>
           ) : null}
           {activeTimings[2] ? markerLiveDisplay : null}
-          {activeTimings[2] ? markerLiveDisplay : null}
           {markerRecentDisplay}
           {_renderPopup()}
         </MapGL>
@@ -1169,17 +984,19 @@ function NewUserCity() {
             }}
           />
         </div>
+      ) : importPopup ? (
+        <PopupPrompt
+          activePopup={importPopup}
+          showPopup={showImport}
+          component={ImportPopup}
+          componentProps={{
+            handleLoadedCities: handleLoadedCities,
+            showPopup: showImport
+          }}
+        />
       ) : null}
     </>
   );
 }
-
-ClusterMarker.propTypes = {
-  latitude: PropTypes.number,
-  longitude: PropTypes.number,
-  pointCount: PropTypes.number,
-  color: PropTypes.string,
-  onClick: PropTypes.func
-};
 
 export default React.memo(NewUserCity);
