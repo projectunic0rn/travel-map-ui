@@ -39,7 +39,7 @@ function NewUserCity() {
   const [deletePrompt, handleDeletePrompt] = useState(false);
   const [activePopup, handleActivePopup] = useState(false);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
-  const [importPopup, handleImportPopup] = useState(true);
+  const [importPopup, handleImportPopup] = useState(false);
   const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
   const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
   const [travelScore, handleTravelScore] = useState(0);
