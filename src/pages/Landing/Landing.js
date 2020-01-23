@@ -260,7 +260,7 @@ function Landing() {
         <div
           className="city-map-container"
           id="landing-map"
-          style={{ "z-index": "-1" }}
+          style={{ "zIndex": "-1" }}
         >
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck5d5iota033i1iphduio56d1"}

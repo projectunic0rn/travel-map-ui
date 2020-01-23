@@ -11,6 +11,7 @@ import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import ImportIcon from "../../../icons/ImportIcon";
+import MapChangeIcon from "../../../icons/MapChangeIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserMapSignup from "./NewUserMapSignup";
@@ -18,7 +19,7 @@ import NewUserSuggestions from "./NewUserSuggestions";
 import ImportPopup from "./ImportPopup";
 import ClusterMarker from "./ClusterMarker";
 
-function NewUserCity() {
+function NewUserCity(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -47,7 +48,6 @@ function NewUserCity() {
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [newLiveCity, handleNewLiveCity] = useState();
-  const [importedCities, handleImportedCities] = useState([]);
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
@@ -819,11 +819,28 @@ function NewUserCity() {
     return { viewport: newViewport };
   }
 
+  function goToCountryMap() {
+    props.sendUserData(clickedCityArray);
+    props.handleMapTypeChange(0);
+  }
+
   if (loading) return <Loader />;
   return (
     <>
       <div className="city-new-map-container">
         <div className="map-header-button">
+          <div
+            id="new-country-map-button"
+            className="sc-controls sc-controls-left"
+            onClick={goToCountryMap}
+          >
+            <span className="new-map-suggest">
+              <span className="sc-control-label">Country map</span>
+              <span id="map-change-icon" onClick={goToCountryMap}>
+                <MapChangeIcon />
+              </span>
+            </span>
+          </div>
           <div className="sc-controls">
             {timingState !== 2 ? (
               <span className="new-map-suggest">

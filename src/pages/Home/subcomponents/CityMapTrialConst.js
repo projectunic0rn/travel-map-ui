@@ -19,34 +19,7 @@ import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
-
-function ClusterMarker(props) {
-  function onClick() {
-    const { onClick, ...cluster } = props;
-    onClick(cluster);
-  }
-  return (
-    <Marker longitude={props.longitude} latitude={props.latitude}>
-      <div
-        style={{
-          width: props.pointCount * 2 + "px",
-          height: props.pointCount * 2 + "px",
-          minHeight: "20px",
-          minWidth: "20px",
-          color: "#fff",
-          background: props.color,
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-        onClick={onClick}
-      >
-        {props.pointCount}
-      </div>
-    </Marker>
-  );
-}
+import ClusterMarker from './ClusterMarker';
 
 function CityMapTrialConst(props) {
   const [viewport, handleViewport] = useState({

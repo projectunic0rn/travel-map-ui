@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
+
 export default function ImportPopup(props) {
   const [taUrl, handleTaUrl] = useState("");
   const [importComplete, handleImportComplete] = useState(false);
+  const [importStarted, handleImportStarted] = useState(false);
   const [importedCities, handleImportedCities] = useState([]);
   const [unimportedCities, handleUnimportedCities] = useState([]);
 
@@ -14,6 +17,9 @@ export default function ImportPopup(props) {
   }, [importedCities]);
 
   function importTripAdvisor() {
+    if (taUrl.length > 0) {
+      handleImportStarted(true);
+    }
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     if (taUrl.length < 1) {
       return;
@@ -37,6 +43,11 @@ export default function ImportPopup(props) {
         },
         body: JSON.stringify({})
       });
+      if (Response.status === 404) {
+        handleImportStarted(false);
+        alert("That url does not work, try again!");
+        return;
+      }
       const html = await Response.text();
       var taPlaces = JSON.parse(
         '{"' +
@@ -94,9 +105,11 @@ export default function ImportPopup(props) {
         .then(res => res.json())
         .then(result => {
           if (result.features.length < 1) {
-            let newUnimportedCities = [...unimportedCities];
-            newUnimportedCities.push(importedCities[i].name);
-            handleUnimportedCities(newUnimportedCities);
+            let newUnimportedCities = unimportedCities;
+            if (newUnimportedCities.indexOf(importedCities[i].name) === -1) {
+              newUnimportedCities.push(importedCities[i].name);
+              handleUnimportedCities(newUnimportedCities);
+            }
           }
           let sortedResult = result.features.sort((a, b) => {
             if (
@@ -123,14 +136,13 @@ export default function ImportPopup(props) {
             importedCitiesFormatted.push(formattedCity);
             if (importedCitiesFormatted.length === importedCities.length) {
               props.customProps.handleLoadedCities(importedCitiesFormatted);
+              handleImportStarted(false);
               handleImportComplete(true);
-              //   props.customProps.showPopup();
             }
           }
         });
     }
   }
-
   function handleOnImport(event, timing) {
     let country = "";
     let countryISO = "";
@@ -198,9 +210,10 @@ export default function ImportPopup(props) {
           Submit
         </button>
       </div>
+      {importStarted ? <SimpleLoader /> : null}
       {importComplete ? (
         <div className="import-results-container">
-          <span className = 'import-results-title'>Unable to import</span>
+          <span className="import-results-title">Unable to import</span>
           {unimportedCities.map(city => {
             return <span key={city}>{city}</span>;
           })}

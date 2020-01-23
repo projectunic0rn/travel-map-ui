@@ -24,6 +24,8 @@ const MapPage = ({
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {
+      console.log(loaded)
+      console.log('add multiple')
       localStorage.removeItem("clickedCityArray");
       refetch();
     }
@@ -59,6 +61,15 @@ const MapPage = ({
   }, []);
 
   useEffect(() => {
+    if (
+      clickedCityArray !== null &&
+      localStorage.getItem("clickedCityArray") !== null &&
+      user.Place_living === null &&
+      user.Places_visited.length < 1 &&
+      user.Places_visiting.length < 1
+    ) {
+      return;
+    }
     handleTripData(user);
     function handleLoadedCountries(data) {
       let countryArray = clickedCountryArray;
@@ -167,10 +178,6 @@ const MapPage = ({
     handleCountryIdArray(countryIdArray);
     addMultiplePlaces({ variables: { clickedCityArray } });
   }
-
-
-
-
 
   if (!loaded) return <Loader />;
   return (

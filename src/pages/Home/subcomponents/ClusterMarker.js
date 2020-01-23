@@ -15,6 +15,8 @@ function ClusterMarker(props) {
           height: props.pointCount * 2 + "px",
           minHeight: "20px",
           minWidth: "20px",
+          maxHeight: "50px",
+          maxWidth: "50px",
           color: "#fff",
           background: props.color,
           borderRadius: "50%",
@@ -22,8 +24,8 @@ function ClusterMarker(props) {
           justifyContent: "center",
           alignItems: "center"
         }}
-        offsetLeft={-5}
-        offsetTop={-10}
+        offsetleft={-5}
+        offsettop={-10}
         onClick={onClick}
       >
         {props.pointCount}
