@@ -7,7 +7,7 @@ import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/react-hooks";
-import { ADD_MULTIPLE_PLACES, UPDATE_GEORNEY_SCORE } from "../../../GraphQL";
+import { ADD_MULTIPLE_PLACES, NEW_GEORNEY_SCORE, UPDATE_GEORNEY_SCORE } from "../../../GraphQL";
 
 import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
@@ -19,7 +19,7 @@ import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
-import ClusterMarker from './ClusterMarker';
+import ClusterMarker from "./ClusterMarker";
 
 function CityMapTrialConst(props) {
   const [viewport, handleViewport] = useState({
@@ -57,11 +57,14 @@ function CityMapTrialConst(props) {
       props.refetch();
     }
   });
+  const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {
+
+  });
+
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
-  useEffect(() => {
-  }, [loading]);
+  useEffect(() => {}, [loading]);
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
@@ -479,6 +482,7 @@ function CityMapTrialConst(props) {
     handleTravelScore(newTravelScore);
     handleCountryIdArray(countryIdArray);
     handleTravelScoreIndexArray(travelScoreIndexArray);
+    newGeorneyScore({ variables: { newTravelScore } });
   }
 
   function calculateNewTravelScore(newCityEntry, type) {
@@ -1051,7 +1055,8 @@ CityMapTrialConst.propTypes = {
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func,
   refetch: PropTypes.func,
-  clickedCityArray: PropTypes.array
+  clickedCityArray: PropTypes.array,
+  initialTravelScore: PropTypes.number
 };
 
 ClusterMarker.propTypes = {

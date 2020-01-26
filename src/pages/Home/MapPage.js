@@ -24,12 +24,11 @@ const MapPage = ({
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {
-      console.log(loaded)
-      console.log('add multiple')
       localStorage.removeItem("clickedCityArray");
       refetch();
     }
   });
+
   useEffect(() => {
     if (
       clickedCityArray !== null &&
@@ -177,8 +176,8 @@ const MapPage = ({
     handleTravelScoreIndexArray(travelScoreIndexArray);
     handleCountryIdArray(countryIdArray);
     addMultiplePlaces({ variables: { clickedCityArray } });
-  }
 
+  }
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">

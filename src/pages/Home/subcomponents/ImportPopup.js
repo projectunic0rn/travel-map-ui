@@ -203,7 +203,7 @@ export default function ImportPopup(props) {
           className="import-input input"
           id="ta-input"
           onChange={e => handleTaUrl(e.target.value)}
-          placeHolder="https://www.tripadvisor.com/TravelMap-a_uid..."
+          placeholder="https://www.tripadvisor.com/TravelMap-a_uid..."
         ></input>
 
         <button className="button" onClick={importTripAdvisor}>

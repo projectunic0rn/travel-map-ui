@@ -18,7 +18,6 @@ import Loader from "../../../components/common/Loader/Loader";
 import ClusterMarker from './ClusterMarker';
 
 function FriendCityMap(props) {
-  const [windowWidth, handleWindowWidth] = useState(undefined);
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -48,10 +47,8 @@ function FriendCityMap(props) {
   const clusterPast = useRef();
   const clusterFuture = useRef();
   const clusterLive = useRef();
-  console.log(filteredCityArray);
 
   useEffect(() => {
-    handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
     resize();
     handleLoadedCities(props.tripData);
@@ -61,7 +58,6 @@ function FriendCityMap(props) {
   }, []);
 
   function resize() {
-    handleWindowWidth(window.innerWidth);
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
@@ -648,7 +644,8 @@ function FriendCityMap(props) {
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  data: PropTypes.array
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+
 };
 
 ClusterMarker.propTypes = {
