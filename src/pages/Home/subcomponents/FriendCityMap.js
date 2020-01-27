@@ -15,37 +15,9 @@ import LeaderboardIcon from '../../../icons/LeaderboardIcon';
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
-
-function ClusterMarker(props) {
-  function onClick() {
-    const { onClick, ...cluster } = props;
-    onClick(cluster);
-  }
-  return (
-    <Marker longitude={props.longitude} latitude={props.latitude}>
-      <div
-        style={{
-          width: props.pointCount * 2 + "px",
-          height: props.pointCount * 2 + "px",
-          minHeight: "20px",
-          minWidth: "20px",
-          color: "#fff",
-          background: props.color,
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-        onClick={onClick}
-      >
-        {props.pointCount}
-      </div>
-    </Marker>
-  );
-}
+import ClusterMarker from './ClusterMarker';
 
 function FriendCityMap(props) {
-  const [windowWidth, handleWindowWidth] = useState(undefined);
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -75,10 +47,8 @@ function FriendCityMap(props) {
   const clusterPast = useRef();
   const clusterFuture = useRef();
   const clusterLive = useRef();
-  console.log(filteredCityArray);
 
   useEffect(() => {
-    handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
     resize();
     handleLoadedCities(props.tripData);
@@ -88,7 +58,6 @@ function FriendCityMap(props) {
   }, []);
 
   function resize() {
-    handleWindowWidth(window.innerWidth);
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
@@ -675,7 +644,8 @@ function FriendCityMap(props) {
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  data: PropTypes.array
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+
 };
 
 ClusterMarker.propTypes = {

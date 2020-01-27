@@ -1,0 +1,51 @@
+.import-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  height: 100%;
+  padding: 16px;
+  .import-container-title {
+      font-size: 24px;
+      color: #656F80;
+      border-bottom: 1px solid #656F80;
+      margin-bottom: 24px;
+  }
+  .import-sub-container {
+      width: 100%;
+    .import-title {
+      display: flex;
+      color: #656F80;
+      font-weight: 550;
+      margin-bottom: 8px;
+      .import-example {
+        color: #adb5bd;
+        margin-left: 8px;
+        font-weight: 400;
+      }
+    }
+    input {
+      height: 43px;
+      width: 100%;
+      transform: translateY(-1px);
+      font-size: 10.5px;
+      font-weight: 100;
+    }
+
+    button {
+        width: 100%;
+        background: #C2D7E5;
+        color: #528FB1;
+    }
+  }
+  .import-results-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+      align-items: center;
+      .import-results-title {
+          font-weight: 550;
+          margin-bottom: 12px;
+      }
+  }
+}

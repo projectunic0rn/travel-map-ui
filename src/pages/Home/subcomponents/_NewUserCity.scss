@@ -45,7 +45,7 @@
     right: calc(50% - 600px);
     top: 60px;
     height: 80px;
-    width: 200px;
+    width: 260px;
     z-index: 1000;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
@@ -56,6 +56,21 @@
     @media screen and (max-width: 900px) {
       top: calc(100% - 350px);
       right: calc(50% - 100px);
+    }
+  }
+  #new-country-map-button {
+    width: 60px;
+    height: 42px;
+    background: rgb(248, 248, 252);
+    transform: translate(-32px, 14px);
+    #map-change-icon {
+      svg {
+        transform: translateY(0px);
+      }
+    }
+    .sc-control-label {
+      transform: translate(-2px, 48px);
+      color: #dee2e6;
     }
   }
   .new-map-share {
@@ -80,7 +95,39 @@
     }
     svg {
       width: 30px;
-      transform: translateY(8px);
+      transform: translateY(10px);
+    }
+    &:hover {
+      fill: #528fb1;
+    }
+  }
+  .new-map-import {
+    display: flex;
+    position: relative;
+    fill: #92bad0;
+    z-index: 1000;
+    cursor: pointer;
+    font-size: 24px;
+    color: rgb(200, 200, 200);
+    .sc-control-label {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      top: -12px;
+      left: -4px;
+      font-size: 12px;
+      border-radius: 8px;
+      min-width: 50px;
+      color: #4f5867;
+      font-weight: 550;
+    }
+    svg {
+      width: 42px;
+      height: 42px;
+      transform: translateY(12px);
+      path {
+        width: 30px;
+      }
     }
     &:hover {
       fill: #528fb1;

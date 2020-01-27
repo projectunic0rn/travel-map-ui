@@ -184,7 +184,7 @@ function Landing() {
   const [windowWidth, handleWindowWidth] = useState(undefined);
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
-    height: window.innerHeight+120,
+    height: window.innerHeight + 120,
     latitude: 0,
     longitude: 0,
     zoom: setInitialZoom()
@@ -231,7 +231,7 @@ function Landing() {
     handleWindowWidth(window.innerWidth);
     handleViewportChange({
       width: window.innerWidth,
-      height: window.innerHeight+120,
+      height: window.innerHeight + 120,
       zoom: setInitialZoom()
     });
   }
@@ -260,7 +260,7 @@ function Landing() {
         <div
           className="city-map-container"
           id="landing-map"
-          style={{ "z-index": "-1" }}
+          style={{ zIndex: "-1" }}
         >
           <MapGL
             mapStyle={"mapbox://styles/mvance43776/ck5d5iota033i1iphduio56d1"}
@@ -330,15 +330,15 @@ function Landing() {
           </div>
         </div>
         <div className="arrow-container">
-            <div className="arrow-down"></div>
+          <div className="arrow-down"></div>
         </div>
       </div>
       <div className="landing-second-page">
         <div className="landing-additional-info-container">
-          <subheader>
+          <div className="lp-additional-info">
             <span>1</span>
             <span>add cities to your travel map</span>
-          </subheader>
+          </div>
           <div className="map-search-container" id="landing-search-container">
             <input
               className="map-search"
@@ -347,6 +347,7 @@ function Landing() {
               list="country-choice"
               name="country-search"
               value={"Banff, CA"}
+              readOnly
             />
             <span>----></span>
           </div>
@@ -357,10 +358,10 @@ function Landing() {
       </div>
       <div className="landing-third-page">
         <div className="landing-additional-info-container">
-          <subheader>
+          <div className="lp-additional-info">
             <span>2</span>
             <span>make geornal entries for your trips</span>
-          </subheader>
+          </div>
         </div>
         <div className="landing-graphic-container">
           <div className="fake-review-container">
@@ -370,10 +371,10 @@ function Landing() {
       </div>
       <div className="landing-fourth-page">
         <div className="landing-additional-info-container">
-          <subheader>
+          <div className="lp-additional-info">
             <span>3</span>
             <span>discover where friends have been</span>
-          </subheader>
+          </div>
           <div className="map-search-container" id="landing-search-container">
             <input
               className="map-search"
@@ -382,6 +383,7 @@ function Landing() {
               list="country-choice"
               name="country-search"
               value={"Banff, CA"}
+              readOnly
             />
             <span>----></span>
           </div>
@@ -392,10 +394,10 @@ function Landing() {
       </div>
       <div className="landing-fifth-page">
         <div className="landing-additional-info-container">
-          <subheader>
+          <div className="lp-additional-info">
             <span>4</span>
             <span>see all reviews for a city from multiple friends</span>
-          </subheader>
+          </div>
         </div>{" "}
         <div className="landing-graphic-container">
           <div className="fake-review-container">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
+
 import Swal from "sweetalert2";
 
 import ValidationMutation from "../../../../components/common/ValidationMutation/ValidationMutation";
@@ -17,20 +18,19 @@ export default function Security({ history }) {
     password2: null
   });
 
-  function onRemoveUser() {
+  function onRemoveUser(setUserLoggedIn) {
     localStorage.removeItem("token");
+    setUserLoggedIn(false);
     history.push("/");
   }
 
-  function onRemoveUserClick(loading, mutation, setUserLoggedIn) {
+  function onRemoveUserClick(loading, mutation) {
     if (!loading) {
       let approval = window.confirm(
         "You are about to delete your account, this cannot be undone. Are you sure?"
       );
-      setUserLoggedIn(false);
       if (approval) {
-        onRemoveUser();
-        return mutation();
+        mutation();
       }
     }
   }
@@ -136,15 +136,13 @@ export default function Security({ history }) {
         {value => (
           <Mutation
             mutation={DELETE_USER}
-            onCompleted={onRemoveUser}
-            onError={err => alert("Unable to delete account" + err)}
+            onCompleted={() => onRemoveUser(value.setUserLoggedIn)}
+            onError={() => onRemoveUser(value.setUserLoggedIn)}
           >
             {(mutation, { loading }) => (
               <div
                 className={`warning button ${loading ? "disabled" : ""}`}
-                onClick={() =>
-                  onRemoveUserClick(loading, mutation, value.setUserLoggedIn)
-                }
+                onClick={() => onRemoveUserClick(loading, mutation)}
               >
                 Delete your account
               </div>

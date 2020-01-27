@@ -10,12 +10,12 @@ import {
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
+import MapChangeIcon from '../../../icons/MapChangeIcon';
 import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
-import MapChangeIcon from '../../../icons/MapChangeIcon';
 
-const CountryMap = props => {
+const NewUserCountry = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -62,15 +62,15 @@ const CountryMap = props => {
     handleChangeCenter([0, 20]);
     handleChangeZoom(1);
   }
-  
+
   function handleWheel(event) {
     if (event.deltaY > 0) {
-      let newZoom = zoom/1.1;
+      let newZoom = zoom / 1.1;
       handleChangeZoom(newZoom);
     }
     if (event.deltaY < 0) {
-      let newZoom = zoom*1.1;
-      handleChangeZoom(newZoom)
+      let newZoom = zoom * 1.1;
+      handleChangeZoom(newZoom);
     }
   }
   function computedStyles(geography) {
@@ -146,7 +146,7 @@ const CountryMap = props => {
           break;
         case "1,2":
           if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#8caeb0";
+            countryStyles.default.fill = "#96B1A8";
           } else if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           } else if (activeTimings[2]) {
@@ -161,11 +161,11 @@ const CountryMap = props => {
               countryStyles.default.fill = "#a780cd";
             }
           } else if (activeTimings[0] && activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
+            countryStyles.default.fill = "#DBC071";
           } else if (activeTimings[1] && activeTimings[2]) {
             countryStyles.default.fill = "#96B1A8";
           } else if (activeTimings[0]) {
-            countryStyles.default.fill = "#CB7678";
+            countryStyles.default.fill = "#DBC071";
           } else if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           } else if (activeTimings[2]) {
@@ -234,7 +234,11 @@ const CountryMap = props => {
     <>
       <div className="map-header-container">
         <div className="map-header-button">
-        <div className="sc-controls sc-controls-left" onClick={() => props.handleMapTypeChange(1)}>
+          <div
+            id="new-country-map-button"
+            className="sc-controls sc-controls-left"
+            onClick={() => props.handleMapTypeChange(1)}
+          >
             <span className="new-map-suggest">
               <span className="sc-control-label">City map</span>
               <span id="map-change-icon" onClick={() => props.handleMapTypeChange(1)}>
@@ -300,8 +304,7 @@ const CountryMap = props => {
         sendActiveTimings={handleActiveTimings}
       />
       <MapInfoContainer countryName={countryName} capitalName={capitalName} />
-
-      {activePopup ? (
+      {/* {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
@@ -309,22 +312,17 @@ const CountryMap = props => {
           componentProps={{
             countryInfo: clickedCountry,
             handleTripTiming: handleTripTimingHelper,
-            previousTrips: checkForPreviousTrips(clickedCountry),
-            tripData: props.tripData,
-            refetch: props.refetch
+            previousTrips: checkForPreviousTrips(clickedCountry)
           }}
         />
-      ) : null}
+      ) : null} */}
     </>
   );
 };
 
-CountryMap.propTypes = {
-  handleClickedCountry: PropTypes.func,
+NewUserCountry.propTypes = {
   clickedCountryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  refetch: PropTypes.func
 };
 
-export default CountryMap;
+export default NewUserCountry;

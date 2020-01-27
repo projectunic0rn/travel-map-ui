@@ -28,6 +28,7 @@ const MapPage = ({
       refetch();
     }
   });
+
   useEffect(() => {
     if (
       clickedCityArray !== null &&
@@ -59,6 +60,15 @@ const MapPage = ({
   }, []);
 
   useEffect(() => {
+    if (
+      clickedCityArray !== null &&
+      localStorage.getItem("clickedCityArray") !== null &&
+      user.Place_living === null &&
+      user.Places_visited.length < 1 &&
+      user.Places_visiting.length < 1
+    ) {
+      return;
+    }
     handleTripData(user);
     function handleLoadedCountries(data) {
       let countryArray = clickedCountryArray;
@@ -166,12 +176,8 @@ const MapPage = ({
     handleTravelScoreIndexArray(travelScoreIndexArray);
     handleCountryIdArray(countryIdArray);
     addMultiplePlaces({ variables: { clickedCityArray } });
+
   }
-
-
-
-
-
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">

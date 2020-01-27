@@ -507,6 +507,15 @@ export const UPDATE_GEORNEY_SCORE = gql`
   }
 `; 
 
+export const NEW_GEORNEY_SCORE = gql`
+  mutation updateGeorneyScore($newTravelScore: Float!) {
+    updateGeorneyScore(georneyScore: $newTravelScore) {
+      username
+      georneyScore
+    }
+  }
+`; 
+
 export const ADD_PLACE_VISITED = gql`
   mutation addPlaceVisited($country: Country!, $cities: [City!]) {
     addPlaceVisited(country: $country, cities: $cities) {
@@ -647,7 +656,6 @@ export const DELETE_USER = gql`
   mutation {
     deleteUser {
       id
-      username
     }
   }
 `;

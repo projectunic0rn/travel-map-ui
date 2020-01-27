@@ -1,6 +1,9 @@
 import React from "react";
 import AccordionFAQ from "./subcomponents/AccordionFAQ";
 
+import AddCitiesGif from "../../Gifs/Gif_SaveCities.gif";
+import AddCountriesGif from "../../Gifs/Gif_SaveCountries.gif";
+
 const FAQItems = [
   {
     title: "What is the purpose of the site",
@@ -17,10 +20,103 @@ const FAQItems = [
             they enjoyed
           </li>
         </ol>
-        We anticipate a couple of different use cases. For many people, the site may
-        be mainly a means of seeing the countries/cities you have traveled to and
-        sharing it with friends. For other "superusers", we want it to be possible to store
-        detailed trip reports that you can look back on.
+        We anticipate a couple of different use cases. For many people, the site
+        may be mainly a means of seeing the countries/cities you have traveled
+        to and sharing it with friends. For other "superusers", we want it to be
+        possible to store detailed trip reports that you can look back on.
+      </p>
+    )
+  },
+  {
+    title: "How can I add cities to my map",
+    text: (
+      <p>
+        <ol>
+          <li>Click "Personal" in the navigation menu</li>
+          <li>
+            Use the underlined dropdown menu to select the timing of your trip
+          </li>
+          <li>
+            Use the underlined dropdown menu to select the timing of your trip
+          </li>
+          <li>
+            Either type in a city or use the "Tap Cities" prompts to select them
+          </li>
+          <li>Remember to hit "Save My Map" before you change pages!</li>
+          <li>
+            The cities you entered should now be marked on your map when you
+            reload the page
+          </li>
+        </ol>
+        <img className="add-cities-gif" src={AddCitiesGif}></img>
+      </p>
+    )
+  },
+  {
+    title: "How can I add countries to my map",
+    text: (
+      <p>
+        If you add cities, the corresponding country will automatically be
+        added. However, if all of the cities you want to add are all from one
+        country, use the following steps:
+        <ol>
+          <li>Click "Personal" in the navigation menu</li>
+          <li>Click the "Country Map" icon to the left of the search bar</li>
+          <li>Click or type in the name of the country you want</li>
+          <li>Select the timing (past/future/live)</li>
+          <li>Type in cities in that country and then hit the "Save" button</li>
+          <li>The country should have been filled in on your map</li>
+        </ol>
+        <img className="add-cities-gif" src={AddCountriesGif}></img>
+      </p>
+    )
+  },
+  {
+    title: "How can I add reviews",
+    text: (
+      <p>
+        <ol>
+          <li>Click "Profile" in the navigation menu</li>
+          <li>
+            Click on the city you want to add reviews for (or use the
+            filters/search bar to find it)
+          </li>
+          <li>Enter basic information about your trip(s) to the city</li>
+          <li>
+            Click on different icons in the vertical nav menu to get to reviews
+          </li>
+          <li>Click "Edit" and then "Add Review"</li>
+          <li>
+            Select the review category from the dropdown menu, type in the
+            specific place/activity, give a rating, leave a comment, and leave a
+            cost/person
+          </li>
+        </ol>
+      </p>
+    )
+  },
+  {
+    title: "How can I see my friend's reviews for a city",
+    text: (
+      <p>
+        <ol>
+          <li>
+            Click "Friends" from the navigation menu to see the friends map
+          </li>
+          <li>
+            Type in or click on the city you are interested in (can also look at
+            reviews for a whole country on the country map)
+          </li>
+          <li>
+            To see an individual friend's reviews of that city, click on their
+            user card. To see all of the reviews compiled, click the name of the
+            city in the popup prompt
+          </li>
+          <li>
+            Go through the different icons on the vertical nav menu to see all
+            review types
+          </li>
+        </ol>
       </p>
     )
   },

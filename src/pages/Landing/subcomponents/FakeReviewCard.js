@@ -22,9 +22,9 @@ function FakeCityReviewCard() {
               <div className="feedback-subcontainer">
                 <span className="feedback-header">rating</span>
                 <div className="feedback-ratings">
-                  <RecommendIcon value={1} />
-                  <NeutralIcon value={0} />
-                  <DoNotRecommendIcon value={0} />
+                  <RecommendIcon value={true} />
+                  <NeutralIcon value={false} />
+                  <DoNotRecommendIcon value={false} />
                 </div>
               </div>
               <div className="feedback-subcontainer" id="feedback-comment-sub">
@@ -79,9 +79,9 @@ function FakeCityReviewCard() {
               <div className="feedback-subcontainer">
                 <span className="feedback-header">rating</span>
                 <div className="feedback-ratings">
-                  <RecommendIcon value={1} />
-                  <NeutralIcon value={0} />
-                  <DoNotRecommendIcon value={0} />
+                  <RecommendIcon value={true} />
+                  <NeutralIcon value={false} />
+                  <DoNotRecommendIcon value={false} />
                 </div>
               </div>
               <div className="feedback-subcontainer" id="feedback-comment-sub">

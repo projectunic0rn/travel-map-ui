@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
@@ -11,40 +10,16 @@ import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
 import TrashIcon from "../../../icons/TrashIcon";
+import ImportIcon from "../../../icons/ImportIcon";
+import MapChangeIcon from "../../../icons/MapChangeIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserMapSignup from "./NewUserMapSignup";
 import NewUserSuggestions from "./NewUserSuggestions";
+import ImportPopup from "./ImportPopup";
+import ClusterMarker from "./ClusterMarker";
 
-function ClusterMarker(props) {
-  function onClick() {
-    const { onClick, ...cluster } = props;
-    onClick(cluster);
-  }
-  return (
-    <Marker longitude={props.longitude} latitude={props.latitude}>
-      <div
-        style={{
-          width: props.pointCount * 2 + "px",
-          height: props.pointCount * 2 + "px",
-          minHeight: "20px",
-          minWidth: "20px",
-          color: "#fff",
-          background: props.color,
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-        onClick={onClick}
-      >
-        {props.pointCount}
-      </div>
-    </Marker>
-  );
-}
-
-function NewUserCity() {
+function NewUserCity(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -65,6 +40,7 @@ function NewUserCity() {
   const [deletePrompt, handleDeletePrompt] = useState(false);
   const [activePopup, handleActivePopup] = useState(false);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
+  const [importPopup, handleImportPopup] = useState(false);
   const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
   const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
   const [travelScore, handleTravelScore] = useState(0);
@@ -100,7 +76,7 @@ function NewUserCity() {
     markerFutureDisplay,
     markerLiveDisplay
   ]);
-  
+
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
   useEffectSkipFirstLocal(() => {}, [clickedCityArray]);
 
@@ -240,7 +216,10 @@ function NewUserCity() {
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    data.map(city => {
+    let filteredData = data.filter(city => {
+      return city !== undefined && city !== null;
+    });
+    filteredData.map(city => {
       switch (city.tripTiming) {
         case 0:
           pastCount++;
@@ -255,10 +234,10 @@ function NewUserCity() {
           break;
       }
     });
-    handleClickedCityArray(data);
+    handleClickedCityArray(filteredData);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
-    handleLoadedMarkers(data);
-    calculateTravelScore(data);
+    handleLoadedMarkers(filteredData);
+    calculateTravelScore(filteredData);
   }
 
   function handleLoadedMarkers(markers) {
@@ -557,7 +536,6 @@ function NewUserCity() {
       tripTiming: timingState
     };
     handleMarkers(markers);
-
     handleTripTimingCityHelper(newCityEntry);
   }
 
@@ -804,6 +782,10 @@ function NewUserCity() {
     handleSuggestedPopup(!suggestPopup);
   }
 
+  function showImport() {
+    handleImportPopup(!importPopup);
+  }
+
   function handleContinents(contArray) {
     handleSuggestedContinentArray(contArray);
   }
@@ -837,11 +819,28 @@ function NewUserCity() {
     return { viewport: newViewport };
   }
 
+  function goToCountryMap() {
+    props.sendUserData(clickedCityArray);
+    props.handleMapTypeChange(0);
+  }
+
   if (loading) return <Loader />;
   return (
     <>
       <div className="city-new-map-container">
         <div className="map-header-button">
+          <div
+            id="new-country-map-button"
+            className="sc-controls sc-controls-left"
+            onClick={goToCountryMap}
+          >
+            <span className="new-map-suggest">
+              <span className="sc-control-label">Country map</span>
+              <span id="map-change-icon" onClick={goToCountryMap}>
+                <MapChangeIcon />
+              </span>
+            </span>
+          </div>
           <div className="sc-controls">
             {timingState !== 2 ? (
               <span className="new-map-suggest">
@@ -876,11 +875,16 @@ function NewUserCity() {
                 </span>
               </div>
             </span>
-
             <span className="new-map-share">
               <span className="sc-control-label">Share/Save</span>
               <span onClick={showPopup}>
                 <ShareIcon />
+              </span>
+            </span>
+            <span className="new-map-import">
+              <span className="sc-control-label">Import</span>
+              <span onClick={showImport}>
+                <ImportIcon />
               </span>
             </span>
           </div>
@@ -949,7 +953,6 @@ function NewUserCity() {
             </Cluster>
           ) : null}
           {activeTimings[2] ? markerLiveDisplay : null}
-          {activeTimings[2] ? markerLiveDisplay : null}
           {markerRecentDisplay}
           {_renderPopup()}
         </MapGL>
@@ -998,17 +1001,19 @@ function NewUserCity() {
             }}
           />
         </div>
+      ) : importPopup ? (
+        <PopupPrompt
+          activePopup={importPopup}
+          showPopup={showImport}
+          component={ImportPopup}
+          componentProps={{
+            handleLoadedCities: handleLoadedCities,
+            showPopup: showImport
+          }}
+        />
       ) : null}
     </>
   );
 }
-
-ClusterMarker.propTypes = {
-  latitude: PropTypes.number,
-  longitude: PropTypes.number,
-  pointCount: PropTypes.number,
-  color: PropTypes.string,
-  onClick: PropTypes.func
-};
 
 export default React.memo(NewUserCity);
