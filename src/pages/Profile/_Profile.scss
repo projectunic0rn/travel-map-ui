@@ -17,10 +17,10 @@
 .page-profile {
   .container {
     padding: 10px !important;
-    display: grid;
-    grid-template-columns: [sidebar] 350px [content] auto;
-    grid-template-rows: [nav] 70px [content] auto;
-    grid-gap: 8px 15px;
+    // display: grid;
+    // grid-template-columns: [sidebar] 350px [content] auto;
+    // grid-template-rows: [nav] 70px [content] auto;
+    // grid-gap: 8px 15px;
     padding-bottom: 25px;
     @media (max-width: 850px) {
       grid-template-columns: [sidebar] 280px [content] auto;
@@ -31,12 +31,15 @@
       box-shadow: 1px 2px 1px rgba(#000, 0.16);
       border-radius: 4px;
       display: flex;
-      max-width: 800px;
+      margin: 4px 20px;
+      height: calc(96%);
+      // max-width: 800px;
       @media (min-width: 1400px) {
-        max-width: 1000px;
+        max-width: 1200px;
       }
       .content-results {
         display: flex;
+        position: relative;
       }
 
       .sidebar-filter {
@@ -103,11 +106,58 @@
   .content-results {
     display: flex;
     margin: 28px 20px;
-    width: 700px;
     flex-wrap: wrap;
     align-content: flex-start;
     a {
       text-decoration: none;
+    }
+  }
+}
+
+.planning-map {
+  width: 1100px;
+  height: 500px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  .city-planning-map-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    left: 0;
+    height: 100%;
+  }
+  .mapboxgl-control-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    .mapboxgl-ctrl-top-left {
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      min-width: 600px;
+      left: calc(50% - 310px) !important;
+      .mapboxgl-ctrl-geocoder {
+        top: 0px;
+        min-width: 600px;
+        box-shadow: 0 3px 6px 2px rgba(black, 0.15);
+        background: rgb(248, 248, 252);
+        @media screen and (max-width: 600px) {
+          min-width: 500px;
+        }
+        @media screen and (max-width: 450px) {
+          min-width: 400px;
+          top: 80px;
+        }
+        @media screen and (max-width: 320px) {
+          max-width: 300px;
+          min-width: 300px;
+        }
+        input {
+          color: rgb(74, 89, 90) !important;
+          min-width: 560px;
+        }
+      }
     }
   }
 }

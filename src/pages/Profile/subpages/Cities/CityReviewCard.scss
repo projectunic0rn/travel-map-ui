@@ -1,3 +1,13 @@
+.pic-reviews-container {
+  width: 100%;
+  height: 536px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+}
+
 .city-review-card,
 .transportation-container-overlay {
   display: flex;
@@ -32,9 +42,9 @@
     height: 120px;
     width: 300px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 4px 0 16px 0;
     transition: all 0.2s ease-in-out;
     font-size: 18px;
@@ -259,10 +269,15 @@
 }
 
 .review-edit-button-container {
+  position: absolute;
+  top: 72px;
+  right: 0px;
+  width: 200px;
   display: flex;
   justify-content: center;
-  width: 100%;
-  margin-top: 40px;
+  #planning-map-update, #planning-map-edit {
+    position: relative;
+  }
   .review-edit-button {
     cursor: pointer;
     display: flex;

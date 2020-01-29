@@ -8,7 +8,8 @@ import {
 } from "../../../../GraphQL";
 
 import CityReviewCard from "./CityReviewCard";
-import Loader from '../../../../components/common/Loader/Loader';
+import Loader from "../../../../components/common/Loader/Loader";
+import PlanningMap from "./PlanningMap";
 
 export default function CityReviewsContainer({
   page,
@@ -16,11 +17,13 @@ export default function CityReviewsContainer({
   updateLocalReviews,
   city,
   refetch,
-  urlUsername
+  urlUsername,
+  deleteLocalCityReview
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [edit, handleEdit] = useState(false);
-  const [localCityReviews, handleLocalCityReviews] = useState();
+  const [localCityReviews, handleLocalCityReviews] = useState(reviews);
+
   useEffect(() => {
     for (let i in reviews) {
       delete reviews[i].__typename;
@@ -28,52 +31,83 @@ export default function CityReviewsContainer({
     handleLocalCityReviews(reviews);
     handleLoaded(true);
   }, [reviews]);
-  function handleAddButtonClick() {
-    handleLoaded(false);
-    let cityReviews = localCityReviews;
-    let newCityReview = {};
+  function handleNewCityReview(event) {
+    let cityReviews = [...localCityReviews];
+    let newCityReview = {
+      reviewPlaceId: event.result.id.substr(4),
+      review_latitude: event.result.center[1],
+      review_longitude: event.result.center[0],
+      attraction_name: event.result.text,
+      rating: 1,
+      comment: "",
+      cost: null,
+      currency: "USD",
+      key: cityReviews.length,
+      id: 0
+    };
     city.timing === "past"
       ? (newCityReview.PlaceVisitedId = city.id)
       : city.timing === "future"
       ? (newCityReview.PlaceVisitingId = city.id)
       : (newCityReview.PlaceLivingId = city.id);
-    newCityReview.attraction_name = "";
-    newCityReview.attraction_type =
-      page === "places"
-        ? "monument"
-        : page === "activities"
-        ? "tour"
-        : "breakfast";
-    newCityReview.comment = "";
-    newCityReview.cost = null;
-    newCityReview.id = 0;
-    newCityReview.key = cityReviews.length;
-    newCityReview.rating = 1;
-    newCityReview.currency = "USD";
+    newCityReview.attraction_type = guessAttractionType(
+      event.result.properties
+    );
     cityReviews.push(newCityReview);
     handleLocalCityReviews(cityReviews);
     updateLocalReviews(newCityReview);
-    handleLoaded(true);
+  }
+
+  function guessAttractionType(place) {
+    let type = "place";
+    let category = place.category.split(",").map(item => item.trim());
+    if (category.indexOf("natural") !== -1) {
+      type = "nature";
+    } else if (category.indexOf("lodging") !== -1) {
+      type = "stay";
+    } else if (category.indexOf("restaurant") !== -1) {
+      type = "dinner";
+    } else if (
+      category.indexOf("coffee") !== -1 ||
+      category.indexOf("tea") !== -1 ||
+      category.indexOf("cafe") !== -1
+    ) {
+      type = "breakfast";
+    } else if (category.indexOf("bar") !== -1) {
+      type = "drink";
+    } else if (category.indexOf("dessert") !== -1) {
+      type = "snack";
+    } else if (category.indexOf("shop") !== -1) {
+      type = "shopping";
+    }
+    return type;
   }
 
   function handleType(id, key, type) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].attraction_type = type;
     handleLocalCityReviews(localCityReviews);
-    
   }
   function handleInputChange(id, key, input) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].attraction_name = input;
     handleLocalCityReviews(localCityReviews);
   }
   function handleRatingChange(id, key, rating) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].rating = rating;
     handleLocalCityReviews(localCityReviews);
   }
   function handleCostChange(id, key, cost) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     if (cost === null || cost === "") {
       localCityReviews[reviewToUpdate].cost = null;
     } else {
@@ -82,14 +116,22 @@ export default function CityReviewsContainer({
     handleLocalCityReviews(localCityReviews);
   }
   function handleCurrencyChange(id, key, currency) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].currency = currency;
     handleLocalCityReviews(localCityReviews);
   }
   function handleCommentChange(id, key, comment) {
-    let reviewToUpdate = localCityReviews.findIndex(review => review.id === id && review.key === key);
+    let reviewToUpdate = localCityReviews.findIndex(
+      review => review.id === id && review.key === key
+    );
     localCityReviews[reviewToUpdate].comment = comment;
     handleLocalCityReviews(localCityReviews);
+  }
+
+  function deleteReview(index) {
+    deleteLocalCityReview(index);
   }
 
   function mutationPrep(mutation) {
@@ -101,42 +143,44 @@ export default function CityReviewsContainer({
   if (!loaded) return <Loader />;
   return (
     <>
-      {localCityReviews.length < 1 ? (
-        <span className="no-review-text">
-          {urlUsername !== undefined
-            ? "No reviews entered"
-            : "Enter your first review!"}
-        </span>
-      ) : (
-        localCityReviews.map((review) => (
-          <CityReviewCard
-            key={review.attraction_type + review.id + review.key}
-            index={review.key}
-            review={review}
-            edit={edit}
-            page={page}
-            handleType={handleType}
-            handleInputChange={handleInputChange}
-            handleRatingChange={handleRatingChange}
-            handleCostChange={handleCostChange}
-            handleCurrencyChange={handleCurrencyChange}
-            handleCommentChange={handleCommentChange}
-            urlUsername={true}
-            refetch={refetch}
-          />
-        ))
-      )}
-      {edit ? (
-        <div className="add-button-container">
-          <span
-            className="button"
-            id="add-review"
-            onClick={handleAddButtonClick}
-          >
-            add review
+      <div className="planning-map">
+        <PlanningMap
+          latitude={city.city_latitude}
+          longitude={city.city_longitude}
+          localCityReviews={localCityReviews}
+          handleLocalCityReviews={handleNewCityReview}
+          edit={edit}
+          page={page}
+        />
+      </div>
+      <div className="pic-reviews-container">
+        {localCityReviews.length < 1 ? (
+          <span className="no-review-text">
+            {urlUsername !== undefined
+              ? "No reviews entered"
+              : "Enter your first review!"}
           </span>
-        </div>
-      ) : null}
+        ) : (
+          localCityReviews.map(review => (
+            <CityReviewCard
+              key={review.attraction_type + review.id + review.key}
+              index={review.key}
+              review={review}
+              edit={edit}
+              page={page}
+              handleType={handleType}
+              handleInputChange={handleInputChange}
+              handleRatingChange={handleRatingChange}
+              handleCostChange={handleCostChange}
+              handleCurrencyChange={handleCurrencyChange}
+              handleCommentChange={handleCommentChange}
+              urlUsername={true}
+              refetch={refetch}
+              deleteReview={deleteReview}
+            />
+          ))
+        )}
+      </div>
       {urlUsername !== undefined ? null : (
         <div className="review-edit-button-container">
           <Mutation
@@ -151,15 +195,34 @@ export default function CityReviewsContainer({
             onCompleted={() => refetch()}
           >
             {mutation =>
-              edit ? (
-                <span className="large confirm button" onClick={() => mutationPrep(mutation)}>
-                  Update
-                </span>
-              ) : (
-                <span className="large button" onClick={() => handleEdit(true)}>
-                  Edit
-                </span>
-              )
+              page === "all reviews" ? (
+                edit ? (
+                  <>
+                    <span
+                      className="large confirm button"
+                      id="planning-map-update"
+                      onClick={() => mutationPrep(mutation)}
+                    >
+                      Update
+                    </span>
+                    <span
+                      className="button"
+                      id="add-review"
+                      // onClick={handleAddButtonClick}
+                    >
+                      custom review
+                    </span>
+                  </>
+                ) : (
+                  <span
+                    className="large button"
+                    id="planning-map-edit"
+                    onClick={() => handleEdit(true)}
+                  >
+                    Edit
+                  </span>
+                )
+              ) : null
             }
           </Mutation>
         </div>
@@ -174,5 +237,6 @@ CityReviewsContainer.propTypes = {
   updateLocalReviews: PropTypes.func,
   city: PropTypes.object,
   refetch: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
+  deleteLocalCityReview: PropTypes.func
 };

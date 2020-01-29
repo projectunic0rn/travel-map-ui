@@ -52,6 +52,9 @@ export const GET_ALL_USER_COUNTRIES = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceVisitedId
           attraction_type
           attraction_name
@@ -78,6 +81,9 @@ export const GET_ALL_USER_COUNTRIES = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceLivingId
           attraction_type
           attraction_name
@@ -104,6 +110,9 @@ export const GET_ALL_USER_COUNTRIES = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceVisitingId
           attraction_type
           attraction_name
@@ -233,6 +242,9 @@ export const GET_ALL_CITY_DETAILS = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceVisitedId
           attraction_type
           attraction_name
@@ -259,6 +271,9 @@ export const GET_ALL_CITY_DETAILS = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceLivingId
           attraction_type
           attraction_name
@@ -285,6 +300,9 @@ export const GET_ALL_CITY_DETAILS = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceVisitingId
           attraction_type
           attraction_name
@@ -337,6 +355,9 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceVisitedId
           attraction_type
           attraction_name
@@ -363,6 +384,9 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceLivingId
           attraction_type
           attraction_name
@@ -389,6 +413,9 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         trip_company
         CityReviews {
           id
+          reviewPlaceId
+          review_latitude
+          review_longitude
           PlaceVisitingId
           attraction_type
           attraction_name
@@ -827,6 +854,9 @@ export const CITY_REVIEWS_ALL_USERS = gql`
       trip_company
       CityReviews {
         id
+        reviewPlaceId
+        review_latitude
+        review_longitude
         PlaceVisitedId
         PlaceVisitingId
         PlaceLivingId
@@ -861,6 +891,9 @@ export const COUNTRY_REVIEWS_ALL_USERS = gql`
       trip_company
       CityReviews {
         id
+        reviewPlaceId
+        review_latitude
+        review_longitude
         PlaceVisitedId
         PlaceVisitingId
         PlaceLivingId

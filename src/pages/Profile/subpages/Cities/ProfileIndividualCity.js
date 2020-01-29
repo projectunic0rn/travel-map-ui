@@ -5,6 +5,7 @@ import MenuIcon from "../../../../icons/MenuIcon";
 import CityReviewsContainer from "./CityReviewsContainer";
 import CalendarIcon from "../../../../icons/CalendarIcon";
 import LocationIcon from "../../../../icons/LocationIcon";
+import AllTypesIcon from "../../../../icons/AllTimingsIcon";
 import ActivitiesIcon from "../../../../icons/InterestIcons/GuidedTouristIcon";
 import FoodieIcon from "../../../../icons/InterestIcons/FoodieIcon";
 import CommentaryIcon from "../../../../icons/CommentaryIcon";
@@ -13,23 +14,46 @@ import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
 import CityCommentaryContainer from "./CityCommentaryContainer";
 
-export default function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
+function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
-  const [localCityReviews, handleLocalCityReviews] = useState(cityReviews);
+  const [localCityReviews, handleLocalCityReviews] = useState(null);
   const [filteredCityReviews, handleFilteredCityReviews] = useState(
     cityReviews
   );
   const [page, handlePage] = useState("basics");
-
+  console.log(cityReviews);
+  console.log(localCityReviews);
   useEffect(() => {
-    handleLoaded(false);
-    handleLocalCityReviews(cityReviews)
+    console.log("individual loaded");
+  }, []);
+  useEffect(() => {
+    handleLocalCityReviews(cityReviews);
+  }, [cityReviews]);
+  useEffect(() => {
+    // handleLoaded(false);
     let keyWords = [];
     switch (page) {
       case "basics":
         handleLoaded(true);
         return;
+      case "all reviews":
+        keyWords = [
+          "monument",
+          "nature",
+          "place",
+          "stay",
+          "breakfast",
+          "lunch",
+          "dinner",
+          "snack",
+          "drink",
+          "tour",
+          "outdoor",
+          "shopping",
+          "activity"
+        ];
+        break;
       case "places":
         keyWords = ["monument", "nature", "place", "stay"];
         break;
@@ -53,15 +77,36 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
       }
       return false;
     });
+    console.log(filteredArray);
     handleFilteredCityReviews(filteredArray);
     handleLoaded(true);
-  }, [page, cityReviews]);
+  }, [page, localCityReviews]);
+
   function updateLocalReviews(updatedReviews) {
     let localReviews = [...localCityReviews];
     localReviews.push(updatedReviews);
     handleLocalCityReviews(localReviews);
     handleLoaded(true);
   }
+
+  function deleteLocalCityReview(index) {
+    let newLocalCityReviews = [...localCityReviews];
+    newLocalCityReviews.splice(index, 1);
+    handleLocalCityReviews(newLocalCityReviews);
+  }
+
+  const cityReviewsContainer = (
+    <CityReviewsContainer
+      reviews={filteredCityReviews}
+      city={city}
+      page={page}
+      updateLocalReviews={updateLocalReviews}
+      refetch={refetch}
+      urlUsername={urlUsername}
+      deleteLocalCityReview={deleteLocalCityReview}
+    />
+  );
+
   if (!loaded) return "Loading";
   return (
     <div className="profile-cities content">
@@ -80,6 +125,13 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
         >
           {expanded ? "basics" : null}
           <CalendarIcon />
+        </button>
+        <button
+          onClick={() => handlePage("all reviews")}
+          className={page === "all reviews" ? "active" : ""}
+        >
+          {expanded ? "all reviews" : null}
+          <AllTypesIcon />
         </button>
         <button
           onClick={() => handlePage("places")}
@@ -139,7 +191,9 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
             <span className="city-review-title">{city.city.toLowerCase()}</span>
             <span className="city-review-subtitle">
               <span className="city-review-separator">|</span>{" "}
-              {city.country.length > 10 ? city.countryISO : city.country.toLowerCase()}
+              {city.country.length > 10
+                ? city.countryISO
+                : city.country.toLowerCase()}
             </span>
           </div>
         </div>
@@ -164,36 +218,10 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
                 urlUsername={urlUsername}
               />
             ),
-            places: (
-              <CityReviewsContainer
-                reviews={filteredCityReviews}
-                city={city}
-                page={page}
-                updateLocalReviews={updateLocalReviews}
-                refetch={refetch}
-                urlUsername={urlUsername}
-              />
-            ),
-            activities: (
-              <CityReviewsContainer
-                reviews={filteredCityReviews}
-                page={page}
-                city={city}
-                updateLocalReviews={updateLocalReviews}
-                refetch={refetch}
-                urlUsername={urlUsername}
-              />
-            ),
-            meals: (
-              <CityReviewsContainer
-                reviews={filteredCityReviews}
-                page={page}
-                city={city}
-                updateLocalReviews={updateLocalReviews}
-                refetch={refetch}
-                urlUsername={urlUsername}
-              />
-            ),
+            "all reviews": cityReviewsContainer,
+            places: cityReviewsContainer,
+            activities: cityReviewsContainer,
+            meals: cityReviewsContainer,
             comments: (
               <CityCommentaryContainer
                 key={"comments"}
@@ -215,3 +243,5 @@ ProfileIndividualCity.propTypes = {
   refetch: PropTypes.func,
   urlUsername: PropTypes.string
 };
+
+export default React.memo(ProfileIndividualCity);
