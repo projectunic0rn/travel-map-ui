@@ -87,7 +87,7 @@ function ProfileCityCard({
         case "dinner":
           meals++;
           break;
-        case "snack":
+        case "dessert":
           meals++;
           break;
         case "drink":

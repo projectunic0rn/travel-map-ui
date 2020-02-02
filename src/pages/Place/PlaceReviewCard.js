@@ -42,11 +42,28 @@ function PlaceReviewCard({
       case "basics":
         handleLoaded(true);
         return;
+      case "all reviews":
+        keyWords = [
+          "monument",
+          "nature",
+          "place",
+          "stay",
+          "breakfast",
+          "lunch",
+          "dinner",
+          "dessert",
+          "drink",
+          "tour",
+          "outdoor",
+          "shopping",
+          "activity"
+        ];
+        break;
       case "places":
         keyWords = ["monument", "nature", "place", "stay"];
         break;
       case "meals":
-        keyWords = ["breakfast", "lunch", "dinner", "snack", "drink"];
+        keyWords = ["breakfast", "lunch", "dinner", "dessert", "drink"];
         break;
       case "activities":
         keyWords = ["tour", "outdoor", "shopping", "activity"];
@@ -57,6 +74,7 @@ function PlaceReviewCard({
       default:
         break;
     }
+    console.log(user);
     let filteredArray = user.CityReviews.filter(review => {
       for (let i in keyWords) {
         if (review.attraction_type === keyWords[i]) {
@@ -65,12 +83,15 @@ function PlaceReviewCard({
       }
       return false;
     });
+    console.log(filteredArray);
     handleFilteredCityReviews(filteredArray);
     handleLoaded(true);
   }, [page]);
   if (!loaded) return <SimpleLoader />;
-  if (filteredCityReviews.length >= 1 && reviewCount === 0) {
-    handleReviewCount();
+  if (filteredCityReviews) {
+    if (filteredCityReviews.length >= 1 && reviewCount === 0) {
+      handleReviewCount();
+    }
   }
   if (index === maxIndex && reviewCount === 0 && page !== "comments") {
     return <span className="no-review-text">No reviews yet!</span>;

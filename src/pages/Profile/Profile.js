@@ -226,10 +226,10 @@ export default function Profile({ user, urlUsername, refetch }) {
                   <ProfileIndividualCity
                     {...props}
                     city={selectedCity}
-                    searchText={searchText}
                     cityReviews={cityReviews}
                     refetch={refetch}
                     urlUsername={urlUsername}
+                    userId={user.id}
                   />
                 )}
               />

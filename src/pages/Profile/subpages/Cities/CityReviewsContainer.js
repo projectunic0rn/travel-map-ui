@@ -1,28 +1,71 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
 import {
   UPDATE_VISITED_CITY_REVIEWS,
   UPDATE_VISITING_CITY_REVIEWS,
-  UPDATE_LIVING_CITY_REVIEWS
+  UPDATE_LIVING_CITY_REVIEWS,
+  CITY_REVIEWS_ALL_USERS
 } from "../../../../GraphQL";
 
 import CityReviewCard from "./CityReviewCard";
 import Loader from "../../../../components/common/Loader/Loader";
 import PlanningMap from "./PlanningMap";
+import PlaceReviewCard from "../../../Place/PlaceReviewCard";
+
+const PlanningMapFriendReviews = ({
+  placeId,
+  sendFriendReviewsBackwards,
+  userId
+}) => {
+  const { data, error, loading } = useQuery(CITY_REVIEWS_ALL_USERS, {
+    variables: { placeId }
+  });
+  if (data !== undefined && data !== null) {
+    handleDataReturn(data[Object.keys(data)[0]]);
+  }
+  function handleDataReturn(data) {
+    let newData = data.filter(
+      (item, index, self) =>
+        index ===
+        self.findIndex(t => t.id === item.id && t.UserId === item.UserId)
+    );
+    let newDataNonBlanks = [];
+    for (let i in newData) {
+      if (
+        newData[i].CityReviews.length >= 1 &&
+        Number(newData[i].UserId) !== Number(userId)
+      ) {
+        newDataNonBlanks.push(newData[i]);
+      }
+    }
+    sendFriendReviewsBackwards(newDataNonBlanks);
+  }
+  return null;
+};
 
 export default function CityReviewsContainer({
   page,
   reviews,
+  friendReviews,
   updateLocalReviews,
+  fullFriendCityReviews,
   city,
   refetch,
   urlUsername,
-  deleteLocalCityReview
+  deleteLocalCityReview,
+  userId,
+  sendFriendReviewsBackwards
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [edit, handleEdit] = useState(false);
   const [localCityReviews, handleLocalCityReviews] = useState(reviews);
+  const [localFriendReviews, handleLocalFriendReviews] = useState(
+    friendReviews.length > 0 ? friendReviews : []
+  );
+  const [showFriendReviews, handleShowFriendReviews] = useState(false);
+  const [placeId] = useState(city.cityId);
 
   useEffect(() => {
     for (let i in reviews) {
@@ -31,6 +74,19 @@ export default function CityReviewsContainer({
     handleLocalCityReviews(reviews);
     handleLoaded(true);
   }, [reviews]);
+
+  useEffect(() => {
+    if (fullFriendCityReviews.length > 0) {
+      handleShowFriendReviews(false);
+    }
+  }, [fullFriendCityReviews]);
+
+  useEffect(() => {
+    if (friendReviews.length > 0) {
+      handleLocalFriendReviews(friendReviews);
+    }
+  }, [friendReviews]);
+
   function handleNewCityReview(event) {
     let cityReviews = [...localCityReviews];
     let newCityReview = {
@@ -76,7 +132,7 @@ export default function CityReviewsContainer({
     } else if (category.indexOf("bar") !== -1) {
       type = "drink";
     } else if (category.indexOf("dessert") !== -1) {
-      type = "snack";
+      type = "dessert";
     } else if (category.indexOf("shop") !== -1) {
       type = "shopping";
     }
@@ -140,6 +196,7 @@ export default function CityReviewsContainer({
     }
     mutation();
   }
+  console.log(fullFriendCityReviews);
   if (!loaded) return <Loader />;
   return (
     <>
@@ -148,6 +205,7 @@ export default function CityReviewsContainer({
           latitude={city.city_latitude}
           longitude={city.city_longitude}
           localCityReviews={localCityReviews}
+          friendReviews={friendReviews}
           handleLocalCityReviews={handleNewCityReview}
           edit={edit}
           page={page}
@@ -177,9 +235,24 @@ export default function CityReviewsContainer({
               urlUsername={true}
               refetch={refetch}
               deleteReview={deleteReview}
+              timing={city.timing}
             />
           ))
         )}
+        {fullFriendCityReviews.map((user, index) => {
+          return (
+            <PlaceReviewCard
+              key={user.UserId + "" + user.id + index}
+              maxIndex={localFriendReviews.length - 1}
+              index={index}
+              user={user}
+              page={page}
+              reviewCount={localFriendReviews.length}
+              handleReviewCount={() => {return null}}
+              cityOrCountry={"city"}
+            />
+          );
+        })}
       </div>
       {urlUsername !== undefined ? null : (
         <div className="review-edit-button-container">
@@ -203,7 +276,7 @@ export default function CityReviewsContainer({
                       id="planning-map-update"
                       onClick={() => mutationPrep(mutation)}
                     >
-                      Update
+                      save
                     </span>
                     <span
                       className="button"
@@ -214,17 +287,35 @@ export default function CityReviewsContainer({
                     </span>
                   </>
                 ) : (
-                  <span
-                    className="large button"
-                    id="planning-map-edit"
-                    onClick={() => handleEdit(true)}
-                  >
-                    Edit
-                  </span>
+                  <>
+                    <span
+                      className="large button"
+                      id="planning-map-edit"
+                      onClick={() => handleEdit(true)}
+                    >
+                      Edit
+                    </span>
+                    {city.timing === "future" ? (
+                      <span
+                        className="large button"
+                        id="planning-map-friends"
+                        onClick={() => handleShowFriendReviews(true)}
+                      >
+                        Friend Reviews
+                      </span>
+                    ) : null}
+                  </>
                 )
               ) : null
             }
           </Mutation>
+          {showFriendReviews ? (
+            <PlanningMapFriendReviews
+              placeId={placeId}
+              sendFriendReviewsBackwards={sendFriendReviewsBackwards}
+              userId={userId}
+            />
+          ) : null}
         </div>
       )}
     </>
@@ -234,9 +325,13 @@ export default function CityReviewsContainer({
 CityReviewsContainer.propTypes = {
   page: PropTypes.string,
   reviews: PropTypes.array,
+  friendReviews: PropTypes.array,
   updateLocalReviews: PropTypes.func,
   city: PropTypes.object,
   refetch: PropTypes.func,
   urlUsername: PropTypes.string,
-  deleteLocalCityReview: PropTypes.func
+  deleteLocalCityReview: PropTypes.func,
+  userId: PropTypes.number,
+  sendFriendReviewsBackwards: PropTypes.func,
+  fullFriendCityReviews: PropTypes.array
 };

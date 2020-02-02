@@ -10,6 +10,7 @@ function PlanningMap({
   latitude,
   longitude,
   localCityReviews,
+  friendReviews,
   handleLocalCityReviews,
   edit,
   page
@@ -65,6 +66,11 @@ function PlanningMap({
     handleCityTooltip(null);
   }, [localCityReviews]);
 
+  useEffect(() => {
+    handleLoadingReviews(false);
+    handleCityTooltip(null);
+  }, [friendReviews]);
+
   function resize() {
     handleViewportChange({
       width: window.innerWidth,
@@ -109,7 +115,7 @@ function PlanningMap({
       case "drink":
         color = "#B45B5D";
         break;
-      case "snack":
+      case "dessert":
         color = "#B45B5D";
         break;
       case "activity":
@@ -171,13 +177,14 @@ function PlanningMap({
             <Geocoder
               mapRef={mapRef}
               onResult={e => handleOnResult(e)}
+              onViewportChange={handleViewportChange}
               limit={10}
               types={"poi"}
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }
               position="top-left"
-              placeholder={"Type a city..."}
+              placeholder={"Type a shop/restaurant/place..."}
               bbox={bbox}
             />
           ) : null}
@@ -221,6 +228,48 @@ function PlanningMap({
                 );
               })
             : null}
+          {!loadingReviews
+            ? friendReviews.map((review, index) => {
+                return (
+                  <Marker
+                    key={review.reviewPlaceId + index}
+                    latitude={review.review_latitude}
+                    longitude={review.review_longitude}
+                    offsetLeft={-5}
+                    offsetTop={-10}
+                  >
+                    <svg
+                      key={"svg" + review.reviewPlaceId + index}
+                      height={20}
+                      width={20}
+                      viewBox="0 0 100 100"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        onMouseOver={() => handleCityTooltip(review)}
+                        style={{
+                          fill: determineColor(review.attraction_type),
+                          opacity: "0.5"
+                        }}
+                        key={"circle" + review.reviewPlaceId + index}
+                        cx="50"
+                        cy="50"
+                        r="50"
+                      />
+                      <circle
+                        style={{
+                          fill: determineColor(review.attraction_type),
+                        }}
+                        key={"circle2" + review.reviewPlaceId + index}
+                        cx="50"
+                        cy="50"
+                        r="20"
+                      />
+                    </svg>
+                  </Marker>
+                );
+              })
+            : null}
           {_renderPopup()}
         </MapGL>
       </div>
@@ -231,6 +280,7 @@ function PlanningMap({
 PlanningMap.propTypes = {
   latitude: PropTypes.number,
   longitude: PropTypes.number,
+  friendReviews: PropTypes.array,
   localCityReviews: PropTypes.array,
   handleLocalCityReviews: PropTypes.func,
   edit: PropTypes.bool,

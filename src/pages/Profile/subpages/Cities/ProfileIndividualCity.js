@@ -14,19 +14,16 @@ import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
 import CityCommentaryContainer from "./CityCommentaryContainer";
 
-function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
+function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername, userId }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [localCityReviews, handleLocalCityReviews] = useState(null);
+  const [friendCityReviews, handleFriendCityReviews] = useState([]);
   const [filteredCityReviews, handleFilteredCityReviews] = useState(
     cityReviews
   );
+  const [filteredFriendReviews, handleFilteredFriendReviews] = useState([]);
   const [page, handlePage] = useState("basics");
-  console.log(cityReviews);
-  console.log(localCityReviews);
-  useEffect(() => {
-    console.log("individual loaded");
-  }, []);
   useEffect(() => {
     handleLocalCityReviews(cityReviews);
   }, [cityReviews]);
@@ -46,7 +43,7 @@ function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
           "breakfast",
           "lunch",
           "dinner",
-          "snack",
+          "dessert",
           "drink",
           "tour",
           "outdoor",
@@ -58,7 +55,7 @@ function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
         keyWords = ["monument", "nature", "place", "stay"];
         break;
       case "meals":
-        keyWords = ["breakfast", "lunch", "dinner", "snack", "drink"];
+        keyWords = ["breakfast", "lunch", "dinner", "dessert", "drink"];
         break;
       case "activities":
         keyWords = ["tour", "outdoor", "shopping", "activity"];
@@ -77,10 +74,30 @@ function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
       }
       return false;
     });
-    console.log(filteredArray);
+    let friendArray = [];
+    if (friendCityReviews.length >= 1) {
+      for (let i in friendCityReviews) {
+        for (let j in friendCityReviews[i].CityReviews) {
+          friendArray.push(friendCityReviews[i].CityReviews[j]);
+        }
+      }
+    }
+    let filteredFriendArray = friendArray.filter(city => {
+      for (let i in keyWords) {
+        if (city.attraction_type === keyWords[i]) {
+          return true;
+        }
+      }
+      return false;
+    });
     handleFilteredCityReviews(filteredArray);
+    handleFilteredFriendReviews(filteredFriendArray);
     handleLoaded(true);
-  }, [page, localCityReviews]);
+  }, [page, localCityReviews, friendCityReviews]);
+console.log(filteredFriendReviews)
+function handleFriendReviewHandler(data) {
+  handleFriendCityReviews(data);
+}
 
   function updateLocalReviews(updatedReviews) {
     let localReviews = [...localCityReviews];
@@ -98,12 +115,16 @@ function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
   const cityReviewsContainer = (
     <CityReviewsContainer
       reviews={filteredCityReviews}
+      friendReviews={filteredFriendReviews}
+      fullFriendCityReviews = {friendCityReviews}
       city={city}
       page={page}
       updateLocalReviews={updateLocalReviews}
       refetch={refetch}
       urlUsername={urlUsername}
       deleteLocalCityReview={deleteLocalCityReview}
+      userId={userId}
+      sendFriendReviewsBackwards={handleFriendReviewHandler}
     />
   );
 
@@ -241,7 +262,8 @@ ProfileIndividualCity.propTypes = {
   city: PropTypes.object,
   cityReviews: PropTypes.array,
   refetch: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
+  userId: PropTypes.number
 };
 
 export default React.memo(ProfileIndividualCity);

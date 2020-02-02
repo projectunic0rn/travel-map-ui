@@ -14,11 +14,11 @@
   position: relative;
   align-items: center;
   background: #f8f8fc;
-  max-width: 700px;
-  width: 700px;
+  max-width: 764px;
+  width: 764px;
   height: 80px;
   border-radius: 4px;
-  -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0 0 10px rgba(92, 70, 70, 0.15);
   -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
   box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.5);
   margin: 4px 0;
@@ -153,7 +153,6 @@
       padding: 10px 0 4px 4px;
     }
 
-
     .cost-icon-currency {
       border: none;
       background: none;
@@ -272,11 +271,24 @@
   position: absolute;
   top: 72px;
   right: 0px;
-  width: 200px;
+  width: 260px;
   display: flex;
-  justify-content: center;
-  #planning-map-update, #planning-map-edit {
+  flex-direction: column;
+  align-items: center;
+  #planning-map-update,
+  #planning-map-edit,
+  #add-review {
+    margin: 4px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 60px;
+    padding: 4px 12px;
+  }
+  #add-review {
+    text-align: center;
   }
   .review-edit-button {
     cursor: pointer;
@@ -318,6 +330,16 @@
     font-size: 14px;
     color: rgb(125, 125, 131);
   }
+  #feedback-noclick {
+    opacity: 0.25;
+    .neutral-active {
+      stroke: #969696;
+    }
+    .recommend-icon:hover,
+    .do-not-recommend-icon:hover {
+      stroke: #969696;
+    }
+  }
 }
 
 #feedback-comment-sub {
@@ -337,13 +359,14 @@
   border-radius: 50%;
   transition: 0.2s opacity ease-in-out;
   &:hover {
-    opacity: 1.0;
+    opacity: 1;
   }
-  &:before, &:after {
+  &:before,
+  &:after {
     position: absolute;
     left: 13px;
     top: 6px;
-    content: ' ';
+    content: " ";
     height: 16px;
     width: 2px;
     background-color: white;

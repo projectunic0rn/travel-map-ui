@@ -20,7 +20,8 @@ function CityReviewCard({
   urlUsername,
   refetch,
   deleteReview,
-  index
+  index,
+  timing
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [, handleComment] = useState("");
@@ -69,7 +70,7 @@ function CityReviewCard({
         "breakfast",
         "lunch",
         "dinner",
-        "snack",
+        "dessert",
         "drink",
         "tour",
         "outdoor",
@@ -81,7 +82,7 @@ function CityReviewCard({
       options = ["monument", "nature", "place", "stay"];
       break;
     case "meals":
-      options = ["breakfast", "lunch", "dinner", "snack", "drink"];
+      options = ["breakfast", "lunch", "dinner", "dessert", "drink"];
       break;
     case "activities":
       options = ["tour", "outdoor", "shopping", "activity"];
@@ -135,6 +136,7 @@ function CityReviewCard({
           handleRatingChange={handleRatingChangeHelper}
           handleCostChange={handleCostChangeHelper}
           handleCurrencyChange={handleCurrencyChangeHelper}
+          timing={timing}
         />
         {edit ? (
           <>
@@ -200,7 +202,8 @@ CityReviewCard.propTypes = {
   urlUsername: PropTypes.bool,
   refetch: PropTypes.func,
   deleteReview: PropTypes.func,
-  index: PropTypes.number
+  index: PropTypes.number,
+  timing: PropTypes.string
 };
 
 export default CityReviewCard;
