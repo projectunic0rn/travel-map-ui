@@ -38,8 +38,8 @@
   @media (max-width: "900px") {
     transform: translate(-20px, -140px);
   }
-  @media (max-height: 900px) {
-    transform: translate(-40px, 80px);
+  @media (max-height: "900px") {
+    transform: translate(-40px, -20px);
   }
   .scorecard-instructions {
     position: absolute;

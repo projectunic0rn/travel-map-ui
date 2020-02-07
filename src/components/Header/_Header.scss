@@ -137,7 +137,8 @@
   width: 100%;
   padding-bottom: 4px;
   background: rgb(248, 248, 252);
-  @media (min-width: 765px) {
+  z-index: 2000;
+  @media (min-width: 1080px) {
     display: none;
   }
   a {
