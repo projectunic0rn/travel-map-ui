@@ -207,6 +207,8 @@ function NewUserCity(props) {
     handleMarkerFutureDisplay([]);
     handleMarkerLiveDisplay([]);
     handleMarkerRecentDisplay([]);
+    handleTravelScoreIndexArray([]);
+    handleCountryIdArray([]);
     handleDeletePrompt(false);
     handleTripTimingCounts([0, 0, 0]);
     handleTravelScore(0);

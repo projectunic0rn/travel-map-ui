@@ -30,7 +30,7 @@ function FeedbackBox({
   useEffect(() => {
     handleCostClick(false);
     handleCost(review.cost);
-    handleCurrencyChange(review.currency);
+    // handleCurrencyChange(review.currency);
     handleLoaded(true);
   }, [review, handleCost, handleCostClick, handleCurrencyChange]);
   function handleRatingHelper(rating) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { useQuery } from "@apollo/react-hooks";
@@ -14,36 +14,39 @@ import Loader from "../../../../components/common/Loader/Loader";
 import PlanningMap from "./PlanningMap";
 import PlaceReviewCard from "../../../Place/PlaceReviewCard";
 
-const PlanningMapFriendReviews = ({
+function PlanningMapFriendReviews({
   placeId,
   sendFriendReviewsBackwards,
   userId
-}) => {
+}) {
   const { data, error, loading } = useQuery(CITY_REVIEWS_ALL_USERS, {
     variables: { placeId }
   });
-  if (data !== undefined && data !== null) {
-    handleDataReturn(data[Object.keys(data)[0]]);
-  }
-  function handleDataReturn(data) {
-    let newData = data.filter(
-      (item, index, self) =>
-        index ===
-        self.findIndex(t => t.id === item.id && t.UserId === item.UserId)
-    );
-    let newDataNonBlanks = [];
-    for (let i in newData) {
-      if (
-        newData[i].CityReviews.length >= 1 &&
-        Number(newData[i].UserId) !== Number(userId)
-      ) {
-        newDataNonBlanks.push(newData[i]);
+    // const dataLoaded = useRef(true);
+
+    if (data !== undefined && data !== null) {
+      handleDataReturn(data[Object.keys(data)[0]]);
+    } 
+    function handleDataReturn(data) {
+      console.log("friend query");
+      let newData = data.filter(
+        (item, index, self) =>
+          index ===
+          self.findIndex(t => t.id === item.id && t.UserId === item.UserId)
+      );
+      let newDataNonBlanks = [];
+      for (let i in newData) {
+        if (
+          newData[i].CityReviews.length >= 1 &&
+          Number(newData[i].UserId) !== Number(userId)
+        ) {
+          newDataNonBlanks.push(newData[i]);
+        }
       }
+      sendFriendReviewsBackwards(newDataNonBlanks);
     }
-    sendFriendReviewsBackwards(newDataNonBlanks);
-  }
   return null;
-};
+}
 
 export default function CityReviewsContainer({
   page,
@@ -60,7 +63,7 @@ export default function CityReviewsContainer({
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [edit, handleEdit] = useState(false);
-  const [localCityReviews, handleLocalCityReviews] = useState(reviews);
+  const [localCityReviews, handleLocalCityReviews] = useState([]);
   const [localFriendReviews, handleLocalFriendReviews] = useState(
     friendReviews.length > 0 ? friendReviews : []
   );
@@ -68,10 +71,15 @@ export default function CityReviewsContainer({
   const [placeId] = useState(city.cityId);
 
   useEffect(() => {
-    for (let i in reviews) {
-      delete reviews[i].__typename;
+    console.log("city review container loaded");
+  }, []);
+  console.log("showFriendReviews: ", showFriendReviews);
+  useEffect(() => {
+    let reviewHolder = [...reviews];
+    for (let i in reviewHolder) {
+      delete reviewHolder[i].__typename;
     }
-    handleLocalCityReviews(reviews);
+    handleLocalCityReviews(reviewHolder);
     handleLoaded(true);
   }, [reviews]);
 
@@ -139,6 +147,11 @@ export default function CityReviewsContainer({
     return type;
   }
 
+  function sendFriendReviewsBackwardsHelper(data) {
+    handleShowFriendReviews(false);
+    sendFriendReviewsBackwards(data);
+  }
+
   function handleType(id, key, type) {
     let reviewToUpdate = localCityReviews.findIndex(
       review => review.id === id && review.key === key
@@ -175,8 +188,10 @@ export default function CityReviewsContainer({
     let reviewToUpdate = localCityReviews.findIndex(
       review => review.id === id && review.key === key
     );
-    localCityReviews[reviewToUpdate].currency = currency;
-    handleLocalCityReviews(localCityReviews);
+    if (localCityReviews.length > 0) {
+      localCityReviews[reviewToUpdate].currency = currency;
+      handleLocalCityReviews(localCityReviews);
+    }
   }
   function handleCommentChange(id, key, comment) {
     let reviewToUpdate = localCityReviews.findIndex(
@@ -196,7 +211,6 @@ export default function CityReviewsContainer({
     }
     mutation();
   }
-  console.log(fullFriendCityReviews);
   if (!loaded) return <Loader />;
   return (
     <>
@@ -248,7 +262,9 @@ export default function CityReviewsContainer({
               user={user}
               page={page}
               reviewCount={localFriendReviews.length}
-              handleReviewCount={() => {return null}}
+              handleReviewCount={() => {
+                return null;
+              }}
               cityOrCountry={"city"}
             />
           );
@@ -312,7 +328,7 @@ export default function CityReviewsContainer({
           {showFriendReviews ? (
             <PlanningMapFriendReviews
               placeId={placeId}
-              sendFriendReviewsBackwards={sendFriendReviewsBackwards}
+              sendFriendReviewsBackwards={sendFriendReviewsBackwardsHelper}
               userId={userId}
             />
           ) : null}
