@@ -54,6 +54,7 @@
       right: calc(5%);
     }
     @media screen and (max-width: 900px) {
+      display: none;
       top: calc(100% - 350px);
       right: calc(50% - 100px);
     }
@@ -277,15 +278,22 @@
   position: absolute;
   width: 100%;
   height: 80px;
-  top: 180px;
-  left: calc(50% - 560px);
+  top: 60px;
+  left: calc(50% - 600px);
   @media screen and (max-width: 1200px) {
-    top: calc(100% - 40px);
+    top: calc(100% - 160px);
     left: calc(7.5%);
   }
   @media screen and (max-width: 900px) {
+    display: none;
     top: calc(100% - 120px);
     left: calc(50% - 60px);
+  }
+  #map-scorecard-container {
+    transform: none;
+    @media (max-height: 900px) {
+      top: 0px;
+    }
   }
   .georney-score {
     position: absolute;
