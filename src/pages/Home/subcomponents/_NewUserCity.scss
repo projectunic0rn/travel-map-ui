@@ -12,8 +12,9 @@
   font-family: "Segoe UI", sans-serif;
   font-size: 30px;
   color: rgb(248, 248, 252);
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 520px) {
     flex-direction: column;
+    font-size: 24px;
   }
   select {
     background: none;
@@ -23,6 +24,10 @@
     color: rgb(248, 248, 252);
     margin-left: 4px;
     border-bottom: 1px solid rgb(248, 248, 252);
+    @media screen and (max-width: 520px) {
+      flex-direction: column;
+      font-size: 24px;
+    }
     option {
       background: #dee2e6;
       color: rgb(74, 89, 90);
@@ -254,16 +259,25 @@
         min-width: 600px;
         box-shadow: 0 3px 6px 2px rgba(black, 0.15);
         background: rgb(248, 248, 252);
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 700px) {
           min-width: 500px;
         }
-        @media screen and (max-width: 450px) {
+        @media screen and (max-width: 600px) {
+          min-width: 450px;
+        }
+        @media screen and (max-width: 550px) {
           min-width: 400px;
           top: 80px;
         }
-        @media screen and (max-width: 320px) {
-          max-width: 300px;
+        @media screen and (max-width: 500px) {
+          min-width: 350px;
+        }
+        @media screen and (max-width: 450px) {
           min-width: 300px;
+        }
+        @media screen and (max-width: 400px) {
+          max-width: 280px;
+          min-width: 280px;
         }
         input {
           color: rgb(74, 89, 90) !important;
@@ -517,14 +531,19 @@
   }
 }
 
-.georney-score {
+#new-map-georney-score {
   position: absolute;
   bottom: 60px;
-  left: calc(50%);
+  left: calc(50% - 100px);
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  @media screen and (max-height: 1200px) {
+    bottom: 80px;
+  }
+  @media screen and (max-height: 600px) {
+    display: none;
+  }
   .gs-title {
     color: #cfd4da;
     font-weight: 550;
@@ -544,5 +563,90 @@
     justify-content: center;
     align-items: center;
     background: #f1f3f5;
+  }
+}
+
+.city-new-side-menu {
+  height: 100%; /* 100% Full-height */
+  width: 250px; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: rgba(#4F5867, 0.95); /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  z-index: 5000;
+  a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: rgb(248, 248, 252);
+    display: block;
+    transition: 0.3s;
+  }
+  .opennav {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    font-size: 48px;
+    margin-left: 50px;
+    cursor: pointer;
+  }
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    cursor: pointer;
+  }
+  .side-menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    #scorecard-side-menu {
+      position: relative;
+      display: flex;
+      top: 80px;
+      left: 25px;
+    }
+    #new-country-map-button-side-menu {
+      display: flex;
+      position: relative;
+      top: 140px;
+      left: 0px;
+      width: 60px;
+      height: 42px;
+      svg {
+        transform: none;
+      }
+      .sc-control-label {
+        top: 40px;
+        left: -14px;
+        color: rgb(228, 228, 232);
+      }
+    }
+    #sc-controls-side-menu {
+      display: flex;
+      flex-direction: column;
+      width: 80px;
+      height: 300px;
+      left: 85px;
+      top: 400px;
+    }
+    .delete-prompt {
+      right: -100px;
+      min-width: 240px;
+      span {
+        margin-top: 10px;
+      }
+    }
+  }
+  @media screen and (min-width: 900px) {
+    display: none;
   }
 }
