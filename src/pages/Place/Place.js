@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Route } from "react-router-dom";
 import { Query } from "react-apollo";
 import {
   CITY_REVIEWS_ALL_USERS,
@@ -42,7 +41,13 @@ export default function Place() {
         index ===
         self.findIndex(t => t.id === item.id && t.UserId === item.UserId)
     );
-    handleAllReviews(newData);
+    let newDataNonBlanks = [];
+    for (let i in newData) {
+      if (newData[i].CityReviews.length >= 1) {
+        newDataNonBlanks.push(newData[i])
+      }
+    }
+    handleAllReviews(newDataNonBlanks);
     handleLoaded(true);
   }
   return (

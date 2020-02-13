@@ -541,7 +541,7 @@ function FriendCityMap(props) {
             <Cluster
               ref={clusterPast}
               radius={40}
-              extent={1024}
+              extent={512}
               nodeSize={64}
               component={cluster => (
                 <ClusterMarker

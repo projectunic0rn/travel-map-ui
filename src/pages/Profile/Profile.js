@@ -151,6 +151,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       handleLoaded(true);
     }
   }, [cityData]);
+  console.log(cityReviews)
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
@@ -167,7 +168,8 @@ export default function Profile({ user, urlUsername, refetch }) {
         return (
           <div className="page page-profile">
             <div className="container">
-              <Sidebar
+              <div className="sidebar">
+                {/* <Sidebar
                 urlUsername={urlUsername}
                 userData={userData}
                 city={
@@ -185,7 +187,8 @@ export default function Profile({ user, urlUsername, refetch }) {
                 countryCount={countryArray.length - 1}
                 cityCount={cityArray.length - 1}
                 refetch={refetch}
-              />
+              /> */}
+              </div>
               <ProfileNav
                 handleSearchText={handleSearchText}
                 searchText={searchText}
@@ -223,10 +226,10 @@ export default function Profile({ user, urlUsername, refetch }) {
                   <ProfileIndividualCity
                     {...props}
                     city={selectedCity}
-                    searchText={searchText}
                     cityReviews={cityReviews}
                     refetch={refetch}
                     urlUsername={urlUsername}
+                    userId={user.id}
                   />
                 )}
               />

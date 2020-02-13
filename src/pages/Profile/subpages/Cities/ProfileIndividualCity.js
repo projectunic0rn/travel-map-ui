@@ -5,6 +5,7 @@ import MenuIcon from "../../../../icons/MenuIcon";
 import CityReviewsContainer from "./CityReviewsContainer";
 import CalendarIcon from "../../../../icons/CalendarIcon";
 import LocationIcon from "../../../../icons/LocationIcon";
+import AllTypesIcon from "../../../../icons/AllTimingsIcon";
 import ActivitiesIcon from "../../../../icons/InterestIcons/GuidedTouristIcon";
 import FoodieIcon from "../../../../icons/InterestIcons/FoodieIcon";
 import CommentaryIcon from "../../../../icons/CommentaryIcon";
@@ -13,28 +14,51 @@ import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
 import CityCommentaryContainer from "./CityCommentaryContainer";
 
-export default function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername }) {
+function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername, userId }) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
-  const [localCityReviews, handleLocalCityReviews] = useState(cityReviews);
+  const [localCityReviews, handleLocalCityReviews] = useState(null);
+  const [friendCityReviews, handleFriendCityReviews] = useState([]);
   const [filteredCityReviews, handleFilteredCityReviews] = useState(
     cityReviews
   );
+  const [filteredFriendReviews, handleFilteredFriendReviews] = useState([]);
   const [page, handlePage] = useState("basics");
-
   useEffect(() => {
-    handleLoaded(false);
-    handleLocalCityReviews(cityReviews)
+    console.log('use effect 1')
+    handleLocalCityReviews(cityReviews);
+  }, [cityReviews]);
+  useEffect(() => {
+    console.log(localCityReviews)
+    console.log(friendCityReviews)
+    // handleLoaded(false);
     let keyWords = [];
     switch (page) {
       case "basics":
         handleLoaded(true);
         return;
+      case "all reviews":
+        keyWords = [
+          "monument",
+          "nature",
+          "place",
+          "stay",
+          "breakfast",
+          "lunch",
+          "dinner",
+          "dessert",
+          "drink",
+          "tour",
+          "outdoor",
+          "shopping",
+          "activity"
+        ];
+        break;
       case "places":
         keyWords = ["monument", "nature", "place", "stay"];
         break;
       case "meals":
-        keyWords = ["breakfast", "lunch", "dinner", "snack", "drink"];
+        keyWords = ["breakfast", "lunch", "dinner", "dessert", "drink"];
         break;
       case "activities":
         keyWords = ["tour", "outdoor", "shopping", "activity"];
@@ -53,15 +77,62 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
       }
       return false;
     });
+    let friendArray = [];
+    if (friendCityReviews.length >= 1) {
+      for (let i in friendCityReviews) {
+        for (let j in friendCityReviews[i].CityReviews) {
+          friendArray.push(friendCityReviews[i].CityReviews[j]);
+        }
+      }
+    }
+    let filteredFriendArray = friendArray.filter(city => {
+      for (let i in keyWords) {
+        if (city.attraction_type === keyWords[i]) {
+          return true;
+        }
+      }
+      return false;
+    });
     handleFilteredCityReviews(filteredArray);
+    handleFilteredFriendReviews(filteredFriendArray);
     handleLoaded(true);
-  }, [page, cityReviews]);
+  }, [page, localCityReviews, friendCityReviews]);
+
+function handleFriendReviewHandler(data) {
+  console.log('friend review handler')
+  handleFriendCityReviews(data);
+}
+
   function updateLocalReviews(updatedReviews) {
+    console.log('update local')
     let localReviews = [...localCityReviews];
     localReviews.push(updatedReviews);
     handleLocalCityReviews(localReviews);
     handleLoaded(true);
   }
+
+  function deleteLocalCityReview(index) {
+    let newLocalCityReviews = [...localCityReviews];
+    newLocalCityReviews.splice(index, 1);
+    handleLocalCityReviews(newLocalCityReviews);
+  }
+
+  const cityReviewsContainer = (
+    <CityReviewsContainer
+      reviews={filteredCityReviews}
+      friendReviews={filteredFriendReviews}
+      fullFriendCityReviews = {friendCityReviews}
+      city={city}
+      page={page}
+      updateLocalReviews={updateLocalReviews}
+      refetch={refetch}
+      urlUsername={urlUsername}
+      deleteLocalCityReview={deleteLocalCityReview}
+      userId={userId}
+      sendFriendReviewsBackwards={handleFriendReviewHandler}
+    />
+  );
+
   if (!loaded) return "Loading";
   return (
     <div className="profile-cities content">
@@ -80,6 +151,13 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
         >
           {expanded ? "basics" : null}
           <CalendarIcon />
+        </button>
+        <button
+          onClick={() => handlePage("all reviews")}
+          className={page === "all reviews" ? "active" : ""}
+        >
+          {expanded ? "all reviews" : null}
+          <AllTypesIcon />
         </button>
         <button
           onClick={() => handlePage("places")}
@@ -139,7 +217,9 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
             <span className="city-review-title">{city.city.toLowerCase()}</span>
             <span className="city-review-subtitle">
               <span className="city-review-separator">|</span>{" "}
-              {city.country.length > 10 ? city.countryISO : city.country.toLowerCase()}
+              {city.country.length > 10
+                ? city.countryISO
+                : city.country.toLowerCase()}
             </span>
           </div>
         </div>
@@ -164,36 +244,10 @@ export default function ProfileIndividualCity({ city, cityReviews, refetch, urlU
                 urlUsername={urlUsername}
               />
             ),
-            places: (
-              <CityReviewsContainer
-                reviews={filteredCityReviews}
-                city={city}
-                page={page}
-                updateLocalReviews={updateLocalReviews}
-                refetch={refetch}
-                urlUsername={urlUsername}
-              />
-            ),
-            activities: (
-              <CityReviewsContainer
-                reviews={filteredCityReviews}
-                page={page}
-                city={city}
-                updateLocalReviews={updateLocalReviews}
-                refetch={refetch}
-                urlUsername={urlUsername}
-              />
-            ),
-            meals: (
-              <CityReviewsContainer
-                reviews={filteredCityReviews}
-                page={page}
-                city={city}
-                updateLocalReviews={updateLocalReviews}
-                refetch={refetch}
-                urlUsername={urlUsername}
-              />
-            ),
+            "all reviews": cityReviewsContainer,
+            places: cityReviewsContainer,
+            activities: cityReviewsContainer,
+            meals: cityReviewsContainer,
             comments: (
               <CityCommentaryContainer
                 key={"comments"}
@@ -213,5 +267,8 @@ ProfileIndividualCity.propTypes = {
   city: PropTypes.object,
   cityReviews: PropTypes.array,
   refetch: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
+  userId: PropTypes.number
 };
+
+export default React.memo(ProfileIndividualCity);

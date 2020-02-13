@@ -1,6 +1,9 @@
 .content-nav {
   display: flex;
-  max-width: 800px;
+  justify-content: space-around;
+  margin-bottom: 8px;
+  margin-left: 60px;
+  margin-right: 20px;
   @media (min-width: 1400px) {
     max-width: 1000px;
   }

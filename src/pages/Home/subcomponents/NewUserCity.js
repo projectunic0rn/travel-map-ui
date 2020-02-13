@@ -48,6 +48,7 @@ function NewUserCity(props) {
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [newLiveCity, handleNewLiveCity] = useState();
+  const [showSideMenu, handleSideMenu] = useState(false);
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
@@ -207,6 +208,8 @@ function NewUserCity(props) {
     handleMarkerFutureDisplay([]);
     handleMarkerLiveDisplay([]);
     handleMarkerRecentDisplay([]);
+    handleTravelScoreIndexArray([]);
+    handleCountryIdArray([]);
     handleDeletePrompt(false);
     handleTripTimingCounts([0, 0, 0]);
     handleTravelScore(0);
@@ -776,14 +779,17 @@ function NewUserCity(props) {
 
   function showPopup() {
     handleActivePopup(!activePopup);
+    handleSideMenu(false);
   }
 
   function showSuggest() {
     handleSuggestedPopup(!suggestPopup);
+    handleSideMenu(false);
   }
 
   function showImport() {
     handleImportPopup(!importPopup);
+    handleSideMenu(false);
   }
 
   function handleContinents(contArray) {
@@ -828,6 +834,93 @@ function NewUserCity(props) {
   return (
     <>
       <div className="city-new-map-container">
+        <div
+          className="city-new-side-menu"
+          style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+        >
+          {!showSideMenu ? (
+            <a className="opennav" onClick={() => handleSideMenu(true)}>
+              &raquo;
+            </a>
+          ) : (
+            <>
+              <a className="closebtn" onClick={() => handleSideMenu(false)}>
+                &times;
+              </a>
+              <div className="side-menu-container">
+                <div
+                  className="city-new-map-scorecard"
+                  id="scorecard-side-menu"
+                >
+                  <MapScorecard
+                    tripTimingCounts={tripTimingCounts}
+                    activeTimings={activeTimings}
+                    sendActiveTimings={handleActiveTimings}
+                  />
+                </div>
+                <div
+                  id="new-country-map-button-side-menu"
+                  className="sc-controls sc-controls-left"
+                  onClick={goToCountryMap}
+                >
+                  <span className="new-map-suggest">
+                    <span className="sc-control-label">Country map</span>
+                    <span id="map-change-icon" onClick={goToCountryMap}>
+                      <MapChangeIcon />
+                    </span>
+                  </span>
+                </div>
+                <div className="sc-controls" id="sc-controls-side-menu">
+                  {timingState !== 2 ? (
+                    <span className="new-map-suggest">
+                      <span className="sc-control-label">Tap cities</span>
+                      <span onClick={showSuggest}>
+                        <SuggestionsIcon />
+                      </span>
+                    </span>
+                  ) : null}
+                  <span className="new-map-clear">
+                    <span className="sc-control-label">Clear</span>
+                    <button
+                      onClick={() => handleDeletePrompt(true)}
+                      className="clear-map-button"
+                    ></button>
+                    <div
+                      className={
+                        deletePrompt ? "delete-prompt" : "delete-prompt-hide"
+                      }
+                    >
+                      Are you sure you wish to delete all cities?
+                      <span>
+                        <button className="button confirm" onClick={deleteAll}>
+                          Yes
+                        </button>
+                        <button
+                          className="button deny"
+                          onClick={() => handleDeletePrompt(false)}
+                        >
+                          No
+                        </button>
+                      </span>
+                    </div>
+                  </span>
+                  <span className="new-map-share">
+                    <span className="sc-control-label">Share/Save</span>
+                    <span onClick={showPopup}>
+                      <ShareIcon />
+                    </span>
+                  </span>
+                  <span className="new-map-import">
+                    <span className="sc-control-label">Import</span>
+                    <span onClick={showImport}>
+                      <ImportIcon />
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
         <div className="map-header-button">
           <div
             id="new-country-map-button"
@@ -964,7 +1057,7 @@ function NewUserCity(props) {
           sendActiveTimings={handleActiveTimings}
         />
       </div>
-      <span className="georney-score">
+      <span className="georney-score" id="new-map-georney-score">
         <span className="gs-title">{"GeorneyScore"}</span>
         <span className="gs-score">{Math.ceil(travelScore)}</span>
       </span>

@@ -25,7 +25,7 @@
   background: #f8f8fc;
   max-width: 764px;
   width: 764px;
-  min-height: 120px;
+  min-height: 160px;
   border-radius: 4px;
   -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
@@ -291,8 +291,6 @@
 .review-edit-button-container {
   display: flex;
   justify-content: center;
-  width: 100%;
-  margin-top: 40px;
   .review-edit-button {
     cursor: pointer;
     display: flex;

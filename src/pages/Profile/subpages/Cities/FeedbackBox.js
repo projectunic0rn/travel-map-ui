@@ -16,7 +16,8 @@ function FeedbackBox({
   handleCostChange,
   handleCommentClick,
   handleRatingChange,
-  handleCurrencyChange
+  handleCurrencyChange,
+  timing
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [rating, handleRating] = useState(
@@ -29,7 +30,7 @@ function FeedbackBox({
   useEffect(() => {
     handleCostClick(false);
     handleCost(review.cost);
-    handleCurrencyChange(review.currency);
+    // handleCurrencyChange(review.currency);
     handleLoaded(true);
   }, [review, handleCost, handleCostClick, handleCurrencyChange]);
   function handleRatingHelper(rating) {
@@ -50,22 +51,31 @@ function FeedbackBox({
       <div className="crc-icon-container">
         <div className="feedback-subcontainer">
           <span className="feedback-header">rating</span>
-          <div className="feedback-ratings">
+          <div
+            className="feedback-ratings"
+            id={timing === "future" ? "feedback-noclick" : null}
+          >
             <RecommendIcon
-              onClick={edit ? () => handleRatingHelper(2) : null}
+              onClick={
+                edit && timing !== "future" ? () => handleRatingHelper(2) : null
+              }
               value={rating === 2}
             />
             <NeutralIcon
-              onClick={edit ? () => handleRatingHelper(1) : null}
+              onClick={
+                edit && timing !== "future" ? () => handleRatingHelper(1) : null
+              }
               value={rating === 1}
             />
             <DoNotRecommendIcon
-              onClick={edit ? () => handleRatingHelper(0) : null}
+              onClick={
+                edit && timing !== "future" ? () => handleRatingHelper(0) : null
+              }
               value={rating === 0}
             />
           </div>
         </div>
-        <div className="feedback-subcontainer" id = "feedback-comment-sub">
+        <div className="feedback-subcontainer" id="feedback-comment-sub">
           <span className="feedback-header">comment</span>
           <div className="feedback-ratings">
             <CommentIcon
@@ -104,7 +114,8 @@ FeedbackBox.propTypes = {
   handleCommentClick: PropTypes.func,
   handleRatingChange: PropTypes.func,
   handleCostChange: PropTypes.func,
-  handleCurrencyChange: PropTypes.func
+  handleCurrencyChange: PropTypes.func,
+  timing: PropTypes.string
 };
 
 export default FeedbackBox;

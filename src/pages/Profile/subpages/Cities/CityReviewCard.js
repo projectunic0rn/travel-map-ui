@@ -18,7 +18,10 @@ function CityReviewCard({
   handleCurrencyChange,
   handleCommentChange,
   urlUsername,
-  refetch
+  refetch,
+  deleteReview,
+  index,
+  timing
 }) {
   const [loaded, handleLoaded] = useState(false);
   const [, handleComment] = useState("");
@@ -48,13 +51,38 @@ function CityReviewCard({
   function handleCommentChangeHelper(comment) {
     handleCommentChange(review.id, review.key, comment);
   }
+  function handleDeleteClick(mutation) {
+    if (index === undefined) {
+      mutation();
+    } else {
+      deleteReview(index);
+    }
+  }
+
   let options = "";
   switch (page) {
+    case "all reviews":
+      options = [
+        "monument",
+        "nature",
+        "place",
+        "stay",
+        "breakfast",
+        "lunch",
+        "dinner",
+        "dessert",
+        "drink",
+        "tour",
+        "outdoor",
+        "shopping",
+        "activity"
+      ];
+      break;
     case "places":
       options = ["monument", "nature", "place", "stay"];
       break;
     case "meals":
-      options = ["breakfast", "lunch", "dinner", "snack", "drink"];
+      options = ["breakfast", "lunch", "dinner", "dessert", "drink"];
       break;
     case "activities":
       options = ["tour", "outdoor", "shopping", "activity"];
@@ -108,6 +136,7 @@ function CityReviewCard({
           handleRatingChange={handleRatingChangeHelper}
           handleCostChange={handleCostChangeHelper}
           handleCurrencyChange={handleCurrencyChangeHelper}
+          timing={timing}
         />
         {edit ? (
           <>
@@ -124,7 +153,10 @@ function CityReviewCard({
                 >
                   <span>Are you sure you want to delete this review?</span>
                   <>
-                    <button className="button confirm" onClick={mutation}>
+                    <button
+                      className="button confirm"
+                      onClick={() => handleDeleteClick(mutation)}
+                    >
                       Yes
                     </button>
                     <button
@@ -168,7 +200,10 @@ CityReviewCard.propTypes = {
   handleCurrencyChange: PropTypes.func,
   handleCommentChange: PropTypes.func,
   urlUsername: PropTypes.bool,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  deleteReview: PropTypes.func,
+  index: PropTypes.number,
+  timing: PropTypes.string
 };
 
 export default CityReviewCard;

@@ -46,7 +46,6 @@ export default function Sidebar({
     handleAge(years);
   }
   return (
-    <div className="sidebar">
       <Query
         query={urlUsername ? GET_USER_COUNTRIES : GET_LOGGEDIN_USER}
         notifyOnNetworkStatusChange
@@ -85,7 +84,6 @@ export default function Sidebar({
           );
         }}
       </Query>
-    </div>
   );
 }
 
