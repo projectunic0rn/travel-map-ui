@@ -23,6 +23,11 @@
       width: calc(100% - 0px);
       height: calc(100% - 80px);
       transform: translate(0, -0px);
+      .rsm-zoomable-group {
+        @media (max-width: 1000px) {
+          transform: none;
+        }
+      }
     }
   }
   .map {
