@@ -6,7 +6,11 @@
   z-index: 10;
   @media (max-width: 1100px) {
     left: 50%;
-  }
+  }  
+  @media (max-width: 1000px) {
+    top: 106px;
+    left: calc(50% - 162px);
+   }
   .close-icon-container {
     cursor: pointer;
     .close-window-icon {
