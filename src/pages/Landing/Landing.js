@@ -330,6 +330,7 @@ function Landing() {
           </div>
         </div>
         <div className="arrow-container">
+          <span>more info</span>
           <div className="arrow-down"></div>
         </div>
       </div>

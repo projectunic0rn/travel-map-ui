@@ -14,7 +14,13 @@ import LogisticsInputContainer from "./LogisticsInputContainer";
 import CityBasicsContainer from "./CityBasicsContainer";
 import CityCommentaryContainer from "./CityCommentaryContainer";
 
-function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername, userId }) {
+function ProfileIndividualCity({
+  city,
+  cityReviews,
+  refetch,
+  urlUsername,
+  userId
+}) {
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [localCityReviews, handleLocalCityReviews] = useState(null);
@@ -25,12 +31,12 @@ function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername, userId
   const [filteredFriendReviews, handleFilteredFriendReviews] = useState([]);
   const [page, handlePage] = useState("basics");
   useEffect(() => {
-    console.log('use effect 1')
+    console.log("use effect 1");
     handleLocalCityReviews(cityReviews);
   }, [cityReviews]);
   useEffect(() => {
-    console.log(localCityReviews)
-    console.log(friendCityReviews)
+    console.log(localCityReviews);
+    console.log(friendCityReviews);
     // handleLoaded(false);
     let keyWords = [];
     switch (page) {
@@ -98,13 +104,13 @@ function ProfileIndividualCity({ city, cityReviews, refetch, urlUsername, userId
     handleLoaded(true);
   }, [page, localCityReviews, friendCityReviews]);
 
-function handleFriendReviewHandler(data) {
-  console.log('friend review handler')
-  handleFriendCityReviews(data);
-}
+  function handleFriendReviewHandler(data) {
+    console.log("friend review handler");
+    handleFriendCityReviews(data);
+  }
 
   function updateLocalReviews(updatedReviews) {
-    console.log('update local')
+    console.log("update local");
     let localReviews = [...localCityReviews];
     localReviews.push(updatedReviews);
     handleLocalCityReviews(localReviews);
@@ -121,7 +127,7 @@ function handleFriendReviewHandler(data) {
     <CityReviewsContainer
       reviews={filteredCityReviews}
       friendReviews={filteredFriendReviews}
-      fullFriendCityReviews = {friendCityReviews}
+      fullFriendCityReviews={friendCityReviews}
       city={city}
       page={page}
       updateLocalReviews={updateLocalReviews}

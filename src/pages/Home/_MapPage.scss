@@ -15,41 +15,24 @@
   width: 100vw;
   margin: 0 auto;
   .country-map {
-    margin: 0px auto 0 auto;
-    max-width: 85vw;
+    margin: 0px;
+    height: 100%;
     position: relative;
     text-align: center;
     .rsm-svg {
-      min-width: 1500px;
-      min-height: calc(100% - 100px);
+      width: calc(100% - 0px);
+      height: calc(100% - 80px);
       transform: translate(0, -0px);
-      @media (max-width: 1600px) {
-        min-width: 1200px;
-      }
-      @media (max-width: 1250px) {
-        min-width: 1000px;
-      }
-      @media (max-width: 1050px) {
-        min-width: 800px;
-        transform: translateY(0px);
-      }
-      @media (max-width: 850px) {
-        min-width: 600px;
-        transform: translateY(-40px);
-      }
-      @media (max-width: 650px) {
-        min-width: 500px;
-        transform: translateY(-80px);
-      }
-      @media (max-height: 1100px) {
-        min-width: 500px;
-        transform: translateY(60px);
+      .rsm-zoomable-group {
+        @media (max-width: 1000px) {
+          transform: none;
+        }
       }
     }
   }
   .map {
     width: 100%;
-    height: calc(100% - 400px);
+    // height: calc(100% - 400px);
     &:focus {
       outline: none;
     }
@@ -137,9 +120,6 @@
       align-content: center;
       margin: 8px auto;
       transform: translateY(8px);
-      @media (max-width: 1000px) {
-        transform: translateY(40px);
-      }
       button {
         z-index: 2;
         background: none;

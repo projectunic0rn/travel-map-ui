@@ -10,7 +10,7 @@ import {
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import MapChangeIcon from '../../../icons/MapChangeIcon';
+import MapChangeIcon from "../../../icons/MapChangeIcon";
 import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
@@ -34,6 +34,7 @@ const NewUserCountry = props => {
   const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
+  const [showSideMenu, handleSideMenu] = useState(false);
 
   useEffect(() => {
     let pastCount = 0;
@@ -232,6 +233,47 @@ const NewUserCountry = props => {
 
   return (
     <>
+      <div
+        className="city-new-side-menu"
+        style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+      >
+        {!showSideMenu ? (
+          <a className="opennav" onClick={() => handleSideMenu(true)}>
+            &raquo;
+          </a>
+        ) : (
+          <>
+            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+              &times;
+            </a>
+            <div className="side-menu-container">
+              <div className="city-new-map-scorecard" id="scorecard-side-menu">
+                <MapScorecard
+                  tripTimingCounts={tripTimingCounts}
+                  activeTimings={activeTimings}
+                  sendActiveTimings={handleActiveTimings}
+                />
+              </div>
+              <div
+                id="new-city-map-button-side-menu"
+                className="sc-controls sc-controls-left"
+                onClick={() => props.handleMapTypeChange(1)}
+              >
+                <span className="new-map-suggest">
+                  <span className="sc-control-label">City map</span>
+                  <span
+                    id="map-change-icon"
+                    onClick={() => props.handleMapTypeChange(1)}
+                  >
+                    <MapChangeIcon />
+                  </span>
+                </span>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
       <div className="map-header-container">
         <div className="map-header-button">
           <div
@@ -241,7 +283,10 @@ const NewUserCountry = props => {
           >
             <span className="new-map-suggest">
               <span className="sc-control-label">City map</span>
-              <span id="map-change-icon" onClick={() => props.handleMapTypeChange(1)}>
+              <span
+                id="map-change-icon"
+                onClick={() => props.handleMapTypeChange(1)}
+              >
                 <MapChangeIcon />
               </span>
             </span>
@@ -269,14 +314,13 @@ const NewUserCountry = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 205
+          scale: 180
         }}
-        width={980}
-        height={551}
-        style={{
-          width: "100%",
-          height: "auto"
-        }}
+        style={
+          {
+            // height: "auto"
+          }
+        }
       >
         <ZoomableGroup center={center} zoom={zoom}>
           <Geographies geography={jsonData} disableOptimization>
@@ -297,13 +341,14 @@ const NewUserCountry = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-
-      <MapScorecard
-        tripTimingCounts={tripTimingCounts}
-        activeTimings={activeTimings}
-        sendActiveTimings={handleActiveTimings}
-      />
-      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+      <div id="new-country-scorecard">
+        <MapScorecard
+          tripTimingCounts={tripTimingCounts}
+          activeTimings={activeTimings}
+          sendActiveTimings={handleActiveTimings}
+        />
+        <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+      </div>
       {/* {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
@@ -322,7 +367,7 @@ const NewUserCountry = props => {
 
 NewUserCountry.propTypes = {
   clickedCountryArray: PropTypes.array,
-  handleMapTypeChange: PropTypes.func,
+  handleMapTypeChange: PropTypes.func
 };
 
 export default NewUserCountry;

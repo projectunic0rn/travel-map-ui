@@ -1,3 +1,48 @@
+#new-map {
+  margin: 0;
+  #new-country-scorecard {
+    .map-scorecard-container {
+      bottom: 60px;
+      left: 60px;
+      @media screen and (max-width: 900px) {
+        display: none;
+        top: calc(100% - 120px);
+        left: calc(50% - 60px);
+      }
+    }
+    .map-info-container {
+      bottom: 120px;
+      left: 60px;
+      @media (max-height: 900px) {
+        transform: translate(-40px, 140px);
+      }
+    }
+  }
+  .side-menu-container {
+    #new-city-map-button-side-menu {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      top: 200px;
+      left: 0px;
+      width: 60px;
+      height: 42px;
+      background: #f8f8fc;
+      align-items: center;
+      z-index: 1000;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+      cursor: pointer;
+    }
+  }
+}
+
+#new-country-map-button {
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+}
+
 .new-user-timing-control {
   position: absolute;
   top: 8px;
@@ -573,7 +618,7 @@
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: rgba(#4F5867, 0.95); /* Black*/
+  background-color: rgba(#4f5867, 0.95); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
