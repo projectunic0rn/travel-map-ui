@@ -1,3 +1,7 @@
+@import "./TripDetailContainer.scss";
+@import "./TripBasics.scss";
+@import "./CitySelectContainer.scss";
+
 .add-trip-container {
   position: relative;
   display: flex;
@@ -13,9 +17,14 @@
   span {
     font-size: 60px;
     transform: translateY(-8px);
-    color: $primary-blue;
     z-index: 10;
     transition: all 0.3s ease;
+  }
+  #atc-past {
+    color: $primary-red;
+  }
+  #atc-future {
+    color: $primary-blue;
   }
   .circle-icon {
     position: absolute;
@@ -26,8 +35,13 @@
     z-index: 5;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
     border-radius: 50%;
-    fill: #a7e1ff;
     transition: all 0.3s ease;
+  }
+  .atc-past-circle {
+    fill: #ECC4C6;
+  }
+  .atc-future-circle {
+    fill: #a7e1ff;
   }
   &:hover {
     span {

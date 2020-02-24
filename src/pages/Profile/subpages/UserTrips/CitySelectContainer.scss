@@ -1,0 +1,14 @@
+.trip-cs-map-container {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  margin-top: 40px;
+  height: calc(100% - 20px);
+  left: 0;
+  .user-timing-control {
+    transform: translateY(-120px);
+    select {
+      border: none;
+    }
+  }
+}

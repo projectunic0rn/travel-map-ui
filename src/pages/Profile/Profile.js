@@ -11,6 +11,7 @@ import ProfileTrips from './subpages/UserTrips/ProfileTrips';
 import Settings from "./subpages/Settings";
 import Friends from "./subpages/Friends";
 import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
+import TripDetailContainer from './subpages/UserTrips/TripDetailContainer';
 import Loader from "../../components/common/Loader/Loader";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
@@ -221,10 +222,10 @@ export default function Profile({ user, urlUsername, refetch }) {
                 path={
                   urlUsername
                     ? `/profiles/${urlUsername}/trips/${selectedCity.city}/`
-                    : `/profile/trips/${selectedCity.city}/`
+                    : `/profile/trips/new/`
                 }
                 render={props => (
-                  <ProfileIndividualCity
+                  <TripDetailContainer
                     {...props}
                     city={selectedCity}
                     cityReviews={cityReviews}

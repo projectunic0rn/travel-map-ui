@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 import MenuIcon from "../../../../icons/MenuIcon";
 import AllTimingsIcon from "../../../../icons/AllTimingsIcon";
@@ -8,7 +9,6 @@ import FutureIcon from "../../../../icons/FutureIcon";
 import LiveIcon from "../../../../icons/LiveIcon";
 import TripCard from "./TripCard";
 import Loader from "../../../../components/common/Loader/Loader";
-import CircleIcon from "../../../../icons/CircleIcon";
 
 const fakeTrips = [
   {
@@ -137,18 +137,34 @@ export default function ProfileTrips({
         {results.length < 1 ? (
           <span className="no-cities-text">No cities recorded yet!</span>
         ) : null}
-        <div className="add-trip-container">
-          <span>+</span>
-          <svg
-            className="circle-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            id="Layer_1"
-            viewBox="0 0 60 60"
-          >
-            <circle opacity="0.25" cx="30" cy="30" r="30" />
-            <circle cx="30" cy="30.001" r="15" />
-          </svg>
-        </div>
+        <NavLink to={`/profile/trips/new/past`}>
+          <div className="add-trip-container">
+            <span id = "atc-past">+</span>
+            <svg
+              className="circle-icon atc-past-circle"
+              xmlns="http://www.w3.org/2000/svg"
+              id="Layer_1"
+              viewBox="0 0 60 60"
+            >
+              <circle opacity="0.25" cx="30" cy="30" r="30" />
+              <circle cx="30" cy="30.001" r="15" />
+            </svg>
+          </div>
+        </NavLink>{" "}
+        <NavLink to={`/profile/trips/new/future`}>
+          <div className="add-trip-container">
+            <span id="atc-future">+</span>
+            <svg
+              className="circle-icon atc-future-circle"
+              xmlns="http://www.w3.org/2000/svg"
+              id="Layer_1"
+              viewBox="0 0 60 60"
+            >
+              <circle opacity="0.25" cx="30" cy="30" r="30" />
+              <circle cx="30" cy="30.001" r="15" />
+            </svg>
+          </div>
+        </NavLink>
         {fakeTrips.map((trip, index) => (
           <TripCard
             key={trip.tripName + trip.year + index}

@@ -1,0 +1,35 @@
+#trip-basics-container {
+    .nl-form {
+        width: 800px;
+    }
+  .trip-dates-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 500px;
+    margin-bottom: 24px;
+    span {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 60px;
+    }
+    .trip-dates-title {
+      color: #f1f3f5;
+      font-size: 32px;
+      font-weight: 100;
+    }
+    input {
+      display: flex;
+      align-items: center;
+      background: #3f4b57;
+      border-radius: 24px;
+      border: none;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+      max-width: 200px;
+      height: 40px;
+      color: #f1f3f5;
+      font-size: 20px;
+      padding-left: 8px;
+    }
+  }
+}

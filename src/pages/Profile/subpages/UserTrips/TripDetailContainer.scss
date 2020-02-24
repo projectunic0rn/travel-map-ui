@@ -1,0 +1,25 @@
+.content-results {
+  width: 100%;
+}
+.trip-review-header {
+  .city-review-subtitle {
+    span:nth-child(1) {
+      color: white;
+    }
+  }
+  .trip-review-page {
+    .trip-title-input {
+      background: none;
+      border: none;
+      color: #d2dcd7;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 24px;
+      font-weight: 550;
+      line-height: 24px;
+      min-width: 500px;
+      &::placeholder {
+        color: #9c9e9d;
+      }
+    }
+  }
+}
