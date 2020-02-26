@@ -48,7 +48,7 @@ console.log(clickedCityArray)
     window.addEventListener("resize", resize);
     resize();
     handleLoaded(false);
-    // handleLoadedCities(props.clickedCityArray);
+    handleLoadedCities(loadedClickedCityArray);
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };

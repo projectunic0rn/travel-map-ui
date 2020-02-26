@@ -21,7 +21,7 @@ function PlanningMap({
     height: window.innerHeight,
     latitude: latitude,
     longitude: longitude,
-    zoom: 7.5
+    zoom: 1.0
   });
   const [bbox, handleBbox] = useState([]);
   const [loadingReviews, handleLoadingReviews] = useState(false);
@@ -36,6 +36,27 @@ function PlanningMap({
       window.removeEventListener("resize", resize);
     };
   }, []);
+
+  useEffectSkipFirstViewport(() => {}, [latitude, longitude]);
+
+  function useEffectSkipFirstViewport() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      let zoom = 1;
+      if (latitude !== 0 || longitude !== 0) {
+        zoom = 7.5;
+      }
+      handleViewportChange({
+        latitude: latitude,
+        longitude: longitude,
+        zoom: zoom
+      });
+    }, [latitude, longitude]);
+  }
 
   useEffect(() => {
     if (loaded) {
@@ -83,7 +104,6 @@ function PlanningMap({
   }
 
   function handleOnResult(event) {
-    console.log(event);
     handleLoadingReviews(true);
     handleLocalCityReviews(event);
   }
@@ -177,7 +197,7 @@ function PlanningMap({
             <Geocoder
               mapRef={mapRef}
               onResult={e => handleOnResult(e)}
-              onViewportChange={handleViewportChange}
+              // onViewportChange={handleViewportChange}
               limit={10}
               types={"poi"}
               mapboxApiAccessToken={
