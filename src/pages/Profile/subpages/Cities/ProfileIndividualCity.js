@@ -31,12 +31,9 @@ function ProfileIndividualCity({
   const [filteredFriendReviews, handleFilteredFriendReviews] = useState([]);
   const [page, handlePage] = useState("basics");
   useEffect(() => {
-    console.log("use effect 1");
     handleLocalCityReviews(cityReviews);
   }, [cityReviews]);
   useEffect(() => {
-    console.log(localCityReviews);
-    console.log(friendCityReviews);
     // handleLoaded(false);
     let keyWords = [];
     switch (page) {
@@ -105,12 +102,10 @@ function ProfileIndividualCity({
   }, [page, localCityReviews, friendCityReviews]);
 
   function handleFriendReviewHandler(data) {
-    console.log("friend review handler");
     handleFriendCityReviews(data);
   }
 
   function updateLocalReviews(updatedReviews) {
-    console.log("update local");
     let localReviews = [...localCityReviews];
     localReviews.push(updatedReviews);
     handleLocalCityReviews(localReviews);

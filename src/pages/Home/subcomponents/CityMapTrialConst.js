@@ -7,7 +7,11 @@ import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/react-hooks";
-import { ADD_MULTIPLE_PLACES, NEW_GEORNEY_SCORE, UPDATE_GEORNEY_SCORE } from "../../../GraphQL";
+import {
+  ADD_MULTIPLE_PLACES,
+  NEW_GEORNEY_SCORE,
+  UPDATE_GEORNEY_SCORE
+} from "../../../GraphQL";
 
 import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
@@ -49,6 +53,7 @@ function CityMapTrialConst(props) {
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [newLiveCity, handleNewLiveCity] = useState();
+  const [showSideMenu, handleSideMenu] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {}
   });
@@ -57,9 +62,7 @@ function CityMapTrialConst(props) {
       props.refetch();
     }
   });
-  const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {
-
-  });
+  const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
 
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -114,19 +117,30 @@ function CityMapTrialConst(props) {
   }
 
   function setInitialZoom() {
+    // let zoom;
+    // if (window.innerWidth >= 2400) {
+    //   zoom = 2.2;
+    // } else if (window.innerWidth >= 1750) {
+    //   zoom = 1.75;
+    // } else if (window.innerWidth <= 900) {
+    //   zoom = 0.75;
+    // } else if (window.innerWidth <= 1200) {
+    //   zoom = 1.0;
+    // } else if (window.innerWidth <= 1400) {
+    //   zoom = 1.25;
+    // } else if (window.innerWidth < 1750) {
+    //   zoom = 1.5;
+    // }
+    // return zoom;
     let zoom;
-    if (window.innerWidth >= 2400) {
-      zoom = 2.2;
-    } else if (window.innerWidth >= 1750) {
-      zoom = 1.75;
-    } else if (window.innerWidth <= 900) {
-      zoom = 0.75;
-    } else if (window.innerWidth <= 1200) {
-      zoom = 1.0;
-    } else if (window.innerWidth <= 1400) {
-      zoom = 1.25;
-    } else if (window.innerWidth < 1750) {
-      zoom = 1.5;
+    if (window.innerWidth <= 2 * window.innerHeight) {
+      zoom = window.innerWidth * 0.0009;
+    } else {
+      if (window.innerHeight >= 500) {
+        zoom = window.innerHeight * 0.0017;
+      } else {
+        zoom = window.innerHeight * 0.0008;
+      }
     }
     return zoom;
   }
@@ -845,6 +859,7 @@ function CityMapTrialConst(props) {
 
   function showSuggest() {
     handleSuggestedPopup(!suggestPopup);
+    handleSideMenu(false);
   }
 
   function handleContinents(contArray) {
@@ -884,6 +899,56 @@ function CityMapTrialConst(props) {
   return (
     <>
       <div className="city-map-container">
+        <div
+          className="city-new-side-menu"
+          style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+        >
+          {!showSideMenu ? (
+            <a className="opennav" onClick={() => handleSideMenu(true)}>
+              &raquo;
+            </a>
+          ) : (
+            <>
+              <a className="closebtn" onClick={() => handleSideMenu(false)}>
+                &times;
+              </a>
+              <div className="side-menu-container">
+                <div
+                  className="city-new-map-scorecard"
+                  id="scorecard-side-menu"
+                >
+                  <MapScorecard
+                    tripTimingCounts={tripTimingCounts}
+                    activeTimings={activeTimings}
+                    sendActiveTimings={handleActiveTimings}
+                  />
+                </div>
+                <div
+                  id="new-country-map-button-side-menu"
+                  className="sc-controls sc-controls-left"
+                  onClick={() => props.handleMapTypeChange(0)}
+                >
+                  <span className="new-map-suggest">
+                    <span className="sc-control-label">Country map</span>
+                    <span id="map-change-icon" onClick={() => props.handleMapTypeChange(0)}>
+                      <MapChangeIcon />
+                    </span>
+                  </span>
+                </div>
+                <div className="sc-controls" id="sc-controls-side-menu">
+                  {timingState !== 2 ? (
+                    <span className="new-map-suggest">
+                      <span className="sc-control-label">Tap cities</span>
+                      <span onClick={showSuggest}>
+                        <SuggestionsIcon />
+                      </span>
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
         <div className="map-header-button">
           <div
             className="sc-controls sc-controls-left"

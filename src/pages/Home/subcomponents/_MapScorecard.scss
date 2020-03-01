@@ -39,7 +39,10 @@
     transform: translate(-20px, -140px);
   }
   @media (max-height: "900px") {
-    transform: translate(-40px, -20px);
+    // transform: translate(-40px, -20px);
+  }
+  @media (max-height: "450px") {
+    transform: translate(0px, -60px);
   }
   .scorecard-instructions {
     position: absolute;

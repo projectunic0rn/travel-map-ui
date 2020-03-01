@@ -96,6 +96,7 @@ export default function TripReviewsContainer({
 
   function handleNewCityReview(event) {
     let cityReviews = [...localCityReviews];
+    console.log(event)
     let newCityReview = {
       reviewPlaceId: event.result.id.substr(4),
       review_latitude: event.result.center[1],

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from 'prop-types';
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
@@ -1107,6 +1108,11 @@ function NewUserCity(props) {
       ) : null}
     </>
   );
+}
+
+NewUserCity.propTypes = {
+  sendUserData: PropTypes.func,
+  handleMapTypeChange: PropTypes.func
 }
 
 export default React.memo(NewUserCity);
