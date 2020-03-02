@@ -9,9 +9,7 @@ import {
 
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
-import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
-import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
@@ -191,42 +189,6 @@ const NewUserCountry = props => {
     handleCapitalName(geography.properties.capital);
   }
 
-  function handleTripTimingHelper(timing) {
-    let countryArray = clickedCountryArray;
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
-    countryArray.push({
-      countryId: clickedCountry.id,
-      tripTiming: timing
-    });
-    switch (timing) {
-      case 0:
-        pastCount++;
-        break;
-      case 1:
-        futureCount++;
-        break;
-      case 2:
-        liveCount++;
-        break;
-      default:
-        break;
-    }
-    handleTripTiming([pastCount, futureCount, liveCount]);
-    addCountry(countryArray);
-  }
-
-  function checkForPreviousTrips(geography) {
-    let previousTrips = false;
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
-        previousTrips = true;
-      }
-    }
-    return previousTrips;
-  }
-
   function handleActiveTimings(timings) {
     handleTimingCheckbox(timings);
   }
@@ -316,11 +278,6 @@ const NewUserCountry = props => {
         projectionConfig={{
           scale: 180
         }}
-        style={
-          {
-            // height: "auto"
-          }
-        }
       >
         <ZoomableGroup center={center} zoom={zoom}>
           <Geographies geography={jsonData} disableOptimization>

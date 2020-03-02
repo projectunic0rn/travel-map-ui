@@ -117,21 +117,6 @@ function CityMapTrialConst(props) {
   }
 
   function setInitialZoom() {
-    // let zoom;
-    // if (window.innerWidth >= 2400) {
-    //   zoom = 2.2;
-    // } else if (window.innerWidth >= 1750) {
-    //   zoom = 1.75;
-    // } else if (window.innerWidth <= 900) {
-    //   zoom = 0.75;
-    // } else if (window.innerWidth <= 1200) {
-    //   zoom = 1.0;
-    // } else if (window.innerWidth <= 1400) {
-    //   zoom = 1.25;
-    // } else if (window.innerWidth < 1750) {
-    //   zoom = 1.5;
-    // }
-    // return zoom;
     let zoom;
     if (window.innerWidth <= 2 * window.innerHeight) {
       zoom = window.innerWidth * 0.0009;
@@ -703,13 +688,12 @@ function CityMapTrialConst(props) {
             key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
           >
             <div
               onMouseOver={() => handleCityTooltip(city)}
               style={{
-                backgroundColor: color
+                backgroundColor: color,
+                transform: "translate(-5px, -10px)"
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -717,13 +701,16 @@ function CityMapTrialConst(props) {
             <div
               onMouseOver={() => handleCityTooltip(city)}
               style={{
-                backgroundColor: "rgba(203, 118, 120, 1)"
+                backgroundColor: "rgba(203, 118, 120, 1)",
+                transform: "translate(-5px, -10px)"
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
             <div
-              style={{ border: "10px solid rgba(203, 118, 120, 1)" }}
+              style={{
+                border: "10px solid rgba(203, 118, 120, 1)"
+              }}
               key={"circle3" + city.cityId}
               className="pulse"
             />
@@ -743,20 +730,22 @@ function CityMapTrialConst(props) {
             key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
           >
             <div
               onMouseOver={() => handleCityTooltip(city)}
               style={{
-                backgroundColor: color
+                backgroundColor: color,
+                transform: "translate(-5px, -10px)"
               }}
               key={"circle" + city.cityId}
               className="dot"
             />
             <div
               onMouseOver={() => handleCityTooltip(city)}
-              style={{ backgroundColor: "rgba(115, 167, 195, 1.0)" }}
+              style={{
+                backgroundColor: "rgba(115, 167, 195, 1.0)",
+                transform: "translate(-5px, -10px)"
+              }}
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
@@ -780,18 +769,22 @@ function CityMapTrialConst(props) {
             key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
           >
             <div
               onMouseOver={() => handleCityTooltip(city)}
-              style={{ backgroundColor: color }}
+              style={{
+                backgroundColor: color,
+                transform: "translate(-5px, -10px)"
+              }}
               key={"circle" + city.cityId}
               className="dot"
             />
             <div
               onMouseOver={() => handleCityTooltip(city)}
-              style={{ backgroundColor: "rgba(150, 177, 168, 1.0)" }}
+              style={{
+                backgroundColor: "rgba(150, 177, 168, 1.0)",
+                transform: "translate(-5px, -10px)"
+              }}
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
@@ -930,16 +923,19 @@ function CityMapTrialConst(props) {
                 >
                   <span className="new-map-suggest">
                     <span className="sc-control-label">Country map</span>
-                    <span id="map-change-icon" onClick={() => props.handleMapTypeChange(0)}>
+                    <span
+                      id="map-change-icon"
+                      onClick={() => props.handleMapTypeChange(0)}
+                    >
                       <MapChangeIcon />
                     </span>
                   </span>
                 </div>
-                <div className="sc-controls" id="sc-controls-side-menu">
+                <div className="sc-controls" id="sc-controls-city-side-menu">
                   {timingState !== 2 ? (
-                    <span className="new-map-suggest">
+                    <span className="new-map-suggest" onClick={showSuggest}>
                       <span className="sc-control-label">Tap cities</span>
-                      <span onClick={showSuggest}>
+                      <span>
                         <SuggestionsIcon />
                       </span>
                     </span>
@@ -994,7 +990,10 @@ function CityMapTrialConst(props) {
             <ShareIcon />
           </div>
           {timingState !== 2 ? (
-            <div className="sc-controls" onClick={showSuggest}>
+            <div
+              className="sc-controls sc-controls-right"
+              onClick={showSuggest}
+            >
               <span className="new-map-suggest">
                 <span className="sc-control-label">Tap cities</span>
                 <span onClick={showSuggest}>

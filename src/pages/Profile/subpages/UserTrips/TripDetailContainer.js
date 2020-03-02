@@ -17,6 +17,14 @@ import TripBasicsContainer from "./TripBasicsContainer";
 import TripCommentaryContainer from "./TripCommentaryContainer";
 import CitySelectContainer from "./CitySelectContainer";
 
+const fakeTrip = {
+    tripName: "Northern Eurotrip",
+    tripTiming: "future", 
+    tripStartDate: "2020-04-01",
+    tripEndDate: "2020-04-20",
+    
+}
+
 function TripDetailContainer({
   city,
   cityReviews,

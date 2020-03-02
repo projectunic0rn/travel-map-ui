@@ -4,10 +4,11 @@
     .map-scorecard-container {
       bottom: 60px;
       left: 60px;
-      @media screen and (max-width: 900px) {
+      @media screen and (max-width: 1250px) {
         display: none;
-        top: calc(100% - 120px);
-        left: calc(50% - 60px);
+      }
+      @media screen and (max-height: 500px) {
+        top: 180px;
       }
     }
     .map-info-container {
@@ -427,8 +428,8 @@
   position: absolute;
   height: 50px;
   width: 50px;
-  top: -15px;
-  left: -15px;
+  top: -25px;
+  left: -20px;
   z-index: 500;
   opacity: 0;
   background: transparent;
