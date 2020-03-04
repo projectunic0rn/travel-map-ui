@@ -107,12 +107,7 @@
       left: calc(50% + 134px);
     }
     @media screen and (max-width: 900px) {
-      left: calc(50% + 184px);
-      top: -28px !important;
-    }
-    @media screen and (max-width: 800px) {
-      left: calc(50% + 404px);
-      top: 18px !important;
+      display: none !important;
     }
   }
   .sc-controls-right {
@@ -125,12 +120,7 @@
       left: calc(50% + 806px);
     }
     @media screen and (max-width: 900px) {
-      left: calc(50% + 756px);
-      top: -28px !important;
-    }
-    @media screen and (max-width: 800px) {
-      left: calc(50% + 468px);
-      top: 18px !important;
+      display: none !important;
     }
   }
   .sc-controls-right-two {
@@ -143,12 +133,7 @@
       left: calc(50% + 870px);
     }
     @media screen and (max-width: 900px) {
-      left: calc(50% + 820px);
-      top: -28px !important;
-    }
-    @media screen and (max-width: 800px) {
-      left: calc(50% + 532px);
-      top: 18px !important;
+      display: none !important;
     }
   }
 }
@@ -227,6 +212,10 @@
   height: 406px;
   max-height: 406px;
   overflow-y: hidden;
+  @media screen and (max-width: 1250px) {
+    top: calc(50% - 140px);
+    left: calc(50% - 150px);
+  }
   data {
     display: flex;
     flex-direction: column;
@@ -253,9 +242,6 @@
       transform: translateX(8px);
       color: #656f80;
     }
-    .utc-username {
-      font-size: 18px;
-    }
     .utc-location {
       font-size: 14px;
       color: #adb5bd;
@@ -281,6 +267,25 @@
         justify-content: center;
         align-items: center;
       }
+    }
+  }
+}
+
+.side-menu-container {
+  .side-menu-buttons-container {
+    display: flex;
+    flex-direction: column;
+    .sc-controls-left-two {
+      position: relative;
+      left: 0;
+    }
+    #fc-filter,
+    #fc-filter-active {
+      top: 186px;
+    }
+    #fc-leaderboard,
+    #fc-leaderboard-active {
+      top: 212px;
     }
   }
 }

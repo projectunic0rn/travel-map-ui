@@ -11,11 +11,11 @@ import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import LeaderboardPrompt from "../../../components/Prompts/LeaderboardPrompt";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import FilterIcon from "../../../icons/FilterIcon";
-import LeaderboardIcon from '../../../icons/LeaderboardIcon';
+import LeaderboardIcon from "../../../icons/LeaderboardIcon";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
-import ClusterMarker from './ClusterMarker';
+import ClusterMarker from "./ClusterMarker";
 
 function FriendCityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -43,6 +43,7 @@ function FriendCityMap(props) {
   const [leaderboard, handleLeaderboard] = useState(false);
   const [filterSettings, handleFilterSettings] = useState([]);
   const [clickedCity, handleClickedCity] = useState(null);
+  const [showSideMenu, handleSideMenu] = useState(false);
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
@@ -71,18 +72,14 @@ function FriendCityMap(props) {
 
   function setInitialZoom() {
     let zoom;
-    if (window.innerWidth >= 2400) {
-      zoom = 2.2;
-    } else if (window.innerWidth >= 1750) {
-      zoom = 1.75;
-    } else if (window.innerWidth <= 900) {
-      zoom = 0.75;
-    } else if (window.innerWidth <= 1200) {
-      zoom = 1.0;
-    } else if (window.innerWidth <= 1400) {
-      zoom = 1.25;
-    } else if (window.innerWidth < 1750) {
-      zoom = 1.5;
+    if (window.innerWidth <= 2 * window.innerHeight) {
+      zoom = window.innerWidth * 0.0009;
+    } else {
+      if (window.innerHeight >= 500) {
+        zoom = window.innerHeight * 0.0017;
+      } else {
+        zoom = window.innerHeight * 0.0008;
+      }
     }
     return zoom;
   }
@@ -353,6 +350,7 @@ function FriendCityMap(props) {
   function showFilter() {
     handleFilter(!filter);
     handleActivePopup(!activePopup);
+    handleSideMenu(false);
   }
 
   function showPopup() {
@@ -360,6 +358,7 @@ function FriendCityMap(props) {
       handleFilter(false);
     }
     handleActivePopup(!activePopup);
+    handleSideMenu(false);
   }
 
   function handleHoveredCityArrayHelper(hoveredCityArray) {
@@ -520,6 +519,79 @@ function FriendCityMap(props) {
         </div>
       </div>
       <div className="city-map-container" id="friend-city-map-container">
+        <div
+          className="city-new-side-menu"
+          style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+        >
+          {!showSideMenu ? (
+            <a className="opennav" onClick={() => handleSideMenu(true)}>
+              &raquo;
+            </a>
+          ) : (
+            <>
+              <a className="closebtn" onClick={() => handleSideMenu(false)}>
+                &times;
+              </a>
+              <div className="side-menu-container">
+                <div
+                  className="city-new-map-scorecard"
+                  id="scorecard-side-menu"
+                >
+                  <MapScorecard
+                    tripTimingCounts={tripTimingCounts}
+                    activeTimings={activeTimings}
+                    sendActiveTimings={handleActiveTimings}
+                  />
+                </div>
+                <div className="side-menu-buttons-container">
+                  <div
+                    id="new-country-map-button-side-menu"
+                    className="sc-controls sc-controls-left-two"
+                    onClick={() => props.handleMapTypeChange(0)}
+                  >
+                    <span className="new-map-suggest">
+                      <span className="sc-control-label">Country map</span>
+                      <span
+                        id="map-change-icon"
+                        onClick={() => props.handleMapTypeChange(0)}
+                      >
+                        <MapChangeIcon />
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    id={
+                      filteredTripTimingCounts !== null
+                        ? "fc-filter-active"
+                        : "fc-filter"
+                    }
+                    className="sc-controls sc-controls-left-two"
+                    onClick={showFilter}
+                  >
+                    <span className="new-map-suggest">
+                      <span className="sc-control-label">Filter</span>
+                      <span onClick={showFilter}>
+                        <FilterIcon />
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    id={leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"}
+                    className="sc-controls sc-controls-left-two"
+                    onClick={() => handleLeaderboard(!leaderboard)}
+                  >
+                    <span className="new-map-suggest">
+                      <span className="sc-control-label">Leaders</span>
+                      <span onClick={() => handleLeaderboard(!leaderboard)}>
+                        <LeaderboardIcon />
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
         <MapGL
           mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
           ref={mapRef}
@@ -644,8 +716,7 @@ function FriendCityMap(props) {
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 
 ClusterMarker.propTypes = {

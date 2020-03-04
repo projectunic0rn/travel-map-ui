@@ -109,14 +109,16 @@ function NewMarker(city) {
     >
       <div
         style={{
-          backgroundColor: "rgba" + color + "0.25)"
+          backgroundColor: "rgba" + color + "0.25)",
+          transform: "translate(-5px, -10px)"
         }}
         key={"circle" + city.cityId}
         className="dot"
       />
       <div
         style={{
-          backgroundColor: "rgba" + color + "1)"
+          backgroundColor: "rgba" + color + "1)",
+          transform: "translate(-5px, -10px)"
         }}
         key={"circle2" + city.cityId}
         className="dot-inner"
