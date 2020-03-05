@@ -4,6 +4,11 @@
   width: 100vw;
   height: calc(100% - 60px);
   left: 0;
+  .city-new-side-menu {
+    height: calc(100% - 60px);
+    padding: 0;
+    top: 60px;
+  }
 }
 
 .map-container .city-map .map-header-container {
@@ -37,6 +42,7 @@
   border-radius: 4px;
   box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.15);
   background: #3f4b57;
+
   label {
     text-transform: none;
     transform: translate(-20px, -4px);
@@ -281,7 +287,7 @@
   border-bottom: 2px solid #a7e1ff;
 }
 
-.city-map-container{
+.city-map-container {
   position: absolute;
   display: flex;
   width: 100vw;
@@ -308,6 +314,15 @@
   }
   .sc-controls-left {
     left: calc(50% - 366px);
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+
+  .sc-controls-right {
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
   }
 
   .new-map-suggest {
@@ -356,17 +371,30 @@
         min-width: 600px;
         box-shadow: 0 3px 6px 2px rgba(black, 0.15);
         background: rgb(248, 248, 252);
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 720px) {
           min-width: 500px;
         }
-        @media screen and (max-width: 450px) {
+        @media screen and (max-width: 600px) {
+          min-width: 450px;
+        }
+        @media screen and (max-width: 550px) {
           min-width: 400px;
-          top: 80px;
+        }
+        @media screen and (max-width: 500px) {
+          min-width: 350px;
+        }
+        @media screen and (max-width: 450px) {
+          min-width: 300px;
+        }
+        @media screen and (max-width: 400px) {
+          max-width: 280px;
+          min-width: 280px;
         }
         @media screen and (max-width: 320px) {
           max-width: 300px;
           min-width: 300px;
         }
+
         input {
           color: rgb(74, 89, 90) !important;
           min-width: 560px;
@@ -389,8 +417,7 @@
   top: 240px;
   left: calc(50% - 560px);
   @media screen and (max-width: 1250px) {
-    top: calc(100% - 80px);
-    left: calc(12.5%);
+    display: none;
   }
   @media screen and (max-width: 900px) {
     top: calc(100% - 120px);
@@ -406,10 +433,30 @@
   flex-direction: column;
   align-items: center;
   z-index: 30;
+  @media screen and (max-height: 1000px) {
+    bottom: 20px;
+  }
+  @media screen and (max-height: 400px) {
+    left: calc(50% + 240px);
+    bottom: 20px;
+  }
+  @media screen and (max-height: 400px) and (max-width: 800px) {
+    left: calc(50% - 320px);
+  }
+
+  @media screen and (max-height: 300px) {
+    display: none;
+  }
   .gs-title {
     color: #cfd4da;
     font-weight: 550;
     font-size: 24px;
+    @media screen and (max-height: 750px) {
+      font-size: 20px;
+    }
+    @media screen and (max-height: 600px) {
+      font-size: 16px;
+    }
   }
   .gs-score {
     margin-top: 4px;
@@ -425,6 +472,16 @@
     justify-content: center;
     align-items: center;
     background: #f1f3f5;
+    @media screen and (max-height: 750px) {
+      height: 60px;
+      width: 75px;
+      font-size: 24px;
+    }
+    @media screen and (max-height: 600px) {
+      height: 40px;
+      width: 50px;
+      font-size: 20px;
+    }
   }
 }
 .user-timing-control {
@@ -441,8 +498,9 @@
   font-family: "Segoe UI", sans-serif;
   font-size: 30px;
   color: rgb(248, 248, 252);
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 700px) {
     flex-direction: column;
+    font-size: 24px;
   }
   select {
     background: none;
@@ -452,6 +510,10 @@
     color: rgb(248, 248, 252);
     margin-left: 4px;
     border-bottom: 1px solid rgb(248, 248, 252);
+    @media screen and (max-width: 700px) {
+      flex-direction: column;
+      font-size: 24px;
+    }
     option {
       background: #dee2e6;
       color: rgb(74, 89, 90);
@@ -472,8 +534,14 @@
     background: rgb(248, 248, 252);
     color: #769f93;
   }
-  @media screen and (max-width: 1250px) {
-    top: calc(100% - 154px);
+  @media screen and (max-width: 800px) {
+    left: calc(50% - 300px);
+  }
+  @media screen and (max-width: 700px) {
+    left: calc(50% - 210px);
+  }
+  @media screen and (max-width: 500px) {
+    left: calc(50% - 60px);
   }
 }
 
@@ -496,8 +564,14 @@
       fill: #73a7c3;
     }
   }
-  @media screen and (max-width: 1250px) {
-    top: calc(100% - 110px);
+  @media screen and (max-width: 800px) {
+    left: calc(50% + 240px);
+  }
+  @media screen and (max-width: 700px) {
+    left: calc(50% + 160px);
+  }
+  @media screen and (max-width: 500px) {
+    left: calc(50% + 8px);
   }
 }
 
@@ -518,6 +592,27 @@
   z-index: 1;
   font-weight: 700;
   cursor: pointer;
+  @media (max-width: "1250px") {
+    right: calc(50% - 440px);
+    width: 60px;
+    justify-content: center;
+    padding-left: 0px;
+    svg {
+      margin-left: 0;
+    }
+    span {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 900px) {
+    right: calc(50% - 380px);
+  }
+  @media screen and (max-width: 800px) {
+    top: 16px;
+  }
+  @media screen and (max-width: 500px) {
+    top: 120px;
+  }
   #myShareLink {
     opacity: 0;
     z-index: -100;
@@ -528,7 +623,7 @@
     height: 24px;
   }
   @media screen and (max-width: 1250px) {
-    right: calc(50% - 440px);
+    // right: calc(50% - 440px);
   }
 }
 
@@ -555,3 +650,32 @@
     margin-top: 4px;
   }
 }
+
+#sc-controls-city-side-menu {
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  height: 48px;
+  left: 85px;
+  top: 320px;
+}
+
+#new-country-scorecard {
+    .map-scorecard-container {
+      bottom: 60px;
+      left: 60px;
+      @media screen and (max-width: 1250px) {
+        display: none;
+      }
+      @media screen and (max-height: 500px) {
+        top: 180px;
+      }
+    }
+    .map-info-container {
+      bottom: 120px;
+      left: 60px;
+      @media (max-height: 900px) {
+        transform: translate(-40px, 140px);
+      }
+    }
+  }

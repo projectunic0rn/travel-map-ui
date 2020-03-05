@@ -7,9 +7,11 @@ import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
 import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
+import ProfileTrips from './subpages/UserTrips/ProfileTrips';
 import Settings from "./subpages/Settings";
 import Friends from "./subpages/Friends";
 import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
+import TripDetailContainer from './subpages/UserTrips/TripDetailContainer';
 import Loader from "../../components/common/Loader/Loader";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
@@ -151,7 +153,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       handleLoaded(true);
     }
   }, [cityData]);
-  console.log(cityReviews)
+  console.log(cityReviews);
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
@@ -195,6 +197,43 @@ export default function Profile({ user, urlUsername, refetch }) {
                 page={page}
                 searchBar={page === "settings" ? false : true}
                 urlUsername={urlUsername}
+              />
+              <Route
+                exact
+                path={
+                  urlUsername
+                    ? `/profiles/${urlUsername}/trips`
+                    : "/profile/trips"
+                }
+                render={({ location }) => (
+                  <ProfileTrips
+                    user={user}
+                    location={location}
+                    cityData={cityData}
+                    searchText={searchText}
+                    handleSelectedCity={handleSelectedCity}
+                    urlUsername={urlUsername}
+                    handleOriginalSearch={handleSearchText}
+                    refetch={refetch}
+                  />
+                )}
+              />
+              <Route
+                path={
+                  urlUsername
+                    ? `/profiles/${urlUsername}/trips/${selectedCity.city}/`
+                    : `/profile/trips/new/`
+                }
+                render={props => (
+                  <TripDetailContainer
+                    {...props}
+                    city={selectedCity}
+                    cityReviews={cityReviews}
+                    refetch={refetch}
+                    urlUsername={urlUsername}
+                    userId={user.id}
+                  />
+                )}
               />
               <Route
                 exact

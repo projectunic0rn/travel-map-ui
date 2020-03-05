@@ -10,8 +10,6 @@ class SaveIcon extends Component {
         viewBox="0 0 18 18"
         x="0px"
         y="0px"
-        width="18px"
-        height="18px"
       >
         <path
         fill="rgb(138, 181, 209)"

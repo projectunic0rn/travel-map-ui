@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
@@ -610,13 +611,12 @@ function NewUserCity(props) {
             key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
           >
             <div
               onMouseOver={() => handleCityTooltip(city)}
               style={{
-                backgroundColor: color
+                backgroundColor: color,
+                transform: "translate(-5px, -10px)"
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -624,7 +624,8 @@ function NewUserCity(props) {
             <div
               onMouseOver={() => handleCityTooltip(city)}
               style={{
-                backgroundColor: "rgba(203, 118, 120, 1)"
+                backgroundColor: "rgba(203, 118, 120, 1)",
+                transform: "translate(-5px, -10px)"
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -636,11 +637,11 @@ function NewUserCity(props) {
             key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
           >
             <div
-              style={{ border: "10px solid rgba(203, 118, 120, 1)" }}
+              style={{
+                border: "10px solid rgba(203, 118, 120, 1)"
+              }}
               key={"circle3" + city.cityId}
               className="pulse"
             />
@@ -660,20 +661,22 @@ function NewUserCity(props) {
             key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
           >
             <div
               onMouseOver={() => handleCityTooltip(city)}
               style={{
-                backgroundColor: color
+                backgroundColor: color,
+                transform: "translate(-5px, -10px)"
               }}
               key={"circle" + city.cityId}
               className="dot"
             />
             <div
               onMouseOver={() => handleCityTooltip(city)}
-              style={{ backgroundColor: "rgba(115, 167, 195, 1.0)" }}
+              style={{
+                backgroundColor: "rgba(115, 167, 195, 1.0)",
+                transform: "translate(-5px, -10px)"
+              }}
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
@@ -708,18 +711,22 @@ function NewUserCity(props) {
             key={city.cityId}
             latitude={city.city_latitude}
             longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
           >
             <div
               onMouseOver={() => handleCityTooltip(city)}
-              style={{ backgroundColor: color }}
+              style={{
+                backgroundColor: color,
+                transform: "translate(-5px, -10px)"
+              }}
               key={"circle" + city.cityId}
               className="dot"
             />
             <div
               onMouseOver={() => handleCityTooltip(city)}
-              style={{ backgroundColor: "rgba(150, 177, 168, 1.0)" }}
+              style={{
+                backgroundColor: "rgba(150, 177, 168, 1.0)",
+                transform: "translate(-5px, -10px)"
+              }}
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
@@ -1108,5 +1115,10 @@ function NewUserCity(props) {
     </>
   );
 }
+
+NewUserCity.propTypes = {
+  sendUserData: PropTypes.func,
+  handleMapTypeChange: PropTypes.func
+};
 
 export default React.memo(NewUserCity);

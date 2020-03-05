@@ -19,7 +19,7 @@ function AccordionFAQ({ text, title }) {
 }
 
 AccordionFAQ.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   title: PropTypes.string
 };
 

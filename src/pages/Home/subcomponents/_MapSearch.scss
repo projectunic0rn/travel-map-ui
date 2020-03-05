@@ -14,12 +14,15 @@
     max-width: 400px;
   }
   @media screen and (max-width: 450px) {
-    max-width: 400px;
+    max-width: 320px;
     // top: 80px;
   }
+  @media screen and (max-width: 400px) {
+    max-width: 240px;
+  }
   @media screen and (max-width: 320px) {
-    max-width: 300px;
-    min-width: 300px;
+    max-width: 240px;
+    min-width: 240px;
   }
   label {
     text-transform: none;

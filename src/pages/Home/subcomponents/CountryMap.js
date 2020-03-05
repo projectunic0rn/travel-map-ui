@@ -13,7 +13,7 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
-import MapChangeIcon from '../../../icons/MapChangeIcon';
+import MapChangeIcon from "../../../icons/MapChangeIcon";
 
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -34,6 +34,7 @@ const CountryMap = props => {
   const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
+  const [showSideMenu, handleSideMenu] = useState(false);
 
   useEffect(() => {
     let pastCount = 0;
@@ -62,15 +63,15 @@ const CountryMap = props => {
     handleChangeCenter([0, 20]);
     handleChangeZoom(1);
   }
-  
+
   function handleWheel(event) {
     if (event.deltaY > 0) {
-      let newZoom = zoom/1.1;
+      let newZoom = zoom / 1.1;
       handleChangeZoom(newZoom);
     }
     if (event.deltaY < 0) {
-      let newZoom = zoom*1.1;
-      handleChangeZoom(newZoom)
+      let newZoom = zoom * 1.1;
+      handleChangeZoom(newZoom);
     }
   }
   function computedStyles(geography) {
@@ -232,12 +233,58 @@ const CountryMap = props => {
 
   return (
     <>
+      <div
+        className="city-new-side-menu city-side-menu"
+        style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+      >
+        {!showSideMenu ? (
+          <a className="opennav" onClick={() => handleSideMenu(true)}>
+            &raquo;
+          </a>
+        ) : (
+          <>
+            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+              &times;
+            </a>
+            <div className="side-menu-container">
+              <div className="city-new-map-scorecard" id="scorecard-side-menu">
+                <MapScorecard
+                  tripTimingCounts={tripTimingCounts}
+                  activeTimings={activeTimings}
+                  sendActiveTimings={handleActiveTimings}
+                />
+              </div>
+              <div
+                id="new-city-map-button-side-menu"
+                className="sc-controls sc-controls-left"
+                onClick={() => props.handleMapTypeChange(1)}
+              >
+                <span className="new-map-suggest">
+                  <span className="sc-control-label">City map</span>
+                  <span
+                    id="map-change-icon"
+                    onClick={() => props.handleMapTypeChange(1)}
+                  >
+                    <MapChangeIcon />
+                  </span>
+                </span>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
       <div className="map-header-container">
         <div className="map-header-button">
-        <div className="sc-controls sc-controls-left" onClick={() => props.handleMapTypeChange(1)}>
+          <div
+            className="sc-controls sc-controls-left"
+            onClick={() => props.handleMapTypeChange(1)}
+          >
             <span className="new-map-suggest">
               <span className="sc-control-label">City map</span>
-              <span id="map-change-icon" onClick={() => props.handleMapTypeChange(1)}>
+              <span
+                id="map-change-icon"
+                onClick={() => props.handleMapTypeChange(1)}
+              >
                 <MapChangeIcon />
               </span>
             </span>
@@ -265,13 +312,7 @@ const CountryMap = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 205
-        }}
-        width={980}
-        height={551}
-        style={{
-          width: "100%",
-          height: "auto"
+          scale: 180
         }}
       >
         <ZoomableGroup center={center} zoom={zoom}>
@@ -293,14 +334,14 @@ const CountryMap = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-
-      <MapScorecard
-        tripTimingCounts={tripTimingCounts}
-        activeTimings={activeTimings}
-        sendActiveTimings={handleActiveTimings}
-      />
-      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
-
+      <div id="new-country-scorecard">
+        <MapScorecard
+          tripTimingCounts={tripTimingCounts}
+          activeTimings={activeTimings}
+          sendActiveTimings={handleActiveTimings}
+        />
+        <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+      </div>
       {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
