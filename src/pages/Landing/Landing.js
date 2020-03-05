@@ -182,8 +182,6 @@ function LoadedMarker(city) {
 }
 
 function Landing() {
-  const [activeTab, handleActiveTab] = useState("loginTab");
-  const [windowWidth, handleWindowWidth] = useState(undefined);
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight + 120,
@@ -195,7 +193,6 @@ function Landing() {
   const mapRef = useRef();
 
   useEffect(() => {
-    handleWindowWidth(window.innerWidth);
     window.addEventListener("resize", resize);
     resize();
     if (incomingCities.length > 0) {
@@ -212,7 +209,6 @@ function Landing() {
   }, []);
 
   function addMarker() {
-    let index = Math.floor(Math.random() * incomingCities.length);
     let newMarkers = [...markers];
     markers.push(
       <NewMarker key={incomingCities[0].cityId} city={incomingCities[0]} />
@@ -221,16 +217,7 @@ function Landing() {
     incomingCities.splice(0, 1);
   }
 
-  function setActive(event) {
-    handleActiveTab(event.target.id);
-  }
-
-  function isActive(tab) {
-    return tab === activeTab ? "activeTab" : "";
-  }
-
   function resize() {
-    handleWindowWidth(window.innerWidth);
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight + 120,
@@ -352,7 +339,7 @@ function Landing() {
               value={"Banff, CA"}
               readOnly
             />
-            <span>----></span>
+            <span>----&gt;</span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedCityContainer />
@@ -388,7 +375,7 @@ function Landing() {
               value={"Banff, CA"}
               readOnly
             />
-            <span>----></span>
+            <span>----&gt;</span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedFriendCityContainer />

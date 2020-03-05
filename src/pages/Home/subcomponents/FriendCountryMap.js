@@ -13,7 +13,7 @@ import FriendClickedCountryContainer from "../../../components/Prompts/FriendCli
 import FriendClickedCountryBlank from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
-import MapChangeIcon from '../../../icons/MapChangeIcon';
+import MapChangeIcon from "../../../icons/MapChangeIcon";
 
 /* Need to make it so that duplicate country trips do not count as multiple
 scorecard values */
@@ -37,6 +37,7 @@ const FriendCountryMap = props => {
   const [activePopup, showPopup] = useState(null);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
+  const [showSideMenu, handleSideMenu] = useState(false);
 
   useEffect(() => {
     handleLoadedCountries(props.tripData);
@@ -279,6 +280,46 @@ const FriendCountryMap = props => {
   }
   return (
     <>
+      <div
+        className="city-new-side-menu city-side-menu"
+        style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+      >
+        {!showSideMenu ? (
+          <a className="opennav" onClick={() => handleSideMenu(true)}>
+            &raquo;
+          </a>
+        ) : (
+          <>
+            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+              &times;
+            </a>
+            <div className="side-menu-container">
+              <div className="city-new-map-scorecard" id="scorecard-side-menu">
+                <MapScorecard
+                  tripTimingCounts={tripTimingCounts}
+                  activeTimings={activeTimings}
+                  sendActiveTimings={handleActiveTimings}
+                />
+              </div>
+              <div
+                id="new-city-map-button-side-menu"
+                className="sc-controls sc-controls-left"
+                onClick={() => props.handleMapTypeChange(1)}
+              >
+                <span className="new-map-suggest">
+                  <span className="sc-control-label">City map</span>
+                  <span
+                    id="map-change-icon"
+                    onClick={() => props.handleMapTypeChange(1)}
+                  >
+                    <MapChangeIcon />
+                  </span>
+                </span>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
       <div className="map-header-container" style={{ position: "relative" }}>
         <div className="map-header-button">
           <div
@@ -318,13 +359,7 @@ const FriendCountryMap = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 205
-        }}
-        width={980}
-        height={551}
-        style={{
-          width: "100%",
-          height: "auto"
+          scale: 180
         }}
       >
         <ZoomableGroup center={center} zoom={zoom}>
@@ -363,12 +398,14 @@ const FriendCountryMap = props => {
           }}
         />
       ) : null}
-      <MapScorecard
-        tripTimingCounts={tripTimingCounts}
-        activeTimings={activeTimings}
-        sendActiveTimings={handleActiveTimings}
-      />
-      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+      <div id="new-country-scorecard">
+        <MapScorecard
+          tripTimingCounts={tripTimingCounts}
+          activeTimings={activeTimings}
+          sendActiveTimings={handleActiveTimings}
+        />
+        <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+      </div>
     </>
   );
 };
