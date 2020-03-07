@@ -57,7 +57,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             : "display-none"
         }
       >
-        <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} />
+        <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} handleHamburgerClick={handleHamburgerClick}/>
       </div>
     </Fragment>
   );
