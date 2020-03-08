@@ -519,6 +519,9 @@
     option {
       background: #dee2e6;
       color: rgb(74, 89, 90);
+      @media screen and (max-width: 700px) {
+        min-height: 60px;
+      }
     }
   }
 }
