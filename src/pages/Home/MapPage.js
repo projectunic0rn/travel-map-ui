@@ -5,7 +5,7 @@ import { ADD_MULTIPLE_PLACES } from "../../GraphQL";
 
 import { TravelScoreCalculator } from "../../TravelScore";
 import CountryMap from "./subcomponents/CountryMap";
-import CityMap from "./subcomponents/CityMapTrialConst";
+import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
 
 const MapPage = ({
