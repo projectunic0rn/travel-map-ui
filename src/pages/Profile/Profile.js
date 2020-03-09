@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import { Query } from "react-apollo";
 import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
 
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
 import ProfileTrips from './subpages/UserTrips/ProfileTrips';
@@ -153,7 +153,6 @@ export default function Profile({ user, urlUsername, refetch }) {
       handleLoaded(true);
     }
   }, [cityData]);
-  console.log(cityReviews);
   return (
     <Query
       query={GET_ALL_CITY_DETAILS}
