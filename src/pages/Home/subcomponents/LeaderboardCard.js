@@ -4,21 +4,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import UserAvatar from "../../../components/UserAvatar/UserAvatar";
 
 function LeaderboardCard({ user, rank }) {
-  function handleFontSize() {
-    console.log(user.username);
-    if (user.username.length < 13) {
-      console.log(user.username);
-      return "18px";
-    } else if (user.username.length < 16) {
-      return "16px";
-    } else if (user.username.length < 18) {
-      return "14px";
-    } else if (user.username.length < 24) {
-      return "12px";
-    } else {
-      return "10px";
-    }
-  }
+
   return (
     <NavLink
       to={{
