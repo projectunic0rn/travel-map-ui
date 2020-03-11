@@ -353,6 +353,11 @@ function FriendCityMap(props) {
     handleSideMenu(false);
   }
 
+  function showLeaderboard() {
+    handleLeaderboard(!leaderboard);
+    handleSideMenu(false);
+  }
+
   function showPopup() {
     if (activePopup) {
       handleFilter(false);
@@ -578,11 +583,11 @@ function FriendCityMap(props) {
                   <div
                     id={leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"}
                     className="sc-controls sc-controls-left-two"
-                    onClick={() => handleLeaderboard(!leaderboard)}
+                    onClick={showLeaderboard}
                   >
                     <span className="new-map-suggest">
                       <span className="sc-control-label">Leaders</span>
-                      <span onClick={() => handleLeaderboard(!leaderboard)}>
+                      <span onClick={showLeaderboard}>
                         <LeaderboardIcon />
                       </span>
                     </span>
