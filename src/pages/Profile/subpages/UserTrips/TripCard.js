@@ -45,7 +45,6 @@ function TripCard({
       ? REMOVE_PLACE_VISITING
       : REMOVE_PLACE_LIVING
   );
-  console.log(tripData)
   const [deletePrompt, handleDelete] = useState(false);
 //   useEffect(() => {
 //     let places = 0;

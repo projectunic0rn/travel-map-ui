@@ -382,6 +382,7 @@
         }
         @media screen and (max-width: 500px) {
           min-width: 350px;
+          transform: translateX(20px);
         }
         @media screen and (max-width: 450px) {
           min-width: 300px;
@@ -391,8 +392,8 @@
           min-width: 280px;
         }
         @media screen and (max-width: 320px) {
-          max-width: 300px;
-          min-width: 300px;
+          max-width: 260px;
+          min-width: 260px;
         }
 
         input {
@@ -435,6 +436,9 @@
   z-index: 30;
   @media screen and (max-height: 1000px) {
     bottom: 20px;
+  }
+  @media screen and (max-width: 500px) {
+    left: calc(50% - 80px);
   }
   @media screen and (max-height: 400px) {
     left: calc(50% + 240px);
@@ -502,6 +506,9 @@
     flex-direction: column;
     font-size: 24px;
   }
+  @media screen and (max-width: 500px) {
+    left: calc(50% - 280px);
+  }
   select {
     background: none;
     border: none;
@@ -525,7 +532,7 @@
   top: 60px;
   color: #769f93;
   background: $light-green;
-  box-shadow: 0 0 14px 2px rgba(255, 225, 167, 0.75);
+  box-shadow: 0 0 14px 2px rgba(197, 238, 143, 0.75);
   svg {
     margin-left: 6px;
     fill: #769f93;
@@ -541,7 +548,7 @@
     left: calc(50% - 210px);
   }
   @media screen and (max-width: 500px) {
-    left: calc(50% - 60px);
+    left: calc(50% - 40px);
   }
 }
 
@@ -571,7 +578,7 @@
     left: calc(50% + 160px);
   }
   @media screen and (max-width: 500px) {
-    left: calc(50% + 8px);
+    left: calc(50% + 28px);
   }
 }
 
@@ -654,9 +661,9 @@
 #sc-controls-city-side-menu {
   display: flex;
   flex-direction: column;
-  width: 80px;
+  width: 60px;
   height: 48px;
-  left: 85px;
+  left: 95px;
   top: 320px;
 }
 
@@ -678,4 +685,8 @@
         transform: translate(-40px, 140px);
       }
     }
+  }
+
+  .mapboxgl-ctrl-geocoder--icon-close {
+    margin-top: 4px;
   }

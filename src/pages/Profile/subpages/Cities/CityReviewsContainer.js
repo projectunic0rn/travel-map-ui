@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { useQuery } from "@apollo/react-hooks";
@@ -19,16 +19,14 @@ function PlanningMapFriendReviews({
   sendFriendReviewsBackwards,
   userId
 }) {
-  const { data, error, loading } = useQuery(CITY_REVIEWS_ALL_USERS, {
+  const { data } = useQuery(CITY_REVIEWS_ALL_USERS, {
     variables: { placeId }
   });
-    // const dataLoaded = useRef(true);
 
     if (data !== undefined && data !== null) {
       handleDataReturn(data[Object.keys(data)[0]]);
     } 
     function handleDataReturn(data) {
-      console.log("friend query");
       let newData = data.filter(
         (item, index, self) =>
           index ===
@@ -70,10 +68,7 @@ export default function CityReviewsContainer({
   const [showFriendReviews, handleShowFriendReviews] = useState(false);
   const [placeId] = useState(city.cityId);
 
-  useEffect(() => {
-    console.log("city review container loaded");
-  }, []);
-  console.log("showFriendReviews: ", showFriendReviews);
+
   useEffect(() => {
     let reviewHolder = [...reviews];
     for (let i in reviewHolder) {
