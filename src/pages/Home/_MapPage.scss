@@ -32,7 +32,6 @@
   }
   .map {
     width: 100%;
-    // height: calc(100% - 400px);
     &:focus {
       outline: none;
     }
@@ -42,10 +41,6 @@
 
     .map-header-container {
       display: flex;
-      // flex-direction: column;
-      // max-width: 1120px;
-      // width: 1120px;
-      // margin: 20px auto;
       align-items: center;
       justify-content: flex-end;
       @media (min-width: 1000px) {
@@ -59,11 +54,6 @@
         max-width: 267px;
         flex: 1;
         z-index: 2;
-        @media screen and (max-width: 1000px) {
-          // position: absolute;
-          // top: 72px;
-          // left: calc(50% - 220px);
-        }
         button {
           width: 200px;
           height: 40px;
@@ -179,7 +169,7 @@
   top: 15px;
   height: 42px;
   width: 60px;
-  z-index: 1000;
+  z-index: 1;
   border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
   cursor: pointer;
@@ -204,7 +194,6 @@
   display: flex;
   position: relative;
   fill: #92bad0;
-  z-index: 1000;
   cursor: pointer;
   font-size: 24px;
   color: rgb(200, 200, 200);
@@ -247,7 +236,6 @@
     top: 14px;
     height: 42px;
     width: 60px;
-    z-index: 1000;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
     cursor: pointer;
@@ -280,7 +268,6 @@
       height: 42px;
       background: #f8f8fc;
       align-items: center;
-      z-index: 1000;
       border-radius: 8px;
       box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
       cursor: pointer;
