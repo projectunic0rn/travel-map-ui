@@ -7,46 +7,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 320px;
-    height: 600px;
     max-height: 600px;
     background: none;
     margin: 0;
-    @media (max-height: 700px) {
-      max-height: 500px;
-    }
     @media (max-height: 550px) {
       max-height: 450px;
     }
     @media (max-height: 480px) {
       max-height: 420px;
     }
-    .sc-instructions {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      color: #e9ecee;
-      font-size: 32px;
-      top: -80px;
-      text-align: center;
-    }
-    .sc-lower-instructions {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      color: #e9ecee;
-      font-size: 28px;
-      bottom: -10px;
-      text-align: center;
-    }
     .suggested-cities-nav {
       display: flex;
       align-items: center;
-      width: 308px;
       min-height: 60px;
       justify-content: space-around;
       background: none;
-      margin-left: 12px;
       span {
         display: flex;
         justify-content: center;
@@ -87,7 +62,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 320px;
+      width: 55vw;
       max-height: calc(100% - 120px);
       flex: 1;
       overflow-y: auto;
@@ -96,6 +71,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        min-height: 60px;
         width: 100%;
         flex: 1;
         font-family: "Segoe UI", sans-serif;
@@ -195,9 +171,9 @@
         background: #f1f3f5;
         flex: 1;
         font-family: "Segoe UI", sans-serif;
-        font-size: 24px;
+        font-size: 14px;
         min-height: 60px;
-        max-height: 80px;
+        max-height: 100px;
         transform: none !important;
         z-index: 400 !important;
         border-top-left-radius: 4px;
