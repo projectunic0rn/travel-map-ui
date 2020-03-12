@@ -190,20 +190,6 @@
   }
 }
 
-#readonly-map-scorecard {
-  left: calc(50% - 600px);
-  top: 180px;
-  @media screen and (max-width: 1250px) {
-    left: calc(100% - 200px);
-    top: calc(100% - 60px);
-  }
-  .map-scorecard-container {
-    @media (max-height: 900px) {
-      transform: translate(-40px, -140px);
-    }
-  }
-}
-
 .leaderboard-container {
   position: absolute;
   left: 40px;

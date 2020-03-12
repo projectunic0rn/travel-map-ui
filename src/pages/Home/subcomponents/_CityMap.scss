@@ -245,7 +245,6 @@
 }
 #map-header-readonly {
   top: 0px;
-
   .sc-controls {
     background: #f8f8fc;
     position: absolute;
@@ -256,7 +255,7 @@
     top: 74px;
     height: 42px;
     width: 60px;
-    z-index: 1000;
+    z-index: 500;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
     cursor: pointer;
@@ -273,6 +272,11 @@
       transform: translateY(-8px);
     }
   }
+  .sc-controls-left {
+    @media screen and (max-width: 1000px) {
+      display: none;
+    }
+  }
 }
 
 .user-map-name {
@@ -280,11 +284,20 @@
   font-size: 32px;
   font-family: "Segoe UI", sans-serif;
   color: rgb(248, 248, 252);
-  bottom: 80px;
-  left: 100px;
+  top: 8px;
+  left: calc(50% - 200px);
   height: 50px;
+  width: 400px;
   z-index: 200;
   border-bottom: 2px solid #a7e1ff;
+  display: flex;
+  justify-content: center;
+  @media screen and (max-width: 450px) {
+    font-size: 24px;
+    transform: translateX(20px);
+    width: 240px;
+    left: calc(50% - 120px);
+  }
 }
 
 .city-map-container {
@@ -689,4 +702,11 @@
 
   .mapboxgl-ctrl-geocoder--icon-close {
     margin-top: 4px;
+  }
+
+  .city-map-readonly {
+    .city-new-side-menu {
+      top: 0;
+      height: 100%;
+    }
   }
