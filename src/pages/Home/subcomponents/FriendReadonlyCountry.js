@@ -235,7 +235,7 @@ const FriendReadonlyCountry = props => {
           } else if (activeTimings[1] && activeTimings[2]) {
             countryStyles.default.fill = "#8caeb0";
           } else if (activeTimings[0]) {
-            countryStyles.default.fill = "#DBC071";
+            countryStyles.default.fill = "#CB7678";
           } else if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           } else if (activeTimings[2]) {

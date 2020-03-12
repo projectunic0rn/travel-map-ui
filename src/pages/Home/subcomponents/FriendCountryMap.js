@@ -169,96 +169,27 @@ const FriendCountryMap = props => {
         }
       }
     }
-    let countryStyles = {
-      default: {
-        fill: "#6E7377",
-        stroke: "rgb(100, 100, 100)",
-        strokeWidth: 0.75,
-        outline: "none"
-      },
-      hover: {
-        fill: "rgb(180, 180, 180)",
-        stroke: "rgb(180, 180, 180)",
-        strokeWidth: 0.75,
-        outline: "none"
-      },
-      pressed: {
-        fill: "#a7e1ff",
-        stroke: "#a7e1ff",
-        strokeWidth: 0.75,
-        outline: "none"
-      }
-    };
-
     if (isCountryIncluded) {
-      let countryTimingArraySorted = countryTimingArray.sort((a, b) => a - b);
-      switch (countryTimingArraySorted.join()) {
-        case "0":
-          if (activeTimings[0]) {
-            countryStyles.default.fill = "#CB7678";
-          }
-          break;
-        case "1":
-          if (activeTimings[1]) {
-            countryStyles.default.fill = "#73A7C3";
-          }
-          break;
-        case "2":
-          if (activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          }
-          break;
-        case "0,1":
-          if (activeTimings[0] && activeTimings[1]) {
-            countryStyles.default.fill = "#a780cd";
-          } else if (activeTimings[0]) {
-            countryStyles.default.fill = "#CB7678";
-          } else if (activeTimings[1]) {
-            countryStyles.default.fill = "#73A7C3";
-          }
-          break;
-        case "0,2":
-          if (activeTimings[0] && activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          } else if (activeTimings[0]) {
-            countryStyles.default.fill = "#CB7678";
-          } else if (activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          }
-          break;
-        case "1,2":
-          if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          } else if (activeTimings[1]) {
-            countryStyles.default.fill = "#73A7C3";
-          } else if (activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          }
-          break;
-        case "0,1,2":
-          if (activeTimings[0] && activeTimings[1]) {
-            if (activeTimings[2]) {
-              countryStyles.default.fill = "#96B1A8";
-            } else {
-              countryStyles.default.fill = "#a780cd";
-            }
-          } else if (activeTimings[0] && activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          } else if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          } else if (activeTimings[0]) {
-            countryStyles.default.fill = "#DBC071";
-          } else if (activeTimings[1]) {
-            countryStyles.default.fill = "#73A7C3";
-          } else if (activeTimings[2]) {
-            countryStyles.default.fill = "#96B1A8";
-          }
-          break;
-        default:
-          break;
+      let filteredTimings = countryTimingArray.filter(
+        timing => activeTimings[timing] !== false
+      );
+      if (filteredTimings.indexOf(2) !== -1) {
+        return "country-svg live-country-fill";
+      } else if (
+        filteredTimings.length === 1 &&
+        filteredTimings.indexOf(0) !== -1
+      ) {
+        return "country-svg past-country-fill";
+      } else if (
+        filteredTimings.length === 1 &&
+        filteredTimings.indexOf(1) !== -1
+      ) {
+        return "country-svg future-country-fill";
+      } else if (filteredTimings.length === 2) {
+        return "country-svg past-future-country-fill";
       }
     }
-    return countryStyles;
+    return "country-svg";
   }
 
   function handleClickedCountry(geography) {
@@ -373,7 +304,7 @@ const FriendCountryMap = props => {
                   projection={projection}
                   onMouseEnter={() => countryInfo(geography)}
                   onClick={() => handleClickedCountry(geography)}
-                  style={computedStyles(geography)}
+                  className={computedStyles(geography)}
                 />
               ))
             }
