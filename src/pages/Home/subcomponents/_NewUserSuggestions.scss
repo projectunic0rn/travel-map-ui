@@ -51,6 +51,7 @@
       }
       #span-active {
         background: rgb(248, 248, 252);
+        z-index: 1;
       }
     }
     .sc-continents {
@@ -61,8 +62,9 @@
       width: 300px;
       max-height: 360px;
       flex: 1;
-      overflow-y: auto;
+      overflow: auto;
       background: none;
+      z-index: 1;
       .sc-choice-card {
         display: flex;
         justify-content: center;
@@ -92,57 +94,47 @@
       #sc-Asia {
         border-left: 12px solid #769f93;
         color: #769f93;
-        transform: translateY(-2px);
       }
       #sc-Asia-active {
         border-left: 12px solid #769f93;
         background: #d1dcdb;
         color: #769f93;
-        transform: translateY(-2px);
       }
       #sc-Europe {
         border-left: 12px solid #528fb1;
         color: #528fb1;
-        transform: translateY(-4px);
       }
       #sc-Europe-active {
         background: #c2d7e5;
         border-left: 12px solid #528fb1;
         color: #528fb1;
-        transform: translateY(-4px);
       }
       #sc-NorthAmerica {
         border-left: 12px solid #b45b5d;
         color: #b45b5d;
-        transform: translateY(-6px);
       }
       #sc-NorthAmerica-active {
         background: #ecd7db;
         border-left: 12px solid #b45b5d;
         color: #b45b5d;
-        transform: translateY(-6px);
       }
       #sc-Oceania {
         border-left: 12px solid #8e81e1;
         color: #8e81e1;
-        transform: translateY(-8px);
       }
       #sc-Oceania-active {
         border-left: 12px solid #8e81e1;
         background: #d6d2ed;
         color: #8e81e1;
-        transform: translateY(-8px);
       }
       #sc-SouthAmerica {
         border-left: 12px solid rgb(192, 148, 71);
         color: rgb(192, 148, 71);
-        transform: translateY(-10px);
       }
       #sc-SouthAmerica-active {
         border-left: 12px solid rgb(192, 148, 71);
         background: #ecdbc1;
         color: rgb(192, 148, 71);
-        transform: translateY(-10px);
       }
       .sc-choice-active {
         background: rgb(74, 89, 155);
