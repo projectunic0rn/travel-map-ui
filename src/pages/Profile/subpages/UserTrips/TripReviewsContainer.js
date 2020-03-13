@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { useQuery } from "@apollo/react-hooks";
@@ -19,10 +19,9 @@ function PlanningMapFriendReviews({
   sendFriendReviewsBackwards,
   userId
 }) {
-  const { data, error, loading } = useQuery(CITY_REVIEWS_ALL_USERS, {
+  const { data } = useQuery(CITY_REVIEWS_ALL_USERS, {
     variables: { placeId }
   });
-    // const dataLoaded = useRef(true);
 
     if (data !== undefined && data !== null) {
       handleDataReturn(data[Object.keys(data)[0]]);
@@ -70,10 +69,6 @@ export default function TripReviewsContainer({
   const [placeId] = useState(city.cityId);
 
   useEffect(() => {
-    console.log("city review container loaded");
-  }, []);
-  console.log("showFriendReviews: ", showFriendReviews);
-  useEffect(() => {
     let reviewHolder = [...reviews];
     for (let i in reviewHolder) {
       delete reviewHolder[i].__typename;
@@ -96,7 +91,6 @@ export default function TripReviewsContainer({
 
   function handleNewCityReview(event) {
     let cityReviews = [...localCityReviews];
-    console.log(event)
     let newCityReview = {
       reviewPlaceId: event.result.id.substr(4),
       review_latitude: event.result.center[1],
@@ -212,7 +206,6 @@ export default function TripReviewsContainer({
     mutation();
   }
   if (!loaded) return <Loader />;
-  console.log(city)
   return (
     <>
       <div className="planning-map">

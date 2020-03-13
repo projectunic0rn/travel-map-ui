@@ -25,7 +25,7 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
 
-function CityMapTrialConst(props) {
+function CityMap(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -1124,7 +1124,7 @@ function CityMapTrialConst(props) {
   );
 }
 
-CityMapTrialConst.propTypes = {
+CityMap.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func,
@@ -1141,4 +1141,4 @@ ClusterMarker.propTypes = {
   onClick: PropTypes.func
 };
 
-export default CityMapTrialConst;
+export default CityMap;

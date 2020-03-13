@@ -12,7 +12,7 @@ function TripBasicsContainer({ trip, refetch, urlUsername }) {
   const [loaded, handleLoaded] = useState(false);
   const [cityBasics, handleCityBasics] = useState();
   const [tripDuration, handleTripDuration] = useState(null);
-//   const [id] = useState(trip.id);
+  //   const [id] = useState(trip.id);
   const [edit, handleEdit] = useState(true);
   const {
     tripName,
@@ -58,11 +58,11 @@ function TripBasicsContainer({ trip, refetch, urlUsername }) {
 
   function handleStartDate(e) {
     let startDate = new Date(e.target.value).toISOString().slice(0, 10);
-    console.log(startDate);
+
     if (startDate !== null && tripEndDate !== null) {
       let timeDiff = new Date(tripEndDate) - new Date(startDate);
       let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24) + 0.00001);
-      console.log(diffDays);
+
       handleTripDuration(diffDays);
     }
     updateTripStartDate(startDate);
@@ -70,11 +70,11 @@ function TripBasicsContainer({ trip, refetch, urlUsername }) {
 
   function handleEndDate(e) {
     let endDate = new Date(e.target.value).toISOString().slice(0, 10);
-    console.log(endDate);
+
     if (endDate !== null && tripStartDate !== null) {
       let timeDiff = new Date(endDate) - new Date(tripStartDate);
       let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24) + 0.00001);
-      console.log(diffDays);
+
       handleTripDuration(diffDays);
     }
     updateTripEndDate(endDate);
@@ -166,7 +166,7 @@ function TripBasicsContainer({ trip, refetch, urlUsername }) {
         <div className="review-edit-button-container">
           <Mutation
             mutation={
-                tripTiming === "past"
+              tripTiming === "past"
                 ? UPDATE_VISITED_CITY_BASICS
                 : tripTiming === "future"
                 ? UPDATE_VISITING_CITY_BASICS
