@@ -2,24 +2,25 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
+import { prototype } from "supercluster";
 
-export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
+export default function NavLinks({ toggleFormIsOpen, formIsOpen, handleHamburgerClick }) {
   return (
     <UserConsumer>
       {context => {
         if (context.userLoggedIn) {
           return (
             <>
-              <NavLink exact to="/">
+              <NavLink onClick={() => handleHamburgerClick(0)} exact to="/">
                 Personal
               </NavLink>
-              <NavLink exact to="/friends">
+              <NavLink onClick={() => handleHamburgerClick(0)} exact to="/friends">
                 Friends
               </NavLink>
-              <NavLink to="/profile/cities">Profile</NavLink>
+              <NavLink onClick={() => handleHamburgerClick(0)} to="/profile/cities">Profile</NavLink>
               <span className="nav-secondary">
-                <NavLink to="/faq">FAQ</NavLink>
-                <NavLink to="/beta">Beta</NavLink>
+                <NavLink onClick={() => handleHamburgerClick(0)} to="/faq">FAQ</NavLink>
+                <NavLink onClick={() => handleHamburgerClick(0)} to="/beta">Beta</NavLink>
               </span>
             </>
           );
@@ -43,5 +44,6 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
 
 NavLinks.propTypes = {
   toggleFormIsOpen: PropTypes.func,
-  formIsOpen: PropTypes.bool
+  formIsOpen: PropTypes.bool, 
+  handleHamburgerClick: PropTypes.func
 };
