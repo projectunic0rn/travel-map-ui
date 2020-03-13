@@ -355,7 +355,7 @@
     transform: translate(-20px, -130px);
     display: flex;
     flex-direction: column;
-
+    cursor: pointer;
     .gs-title {
       color: #cfd4da;
     }
@@ -364,6 +364,7 @@
       font-weight: 700;
       font-size: 32px;
       line-height: 32px;
+      box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.5);
     }
   }
 }

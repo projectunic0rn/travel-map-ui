@@ -7,10 +7,14 @@ import SiteLogo from "./subcomponents/SiteLogo";
 import SiteText from "../../icons/SiteText";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
+import { resolveFieldValueOrError } from "../../../node_modules/graphql/execution/execute";
 
 export default function Header({ userLoggedIn, avatarIndex, color }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
   let [formIsOpen, setFormIsOpen] = useState(userLoggedIn || window.innerWidth < 1200 ? false : true);
+
+  function filler ({som}) {
+  }
 
   return (
     <Fragment>
@@ -28,6 +32,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             <NavLinks
               formIsOpen={formIsOpen}
               toggleFormIsOpen={setFormIsOpen}
+              handleHamburgerClick = {filler}
             />
             <div className="nav-hamburger">
               <div
@@ -57,7 +62,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             : "display-none"
         }
       >
-        <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} />
+        <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} handleHamburgerClick={handleHamburgerClick}/>
       </div>
     </Fragment>
   );
