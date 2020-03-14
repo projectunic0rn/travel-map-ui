@@ -27,40 +27,25 @@ export default function NewUserSuggestions(props) {
   }
   return (
     <div className="suggested-cities-container">
-      <div className="sc-instructions">
-        {props.customProps.timing === 0 ? (
-          <span>
-            Select the{" "}
-            {page === 0 ? "continents" : page === 1 ? "countries" : "cities"}{" "}
-            you have visited
-          </span>
-        ) : (
-          <span>
-            Select the{" "}
-            {page === 0 ? "continents" : page === 1 ? "countries" : "cities"}{" "}
-            you want to visit
-          </span>
-        )}
-      </div>
 
       <div className="suggested-cities-nav">
         <span
           id={page === 0 ? "span-active" : null}
           onClick={() => handlePage(0)}
         >
-          continents
+          Continents
         </span>
         <span
           id={page === 1 ? "span-active" : null}
           onClick={() => handlePage(1)}
         >
-          countries
+          Countries
         </span>
         <span
           id={page === 2 ? "span-active" : null}
           onClick={() => handlePage(2)}
         >
-          cities
+          Cities
         </span>
       </div>
       {
@@ -87,13 +72,6 @@ export default function NewUserSuggestions(props) {
           )
         }[page]
       }
-      {page === 2 ? (
-        <div className="sc-lower-instructions">
-          <span>
-            For cities not listed above, exit popup and type in manually
-          </span>
-        </div>
-      ) : null}
     </div>
   );
 }

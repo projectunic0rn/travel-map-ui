@@ -255,7 +255,6 @@
     top: 74px;
     height: 42px;
     width: 60px;
-    z-index: 500;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
     cursor: pointer;
@@ -315,7 +314,7 @@
     top: 74px;
     height: 42px;
     width: 60px;
-    z-index: 1000;
+    z-index: 2;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
     cursor: pointer;
@@ -342,7 +341,6 @@
     display: flex;
     position: relative;
     fill: #92bad0;
-    z-index: 1000;
     cursor: pointer;
     font-size: 24px;
     color: rgb(200, 200, 200);
@@ -446,7 +444,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 30;
   cursor: pointer;
   @media screen and (max-height: 1000px) {
     bottom: 20px;
@@ -680,6 +677,9 @@
   height: 48px;
   left: 95px;
   top: 320px;
+  @media screen and (min-width: 900px) {
+    display: none;
+  }
 }
 
 #new-country-scorecard {
