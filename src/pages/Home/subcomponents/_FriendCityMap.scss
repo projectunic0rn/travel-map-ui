@@ -185,8 +185,21 @@
     height: 24px;
   }
   @media screen and (max-width: 1100px) {
-    right: calc(50% - 130px);
-    top: calc(100% - 120px);
+    right: 20px;
+    top: calc(100% - 150px);
+  }
+  @media screen and (max-width: 600px) {
+    right: calc(50% - 120px);
+    top: calc(100% - 240px);
+    @media screen and (max-height: 600px) {
+      top: calc(100% - 140px);
+    }
+    @media screen and (max-height: 700px) {
+      top: calc(100% - 160px);
+    }
+    @media screen and (max-height: 900px) {
+      top: calc(100% - 200px);
+    }
   }
 }
 

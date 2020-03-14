@@ -13,7 +13,7 @@
     }
     .map-info-container {
       bottom: 120px;
-      left: 60px;
+      left: 100px;
       @media (max-height: 900px) {
         transform: translate(-40px, 140px);
       }
@@ -98,6 +98,7 @@
     width: 260px;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    z-index: 2;
     @media screen and (max-width: 1200px) {
       top: calc(100% - 150px);
       right: calc(5%);

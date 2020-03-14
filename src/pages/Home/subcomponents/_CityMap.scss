@@ -257,6 +257,7 @@
     width: 60px;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+    z-index: 1;
     cursor: pointer;
     &:hover {
       svg {
@@ -287,7 +288,7 @@
   left: calc(50% - 200px);
   height: 50px;
   width: 400px;
-  z-index: 200;
+  z-index: 2;
   border-bottom: 2px solid #a7e1ff;
   display: flex;
   justify-content: center;
@@ -436,7 +437,7 @@
     left: calc(50% - 60px);
   }
 }
-.city-map .georney-score {
+.city-map .georney-score,  #map-readonly .georney-score{
   position: absolute;
   bottom: 60px;
   left: calc(50% - 100px);
@@ -456,7 +457,7 @@
     bottom: 20px;
   }
   @media screen and (max-height: 400px) and (max-width: 800px) {
-    left: calc(50% - 320px);
+    left: calc(50% - 280px);
   }
 
   @media screen and (max-height: 300px) {
@@ -685,7 +686,7 @@
 #new-country-scorecard {
     .map-scorecard-container {
       bottom: 60px;
-      left: 60px;
+      left: 100px;
       @media screen and (max-width: 1250px) {
         display: none;
       }
@@ -695,7 +696,7 @@
     }
     .map-info-container {
       bottom: 120px;
-      left: 60px;
+      left: 100px;
       @media (max-height: 900px) {
         transform: translate(-40px, 140px);
       }
