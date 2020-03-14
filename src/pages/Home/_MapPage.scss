@@ -251,11 +251,6 @@
       display: none;
     }
   }
-  .georney-score {
-    @media screen and (max-height: 400px) and (max-width: 800px) {
-      left: calc(50% - 240px);
-    }
-  }
 }
 
 #map-readonly {
@@ -263,9 +258,7 @@
     transform: translate(0, 44px);
   }
   .rsm-svg {
-    @media screen and (max-height: 1100px) {
-      transform: translateY(40px);
-    }
+    transform: translateY(40px);
   }
 }
 
