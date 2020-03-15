@@ -38,6 +38,12 @@ const FriendCountryMap = props => {
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
+  const [filteredCountryArray, handleFilteredCountries] = useState(null);
+  const [filteredTripTimingCounts, handleFilteredTripTimingCounts] = useState([
+    0,
+    0,
+    0
+  ]);
 
   useEffect(() => {
     handleLoadedCountries(props.tripData);
@@ -119,11 +125,6 @@ const FriendCountryMap = props => {
         ) {
           liveCount++;
         }
-        // if (
-        //   !countryArray.some(city => {
-        //     return city.cityId === data[i].Place_living.cityId;
-        //   })
-        // ) {
         countryArray.push({
           id: data[i].Place_living.id,
           username: data[i].username,
@@ -137,11 +138,46 @@ const FriendCountryMap = props => {
           avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
           color: data[i].color
         });
-        // }
       }
     }
     handleCountryArray(countryArray);
+    handleFilteredCountries(countryArray);
     handleTripTiming([pastCount, futureCount, liveCount]);
+    handleFilteredTripTimingCounts([pastCount, futureCount, liveCount]);
+    if (props.filterParams !== null) {
+      handleFilter();
+    }
+  }
+
+  function handleFilter() {
+    let filterParams = props.filterParams;
+    let filteredCountryArray = countryArray.filter(
+      country => filterParams.username.indexOf(country.username) !== -1
+    );
+    let uniqueFilteredCountryArray = filteredCountryArray.filter(
+      (value, index, self) =>
+        self.map(country => country.countryId).indexOf(value.countryId) == index
+    );
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    for (let i in uniqueFilteredCountryArray) {
+      switch (uniqueFilteredCountryArray[i].tripTiming) {
+        case 0:
+          pastCount++;
+          break;
+        case 1:
+          futureCount++;
+          break;
+        case 2:
+          liveCount++;
+          break;
+        default:
+          break;
+      }
+    }
+    handleFilteredCountries(filteredCountryArray);
+    handleFilteredTripTimingCounts([pastCount, futureCount, liveCount]);
   }
 
   function handleContinentClick(evt) {
@@ -160,11 +196,13 @@ const FriendCountryMap = props => {
     let isCountryIncluded = false;
     let countryTiming = null;
     let countryTimingArray = [];
-    for (let i in countryArray) {
-      if (countryArray[i].countryId === geography.id) {
+    for (let i in filteredCountryArray) {
+      if (filteredCountryArray[i].countryId === geography.id) {
         isCountryIncluded = true;
-        countryTiming = countryArray[i].tripTiming;
-        if (countryTimingArray.indexOf(countryArray[i].tripTiming) === -1) {
+        countryTiming = filteredCountryArray[i].tripTiming;
+        if (
+          countryTimingArray.indexOf(filteredCountryArray[i].tripTiming) === -1
+        ) {
           countryTimingArray.push(countryTiming);
         }
       }
@@ -227,7 +265,7 @@ const FriendCountryMap = props => {
             <div className="side-menu-container">
               <div className="city-new-map-scorecard" id="scorecard-side-menu">
                 <MapScorecard
-                  tripTimingCounts={tripTimingCounts}
+                  tripTimingCounts={filteredTripTimingCounts}
                   activeTimings={activeTimings}
                   sendActiveTimings={handleActiveTimings}
                 />
@@ -331,7 +369,7 @@ const FriendCountryMap = props => {
       ) : null}
       <div id="new-country-scorecard">
         <MapScorecard
-          tripTimingCounts={tripTimingCounts}
+          tripTimingCounts={filteredTripTimingCounts}
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
         />
@@ -346,7 +384,8 @@ FriendCountryMap.propTypes = {
   clickedCountryArray: PropTypes.array,
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  refetch: PropTypes.func
+  refetch: PropTypes.func, 
+  filterParams: PropTypes.object
 };
 
 export default FriendCountryMap;
