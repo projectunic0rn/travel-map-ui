@@ -95,7 +95,7 @@ const FriendReadonlyMap = () => {
     handleTripData(data);
     handleLoaded(true);
   }
-  function geoscoreinfo() {
+  function geoScoreSwal() {
     const swalParams = {
       type: "content",
       text:
@@ -146,7 +146,7 @@ const FriendReadonlyMap = () => {
                 />
               )}
             </div>
-            <span className="georney-score" onClick={() => geoscoreinfo()}>
+            <span className="georney-score" onClick={() => geoScoreSwal()}>
               <span className="gs-title">{"GeorneyScore"}</span>
               <span className="gs-score">
                 {Math.ceil(data.user.georneyScore)}
