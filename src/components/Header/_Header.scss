@@ -153,13 +153,13 @@
     border-bottom: 4px solid $off-white;
     transition: all 0.5s ease;
     &.active {
-      color: #6e7377;
+      color: #528fb1;
       &:hover {
         background-color: rgba(158,158,158,0.2);
       }
     }
     &:hover {
-      color: #6e7377;
+      color: #528fb1;
       background-color: rgba(158,158,158,0.2);
     }
   }
