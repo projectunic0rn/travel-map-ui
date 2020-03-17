@@ -187,7 +187,6 @@
   @media (max-width: 800px) {
     left: calc(50% - 294px);
   }
-
 }
 
 .new-map-suggest {
@@ -221,11 +220,9 @@
 }
 
 .public-country-map-header {
-  .map-search-container {
-    position: absolute;
-    top: 0px;
-    left: calc(50% - 268px);
-  }
+  top: 48px;
+  flex-direction: row;
+  margin: 0px auto;
   .sc-controls {
     background: #f8f8fc;
     position: absolute;
@@ -248,6 +245,20 @@
       top: 38px;
       color: #dee2e6;
     }
+  }
+  .sc-controls-left {
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+}
+
+#map-readonly {
+  .continent-container {
+    transform: translate(0, 44px);
+  }
+  .rsm-svg {
+    transform: translateY(40px);
   }
 }
 
@@ -274,7 +285,7 @@
     }
   }
   .country-svg {
-    fill: #6E7377;
+    fill: #6e7377;
     stroke: rgb(100, 100, 100);
     stroke-width: 0.75;
     outline: none;
@@ -292,16 +303,15 @@
     }
   }
   .past-country-fill {
-    fill: #CB7678;
+    fill: #cb7678;
   }
   .future-country-fill {
-    fill: #73A7C3;
+    fill: #73a7c3;
   }
   .live-country-fill {
-    fill: #96B1A8;
+    fill: #96b1a8;
   }
   .past-future-country-fill {
     fill: #a780cd;
   }
 }
-

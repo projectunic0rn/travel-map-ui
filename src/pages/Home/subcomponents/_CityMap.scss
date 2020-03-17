@@ -245,7 +245,6 @@
 }
 #map-header-readonly {
   top: 0px;
-
   .sc-controls {
     background: #f8f8fc;
     position: absolute;
@@ -258,6 +257,7 @@
     width: 60px;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+    z-index: 1;
     cursor: pointer;
     &:hover {
       svg {
@@ -272,6 +272,11 @@
       transform: translateY(-8px);
     }
   }
+  .sc-controls-left {
+    @media screen and (max-width: 1000px) {
+      display: none;
+    }
+  }
 }
 
 .user-map-name {
@@ -279,11 +284,20 @@
   font-size: 32px;
   font-family: "Segoe UI", sans-serif;
   color: rgb(248, 248, 252);
-  bottom: 80px;
-  left: 100px;
+  top: 8px;
+  left: calc(50% - 200px);
   height: 50px;
-  z-index: 200;
+  width: 400px;
+  z-index: 2;
   border-bottom: 2px solid #a7e1ff;
+  display: flex;
+  justify-content: center;
+  @media screen and (max-width: 450px) {
+    font-size: 24px;
+    transform: translateX(20px);
+    width: 240px;
+    left: calc(50% - 120px);
+  }
 }
 
 .city-map-container {
@@ -423,7 +437,7 @@
     left: calc(50% - 60px);
   }
 }
-.city-map .georney-score {
+.city-map .georney-score,  #map-readonly .georney-score{
   position: absolute;
   bottom: 60px;
   left: calc(50% - 100px);
@@ -443,7 +457,7 @@
     bottom: 20px;
   }
   @media screen and (max-height: 400px) and (max-width: 800px) {
-    left: calc(50% - 320px);
+    left: calc(50% - 280px);
   }
 
   @media screen and (max-height: 300px) {
@@ -672,7 +686,7 @@
 #new-country-scorecard {
     .map-scorecard-container {
       bottom: 60px;
-      left: 60px;
+      left: 100px;
       @media screen and (max-width: 1250px) {
         display: none;
       }
@@ -682,7 +696,7 @@
     }
     .map-info-container {
       bottom: 120px;
-      left: 60px;
+      left: 100px;
       @media (max-height: 900px) {
         transform: translate(-40px, 140px);
       }
@@ -691,4 +705,11 @@
 
   .mapboxgl-ctrl-geocoder--icon-close {
     margin-top: 4px;
+  }
+
+  .city-map-readonly {
+    .city-new-side-menu {
+      top: 0;
+      height: 100%;
+    }
   }
