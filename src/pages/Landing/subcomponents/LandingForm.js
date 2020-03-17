@@ -12,27 +12,27 @@ function LandingForm({ setFormIsOpen }) {
       <div className="landing-form">
         <div className="landing-choice-container">
           <div className="header-text-container">
-          <span
-            className={
-              formActive === false
-                ? "landing-choice landing-choice-active"
-                : "landing-choice"
-            }
-            onClick={() => handleFormSwitch(false)}
-          >
-            Login
-          </span>
-          <span style={{ color: "#747474" }}>or </span>
-          <span
-            className={
-              formActive === true
-                ? "landing-choice landing-choice-active"
-                : "landing-choice"
-            }
-            onClick={() => handleFormSwitch(true)}
-          >
-            Sign Up
-          </span>
+            <span
+              className={
+                formActive === false
+                  ? "landing-choice landing-choice-active"
+                  : "landing-choice"
+              }
+              onClick={() => handleFormSwitch(false)}
+            >
+              Login
+            </span>
+            <span style={{ color: "#747474" }}>or </span>
+            <span
+              className={
+                formActive === true
+                  ? "landing-choice landing-choice-active"
+                  : "landing-choice"
+              }
+              onClick={() => handleFormSwitch(true)}
+            >
+              Sign Up
+            </span>
           </div>
           <div
             onClick={() => setFormIsOpen(false)}
