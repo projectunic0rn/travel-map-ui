@@ -55,54 +55,40 @@ function FriendCityMap(props) {
       handleLoadedCities(props.tripData);
     } else {
       handleLoadedMarkers(clickedCityArray);
-      let pastCount = 0;
-      let futureCount = 0;
-      let liveCount = 0;
-      for (let i in clickedCityArray) {
-        switch (clickedCityArray[i].tripTiming) {
-          case 0:
-            pastCount++;
-            break;
-          case 1:
-            futureCount++;
-            break;
-          case 2:
-            liveCount++;
-            break;
-          default:
-            break;
-        }
-      }
-      handleTripTimingCounts([pastCount, futureCount, liveCount]);
+      calculateTripTimingCounts(clickedCityArray);
     }
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
   }, []);
 
+  function calculateTripTimingCounts(cityArray) {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    for (let i in cityArray) {
+      switch (cityArray[i].tripTiming) {
+        case 0:
+          pastCount++;
+          break;
+        case 1:
+          futureCount++;
+          break;
+        case 2:
+          liveCount++;
+          break;
+        default:
+          break;
+      }
+    }
+    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+  }
+
   useEffect(() => {
     handleClickedCityArray(props.tripCities);
     if (props.tripCities.length >= 1 && props.tripCities !== undefined) {
       handleLoadedMarkers(props.tripCities);
-      let pastCount = 0;
-      let futureCount = 0;
-      let liveCount = 0;
-      for (let i in props.tripCities) {
-        switch (props.tripCities[i].tripTiming) {
-          case 0:
-            pastCount++;
-            break;
-          case 1:
-            futureCount++;
-            break;
-          case 2:
-            liveCount++;
-            break;
-          default:
-            break;
-        }
-      }
-      handleTripTimingCounts([pastCount, futureCount, liveCount]);
+      calculateTripTimingCounts(props.tripCities);
     }
   }, [props.tripCities]);
 
@@ -768,7 +754,7 @@ FriendCityMap.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   handleFilter: PropTypes.func,
   filterParams: PropTypes.object,
-  tripCities: PropTypes.array, 
+  tripCities: PropTypes.array,
   handleCities: PropTypes.func,
   handleFilteredCities: PropTypes.func
 };
