@@ -306,18 +306,6 @@ const NewUserCountry = props => {
         />
         <MapInfoContainer countryName={countryName} capitalName={capitalName} />
       </div>
-      {/* {activePopup ? (
-        <PopupPrompt
-          activePopup={activePopup}
-          showPopup={showPopup}
-          component={ClickedCountryContainer}
-          componentProps={{
-            countryInfo: clickedCountry,
-            handleTripTiming: handleTripTimingHelper,
-            previousTrips: checkForPreviousTrips(clickedCountry)
-          }}
-        />
-      ) : null} */}
     </>
   );
 };

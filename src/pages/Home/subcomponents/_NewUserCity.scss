@@ -13,7 +13,7 @@
     }
     .map-info-container {
       bottom: 120px;
-      left: 60px;
+      left: 100px;
       @media (max-height: 900px) {
         transform: translate(-40px, 140px);
       }
@@ -98,6 +98,7 @@
     width: 260px;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    z-index: 2;
     @media screen and (max-width: 1200px) {
       top: calc(100% - 150px);
       right: calc(5%);
@@ -300,7 +301,7 @@
         min-width: 600px;
         box-shadow: 0 3px 6px 2px rgba(black, 0.15);
         background: rgb(248, 248, 252);
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 720px) {
           min-width: 500px;
         }
         @media screen and (max-width: 600px) {
@@ -312,13 +313,19 @@
         }
         @media screen and (max-width: 500px) {
           min-width: 350px;
+          transform: translateX(20px);
         }
         @media screen and (max-width: 450px) {
+          max-width: 300px;
           min-width: 300px;
         }
         @media screen and (max-width: 400px) {
           max-width: 280px;
           min-width: 280px;
+        }
+        @media screen and (max-width: 320px) {
+          max-width: 260px;
+          min-width: 260px;
         }
         input {
           color: rgb(74, 89, 90) !important;

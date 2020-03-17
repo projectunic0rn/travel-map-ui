@@ -59,6 +59,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
   const [activePopup, handleActivePopup] = useState(false);
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [hoveredCityArray, handleHoveredCityArray] = useState([]);
+  const [showSideMenu, handleSideMenu] = useState(false);
 
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -409,6 +410,53 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
   return (
     <>
       <div className="city-new-map-container city-map-readonly">
+        <div className="city-map-container" id="friend-city-map-container">
+          <div
+            className="city-new-side-menu"
+            style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+          >
+            {!showSideMenu ? (
+              <a className="opennav" onClick={() => handleSideMenu(true)}>
+                &raquo;
+              </a>
+            ) : (
+              <>
+                <a className="closebtn" onClick={() => handleSideMenu(false)}>
+                  &times;
+                </a>
+                <div className="side-menu-container">
+                  <div
+                    className="city-new-map-scorecard"
+                    id="scorecard-side-menu"
+                  >
+                    <MapScorecard
+                      tripTimingCounts={tripTimingCounts}
+                      activeTimings={activeTimings}
+                      sendActiveTimings={handleActiveTimings}
+                    />
+                  </div>
+                  <div className="side-menu-buttons-container">
+                    <div
+                      id="new-country-map-button-side-menu"
+                      className="sc-controls sc-controls-left-two"
+                      onClick={() => handleMapTypeChange(0)}
+                    >
+                      <span className="new-map-suggest">
+                        <span className="sc-control-label">Country map</span>
+                        <span
+                          id="map-change-icon"
+                          onClick={() => handleMapTypeChange(0)}
+                        >
+                          <MapChangeIcon />
+                        </span>
+                      </span>
+                    </div>                    
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
         <div className="map-header-button" id="map-header-readonly">
           <div
             className="sc-controls sc-controls-left"

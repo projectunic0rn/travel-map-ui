@@ -79,7 +79,7 @@ function NewUserCity(props) {
     markerLiveDisplay
   ]);
 
-  function geoscoreinfo() {
+  function geoScoreSwal() {
     const swalParams = {
       type: "content",
       text:
@@ -1075,7 +1075,7 @@ function NewUserCity(props) {
           sendActiveTimings={handleActiveTimings}
         />
       </div>
-      <span onClick={() => geoscoreinfo()} className="georney-score" id="new-map-georney-score">
+      <span onClick={() => geoScoreSwal()} className="georney-score" id="new-map-georney-score">
         <span className="gs-title">{"GeorneyScore"}</span>
         <span className="gs-score">{Math.ceil(travelScore)}</span>
       </span>
