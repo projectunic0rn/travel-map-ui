@@ -8,48 +8,52 @@ import CloseWindowIcon from "../../../icons/CloseWindowIcon";
 function LandingForm({ setFormIsOpen }) {
   const [formActive, handleFormSwitch] = useState(localStorage.clickedCityArray !== undefined || localStorage.friendClickedCityArray !== undefined ? true : false);
   return (
-    <div className="landing-form">
-      <div
-        onClick={() => setFormIsOpen(false)}
-        className="close-icon-container"
-      >
-        <CloseWindowIcon />
-      </div>
-      <div className="landing-choice-container">
-        <span
-          className={
-            formActive === false
-              ? "landing-choice landing-choice-active"
-              : "landing-choice"
-          }
-          onClick={() => handleFormSwitch(false)}
-        >
-          Login
-        </span>
-        <span style={{ color: "#747474" }}>or </span>
-        <span
-          className={
-            formActive === true
-              ? "landing-choice landing-choice-active"
-              : "landing-choice"
-          }
-          onClick={() => handleFormSwitch(true)}
-        >
-          Sign Up
-        </span>
-      </div>
-      <div className="landing-form-content">
-        {formActive ? (
-          <SignupForm
-            setFormIsOpen={setFormIsOpen}
-            handleFormSwitch={() => handleFormSwitch(false)}
-          />
-        ) : (
-          <LoginForm
-            setFormIsOpen={setFormIsOpen}
-            handleFormSwitch={() => handleFormSwitch(true)}
-          />
-        )}
+    <div className="landing-form-container">
+      <div className="landing-form">
+        <div className="landing-choice-container">
+          <div className="header-text-container">
+          <span
+            className={
+              formActive === false
+                ? "landing-choice landing-choice-active"
+                : "landing-choice"
+            }
+            onClick={() => handleFormSwitch(false)}
+          >
+            Login
+          </span>
+          <span style={{ color: "#747474" }}>or </span>
+          <span
+            className={
+              formActive === true
+                ? "landing-choice landing-choice-active"
+                : "landing-choice"
+            }
+            onClick={() => handleFormSwitch(true)}
+          >
+            Sign Up
+          </span>
+          </div>
+          <div
+            onClick={() => setFormIsOpen(false)}
+            className="close-icon-container"
+          >
+            <CloseWindowIcon />
+          </div>
+        </div>
+        <div className="landing-form-content">
+          {formActive ? (
+            <SignupForm
+              setFormIsOpen={setFormIsOpen}
+              handleFormSwitch={() => handleFormSwitch(false)}
+            />
+          ) : (
+            <LoginForm
+              setFormIsOpen={setFormIsOpen}
+              handleFormSwitch={() => handleFormSwitch(true)}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
