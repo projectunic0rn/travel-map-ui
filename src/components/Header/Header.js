@@ -61,6 +61,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             ? "hamburger-dropdown-container"
             : "display-none"
         }
+        onClick={() => handleHamburgerClick(!showHamburgerDropdown)}
       >
         <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} handleHamburgerClick={handleHamburgerClick}/>
       </div>
