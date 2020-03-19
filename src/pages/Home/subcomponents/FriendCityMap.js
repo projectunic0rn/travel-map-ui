@@ -32,7 +32,7 @@ function FriendCityMap(props) {
   const [filteredTripTimingCounts, handleFilteredTripTimingCounts] = useState(
     null
   );
-  const [clickedCityArray, handleClickedCityArray] = useState([]);
+  const [clickedCityArray, handleClickedCityArray] = useState(props.tripCities);
   const [filteredCityArray, handleFilteredCityArray] = useState([]);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
@@ -41,22 +41,56 @@ function FriendCityMap(props) {
   const [hoveredCityArray, handleHoveredCityArray] = useState(null);
   const [filter, handleFilter] = useState(false);
   const [leaderboard, handleLeaderboard] = useState(false);
-  const [filterSettings, handleFilterSettings] = useState([]);
+  const [filterSettings, handleFilterSettings] = useState(props.filterParams);
   const [clickedCity, handleClickedCity] = useState(null);
   const [showSideMenu, handleSideMenu] = useState(false);
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
   const clusterLive = useRef();
-
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
-    handleLoadedCities(props.tripData);
+    if (clickedCityArray.length < 1 || clickedCityArray === undefined) {
+      handleLoadedCities(props.tripData);
+    } else {
+      handleLoadedMarkers(clickedCityArray);
+      calculateTripTimingCounts(clickedCityArray);
+    }
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
   }, []);
+
+  function calculateTripTimingCounts(cityArray) {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    for (let i in cityArray) {
+      switch (cityArray[i].tripTiming) {
+        case 0:
+          pastCount++;
+          break;
+        case 1:
+          futureCount++;
+          break;
+        case 2:
+          liveCount++;
+          break;
+        default:
+          break;
+      }
+    }
+    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+  }
+
+  useEffect(() => {
+    handleClickedCityArray(props.tripCities);
+    if (props.tripCities.length >= 1 && props.tripCities !== undefined) {
+      handleLoadedMarkers(props.tripCities);
+      calculateTripTimingCounts(props.tripCities);
+    }
+  }, [props.tripCities]);
 
   function resize() {
     handleViewportChange({
@@ -316,11 +350,6 @@ function FriendCityMap(props) {
         }
       }
       if (data != null && data[i].Place_living !== null) {
-        // if (
-        //   !clickedCityArray.some(city => {
-        //     return city.cityId === data[i].Place_living.cityId;
-        //   })
-        // ) {
         clickedCityArray.push({
           id: data[i].Place_living.id,
           username: data[i].username,
@@ -342,6 +371,7 @@ function FriendCityMap(props) {
     }
     let filteredCityArray = clickedCityArray;
     handleClickedCityArray(clickedCityArray);
+    props.handleCities(clickedCityArray);
     handleFilteredCityArray(filteredCityArray);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     handleLoadedMarkers(filteredCityArray);
@@ -403,14 +433,16 @@ function FriendCityMap(props) {
   }
 
   function handleFilterCleared() {
+    props.handleFilter(null);
     let filteredCityArray = [...clickedCityArray];
     handleFilteredCityArray(filteredCityArray);
     handleFilteredTripTimingCounts(null);
     handleLoadedMarkers(filteredCityArray);
-    handleFilterSettings([]);
+    handleFilterSettings(null);
   }
 
   function handleFilterHelper(filterParams) {
+    props.handleFilter(filterParams);
     let origCityArray = [...clickedCityArray];
     let filteredCityArray;
     if (filterParams.username.length > 0) {
@@ -418,6 +450,7 @@ function FriendCityMap(props) {
         city => filterParams.username.indexOf(city.username) !== -1
       );
       handleFilteredCityArray(filteredCityArray);
+      props.handleFilteredCities(filteredCityArray);
       handleLoadedMarkers(filteredCityArray);
     } else if (filterParams.username.length < 1) {
       handleFilterCleared();
@@ -498,7 +531,7 @@ function FriendCityMap(props) {
             </span>
           </div>
           <div
-            id={filteredTripTimingCounts !== null ? "fc-filter-active" : null}
+            id={props.filterParams !== null ? "fc-filter-active" : null}
             className="sc-controls sc-controls-right"
             onClick={showFilter}
           >
@@ -566,7 +599,7 @@ function FriendCityMap(props) {
                   </div>
                   <div
                     id={
-                      filteredTripTimingCounts !== null
+                      props.filterParams !== null
                         ? "fc-filter-active"
                         : "fc-filter"
                     }
@@ -581,7 +614,9 @@ function FriendCityMap(props) {
                     </span>
                   </div>
                   <div
-                    id={leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"}
+                    id={
+                      leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"
+                    }
                     className="sc-controls sc-controls-left-two"
                     onClick={showLeaderboard}
                   >
@@ -721,7 +756,12 @@ function FriendCityMap(props) {
 FriendCityMap.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  handleFilter: PropTypes.func,
+  filterParams: PropTypes.object,
+  tripCities: PropTypes.array,
+  handleCities: PropTypes.func,
+  handleFilteredCities: PropTypes.func
 };
 
 ClusterMarker.propTypes = {
