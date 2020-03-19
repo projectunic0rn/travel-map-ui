@@ -7,8 +7,7 @@
   background: rgba(#252931, 0.8);
   .landing-choice-container {
     display: flex;
-    margin-top: 40px;
-    margin-left: 20px;
+    margin: 40px 36px 0 20px;
     line-height: 20px;
     .landing-choice {
       cursor: pointer;
@@ -148,11 +147,11 @@
 
   .form-switch {
     display: flex;
-    width: 100%;
     justify-content: center;
     align-items: center;
     height: 60px;
     color: rgb(120, 120, 120);
+    min-width: 255px;
     span {
       cursor: pointer;
       margin-left: 4px;

@@ -74,7 +74,6 @@ function PlaceReviewCard({
       default:
         break;
     }
-    console.log(user);
     let filteredArray = user.CityReviews.filter(review => {
       for (let i in keyWords) {
         if (review.attraction_type === keyWords[i]) {
@@ -83,7 +82,6 @@ function PlaceReviewCard({
       }
       return false;
     });
-    console.log(filteredArray);
     handleFilteredCityReviews(filteredArray);
     handleLoaded(true);
   }, [page]);

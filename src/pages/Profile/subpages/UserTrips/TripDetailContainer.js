@@ -199,8 +199,6 @@ function TripDetailContainer({
   }
 
   function handleDateChange(date, day) {
-    console.log(date);
-    console.log(day);
     handleDate(date);
     handleDay(day);
   }
@@ -240,7 +238,6 @@ function TripDetailContainer({
       sendFriendReviewsBackwards={handleFriendReviewHandler}
     />
   );
-  console.log(selectedCity);
   if (!loaded) return "Loading";
   return (
     <TripDetailContext.Provider

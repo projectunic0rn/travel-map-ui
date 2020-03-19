@@ -95,6 +95,16 @@ const FriendReadonlyMap = () => {
     handleTripData(data);
     handleLoaded(true);
   }
+  function geoScoreSwal() {
+    const swalParams = {
+      type: "content",
+      text:
+        "GeorneyScore is a representation of how much of the world you have seen, the higher you score the more points you gain. We use a special metric to calculate this, which you can check out in the FAQ page!",
+      confirmButtonColor: "#656F80", 
+      closeOnClickOutside: true 
+    };
+    Swal.fire(swalParams)
+  }
   if (window.location.pathname.split("/")[2] === undefined) {
     return <PageNotFound />;
   }
@@ -114,7 +124,7 @@ const FriendReadonlyMap = () => {
         handleLoadedCountries(data);
         if (!loaded) return <Loader />;
         return (
-          <div className="map-container">
+          <div className="map-container" id="map-readonly">
             <span className="user-map-name">{username + "'s Map"}</span>
             {cityOrCountry ? (
               <NavLink to={`/new`}>
@@ -136,10 +146,12 @@ const FriendReadonlyMap = () => {
                 />
               )}
             </div>
-            <span className="georney-score">
-          <span className="gs-title">{"GeorneyScore"}</span>
-          <span className="gs-score">{Math.ceil(data.user.georneyScore)}</span>
-        </span>
+            <span className="georney-score" onClick={() => geoScoreSwal()}>
+              <span className="gs-title">{"GeorneyScore"}</span>
+              <span className="gs-score">
+                {Math.ceil(data.user.georneyScore)}
+              </span>
+            </span>
           </div>
         );
       }}

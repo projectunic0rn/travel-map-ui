@@ -1,8 +1,8 @@
-@import './ClickedCountry/ClickedCountryContainer.scss';
-@import './ClickedCountry/ClickedCountryCities.scss';
-@import './PromptNavMenu.scss';
-@import './FriendClickedCity/subcomponents/UserTripCard.scss';
-@import './FilterCityMap.scss';
+@import "./ClickedCountry/ClickedCountryContainer.scss";
+@import "./ClickedCountry/ClickedCountryCities.scss";
+@import "./PromptNavMenu.scss";
+@import "./FriendClickedCity/subcomponents/UserTripCard.scss";
+@import "./FilterCityMap.scss";
 
 .popup-container {
     position: fixed;
@@ -10,21 +10,20 @@
     justify-content: center;
     align-items: center;
     left: 0;
-    width: 100%;
-    min-height: 100%;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 1050;
-    transform: translateY(-20px);
-    top: 80px;
-  }
+}
   
-  .popup-overlay {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    min-height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    top: -60px;
-  }
+.popup-overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
   
   .popup-card-container {
     z-index: 2;
@@ -34,7 +33,14 @@
     border-radius: 4px;
     background: rgb(248, 248, 252);
     box-shadow: 0 1px 2px 1px rgba(0,0, 0, 0.16);
+    overflow: scroll;
+-webkit-overflow-scrolling: touch;
     @media (min-height: 780px) {
         height: 600px
     }
+    @media screen and (max-width: 400px) {
+      min-width: 300px;
+    }
   }
+}
+

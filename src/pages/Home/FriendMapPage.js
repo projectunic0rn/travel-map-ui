@@ -4,13 +4,31 @@ import { GET_ALL_USER_COUNTRIES } from "../../GraphQL";
 import FriendCountryMap from "./subcomponents/FriendCountryMap";
 import FriendCityMap from "./subcomponents/FriendCityMap";
 import Loader from "../../components/common/Loader/Loader";
-import LeaderboardCard from "./subcomponents/LeaderboardCard";
 
 const FriendMapPage = () => {
   const [loaded, handleLoaded] = useState(false);
   const [cityOrCountry, handleMapTypeChange] = useState(1);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
+  const [clickedCityArray, handleClickedCityArray] = useState([]);
+  const [filteredCityArray, handleFilteredCityArray] = useState([]);
+  const [filterParams, handleFilterParams] = useState(null);
+
+  function handleCities(cities) {
+    handleClickedCityArray(cities);
+    
+  }
+
+  function handleFilteredCities(cities) {
+    handleFilteredCityArray(cities);
+  }
+
+  function handleFilter(filterParams) {
+    handleFilterParams(filterParams);
+    if (filterParams === null) {
+      handleFilteredCityArray(clickedCityArray);
+    }
+  }
 
   function handleLoadedCountries(data) {
     let countryArray = clickedCountryArray;
@@ -95,7 +113,12 @@ const FriendMapPage = () => {
                 <FriendCityMap
                   tripData={tripData}
                   handleMapTypeChange={handleMapTypeChange}
+                  handleFilter={handleFilter}
                   data={data}
+                  filterParams={filterParams}
+                  handleCities={handleCities}
+                  tripCities={filteredCityArray}
+                  handleFilteredCities={handleFilteredCities}
                 />
               ) : (
                 <FriendCountryMap
@@ -103,6 +126,7 @@ const FriendMapPage = () => {
                   tripData={tripData}
                   handleMapTypeChange={handleMapTypeChange}
                   refetch={refetch}
+                  filterParams={filterParams}
                 />
               )}
             </div>

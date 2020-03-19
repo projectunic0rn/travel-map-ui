@@ -13,7 +13,7 @@ import FriendClickedCountryContainer from "../../../components/Prompts/FriendCli
 import FriendClickedCountryBlank from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryBlank";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
-import MapChangeIcon from '../../../icons/MapChangeIcon';
+import MapChangeIcon from "../../../icons/MapChangeIcon";
 
 const FriendReadonlyCountry = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -35,6 +35,7 @@ const FriendReadonlyCountry = props => {
   const [activePopup, showPopup] = useState(null);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
+  const [showSideMenu, handleSideMenu] = useState(false);
 
   useEffect(() => {
     handleLoadedCountries(props.tripData);
@@ -235,7 +236,7 @@ const FriendReadonlyCountry = props => {
           } else if (activeTimings[1] && activeTimings[2]) {
             countryStyles.default.fill = "#8caeb0";
           } else if (activeTimings[0]) {
-            countryStyles.default.fill = "#DBC071";
+            countryStyles.default.fill = "#CB7678";
           } else if (activeTimings[1]) {
             countryStyles.default.fill = "#73A7C3";
           } else if (activeTimings[2]) {
@@ -269,8 +270,47 @@ const FriendReadonlyCountry = props => {
   return (
     <>
       <div
+        className="city-new-side-menu"
+        style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+      >
+        {!showSideMenu ? (
+          <a className="opennav" onClick={() => handleSideMenu(true)}>
+            &raquo;
+          </a>
+        ) : (
+          <>
+            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+              &times;
+            </a>
+            <div className="side-menu-container">
+              <div className="city-new-map-scorecard" id="scorecard-side-menu">
+                <MapScorecard
+                  tripTimingCounts={tripTimingCounts}
+                  activeTimings={activeTimings}
+                  sendActiveTimings={handleActiveTimings}
+                />
+              </div>
+              <div
+                id="new-city-map-button-side-menu"
+                className="sc-controls sc-controls-left"
+                onClick={() => props.handleMapTypeChange(1)}
+              >
+                <span className="new-map-suggest">
+                  <span className="sc-control-label">City map</span>
+                  <span
+                    id="map-change-icon"
+                    onClick={() => props.handleMapTypeChange(1)}
+                  >
+                    <MapChangeIcon />
+                  </span>
+                </span>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      <div
         className="map-header-container public-country-map-header"
-        id="country-header"
         style={{ position: "relative" }}
       >
         <div
@@ -288,7 +328,6 @@ const FriendReadonlyCountry = props => {
           </span>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
-        <div className="map-header-filler" />
       </div>
       <div className="continent-container">
         <button className="continent-button" onClick={handleMapReset}>
@@ -309,13 +348,7 @@ const FriendReadonlyCountry = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 205
-        }}
-        width={980}
-        height={551}
-        style={{
-          width: "100%",
-          height: "auto"
+          scale: 180
         }}
       >
         <ZoomableGroup center={center} zoom={zoom}>
@@ -354,12 +387,14 @@ const FriendReadonlyCountry = props => {
           }}
         />
       ) : null}
-      <MapScorecard
-        tripTimingCounts={tripTimingCounts}
-        activeTimings={activeTimings}
-        sendActiveTimings={handleActiveTimings}
-      />
-      <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+      <div id="new-country-scorecard">
+        <MapScorecard
+          tripTimingCounts={tripTimingCounts}
+          activeTimings={activeTimings}
+          sendActiveTimings={handleActiveTimings}
+        />
+        <MapInfoContainer countryName={countryName} capitalName={capitalName} />
+      </div>
     </>
   );
 };

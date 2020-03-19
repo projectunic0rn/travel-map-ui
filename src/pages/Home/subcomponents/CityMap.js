@@ -25,7 +25,7 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
 
-function CityMapTrialConst(props) {
+function CityMap(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -89,7 +89,7 @@ function CityMapTrialConst(props) {
   ]);
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
 
-  function geoscoreinfo() {
+  function geoScoreSwal() {
     const swalParams = {
       type: "content",
       text:
@@ -1091,7 +1091,7 @@ function CityMapTrialConst(props) {
           sendActiveTimings={handleActiveTimings}
         />
       </div>
-      <span onClick={() => geoscoreinfo()} className="georney-score">
+      <span onClick={() => geoScoreSwal()} className="georney-score">
         <span className="gs-title">{"GeorneyScore"}</span>
         <span className="gs-score">{Math.ceil(travelScore)}</span>
       </span>
@@ -1124,7 +1124,7 @@ function CityMapTrialConst(props) {
   );
 }
 
-CityMapTrialConst.propTypes = {
+CityMap.propTypes = {
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func,
@@ -1141,4 +1141,4 @@ ClusterMarker.propTypes = {
   onClick: PropTypes.func
 };
 
-export default CityMapTrialConst;
+export default CityMap;

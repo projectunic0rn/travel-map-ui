@@ -13,7 +13,7 @@
     }
     .map-info-container {
       bottom: 120px;
-      left: 60px;
+      left: 100px;
       @media (max-height: 900px) {
         transform: translate(-40px, 140px);
       }
@@ -30,7 +30,6 @@
       height: 42px;
       background: #f8f8fc;
       align-items: center;
-      z-index: 1000;
       border-radius: 8px;
       box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
       cursor: pointer;
@@ -97,9 +96,9 @@
     top: 60px;
     height: 80px;
     width: 260px;
-    z-index: 1000;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    z-index: 2;
     @media screen and (max-width: 1200px) {
       top: calc(100% - 150px);
       right: calc(5%);
@@ -133,7 +132,6 @@
     display: flex;
     position: relative;
     fill: #92bad0;
-    z-index: 1000;
     cursor: pointer;
     font-size: 24px;
     color: rgb(200, 200, 200);
@@ -161,7 +159,6 @@
     display: flex;
     position: relative;
     fill: #92bad0;
-    z-index: 1000;
     cursor: pointer;
     font-size: 24px;
     color: rgb(200, 200, 200);
@@ -193,7 +190,6 @@
     display: flex;
     position: relative;
     fill: #92bad0;
-    z-index: 1000;
     cursor: pointer;
     font-size: 24px;
     color: rgb(200, 200, 200);
@@ -305,7 +301,7 @@
         min-width: 600px;
         box-shadow: 0 3px 6px 2px rgba(black, 0.15);
         background: rgb(248, 248, 252);
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 720px) {
           min-width: 500px;
         }
         @media screen and (max-width: 600px) {
@@ -317,13 +313,19 @@
         }
         @media screen and (max-width: 500px) {
           min-width: 350px;
+          transform: translateX(20px);
         }
         @media screen and (max-width: 450px) {
+          max-width: 300px;
           min-width: 300px;
         }
         @media screen and (max-width: 400px) {
           max-width: 280px;
           min-width: 280px;
+        }
+        @media screen and (max-width: 320px) {
+          max-width: 260px;
+          min-width: 260px;
         }
         input {
           color: rgb(74, 89, 90) !important;
@@ -360,7 +362,7 @@
     transform: translate(-20px, -130px);
     display: flex;
     flex-direction: column;
-
+    cursor: pointer;
     .gs-title {
       color: #cfd4da;
     }
@@ -369,6 +371,7 @@
       font-weight: 700;
       font-size: 32px;
       line-height: 32px;
+      box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.5);
     }
   }
 }
@@ -410,7 +413,6 @@
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px;
-  z-index: 1000;
   position: absolute;
 }
 .dot-inner {
@@ -419,7 +421,6 @@
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px;
-  z-index: 1000;
   position: absolute;
   top: 6px;
   left: 6px;
@@ -616,14 +617,13 @@
   height: 100%; /* 100% Full-height */
   width: 250px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  z-index: 3; /* Stay on top of map and buttons layers.*/
   top: 0; /* Stay at the top */
   left: 0;
   background-color: rgba(#4f5867, 0.95); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  z-index: 5000;
   a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;

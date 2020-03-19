@@ -79,6 +79,17 @@ function NewUserCity(props) {
     markerLiveDisplay
   ]);
 
+  function geoScoreSwal() {
+    const swalParams = {
+      type: "content",
+      text:
+        "GeorneyScore is a representation of how much of the world you have seen, the higher you score the more points you gain. We use a special metric to calculate this, which you can check out in the FAQ page!",
+      confirmButtonColor: "#656F80", 
+      closeOnClickOutside: true 
+    };
+    Swal.fire(swalParams)
+  }
+
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
   useEffectSkipFirstLocal(() => {}, [clickedCityArray]);
 
@@ -1064,7 +1075,7 @@ function NewUserCity(props) {
           sendActiveTimings={handleActiveTimings}
         />
       </div>
-      <span className="georney-score" id="new-map-georney-score">
+      <span onClick={() => geoScoreSwal()} className="georney-score" id="new-map-georney-score">
         <span className="gs-title">{"GeorneyScore"}</span>
         <span className="gs-score">{Math.ceil(travelScore)}</span>
       </span>

@@ -7,13 +7,12 @@ import DoNotRecommendIcon from "../../icons/DoNotRecommendIcon";
 
 function FilterCityMap(props) {
   const [usernameArray, handleUsernameChange] = useState(
-    props.customProps.filterSettings.username !== undefined
+    (props.customProps.filterSettings !== null)
       ? props.customProps.filterSettings.username
       : []
   );
   const [interestTagArray, handleInterestTag] = useState([]);
   const [friendDetails, handleFriendDetails] = useState([]);
-
   function handleUsernameChangeHelper(e) {
     if (e.key === "Enter" || e.key === "Unidentified") {
       let newUsernameArray = [...usernameArray];

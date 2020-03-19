@@ -12,7 +12,7 @@ import SaveIcon from "../../../../icons/SaveIcon";
 import TrashIcon from "../../../../icons/TrashIcon";
 import ClusterMarker from "../../../Home/subcomponents/ClusterMarker";
 
-function CitySelectContainer(props) {
+function CitySelectContainer() {
     const {
         tripTiming,
         tripCities, 
@@ -38,7 +38,6 @@ function CitySelectContainer(props) {
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [timingState, handleTimingState] = useState(tripTiming === "future" ? 1 : 0);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
-console.log(clickedCityArray)
 
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -123,59 +122,6 @@ console.log(clickedCityArray)
         markerDisplay.splice(markerIndex, 1);
         pastCount--;
         handleClickedCityArray(newClickedCityArray);
-        handleMarkerPastDisplay(markerDisplay);
-        handleCityTooltip(null);
-        updateTripCities(newClickedCityArray)
-        break;
-      case 1:
-        markerFutureDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
-          }
-        });
-        newClickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = [...markerFutureDisplay];
-        markerDisplay.splice(markerIndex, 1);
-        futureCount--;
-        handleClickedCityArray(newClickedCityArray);
-        handleMarkerFutureDisplay(markerDisplay);
-        handleCityTooltip(null);
-        updateTripCities(newClickedCityArray)
-        break;
-      default:
-        break;
-    }
-    handleTripTimingCounts([pastCount, futureCount, liveCount]);
-  }
-
-  function deleteLoadedCity(cityTooltip) {
-    let cityArrayIndex;
-    let newClickedCityArray = [...loadedClickedCityArray];
-    newClickedCityArray.filter((city, index) => {
-      if (
-        city.cityId === cityTooltip.cityId &&
-        city.tripTiming === cityTooltip.tripTiming
-      ) {
-        cityArrayIndex = index;
-      }
-    });
-    let markerIndex;
-    let markerDisplay;
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
-    switch (cityTooltip.tripTiming) {
-      case 0:
-        markerPastDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
-          }
-        });
-        newClickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = [...markerPastDisplay];
-        markerDisplay.splice(markerIndex, 1);
-        pastCount--;
-        handleLoadedClickedCityArray(newClickedCityArray);
         handleMarkerPastDisplay(markerDisplay);
         handleCityTooltip(null);
         updateTripCities(newClickedCityArray)
@@ -400,7 +346,6 @@ console.log(clickedCityArray)
   }
 
   function handleTripTimingCityHelper(city) {
-
     let newClickedCityArray = [...clickedCityArray];
     newClickedCityArray.push({
       country: city.country,
@@ -414,10 +359,8 @@ console.log(clickedCityArray)
     });
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
     let newMarkerPastDisplay = [...markerPastDisplay];
     let newMarkerFutureDisplay = [...markerFutureDisplay];
-    let newMarkerLiveDisplay = [...markerLiveDisplay];
     let color = "";
     switch (timingState) {
       case 0:
