@@ -9,6 +9,7 @@
     align-items: center;
     width: 100%;
     overflow-y: scroll;
+    max-height: calc(100vh - 60px);
     p {
       font-family: 'Segoe UI', sans-serif;
       font-size: 20px;
