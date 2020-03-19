@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import LeaderboardCard from "../../pages/Home/subcomponents/LeaderboardCard";
-import res from "../../pages/Home/subcomponents/FriendCityMap";
+import CloseWindowIcon from '../../icons/CloseWindowIcon';
 
-function LeaderboardPrompt({ users, res}) {
+function LeaderboardPrompt({ users, handleLeaderboard}) {
   return (
     <div className="leaderboard-container">
-      <button onClick = {() => res(false)}>x</button>
+      <div onClick = {() => handleLeaderboard(false)}><CloseWindowIcon /></div>
       <span className="leaderboard-title">GeorneyScores</span>
       <data>
         {users
@@ -20,7 +20,8 @@ function LeaderboardPrompt({ users, res}) {
 }
 
 LeaderboardPrompt.propTypes = {
-  users: PropTypes.array
+  users: PropTypes.array,
+  handleLeaderboard: PropTypes.func
 };
 
 export default LeaderboardPrompt;

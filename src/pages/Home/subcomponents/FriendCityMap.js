@@ -708,7 +708,7 @@ function FriendCityMap(props) {
           }}
         />
       ) : null}
-      {leaderboard ? <LeaderboardPrompt users={props.data.users} res={handleLeaderboard}/> : null}
+      {leaderboard ? <LeaderboardPrompt users={props.data.users} handleLeaderboard={handleLeaderboard}/> : null}
     </>
   );
 }
