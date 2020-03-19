@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import LeaderboardCard from "../../pages/Home/subcomponents/LeaderboardCard";
+import res from "../../pages/Home/subcomponents/FriendCityMap";
 
-function LeaderboardPrompt({ users }) {
+function LeaderboardPrompt({ users, res}) {
   return (
     <div className="leaderboard-container">
+      <button onClick = {() => res(false)}>x</button>
       <span className="leaderboard-title">GeorneyScores</span>
       <data>
         {users
