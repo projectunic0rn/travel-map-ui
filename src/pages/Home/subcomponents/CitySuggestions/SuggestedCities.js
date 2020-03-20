@@ -41,10 +41,11 @@ export default function SuggestedCities({
     setTotalCityCount(filteredCities.length);
     handleFilteredCityArray(filteredCities);
   }, [countryArray]);
-  let cityDisplay = filteredCityArray.map(city => {
+  let cityDisplay = filteredCityArray.map((city, index) => {
     return (
       <SuggestedCity
         key={city.cityId}
+        index={index}
         city={city}
         handleCityClick={handleCityClick}
         totalCityCount={totalCityCount}

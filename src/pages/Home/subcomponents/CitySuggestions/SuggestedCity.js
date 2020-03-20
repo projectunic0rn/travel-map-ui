@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 export default function SuggestedCity({
-  city, handleCityClick, totalCityCount, setTotalCityCount }) {
+  city,
+  handleCityClick,
+  totalCityCount,
+  setTotalCityCount,
+  index
+}) {
   const [clicked, handleClick] = useState(false);
   const [removed, handleRemoved] = useState(false);
   function handleCityClickHelper(city) {
@@ -23,9 +28,9 @@ export default function SuggestedCity({
         onClick={() => handleCityClickHelper(city)}
       >
         {!clicked ? (
-          <div className = 'sc-city-text'>
+          <div className="sc-city-text">
             <span>{city.city}</span>
-            <span className = 'sc-country'>{city.country}</span>
+            <span className="sc-country">{city.country}</span>
           </div>
         ) : (
           <svg
@@ -49,12 +54,14 @@ export default function SuggestedCity({
         )}
       </span>
     );
-  } else {
+  } else if (totalCityCount <= 0 && index === 0) {
     return (
       <span className="sc-choice-empty">
         Select other countries you have been to!
       </span>
     );
+  } else {
+    return null;
   }
 }
 
@@ -62,5 +69,6 @@ SuggestedCity.propTypes = {
   city: PropTypes.object,
   handleCityClick: PropTypes.func,
   totalCityCount: PropTypes.number,
-  setTotalCityCount: PropTypes.func
+  setTotalCityCount: PropTypes.func,
+  index: PropTypes.number
 };
