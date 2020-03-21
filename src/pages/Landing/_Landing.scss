@@ -195,6 +195,7 @@
     }
     @media screen and (max-width: 1000px) {
       justify-content: center;
+      max-width: 100%;
     }
   }
   .landing-graphic-container {
@@ -213,9 +214,9 @@
       position: absolute;
       display: flex;
       justify-content: center;
-      min-width: 400px;
       min-height: 400px;
       top: 260px;
+      max-width: 100%;
     }
   }
   .lp-additional-info {
@@ -320,7 +321,7 @@
       font-size: 40px;
       font-weight: 700;
       @media screen and (max-width: 1000px) {
-        font-size: 24px;
+        font-size: 16px;
         transform: translate(-75px, 64px) rotate(90deg);
       }
     }
@@ -402,7 +403,6 @@
       max-width: 400px;
       margin-left: 0;
       .place-review-card-container {
-        max-width: 332px;
         .pr-card-content .place-review-card .pr-input-title {
           font-size: 18px;
         }
@@ -416,6 +416,9 @@
       margin-left: 0;
       .place-review-card-container {
         max-width: 282px;
+        .pr-card-content {
+          max-width: calc(100% - 72px);
+        }
         .pr-card-content .place-review-card .pr-input-title {
           font-size: 15px;
         }
@@ -576,6 +579,11 @@
       align-items: center;
       text-align: center;
     }
+    @media screen and (max-width: 500px) {
+      span {
+        max-width: 240px;
+      }
+    }
   }
   svg {
     width: 200px;
@@ -588,27 +596,6 @@
     font-weight: 550;
   }
 }
-
-// @media screen and (max-width: 550px) {
-//   .landing-container {
-//     .landing-motto-container {
-//       line-height: 60px;
-//       margin: 10px auto;
-//       font-size: 25px;
-//       .landing-motto-two {
-//         font-size: 15px;
-//         span {
-//           font-size: 25px;
-//         }
-//       }
-//     }
-//     .border-bar-container {
-//       span {
-//         width: 70px !important;
-//       }
-//     }
-//   }
-// }
 
 .arrow-container {
   position: absolute;
