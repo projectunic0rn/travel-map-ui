@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import PropTypes from "prop-types";
 
 export default function SuggestedCity({
   city,
   handleCityClick,
   totalCityCount,
-  setTotalCityCount,
-  index
+  setTotalCityCount
 }) {
   const [clicked, handleClick] = useState(false);
   const [removed, handleRemoved] = useState(false);
   function handleCityClickHelper(city) {
     handleClick(true);
     handleCityClick(city);
-    setTimeout(() => handleRemoved(true), 2000);
-    setTotalCityCount(totalCityCount - 1);
+    setTimeout(() => {
+      handleRemoved(true);
+    }, 2000);
   }
+
+  useEffect(() => {
+    if (removed) {
+      setTotalCityCount(totalCityCount - 1);
+    }
+  }, [removed])
+
   if (totalCityCount > 0) {
     return (
       <span
@@ -52,12 +59,6 @@ export default function SuggestedCity({
             />
           </svg>
         )}
-      </span>
-    );
-  } else if (totalCityCount <= 0 && index === 0) {
-    return (
-      <span className="sc-choice-empty">
-        Select other countries you have been to!
       </span>
     );
   } else {

@@ -55,9 +55,9 @@ export default function SuggestedCities({
   });
   return (
     <div className="sc-continents">
-      {cityDisplay.length < 1 ? (
+      {totalCityCount < 1 ? (
         <span className="sc-choice-empty">
-          Select countries you have been to!
+          Select other countries you have been to!
         </span>
       ) : (
         cityDisplay
