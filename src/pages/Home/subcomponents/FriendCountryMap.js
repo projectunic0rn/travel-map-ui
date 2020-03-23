@@ -15,9 +15,6 @@ import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 
-/* Need to make it so that duplicate country trips do not count as multiple
-scorecard values */
-
 const FriendCountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
@@ -59,7 +56,9 @@ const FriendCountryMap = props => {
           if (
             !countryArray.some(country => {
               return (
-                country.countryId === data[i].Places_visited[j].countryId &&
+                (country.countryId === data[i].Places_visited[j].countryId ||
+                  country.country.toLowerCase() ===
+                    data[i].Places_visited[j].country.toLowerCase()) &&
                 country.tripTiming === 0
               );
             })
@@ -89,7 +88,9 @@ const FriendCountryMap = props => {
           if (
             !countryArray.some(country => {
               return (
-                country.countryId === data[i].Places_visiting[j].countryId &&
+                (country.countryId === data[i].Places_visiting[j].countryId ||
+                  country.country.toLowerCase() ===
+                    data[i].Places_visiting[j].country.toLowerCase()) &&
                 country.tripTiming === 1
               );
             })
@@ -118,7 +119,9 @@ const FriendCountryMap = props => {
         if (
           !countryArray.some(country => {
             return (
-              country.countryId === data[i].Place_living.countryId &&
+              (country.countryId === data[i].Place_living.countryId ||
+                country.country.toLowerCase() ===
+                  data[i].Place_living.country.toLowerCase()) &&
               country.tripTiming === 2
             );
           })
@@ -233,7 +236,10 @@ const FriendCountryMap = props => {
   function handleClickedCountry(geography) {
     countryInfo(geography);
     let clickedCountryArray = countryArray.filter(
-      country => country.countryId === geography.id
+      country =>
+        country.countryId === geography.id ||
+        country.country.toLowerCase() ===
+          geography.properties.name.toLowerCase()
     );
     handleClickedCountryArray(clickedCountryArray);
     showPopup(1);
@@ -384,7 +390,7 @@ FriendCountryMap.propTypes = {
   clickedCountryArray: PropTypes.array,
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  refetch: PropTypes.func, 
+  refetch: PropTypes.func,
   filterParams: PropTypes.object
 };
 

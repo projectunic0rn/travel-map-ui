@@ -35,7 +35,6 @@ const CountryMap = props => {
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
-
   useEffect(() => {
     let pastCount = 0;
     let futureCount = 0;
@@ -79,7 +78,11 @@ const CountryMap = props => {
     let countryTiming = null;
     let countryTimingArray = [];
     for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
+      if (
+        clickedCountryArray[i].countryId === geography.id ||
+        clickedCountryArray[i].country.toLowerCase() ===
+          geography.properties.name.toLowerCase()
+      ) {
         isCountryIncluded = true;
         countryTiming = clickedCountryArray[i].tripTiming;
         if (

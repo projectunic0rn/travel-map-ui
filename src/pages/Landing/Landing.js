@@ -210,9 +210,11 @@ function Landing() {
 
   function addMarker() {
     let newMarkers = [...markers];
-    markers.push(
-      <NewMarker key={incomingCities[0].cityId} city={incomingCities[0]} />
-    );
+    if (incomingCities.length > 0) {
+      markers.push(
+        <NewMarker key={incomingCities[0].cityId} city={incomingCities[0]} />
+      );
+    }
     handleMarkers(newMarkers);
     incomingCities.splice(0, 1);
   }

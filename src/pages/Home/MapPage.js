@@ -85,6 +85,7 @@ const MapPage = ({
           ) {
             countryArray.push({
               countryId: userData.Places_visited[i].countryId,
+              country: userData.Places_visited[i].country,
               tripTiming: 0
             });
           }
@@ -102,6 +103,7 @@ const MapPage = ({
           ) {
             countryArray.push({
               countryId: userData.Places_visiting[i].countryId,
+              country: userData.Places_visiting[i].country,
               tripTiming: 1
             });
           }
@@ -118,6 +120,7 @@ const MapPage = ({
         ) {
           countryArray.push({
             countryId: userData.Place_living.countryId,
+            country: userData.Place_living.country,
             tripTiming: 2
           });
         }

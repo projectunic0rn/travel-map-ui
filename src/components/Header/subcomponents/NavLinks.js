@@ -2,12 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
+import logoutClicked from "../../common/CommonFunctions";
 
 export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
-  function logoutClicked(setUserLoggedIn) {
-    localStorage.removeItem("token");
-    setUserLoggedIn(false);
-  }
   return (
     <UserConsumer>
       {context => {

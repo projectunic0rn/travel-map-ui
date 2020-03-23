@@ -1814,7 +1814,7 @@ export const CountryInfo = [
     }
   },
   {
-    id: 508,
+    id: 947979,
     properties: {
       name: "Falkland Islands (Malvinas)",
       color: "#1f77b4"
@@ -3444,7 +3444,7 @@ export const CountryInfo = [
     }
   },
   {
-    id: 482601,
+    id: 121690,
     properties: {
       name: "Monaco",
       ISO2: "MC",

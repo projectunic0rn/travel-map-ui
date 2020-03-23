@@ -315,6 +315,7 @@
     position: absolute;
     top: 160px;
     left: 160px;
+    
     span {
       transform: translate(108px, -6px);
       color: #cfd4da;
@@ -322,7 +323,7 @@
       font-weight: 700;
       @media screen and (max-width: 1000px) {
         font-size: 16px;
-        transform: translate(-75px, 64px) rotate(90deg);
+        transform: translate(-96px, 64px) rotate(90deg);
       }
     }
     @media screen and (max-width: 1250px) {
@@ -338,7 +339,7 @@
       }
     }
     @media screen and (max-width: 1000px) {
-      left: calc(50% - 150px);
+      left: calc(50% - 120px);
     }
   }
 }
@@ -352,8 +353,6 @@
     span:nth-child(1) {
       border: 6px solid rgb(248, 248, 252);
     }
-  }
-  .landing-additional-info-container {
   }
 }
 
