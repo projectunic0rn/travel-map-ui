@@ -5,17 +5,17 @@
 @import "./FilterCityMap.scss";
 
 .popup-container {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1050;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1050;
 }
-  
+
 .popup-overlay {
   position: absolute;
   width: 100vw;
@@ -23,24 +23,19 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-
-  
-  .popup-card-container {
-    z-index: 2;
-    min-width: 320px;
-    min-height: 400px;
-    margin: 0 auto;
-    border-radius: 4px;
-    background: rgb(248, 248, 252);
-    box-shadow: 0 1px 2px 1px rgba(0,0, 0, 0.16);
-    overflow: scroll;
--webkit-overflow-scrolling: touch;
-    @media (min-height: 780px) {
-        height: 600px
-    }
-    @media screen and (max-width: 400px) {
-      min-width: 300px;
-    }
+.popup-card-container {
+  z-index: 2;
+  min-width: 320px;
+  min-height: 400px;
+  margin: 0 auto;
+  border-radius: 4px;
+  background: rgb(248, 248, 252);
+  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.16);
+  -webkit-overflow-scrolling: touch;
+  @media (min-height: 780px) {
+    height: 600px;
+  }
+  @media screen and (max-width: 400px) {
+    min-width: 300px;
   }
 }
-

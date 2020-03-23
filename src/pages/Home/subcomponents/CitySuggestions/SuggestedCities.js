@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import SuggestedCity from "./SuggestedCity";
 
-export default function SuggestedCities({ countryArray, handleCityClick, timing }) {
+export default function SuggestedCities({
+  countryArray, handleCityClick, timing }) {
   const [filteredCityArray, handleFilteredCityArray] = useState([]);
-
+  const [totalCityCount, setTotalCityCount] = useState(0);
   useEffect(() => {
     let countryIds = [];
     for (let i in countryArray) {
@@ -18,7 +19,9 @@ export default function SuggestedCities({ countryArray, handleCityClick, timing 
       filteredCities = friendCities.filter(
         city => city !== null && countryIds.indexOf(city.countryId) !== -1 
       );
-      filteredCities = filteredCities.filter((elem, index, self) => self.findIndex((t) => {return (t.cityId === elem.cityId)}) === index)
+      filteredCities = filteredCities.filter((
+        elem, index, self) => self.findIndex((t) => {
+          return (t.cityId === elem.cityId)}) === index)
       for (let i in filteredCities) {
         filteredCities[i].tripTiming = timing;
       }
@@ -35,23 +38,26 @@ export default function SuggestedCities({ countryArray, handleCityClick, timing 
         }
       }
     }
-
+    setTotalCityCount(filteredCities.length);
     handleFilteredCityArray(filteredCities);
   }, [countryArray]);
-  let cityDisplay = filteredCityArray.map(city => {
+  let cityDisplay = filteredCityArray.map((city, index) => {
     return (
       <SuggestedCity
         key={city.cityId}
+        index={index}
         city={city}
         handleCityClick={handleCityClick}
+        totalCityCount={totalCityCount}
+        setTotalCityCount={setTotalCityCount}
       />
     );
   });
   return (
     <div className="sc-continents">
-      {cityDisplay.length < 1 ? (
+      {totalCityCount < 1 ? (
         <span className="sc-choice-empty">
-          Select countries you have been to!
+          Select other countries you have been to!
         </span>
       ) : (
         cityDisplay
