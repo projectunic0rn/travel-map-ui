@@ -63,8 +63,10 @@
     ]
   },
   "devDependencies": {
+    "babel-jest": "^25.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "husky": "^2.7.0"
+    "husky": "^2.7.0",
+    "jest": "^25.1.0"
   }
 }
