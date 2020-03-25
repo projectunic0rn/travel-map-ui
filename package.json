@@ -51,7 +51,8 @@
     "hooks": {}
   },
   "jest": {
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "setupFiles": ["./src/setupTests.js"]
   },
   "browserslist": {
     "production": [
