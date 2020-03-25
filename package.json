@@ -50,6 +50,9 @@
   "husky": {
     "hooks": {}
   },
+  "jest": {
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
