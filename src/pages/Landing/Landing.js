@@ -9,6 +9,7 @@ import FakeClickedFriendCityContainer from "./subcomponents/FakeClickedFriendCit
 import FakeReviewCard from "./subcomponents/FakeReviewCard";
 import FakePlaceReviewCard from "./subcomponents/FakePlaceReviewCard";
 import Footer from "./Footer";
+import ArrowRightIcon from '../../icons/ArrowRightIcon';
 
 let incomingCities = [
   {
@@ -341,7 +342,7 @@ function Landing() {
               value={"Banff, CA"}
               readOnly
             />
-            <span>----&gt;</span>
+            <span className="arrow"><ArrowRightIcon/></span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedCityContainer />
@@ -377,7 +378,7 @@ function Landing() {
               value={"Banff, CA"}
               readOnly
             />
-            <span>----&gt;</span>
+            <span className="arrow"><ArrowRightIcon/></span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedFriendCityContainer />

@@ -197,6 +197,19 @@
       justify-content: center;
       max-width: 100%;
     }
+    .arrow {
+      min-width: 32px;
+      max-height: 40px;
+      @media screen and (max-width: 1250px) {
+        margin-left: 40px;
+      }
+      @media screen and (max-width: 1000px) {
+        margin-left: 30px;
+      }
+      .arrow-right {
+        fill: #cfd4da;
+      }
+    }
   }
   .landing-graphic-container {
     display: flex;
@@ -315,7 +328,7 @@
     position: absolute;
     top: 160px;
     left: 160px;
-    
+
     span {
       transform: translate(108px, -6px);
       color: #cfd4da;
@@ -339,7 +352,7 @@
       }
     }
     @media screen and (max-width: 1000px) {
-      left: calc(50% - 120px);
+      left: calc(50% - 150px);
     }
   }
 }
@@ -402,6 +415,7 @@
       max-width: 400px;
       margin-left: 0;
       .place-review-card-container {
+        max-width: 320px;
         .pr-card-content .place-review-card .pr-input-title {
           font-size: 18px;
         }
