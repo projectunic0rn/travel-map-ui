@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
-import logoutClicked from "../../common/CommonFunctions";
+import logUserOut from "../../common/CommonFunctions";
 
 export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
   return (
@@ -27,7 +27,7 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
               <NavLink
                 to="/"
                 id="logout-link-no-style"
-                onClick={() => logoutClicked(context.setUserLoggedIn)}
+                onClick={() => logUserOut(context.setUserLoggedIn)}
               >
                 Logout
               </NavLink>

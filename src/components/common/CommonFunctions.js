@@ -1,4 +1,4 @@
-export default function logoutClicked(setUserLoggedIn) {
+export default function logUserOut(setUserLoggedIn) {
   localStorage.removeItem("token");
   setUserLoggedIn(false);
 }
