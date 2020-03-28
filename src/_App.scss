@@ -9,6 +9,7 @@ $container: 1600px;
 @import "./components/common/common";
 @import "./icons/Icons";
 @import "./pages/FAQ/Faq.scss";
+@import "./components/common/zoom_button/zoom_button.style.scss";
 
 * {
   box-sizing: border-box;

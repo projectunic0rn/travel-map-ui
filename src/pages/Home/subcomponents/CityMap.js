@@ -25,8 +25,10 @@ import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
+import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
 function CityMap(props) {
+  // viewport has zoom
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -135,6 +137,7 @@ function CityMap(props) {
   }
 
   function handleViewportChange(newViewport) {
+    console.log('this is the error');
     handleViewport({ ...viewport, ...newViewport });
   }
 
@@ -1093,7 +1096,21 @@ function CityMap(props) {
           {cityTooltip ? _renderPopup() : null}
         </MapGL>
       </div>
+      <div
+        className='zoom-buttons'
+        >
+          <ZoomButton 
+            type='+'
+            handleViewportChange={handleViewportChange}
+            currentZoom={viewport.zoom}
+            />
+          <ZoomButton type='-'
+           handleViewportChange={handleViewportChange}
+            currentZoom={viewport.zoom}/>
+      </div>
+        
       <div className="city-map-scorecard">
+        
         <MapScorecard
           tripTimingCounts={tripTimingCounts}
           activeTimings={activeTimings}
