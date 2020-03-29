@@ -19,7 +19,7 @@
     border-bottom: 4px solid $off-white;
     &:hover {
       color: #6e7377;
-      background-color: rgba(158,158,158,0.2);
+      background-color: rgba(158, 158, 158, 0.2);
       border-bottom: 4px solid #a7a7a7;
     }
     &.active {
@@ -50,6 +50,13 @@
   }
 
   .nav-hamburger {
+    display: none;
+  }
+}
+
+#logout-link-no-style {
+  color: #a7a7a7;
+  @media (min-width: 1080px) {
     display: none;
   }
 }

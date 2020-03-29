@@ -9,6 +9,7 @@ import FakeClickedFriendCityContainer from "./subcomponents/FakeClickedFriendCit
 import FakeReviewCard from "./subcomponents/FakeReviewCard";
 import FakePlaceReviewCard from "./subcomponents/FakePlaceReviewCard";
 import Footer from "./Footer";
+import ArrowRightIcon from '../../icons/ArrowRightIcon';
 
 let incomingCities = [
   {
@@ -210,9 +211,11 @@ function Landing() {
 
   function addMarker() {
     let newMarkers = [...markers];
-    markers.push(
-      <NewMarker key={incomingCities[0].cityId} city={incomingCities[0]} />
-    );
+    if (incomingCities.length > 0) {
+      markers.push(
+        <NewMarker key={incomingCities[0].cityId} city={incomingCities[0]} />
+      );
+    }
     handleMarkers(newMarkers);
     incomingCities.splice(0, 1);
   }
@@ -339,7 +342,7 @@ function Landing() {
               value={"Banff, CA"}
               readOnly
             />
-            <span>----&gt;</span>
+            <span className="arrow"><ArrowRightIcon/></span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedCityContainer />
@@ -375,7 +378,7 @@ function Landing() {
               value={"Banff, CA"}
               readOnly
             />
-            <span>----&gt;</span>
+            <span className="arrow"><ArrowRightIcon/></span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedFriendCityContainer />

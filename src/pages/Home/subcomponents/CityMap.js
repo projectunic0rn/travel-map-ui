@@ -63,7 +63,6 @@ function CityMap(props) {
     }
   });
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
-
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();

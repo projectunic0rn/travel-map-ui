@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
+import logUserOut from "../../common/CommonFunctions";
 
 export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
   return (
@@ -16,14 +17,19 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
               <NavLink exact to="/friends">
                 Friends
               </NavLink>
-              <NavLink to="/profile/cities">
-                Profile
-              </NavLink>
+              <NavLink to="/profile/cities">Profile</NavLink>
               <NavLink exact to="/faq">
                 FAQ
               </NavLink>
               <NavLink exact to="/beta">
                 Beta
+              </NavLink>
+              <NavLink
+                to="/"
+                id="logout-link-no-style"
+                onClick={() => logUserOut(context.setUserLoggedIn)}
+              >
+                Logout
               </NavLink>
             </>
           );
@@ -47,6 +53,6 @@ export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
 
 NavLinks.propTypes = {
   toggleFormIsOpen: PropTypes.func,
-  formIsOpen: PropTypes.bool, 
+  formIsOpen: PropTypes.bool,
   handleHamburgerClick: PropTypes.func
 };

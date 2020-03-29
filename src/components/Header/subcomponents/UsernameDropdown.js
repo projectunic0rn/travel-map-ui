@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
+import logUserOut from '../../common/CommonFunctions';
 
 import LogoutIcon from "../../../icons/LogoutIcon";
 import PersonIcon from "../../../icons/PersonIcon";
@@ -31,10 +32,6 @@ function useComponentVisible(initialIsVisible) {
 
 function UsernameDropdown({ onClickOut }) {
   const { ref, isComponentVisible } = useComponentVisible(true);
-  function logoutClicked(setUserLoggedIn) {
-    localStorage.removeItem("token");
-    setUserLoggedIn(false);
-  }
   if (!isComponentVisible) {
     onClickOut();
   }
@@ -56,7 +53,7 @@ function UsernameDropdown({ onClickOut }) {
                 </NavLink>
                 <NavLink
                   to="/"
-                  onClick={() => logoutClicked(context.setUserLoggedIn)}
+                  onClick={() => logUserOut(context.setUserLoggedIn)}
                   className="ud-link"
                 >
                   <LogoutIcon />
