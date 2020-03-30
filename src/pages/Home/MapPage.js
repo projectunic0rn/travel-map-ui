@@ -22,6 +22,7 @@ const MapPage = ({
   const [travelScore, handleTravelScore] = useState(0);
   const [countryIdArray, handleCountryIdArray] = useState([]);
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
+  const [timing, handleTimingChange] = useState(0);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {
       localStorage.removeItem("clickedCityArray");
@@ -179,11 +180,24 @@ const MapPage = ({
     handleTravelScoreIndexArray(travelScoreIndexArray);
     handleCountryIdArray(countryIdArray);
     addMultiplePlaces({ variables: { clickedCityArray } });
-
   }
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
+      <div className="user-timing-control">
+        Enter the 
+        <select onChange={e => handleTimingChange(Number(e.target.value))}>
+          <option id="select-past" value={0}>
+            {mapPage ? "cities" : "countries"} you have visited
+          </option>
+          <option id="select-future" value={1}>
+            {mapPage ? "cities" : "countries"} you want to visit
+          </option>
+          <option id="select-live" value={2}>
+            {mapPage ? "city" : "country"} you live in
+          </option>
+        </select>
+      </div>
       <div className={mapPage ? "map city-map" : "map country-map"}>
         {mapPage ? (
           <CityMap
@@ -191,6 +205,7 @@ const MapPage = ({
             handleMapTypeChange={() => handleMapPageChange(0)}
             refetch={refetch}
             clickedCityArray={newClickedCityArray}
+            currentTiming={timing}
           />
         ) : (
           <CountryMap
@@ -198,6 +213,7 @@ const MapPage = ({
             clickedCountryArray={clickedCountryArray}
             handleMapTypeChange={() => handleMapPageChange(1)}
             refetch={refetch}
+            currentTiming={timing}
           />
         )}
       </div>

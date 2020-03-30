@@ -14,6 +14,8 @@ import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
+import ShareIcon from "../../../icons/ShareIcon";
+import SaveIcon from "../../../icons/SaveIcon";
 
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -29,9 +31,10 @@ const CountryMap = props => {
   ];
   const [clickedCountry, handleNewCountry] = useState(0);
   const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
+  const [clickedCityArray, handleClickedCityArray] = useState([]); // Named this way to re-use graphql mutation
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  const [activePopup, showPopup] = useState(false);
+  // const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
@@ -185,8 +188,8 @@ const CountryMap = props => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    showPopup(true);
     handleNewCountry(geography);
+    handleTripTimingHelper(geography, props.currentTiming)
   }
 
   function countryInfo(geography) {
@@ -194,13 +197,20 @@ const CountryMap = props => {
     handleCapitalName(geography.properties.capital);
   }
 
-  function handleTripTimingHelper(timing) {
+  function handleTripTimingHelper(country, timing) {
     let countryArray = clickedCountryArray;
+    let cityArray = clickedCityArray;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
     countryArray.push({
-      countryId: clickedCountry.id,
+      countryId: country.id,
+      country: country.properties.name,
+      tripTiming: timing
+    });
+    cityArray.push({
+      countryId: country.id,
+      country: country.properties.name,
       tripTiming: timing
     });
     switch (timing) {
@@ -218,20 +228,23 @@ const CountryMap = props => {
     }
     handleTripTiming([pastCount, futureCount, liveCount]);
     addCountry(countryArray);
-  }
-
-  function checkForPreviousTrips(geography) {
-    let previousTrips = false;
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
-        previousTrips = true;
-      }
-    }
-    return previousTrips;
+    handleClickedCityArray(cityArray);
   }
 
   function handleActiveTimings(timings) {
     handleTimingCheckbox(timings);
+  }
+
+  function saveClicked() {
+    console.log(clickedCityArray)
+  }
+
+  function shareMap() {
+    let copyText = document.getElementById("myShareLink");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
   }
 
   return (
@@ -292,6 +305,35 @@ const CountryMap = props => {
               </span>
             </span>
           </div>
+          <div
+            className={
+              clickedCountryArray.length > 0
+                ? "personal-map-save"
+                : "personal-map-save personal-map-save-noclick"
+            }
+            id="city-map-share"
+            onClick={saveClicked}
+          >
+            <span>SAVE MY MAP</span>
+            <SaveIcon />
+          </div>
+
+          <div
+            className="personal-map-share"
+            id="city-map-share"
+            onClick={shareMap}
+          >
+            <input
+              type="text"
+              defaultValue={
+                "https://geornal.herokuapp.com/public/" +
+                props.tripData.username
+              }
+              id="myShareLink"
+            ></input>
+            <span>SHARE MY MAP</span>
+            <ShareIcon />
+          </div>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />
@@ -345,7 +387,7 @@ const CountryMap = props => {
         />
         <MapInfoContainer countryName={countryName} capitalName={capitalName} />
       </div>
-      {activePopup ? (
+      {/* {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
@@ -358,7 +400,7 @@ const CountryMap = props => {
             refetch: props.refetch
           }}
         />
-      ) : null}
+      ) : null} */}
     </>
   );
 };
@@ -368,7 +410,8 @@ CountryMap.propTypes = {
   clickedCountryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
   tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  currentTiming: PropTypes.number
 };
 
 export default CountryMap;
