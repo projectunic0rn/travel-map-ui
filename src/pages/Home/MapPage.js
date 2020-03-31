@@ -15,7 +15,7 @@ const MapPage = ({
   handleMapPageChange,
   clickedCityArray
 }) => {
-  const [clickedCountryArray, addCountry] = useState([]);
+  const [countryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
   const [loaded, handleLoaded] = useState(false);
@@ -29,7 +29,6 @@ const MapPage = ({
       refetch();
     }
   });
-
   useEffect(() => {
     if (
       clickedCityArray !== null &&
@@ -72,19 +71,19 @@ const MapPage = ({
     }
     handleTripData(user);
     function handleLoadedCountries(data) {
-      let countryArray = clickedCountryArray;
+      let newCountryArray = countryArray;
       let userData = data;
       if (userData != null && userData.Places_visited.length !== 0) {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
-            !countryArray.some(country => {
+            !newCountryArray.some(country => {
               return (
                 country.countryId === userData.Places_visited[i].countryId &&
                 country.tripTiming === 0
               );
             })
           ) {
-            countryArray.push({
+            newCountryArray.push({
               countryId: userData.Places_visited[i].countryId,
               country: userData.Places_visited[i].country,
               tripTiming: 0
@@ -95,14 +94,14 @@ const MapPage = ({
       if (userData != null && userData.Places_visiting.length !== 0) {
         for (let i = 0; i < userData.Places_visiting.length; i++) {
           if (
-            !countryArray.some(country => {
+            !newCountryArray.some(country => {
               return (
                 country.countryId === userData.Places_visiting[i].countryId &&
                 country.tripTiming === 1
               );
             })
           ) {
-            countryArray.push({
+            newCountryArray.push({
               countryId: userData.Places_visiting[i].countryId,
               country: userData.Places_visiting[i].country,
               tripTiming: 1
@@ -112,26 +111,25 @@ const MapPage = ({
       }
       if (userData != null && userData.Place_living !== null) {
         if (
-          !countryArray.some(country => {
+          !newCountryArray.some(country => {
             return (
               country.countryId === userData.Place_living.countryId &&
               country.tripTiming === 2
             );
           })
         ) {
-          countryArray.push({
+          newCountryArray.push({
             countryId: userData.Place_living.countryId,
             country: userData.Place_living.country,
             tripTiming: 2
           });
         }
       }
-      addCountry(countryArray);
+      addCountry(newCountryArray);
     }
-
     handleLoadedCountries(user);
     handleLoaded(true);
-  }, [user, clickedCountryArray]);
+  }, [user, countryArray]);
 
   function calculateTravelScore() {
     let newTravelScore = 0;
@@ -210,7 +208,7 @@ const MapPage = ({
         ) : (
           <CountryMap
             tripData={tripData}
-            clickedCountryArray={clickedCountryArray}
+            countryArray={countryArray}
             handleMapTypeChange={() => handleMapPageChange(1)}
             refetch={refetch}
             currentTiming={timing}

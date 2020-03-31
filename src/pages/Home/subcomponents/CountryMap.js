@@ -6,11 +6,11 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
+import { useMutation } from "@apollo/react-hooks";
+import { ADD_MULTIPLE_PLACES } from "../../../GraphQL";
 
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
-import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
@@ -29,15 +29,19 @@ const CountryMap = props => {
     { name: "South America", coordinates: [-58.3816, -20.6037] },
     { name: "East Asia", coordinates: [121.4737, 31.2304] }
   ];
-  const [clickedCountry, handleNewCountry] = useState(0);
-  const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
+  const [clickedCountryArray, handleClickedCountryArray] = useState([...props.countryArray]);
   const [clickedCityArray, handleClickedCityArray] = useState([]); // Named this way to re-use graphql mutation
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  // const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
+  const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
+    onCompleted() {
+      props.refetch();
+    }
+  });
+
   useEffect(() => {
     let pastCount = 0;
     let futureCount = 0;
@@ -188,8 +192,51 @@ const CountryMap = props => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    handleNewCountry(geography);
-    handleTripTimingHelper(geography, props.currentTiming)
+    for (let i in clickedCountryArray) {
+      if (
+        clickedCountryArray[i].country === geography.properties.name &&
+        clickedCountryArray[i].tripTiming === props.currentTiming
+      ) {
+        handleDeleteCountry(geography, i);
+        return;
+      }
+    }
+    handleTripTimingHelper(geography);
+  }
+
+  function handleDeleteCountry(geography, index) {
+    let countryArray = clickedCountryArray;
+    let cityArray = clickedCityArray;
+    for (let i in cityArray) {
+      if (
+        cityArray[i].country === geography.properties.name &&
+        cityArray[i].tripTiming === props.currentTiming
+      ) {
+        countryArray.splice(index, 1);
+        cityArray.splice(i, 1);
+        handleClickedCountryArray(countryArray);
+        handleClickedCityArray(cityArray);
+        let pastCount = tripTimingCounts[0];
+        let futureCount = tripTimingCounts[1];
+        let liveCount = tripTimingCounts[2];
+        switch (props.currentTiming) {
+          case 0:
+            pastCount--;
+            break;
+          case 1:
+            futureCount--;
+            break;
+          case 2:
+            liveCount--;
+            break;
+          default:
+            break;
+        }
+        handleTripTiming([pastCount, futureCount, liveCount]);
+        return;
+      }
+    }
+    console.log("country has already been saved");
   }
 
   function countryInfo(geography) {
@@ -197,23 +244,28 @@ const CountryMap = props => {
     handleCapitalName(geography.properties.capital);
   }
 
-  function handleTripTimingHelper(country, timing) {
-    let countryArray = clickedCountryArray;
+  function handleTripTimingHelper(country) {
+    let newCountryArray = clickedCountryArray;
     let cityArray = clickedCityArray;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    countryArray.push({
+    newCountryArray.push({
       countryId: country.id,
       country: country.properties.name,
-      tripTiming: timing
+      tripTiming: props.currentTiming
     });
     cityArray.push({
       countryId: country.id,
       country: country.properties.name,
-      tripTiming: timing
+      tripTiming: props.currentTiming,
+      countryISO: country.properties.ISO2,
+      city: "",
+      city_latitude: 0,
+      city_longitude: 0,
+      cityId: null
     });
-    switch (timing) {
+    switch (props.currentTiming) {
       case 0:
         pastCount++;
         break;
@@ -227,7 +279,7 @@ const CountryMap = props => {
         break;
     }
     handleTripTiming([pastCount, futureCount, liveCount]);
-    addCountry(countryArray);
+    handleClickedCountryArray(newCountryArray);
     handleClickedCityArray(cityArray);
   }
 
@@ -236,7 +288,7 @@ const CountryMap = props => {
   }
 
   function saveClicked() {
-    console.log(clickedCityArray)
+    addMultiplePlaces({ variables: { clickedCityArray } });
   }
 
   function shareMap() {
@@ -307,7 +359,7 @@ const CountryMap = props => {
           </div>
           <div
             className={
-              clickedCountryArray.length > 0
+              clickedCityArray.length > 0
                 ? "personal-map-save"
                 : "personal-map-save personal-map-save-noclick"
             }
@@ -406,8 +458,7 @@ const CountryMap = props => {
 };
 
 CountryMap.propTypes = {
-  handleClickedCountry: PropTypes.func,
-  clickedCountryArray: PropTypes.array,
+  countryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
   tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   refetch: PropTypes.func,
