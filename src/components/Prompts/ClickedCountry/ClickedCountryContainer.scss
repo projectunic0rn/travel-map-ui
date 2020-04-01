@@ -70,44 +70,7 @@
       background: orange;
     }
   }
-  .clicked-country-timing-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    span {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0px 18px;
-      height: 80px;
-      font-size: 24px;
-      letter-spacing: 2px;
-      font-weight: 550;
-      &:hover {
-        cursor: pointer;
-        font-weight: 700;
-      }
-    }
-    .unclickable-timing {
-      cursor: none;
-      opacity: 0.35;
-      &:hover {
-        cursor: no-drop;
-      }
-    }
-    .past-timing {
-      color: #cb7678;
-      background: #ecd7db;
-    }
-    .future-timing {
-      color: #73a7c3;
-      background: #c2d7e5;
-    }
-    .live-timing {
-      color: #96b1a8;
-      background: #d1dcdb;
-    }
-  }
+
   .city-counter-container {
     display: flex;
     justify-content: space-between;
@@ -122,7 +85,25 @@
   }
 }
 
-.previous-trips-button {
+.clicked-country-timing-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 400px;
+  max-width: 320px;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 18px;
+    height: 120px;
+    font-size: 24px;
+    font-weight: 400;
+  }
+}
+
+.previous-trips-button,
+.cancel-delete-button {
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -133,8 +114,11 @@
   letter-spacing: 2px;
   font-weight: 550;
   width: 240px;
-  margin: 20px auto;
+  margin: 4px auto;
   padding-left: 0;
+}
+
+.previous-trips-button {
   color: #cb7678;
   background: rgb(228, 228, 232);
   .trash-icon-container {
@@ -153,6 +137,35 @@
   &:hover {
     background: #cb7678;
     color: rgb(228, 228, 232);
+  }
+}
+
+.cancel-delete-button {
+  color: rgb(238, 238, 242);
+  background: $primary-blue;
+
+  .back-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-56px, 0px);
+    height: 100%;
+    min-width: 48px;
+    background: $primary-blue;
+    svg {
+      height: 30px;
+      fill: rgb(238, 238, 242);
+      transform: rotate(180deg);
+    }
+  }
+  &:hover {
+    color: white;
+    .back-icon-container {
+      background: white;
+      svg {
+        fill: $primary-blue;
+      }
+    }
   }
 }
 

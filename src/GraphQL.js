@@ -532,7 +532,7 @@ export const UPDATE_GEORNEY_SCORE = gql`
       georneyScore
     }
   }
-`; 
+`;
 
 export const NEW_GEORNEY_SCORE = gql`
   mutation updateGeorneyScore($newTravelScore: Float!) {
@@ -541,7 +541,7 @@ export const NEW_GEORNEY_SCORE = gql`
       georneyScore
     }
   }
-`; 
+`;
 
 export const ADD_PLACE_VISITED = gql`
   mutation addPlaceVisited($country: Country!, $cities: [City!]) {
@@ -578,8 +578,8 @@ export const REMOVE_PLACE_VISITING = gql`
 `;
 
 export const REMOVE_PLACES_IN_COUNTRY = gql`
-  mutation removePlacesInCountry($countryISO: String!) {
-    removePlacesInCountry(countryISO: $countryISO) {
+  mutation removePlacesInCountry($countryISO: String!, $currentTiming: Int!) {
+    removePlacesInCountry(countryISO: $countryISO, tripTiming: $currentTiming) {
       id
       city
     }

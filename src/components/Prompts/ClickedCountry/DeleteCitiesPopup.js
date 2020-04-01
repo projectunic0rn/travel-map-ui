@@ -14,12 +14,14 @@ class DoMutation extends React.Component {
   }
 }
 
-function DeleteCitiesPopup({ children, countryISO, handleDeleteCities }) {
+function DeleteCitiesPopup({ children, countryISO, handleDeleteCities, currentTiming }) {
+  console.log(countryISO)
+  console.log(currentTiming)
   return (
     <div className="city-choosing-container">
       <Mutation
         mutation={REMOVE_PLACES_IN_COUNTRY}
-        variables={{ countryISO }}
+        variables={{ countryISO, currentTiming }}
         onCompleted={() => handleDeleteCities()}
       >
         {(mutation, { data, loading, error }) => (
@@ -35,6 +37,7 @@ function DeleteCitiesPopup({ children, countryISO, handleDeleteCities }) {
 
 DeleteCitiesPopup.propTypes = {
   countryISO: PropTypes.string,
+  currentTiming: PropTypes.number,
   children: PropTypes.object,
   handleDeleteCities: PropTypes.func
 };

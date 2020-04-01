@@ -10,6 +10,9 @@ import { useMutation } from "@apollo/react-hooks";
 import { ADD_MULTIPLE_PLACES } from "../../../GraphQL";
 
 import jsonData from "../../../world-topo-min.json";
+import ClickedCountryTiming from "../../../components/Prompts/ClickedCountry/ClickedCountryTiming";
+import PopupPrompt from "../../../components/Prompts/PopupPrompt";
+
 import MapSearch from "./MapSearch";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
@@ -29,13 +32,17 @@ const CountryMap = props => {
     { name: "South America", coordinates: [-58.3816, -20.6037] },
     { name: "East Asia", coordinates: [121.4737, 31.2304] }
   ];
-  const [clickedCountryArray, handleClickedCountryArray] = useState([...props.countryArray]);
+  const [clickedCountry, handleNewCountry] = useState(0);
+  const [clickedCountryArray, handleClickedCountryArray] = useState([
+    ...props.countryArray
+  ]);
   const [clickedCityArray, handleClickedCityArray] = useState([]); // Named this way to re-use graphql mutation
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
+  const [activePopup, showPopup] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {
       props.refetch();
@@ -191,7 +198,9 @@ const CountryMap = props => {
   }
 
   function handleClickedCountry(geography) {
+    console.log(geography);
     countryInfo(geography);
+    handleNewCountry(geography);
     for (let i in clickedCountryArray) {
       if (
         clickedCountryArray[i].country === geography.properties.name &&
@@ -236,7 +245,20 @@ const CountryMap = props => {
         return;
       }
     }
-    console.log("country has already been saved");
+    console.log("already saved");
+    showPopup(true);
+  }
+
+  function checkForPreviousTrips(geography) {
+    console.log(geography);
+    let previousTrips = false;
+    console.log(clickedCountryArray);
+    for (let i in clickedCountryArray) {
+      if (clickedCountryArray[i].country === geography.properties.name) {
+        previousTrips = true;
+      }
+    }
+    return previousTrips;
   }
 
   function countryInfo(geography) {
@@ -439,20 +461,27 @@ const CountryMap = props => {
         />
         <MapInfoContainer countryName={countryName} capitalName={capitalName} />
       </div>
-      {/* {activePopup ? (
+      {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
-          component={ClickedCountryContainer}
+          component={ClickedCountryTiming}
           componentProps={{
             countryInfo: clickedCountry,
-            handleTripTiming: handleTripTimingHelper,
+            currentTiming:
+              props.currentTiming === 0
+                ? "past"
+                : props.currentTiming === 1
+                ? "future"
+                : "live",
+            // handleTripTiming: handleTripTimingHelper,
             previousTrips: checkForPreviousTrips(clickedCountry),
-            tripData: props.tripData,
+            showPopup: showPopup,
+            // tripData: props.tripData,
             refetch: props.refetch
           }}
         />
-      ) : null} */}
+      ) : null}
     </>
   );
 };
