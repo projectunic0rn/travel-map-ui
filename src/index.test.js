@@ -1,15 +1,28 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
-// import toJson from 'enzyme-to-json';
+import Index from './index.js';
 
-// describe('index.js', () => {
-//   it('renders without crashing given the required props', () => {
-//     const spy = jest.spyOn(global.localStorage, 'getItem');
-//     expect(global.localStorage.getItem).toBeCalledWith('token');
-//     spy.mockRestore();
-//   });
-// })
+/* Stubbing out of Geocoder to resolve the following error:
+ * >  Your browser does not have secure random generator.
+ * >  If you don’t need unpredictable IDs, you can use nanoid/non-secure.
+ */
+jest.mock('react-map-gl-geocoder', () => ({
+  __esModule: true,
+  default: 'Geocoder',
+  namedExport: jest.fn(),
+}));
+// Stubs all ReactGA requests
+jest.mock('react-ga');
 
-test('Making sure CircleCI is working correctly', () => {
-  expect(1).toBe(1)
-});
+// TODO: Look into how we can also test how we are checking local storage.
+//       May make sense to extract to tests around the ApolloClient. - TW
+describe('index.js', () => {
+  it('renders without crashing and requests the stored data', () => {
+    // const spy = jest.spyOn(Storage.prototype, 'getItem');
+    // expect(spy).toBeCalledWith('token');      
+    expect(
+      JSON.stringify(
+        Object.assign({}, Index, { _reactInternalInstance: 'censored' }),
+      ),
+    ).toMatchSnapshot();
+    // spy.mockRestore();
+  });
+})

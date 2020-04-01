@@ -81,7 +81,7 @@ ReactDOM.render(
       </Switch>
     </Router>
   </ApolloProvider>,
-  document.getElementById("root")
+  document.getElementById('root') || document.createElement('div') 
 );
 
 // If you want your app to work offline and load faster, you can change
