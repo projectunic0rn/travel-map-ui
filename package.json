@@ -77,6 +77,7 @@
     "enzyme-to-json": "^3.4.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-jest": "^23.8.2",
     "husky": "^2.7.0",
     "jest": "24.7.1"
   }
