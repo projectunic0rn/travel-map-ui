@@ -1,18 +1,28 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
-// import toJson from 'enzyme-to-json';
-// import { App } from './App';
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
+import App from './App';
 
-// describe('App', () => {
-//   it('renders without crashing given the required props', () => {
-//     const props = {
-//       userAuthenticated: false
-//     }
-//     const wrapper = shallow(<App {...props} />)
-//     expect(toJson(wrapper)).toMatchSnapshot()
-//   });
-// })
+// TODO: Move the below mocks to a more generic "testHelpers" file. - TW
 
-test('Making sure CircleCI is working correctly', () => {
-  expect(1).toBe(1)
-});
+/* Stubbing out of Geocoder to resolve the following error:
+ * >  Your browser does not have secure random generator.
+ * >  If you don’t need unpredictable IDs, you can use nanoid/non-secure.
+ */
+jest.mock('react-map-gl-geocoder', () => ({
+  __esModule: true,
+  default: 'Geocoder',
+  namedExport: jest.fn(),
+}));
+// Stubs all ReactGA requests
+jest.mock('react-ga');
+
+describe('App', () => {
+  it('renders without crashing for an unauthenticated user', () => {
+    const props = {
+      userAuthenticated: false
+    }
+    const wrapper = shallow(<App {...props} />)
+    expect(toJson(wrapper)).toMatchSnapshot()
+  });
+})

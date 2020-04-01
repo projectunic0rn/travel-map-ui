@@ -1,5 +1,7 @@
 import Index from './index.js';
 
+// TODO: Move the below mocks to a more generic "testHelpers" file. - TW
+
 /* Stubbing out of Geocoder to resolve the following error:
  * >  Your browser does not have secure random generator.
  * >  If you don’t need unpredictable IDs, you can use nanoid/non-secure.
