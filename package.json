@@ -10,6 +10,8 @@
     "compression": "^1.7.4",
     "deck.gl": "^7.3.6",
     "dotenv": "^8.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint-plugin-import": "^2.18.2",
     "express": "^4.17.1",
     "express-favicon": "^2.0.1",
@@ -72,8 +74,6 @@
   },
   "devDependencies": {
     "babel-jest": "^24.8.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
