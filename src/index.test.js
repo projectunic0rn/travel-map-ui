@@ -1,15 +1,12 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 // import toJson from 'enzyme-to-json';
-// import { App } from './App';
 
-// describe('App', () => {
+// describe('index.js', () => {
 //   it('renders without crashing given the required props', () => {
-//     const props = {
-//       userAuthenticated: false
-//     }
-//     const wrapper = shallow(<App {...props} />)
-//     expect(toJson(wrapper)).toMatchSnapshot()
+//     const spy = jest.spyOn(global.localStorage, 'getItem');
+//     expect(global.localStorage.getItem).toBeCalledWith('token');
+//     spy.mockRestore();
 //   });
 // })
 
