@@ -26,4 +26,4 @@ package-lock.json
 /.vscode
 
 # test snapshots
-src/__snapshots__
+**/__snapshots__
