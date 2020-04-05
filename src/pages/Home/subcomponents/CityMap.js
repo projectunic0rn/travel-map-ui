@@ -10,7 +10,8 @@ import { useMutation } from "@apollo/react-hooks";
 import {
   ADD_MULTIPLE_PLACES,
   NEW_GEORNEY_SCORE,
-  UPDATE_GEORNEY_SCORE
+  UPDATE_GEORNEY_SCORE,
+  GET_LOGGEDIN_USER_COUNTRIES
 } from "../../../GraphQL";
 
 import { TravelScoreCalculator } from "../../../TravelScore";
@@ -54,7 +55,15 @@ function CityMap(props) {
   const [newLiveCity, handleNewLiveCity] = useState();
   const [showSideMenu, handleSideMenu] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
-    onCompleted() {}
+    refetchQueries: [
+      {
+        query: GET_LOGGEDIN_USER_COUNTRIES
+      }
+    ],
+    awaitRefetchQueries: true,
+    onCompleted() {
+      props.refetch();
+    }
   });
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {

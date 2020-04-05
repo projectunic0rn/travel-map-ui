@@ -81,12 +81,7 @@ function ClickedCountryTiming(props) {
 }
 
 ClickedCountryTiming.propTypes = {
-  handleTripTiming: PropTypes.func,
-  handlePageChange: PropTypes.func,
-  handleDelete: PropTypes.func,
-  previousTrips: PropTypes.bool,
-  country: PropTypes.string,
-  countryName: PropTypes.string
+  customProps: PropTypes.array
 };
 
 export default ClickedCountryTiming;

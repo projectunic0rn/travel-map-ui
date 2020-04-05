@@ -6,8 +6,12 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
+import Swal from "sweetalert2";
 import { useMutation } from "@apollo/react-hooks";
-import { ADD_MULTIPLE_PLACES } from "../../../GraphQL";
+import {
+  ADD_MULTIPLE_PLACES,
+  GET_LOGGEDIN_USER_COUNTRIES
+} from "../../../GraphQL";
 
 import jsonData from "../../../world-topo-min.json";
 import ClickedCountryTiming from "../../../components/Prompts/ClickedCountry/ClickedCountryTiming";
@@ -44,6 +48,12 @@ const CountryMap = props => {
   const [showSideMenu, handleSideMenu] = useState(false);
   const [activePopup, showPopup] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
+    refetchQueries: [
+      {
+        query: GET_LOGGEDIN_USER_COUNTRIES
+      }
+    ],
+    awaitRefetchQueries: true,
     onCompleted() {
       props.refetch();
     }
@@ -53,6 +63,7 @@ const CountryMap = props => {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
+    console.log(clickedCountryArray)
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].tripTiming === 0) {
         pastCount++;
@@ -199,6 +210,21 @@ const CountryMap = props => {
 
   function handleClickedCountry(geography) {
     console.log(geography);
+    if (props.currentTiming === 2) {
+      console.log("live");
+      for (let i in clickedCountryArray) {
+        if (clickedCountryArray[i].tripTiming === 2) {
+          console.log(clickedCountryArray[i].country);
+          evalLiveClick(
+            geography.properties.name,
+            clickedCountryArray[i].country,
+            i,
+            geography
+          );
+          return;
+        }
+      }
+    }
     countryInfo(geography);
     handleNewCountry(geography);
     for (let i in clickedCountryArray) {
@@ -211,6 +237,55 @@ const CountryMap = props => {
       }
     }
     handleTripTimingHelper(geography);
+  }
+
+  function evalLiveClick(newCountry, previousCountry, index, geography) {
+    let whichArray = "loaded";
+    // let liveCityIndex;
+    // let liveCity = clickedCountryArray.filter((city, index) => {
+    //   liveCityIndex = index;
+    //   return city.tripTiming === 2;
+    // });
+    // if (liveCity.length < 1) {
+    //   liveCity = clickedCityArray.filter((city, index) => {
+    //     liveCityIndex = index;
+    //     whichArray = "new";
+    //     return city.tripTiming === 2;
+    //   });
+    // }
+
+    let popupText =
+      "You currently live in " +
+      previousCountry +
+      ". Would you like to update this to " +
+      newCountry +
+      "?";
+
+    const swalParams = {
+      type: "question",
+      customClass: {
+        container: "live-swal-prompt"
+      },
+      text: popupText
+    };
+    Swal.fire(swalParams).then(result => {
+      if (result.value && whichArray === "new") {
+        // deleteCity(previousCity);
+        // handleNewLiveCity(event);
+      } else if (result.value && whichArray === "loaded") {
+        clickedCountryArray.splice(index, 1);
+        let pastCount = tripTimingCounts[0];
+        let futureCount = tripTimingCounts[1];
+        let liveCount = tripTimingCounts[2];
+        liveCount--;
+        console.log(liveCount)
+        handleTripTiming([pastCount, futureCount, liveCount]);
+        handleTripTimingHelper(geography)
+        // deleteLoadedCity(previousCity);
+        // handleNewLiveCity(event);
+        console.log("reached");
+      }
+    });
   }
 
   function handleDeleteCountry(geography, index) {
@@ -300,6 +375,10 @@ const CountryMap = props => {
       default:
         break;
     }
+    if (liveCount > 1) {
+      liveCount = 1;
+    }
+    console.log(liveCount)
     handleTripTiming([pastCount, futureCount, liveCount]);
     handleClickedCountryArray(newCountryArray);
     handleClickedCityArray(cityArray);
