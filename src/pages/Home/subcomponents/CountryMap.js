@@ -23,6 +23,7 @@ import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import ShareIcon from "../../../icons/ShareIcon";
 import SaveIcon from "../../../icons/SaveIcon";
+import { ZoomButton } from "../../../components/common/Zoom_button/zoom_button";
 
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -506,6 +507,22 @@ const CountryMap = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+
+
+      <div
+        className='zoom-buttons'
+        >
+          <ZoomButton 
+            type='+'
+            //handleViewportChange={handleViewportChange}
+            //currentZoom={zoom}
+            />
+          <ZoomButton type='-'
+            //handleViewportChange={handleViewportChange}
+            //currentZoom={zoom}
+            />
+      </div>
+
       <div id="new-country-scorecard">
         <MapScorecard
           tripTimingCounts={tripTimingCounts}
