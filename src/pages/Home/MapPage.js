@@ -15,20 +15,20 @@ const MapPage = ({
   handleMapPageChange,
   clickedCityArray
 }) => {
-  const [clickedCountryArray, addCountry] = useState([]);
+  const [countryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
   const [loaded, handleLoaded] = useState(false);
   const [travelScore, handleTravelScore] = useState(0);
   const [countryIdArray, handleCountryIdArray] = useState([]);
   const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
+  const [timing, handleTimingChange] = useState(0);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {
       localStorage.removeItem("clickedCityArray");
       refetch();
     }
   });
-
   useEffect(() => {
     if (
       clickedCityArray !== null &&
@@ -71,19 +71,19 @@ const MapPage = ({
     }
     handleTripData(user);
     function handleLoadedCountries(data) {
-      let countryArray = clickedCountryArray;
+      let newCountryArray = countryArray;
       let userData = data;
       if (userData != null && userData.Places_visited.length !== 0) {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
-            !countryArray.some(country => {
+            !newCountryArray.some(country => {
               return (
                 country.countryId === userData.Places_visited[i].countryId &&
                 country.tripTiming === 0
               );
             })
           ) {
-            countryArray.push({
+            newCountryArray.push({
               countryId: userData.Places_visited[i].countryId,
               country: userData.Places_visited[i].country,
               tripTiming: 0
@@ -94,14 +94,14 @@ const MapPage = ({
       if (userData != null && userData.Places_visiting.length !== 0) {
         for (let i = 0; i < userData.Places_visiting.length; i++) {
           if (
-            !countryArray.some(country => {
+            !newCountryArray.some(country => {
               return (
                 country.countryId === userData.Places_visiting[i].countryId &&
                 country.tripTiming === 1
               );
             })
           ) {
-            countryArray.push({
+            newCountryArray.push({
               countryId: userData.Places_visiting[i].countryId,
               country: userData.Places_visiting[i].country,
               tripTiming: 1
@@ -111,26 +111,25 @@ const MapPage = ({
       }
       if (userData != null && userData.Place_living !== null) {
         if (
-          !countryArray.some(country => {
+          !newCountryArray.some(country => {
             return (
               country.countryId === userData.Place_living.countryId &&
               country.tripTiming === 2
             );
           })
         ) {
-          countryArray.push({
+          newCountryArray.push({
             countryId: userData.Place_living.countryId,
             country: userData.Place_living.country,
             tripTiming: 2
           });
         }
       }
-      addCountry(countryArray);
+      addCountry(newCountryArray);
     }
-
     handleLoadedCountries(user);
     handleLoaded(true);
-  }, [user, clickedCountryArray]);
+  }, [user, countryArray]);
 
   function calculateTravelScore() {
     let newTravelScore = 0;
@@ -179,11 +178,24 @@ const MapPage = ({
     handleTravelScoreIndexArray(travelScoreIndexArray);
     handleCountryIdArray(countryIdArray);
     addMultiplePlaces({ variables: { clickedCityArray } });
-
   }
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
+      <div className="user-timing-control">
+        Enter the 
+        <select onChange={e => handleTimingChange(Number(e.target.value))}>
+          <option id="select-past" value={0}>
+            {mapPage ? "cities" : "countries"} you have visited
+          </option>
+          <option id="select-future" value={1}>
+            {mapPage ? "cities" : "countries"} you want to visit
+          </option>
+          <option id="select-live" value={2}>
+            {mapPage ? "city" : "country"} you live in
+          </option>
+        </select>
+      </div>
       <div className={mapPage ? "map city-map" : "map country-map"}>
         {mapPage ? (
           <CityMap
@@ -191,13 +203,15 @@ const MapPage = ({
             handleMapTypeChange={() => handleMapPageChange(0)}
             refetch={refetch}
             clickedCityArray={newClickedCityArray}
+            currentTiming={timing}
           />
         ) : (
           <CountryMap
             tripData={tripData}
-            clickedCountryArray={clickedCountryArray}
+            countryArray={countryArray}
             handleMapTypeChange={() => handleMapPageChange(1)}
             refetch={refetch}
+            currentTiming={timing}
           />
         )}
       </div>

@@ -10,7 +10,8 @@ import { useMutation } from "@apollo/react-hooks";
 import {
   ADD_MULTIPLE_PLACES,
   NEW_GEORNEY_SCORE,
-  UPDATE_GEORNEY_SCORE
+  UPDATE_GEORNEY_SCORE,
+  GET_LOGGEDIN_USER_COUNTRIES
 } from "../../../GraphQL";
 
 import { TravelScoreCalculator } from "../../../TravelScore";
@@ -44,7 +45,6 @@ function CityMap(props) {
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
   const [cityTooltip, handleCityTooltip] = useState(null);
-  const [timingState, handleTimingState] = useState(0);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
   const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
   const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
@@ -55,7 +55,15 @@ function CityMap(props) {
   const [newLiveCity, handleNewLiveCity] = useState();
   const [showSideMenu, handleSideMenu] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
-    onCompleted() {}
+    refetchQueries: [
+      {
+        query: GET_LOGGEDIN_USER_COUNTRIES
+      }
+    ],
+    awaitRefetchQueries: true,
+    onCompleted() {
+      props.refetch();
+    }
   });
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
@@ -75,6 +83,11 @@ function CityMap(props) {
       window.removeEventListener("resize", resize);
     };
   }, []);
+
+  useEffect(() => {
+    handleSuggestedContinentArray([]);
+    handleSuggestedCountryArray([]);
+  }, [props.currentTiming])
 
   useEffect(() => {
     let oldActiveTimings = [...activeTimings];
@@ -579,7 +592,7 @@ function CityMap(props) {
     }
 
     if (
-      timingState === 2 &&
+      props.currentTiming === 2 &&
       (loadedClickedCityArray.some(city => city.tripTiming === 2) ||
         clickedCityArray.some(city => city.tripTiming === 2))
     ) {
@@ -588,7 +601,7 @@ function CityMap(props) {
     }
     if (
       loadedClickedCityArray.some(
-        city => city.cityId === cityId && city.tripTiming === timingState
+        city => city.cityId === cityId && city.tripTiming === props.currentTiming
       )
     ) {
       return;
@@ -608,13 +621,13 @@ function CityMap(props) {
       cityId,
       city_latitude: event.result.center[1],
       city_longitude: event.result.center[0],
-      tripTiming: timingState
+      tripTiming: props.currentTiming
     };
     handleMarkers(markers);
     if (
       !loadedClickedCityArray.some(
         city =>
-          city.cityId === newCityEntry.cityId && city.tripTiming === timingState
+          city.cityId === newCityEntry.cityId && city.tripTiming === props.currentTiming
       )
     ) {
       handleTripTimingCityHelper(newCityEntry);
@@ -665,7 +678,7 @@ function CityMap(props) {
   }
 
   function handleTripTimingCityHelper(city) {
-    if (timingState !== 1) {
+    if (props.currentTiming !== 1) {
       calculateNewTravelScore(city, "add");
     }
 
@@ -678,7 +691,7 @@ function CityMap(props) {
       cityId: city.cityId,
       city_latitude: city.city_latitude,
       city_longitude: city.city_longitude,
-      tripTiming: timingState
+      tripTiming: props.currentTiming
     });
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -687,7 +700,7 @@ function CityMap(props) {
     let newMarkerFutureDisplay = [...markerFutureDisplay];
     let newMarkerLiveDisplay = [...markerLiveDisplay];
     let color = "";
-    switch (timingState) {
+    switch (props.currentTiming) {
       case 0:
         pastCount++;
         tripTimingCounts[0] = pastCount;
@@ -814,12 +827,6 @@ function CityMap(props) {
     }
   }
 
-  function handleTimingChange(value) {
-    handleTimingState(Number(value));
-    handleSuggestedContinentArray([]);
-    handleSuggestedCountryArray([]);
-  }
-
   function _renderPopup() {
     return (
       cityTooltip && (
@@ -941,7 +948,7 @@ function CityMap(props) {
                   </span>
                 </div>
                 <div className="sc-controls" id="sc-controls-city-side-menu">
-                  {timingState !== 2 ? (
+                  {props.currentTiming !== 2 ? (
                     <span className="new-map-suggest" onClick={showSuggest}>
                       <span className="sc-control-label">Tap cities</span>
                       <span>
@@ -998,7 +1005,7 @@ function CityMap(props) {
             <span>SHARE MY MAP</span>
             <ShareIcon />
           </div>
-          {timingState !== 2 ? (
+          {props.currentTiming !== 2 ? (
             <div
               className="sc-controls sc-controls-right"
               onClick={showSuggest}
@@ -1094,14 +1101,6 @@ function CityMap(props) {
         <span className="gs-title">{"GeorneyScore"}</span>
         <span className="gs-score">{Math.ceil(travelScore)}</span>
       </span>
-      <div className="user-timing-control">
-        Enter the
-        <select onChange={e => handleTimingChange(e.target.value)}>
-          <option value={0}>cities you have visited</option>
-          <option value={1}>cities you want to visit</option>
-          <option value={2}>city you live in</option>
-        </select>
-      </div>
       {suggestPopup ? (
         <div className="city-suggestions-prompt">
           <PopupPrompt
@@ -1114,7 +1113,7 @@ function CityMap(props) {
               handleContinents: handleContinents,
               handleCountries: handleCountries,
               handleClickedCity: handleTripTimingCityHelper,
-              timing: timingState
+              timing: props.currentTiming
             }}
           />
         </div>
@@ -1129,7 +1128,8 @@ CityMap.propTypes = {
   deleteCity: PropTypes.func,
   refetch: PropTypes.func,
   clickedCityArray: PropTypes.array,
-  initialTravelScore: PropTypes.number
+  initialTravelScore: PropTypes.number,
+  currentTiming: PropTypes.number
 };
 
 ClusterMarker.propTypes = {

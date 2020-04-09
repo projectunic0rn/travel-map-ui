@@ -89,12 +89,14 @@ function App({ userAuthenticated }) {
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
             onCompleted={() => {
+              console.log('query re-fired')
               handleLoaded(true);
             }}
           >
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
+              console.log(data);
               handleUserData(data);
               if (!loaded) return null;
               return (
