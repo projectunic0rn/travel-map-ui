@@ -14,6 +14,7 @@ import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
+import { ZoomButton } from "../../../components/common/Zoom_button/zoom_button";
 
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -234,6 +235,23 @@ const CountryMap = props => {
     handleTimingCheckbox(timings);
   }
 
+  /*
+  function CityMap(props) {
+    // viewport has zoom
+    const [viewport, handleViewport] = useState({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      latitude: 25,
+      longitude: 8,
+      zoom: setInitialZoom()
+    });
+
+
+  function handleViewportChange(newViewport) {
+    handleChangeZoom({ ...zoom, ...newViewport });
+  }
+*/
+
   return (
     <>
       <div
@@ -337,6 +355,22 @@ const CountryMap = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+
+
+      <div
+        className='zoom-buttons'
+        >
+          <ZoomButton 
+            type='+'
+            //handleViewportChange={handleViewportChange}
+            //currentZoom={zoom}
+            />
+          <ZoomButton type='-'
+            //handleViewportChange={handleViewportChange}
+            //currentZoom={zoom}
+            />
+      </div>
+
       <div id="new-country-scorecard">
         <MapScorecard
           tripTimingCounts={tripTimingCounts}

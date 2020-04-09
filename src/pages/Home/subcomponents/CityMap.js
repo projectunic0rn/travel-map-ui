@@ -24,7 +24,7 @@ import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
-import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+import { ZoomButton } from "../../../components/common/Zoom_button/zoom_button";
 
 function CityMap(props) {
   // viewport has zoom
@@ -1095,7 +1095,7 @@ function CityMap(props) {
             currentZoom={viewport.zoom}
             />
           <ZoomButton type='-'
-           handleViewportChange={handleViewportChange}
+            handleViewportChange={handleViewportChange}
             currentZoom={viewport.zoom}/>
       </div>
         
