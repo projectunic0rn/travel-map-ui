@@ -46,6 +46,7 @@
     "dev": "react-scripts --max-old-space-size=4096 start",
     "build": "react-scripts --max-old-space-size=4096 build",
     "test": "react-scripts test",
+    "update-snapshots": "react-scripts test --updateSnapshot",
     "eject": "react-scripts eject",
     "lint": "eslint src"
   },
