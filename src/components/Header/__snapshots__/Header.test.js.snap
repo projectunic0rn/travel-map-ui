@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should render correctly in when the user is logged in 1`] = `
+<Fragment>
+  <header
+    className="header-container"
+  >
+    <div
+      className="header-content"
+    >
+      <div
+        className="site-logo-container"
+      >
+        <SiteLogo />
+        <NavLink
+          exact={true}
+          to="/"
+        >
+          <span
+            className="site-title"
+          >
+            <SiteText />
+          </span>
+        </NavLink>
+      </div>
+      <div
+        className="nav-menu-container"
+      >
+        <NavLinks
+          formIsOpen={false}
+          handleHamburgerClick={[Function]}
+          toggleFormIsOpen={[Function]}
+        />
+        <div
+          className="nav-hamburger"
+        >
+          <div
+            className="hamburger-icon"
+            id="ham"
+            onClick={[Function]}
+          >
+            <span
+              className="hamburger-a"
+            />
+            <span
+              className="hamburger-b"
+            />
+          </div>
+        </div>
+      </div>
+      <UserHeaderContainer
+        avatarIndex={1}
+        color="green"
+      />
+    </div>
+  </header>
+  <div
+    className="display-none"
+    onClick={[Function]}
+  >
+    <NavLinks
+      formIsOpen={false}
+      handleHamburgerClick={[Function]}
+      toggleFormIsOpen={[Function]}
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`Header should render correctly in when the user is logged out 1`] = `
+<Fragment>
+  <header
+    className="header-container"
+  >
+    <div
+      className="header-content"
+    >
+      <div
+        className="site-logo-container"
+      >
+        <SiteLogo />
+        <NavLink
+          exact={true}
+          to="/"
+        >
+          <span
+            className="site-title"
+          >
+            <SiteText />
+          </span>
+        </NavLink>
+      </div>
+      <div
+        className="nav-menu-container"
+      >
+        <NavLinks
+          formIsOpen={false}
+          handleHamburgerClick={[Function]}
+          toggleFormIsOpen={[Function]}
+        />
+        <div
+          className="nav-hamburger"
+        >
+          <div
+            className="hamburger-icon"
+            id="ham"
+            onClick={[Function]}
+          >
+            <span
+              className="hamburger-a"
+            />
+            <span
+              className="hamburger-b"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div
+    className="display-none"
+    onClick={[Function]}
+  >
+    <NavLinks
+      formIsOpen={false}
+      handleHamburgerClick={[Function]}
+      toggleFormIsOpen={[Function]}
+    />
+  </div>
+</Fragment>
+`;
