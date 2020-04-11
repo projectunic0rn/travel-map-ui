@@ -63,7 +63,6 @@ const CountryMap = props => {
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
-    console.log(clickedCountryArray)
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].tripTiming === 0) {
         pastCount++;
@@ -209,12 +208,12 @@ const CountryMap = props => {
   }
 
   function handleClickedCountry(geography) {
-    console.log(geography);
     if (props.currentTiming === 2) {
-      console.log("live");
       for (let i in clickedCountryArray) {
-        if (clickedCountryArray[i].tripTiming === 2) {
-          console.log(clickedCountryArray[i].country);
+        if (
+          clickedCountryArray[i].tripTiming === 2 &&
+          clickedCountryArray[i].country !== geography.properties.name
+        ) {
           evalLiveClick(
             geography.properties.name,
             clickedCountryArray[i].country,
@@ -240,20 +239,6 @@ const CountryMap = props => {
   }
 
   function evalLiveClick(newCountry, previousCountry, index, geography) {
-    let whichArray = "loaded";
-    // let liveCityIndex;
-    // let liveCity = clickedCountryArray.filter((city, index) => {
-    //   liveCityIndex = index;
-    //   return city.tripTiming === 2;
-    // });
-    // if (liveCity.length < 1) {
-    //   liveCity = clickedCityArray.filter((city, index) => {
-    //     liveCityIndex = index;
-    //     whichArray = "new";
-    //     return city.tripTiming === 2;
-    //   });
-    // }
-
     let popupText =
       "You currently live in " +
       previousCountry +
@@ -269,21 +254,14 @@ const CountryMap = props => {
       text: popupText
     };
     Swal.fire(swalParams).then(result => {
-      if (result.value && whichArray === "new") {
-        // deleteCity(previousCity);
-        // handleNewLiveCity(event);
-      } else if (result.value && whichArray === "loaded") {
+      if (result.value) {
         clickedCountryArray.splice(index, 1);
         let pastCount = tripTimingCounts[0];
         let futureCount = tripTimingCounts[1];
         let liveCount = tripTimingCounts[2];
         liveCount--;
-        console.log(liveCount)
         handleTripTiming([pastCount, futureCount, liveCount]);
-        handleTripTimingHelper(geography)
-        // deleteLoadedCity(previousCity);
-        // handleNewLiveCity(event);
-        console.log("reached");
+        handleTripTimingHelper(geography);
       }
     });
   }
@@ -320,14 +298,11 @@ const CountryMap = props => {
         return;
       }
     }
-    console.log("already saved");
     showPopup(true);
   }
 
   function checkForPreviousTrips(geography) {
-    console.log(geography);
     let previousTrips = false;
-    console.log(clickedCountryArray);
     for (let i in clickedCountryArray) {
       if (clickedCountryArray[i].country === geography.properties.name) {
         previousTrips = true;
@@ -378,7 +353,6 @@ const CountryMap = props => {
     if (liveCount > 1) {
       liveCount = 1;
     }
-    console.log(liveCount)
     handleTripTiming([pastCount, futureCount, liveCount]);
     handleClickedCountryArray(newCountryArray);
     handleClickedCityArray(cityArray);
@@ -553,10 +527,8 @@ const CountryMap = props => {
                 : props.currentTiming === 1
                 ? "future"
                 : "live",
-            // handleTripTiming: handleTripTimingHelper,
             previousTrips: checkForPreviousTrips(clickedCountry),
             showPopup: showPopup,
-            // tripData: props.tripData,
             refetch: props.refetch
           }}
         />

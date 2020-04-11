@@ -87,7 +87,7 @@ function CityMap(props) {
   useEffect(() => {
     handleSuggestedContinentArray([]);
     handleSuggestedCountryArray([]);
-  }, [props.currentTiming])
+  }, [props.currentTiming]);
 
   useEffect(() => {
     let oldActiveTimings = [...activeTimings];
@@ -106,10 +106,10 @@ function CityMap(props) {
       type: "content",
       text:
         "GeorneyScore is a representation of how much of the world you have seen, the higher you score the more points you gain. We use a special metric to calculate this, which you can check out in the FAQ page!",
-      confirmButtonColor: "#656F80", 
-      closeOnClickOutside: true 
+      confirmButtonColor: "#656F80",
+      closeOnClickOutside: true
     };
-    Swal.fire(swalParams)
+    Swal.fire(swalParams);
   }
   function useEffectSkipFirstLive() {
     const isFirst = useRef(true);
@@ -190,7 +190,6 @@ function CityMap(props) {
         handleClickedCityArray(newClickedCityArray);
         handleMarkerPastDisplay(markerDisplay);
         handleCityTooltip(null);
-
         break;
       case 1:
         markerFutureDisplay.filter((city, index) => {
@@ -299,18 +298,20 @@ function CityMap(props) {
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
     data.map(city => {
-      switch (city.tripTiming) {
-        case 0:
-          pastCount++;
-          break;
-        case 1:
-          futureCount++;
-          break;
-        case 2:
-          liveCount++;
-          break;
-        default:
-          break;
+      if (city.cityId !== null) {
+        switch (city.tripTiming) {
+          case 0:
+            pastCount++;
+            break;
+          case 1:
+            futureCount++;
+            break;
+          case 2:
+            liveCount++;
+            break;
+          default:
+            break;
+        }
       }
     });
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
@@ -601,7 +602,8 @@ function CityMap(props) {
     }
     if (
       loadedClickedCityArray.some(
-        city => city.cityId === cityId && city.tripTiming === props.currentTiming
+        city =>
+          city.cityId === cityId && city.tripTiming === props.currentTiming
       )
     ) {
       return;
@@ -627,7 +629,8 @@ function CityMap(props) {
     if (
       !loadedClickedCityArray.some(
         city =>
-          city.cityId === newCityEntry.cityId && city.tripTiming === props.currentTiming
+          city.cityId === newCityEntry.cityId &&
+          city.tripTiming === props.currentTiming
       )
     ) {
       handleTripTimingCityHelper(newCityEntry);

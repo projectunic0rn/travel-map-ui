@@ -77,7 +77,11 @@ const NewUserCountry = props => {
     let countryTiming = null;
     let countryTimingArray = [];
     for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
+      if (
+        clickedCountryArray[i].countryId === geography.id ||
+        clickedCountryArray[i].country.toLowerCase() ===
+          geography.properties.name.toLowerCase()
+      ) {
         isCountryIncluded = true;
         countryTiming = clickedCountryArray[i].tripTiming;
         if (
