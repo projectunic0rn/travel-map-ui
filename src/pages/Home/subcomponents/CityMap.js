@@ -10,8 +10,12 @@ import { useMutation } from "@apollo/react-hooks";
 import {
   ADD_MULTIPLE_PLACES,
   NEW_GEORNEY_SCORE,
-  UPDATE_GEORNEY_SCORE
+  UPDATE_GEORNEY_SCORE,
+  REMOVE_PLACE_VISITING,
+  REMOVE_PLACE_VISITED,
+  REMOVE_PLACE_LIVING
 } from "../../../GraphQL";
+
 
 import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
@@ -33,6 +37,9 @@ function CityMap(props) {
     longitude: 8,
     zoom: setInitialZoom()
   });
+
+  const [deletePrompt, handleDelete] = useState(false);
+
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
   const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
@@ -62,6 +69,14 @@ function CityMap(props) {
       props.refetch();
     }
   });
+
+  const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
+  const [removePlaceVisiting] = useMutation(REMOVE_PLACE_VISITING, {});
+  const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
+
+
+
+
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -146,6 +161,90 @@ function CityMap(props) {
     document.execCommand("copy");
     alert("Copied the text: " + copyText.value);
   }
+
+
+  function deleteCitySaved(cityTooltip) {
+    let cityArrayIndex;
+    let newClickedCityArray = [...clickedCityArray];
+    newClickedCityArray.filter((city, index) => {
+      if (
+        city.cityId === cityTooltip.cityId &&
+        city.tripTiming === cityTooltip.tripTiming
+      ) {
+        cityArrayIndex = index;
+      }
+    });
+    let markerIndex;
+    let markerDisplay;
+    let pastCount = tripTimingCounts[0];
+    let futureCount = tripTimingCounts[1];
+    let liveCount = tripTimingCounts[2];
+    switch(cityTooltip.tripTiming) {
+      case 0:
+        let placeVisitedId = cityTooltip.id
+        removePlacevisited({variables: {placeVisitedId}});
+
+        markerPastDisplay.filter((city, index) => {
+          if (Number(city.key) === cityTooltip.cityId) {
+            markerIndex = index;
+          }
+        });
+        newClickedCityArray.splice(cityArrayIndex, 1);
+        markerDisplay = [...markerPastDisplay];
+        markerDisplay.splice(markerIndex, 1);
+        pastCount--;
+        handleClickedCityArray(newClickedCityArray);
+        handleMarkerPastDisplay(markerDisplay);
+        handleCityTooltip(null);
+
+        break;
+      case 1:
+        let placeVisitingId = cityTooltip.id
+        removePlaceVisiting({variables: {placeVisitingId}});
+
+        markerFutureDisplay.filter((city, index) => {
+          if (Number(city.key) === cityTooltip.cityId) {
+            markerIndex = index;
+          }
+        });
+        newClickedCityArray.splice(cityArrayIndex, 1);
+        markerDisplay = [...markerFutureDisplay];
+        markerDisplay.splice(markerIndex, 1);
+        futureCount--;
+        handleClickedCityArray(newClickedCityArray);
+        handleMarkerFutureDisplay(markerDisplay);
+        handleCityTooltip(null);
+
+        break;
+      case 2:
+        let placeLivingId = cityTooltip.id
+        removePlaceLiving({variables: {placeLivingId}});
+
+        markerLiveDisplay.filter((city, index) => {
+          if (Number(city.key) === cityTooltip.cityId) {
+            markerIndex = index;
+          }
+        });
+        newClickedCityArray.splice(cityArrayIndex, 1);
+        markerDisplay = [...markerLiveDisplay];
+        markerDisplay.splice(markerIndex, 1);
+        liveCount--;
+        handleClickedCityArray(newClickedCityArray);
+        handleMarkerLiveDisplay(markerDisplay);
+        handleCityTooltip(null);
+
+        break;
+      default:
+        break;  
+    }
+
+    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    calculateNewTravelScore(cityTooltip, "delete");
+
+  }
+
+
+
 
   function deleteCity(cityTooltip) {
     let cityArrayIndex;
@@ -836,6 +935,7 @@ function CityMap(props) {
           {loadedClickedCityArray.some(
             city => city.cityId === cityTooltip.cityId
           ) ? (
+          <div className= "city-tooltip-nosave">
             <NavLink
               to={{
                 pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
@@ -845,6 +945,10 @@ function CityMap(props) {
             >
               {cityTooltip.city}
             </NavLink>
+            <span onClick={() => deleteCitySaved(cityTooltip)}>
+              <TrashIcon />
+            </span>
+            </div>
           ) : (
             <div className="city-tooltip-nosave">
               <span>{cityTooltip.city}</span>
