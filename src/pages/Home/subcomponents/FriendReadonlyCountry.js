@@ -4,7 +4,7 @@ import {
   ComposableMap,
   ZoomableGroup,
   Geographies,
-  Geography
+  Geography,
 } from "react-simple-maps";
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
@@ -14,8 +14,9 @@ import FriendClickedCountryBlank from "../../../components/Prompts/FriendClicked
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
+import ReadonlySignupPrompt from "../../../components/Prompts/ReadonlySignupPrompt";
 
-const FriendReadonlyCountry = props => {
+const FriendReadonlyCountry = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
 
   const [zoom, handleChangeZoom] = useState(1);
@@ -26,7 +27,7 @@ const FriendReadonlyCountry = props => {
     { name: "Oceania", coordinates: [151.2093, -20.8688] },
     { name: "Africa", coordinates: [23.3792, 6.5244] },
     { name: "South America", coordinates: [-58.3816, -20.6037] },
-    { name: "East Asia", coordinates: [121.4737, 31.2304] }
+    { name: "East Asia", coordinates: [121.4737, 31.2304] },
   ];
   const [clickedCountryArray, handleClickedCountryArray] = useState(0);
   const [countryArray, handleCountryArray] = useState([]);
@@ -48,7 +49,7 @@ const FriendReadonlyCountry = props => {
     if (data != null && data.Places_visited.length !== 0) {
       for (let j = 0; j < data.Places_visited.length; j++) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return (
               country.countryId === data.Places_visited[j].countryId &&
               country.tripTiming === 0
@@ -69,7 +70,7 @@ const FriendReadonlyCountry = props => {
             countryId: data.Places_visited[j].countryId,
             tripTiming: 0,
             avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
-            color: data.color
+            color: data.color,
           });
         }
       }
@@ -77,7 +78,7 @@ const FriendReadonlyCountry = props => {
     if (data != null && data.Places_visiting.length !== 0) {
       for (let j = 0; j < data.Places_visiting.length; j++) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return (
               country.countryId === data.Places_visiting[j].countryId &&
               country.tripTiming === 1
@@ -98,14 +99,14 @@ const FriendReadonlyCountry = props => {
             countryId: data.Places_visiting[j].countryId,
             tripTiming: 1,
             avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
-            color: data.color
+            color: data.color,
           });
         }
       }
     }
     if (data != null && data.Place_living !== null) {
       if (
-        !countryArray.some(country => {
+        !countryArray.some((country) => {
           return (
             country.countryId === data.Place_living.countryId &&
             country.tripTiming === 2
@@ -125,7 +126,7 @@ const FriendReadonlyCountry = props => {
         countryId: data.Place_living.countryId,
         tripTiming: 2,
         avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
-        color: data.color
+        color: data.color,
       });
       // }
     }
@@ -150,7 +151,11 @@ const FriendReadonlyCountry = props => {
     let countryTiming = null;
     let countryTimingArray = [];
     for (let i in countryArray) {
-      if (countryArray[i].countryId === geography.id) {
+      if (
+        countryArray[i].countryId === geography.id ||
+        countryArray[i].country.toLowerCase() ===
+          geography.properties.name.toLowerCase()
+      ) {
         isCountryIncluded = true;
         countryTiming = countryArray[i].tripTiming;
         if (countryTimingArray.indexOf(countryArray[i].tripTiming) === -1) {
@@ -163,20 +168,20 @@ const FriendReadonlyCountry = props => {
         fill: "#6E7377",
         stroke: "rgb(100, 100, 100)",
         strokeWidth: 0.75,
-        outline: "none"
+        outline: "none",
       },
       hover: {
         fill: "rgb(180, 180, 180)",
         stroke: "rgb(180, 180, 180)",
         strokeWidth: 0.75,
-        outline: "none"
+        outline: "none",
       },
       pressed: {
         fill: "#a7e1ff",
         stroke: "#a7e1ff",
         strokeWidth: 0.75,
-        outline: "none"
-      }
+        outline: "none",
+      },
     };
 
     if (isCountryIncluded) {
@@ -208,7 +213,7 @@ const FriendReadonlyCountry = props => {
           break;
         case "0,2":
           if (activeTimings[0] && activeTimings[2]) {
-            countryStyles.default.fill = "#DBC071";
+            countryStyles.default.fill = "#96B1A8";
           } else if (activeTimings[0]) {
             countryStyles.default.fill = "#CB7678";
           } else if (activeTimings[2]) {
@@ -227,14 +232,14 @@ const FriendReadonlyCountry = props => {
         case "0,1,2":
           if (activeTimings[0] && activeTimings[1]) {
             if (activeTimings[2]) {
-              countryStyles.default.fill = "rgb(248, 248, 252)";
+              countryStyles.default.fill = "#96B1A8";
             } else {
               countryStyles.default.fill = "#a780cd";
             }
           } else if (activeTimings[0] && activeTimings[2]) {
-            countryStyles.default.fill = "#DBC071";
+            countryStyles.default.fill = "#96B1A8";
           } else if (activeTimings[1] && activeTimings[2]) {
-            countryStyles.default.fill = "#8caeb0";
+            countryStyles.default.fill = "#96B1A8";
           } else if (activeTimings[0]) {
             countryStyles.default.fill = "#CB7678";
           } else if (activeTimings[1]) {
@@ -253,7 +258,7 @@ const FriendReadonlyCountry = props => {
   function handleClickedCountry(geography) {
     countryInfo(geography);
     let clickedCountryArray = countryArray.filter(
-      country => country.countryId === geography.id
+      (country) => country.countryId === geography.id
     );
     handleClickedCountryArray(clickedCountryArray);
     showPopup(1);
@@ -348,7 +353,7 @@ const FriendReadonlyCountry = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 180
+          scale: 180,
         }}
       >
         <ZoomableGroup center={center} zoom={zoom}>
@@ -375,7 +380,9 @@ const FriendReadonlyCountry = props => {
           activePopup={activePopup}
           showPopup={showPopup}
           component={
-            clickedCountryArray.length < 1
+            localStorage.token === undefined
+              ? ReadonlySignupPrompt
+              : clickedCountryArray.length < 1
               ? FriendClickedCountryBlank
               : FriendClickedCountryContainer
           }
@@ -383,7 +390,7 @@ const FriendReadonlyCountry = props => {
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,
             capitalName: capitalName,
-            refetch: props.refetch
+            refetch: props.refetch,
           }}
         />
       ) : null}
@@ -404,7 +411,7 @@ FriendReadonlyCountry.propTypes = {
   clickedCountryArray: PropTypes.array,
   tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
 };
 
 export default FriendReadonlyCountry;

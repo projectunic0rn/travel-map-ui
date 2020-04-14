@@ -15,8 +15,6 @@ class DoMutation extends React.Component {
 }
 
 function DeleteCitiesPopup({ children, countryISO, handleDeleteCities, currentTiming }) {
-  console.log(countryISO)
-  console.log(currentTiming)
   return (
     <div className="city-choosing-container">
       <Mutation

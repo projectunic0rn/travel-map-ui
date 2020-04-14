@@ -663,3 +663,41 @@
     max-width: 380px;
   }
 }
+
+#fake-timing {
+  min-height: 240px;
+}
+
+.clicked-country-timing-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 12px;
+    font-size: 24px;
+    letter-spacing: 2px;
+    font-weight: 550;
+    &:hover {
+      cursor: pointer;
+      font-weight: 700;
+    }
+  }
+  .past-timing {
+    color: #cb7678;
+    height: 80px;
+    background: #ecd7db;
+  }
+  .future-timing {
+    height: 80px;
+    color: #73a7c3;
+    background: #c2d7e5;
+  }
+  .live-timing {
+    height: 80px;
+    color: #96b1a8;
+    background: #d1dcdb;
+  }
+}

@@ -128,6 +128,7 @@
     
     .personal-map-save-noclick {
       cursor: not-allowed;
+      pointer-events: none;
       opacity: 0.5;
       &:hover {
         color: rgb(248, 248, 252);
