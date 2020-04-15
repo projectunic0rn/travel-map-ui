@@ -81,10 +81,6 @@ function CityMap(props) {
   const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
   const [removePlaceVisiting] = useMutation(REMOVE_PLACE_VISITING, {});
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
-
-
-
-
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -194,13 +190,8 @@ function CityMap(props) {
       default:
         break;  
     }
-
     deleteCity(cityTooltip);
-
   }
-
-
-
 
   function deleteCity(cityTooltip) {
     let cityArrayIndex;
