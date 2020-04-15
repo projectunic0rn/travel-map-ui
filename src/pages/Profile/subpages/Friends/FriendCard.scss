@@ -5,6 +5,7 @@
   align-content: flex-start;
   margin: 28px 20px 28px 0px;
   min-height: 200px;
+  width: calc(100% - 120px);
   .friend-card {
     display: flex;
     flex-direction: column;
