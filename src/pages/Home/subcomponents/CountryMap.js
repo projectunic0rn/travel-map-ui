@@ -6,14 +6,23 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
+import Swal from "sweetalert2";
+import { useMutation } from "@apollo/react-hooks";
+import {
+  ADD_MULTIPLE_PLACES,
+  GET_LOGGEDIN_USER_COUNTRIES
+} from "../../../GraphQL";
 
 import jsonData from "../../../world-topo-min.json";
-import MapSearch from "./MapSearch";
+import ClickedCountryTiming from "../../../components/Prompts/ClickedCountry/ClickedCountryTiming";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import ClickedCountryContainer from "../../../components/Prompts/ClickedCountry/ClickedCountryContainer";
+
+import MapSearch from "./MapSearch";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
+import ShareIcon from "../../../icons/ShareIcon";
+import SaveIcon from "../../../icons/SaveIcon";
 
 const CountryMap = props => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -28,13 +37,28 @@ const CountryMap = props => {
     { name: "East Asia", coordinates: [121.4737, 31.2304] }
   ];
   const [clickedCountry, handleNewCountry] = useState(0);
-  const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
+  const [clickedCountryArray, handleClickedCountryArray] = useState([
+    ...props.countryArray
+  ]);
+  const [clickedCityArray, handleClickedCityArray] = useState([]); // Named this way to re-use graphql mutation
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
+  const [activePopup, showPopup] = useState(false);
+  const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
+    refetchQueries: [
+      {
+        query: GET_LOGGEDIN_USER_COUNTRIES
+      }
+    ],
+    awaitRefetchQueries: true,
+    onCompleted() {
+      props.refetch();
+    }
+  });
+
   useEffect(() => {
     let pastCount = 0;
     let futureCount = 0;
@@ -184,9 +208,107 @@ const CountryMap = props => {
   }
 
   function handleClickedCountry(geography) {
+    if (props.currentTiming === 2) {
+      for (let i in clickedCountryArray) {
+        if (
+          clickedCountryArray[i].tripTiming === 2 &&
+          clickedCountryArray[i].country !== geography.properties.name
+        ) {
+          evalLiveClick(
+            geography.properties.name,
+            clickedCountryArray[i].country,
+            i,
+            geography
+          );
+          return;
+        }
+      }
+    }
     countryInfo(geography);
-    showPopup(true);
     handleNewCountry(geography);
+    for (let i in clickedCountryArray) {
+      if (
+        clickedCountryArray[i].country === geography.properties.name &&
+        clickedCountryArray[i].tripTiming === props.currentTiming
+      ) {
+        handleDeleteCountry(geography, i);
+        return;
+      }
+    }
+    handleTripTimingHelper(geography);
+  }
+
+  function evalLiveClick(newCountry, previousCountry, index, geography) {
+    let popupText =
+      "You currently live in " +
+      previousCountry +
+      ". Would you like to update this to " +
+      newCountry +
+      "?";
+
+    const swalParams = {
+      type: "question",
+      customClass: {
+        container: "live-swal-prompt"
+      },
+      text: popupText
+    };
+    Swal.fire(swalParams).then(result => {
+      if (result.value) {
+        clickedCountryArray.splice(index, 1);
+        let pastCount = tripTimingCounts[0];
+        let futureCount = tripTimingCounts[1];
+        let liveCount = tripTimingCounts[2];
+        liveCount--;
+        handleTripTiming([pastCount, futureCount, liveCount]);
+        handleTripTimingHelper(geography);
+      }
+    });
+  }
+
+  function handleDeleteCountry(geography, index) {
+    let countryArray = clickedCountryArray;
+    let cityArray = clickedCityArray;
+    for (let i in cityArray) {
+      if (
+        cityArray[i].country === geography.properties.name &&
+        cityArray[i].tripTiming === props.currentTiming
+      ) {
+        countryArray.splice(index, 1);
+        cityArray.splice(i, 1);
+        handleClickedCountryArray(countryArray);
+        handleClickedCityArray(cityArray);
+        let pastCount = tripTimingCounts[0];
+        let futureCount = tripTimingCounts[1];
+        let liveCount = tripTimingCounts[2];
+        switch (props.currentTiming) {
+          case 0:
+            pastCount--;
+            break;
+          case 1:
+            futureCount--;
+            break;
+          case 2:
+            liveCount--;
+            break;
+          default:
+            break;
+        }
+        handleTripTiming([pastCount, futureCount, liveCount]);
+        return;
+      }
+    }
+    showPopup(true);
+  }
+
+  function checkForPreviousTrips(geography) {
+    let previousTrips = false;
+    for (let i in clickedCountryArray) {
+      if (clickedCountryArray[i].country === geography.properties.name) {
+        previousTrips = true;
+      }
+    }
+    return previousTrips;
   }
 
   function countryInfo(geography) {
@@ -194,16 +316,28 @@ const CountryMap = props => {
     handleCapitalName(geography.properties.capital);
   }
 
-  function handleTripTimingHelper(timing) {
-    let countryArray = clickedCountryArray;
+  function handleTripTimingHelper(country) {
+    let newCountryArray = clickedCountryArray;
+    let cityArray = clickedCityArray;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    countryArray.push({
-      countryId: clickedCountry.id,
-      tripTiming: timing
+    newCountryArray.push({
+      countryId: country.id,
+      country: country.properties.name,
+      tripTiming: props.currentTiming
     });
-    switch (timing) {
+    cityArray.push({
+      countryId: country.id,
+      country: country.properties.name,
+      tripTiming: props.currentTiming,
+      countryISO: country.properties.ISO2,
+      city: "",
+      city_latitude: 0,
+      city_longitude: 0,
+      cityId: null
+    });
+    switch (props.currentTiming) {
       case 0:
         pastCount++;
         break;
@@ -216,22 +350,28 @@ const CountryMap = props => {
       default:
         break;
     }
-    handleTripTiming([pastCount, futureCount, liveCount]);
-    addCountry(countryArray);
-  }
-
-  function checkForPreviousTrips(geography) {
-    let previousTrips = false;
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
-        previousTrips = true;
-      }
+    if (liveCount > 1) {
+      liveCount = 1;
     }
-    return previousTrips;
+    handleTripTiming([pastCount, futureCount, liveCount]);
+    handleClickedCountryArray(newCountryArray);
+    handleClickedCityArray(cityArray);
   }
 
   function handleActiveTimings(timings) {
     handleTimingCheckbox(timings);
+  }
+
+  function saveClicked() {
+    addMultiplePlaces({ variables: { clickedCityArray } });
+  }
+
+  function shareMap() {
+    let copyText = document.getElementById("myShareLink");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
   }
 
   return (
@@ -292,6 +432,35 @@ const CountryMap = props => {
               </span>
             </span>
           </div>
+          <div
+            className={
+              clickedCityArray.length > 0
+                ? "personal-map-save"
+                : "personal-map-save personal-map-save-noclick"
+            }
+            id="city-map-share"
+            onClick={saveClicked}
+          >
+            <span>SAVE MY MAP</span>
+            <SaveIcon />
+          </div>
+
+          <div
+            className="personal-map-share"
+            id="city-map-share"
+            onClick={shareMap}
+          >
+            <input
+              type="text"
+              defaultValue={
+                "https://geornal.herokuapp.com/public/" +
+                props.tripData.username
+              }
+              id="myShareLink"
+            ></input>
+            <span>SHARE MY MAP</span>
+            <ShareIcon />
+          </div>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />
@@ -349,12 +518,17 @@ const CountryMap = props => {
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
-          component={ClickedCountryContainer}
+          component={ClickedCountryTiming}
           componentProps={{
             countryInfo: clickedCountry,
-            handleTripTiming: handleTripTimingHelper,
+            currentTiming:
+              props.currentTiming === 0
+                ? "past"
+                : props.currentTiming === 1
+                ? "future"
+                : "live",
             previousTrips: checkForPreviousTrips(clickedCountry),
-            tripData: props.tripData,
+            showPopup: showPopup,
             refetch: props.refetch
           }}
         />
@@ -364,11 +538,11 @@ const CountryMap = props => {
 };
 
 CountryMap.propTypes = {
-  handleClickedCountry: PropTypes.func,
-  clickedCountryArray: PropTypes.array,
+  countryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
   tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
+  currentTiming: PropTypes.number
 };
 
 export default CountryMap;

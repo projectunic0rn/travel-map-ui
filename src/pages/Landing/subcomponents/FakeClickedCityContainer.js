@@ -11,7 +11,7 @@ function FakeClickedCityContainer() {
           <span>Canada</span>
         </div>
       </div>
-      <div className="clicked-country-timing-container">
+      <div className="clicked-country-timing-container" id="fake-timing">
         <span className="past-timing">I visited here</span>{" "}
         <span className="future-timing">I plan to visit here</span>{" "}
         <span className="live-timing">I live here currently</span>

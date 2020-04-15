@@ -6,7 +6,7 @@ import {
   Geographies,
   Geography
 } from "react-simple-maps";
-
+import Swal from "sweetalert2";
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
@@ -77,7 +77,11 @@ const NewUserCountry = props => {
     let countryTiming = null;
     let countryTimingArray = [];
     for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].countryId === geography.id) {
+      if (
+        clickedCountryArray[i].countryId === geography.id ||
+        clickedCountryArray[i].country.toLowerCase() ===
+          geography.properties.name.toLowerCase()
+      ) {
         isCountryIncluded = true;
         countryTiming = clickedCountryArray[i].tripTiming;
         if (
@@ -180,8 +184,14 @@ const NewUserCountry = props => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    showPopup(true);
-    handleNewCountry(geography);
+    let popupText = "Please select cities on the city map to fill in countries."
+    const swalParams = {
+      customClass: {
+        container: "live-swal-prompt"
+      },
+      text: popupText
+    };
+    Swal.fire(swalParams);
   }
 
   function countryInfo(geography) {

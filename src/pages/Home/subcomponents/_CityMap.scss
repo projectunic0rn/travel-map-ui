@@ -437,7 +437,8 @@
     left: calc(50% - 60px);
   }
 }
-.city-map .georney-score,  #map-readonly .georney-score{
+.city-map .georney-score,
+#map-readonly .georney-score {
   position: absolute;
   bottom: 60px;
   left: calc(50% - 100px);
@@ -515,6 +516,7 @@
   font-family: "Segoe UI", sans-serif;
   font-size: 30px;
   color: rgb(248, 248, 252);
+  z-index: 5;
   @media screen and (max-width: 700px) {
     flex-direction: column;
     font-size: 24px;
@@ -522,13 +524,16 @@
   @media screen and (max-width: 500px) {
     left: calc(50% - 280px);
   }
+  select:active, select:hover {
+    outline: none
+  }
   select {
     background: none;
     border: none;
     font-family: "Segoe UI", sans-serif;
     font-size: 30px;
     color: rgb(248, 248, 252);
-    margin-left: 4px;
+    margin-left: 8px;
     border-bottom: 1px solid rgb(248, 248, 252);
     min-height: 32px;
     @media screen and (max-width: 700px) {
@@ -536,9 +541,23 @@
       font-size: 24px;
     }
     option {
-      background: #dee2e6;
-      color: rgb(74, 89, 90);
-      min-height: 32px;
+      min-height: 80px;
+      width: 400px;
+      &:hover {
+        background: none;
+      }
+    }
+    #select-past {
+      color: #cb7678;
+      background: #ecd7db;
+    }
+    #select-future {
+      color: #73a7c3;
+      background: #c2d7e5;
+    }
+    #select-live {
+      color: #96b1a8;
+      background: #d1dcdb;
     }
   }
 }
@@ -651,6 +670,7 @@
 
 .personal-map-save-noclick {
   cursor: not-allowed;
+  pointer-events: none;
   opacity: 0.5;
   &:hover {
     color: rgb(248, 248, 252);
@@ -686,32 +706,32 @@
 }
 
 #new-country-scorecard {
-    .map-scorecard-container {
-      bottom: 60px;
-      left: 100px;
-      @media screen and (max-width: 1250px) {
-        display: none;
-      }
-      @media screen and (max-height: 500px) {
-        top: 180px;
-      }
+  .map-scorecard-container {
+    bottom: 60px;
+    left: 100px;
+    @media screen and (max-width: 1250px) {
+      display: none;
     }
-    .map-info-container {
-      bottom: 120px;
-      left: 100px;
-      @media (max-height: 900px) {
-        transform: translate(-40px, 140px);
-      }
+    @media screen and (max-height: 500px) {
+      top: 180px;
     }
   }
+  .map-info-container {
+    bottom: 120px;
+    left: 100px;
+    @media (max-height: 900px) {
+      transform: translate(-40px, 140px);
+    }
+  }
+}
 
-  .mapboxgl-ctrl-geocoder--icon-close {
-    margin-top: 4px;
-  }
+.mapboxgl-ctrl-geocoder--icon-close {
+  margin-top: 4px;
+}
 
-  .city-map-readonly {
-    .city-new-side-menu {
-      top: 0;
-      height: 100%;
-    }
+.city-map-readonly {
+  .city-new-side-menu {
+    top: 0;
+    height: 100%;
   }
+}

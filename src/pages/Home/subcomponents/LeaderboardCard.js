@@ -4,12 +4,11 @@ import { NavLink, withRouter } from "react-router-dom";
 import UserAvatar from "../../../components/UserAvatar/UserAvatar";
 
 function LeaderboardCard({ user, rank }) {
-
   return (
     <NavLink
       to={{
         pathname: `/profiles/${user.username}/cities`,
-        state: { searchText: "" }
+        state: { searchText: "" },
       }}
     >
       <div className="user-trip-card leaderboard-card">
@@ -33,14 +32,16 @@ function LeaderboardCard({ user, rank }) {
                   ? "14px"
                   : user.username.length < 24
                   ? "12px"
-                  : "10px"
+                  : "10px",
             }}
           >
             {user.username}
           </span>
           <span className="utc-location">
             {user.Place_living !== null
-              ? user.Place_living.city + ", " + user.Place_living.countryISO
+              ? user.Place_living.city !== ""
+                ? user.Place_living.city + ", " + user.Place_living.countryISO
+                : user.Place_living.country
               : "       "}
           </span>
         </div>
@@ -54,7 +55,7 @@ function LeaderboardCard({ user, rank }) {
 
 LeaderboardCard.propTypes = {
   user: PropTypes.object,
-  rank: PropTypes.number
+  rank: PropTypes.number,
 };
 
 export default withRouter(LeaderboardCard);

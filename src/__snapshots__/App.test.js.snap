@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders without crashing for an unauthenticated user 1`] = `
+<ApolloConsumer>
+  <Component />
+</ApolloConsumer>
+`;

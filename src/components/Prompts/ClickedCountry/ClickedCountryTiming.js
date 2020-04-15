@@ -4,18 +4,24 @@ import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import DeleteCitiesPopup from "./DeleteCitiesPopup";
 import TrashIcon from "../../../icons/TrashIcon";
+import ArrowRightIcon from "../../../icons/ArrowRightIcon";
 
 function ClickedCountryTiming(props) {
-  const [countryISO] = useState(props.country);
+  const [countryISO] = useState(props.customProps.countryInfo.properties.ISO2);
   const [deletePopup, handleDeletePopup] = useState(false);
-  function handleAddCountryTiming(timing) {
-    props.handleTripTiming(timing);
-    props.handlePageChange(1);
-  }
+  const [tense] = useState(
+    props.customProps.currentTiming === "past"
+      ? "have visited"
+      : props.customProps.currentTiming === "future"
+      ? "will visit"
+      : "live in"
+  );
   function handleDeleteButton() {
     let popupText =
-      "Do you want to delete all cities associated with " +
-      props.countryName +
+      "Do you want to delete all " +
+      props.customProps.currentTiming +
+      " cities associated with " +
+      props.customProps.countryInfo.properties.name +
       "?";
     Swal.fire({
       type: "question",
@@ -33,29 +39,41 @@ function ClickedCountryTiming(props) {
   }
   function handleDeleteCities() {
     handleDeletePopup(false);
-    props.handleDelete();
+    props.customProps.refetch();
   }
   return (
     <div className="clicked-country-timing-container">
-      <span className = 'past-timing' onClick={() => handleAddCountryTiming(0)}>I visited here</span>
-      <span className = 'future-timing' onClick={() => handleAddCountryTiming(1)}>
-        I plan to visit here
+      <span>
+        You have previously indicated that you {tense}{" "}
+        {props.customProps.countryInfo.properties.name}
       </span>
-      <span className = 'live-timing' onClick={() => handleAddCountryTiming(2)}>
-        I live here currently
-      </span>
-      {props.previousTrips ? (
-        <div className="previous-trips-button" onClick={handleDeleteButton}>
-          <div className="trash-icon-container">
-            <TrashIcon />
-          </div>
-          <div>delete cities</div>
+      <span>Do you wish to delete the country and all city data?</span>
+      <div className="previous-trips-button" onClick={handleDeleteButton}>
+        <div className="trash-icon-container">
+          <TrashIcon />
         </div>
-      ) : null}
+        <div>delete cities</div>
+      </div>
+      <div
+        className="cancel-delete-button"
+        onClick={() => props.customProps.showPopup(false)}
+      >
+        <div className="back-icon-container">
+          <ArrowRightIcon />
+        </div>
+        <div>cancel</div>
+      </div>
       {deletePopup ? (
         <DeleteCitiesPopup
           countryISO={countryISO}
           handleDeleteCities={handleDeleteCities}
+          currentTiming={
+            props.customProps.currentTiming === "past"
+              ? Number(0)
+              : (props.customProps.currentTiming === "future"
+                  ? Number(1)
+                  : Number(2))
+          }
         />
       ) : null}
     </div>
@@ -63,12 +81,7 @@ function ClickedCountryTiming(props) {
 }
 
 ClickedCountryTiming.propTypes = {
-  handleTripTiming: PropTypes.func,
-  handlePageChange: PropTypes.func,
-  handleDelete: PropTypes.func,
-  previousTrips: PropTypes.bool,
-  country: PropTypes.string,
-  countryName: PropTypes.string
+  customProps: PropTypes.array
 };
 
 export default ClickedCountryTiming;
