@@ -937,22 +937,22 @@ function CityMap(props) {
           ) ? (deletePrompt ? 
 
           (
-                    <div className= "delete-prompt" >
-                      <span>Are you sure you want to delete {cityTooltip.id}?</span>
-                      <div>
-                        <button className="button confirm" onClick= {() => deleteCitySaved(cityTooltip)} >
-                          Yes
-                        </button>
-                        <button
-                          className="button deny"
-                          onClick={() => handleDelete(false)}
-                        >
-                          No
-                        </button>
-                      </div>
-                  </div>
+                  <div className= "city-tooltip-nosave" >
+                    <span style={{textAlign: 'center'}}>Are you sure you want to delete {cityTooltip.city}?</span>
+                    <div>
+                      <button className="button confirm" onClick= {() => deleteCitySaved(cityTooltip)} >
+                        Yes
+                      </button>
+                      <button
+                        className="button deny"
+                        onClick={() => handleDelete(false)}
+                      >
+                        No
+                      </button>
+                    </div>
+                </div>
               ) : (
-                <div className="city-tooltip-nosave">
+                <div className="city-tooltip-nosave"  >
                   <NavLink
                     to={{
                       pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
