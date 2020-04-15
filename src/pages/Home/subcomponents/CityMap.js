@@ -934,21 +934,41 @@ function CityMap(props) {
         >
           {loadedClickedCityArray.some(
             city => city.cityId === cityTooltip.cityId
-          ) ? (
-          <div className= "city-tooltip-nosave">
-            <NavLink
-              to={{
-                pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
-                  cityTooltip.tripTiming
-                }/${cityTooltip.id}/`
-              }}
-            >
-              {cityTooltip.city}
-            </NavLink>
-            <span onClick={() => deleteCitySaved(cityTooltip)}>
-              <TrashIcon />
-            </span>
-            </div>
+          ) ? (deletePrompt ? 
+
+          (
+                    <div className= "delete-prompt" >
+                      <span>Are you sure you want to delete {cityTooltip.id}?</span>
+                      <div>
+                        <button className="button confirm" onClick= {() => deleteCitySaved(cityTooltip)} >
+                          Yes
+                        </button>
+                        <button
+                          className="button deny"
+                          onClick={() => handleDelete(false)}
+                        >
+                          No
+                        </button>
+                      </div>
+                  </div>
+              ) : (
+                <div className="city-tooltip-nosave">
+                  <NavLink
+                    to={{
+                      pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
+                        cityTooltip.tripTiming
+                      }/${cityTooltip.id}/`
+                    }}
+                  >
+                    {cityTooltip.city}
+                    {deletePrompt}
+                  </NavLink>
+                  <span onClick={() => handleDelete(true)}>
+                    <TrashIcon />
+                  </span>
+                </div>
+
+              ) 
           ) : (
             <div className="city-tooltip-nosave">
               <span>{cityTooltip.city}</span>
