@@ -164,82 +164,25 @@ function CityMap(props) {
 
 
   function deleteCitySaved(cityTooltip) {
-    let cityArrayIndex;
-    let newClickedCityArray = [...clickedCityArray];
-    newClickedCityArray.filter((city, index) => {
-      if (
-        city.cityId === cityTooltip.cityId &&
-        city.tripTiming === cityTooltip.tripTiming
-      ) {
-        cityArrayIndex = index;
-      }
-    });
-    let markerIndex;
-    let markerDisplay;
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
     switch(cityTooltip.tripTiming) {
       case 0:
         let placeVisitedId = cityTooltip.id
         removePlacevisited({variables: {placeVisitedId}});
 
-        markerPastDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
-          }
-        });
-        newClickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = [...markerPastDisplay];
-        markerDisplay.splice(markerIndex, 1);
-        pastCount--;
-        handleClickedCityArray(newClickedCityArray);
-        handleMarkerPastDisplay(markerDisplay);
-        handleCityTooltip(null);
-
         break;
       case 1:
         let placeVisitingId = cityTooltip.id
         removePlaceVisiting({variables: {placeVisitingId}});
-
-        markerFutureDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
-          }
-        });
-        newClickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = [...markerFutureDisplay];
-        markerDisplay.splice(markerIndex, 1);
-        futureCount--;
-        handleClickedCityArray(newClickedCityArray);
-        handleMarkerFutureDisplay(markerDisplay);
-        handleCityTooltip(null);
-
-        break;
       case 2:
         let placeLivingId = cityTooltip.id
         removePlaceLiving({variables: {placeLivingId}});
-
-        markerLiveDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
-          }
-        });
-        newClickedCityArray.splice(cityArrayIndex, 1);
-        markerDisplay = [...markerLiveDisplay];
-        markerDisplay.splice(markerIndex, 1);
-        liveCount--;
-        handleClickedCityArray(newClickedCityArray);
-        handleMarkerLiveDisplay(markerDisplay);
-        handleCityTooltip(null);
 
         break;
       default:
         break;  
     }
 
-    handleTripTimingCounts([pastCount, futureCount, liveCount]);
-    calculateNewTravelScore(cityTooltip, "delete");
+    deleteCity(cityTooltip);
 
   }
 
