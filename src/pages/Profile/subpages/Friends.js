@@ -33,16 +33,13 @@ export default function Friends({ searchText, urlUsername }) {
         >
           {expanded ? "current" : null} <FriendsIcon />
         </NavLink>
-        {/* {!urlUsername && (
-          <>
-            <NavLink to="/profile/friends/requests">
-              <AddFriendIcon /> requests
-            </NavLink>
-            <NavLink to="/profile/friends/find">
-              <SearchIcon /> find
-            </NavLink>
-          </>
-        )} */}
+
+        <NavLink exact to={urlUsername ? null : "/profile/friends/requests"}>
+          {expanded ? "requests" : null} <AddFriendIcon />
+        </NavLink>
+        <NavLink exact to={urlUsername ? null : "/profile/friends/find"}>
+          {expanded ? "find" : null} <SearchIcon />
+        </NavLink>
       </div>
       <div className="content-results friends-content">
         <Route
@@ -54,18 +51,14 @@ export default function Friends({ searchText, urlUsername }) {
           }
           component={() => <CurrentFriends searchText={searchText} />}
         />
-        {/* {!urlUsername && (
-          <>
-            <Route
-              path="/profile/friends/requests"
-              render={() => <FriendRequests searchText={searchText} />}
-            />
-            <Route
-              path="/profile/friends/find"
-              render={() => <FindFriends searchText={searchText} />}
-            />
-          </>
-        )} */}
+        <Route
+          path="/profile/friends/requests"
+          render={() => <FriendRequests searchText={searchText} />}
+        />
+        <Route
+          path="/profile/friends/find"
+          component={() => <FindFriends searchText={searchText} />}
+        />
       </div>
     </div>
   );
@@ -74,5 +67,5 @@ export default function Friends({ searchText, urlUsername }) {
 Friends.propTypes = {
   searchText: PropTypes.string,
   handlePageRender: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
 };
