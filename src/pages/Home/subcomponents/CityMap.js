@@ -11,8 +11,12 @@ import {
   ADD_MULTIPLE_PLACES,
   NEW_GEORNEY_SCORE,
   UPDATE_GEORNEY_SCORE,
+  REMOVE_PLACE_VISITING,
+  REMOVE_PLACE_VISITED,
+  REMOVE_PLACE_LIVING,
   GET_LOGGEDIN_USER_COUNTRIES
 } from "../../../GraphQL";
+
 
 import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
@@ -34,6 +38,9 @@ function CityMap(props) {
     longitude: 8,
     zoom: setInitialZoom()
   });
+
+  const [deletePrompt, handleDelete] = useState(false);
+
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
   const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
@@ -70,6 +77,10 @@ function CityMap(props) {
       props.refetch();
     }
   });
+
+  const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
+  const [removePlaceVisiting] = useMutation(REMOVE_PLACE_VISITING, {});
+  const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -158,6 +169,28 @@ function CityMap(props) {
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
     alert("Copied the text: " + copyText.value);
+  }
+
+
+  function deleteCitySaved(cityTooltip) {
+    switch(cityTooltip.tripTiming) {
+      case 0:
+        let placeVisitedId = cityTooltip.id
+        removePlacevisited({variables: {placeVisitedId}});
+
+        break;
+      case 1:
+        let placeVisitingId = cityTooltip.id
+        removePlaceVisiting({variables: {placeVisitingId}});
+      case 2:
+        let placeLivingId = cityTooltip.id
+        removePlaceLiving({variables: {placeLivingId}});
+
+        break;
+      default:
+        break;  
+    }
+    deleteCity(cityTooltip);
   }
 
   function deleteCity(cityTooltip) {
@@ -845,16 +878,41 @@ function CityMap(props) {
         >
           {loadedClickedCityArray.some(
             city => city.cityId === cityTooltip.cityId
-          ) ? (
-            <NavLink
-              to={{
-                pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
-                  cityTooltip.tripTiming
-                }/${cityTooltip.id}/`
-              }}
-            >
-              {cityTooltip.city}
-            </NavLink>
+          ) ? (deletePrompt ? 
+
+          (
+                  <div className= "city-tooltip-nosave" >
+                    <span style={{textAlign: 'center'}}>Are you sure you want to delete {cityTooltip.city}?</span>
+                    <div>
+                      <button className="button confirm" onClick= {() => deleteCitySaved(cityTooltip)} >
+                        Yes
+                      </button>
+                      <button
+                        className="button deny"
+                        onClick={() => handleDelete(false)}
+                      >
+                        No
+                      </button>
+                    </div>
+                </div>
+              ) : (
+                <div className="city-tooltip-nosave"  >
+                  <NavLink
+                    to={{
+                      pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
+                        cityTooltip.tripTiming
+                      }/${cityTooltip.id}/`
+                    }}
+                  >
+                    {cityTooltip.city}
+                    {deletePrompt}
+                  </NavLink>
+                  <span onClick={() => handleDelete(true)}>
+                    <TrashIcon />
+                  </span>
+                </div>
+
+              ) 
           ) : (
             <div className="city-tooltip-nosave">
               <span>{cityTooltip.city}</span>
