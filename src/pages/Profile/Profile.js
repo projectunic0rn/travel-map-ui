@@ -170,25 +170,6 @@ export default function Profile({ user, urlUsername, refetch }) {
           <div className="page page-profile">
             <div className="container">
               <div className="sidebar">
-                {/* <Sidebar
-                urlUsername={urlUsername}
-                userData={userData}
-                city={
-                  user.Place_living !== null
-                    ? user.Place_living.city !== null
-                      ? user.Place_living.city
-                      : "City"
-                    : "City"
-                }
-                country={
-                  user.Place_living !== null
-                    ? user.Place_living.country
-                    : "Country"
-                }
-                countryCount={countryArray.length - 1}
-                cityCount={cityArray.length - 1}
-                refetch={refetch}
-              /> */}
               </div>
               <ProfileNav
                 handleSearchText={handleSearchText}
