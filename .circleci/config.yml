@@ -10,10 +10,10 @@ jobs:
           command: npm install
       - run:
           name: Install the latest version of eslint
-          command: sudo npm install -g eslint
+          command: npm install -g eslint
       - run:
           name: Run eslint
-          command: eslint --color .
+          command: eslint .
       - run:
           name: Run test suite
           command: npm test
