@@ -124,7 +124,7 @@ function FriendCard({ friend, currentFriend }) {
                 <InterestIcon
                   icon={interest.name}
                   color={
-                    friend.UserInterests.length > 1
+                    friend.UserInterests.length > 0
                       ? interestConsts[
                           interestConsts.findIndex((obj) => {
                             return obj.interest === interest.name;

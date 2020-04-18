@@ -19,7 +19,21 @@ export default function CurrentFriends({ searchText, friends }) {
       setResults(friends);
     }
   }, [searchText]);
-  return results.map((friend) => (
+
+  function compare(a, b) {
+    const friendA = a.username.toUpperCase();
+    const friendB = b.username.toUpperCase();
+  
+    let comparison = 0;
+    if (friendA > friendB) {
+      comparison = 1;
+    } else if (friendA < friendB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  return results.sort(compare).map((friend) => (
     <FriendCard key={friend.id} friend={friend} currentFriend={true} />
   ));
 }

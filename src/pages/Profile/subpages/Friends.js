@@ -56,35 +56,38 @@ export default function Friends({ searchText, urlUsername }) {
         {({ loading, error, data, refetch }) => {
           if (loading)
             return (
-              <div className="centered-loader">
-                <SimpleLoader />
+              <div className="content-results friends-content">
+                <div className="centered-loader">
+                  <SimpleLoader />
+                </div>
               </div>
             );
           if (error) return `Error! ${error}`;
           handleFriends(data.users);
           return (
-          <div className="content-results friends-content">
-            <Route
-              exact
-              path={
-                urlUsername
-                  ? `/profiles/${urlUsername}/friends`
-                  : "/profile/friends"
-              }
-              component={() => (
-                <CurrentFriends searchText={searchText} friends={friends} />
-              )}
-            />
-            <Route
-              path="/profile/friends/requests"
-              render={() => <FriendRequests searchText={searchText} />}
-            />
-            <Route
-              path="/profile/friends/find"
-              component={() => <FindFriends searchText={searchText} />}
-            />
-          </div>
-          )}}
+            <div className="content-results friends-content">
+              <Route
+                exact
+                path={
+                  urlUsername
+                    ? `/profiles/${urlUsername}/friends`
+                    : "/profile/friends"
+                }
+                component={() => (
+                  <CurrentFriends searchText={searchText} friends={friends} />
+                )}
+              />
+              <Route
+                path="/profile/friends/requests"
+                render={() => <FriendRequests searchText={searchText} />}
+              />
+              <Route
+                path="/profile/friends/find"
+                component={() => <FindFriends searchText={searchText} />}
+              />
+            </div>
+          );
+        }}
       </Query>
     </div>
   );
