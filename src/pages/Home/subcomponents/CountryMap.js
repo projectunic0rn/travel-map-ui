@@ -23,10 +23,9 @@ import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import ShareIcon from "../../../icons/ShareIcon";
 import SaveIcon from "../../../icons/SaveIcon";
-import { ZoomButton } from "../../../components/common/Zoom_button/zoom_button";
 
 const CountryMap = props => {
-  const [center, handleChangeCenter] = useState([0, 20]);
+  const [center, handleChangeCenter] = useState([6, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
     { name: "Europe", coordinates: [16.5417, 47.3769] },
@@ -512,15 +511,8 @@ const CountryMap = props => {
       <div
         className='zoom-buttons'
         >
-          <ZoomButton 
-            type='+'
-            //handleViewportChange={handleViewportChange}
-            //currentZoom={zoom}
-            />
-          <ZoomButton type='-'
-            //handleViewportChange={handleViewportChange}
-            //currentZoom={zoom}
-            />
+          <span onClick={() => handleChangeZoom(zoom+0.5)}>+</span>
+          <span onClick={() => handleChangeZoom(zoom-0.5)}>-</span>
       </div>
 
       <div id="new-country-scorecard">
