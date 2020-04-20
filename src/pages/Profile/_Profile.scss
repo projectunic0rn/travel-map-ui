@@ -33,7 +33,7 @@
       border-radius: 4px;
       display: flex;
       margin: 4px 20px;
-      height: calc(96%);
+      min-height: calc(96%);
       // max-width: 800px;
       @media (min-width: 1400px) {
         max-width: 1200px;

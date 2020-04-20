@@ -12,7 +12,7 @@ import SimpleLoader from "../../../../components/common/SimpleLoader";
 export default function Contact({
   userData,
   handleUserDataChange,
-  urlUsername
+  urlUsername,
 }) {
   const [edit, handleEdit] = useState(false);
   const [loading, handleLoading] = useState(true);
@@ -20,7 +20,7 @@ export default function Contact({
     { id: 0, link: "", name: "instagram" },
     { id: 0, link: "", name: "facebook" },
     { id: 0, link: "", name: "whatsapp" },
-    { id: 0, link: "", name: "twitter" }
+    { id: 0, link: "", name: "twitter" },
   ]);
 
   useEffect(() => {
@@ -77,13 +77,16 @@ export default function Contact({
   return (
     <div className="social-container">
       <h3 className="header">Social Media</h3>
+      {userSocials.filter((link) => link.link !== "") < 1 ? (
+        <span className = 'social-placeholder'>No links saved</span>
+      ) : null}
       {userSocials.map((item, index) => (
         <div key={index} className={`media-container ${edit ? "edit" : ""}`}>
           {edit ? (
             <>
               <span className="icon">{getIcon(item)}</span>
               <input
-                onChange={e => handleInput(e.target.value, index)}
+                onChange={(e) => handleInput(e.target.value, index)}
                 placeholder="Include `https`"
                 className="input"
                 type="text"
@@ -105,7 +108,7 @@ export default function Contact({
           variables={{ userSocials }}
           onCompleted={handleDataSave}
         >
-          {mutation =>
+          {(mutation) =>
             edit ? (
               <span className="large confirm button" onClick={mutation}>
                 Update
@@ -125,5 +128,5 @@ export default function Contact({
 Contact.propTypes = {
   userData: PropTypes.object,
   handleUserDataChange: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
 };

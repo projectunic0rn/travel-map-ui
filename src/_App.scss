@@ -67,6 +67,14 @@ code {
   margin: 0 auto;
 }
 
+.centered-loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .user-avatar {
   $l: 42px;
   border-radius: 50%;

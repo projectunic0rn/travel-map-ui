@@ -4,50 +4,40 @@ import { Query } from "react-apollo";
 import { GET_ALL_USER_INFO } from "../../../../GraphQL";
 
 import FriendCard from "./FriendCard";
-import Loader from "../../../../components/common/Loader/Loader";
 
-export default function CurrentFriends({ searchText }) {
-  const [filteredFriendsAvailable, handleFilteredFriendsAvailable] = useState(
-    []
-  );
+export default function CurrentFriends({ searchText, friends }) {
   const [loaded, handleLoaded] = useState(false);
-  const [friends, handleFriends] = useState(null);
+  const [results, setResults] = useState([]);
   useEffect(() => {
-    if (loaded) {
-      if (searchText !== "") {
-        let potentialFriends = friends.filter(friend => {
-          return (
-            friend.username.toLowerCase().indexOf(searchText.toLowerCase()) !==
-            -1
-          );
-        });
-        handleFilteredFriendsAvailable(potentialFriends);
-      } else {
-        handleFilteredFriendsAvailable(friends);
-      }
+    if (searchText !== "") {
+      let filteredFriendsArray = friends.filter(
+        (friend) =>
+          friend.username.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+      setResults(filteredFriendsArray);
+    } else {
+      setResults(friends);
     }
   }, [searchText]);
-  return (<Query
-      query={GET_ALL_USER_INFO}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-      onCompleted={() => handleLoaded(true)}
-    >
-      {({ loading, error, data, refetch }) => {
-        if (loading) return <Loader />;
-        if (error) return `Error! ${error}`;
-        handleFriends(data.users);
-        handleFilteredFriendsAvailable(data.users);
-        if (!loaded) return <Loader />;
-        return filteredFriendsAvailable.map(friend => (
-          <FriendCard key={friend.id} friend={friend} currentFriend={true} />
-        ));
-      }}
-    </Query>
-  );
+
+  function compare(a, b) {
+    const friendA = a.username.toUpperCase();
+    const friendB = b.username.toUpperCase();
+  
+    let comparison = 0;
+    if (friendA > friendB) {
+      comparison = 1;
+    } else if (friendA < friendB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  return results.sort(compare).map((friend) => (
+    <FriendCard key={friend.id} friend={friend} currentFriend={true} />
+  ));
 }
 
 CurrentFriends.propTypes = {
-  searchText: PropTypes.string
+  searchText: PropTypes.string,
 };
