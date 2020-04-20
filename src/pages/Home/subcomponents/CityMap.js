@@ -28,6 +28,8 @@ import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
+import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+
 
 function CityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -1150,6 +1152,18 @@ function CityMap(props) {
 
           {cityTooltip ? _renderPopup() : null}
         </MapGL>
+      </div>
+      <div className="zoom-buttons">
+        <ZoomButton
+          type="+"
+          handleViewportChange={handleViewportChange}
+          currentZoom={viewport.zoom}
+        />
+        <ZoomButton
+          type="-"
+          handleViewportChange={handleViewportChange}
+          currentZoom={viewport.zoom}
+        />
       </div>
       <div className="city-map-scorecard">
         <MapScorecard
