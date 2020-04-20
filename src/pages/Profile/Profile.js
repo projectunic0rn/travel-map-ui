@@ -7,11 +7,11 @@ import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
 // import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
-import ProfileTrips from './subpages/UserTrips/ProfileTrips';
+import ProfileTrips from "./subpages/UserTrips/ProfileTrips";
 import Settings from "./subpages/Settings";
 import Friends from "./subpages/Friends";
 import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
-import TripDetailContainer from './subpages/UserTrips/TripDetailContainer';
+import TripDetailContainer from "./subpages/UserTrips/TripDetailContainer";
 import Loader from "../../components/common/Loader/Loader";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
@@ -46,7 +46,7 @@ export default function Profile({ user, urlUsername, refetch }) {
     let cityArray = [0];
     let countryArray = [0];
     if (userData.Places_visited !== null) {
-      userData.Places_visited.forEach(tripType => {
+      userData.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -56,7 +56,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       });
     }
     if (userData.Places_visiting !== null) {
-      userData.Places_visiting.forEach(tripType => {
+      userData.Places_visiting.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -81,7 +81,7 @@ export default function Profile({ user, urlUsername, refetch }) {
       if (selectedCity !== "none") {
         if (selectedCity.timing === "past") {
           let newData = cityData.Places_visited.find(
-            element => element.id === selectedCity.id
+            (element) => element.id === selectedCity.id
           );
           if (newData !== undefined) {
             newData.timing = "past";
@@ -90,7 +90,7 @@ export default function Profile({ user, urlUsername, refetch }) {
           }
         } else if (selectedCity.timing === "future") {
           let newData = cityData.Places_visiting.find(
-            element => element.id === selectedCity.id
+            (element) => element.id === selectedCity.id
           );
           if (newData !== undefined) {
             newData.timing = "future";
@@ -109,14 +109,14 @@ export default function Profile({ user, urlUsername, refetch }) {
         let splitUrl = window.location.pathname.split("/");
         if (splitUrl[4] === "0") {
           let newData = cityData.Places_visited.find(
-            element => element.id === Number(splitUrl[5])
+            (element) => element.id === Number(splitUrl[5])
           );
           newData.timing = "past";
           handleSelectedCity(newData);
           handleCityReviews(newData.CityReviews);
         } else if (splitUrl[4] === "1") {
           let newData = cityData.Places_visiting.find(
-            element => element.id === Number(splitUrl[5])
+            (element) => element.id === Number(splitUrl[5])
           );
           newData.timing = "future";
           handleSelectedCity(newData);
@@ -131,14 +131,14 @@ export default function Profile({ user, urlUsername, refetch }) {
         let splitUrl = window.location.pathname.split("/");
         if (splitUrl[5] === "0") {
           let newData = cityData.Places_visited.find(
-            element => element.id === Number(splitUrl[6])
+            (element) => element.id === Number(splitUrl[6])
           );
           newData.timing = "past";
           handleSelectedCity(newData);
           handleCityReviews(newData.CityReviews);
         } else if (splitUrl[5] === "1") {
           let newData = cityData.Places_visiting.find(
-            element => element.id === Number(splitUrl[6])
+            (element) => element.id === Number(splitUrl[6])
           );
           newData.timing = "future";
           handleSelectedCity(newData);
@@ -170,25 +170,6 @@ export default function Profile({ user, urlUsername, refetch }) {
           <div className="page page-profile">
             <div className="container">
               <div className="sidebar">
-                {/* <Sidebar
-                urlUsername={urlUsername}
-                userData={userData}
-                city={
-                  user.Place_living !== null
-                    ? user.Place_living.city !== null
-                      ? user.Place_living.city
-                      : "City"
-                    : "City"
-                }
-                country={
-                  user.Place_living !== null
-                    ? user.Place_living.country
-                    : "Country"
-                }
-                countryCount={countryArray.length - 1}
-                cityCount={cityArray.length - 1}
-                refetch={refetch}
-              /> */}
               </div>
               <ProfileNav
                 handleSearchText={handleSearchText}
@@ -223,7 +204,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     ? `/profiles/${urlUsername}/trips/${selectedCity.city}/`
                     : `/profile/trips/new/`
                 }
-                render={props => (
+                render={(props) => (
                   <TripDetailContainer
                     {...props}
                     city={selectedCity}
@@ -260,7 +241,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     ? `/profiles/${urlUsername}/cities/${selectedCity.city}/`
                     : `/profile/cities/${selectedCity.city}/`
                 }
-                render={props => (
+                render={(props) => (
                   <ProfileIndividualCity
                     {...props}
                     city={selectedCity}
@@ -272,13 +253,12 @@ export default function Profile({ user, urlUsername, refetch }) {
                 )}
               />
               <Route
-                exact
                 path={
                   urlUsername
                     ? `/profiles/${urlUsername}/friends`
                     : "/profile/friends"
                 }
-                render={props => (
+                render={(props) => (
                   <Friends
                     {...props}
                     searchText={searchText}
@@ -293,7 +273,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     ? `/profiles/${urlUsername}/settings`
                     : "/profile/settings"
                 }
-                render={props => (
+                render={(props) => (
                   <Settings
                     urlUsername={urlUsername}
                     {...props}
@@ -314,5 +294,5 @@ export default function Profile({ user, urlUsername, refetch }) {
 Profile.propTypes = {
   user: PropTypes.object,
   urlUsername: PropTypes.string,
-  refetch: PropTypes.func
+  refetch: PropTypes.func,
 };

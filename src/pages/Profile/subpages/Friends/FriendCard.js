@@ -15,17 +15,7 @@ function FriendCard({ friend, currentFriend }) {
     let cityArray = [0];
     let countryArray = [0];
     if (friend.Places_visited !== null) {
-      friend.Places_visited.forEach(tripType => {
-        if (cityArray.indexOf(tripType.cityId) === -1) {
-          cityArray.push(tripType.cityId);
-        }
-        if (countryArray.indexOf(tripType.countryId) === -1) {
-          countryArray.push(tripType.countryId);
-        }
-      });
-    }
-    if (friend.Places_visiting !== null) {
-      friend.Places_visiting.forEach(tripType => {
+      friend.Places_visited.forEach((tripType) => {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
@@ -63,11 +53,25 @@ function FriendCard({ friend, currentFriend }) {
     }
     handleAge(years);
   }
+  function splitLongUsername(username) {
+    let splitUsername = username.split("");
+    for (let i = 1; i < splitUsername.length - 1; i++) {
+      if (
+        splitUsername[i] === splitUsername[i].toUpperCase() 
+      ) {
+        splitUsername.splice(i, 0, " ");
+        i+=50;
+      }
+    }
+    let newUsername = splitUsername.join("");
+    return newUsername;
+  }
+
   return (
     <NavLink
       to={{
         pathname: `/profiles/${friend.username}/cities`,
-        state: { searchText: "" }
+        state: { searchText: "" },
       }}
     >
       <div className="friend-card">
@@ -77,18 +81,22 @@ function FriendCard({ friend, currentFriend }) {
           </span>
           <div className="fc-user-details">
             <span className="fc-username">
-              {friend.username}
+              {friend.username.length > 18
+                ? splitLongUsername(friend.username)
+                : friend.username}
               {age ? ", " + age : null}
             </span>
             <span className="fc-user-location">
-              {friend.Place_living !== null 
-                ? friend.Place_living.city !== "" ? friend.Place_living.city +
-                  ", " +
-                  friend.Place_living.countryISO
-                : "City, " + friend.Place_living.countryISO : "City, Country"}
+              {friend.Place_living !== null
+                ? friend.Place_living.city !== ""
+                  ? friend.Place_living.city +
+                    ", " +
+                    friend.Place_living.countryISO
+                  : "City, " + friend.Place_living.countryISO
+                : "City, Country"}
             </span>
           </div>
-          <div className = 'fc-georney-score'>
+          <div className="fc-georney-score">
             <span>{Math.ceil(friend.georneyScore)}</span>
           </div>
         </div>
@@ -110,23 +118,24 @@ function FriendCard({ friend, currentFriend }) {
         </div>
 
         <div className="fc-user-interests">
-          {friend.UserInterests.map(interest => (
-            interest.name !== "" ?
-            <span key={interest.name + interest.id}>
-              <InterestIcon
-                icon={interest.name}
-                color={
-                  friend.UserInterests.length > 1
-                    ? interestConsts[
-                        interestConsts.findIndex(obj => {
-                          return obj.interest === interest.name;
-                        })
-                      ].color
-                    : null
-                }
-              />
-            </span> : null
-          ))}
+          {friend.UserInterests.map((interest) =>
+            interest.name !== "" ? (
+              <span key={interest.name + interest.id}>
+                <InterestIcon
+                  icon={interest.name}
+                  color={
+                    friend.UserInterests.length > 0
+                      ? interestConsts[
+                          interestConsts.findIndex((obj) => {
+                            return obj.interest === interest.name;
+                          })
+                        ].color
+                      : null
+                  }
+                />
+              </span>
+            ) : null
+          )}
         </div>
       </div>
     </NavLink>
@@ -135,7 +144,7 @@ function FriendCard({ friend, currentFriend }) {
 
 FriendCard.propTypes = {
   friend: PropTypes.object,
-  currentFriend: PropTypes.bool
+  currentFriend: PropTypes.bool,
 };
 
 export default FriendCard;
