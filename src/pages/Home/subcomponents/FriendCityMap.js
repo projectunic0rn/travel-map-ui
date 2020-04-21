@@ -16,6 +16,7 @@ import FriendClickedCityContainer from "../../../components/Prompts/FriendClicke
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
 import ClusterMarker from "./ClusterMarker";
+import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
 function FriendCityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -23,7 +24,7 @@ function FriendCityMap(props) {
     height: window.innerHeight,
     latitude: 25,
     longitude: 8,
-    zoom: setInitialZoom()
+    zoom: setInitialZoom(),
   });
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
   const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
@@ -96,7 +97,7 @@ function FriendCityMap(props) {
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
-      zoom: setInitialZoom()
+      zoom: setInitialZoom(),
     });
   }
 
@@ -122,14 +123,14 @@ function FriendCityMap(props) {
     let markerPastDisplay = [];
     let markerFutureDisplay = [];
     let markerLiveDisplay = [];
-    markers.map(city => {
+    markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
         switch (city.tripTiming) {
           case 0:
             handleActiveTimings([0, 0, 0]);
             if (
-              markerPastDisplay.some(marker => {
+              markerPastDisplay.some((marker) => {
                 return marker.props.id === city.tripTiming + "-" + city.cityId;
               })
             ) {
@@ -175,7 +176,7 @@ function FriendCityMap(props) {
             color = "rgba(115, 167, 195, 0.25)";
             handleActiveTimings([0, 0, 0]);
             if (
-              markerFutureDisplay.some(marker => {
+              markerFutureDisplay.some((marker) => {
                 return marker.props.id === city.tripTiming + "-" + city.cityId;
               })
             ) {
@@ -221,7 +222,7 @@ function FriendCityMap(props) {
             color = "rgba(150, 177, 168, 0.25)";
             handleActiveTimings([0, 0, 0]);
             if (
-              markerLiveDisplay.some(marker => {
+              markerLiveDisplay.some((marker) => {
                 return marker.props.id === city.tripTiming + "-" + city.cityId;
               })
             ) {
@@ -283,13 +284,13 @@ function FriendCityMap(props) {
     let hoveredCityArray = [];
     if (typedCity.result.properties.wikidata !== undefined) {
       hoveredCityArray = clickedCityArray.filter(
-        city =>
+        (city) =>
           city.cityId ===
           parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
       );
     } else {
       hoveredCityArray = clickedCityArray.filter(
-        city =>
+        (city) =>
           city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
       );
     }
@@ -320,7 +321,7 @@ function FriendCityMap(props) {
               tripTiming: 0,
               avatarIndex:
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-              color: data[i].color
+              color: data[i].color,
             });
             pastCount++;
           }
@@ -343,7 +344,7 @@ function FriendCityMap(props) {
               tripTiming: 1,
               avatarIndex:
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-              color: data[i].color
+              color: data[i].color,
             });
             futureCount++;
           }
@@ -363,7 +364,7 @@ function FriendCityMap(props) {
           year: data[i].Place_living.year,
           tripTiming: 2,
           avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-          color: data[i].color
+          color: data[i].color,
         });
         liveCount++;
         // }
@@ -406,7 +407,7 @@ function FriendCityMap(props) {
     let hoveredCityArray = [];
     if (cityTooltip !== null) {
       hoveredCityArray = clickedCityArray.filter(
-        city => city.cityId === cityTooltip.cityId
+        (city) => city.cityId === cityTooltip.cityId
       );
     }
     return (
@@ -447,7 +448,7 @@ function FriendCityMap(props) {
     let filteredCityArray;
     if (filterParams.username.length > 0) {
       filteredCityArray = origCityArray.filter(
-        city => filterParams.username.indexOf(city.username) !== -1
+        (city) => filterParams.username.indexOf(city.username) !== -1
       );
       handleFilteredCityArray(filteredCityArray);
       props.handleFilteredCities(filteredCityArray);
@@ -501,7 +502,7 @@ function FriendCityMap(props) {
       ...viewport,
       latitude,
       longitude,
-      zoom
+      zoom,
     };
     handleViewport(newViewport);
 
@@ -645,7 +646,7 @@ function FriendCityMap(props) {
             width: "100vw",
             minHeight: "calc(100% - 120px)",
             maxHeight: "calc(100%)",
-            position: "relative"
+            position: "relative",
           }}
         >
           {_renderPopup()}
@@ -655,7 +656,7 @@ function FriendCityMap(props) {
               radius={40}
               extent={512}
               nodeSize={64}
-              component={cluster => (
+              component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
                   color={"rgba(203, 118, 120, 0.5)"}
@@ -673,7 +674,7 @@ function FriendCityMap(props) {
               radius={40}
               extent={1024}
               nodeSize={64}
-              component={cluster => (
+              component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
                   color={"rgba(115, 167, 195, 0.5)"}
@@ -691,7 +692,7 @@ function FriendCityMap(props) {
               radius={40}
               extent={1024}
               nodeSize={64}
-              component={cluster => (
+              component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
                   color={"rgba(150, 177, 168, 0.5)"}
@@ -715,6 +716,18 @@ function FriendCityMap(props) {
             placeholder={"Type a city..."}
           />
         </MapGL>
+      </div>
+      <div className="zoom-buttons">
+        <ZoomButton
+          type="+"
+          handleViewportChange={handleViewportChange}
+          currentZoom={viewport.zoom}
+        />
+        <ZoomButton
+          type="-"
+          handleViewportChange={handleViewportChange}
+          currentZoom={viewport.zoom}
+        />
       </div>
       <div className="city-map-scorecard">
         <MapScorecard
@@ -744,11 +757,16 @@ function FriendCityMap(props) {
             hoveredCityArray: hoveredCityArray,
             clickedCity: clickedCity,
             closePopup: showPopup,
-            handleFilterCleared: handleFilterCleared
+            handleFilterCleared: handleFilterCleared,
           }}
         />
       ) : null}
-      {leaderboard ? <LeaderboardPrompt users={props.data.users} handleLeaderboard={handleLeaderboard}/> : null}
+      {leaderboard ? (
+        <LeaderboardPrompt
+          users={props.data.users}
+          handleLeaderboard={handleLeaderboard}
+        />
+      ) : null}
     </>
   );
 }
@@ -761,7 +779,7 @@ FriendCityMap.propTypes = {
   filterParams: PropTypes.object,
   tripCities: PropTypes.array,
   handleCities: PropTypes.func,
-  handleFilteredCities: PropTypes.func
+  handleFilteredCities: PropTypes.func,
 };
 
 ClusterMarker.propTypes = {
@@ -769,7 +787,7 @@ ClusterMarker.propTypes = {
   longitude: PropTypes.number,
   pointCount: PropTypes.number,
   color: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default FriendCityMap;

@@ -4,7 +4,7 @@ import {
   ComposableMap,
   ZoomableGroup,
   Geographies,
-  Geography
+  Geography,
 } from "react-simple-maps";
 import Swal from "sweetalert2";
 import jsonData from "../../../world-topo-min.json";
@@ -13,7 +13,7 @@ import MapChangeIcon from "../../../icons/MapChangeIcon";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 
-const NewUserCountry = props => {
+const NewUserCountry = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -23,7 +23,7 @@ const NewUserCountry = props => {
     { name: "Oceania", coordinates: [151.2093, -20.8688] },
     { name: "Africa", coordinates: [23.3792, 6.5244] },
     { name: "South America", coordinates: [-58.3816, -20.6037] },
-    { name: "East Asia", coordinates: [121.4737, 31.2304] }
+    { name: "East Asia", coordinates: [121.4737, 31.2304] },
   ];
   const [clickedCountry, handleNewCountry] = useState(0);
   const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
@@ -96,20 +96,20 @@ const NewUserCountry = props => {
         fill: "#6E7377",
         stroke: "rgb(100, 100, 100)",
         strokeWidth: 0.75,
-        outline: "none"
+        outline: "none",
       },
       hover: {
         fill: "rgb(180, 180, 180)",
         stroke: "rgb(180, 180, 180)",
         strokeWidth: 0.75,
-        outline: "none"
+        outline: "none",
       },
       pressed: {
         fill: "#a7e1ff",
         stroke: "#a7e1ff",
         strokeWidth: 0.75,
-        outline: "none"
-      }
+        outline: "none",
+      },
     };
     if (isCountryIncluded) {
       let countryTimingArraySorted = countryTimingArray.sort((a, b) => a - b);
@@ -184,12 +184,13 @@ const NewUserCountry = props => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    let popupText = "Please select cities on the city map to fill in countries."
+    let popupText =
+      "Please select cities on the city map to fill in countries.";
     const swalParams = {
       customClass: {
-        container: "live-swal-prompt"
+        container: "live-swal-prompt",
       },
-      text: popupText
+      text: popupText,
     };
     Swal.fire(swalParams);
   }
@@ -286,7 +287,7 @@ const NewUserCountry = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 180
+          scale: 180,
         }}
       >
         <ZoomableGroup center={center} zoom={zoom}>
@@ -308,6 +309,10 @@ const NewUserCountry = props => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+      <div className="zoom-buttons">
+        <span onClick={() => handleChangeZoom(zoom + 0.5)}>+</span>
+        <span onClick={() => handleChangeZoom(zoom - 0.5)}>-</span>
+      </div>
       <div id="new-country-scorecard">
         <MapScorecard
           tripTimingCounts={tripTimingCounts}
@@ -322,7 +327,7 @@ const NewUserCountry = props => {
 
 NewUserCountry.propTypes = {
   clickedCountryArray: PropTypes.array,
-  handleMapTypeChange: PropTypes.func
+  handleMapTypeChange: PropTypes.func,
 };
 
 export default NewUserCountry;

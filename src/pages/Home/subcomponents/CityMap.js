@@ -30,7 +30,6 @@ import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
-
 function CityMap(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
