@@ -374,7 +374,10 @@ const FriendReadonlyCountry = (props) => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-
+      <div className="zoom-buttons">
+        <span onClick={() => handleChangeZoom(zoom + 0.5)}>+</span>
+        <span onClick={() => handleChangeZoom(zoom - 0.5)}>-</span>
+      </div>
       {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
