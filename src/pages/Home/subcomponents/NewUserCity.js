@@ -628,7 +628,7 @@ function NewUserCity(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -637,7 +637,7 @@ function NewUserCity(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(203, 118, 120, 1)",
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -678,7 +678,7 @@ function NewUserCity(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -687,7 +687,7 @@ function NewUserCity(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(115, 167, 195, 1.0)",
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -728,7 +728,7 @@ function NewUserCity(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -737,7 +737,7 @@ function NewUserCity(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(150, 177, 168, 1.0)",
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"

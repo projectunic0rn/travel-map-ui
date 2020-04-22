@@ -684,14 +684,18 @@ function CityMap(props) {
     }
 
     let previousCity = liveCity[0];
-    let popupText =
+    let popupText = previousCity.city !== "" ?
       "You currently live in " +
-      previousCity.city +
+       previousCity.city +
       ", " +
       previousCity.countryISO +
       ". Would you like to update this to " +
       newCity +
-      "?";
+      "?" : "You currently live in " +
+      previousCity.country +
+      ". Would you like to update this to " +
+      newCity +
+      "?"
 
     const swalParams = {
       type: "question",
@@ -749,7 +753,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -758,7 +762,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(203, 118, 120, 1)",
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -791,7 +795,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -800,7 +804,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(115, 167, 195, 1.0)",
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -830,7 +834,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -839,7 +843,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(150, 177, 168, 1.0)",
-                transform: "translate(-5px, -10px)",
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
