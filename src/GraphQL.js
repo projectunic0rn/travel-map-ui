@@ -314,18 +314,6 @@ export const GET_ALL_FRIEND_REQUESTS = gql`
   }
 `;
 
-export const SEND_FRIEND_REQUEST = gql`
-  mutation sendFriendRequest($username: String!) {
-    sendFriendRequest(username: $username) {
-      id
-      senderId
-      receiverId
-      status
-      UserId
-    }
-  }
-`;
-
 export const GET_ALL_CITY_DETAILS = gql`
   query user($username: String!) {
     user(username: $username) {
@@ -624,6 +612,7 @@ export const GET_PROFILE_BASICS = gql`
 `;
 
 //MUTATIONS
+
 export const ADD_MULTIPLE_PLACES = gql`
   mutation addMultiplePlaces($clickedCityArray: [Places_visited!]) {
     addMultiplePlaces(clickedCityArray: $clickedCityArray) {
@@ -1012,6 +1001,17 @@ export const COUNTRY_REVIEWS_ALL_USERS = gql`
         cost
         currency
       }
+    }
+  }
+`;
+
+export const SEND_FRIEND_REQUEST = gql`
+  mutation sendFriendRequest($username: String!) {
+    sendFriendRequest(username: $username) {
+      id
+      senderId
+      receiverId
+      status
     }
   }
 `;
