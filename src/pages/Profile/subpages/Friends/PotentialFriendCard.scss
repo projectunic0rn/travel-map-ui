@@ -3,23 +3,25 @@
   min-width: fit-content;
   max-width: 250px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   flex-grow: 1;
   min-width: fit-content;
   max-width: 250px;
   position: relative;
   width: 240px;
-  min-height: 67px;
+  min-height: 200px;
   margin: 5px;
-  background: rgb(248, 248, 252);
+  background: #656f80;
   border-radius: 8px;
   box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
 }
 .pfc-user-profile {
-  margin-left: 4px;
+  margin-top: 8px;
   .user-avatar {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
+    background: rgb(248, 248, 252);
   }
 }
 .potential-friend-add {
@@ -44,19 +46,40 @@
   flex-direction: column;
   flex: 1;
   height: 40px;
-  margin-left: 8px;
   margin-top: 0px;
+  .pfc-username {
+    display: flex;
+    justify-content: center;
+    color: rgb(248, 248, 252);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .pfc-location {
+    font-size: 14px;
+    color: #b7b7b7;
+    display: flex;
+    justify-content: center;
+  }
 }
 
-.pfc-username {
-  color: rgba(129, 130, 130, 1);
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.pfc-location {
-  font-size: 12px;
-  color: rgb(150, 150, 150);
+.pfc-request-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background: rgb(217, 230, 236);
+  cursor: pointer;
+  &:hover {
+    background: rgb(248, 248, 252);
+  }
+  .pfc-request {
+    font-weight: 550;
+    color: rgb(62, 143, 187);
+  }
 }
 
 .pfc-trip-data {

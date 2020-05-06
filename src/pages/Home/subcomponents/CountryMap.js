@@ -4,13 +4,13 @@ import {
   ComposableMap,
   ZoomableGroup,
   Geographies,
-  Geography
+  Geography,
 } from "react-simple-maps";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/react-hooks";
 import {
   ADD_MULTIPLE_PLACES,
-  GET_LOGGEDIN_USER_COUNTRIES
+  GET_LOGGEDIN_USER_COUNTRIES,
 } from "../../../GraphQL";
 
 import jsonData from "../../../world-topo-min.json";
@@ -24,7 +24,7 @@ import MapChangeIcon from "../../../icons/MapChangeIcon";
 import ShareIcon from "../../../icons/ShareIcon";
 import SaveIcon from "../../../icons/SaveIcon";
 
-const CountryMap = props => {
+const CountryMap = (props) => {
   const [center, handleChangeCenter] = useState([6, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -34,11 +34,11 @@ const CountryMap = props => {
     { name: "Oceania", coordinates: [151.2093, -20.8688] },
     { name: "Africa", coordinates: [23.3792, 6.5244] },
     { name: "South America", coordinates: [-58.3816, -20.6037] },
-    { name: "East Asia", coordinates: [121.4737, 31.2304] }
+    { name: "East Asia", coordinates: [121.4737, 31.2304] },
   ];
   const [clickedCountry, handleNewCountry] = useState(0);
   const [clickedCountryArray, handleClickedCountryArray] = useState([
-    ...props.countryArray
+    ...props.countryArray,
   ]);
   const [clickedCityArray, handleClickedCityArray] = useState([]); // Named this way to re-use graphql mutation
   const [countryName, handleCountryName] = useState("country");
@@ -50,13 +50,13 @@ const CountryMap = props => {
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     refetchQueries: [
       {
-        query: GET_LOGGEDIN_USER_COUNTRIES
-      }
+        query: GET_LOGGEDIN_USER_COUNTRIES,
+      },
     ],
     awaitRefetchQueries: true,
     onCompleted() {
       props.refetch();
-    }
+    },
   });
 
   useEffect(() => {
@@ -121,20 +121,20 @@ const CountryMap = props => {
         fill: "#6E7377",
         stroke: "rgb(100, 100, 100)",
         strokeWidth: 0.75,
-        outline: "none"
+        outline: "none",
       },
       hover: {
         fill: "rgb(180, 180, 180)",
         stroke: "rgb(180, 180, 180)",
         strokeWidth: 0.75,
-        outline: "none"
+        outline: "none",
       },
       pressed: {
         fill: "#a7e1ff",
         stroke: "#a7e1ff",
         strokeWidth: 0.75,
-        outline: "none"
-      }
+        outline: "none",
+      },
     };
     if (isCountryIncluded) {
       let countryTimingArraySorted = countryTimingArray.sort((a, b) => a - b);
@@ -249,11 +249,11 @@ const CountryMap = props => {
     const swalParams = {
       type: "question",
       customClass: {
-        container: "live-swal-prompt"
+        container: "live-swal-prompt",
       },
-      text: popupText
+      text: popupText,
     };
-    Swal.fire(swalParams).then(result => {
+    Swal.fire(swalParams).then((result) => {
       if (result.value) {
         clickedCountryArray.splice(index, 1);
         let pastCount = tripTimingCounts[0];
@@ -325,7 +325,7 @@ const CountryMap = props => {
     newCountryArray.push({
       countryId: country.id,
       country: country.properties.name,
-      tripTiming: props.currentTiming
+      tripTiming: props.currentTiming,
     });
     cityArray.push({
       countryId: country.id,
@@ -335,7 +335,7 @@ const CountryMap = props => {
       city: "",
       city_latitude: 0,
       city_longitude: 0,
-      cityId: null
+      cityId: null,
     });
     switch (props.currentTiming) {
       case 0:
@@ -484,7 +484,7 @@ const CountryMap = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 180
+          scale: 180,
         }}
       >
         <ZoomableGroup center={center} zoom={zoom}>
@@ -507,12 +507,9 @@ const CountryMap = props => {
         </ZoomableGroup>
       </ComposableMap>
 
-
-      <div
-        className='zoom-buttons'
-        >
-          <span onClick={() => handleChangeZoom(zoom+0.5)}>+</span>
-          <span onClick={() => handleChangeZoom(zoom-0.5)}>-</span>
+      <div className="zoom-buttons">
+        <span onClick={() => handleChangeZoom(zoom + 0.5)}>+</span>
+        <span onClick={() => handleChangeZoom(zoom - 0.5)}>-</span>
       </div>
 
       <div id="new-country-scorecard">
@@ -538,7 +535,7 @@ const CountryMap = props => {
                 : "live",
             previousTrips: checkForPreviousTrips(clickedCountry),
             showPopup: showPopup,
-            refetch: props.refetch
+            refetch: props.refetch,
           }}
         />
       ) : null}
@@ -551,7 +548,7 @@ CountryMap.propTypes = {
   handleMapTypeChange: PropTypes.func,
   tripData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   refetch: PropTypes.func,
-  currentTiming: PropTypes.number
+  currentTiming: PropTypes.number,
 };
 
 export default CountryMap;

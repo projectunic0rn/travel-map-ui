@@ -14,7 +14,6 @@ import MapChangeIcon from "../../../icons/MapChangeIcon";
 import Loader from "../../../components/common/Loader/Loader";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
-
 function ClusterMarker(props) {
   function onClick() {
     const { onClick, ...cluster } = props;
@@ -33,7 +32,7 @@ function ClusterMarker(props) {
           borderRadius: "50%",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         }}
         onClick={onClick}
       >
@@ -49,7 +48,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     height: window.innerHeight,
     latitude: 20,
     longitude: 8,
-    zoom: setInitialZoom()
+    zoom: setInitialZoom(),
   });
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
   const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
@@ -114,7 +113,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
-      zoom: setInitialZoom()
+      zoom: setInitialZoom(),
     });
   }
 
@@ -126,7 +125,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     let markerPastDisplay = [];
     let markerFutureDisplay = [];
     let markerLiveDisplay = [];
-    markers.map(city => {
+    markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
         switch (city.tripTiming) {
@@ -259,13 +258,13 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     let newHoveredCityArray = [];
     if (typedCity.result.properties.wikidata !== undefined) {
       newHoveredCityArray = clickedCityArray.filter(
-        city =>
+        (city) =>
           city.cityId ===
           parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
       );
     } else {
       newHoveredCityArray = clickedCityArray.filter(
-        city =>
+        (city) =>
           city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
       );
     }
@@ -293,7 +292,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
             year: data.Places_visited[j].year,
             tripTiming: 0,
             avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
-            color: data.color
+            color: data.color,
           });
           pastCount++;
         }
@@ -315,7 +314,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
             year: data.Places_visiting[j].year,
             tripTiming: 1,
             avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
-            color: data.color
+            color: data.color,
           });
           futureCount++;
         }
@@ -339,7 +338,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
         year: data.Place_living.year,
         tripTiming: 2,
         avatarIndex: data.avatarIndex !== null ? data.avatarIndex : 1,
-        color: data.color
+        color: data.color,
       });
       liveCount++;
     }
@@ -352,7 +351,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     let newHoveredCityArray = [];
     if (cityTooltip !== null) {
       newHoveredCityArray = clickedCityArray.filter(
-        city => city.cityId === cityTooltip.cityId
+        (city) => city.cityId === cityTooltip.cityId
       );
     }
     return (
@@ -401,7 +400,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
       ...viewport,
       latitude,
       longitude,
-      zoom
+      zoom,
     };
     handleViewport(newViewport);
 
@@ -452,7 +451,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
                           <MapChangeIcon />
                         </span>
                       </span>
-                    </div>                    
+                    </div>
                   </div>
                 </div>
               </>
@@ -487,7 +486,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
             width: "100vw",
             minHeight: "calc(100% - 120px)",
             maxHeight: "calc(100%)",
-            position: "relative"
+            position: "relative",
           }}
         >
           {activeTimings[0] ? (
@@ -496,7 +495,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
               radius={40}
               extent={1024}
               nodeSize={64}
-              component={cluster => (
+              component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
                   color={"rgba(203, 118, 120, 0.5)"}
@@ -514,7 +513,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
               radius={40}
               extent={1024}
               nodeSize={64}
-              component={cluster => (
+              component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
                   color={"rgba(115, 167, 195, 0.5)"}
@@ -573,7 +572,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
           }
           componentProps={{
             hoveredCityArray: hoveredCityArray,
-            clickedCity: hoveredCityArray
+            clickedCity: hoveredCityArray,
           }}
         />
       ) : null}
@@ -583,7 +582,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
 
 FriendReadonlyCity.propTypes = {
   tripData: PropTypes.object,
-  handleMapTypeChange: PropTypes.func
+  handleMapTypeChange: PropTypes.func,
 };
 
 ClusterMarker.propTypes = {
@@ -591,7 +590,7 @@ ClusterMarker.propTypes = {
   longitude: PropTypes.number,
   pointCount: PropTypes.number,
   color: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default FriendReadonlyCity;
