@@ -126,6 +126,48 @@ export const GET_ALL_USER_COUNTRIES = gql`
   }
 `;
 
+export const GET_MULTI_USER_PLACES = gql`
+  query multiUser($multiUsernames: [SingleUser!]) {
+    multiUser(username: $multiUsernames) {
+      id
+      username
+      avatarIndex
+      color
+      georneyScore
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+      Place_living {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+    }
+  }
+`;
+
 export const GET_ALL_FRIEND_INFO = gql`
   query {
     users {

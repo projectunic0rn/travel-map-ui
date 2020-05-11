@@ -1,0 +1,61 @@
+.blogger-map-header {
+  position: absolute;
+  top: 20px;
+  left: calc(50% - 300px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 600px;
+  height: 60px;
+  padding: 8px;
+  border-radius: 8px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 30px;
+  color: #f8f8fc;
+  z-index: 5;
+}
+
+.blogger-controls {
+  left: calc(50% + 306px);
+  max-width: 60px;
+  max-height: 42px;
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  right: calc(50% - 560px);
+  top: 74px;
+  height: 60px;
+  width: 260px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  background: #f8f8fc;
+  svg {
+    transform: translateY(0px);
+    width: 24px;
+  }
+  @media screen and (max-width: 1000px) {
+    left: calc(50% + 786px);
+  }
+  @media screen and (max-width: 900px) {
+    display: none !important;
+  }
+  .new-map-suggest {
+    svg {
+      transform: none;
+    }
+    .sc-control-label {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      top: 38px;
+      left: -12px;
+      font-size: 12px;
+      border-radius: 8px;
+      min-width: 56px;
+      color: #dee2e6;
+      font-weight: 550;
+    }
+  }
+}
