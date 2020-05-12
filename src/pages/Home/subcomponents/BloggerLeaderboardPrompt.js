@@ -4,11 +4,18 @@ import BloggerFilterCard from "./BloggerFilterCard";
 import CloseWindowIcon from "../../../icons/CloseWindowIcon";
 
 function BloggerLeaderboardPrompt({ users, handleLeaderboard, sendUserClicked }) {
-  const [userClicked, handleUserClicked] = useState(null);
+  const [userClicked, handleUserClicked] = useState(false);
+const [activeCard, handleActiveCard] = useState(null);
 
-    function handleClick(user) {
-        console.log(user);
-        sendUserClicked(user);
+    function handleClick(user, rank) {
+        let state = true;
+        if (rank === activeCard) {
+            state = !userClicked;
+            rank = null;
+        }
+        sendUserClicked(user, state);
+        handleUserClicked(state);
+        handleActiveCard(rank);
     }
 
   return (
@@ -21,7 +28,7 @@ function BloggerLeaderboardPrompt({ users, handleLeaderboard, sendUserClicked })
         {users
           .sort((a, b) => b.georneyScore - a.georneyScore)
           .map((user, index) => {
-            return <BloggerFilterCard key={user.id} user={user} rank={index} handleClick={handleClick}/>;
+            return <BloggerFilterCard key={user.id} user={user} rank={index} handleClick={handleClick} activeCard={activeCard}/>;
           })}
       </data>
     </div>

@@ -53,10 +53,15 @@ const BloggerMap = () => {
     handleClickedCityArray(cities);
   }
 
-  function handleUserClicked(userFilter) {
+  function handleUserClicked(userFilter, state) {
     console.log(userData);
     let filter = userData.filter(user => user.id === userFilter.id);
-    handleFilteredUserData(filter);
+    console.log(state);
+    if (state) {
+      handleFilteredUserData(filter);
+    } else {
+      handleFilteredUserData(userData)
+    }
   }
 
   function sendUserData(data) {

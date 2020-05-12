@@ -2,9 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import UserAvatar from "../../../components/UserAvatar/UserAvatar";
 
-function BloggerFilterCard({ user, rank, handleClick }) {
+function BloggerFilterCard({ user, rank, handleClick, activeCard }) {
+function handleClickHelper(user) {
+    handleClick(user, rank);
+}
+
   return (
-    <div className="user-trip-card leaderboard-card" onClick={() => handleClick(user)}>
+    <div id={activeCard === rank ? 'blogger-card-clicked' : null} className="user-trip-card leaderboard-card" onClick={() => handleClickHelper(user)}>
       <span className="lc-rank">{rank + 1}</span>
       <div className="user-profile-image">
         <UserAvatar
