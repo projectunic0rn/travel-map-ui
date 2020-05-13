@@ -194,14 +194,9 @@ export const GET_ALL_USER_INFO = gql`
 export const GET_ALL_FRIEND_REQUESTS = gql`
   query {
     friend_requests {
-      receiverId
-      senderId
+      receiver_id
+      sender_id
       status
-      # senderUsername
-      # requestSentAt
-      User {
-        username
-      }
     }
   }
 `;
