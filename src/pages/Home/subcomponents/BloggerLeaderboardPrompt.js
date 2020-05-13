@@ -24,13 +24,13 @@ const [activeCard, handleActiveCard] = useState(null);
         <CloseWindowIcon />
       </div>
       <span className="leaderboard-title">GeorneyScores</span>
-      <data>
+      <bloggers>
         {users
           .sort((a, b) => b.georneyScore - a.georneyScore)
           .map((user, index) => {
             return <BloggerFilterCard key={user.id} user={user} rank={index} handleClick={handleClick} activeCard={activeCard}/>;
           })}
-      </data>
+      </bloggers>
     </div>
   );
 }

@@ -1,46 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import UserAvatar from "../../../components/UserAvatar/UserAvatar";
 
 function BloggerFilterCard({ user, rank, handleClick, activeCard }) {
-function handleClickHelper(user) {
+  function handleClickHelper(user) {
     handleClick(user, rank);
-}
+  }
 
   return (
-    <div id={activeCard === rank ? 'blogger-card-clicked' : null} className="user-trip-card leaderboard-card" onClick={() => handleClickHelper(user)}>
-      <span className="lc-rank">{rank + 1}</span>
-      <div className="user-profile-image">
-        <UserAvatar
-          avatarIndex={user.avatarIndex !== null ? user.avatarIndex : 1}
-          color={user.color}
-        />
-      </div>
+    <div
+      id={activeCard === rank ? "blogger-card-clicked" : null}
+      className="user-trip-card leaderboard-card blogger-card"
+      onClick={() => handleClickHelper(user)}
+    >
+      <span className="blogger-rank">{rank + 1}</span>
       <div className="utc-user-info-container">
-        <span
-          className="utc-username"
-          style={{
-            fontSize:
-              user.username.length < 14
-                ? "18px"
-                : user.username.length < 16
-                ? "16px"
-                : user.username.length < 18
-                ? "14px"
-                : user.username.length < 24
-                ? "12px"
-                : "10px",
-          }}
-        >
-          {user.username}
-        </span>
-        <span className="utc-location">
-          {user.Place_living !== null
-            ? user.Place_living.city !== ""
-              ? user.Place_living.city + ", " + user.Place_living.countryISO
-              : user.Place_living.country
-            : "       "}
-        </span>
+        <span className="utc-username">{user.username}</span>
       </div>
       <div className="user-georney-score">
         <span>{Math.ceil(user.georneyScore)}</span>
