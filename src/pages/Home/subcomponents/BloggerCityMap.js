@@ -16,7 +16,6 @@ import NewUserSuggestions from "./NewUserSuggestions";
 import ImportPopup from "./ImportPopup";
 import ClusterMarker from "./ClusterMarker";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
-import { filter } from "compression";
 
 function BloggerCityMap(props) {
   const [viewport, handleViewport] = useState({

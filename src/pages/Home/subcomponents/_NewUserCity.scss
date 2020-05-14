@@ -2,8 +2,8 @@
   margin: 0;
   #new-country-scorecard {
     .map-scorecard-container {
-      bottom: 60px;
-      left: 60px;
+      top: 140px;
+      left: 80px;
       @media screen and (max-width: 1250px) {
         display: none;
       }

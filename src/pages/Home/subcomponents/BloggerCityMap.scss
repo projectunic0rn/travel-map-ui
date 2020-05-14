@@ -1,6 +1,13 @@
 .blogger-map-header {
-  position: absolute;
   top: 20px;
+}
+
+.blogger-country-map-header {
+  top: -40px;
+}
+
+.blogger-map-header, .blogger-country-map-header {
+  position: absolute;
   left: calc(50% - 300px);
   display: flex;
   justify-content: center;
@@ -17,14 +24,23 @@
 
 .blogger-controls {
   left: calc(50% + 306px);
+  right: calc(50% - 560px);
+  top: 74px;
+}
+.blogger-country-controls {
+  left: calc(50% + 274px);
+  right: calc(50% - 560px);
+  top: 16px;
+}
+
+.blogger-controls,
+.blogger-country-controls {
   max-width: 60px;
   max-height: 42px;
   position: absolute;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  right: calc(50% - 560px);
-  top: 74px;
   height: 60px;
   width: 260px;
   border-radius: 8px;
@@ -50,7 +66,6 @@
       display: flex;
       justify-content: center;
       top: 38px;
-      left: -12px;
       font-size: 12px;
       border-radius: 8px;
       min-width: 56px;
@@ -61,29 +76,47 @@
 }
 
 #blogger-card-clicked {
-  background: #3f4b57;
+  background: rgba(248, 248, 252, 0.75);
+  box-shadow: 0 1px 18px 2px rgba(115, 167, 195, 0.75);
+  .utc-username {
+    color: rgb(49, 97, 122);
+  }
+  .user-georney-score span {
+    color: rgb(74, 89, 90);
+  }
 }
-.leaderboard-container {
+.blogger-filter-container {
+  left: calc(50% - 150px);
+  bottom: 0px;
   bloggers {
     display: flex;
     flex-direction: column;
-
   }
   .blogger-card {
     cursor: pointer;
-    -webkit-touch-callout: none; 
-    -webkit-user-select: none; 
-     -khtml-user-select: none; 
-       -moz-user-select: none; 
-        -ms-user-select: none; 
-            user-select: none; 
+    border-radius: 30px;
+    background: rgba(#3f4b57, 0.75);
+    // box-shadow: 0 1px 18px 2px rgba(115, 167, 195, 0.15);
+    box-shadow: 0 2px 4px 0px rgba(115, 167, 195, 0.25);
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     .blogger-rank {
       transform: translateX(-16px);
       color: rgb(248, 248, 252);
-      font-size: 24px;
+      font-size: 18px;
+      font-weight: 700;
     }
     .utc-username {
       font-size: 18px;
+      color: rgb(230, 230, 235);
+    }
+    .user-georney-score span {
+      color: white;
     }
   }
 }

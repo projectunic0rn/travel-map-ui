@@ -267,18 +267,16 @@
   .leaderboard-title {
     font-size: 20px;
     font-weight: 550;
-    color: $dark-grey;
+    color: rgb(248, 248, 252);
     display: flex;
     justify-content: center;
     margin-bottom: 8px;
-    background: rgb(248, 248, 252);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   }
   .leaderboard-card {
     position: relative;
     max-height: 67px;
-    margin-right: 4px;
     .lc-rank {
       font-size: 24px;
       font-weight: 100;

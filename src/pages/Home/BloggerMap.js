@@ -21,6 +21,7 @@ const BloggerMap = () => {
   const [clickedCountryArray, addCountry] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [leaderboard, handleLeaderboard] = useState(true);
+  const [activeBlogger, handleActiveBlogger] = useState(null);
   const swalParams = {
     type: "info",
     text:
@@ -54,13 +55,15 @@ const BloggerMap = () => {
   }
 
   function handleUserClicked(userFilter, state) {
-    console.log(userData);
     let filter = userData.filter(user => user.id === userFilter.id);
-    console.log(state);
     if (state) {
       handleFilteredUserData(filter);
+      addCountry([]);
+      handleLoadedCountries({users: filter});
     } else {
-      handleFilteredUserData(userData)
+      handleFilteredUserData(userData);
+      addCountry([]);
+      handleLoadedCountries({users: userData});
     }
   }
 
@@ -86,7 +89,7 @@ const BloggerMap = () => {
   }
 
   function handleLoadedCountries(data) {
-    let countryArray = clickedCountryArray;
+    let countryArray = [];
     for (let i in data.users) {
       let userData = data.users[i];
       if (userData != null && userData.Places_visited.length !== 0) {
@@ -99,6 +102,7 @@ const BloggerMap = () => {
             countryArray.push({
               username: userData.username,
               countryId: userData.Places_visited[i].countryId,
+              country: userData.Places_visited[i].country,
               tripTiming: 0,
             });
           }
@@ -116,6 +120,7 @@ const BloggerMap = () => {
             countryArray.push({
               username: userData.username,
               countryId: userData.Places_visiting[i].countryId,
+              country: userData.Places_visiting[i].country,
               tripTiming: 1,
             });
           }
@@ -130,6 +135,7 @@ const BloggerMap = () => {
           countryArray.push({
             username: userData.username,
             countryId: userData.Place_living.countryId,
+            country: userData.Place_living.country,
             tripTiming: 2,
           });
         }
@@ -167,6 +173,9 @@ const BloggerMap = () => {
                 <BloggerCountryMap
                   clickedCountryArray={clickedCountryArray}
                   handleMapTypeChange={() => handleMapPageChange(1)}
+                  handleLeaderboard={handleLeaderboard}
+                  leaderboard={leaderboard}
+                  bloggerData={filteredUserData}
                 />
               )}
             </div>
@@ -175,6 +184,8 @@ const BloggerMap = () => {
                 users={userData}
                 handleLeaderboard={handleLeaderboard}
                 sendUserClicked={handleUserClicked}
+                activeBlogger={activeBlogger}
+                handleActiveBlogger={handleActiveBlogger}
               />
             ) : null}
           </div>

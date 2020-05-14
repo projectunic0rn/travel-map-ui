@@ -11,6 +11,7 @@ import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import MapScorecard from "./MapScorecard";
+import LeaderboardIcon from "../../../icons/LeaderboardIcon";
 import MapInfoContainer from "./MapInfoContainer";
 
 const BloggerCountryMap = (props) => {
@@ -49,6 +50,11 @@ const BloggerCountryMap = (props) => {
     }
     handleTripTiming([pastCount, futureCount, liveCount]);
   }, [clickedCountryArray]);
+
+  useEffect(() => {
+    console.log(props.bloggerData)
+    addCountry(props.clickedCountryArray)
+  }, [props.bloggerData]);
 
   function handleContinentClick(evt) {
     const continentId = evt.target.getAttribute("data-continent");
@@ -206,6 +212,12 @@ const BloggerCountryMap = (props) => {
 
   return (
     <>
+      <div className="blogger-country-map-header">
+        {props.bloggerData.length > 1
+          ? "Travel Blogger Map"
+          : props.bloggerData[0].username}
+      </div>
+
       <div
         className="city-new-side-menu"
         style={showSideMenu ? { width: "250px" } : { width: "40px" }}
@@ -262,6 +274,18 @@ const BloggerCountryMap = (props) => {
               >
                 <MapChangeIcon />
               </span>
+            </span>
+          </div>
+          <div
+            id={props.leaderboard ? "fc-leaderboard-active" : null}
+            className=" sc-controls-right blogger-country-controls"
+            onClick={() => props.handleLeaderboard(!props.leaderboard)}
+          >
+            <span className="new-map-suggest">
+              <span onClick={() => props.handleLeaderboard(!props.leaderboard)}>
+                <LeaderboardIcon />
+              </span>
+              <span className="sc-control-label">Leaders</span>
             </span>
           </div>
         </div>
