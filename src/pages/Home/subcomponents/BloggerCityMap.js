@@ -35,15 +35,12 @@ function BloggerCityMap(props) {
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [filteredCityArray, handleFilteredCityArray] = useState([]);
   const [timingState, handleTimingState] = useState(0);
-  const [deletePrompt, handleDeletePrompt] = useState(false);
   const [activePopup, handleActivePopup] = useState(false);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
   const [importPopup, handleImportPopup] = useState(false);
   const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
   const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
-  const [countryIdArray, handleCountryIdArray] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
-  const [newLiveCity, handleNewLiveCity] = useState();
   const [showSideMenu, handleSideMenu] = useState(false);
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -119,13 +116,10 @@ function BloggerCityMap(props) {
   }
 
   function handleLoadedCities(data) {
-    console.log(data);
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
-    console.log(pastCount);
     let clickedCityArray = [];
-    console.log(clickedCityArray);
 
     for (let i in data) {
       if (data != null && data[i].Places_visited.length !== 0) {
@@ -194,7 +188,6 @@ function BloggerCityMap(props) {
       }
     }
     let filteredCityArray = clickedCityArray;
-    console.log(filteredCityArray);
     handleClickedCityArray(clickedCityArray);
     props.handleCities(filteredCityArray);
     handleFilteredCityArray(filteredCityArray);
@@ -583,11 +576,6 @@ function BloggerCityMap(props) {
         break;
     }
   }
-  function handleTimingChange(value) {
-    handleTimingState(Number(value));
-    handleSuggestedContinentArray([]);
-    handleSuggestedCountryArray([]);
-  }
 
   function _renderPopup() {
     return (
@@ -602,10 +590,15 @@ function BloggerCityMap(props) {
           closeButton={true}
           onClose={() => handleCityTooltip(null)}
         >
-          {cityTooltip.city} <br />
+          <span onClick={() => clickedCity(cityTooltip)}>{cityTooltip.city}</span> <br />
         </Popup>
       )
     );
+  }
+
+  function clickedCity(city) {
+    console.log(city);
+
   }
 
   function showPopup() {

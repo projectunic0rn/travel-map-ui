@@ -52,7 +52,6 @@ const BloggerCountryMap = (props) => {
   }, [clickedCountryArray]);
 
   useEffect(() => {
-    console.log(props.bloggerData)
     addCountry(props.clickedCountryArray)
   }, [props.bloggerData]);
 
@@ -325,7 +324,7 @@ const BloggerCountryMap = (props) => {
                   projection={projection}
                   onWheel={handleWheel}
                   onMouseEnter={() => countryInfo(geography)}
-                  onClick={() => handleClickedCountry(geography)}
+                  // onClick={() => handleClickedCountry(geography)}
                   style={computedStyles(geography)}
                 />
               ))
@@ -352,6 +351,9 @@ const BloggerCountryMap = (props) => {
 BloggerCountryMap.propTypes = {
   clickedCountryArray: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
+  handleLeaderboard: PropTypes.func,
+  leaderboard: PropTypes.bool,
+  bloggerData: PropTypes.array
 };
 
 export default BloggerCountryMap;

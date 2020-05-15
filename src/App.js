@@ -97,6 +97,7 @@ function App({ userAuthenticated }) {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
               handleUserData(data);
+              console.log(data);
               if (!loaded) return null;
               return (
                 <Fragment>

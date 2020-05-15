@@ -15,6 +15,7 @@ const BloggerMap = () => {
     { username: "NomadicMatt" },
     { username: "AdventurousKate" },
     { username: "NeverendingFootsteps" },
+    { username: "BucketListly" }
   ]);
   const [userData, handleUserData] = useState([]);
   const [filteredUserData, handleFilteredUserData] = useState([]);
