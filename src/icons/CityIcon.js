@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function CityIcon() {
+function CityIcon(props) {
   return (
     <svg
-      className="city-icon"
+      className={props.className !== undefined ? props.className : "city-icon"}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 17.223 18.18"
       width="17.223"
@@ -15,6 +16,10 @@ function CityIcon() {
       />
     </svg>
   );
+}
+
+CityIcon.propTypes = {
+  className: PropTypes.string
 }
 
 export default CityIcon;

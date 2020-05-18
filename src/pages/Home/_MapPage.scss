@@ -303,7 +303,7 @@
   }
 }
 .sc-controls-left {
-  left: calc(50% - 334px);
+  left: calc(50% - 368px);
   @media (max-width: 800px) {
     left: calc(50% - 294px);
   }
@@ -322,7 +322,7 @@
     justify-content: center;
     text-align: center;
     top: 40px;
-    left: -18px;
+    left: -16px;
     font-size: 12px;
     border-radius: 8px;
     min-width: 56px;
@@ -332,7 +332,6 @@
 
   svg {
     width: 18px;
-    transform: translateY(2px);
   }
   &:hover {
     fill: #528fb1;

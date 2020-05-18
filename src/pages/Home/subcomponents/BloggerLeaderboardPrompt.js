@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import BloggerFilterCard from "./BloggerFilterCard";
 import CloseWindowIcon from "../../../icons/CloseWindowIcon";
@@ -10,16 +10,14 @@ function BloggerLeaderboardPrompt({
   activeBlogger, 
   handleActiveBlogger
 }) {
-  const [userClicked, handleUserClicked] = useState(false);
 
   function handleClick(user, rank) {
     let state = true;
     if (rank === activeBlogger) {
-      state = !userClicked;
+      state = false;
       rank = null;
     }
     sendUserClicked(user, state);
-    handleUserClicked(state);
     handleActiveBlogger(rank);
   }
 
@@ -29,7 +27,7 @@ function BloggerLeaderboardPrompt({
         <CloseWindowIcon />
       </div>
       <span className="leaderboard-title">Click to filter bloggers</span>
-      <bloggers>
+      <div className = 'bloggers'>
         {users
           .sort((a, b) => b.georneyScore - a.georneyScore)
           .map((user, index) => {
@@ -43,7 +41,7 @@ function BloggerLeaderboardPrompt({
               />
             );
           })}
-      </bloggers>
+      </div>
     </div>
   );
 }

@@ -14,6 +14,10 @@ const BloggerMap = () => {
   const [multiUsernames] = useState([
     { username: "NomadicMatt" },
     { username: "AdventurousKate" },
+    { username: "Bemytravelmuse" },
+    { username: "iameileen" },
+    { username: "WanderingEarl" },
+    { username: "TheBlondeAbroad" },
     { username: "NeverendingFootsteps" },
     { username: "BucketListly" }
   ]);

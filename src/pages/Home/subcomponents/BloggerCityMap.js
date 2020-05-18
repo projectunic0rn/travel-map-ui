@@ -4,18 +4,109 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
-import Swal from "sweetalert2";
 
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
-import LeaderboardIcon from "../../../icons/LeaderboardIcon";
+import FilterIcon from "../../../icons/FilterIcon";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import NewUserMapSignup from "./NewUserMapSignup";
-import NewUserSuggestions from "./NewUserSuggestions";
-import ImportPopup from "./ImportPopup";
+import BloggerCityPopup from "../../../components/Prompts/FriendClickedCity/BloggerCityPopup";
 import ClusterMarker from "./ClusterMarker";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+
+const fakeData = [
+  {
+    avatarIndex: 4,
+    city: "Copenhagen",
+    cityId: 1748,
+    color: "rgb(100, 40, 40)",
+    country: "Denmark",
+    countryId: 147792,
+    days: undefined,
+    id: 1,
+    latitude: 55.67611,
+    longitude: 12.56889,
+    tripTiming: 0,
+    username: "AdventurousKate",
+    year: 2015,
+    url: "https://www.adventurouskate.com/copenhagen-in-photos/",
+    title: "Copenhagen in Photos",
+    type: "single",
+  },
+  {
+    avatarIndex: 4,
+    city: "Copenhagen",
+    cityId: 1748,
+    color: "rgb(10, 100, 190)",
+    country: "Denmark",
+    countryId: 147792,
+    days: undefined,
+    id: 2,
+    latitude: 55.67611,
+    longitude: 12.56889,
+    tripTiming: 0,
+    username: "BucketListly",
+    year: 2018,
+    url: "https://www.bucketlistly.blog/posts/copenhagen-10-best-things-to-do",
+    title: "One Day in Copenhagen",
+    type: "single",
+  },
+  {
+    avatarIndex: 2,
+    city: "Copenhagen",
+    cityId: 1748,
+    color: "rgb(230, 100, 100)",
+    country: "Denmark",
+    countryId: 147792,
+    days: undefined,
+    id: 3,
+    latitude: 55.67611,
+    longitude: 12.56889,
+    tripTiming: 0,
+    username: "NeverendingFootsteps",
+    year: 2019,
+    url: "https://www.neverendingfootsteps.com/copenhagen-in-the-rain",
+    title: "Dodging Downpours in Copenhagen",
+    type: "single",
+  },
+  {
+    avatarIndex: 2,
+    city: "Copenhagen",
+    cityId: 1748,
+    color: "rgb(230, 100, 100)",
+    country: "Denmark",
+    countryId: 147792,
+    days: undefined,
+    id: 3,
+    latitude: 55.67611,
+    longitude: 12.56889,
+    tripTiming: 0,
+    username: "NeverendingFootsteps",
+    year: 2017,
+    url: "https://www.neverendingfootsteps.com/august-2017-travel-summary/",
+    title: "August + September 2017: Travel Summary and Statistics",
+    type: "multi",
+  },
+  {
+    avatarIndex: 1,
+    city: "Copenhagen",
+    cityId: 1748,
+    color: "rgb(140, 130, 10)",
+    country: "Denmark",
+    countryId: 147792,
+    days: undefined,
+    id: 4,
+    latitude: 55.67611,
+    longitude: 12.56889,
+    tripTiming: 0,
+    username: "NomadicMatt",
+    year: 2018,
+    url:
+      "https://www.nomadicmatt.com/travel-guides/denmark-travel-tips/copenhagen/",
+    title: "Copenhagen Travel Guide",
+    type: "single",
+  },
+];
 
 function BloggerCityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -352,229 +443,24 @@ function BloggerCityMap(props) {
     handleActiveTimings([1, 1, 1]);
   }
 
-  function handleOnResult(event) {
-    let country = "";
-    let countryISO = "";
-    let context = 0;
-    let cityId;
-    for (let i in event.result.context) {
-      context = 0;
-      if (event.result.context.length === 1) {
-        countryISO = event.result.context[0].short_code.toUpperCase();
-        country = event.result.context[0]["text_en-US"];
+  function handleOnResult(typedCity) {
+    let countryName;
+    if (typedCity.result.context !== undefined) {
+      for (let i in typedCity.result.context) {
+        if (typedCity.result.context[i].id.slice(0, 7) === "country") {
+          countryName = typedCity.result.context[i]["text_en-US"];
+        }
       }
-      if (event.result.context[i].id.slice(0, 7) === "country") {
-        context = i;
-        country = event.result.context[i]["text_en-US"];
-        countryISO = event.result.context[i]["short_code"].toUpperCase();
-      }
-    }
-    if (event.result.properties.wikidata !== undefined) {
-      cityId = parseFloat(event.result.properties.wikidata.slice(1), 10);
     } else {
-      cityId = parseFloat(event.result.id.slice(10, 16), 10);
+      countryName = typedCity.result.place_name;
     }
-
-    if (
-      timingState === 2 &&
-      clickedCityArray.some((city) => city.tripTiming === 2)
-    ) {
-      return;
-    }
-    let newCityEntry = {
-      country:
-        event.result.context !== undefined ? country : event.result.place_name,
-      countryId:
-        event.result.context !== undefined
-          ? parseInt(event.result.context[context].id.slice(8, 14))
-          : parseInt(event.result.id.slice(7, 13)),
-      countryISO:
-        event.result.context !== undefined
-          ? countryISO
-          : event.result.properties.short_code.toUpperCase(),
-      city: event.result.text,
-      cityId,
-      city_latitude: event.result.center[1],
-      city_longitude: event.result.center[0],
-      tripTiming: timingState,
-    };
-    handleTripTimingCityHelper(newCityEntry);
-  }
-
-  function handleTripTimingCityHelper(city) {
-    let newClickedCityArray = [...clickedCityArray];
-    newClickedCityArray.push({
-      country: city.country,
-      countryISO: city.countryISO,
-      countryId: city.countryId,
-      city: city.city,
-      cityId: city.cityId,
-      city_latitude: city.city_latitude,
-      city_longitude: city.city_longitude,
-      tripTiming: timingState,
+    handleCityTooltip({
+      city: typedCity.result["text_en-US"],
+      country: countryName,
+      latitude: typedCity.result.center[1],
+      longitude: typedCity.result.center[0]
     });
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
-    let newMarkerPastDisplay = [...markerPastDisplay];
-    let newMarkerFutureDisplay = [...markerFutureDisplay];
-    let newMarkerLiveDisplay = [...markerLiveDisplay];
-    let markerRecentDisplay;
-    let color = "";
-    switch (timingState) {
-      case 0:
-        pastCount++;
-        tripTimingCounts[0] = pastCount;
-        color = "rgba(203, 118, 120, 0.25)";
-        newMarkerPastDisplay.push(
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-          >
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: color,
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle" + city.cityId}
-              className="dot"
-            />
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: "rgba(203, 118, 120, 1)",
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle2" + city.cityId}
-              className="dot-inner"
-            />
-          </Marker>
-        );
-        markerRecentDisplay = (
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-          >
-            <div
-              style={{
-                border: "10px solid rgba(203, 118, 120, 1)",
-              }}
-              key={"circle3" + city.cityId}
-              className="pulse"
-            />
-          </Marker>
-        );
-        handleClickedCityArray(newClickedCityArray);
-        handleTripTimingCounts(tripTimingCounts);
-        handleMarkerPastDisplay(newMarkerPastDisplay);
-        handleMarkerRecentDisplay(markerRecentDisplay);
-        break;
-      case 1:
-        futureCount++;
-        tripTimingCounts[1] = futureCount;
-        color = "rgba(115, 167, 195, 0.25)";
-        newMarkerFutureDisplay.push(
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-          >
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: color,
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle" + city.cityId}
-              className="dot"
-            />
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: "rgba(115, 167, 195, 1.0)",
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle2" + city.cityId}
-              className="dot-inner"
-            />
-          </Marker>
-        );
-        markerRecentDisplay = (
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
-          >
-            <div
-              style={{ border: "10px solid rgba(115, 167, 195, 1.0)" }}
-              key={"circle3" + city.cityId}
-              className="pulse"
-            />
-          </Marker>
-        );
-        handleClickedCityArray(newClickedCityArray);
-        handleTripTimingCounts(tripTimingCounts);
-        handleMarkerFutureDisplay(newMarkerFutureDisplay);
-        handleMarkerRecentDisplay(markerRecentDisplay);
-        break;
-      case 2:
-        liveCount++;
-        tripTimingCounts[2] = liveCount;
-        color = "rgba(150, 177, 168, 0.25)";
-        newMarkerLiveDisplay.push(
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-          >
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: color,
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle" + city.cityId}
-              className="dot"
-            />
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: "rgba(150, 177, 168, 1.0)",
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle2" + city.cityId}
-              className="dot-inner"
-            />
-          </Marker>
-        );
-        markerRecentDisplay = (
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-            offsetLeft={-5}
-            offsetTop={-10}
-          >
-            <div
-              style={{ border: "10px solid rgba(150, 177, 168, 1.0)" }}
-              key={"circle3" + city.cityId}
-              className="pulse"
-            />
-          </Marker>
-        );
-        handleClickedCityArray(newClickedCityArray);
-        handleTripTimingCounts(tripTimingCounts);
-        handleMarkerLiveDisplay(newMarkerLiveDisplay);
-        handleMarkerRecentDisplay(markerRecentDisplay);
-        break;
-      default:
-        break;
-    }
+    handleActivePopup(true);
   }
 
   function _renderPopup() {
@@ -590,28 +476,23 @@ function BloggerCityMap(props) {
           closeButton={true}
           onClose={() => handleCityTooltip(null)}
         >
-          <span onClick={() => clickedCity(cityTooltip)}>{cityTooltip.city}</span> <br />
+          <span onClick={() => clickedCity(cityTooltip)}>
+            {cityTooltip.city}
+          </span>{" "}
+          <br />
         </Popup>
       )
     );
   }
 
   function clickedCity(city) {
-    console.log(city);
-
+    handleCityTooltip(city);
+    handleActivePopup(true);
   }
 
   function showPopup() {
     handleActivePopup(!activePopup);
     handleSideMenu(false);
-  }
-
-  function handleContinents(contArray) {
-    handleSuggestedContinentArray(contArray);
-  }
-
-  function handleCountries(countryArray) {
-    handleSuggestedCountryArray(countryArray);
   }
 
   function clusterClick(cluster) {
@@ -647,7 +528,11 @@ function BloggerCityMap(props) {
   if (loading) return <Loader />;
   return (
     <>
-      <div className="blogger-map-header">{props.bloggerData.length > 1 ? "Travel Blogger Map" : props.bloggerData[0].username}</div>
+      <div className="blogger-map-header">
+        {props.bloggerData.length > 1
+          ? "Travel Blogger Map"
+          : props.bloggerData[0].username + "'s Map"}
+      </div>
       <div className="city-new-map-container">
         <div
           className="city-new-side-menu"
@@ -709,9 +594,9 @@ function BloggerCityMap(props) {
           >
             <span className="new-map-suggest">
               <span onClick={() => props.handleLeaderboard(!props.leaderboard)}>
-                <LeaderboardIcon />
+                <FilterIcon />
               </span>
-              <span className="sc-control-label">Leaders</span>
+              <span className="sc-control-label">Filter</span>
             </span>
           </div>
         </div>
@@ -733,7 +618,7 @@ function BloggerCityMap(props) {
         >
           <Geocoder
             mapRef={mapRef}
-            onResult={(e) => handleOnResult(e)}
+            onResult={handleOnResult}
             limit={10}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
@@ -807,32 +692,10 @@ function BloggerCityMap(props) {
         <PopupPrompt
           activePopup={activePopup}
           showPopup={showPopup}
-          component={NewUserMapSignup}
+          component={BloggerCityPopup}
           componentProps={{
-            clickedCityArray: clickedCityArray,
-          }}
-        />
-      ) : suggestPopup ? (
-        <div className="city-suggestions-prompt">
-          <PopupPrompt
-            activePopup={suggestPopup}
-            component={NewUserSuggestions}
-            componentProps={{
-              suggestedContinents: suggestedContinentArray,
-              suggestedCountries: suggestedCountryArray,
-              handleContinents: handleContinents,
-              handleCountries: handleCountries,
-              timing: timingState,
-              handleClickedCity: handleTripTimingCityHelper,
-            }}
-          />
-        </div>
-      ) : importPopup ? (
-        <PopupPrompt
-          activePopup={importPopup}
-          component={ImportPopup}
-          componentProps={{
-            handleLoadedCities: handleLoadedCities,
+            hoveredCityArray: [cityTooltip],
+            fakeData: fakeData,
           }}
         />
       ) : null}
@@ -844,6 +707,8 @@ BloggerCityMap.propTypes = {
   sendUserData: PropTypes.func,
   handleMapTypeChange: PropTypes.func,
   handleLeaderboard: PropTypes.func,
+  bloggerData: PropTypes.array,
+  leaderboard: PropTypes.bool,
 };
 
 export default React.memo(BloggerCityMap);

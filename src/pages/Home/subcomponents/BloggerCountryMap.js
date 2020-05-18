@@ -11,7 +11,7 @@ import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import MapScorecard from "./MapScorecard";
-import LeaderboardIcon from "../../../icons/LeaderboardIcon";
+import FilterIcon from "../../../icons/FilterIcon";
 import MapInfoContainer from "./MapInfoContainer";
 
 const BloggerCountryMap = (props) => {
@@ -214,7 +214,7 @@ const BloggerCountryMap = (props) => {
       <div className="blogger-country-map-header">
         {props.bloggerData.length > 1
           ? "Travel Blogger Map"
-          : props.bloggerData[0].username}
+          : props.bloggerData[0].username + "'s Map"}
       </div>
 
       <div
@@ -282,9 +282,9 @@ const BloggerCountryMap = (props) => {
           >
             <span className="new-map-suggest">
               <span onClick={() => props.handleLeaderboard(!props.leaderboard)}>
-                <LeaderboardIcon />
+                <FilterIcon />
               </span>
-              <span className="sc-control-label">Leaders</span>
+              <span className="sc-control-label">Filter</span>
             </span>
           </div>
         </div>

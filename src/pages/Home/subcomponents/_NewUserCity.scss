@@ -114,14 +114,14 @@
     width: 60px;
     height: 42px;
     background: rgb(248, 248, 252);
-    transform: translate(-32px, 14px);
+    transform: translate(0, 15px);
     #map-change-icon {
       svg {
         transform: translateY(0px);
       }
     }
     .sc-control-label {
-      transform: translate(-2px, 48px);
+      transform: translate(-0px, 48px);
       color: #dee2e6;
     }
     @media screen and (max-width: 1200px) {
@@ -199,7 +199,6 @@
       display: flex;
       justify-content: center;
       top: -12px;
-      left: -12px;
       font-size: 12px;
       border-radius: 8px;
       min-width: 56px;

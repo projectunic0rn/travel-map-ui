@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function GuidedTouristIcon({ color }) {
+function GuidedTouristIcon({ color, className }) {
   return (
     <svg
-      className="interest-icon"
+      className={
+        className !== undefined ? className : "interest-icon"
+      }
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 18 18"
       width="18"
@@ -21,7 +23,8 @@ function GuidedTouristIcon({ color }) {
 }
 
 GuidedTouristIcon.propTypes = {
-  color: PropTypes.string
+  color: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default GuidedTouristIcon;
