@@ -33,10 +33,10 @@
       border-radius: 4px;
       display: flex;
       margin: 4px 20px;
-      height: calc(96%);
+      min-height: calc(96%);
       // max-width: 800px;
       @media (min-width: 1400px) {
-        max-width: 1200px;
+        max-width: 1560px;
       }
       .content-results {
         display: flex;
@@ -116,8 +116,8 @@
 }
 
 .planning-map {
-  width: 1100px;
-  height: 500px;
+  width: 1480px;
+  height: calc(100vh - 400px);
   display: flex;
   overflow: hidden;
   position: relative;

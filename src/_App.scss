@@ -9,6 +9,7 @@ $container: 1600px;
 @import "./components/common/common";
 @import "./icons/Icons";
 @import "./pages/FAQ/Faq.scss";
+@import "./components/common/zoom_button/zoom_button.style.scss";
 
 * {
   box-sizing: border-box;
@@ -64,6 +65,14 @@ code {
 .container {
   max-width: $container;
   margin: 0 auto;
+}
+
+.centered-loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-avatar {

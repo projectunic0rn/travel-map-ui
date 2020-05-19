@@ -12,34 +12,58 @@ let fakeData = [
     username: "User2",
     Place_living: {
       city: "Fremont",
-      countryISO: "US"
+      countryISO: "US",
     },
     Places_visiting: [
       {
         city: "San Diego",
-        countryISO: "US"
-      }
+        countryISO: "US",
+      },
     ],
     Places_visited: null,
-    interests: ["foodie", "nature lover"]
+    "UserInterests": [
+      {
+        "id": 4,
+        "name": "nature lover",
+        "UserId": 2
+      },
+      {
+        "id": 5,
+        "name": "adventurer",
+        "UserId": 2
+      }],
+    color: "red",
+    georneyScore: 340
   },
   {
     id: 3,
     username: "User3",
     Place_living: {
       city: "San Jose",
-      countryISO: "US"
+      countryISO: "US",
     },
     Places_visiting: [
       {
         city: "San Diego",
-        countryISO: "US"
-      }
+        countryISO: "US",
+      },
     ],
     Places_visited: null,
     countryISO: "US",
-    interests: ["adventurer", "luxurious"]
-  }
+    "UserInterests": [
+      {
+        "id": 6,
+        "name": "foodie",
+        "UserId": 3
+      },
+      {
+        "id": 7,
+        "name": "luxurious",
+        "UserId": 3
+      }],
+    color: "blue",
+    georneyScore: 100
+  },
 ];
 export default function FriendRequests({ searchText }) {
   const [filteredFriendsAvailable, handleFilteredFriendsAvailable] = useState(
@@ -59,23 +83,23 @@ export default function FriendRequests({ searchText }) {
     }
   }, [searchText]);
   return (
-    <Query
-      query={GET_ALL_FRIEND_REQUESTS}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-    >
-      {({ loading, error, data }) => {
-        if (loading) return <SimpleLoader />;
-        if (error) return <p>{`${error}`}</p>;
-        return filteredFriendsAvailable.map((friend) => (
-          <FriendCard key={friend.id} friend={friend} />
-        ));
-      }}
-    </Query>
+    // <Query
+    //   query={GET_ALL_FRIEND_REQUESTS}
+    //   notifyOnNetworkStatusChange
+    //   fetchPolicy={"cache-and-network"}
+    //   partialRefetch={true}
+    // >
+    // {({ loading, error, data }) => {
+    //   if (loading) return <SimpleLoader />;
+    //   if (error) return <p>{`${error}`}</p>;
+    filteredFriendsAvailable.map((friend) => (
+      <FriendCard key={friend.id} friend={friend} />
+    ))
+    // }}
+    // </Query>
   );
 }
 
 FriendRequests.propTypes = {
-  searchText: PropTypes.string
+  searchText: PropTypes.string,
 };

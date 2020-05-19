@@ -16,6 +16,7 @@ import TripLogisticsContainer from "./TripLogisticsContainer";
 import TripBasicsContainer from "./TripBasicsContainer";
 import TripCommentaryContainer from "./TripCommentaryContainer";
 import CitySelectContainer from "./CitySelectContainer";
+import ArrowRightIcon from "../../../../icons/ArrowRightIcon";
 
 const fakeTrip = {
     tripName: "Northern Eurotrip",
@@ -355,6 +356,7 @@ function TripDetailContainer({
             </div>
             {page !== "basics" && page !== "citySelect" ? (
               <div className="trip-dropdowns">
+                select city: 
                 <select
                   className="trip-city"
                   onChange={e => {

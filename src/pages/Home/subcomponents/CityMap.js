@@ -11,7 +11,10 @@ import {
   ADD_MULTIPLE_PLACES,
   NEW_GEORNEY_SCORE,
   UPDATE_GEORNEY_SCORE,
-  GET_LOGGEDIN_USER_COUNTRIES
+  REMOVE_PLACE_VISITING,
+  REMOVE_PLACE_VISITED,
+  REMOVE_PLACE_LIVING,
+  GET_LOGGEDIN_USER_COUNTRIES,
 } from "../../../GraphQL";
 
 import { TravelScoreCalculator } from "../../../TravelScore";
@@ -25,6 +28,7 @@ import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
+import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
 function CityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -32,8 +36,11 @@ function CityMap(props) {
     height: window.innerHeight,
     latitude: 25,
     longitude: 8,
-    zoom: setInitialZoom()
+    zoom: setInitialZoom(),
   });
+
+  const [deletePrompt, handleDelete] = useState(false);
+
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
   const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
@@ -57,19 +64,23 @@ function CityMap(props) {
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     refetchQueries: [
       {
-        query: GET_LOGGEDIN_USER_COUNTRIES
-      }
+        query: GET_LOGGEDIN_USER_COUNTRIES,
+      },
     ],
     awaitRefetchQueries: true,
     onCompleted() {
       props.refetch();
-    }
+    },
   });
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
       props.refetch();
-    }
+    },
   });
+
+  const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
+  const [removePlaceVisiting] = useMutation(REMOVE_PLACE_VISITING, {});
+  const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -97,7 +108,7 @@ function CityMap(props) {
     clickedCityArray,
     markerPastDisplay,
     markerFutureDisplay,
-    markerLiveDisplay
+    markerLiveDisplay,
   ]);
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
 
@@ -107,7 +118,7 @@ function CityMap(props) {
       text:
         "GeorneyScore is a representation of how much of the world you have seen, the higher you score the more points you gain. We use a special metric to calculate this, which you can check out in the FAQ page!",
       confirmButtonColor: "#656F80",
-      closeOnClickOutside: true
+      closeOnClickOutside: true,
     };
     Swal.fire(swalParams);
   }
@@ -130,7 +141,7 @@ function CityMap(props) {
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
-      zoom: setInitialZoom()
+      zoom: setInitialZoom(),
     });
   }
 
@@ -158,6 +169,26 @@ function CityMap(props) {
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
     alert("Copied the text: " + copyText.value);
+  }
+
+  function deleteCitySaved(cityTooltip) {
+    switch (cityTooltip.tripTiming) {
+      case 0:
+        let placeVisitedId = cityTooltip.id;
+        removePlacevisited({ variables: { placeVisitedId } });
+        break;
+      case 1:
+        let placeVisitingId = cityTooltip.id;
+        removePlaceVisiting({ variables: { placeVisitingId } });
+      case 2:
+        let placeLivingId = cityTooltip.id;
+        removePlaceLiving({ variables: { placeLivingId } });
+
+        break;
+      default:
+        break;
+    }
+    deleteCity(cityTooltip);
   }
 
   function deleteCity(cityTooltip) {
@@ -297,7 +328,7 @@ function CityMap(props) {
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    data.map(city => {
+    data.map((city) => {
       if (city.cityId !== null) {
         switch (city.tripTiming) {
           case 0:
@@ -323,7 +354,7 @@ function CityMap(props) {
     let markerPastDisplay = [];
     let markerFutureDisplay = [];
     let markerLiveDisplay = [];
-    markers.map(city => {
+    markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
         switch (city.tripTiming) {
@@ -484,7 +515,7 @@ function CityMap(props) {
     let travelScoreIndexArray = [];
     let countryIdArray = [];
     let filteredClickedCityArray = loadedClickedCityArray.filter(
-      city => city.tripTiming === 0 || city.tripTiming === 2
+      (city) => city.tripTiming === 0 || city.tripTiming === 2
     );
     for (let i in filteredClickedCityArray) {
       if (
@@ -594,15 +625,15 @@ function CityMap(props) {
 
     if (
       props.currentTiming === 2 &&
-      (loadedClickedCityArray.some(city => city.tripTiming === 2) ||
-        clickedCityArray.some(city => city.tripTiming === 2))
+      (loadedClickedCityArray.some((city) => city.tripTiming === 2) ||
+        clickedCityArray.some((city) => city.tripTiming === 2))
     ) {
       evalLiveClick(event.result.text, event);
       return;
     }
     if (
       loadedClickedCityArray.some(
-        city =>
+        (city) =>
           city.cityId === cityId && city.tripTiming === props.currentTiming
       )
     ) {
@@ -623,12 +654,12 @@ function CityMap(props) {
       cityId,
       city_latitude: event.result.center[1],
       city_longitude: event.result.center[0],
-      tripTiming: props.currentTiming
+      tripTiming: props.currentTiming,
     };
     handleMarkers(markers);
     if (
       !loadedClickedCityArray.some(
-        city =>
+        (city) =>
           city.cityId === newCityEntry.cityId &&
           city.tripTiming === props.currentTiming
       )
@@ -653,23 +684,27 @@ function CityMap(props) {
     }
 
     let previousCity = liveCity[0];
-    let popupText =
+    let popupText = previousCity.city !== "" ?
       "You currently live in " +
-      previousCity.city +
+       previousCity.city +
       ", " +
       previousCity.countryISO +
       ". Would you like to update this to " +
       newCity +
-      "?";
+      "?" : "You currently live in " +
+      previousCity.country +
+      ". Would you like to update this to " +
+      newCity +
+      "?"
 
     const swalParams = {
       type: "question",
       customClass: {
-        container: "live-swal-prompt"
+        container: "live-swal-prompt",
       },
-      text: popupText
+      text: popupText,
     };
-    Swal.fire(swalParams).then(result => {
+    Swal.fire(swalParams).then((result) => {
       if (result.value && whichArray === "new") {
         deleteCity(previousCity);
         handleNewLiveCity(event);
@@ -694,7 +729,7 @@ function CityMap(props) {
       cityId: city.cityId,
       city_latitude: city.city_latitude,
       city_longitude: city.city_longitude,
-      tripTiming: props.currentTiming
+      tripTiming: props.currentTiming,
     });
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
@@ -718,7 +753,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)"
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -727,14 +762,14 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(203, 118, 120, 1)",
-                transform: "translate(-5px, -10px)"
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
             />
             <div
               style={{
-                border: "10px solid rgba(203, 118, 120, 1)"
+                border: "10px solid rgba(203, 118, 120, 1)",
               }}
               key={"circle3" + city.cityId}
               className="pulse"
@@ -760,7 +795,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)"
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -769,7 +804,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(115, 167, 195, 1.0)",
-                transform: "translate(-5px, -10px)"
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -799,7 +834,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: color,
-                transform: "translate(-5px, -10px)"
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle" + city.cityId}
               className="dot"
@@ -808,7 +843,7 @@ function CityMap(props) {
               onMouseOver={() => handleCityTooltip(city)}
               style={{
                 backgroundColor: "rgba(150, 177, 168, 1.0)",
-                transform: "translate(-5px, -10px)"
+                transform: "translate(-10px, -12px)",
               }}
               key={"circle2" + city.cityId}
               className="dot-inner"
@@ -844,17 +879,45 @@ function CityMap(props) {
           onClose={() => handleCityTooltip(null)}
         >
           {loadedClickedCityArray.some(
-            city => city.cityId === cityTooltip.cityId
+            (city) => city.cityId === cityTooltip.cityId
           ) ? (
-            <NavLink
-              to={{
-                pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
-                  cityTooltip.tripTiming
-                }/${cityTooltip.id}/`
-              }}
-            >
-              {cityTooltip.city}
-            </NavLink>
+            deletePrompt ? (
+              <div className="city-tooltip-nosave">
+                <span style={{ textAlign: "center" }}>
+                  Are you sure you want to delete {cityTooltip.city}?
+                </span>
+                <div>
+                  <button
+                    className="button confirm"
+                    onClick={() => deleteCitySaved(cityTooltip)}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="button deny"
+                    onClick={() => handleDelete(false)}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="city-tooltip-nosave">
+                <NavLink
+                  to={{
+                    pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
+                      cityTooltip.tripTiming
+                    }/${cityTooltip.id}/`,
+                  }}
+                >
+                  {cityTooltip.city}
+                  {deletePrompt}
+                </NavLink>
+                <span onClick={() => handleDelete(true)}>
+                  <TrashIcon />
+                </span>
+              </div>
+            )
           ) : (
             <div className="city-tooltip-nosave">
               <span>{cityTooltip.city}</span>
@@ -900,7 +963,7 @@ function CityMap(props) {
       ...viewport,
       latitude,
       longitude,
-      zoom
+      zoom,
     };
     handleViewport(newViewport);
 
@@ -1037,7 +1100,7 @@ function CityMap(props) {
             width: "100vw",
             minHeight: "calc(100% - 120px)",
             maxHeight: "calc(100%)",
-            position: "relative"
+            position: "relative",
           }}
         >
           {activeTimings[0] ? (
@@ -1046,7 +1109,7 @@ function CityMap(props) {
               radius={40}
               extent={1024}
               nodeSize={64}
-              component={cluster => (
+              component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
                   color={"rgba(203, 118, 120, 0.5)"}
@@ -1064,7 +1127,7 @@ function CityMap(props) {
               radius={40}
               extent={1024}
               nodeSize={64}
-              component={cluster => (
+              component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
                   color={"rgba(115, 167, 195, 0.5)"}
@@ -1079,7 +1142,7 @@ function CityMap(props) {
           {activeTimings[2] ? markerLiveDisplay : null}
           <Geocoder
             mapRef={mapRef}
-            onResult={e => handleOnResult(e)}
+            onResult={(e) => handleOnResult(e)}
             limit={10}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
@@ -1092,6 +1155,18 @@ function CityMap(props) {
 
           {cityTooltip ? _renderPopup() : null}
         </MapGL>
+      </div>
+      <div className="zoom-buttons">
+        <ZoomButton
+          type="+"
+          handleViewportChange={handleViewportChange}
+          currentZoom={viewport.zoom}
+        />
+        <ZoomButton
+          type="-"
+          handleViewportChange={handleViewportChange}
+          currentZoom={viewport.zoom}
+        />
       </div>
       <div className="city-map-scorecard">
         <MapScorecard
@@ -1116,7 +1191,7 @@ function CityMap(props) {
               handleContinents: handleContinents,
               handleCountries: handleCountries,
               handleClickedCity: handleTripTimingCityHelper,
-              timing: props.currentTiming
+              timing: props.currentTiming,
             }}
           />
         </div>
@@ -1132,7 +1207,7 @@ CityMap.propTypes = {
   refetch: PropTypes.func,
   clickedCityArray: PropTypes.array,
   initialTravelScore: PropTypes.number,
-  currentTiming: PropTypes.number
+  currentTiming: PropTypes.number,
 };
 
 ClusterMarker.propTypes = {
@@ -1140,7 +1215,7 @@ ClusterMarker.propTypes = {
   longitude: PropTypes.number,
   pointCount: PropTypes.number,
   color: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default CityMap;

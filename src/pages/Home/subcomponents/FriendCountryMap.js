@@ -4,7 +4,7 @@ import {
   ComposableMap,
   ZoomableGroup,
   Geographies,
-  Geography
+  Geography,
 } from "react-simple-maps";
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
@@ -15,7 +15,7 @@ import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 
-const FriendCountryMap = props => {
+const FriendCountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -25,7 +25,7 @@ const FriendCountryMap = props => {
     { name: "Oceania", coordinates: [151.2093, -20.8688] },
     { name: "Africa", coordinates: [23.3792, 6.5244] },
     { name: "South America", coordinates: [-58.3816, -20.6037] },
-    { name: "East Asia", coordinates: [121.4737, 31.2304] }
+    { name: "East Asia", coordinates: [121.4737, 31.2304] },
   ];
   const [clickedCountryArray, handleClickedCountryArray] = useState(0);
   const [countryArray, handleCountryArray] = useState([]);
@@ -39,7 +39,7 @@ const FriendCountryMap = props => {
   const [filteredTripTimingCounts, handleFilteredTripTimingCounts] = useState([
     0,
     0,
-    0
+    0,
   ]);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const FriendCountryMap = props => {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
           if (
-            !countryArray.some(country => {
+            !countryArray.some((country) => {
               return (
                 (country.countryId === data[i].Places_visited[j].countryId ||
                   country.country.toLowerCase() ===
@@ -78,7 +78,7 @@ const FriendCountryMap = props => {
               tripTiming: 0,
               avatarIndex:
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-              color: data[i].color
+              color: data[i].color,
             });
           }
         }
@@ -86,7 +86,7 @@ const FriendCountryMap = props => {
       if (data != null && data[i].Places_visiting.length !== 0) {
         for (let j = 0; j < data[i].Places_visiting.length; j++) {
           if (
-            !countryArray.some(country => {
+            !countryArray.some((country) => {
               return (
                 (country.countryId === data[i].Places_visiting[j].countryId ||
                   country.country.toLowerCase() ===
@@ -110,14 +110,14 @@ const FriendCountryMap = props => {
               tripTiming: 1,
               avatarIndex:
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-              color: data[i].color
+              color: data[i].color,
             });
           }
         }
       }
       if (data != null && data[i].Place_living !== null) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return (
               (country.countryId === data[i].Place_living.countryId ||
                 country.country.toLowerCase() ===
@@ -139,7 +139,7 @@ const FriendCountryMap = props => {
           countryId: data[i].Place_living.countryId,
           tripTiming: 2,
           avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-          color: data[i].color
+          color: data[i].color,
         });
       }
     }
@@ -155,11 +155,12 @@ const FriendCountryMap = props => {
   function handleFilter() {
     let filterParams = props.filterParams;
     let filteredCountryArray = countryArray.filter(
-      country => filterParams.username.indexOf(country.username) !== -1
+      (country) => filterParams.username.indexOf(country.username) !== -1
     );
     let uniqueFilteredCountryArray = filteredCountryArray.filter(
       (value, index, self) =>
-        self.map(country => country.countryId).indexOf(value.countryId) == index
+        self.map((country) => country.countryId).indexOf(value.countryId) ==
+        index
     );
     let pastCount = 0;
     let futureCount = 0;
@@ -212,7 +213,7 @@ const FriendCountryMap = props => {
     }
     if (isCountryIncluded) {
       let filteredTimings = countryTimingArray.filter(
-        timing => activeTimings[timing] !== false
+        (timing) => activeTimings[timing] !== false
       );
       if (filteredTimings.indexOf(2) !== -1) {
         return "country-svg live-country-fill";
@@ -236,7 +237,7 @@ const FriendCountryMap = props => {
   function handleClickedCountry(geography) {
     countryInfo(geography);
     let clickedCountryArray = countryArray.filter(
-      country =>
+      (country) =>
         country.countryId === geography.id ||
         country.country.toLowerCase() ===
           geography.properties.name.toLowerCase()
@@ -334,7 +335,7 @@ const FriendCountryMap = props => {
       </div>
       <ComposableMap
         projectionConfig={{
-          scale: 180
+          scale: 180,
         }}
       >
         <ZoomableGroup center={center} zoom={zoom}>
@@ -356,6 +357,11 @@ const FriendCountryMap = props => {
         </ZoomableGroup>
       </ComposableMap>
 
+      <div className="zoom-buttons">
+        <span onClick={() => handleChangeZoom(zoom + 0.5)}>+</span>
+        <span onClick={() => handleChangeZoom(zoom - 0.5)}>-</span>
+      </div>
+
       {activePopup ? (
         <PopupPrompt
           activePopup={activePopup}
@@ -369,7 +375,7 @@ const FriendCountryMap = props => {
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,
             capitalName: capitalName,
-            refetch: props.refetch
+            refetch: props.refetch,
           }}
         />
       ) : null}
@@ -391,7 +397,7 @@ FriendCountryMap.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
   refetch: PropTypes.func,
-  filterParams: PropTypes.object
+  filterParams: PropTypes.object,
 };
 
 export default FriendCountryMap;

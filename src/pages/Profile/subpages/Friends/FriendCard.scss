@@ -5,13 +5,14 @@
   align-content: flex-start;
   margin: 28px 20px 28px 0px;
   min-height: 200px;
+  width: calc(100% - 120px);
   .friend-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 270px;
     height: 200px;
-    margin: 0px 0px 20px 20px;
+    margin: 0px 0px 28px 20px;
     background: rgb(248, 248, 252);
     border-radius: 16px;
     box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
@@ -72,12 +73,14 @@
         margin-top: 4px;
         margin-left: 4px;
         .fc-username {
-          font-size: 20px;
+          font-size: 16px;
           font-weight: 550;
           color: #818282;
+          max-width: 150px;
+          overflow-wrap: break-word;
         }
         .fc-user-location {
-          font-size: 16px;
+          font-size: 12px;
           font-weight: 400;
           color: #b4b4b4;
         }
