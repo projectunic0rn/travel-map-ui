@@ -106,6 +106,82 @@ const fakeData = [
     title: "Copenhagen Travel Guide",
     type: "single",
   },
+  {
+    avatarIndex: 1,
+    city: "Santiago",
+    cityId: 2887,
+    color: "rgb(140, 130, 10)",
+    country: "Chile",
+    countryId: 583487,
+    days: undefined,
+    id: 5,
+    latitude: -33.45,
+    longitude: -70.6667,
+    tripTiming: 0,
+    username: "NomadicMatt",
+    year: 2020,
+    url:
+      "https://www.nomadicmatt.com/travel-guides/chile-travel-tips/",
+    title: "Chile Travel Guide",
+    type: "multi",
+  },
+  {
+    avatarIndex: 1,
+    city: "Santiago",
+    cityId: 2887,
+    color: "rgb(140, 130, 10)",
+    country: "Chile",
+    countryId: 583487,
+    days: undefined,
+    id: 5,
+    latitude: -33.45,
+    longitude: -70.6667,
+    tripTiming: 0,
+    username: "NomadicMatt",
+    year: 2019,
+    url:
+      "https://www.nomadicmatt.com/travel-blogs/24-hours-in-santiago/",
+    title: "How to Spend 24 Hours in Santiago",
+    type: "single",
+  },
+  {
+    avatarIndex: 4,
+    city: "Santiago",
+    cityId: 2887,
+    color: "rgb(10, 100, 190)",
+    country: "Chile",
+    countryId: 583487,
+    days: undefined,
+    id: 5,
+    latitude: -33.45,
+    longitude: -70.6667,
+    tripTiming: 0,
+    username: "BucketListly",
+    year: 2020,
+    url:
+      "https://www.bucketlistly.blog/posts/patagonia-2-weeks-itinerary-chile-argentina",
+    title: "2 Weeks Itinerary for Patagonia",
+    type: "multi",
+  },
+  {
+    avatarIndex: 4,
+    city: "Santiago",
+    cityId: 2887,
+    color: "rgb(10, 100, 190)",
+    country: "Chile",
+    countryId: 583487,
+    days: undefined,
+    id: 5,
+    latitude: -33.45,
+    longitude: -70.6667,
+    tripTiming: 0,
+    username: "BucketListly",
+    year: 2020,
+    url:
+      "https://www.bucketlistly.blog/posts/two-months-itinerary-argentina-chile",
+    title: "2 Months Chile and Argentina Itinerary",
+    type: "multi",
+  },
 ];
 
 function BloggerCityMap(props) {
@@ -124,18 +200,14 @@ function BloggerCityMap(props) {
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
   const [cityTooltip, handleCityTooltip] = useState(null);
-  const [filteredCityArray, handleFilteredCityArray] = useState([]);
-  const [timingState, handleTimingState] = useState(0);
   const [activePopup, handleActivePopup] = useState(false);
-  const [suggestPopup, handleSuggestedPopup] = useState(false);
-  const [importPopup, handleImportPopup] = useState(false);
-  const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
-  const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [showSideMenu, handleSideMenu] = useState(false);
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
+  const [filteredFakeData, handleFilteredFakeData] = useState(fakeData);
+  const [uniqueBloggers, handleUniqueBloggers] = useState(0);
 
   useEffect(() => {
     window.addEventListener("resize", resize);
@@ -162,21 +234,7 @@ function BloggerCityMap(props) {
     markerLiveDisplay,
   ]);
 
-  useEffectSkipFirstLocal(() => {}, [clickedCityArray]);
 
-  function useEffectSkipFirstLocal() {
-    const isFirst = useRef(true);
-    useEffect(() => {
-      if (isFirst.current) {
-        isFirst.current = false;
-        return;
-      }
-      localStorage.setItem(
-        "clickedCityArray",
-        JSON.stringify(clickedCityArray)
-      );
-    }, [clickedCityArray]);
-  }
 
   function resize() {
     handleViewportChange({
@@ -281,7 +339,6 @@ function BloggerCityMap(props) {
     let filteredCityArray = clickedCityArray;
     handleClickedCityArray(clickedCityArray);
     props.handleCities(filteredCityArray);
-    handleFilteredCityArray(filteredCityArray);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     handleLoadedMarkers(filteredCityArray);
   }
@@ -445,6 +502,7 @@ function BloggerCityMap(props) {
 
   function handleOnResult(typedCity) {
     let countryName;
+    let cityId;
     if (typedCity.result.context !== undefined) {
       for (let i in typedCity.result.context) {
         if (typedCity.result.context[i].id.slice(0, 7) === "country") {
@@ -454,6 +512,15 @@ function BloggerCityMap(props) {
     } else {
       countryName = typedCity.result.place_name;
     }
+    if (typedCity.result.properties.wikidata !== undefined) {
+      cityId = parseFloat(typedCity.result.properties.wikidata.slice(1), 10);
+    } else {
+      cityId = parseFloat(typedCity.result.id.slice(10, 16), 10);
+    }
+    let filteredData = fakeData.filter(dataCity => dataCity.cityId === cityId);
+    handleFilteredFakeData(filteredData);
+    let unique = clickedCityArray.filter(data => data.cityId === cityId);
+    handleUniqueBloggers(unique.length);
     handleCityTooltip({
       city: typedCity.result["text_en-US"],
       country: countryName,
@@ -487,6 +554,11 @@ function BloggerCityMap(props) {
 
   function clickedCity(city) {
     handleCityTooltip(city);
+    let filteredData = fakeData.filter(dataCity => dataCity.cityId === city.cityId);
+    handleFilteredFakeData(filteredData);
+    console.log(city)
+    let unique = clickedCityArray.filter(data => data.cityId === city.cityId);
+    handleUniqueBloggers(unique.length);
     handleActivePopup(true);
   }
 
@@ -695,7 +767,9 @@ function BloggerCityMap(props) {
           component={BloggerCityPopup}
           componentProps={{
             hoveredCityArray: [cityTooltip],
-            fakeData: fakeData,
+            fakeData: filteredFakeData,
+            uniqueBloggers: uniqueBloggers,
+            activeBlogger: props.activeBlogger
           }}
         />
       ) : null}
@@ -709,6 +783,7 @@ BloggerCityMap.propTypes = {
   handleLeaderboard: PropTypes.func,
   bloggerData: PropTypes.array,
   leaderboard: PropTypes.bool,
+  activeBlogger: PropTypes.number
 };
 
 export default React.memo(BloggerCityMap);

@@ -19,6 +19,9 @@ const BloggerMap = () => {
     { username: "WanderingEarl" },
     { username: "TheBlondeAbroad" },
     { username: "NeverendingFootsteps" },
+    { username: "UncorneredMarket" },
+    { username: "TheBrokeBackpacker" },
+    { username: "ThePlanetD" },
     { username: "BucketListly" }
   ]);
   const [userData, handleUserData] = useState([]);
@@ -87,68 +90,35 @@ const BloggerMap = () => {
   }
 
   function handleBloggerData(data) {
-    handleLoaded(true);
     handleLoadedCountries(data);
     handleUserData(data);
     handleFilteredUserData(data);
+    handleLoaded(true);
   }
 
   function handleLoadedCountries(data) {
-    let countryArray = [];
+    let uniqueCountryArray = [];
     for (let i in data.users) {
       let userData = data.users[i];
       if (userData != null && userData.Places_visited.length !== 0) {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
-            !countryArray.some((country) => {
+            !uniqueCountryArray.some((country) => {
               return country.countryId === userData.Places_visited[i].countryId;
             })
           ) {
-            countryArray.push({
+            uniqueCountryArray.push({
               username: userData.username,
               countryId: userData.Places_visited[i].countryId,
               country: userData.Places_visited[i].country,
-              tripTiming: 0,
+              tripTiming: 0
             });
           }
-        }
-      }
-      if (userData != null && userData.Places_visiting.length !== 0) {
-        for (let i = 0; i < userData.Places_visiting.length; i++) {
-          if (
-            !countryArray.some((country) => {
-              return (
-                country.countryId === userData.Places_visiting[i].countryId
-              );
-            })
-          ) {
-            countryArray.push({
-              username: userData.username,
-              countryId: userData.Places_visiting[i].countryId,
-              country: userData.Places_visiting[i].country,
-              tripTiming: 1,
-            });
-          }
-        }
-      }
-      if (userData != null && userData.Place_living !== null) {
-        if (
-          !countryArray.some((country) => {
-            return country.countryId === userData.Place_living.countryId;
-          })
-        ) {
-          countryArray.push({
-            username: userData.username,
-            countryId: userData.Place_living.countryId,
-            country: userData.Place_living.country,
-            tripTiming: 2,
-          });
         }
       }
     }
-    addCountry(countryArray);
+    addCountry(uniqueCountryArray);
   }
-
   return (
     <Query
       query={GET_MULTI_USER_PLACES}
@@ -160,7 +130,6 @@ const BloggerMap = () => {
       {({ loading, error, data, refetch }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
-        // handleLoadedCountries(data);
         if (!loaded) return <Loader />;
         return (
           <div className="map-container" id="new-map">
@@ -173,6 +142,7 @@ const BloggerMap = () => {
                   handleCities={handleCities}
                   handleLeaderboard={handleLeaderboard}
                   leaderboard={leaderboard}
+                  activeBlogger={activeBlogger}
                 />
               ) : (
                 <BloggerCountryMap
@@ -181,6 +151,7 @@ const BloggerMap = () => {
                   handleLeaderboard={handleLeaderboard}
                   leaderboard={leaderboard}
                   bloggerData={filteredUserData}
+                  activeBlogger={activeBlogger}
                 />
               )}
             </div>

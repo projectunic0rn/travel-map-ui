@@ -1,44 +1,22 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 import BloggerPromptNavMenu from "../BloggerPromptNavMenu";
-import BlogPostCard from "../BloggerPopup/BlogPostCard";
+import BlogCityCard from "../BloggerPopup/BlogCityCard";
 import CityIcon from "../../../icons/CityIcon";
 import PersonIcon from "../../../icons/PersonIcon";
 
-let userTripTitle = null;
-
-function BloggerCityPopup(props) {
+function BloggerCountryPopup(props) {
   const [navPosition, handleNavPosition] = useState(0);
-  const [cityName, handleCityName] = useState(null);
-  const [countryName, handleCountryName] = useState(null);
   const [cityHover, handleCityHover] = useState(true);
+  const [uniqueBloggers, handleUniqueBloggers] = useState(0);
   const [blogPosts, handleBlogPosts] = useState([]);
+  const [cityPostArray, handleCityPostArray] = useState([]);
+
   useEffect(() => {
-    if (props.customProps.hoveredCityArray.length < 1) {
-      handleCityName(props.customProps.clickedCity.result["text_en-US"]);
-      if (props.customProps.cityInfo.result.context !== undefined) {
-        for (let i in props.customProps.clickedCity.result.context) {
-          if (
-            props.customProps.clickedCity.result.context[i].id.slice(0, 7) ===
-            "country"
-          ) {
-            handleCountryName(
-              props.customProps.clickedCity.result.context[i]["text_en-US"]
-            );
-          }
-        }
-      } else {
-        handleCountryName(props.customProps.cityInfo.result.place_name);
-      }
-    } else {
-      handleCityName(props.customProps.hoveredCityArray[0].city);
-      handleCountryName(props.customProps.hoveredCityArray[0].country);
-    }
-  }, [
-    // props.customProps.clickedCity.result,
-    props.customProps.hoveredCityArray,
-  ]);
+
+  }, []);
 
   function sortYear(a, b) {
     const yearA = a.year;
@@ -52,49 +30,37 @@ function BloggerCityPopup(props) {
     }
     return comparison;
   }
+  let userTripTitle = null;
   let filteredBlogPosts = [];
   useEffect(() => {
     let filteredHoveredCityArray = [];
     let blogPostArray = [];
+    console.log(Object.entries(props.customProps.cityPostArray))
     switch (navPosition) {
       case 0:
-        filteredBlogPosts = props.customProps.fakeData
-          .sort(sortYear)
-          .map((post, i) => {
-            if (i === 0) {
-              blogPostArray.push(post);
-              return (
-                <Fragment key={i}>
-                  <BlogPostCard post={post} key={i} />
-                </Fragment>
-              );
-            } else if (
-              i !== 0 &&
-              post.type !== props.customProps.fakeData[i - 1].type
-            ) {
-              blogPostArray.push(post);
-              return (
-                <Fragment key={i}>
-                  <BlogPostCard
-                    post={post}
-                    key={i}
-                    metric={<CityIcon />}
-                    metricValue={post.days}
-                  />
-                </Fragment>
-              );
-            } else {
-              blogPostArray.push(post);
-              return (
-                <BlogPostCard
-                  post={post}
-                  key={i}
-                  metric={<CityIcon />}
-                  metricValue={post.days}
-                />
-              );
-            }
-          });
+        filteredBlogPosts = Object.entries(props.customProps.cityPostArray).map((city, i) => {
+          if (i === 0) {
+            blogPostArray.push(city[1]);
+            return (
+              <Fragment key={i}>
+                <BlogCityCard cityData={city[1]} key={i} />
+              </Fragment>
+            );
+          } else if (
+            i !== 0 &&
+            city.type !== props.customProps.fakeData[i - 1].type
+          ) {
+            blogPostArray.push(city[1]);
+            return (
+              <Fragment key={i}>
+                <BlogCityCard cityData={city[1]} key={i} />
+              </Fragment>
+            );
+          } else {
+            blogPostArray.push(city[1]);
+            return <BlogCityCard cityData={city[1]} key={i} />;
+          }
+        });
         break;
       case 1:
         filteredHoveredCityArray = props.customProps.fakeData.filter((post) => {
@@ -105,7 +71,7 @@ function BloggerCityPopup(props) {
           .sort(sortYear)
           .map((post, i) => {
             return (
-              <BlogPostCard
+              <BlogCityCard
                 post={post}
                 key={i}
                 metric={<CityIcon />}
@@ -123,7 +89,7 @@ function BloggerCityPopup(props) {
           .sort(sortYear)
           .map((post, i) => {
             return (
-              <BlogPostCard
+              <BlogCityCard
                 post={post}
                 key={i}
                 metric={<CityIcon />}
@@ -135,6 +101,7 @@ function BloggerCityPopup(props) {
       default:
         break;
     }
+    console.log(filteredBlogPosts)
     handleBlogPosts(filteredBlogPosts);
   }, [navPosition]);
 
@@ -151,27 +118,26 @@ function BloggerCityPopup(props) {
         </div>
       </div>
       <div className="clicked-country-info">
-        <div
-          className="blogger-popup-info"
-          onMouseOver={() => handleCityHover(true)}
-          onMouseOut={() => handleCityHover(false)}
-        >
-          <span className="blog-city">{cityName}</span>
-          <span className="blog-country">{countryName}</span>
+        <div className="blogger-popup-info">
+          <span className="blog-country">{props.customProps.countryName}</span>
         </div>
       </div>
       <BloggerPromptNavMenu handleNavPosition={handleNewNavPosition} />
       <div className="friend-trip-container">
         {userTripTitle}
-        {blogPosts.length > 0 ? blogPosts : <div>No blog posts linked yet</div>}
+        {blogPosts.length > 0 ? (
+          blogPosts
+        ) : (
+          <div>No cities with blog posts linked yet</div>
+        )}
       </div>
     </div>
   );
 }
 
-BloggerCityPopup.propTypes = {
+BloggerCountryPopup.propTypes = {
   customProps: PropTypes.object,
   handleTripTiming: PropTypes.func,
 };
 
-export default BloggerCityPopup;
+export default BloggerCountryPopup;
