@@ -120,8 +120,7 @@ const fakeData = [
     tripTiming: 0,
     username: "NomadicMatt",
     year: 2020,
-    url:
-      "https://www.nomadicmatt.com/travel-guides/chile-travel-tips/",
+    url: "https://www.nomadicmatt.com/travel-guides/chile-travel-tips/",
     title: "Chile Travel Guide",
     type: "multi",
   },
@@ -139,8 +138,7 @@ const fakeData = [
     tripTiming: 0,
     username: "NomadicMatt",
     year: 2019,
-    url:
-      "https://www.nomadicmatt.com/travel-blogs/24-hours-in-santiago/",
+    url: "https://www.nomadicmatt.com/travel-blogs/24-hours-in-santiago/",
     title: "How to Spend 24 Hours in Santiago",
     type: "single",
   },
@@ -193,9 +191,6 @@ function BloggerCityMap(props) {
     zoom: 1,
   });
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
-  const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
-  const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
-  const [markerRecentDisplay, handleMarkerRecentDisplay] = useState([]);
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
@@ -229,12 +224,8 @@ function BloggerCityMap(props) {
   }, [
     clickedCityArray,
     props.bloggerData,
-    markerPastDisplay,
-    markerFutureDisplay,
-    markerLiveDisplay,
+    markerPastDisplay
   ]);
-
-
 
   function resize() {
     handleViewportChange({
@@ -265,7 +256,6 @@ function BloggerCityMap(props) {
   }
 
   function handleLoadedCities(data) {
-    let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
     let clickedCityArray = [];
@@ -290,66 +280,31 @@ function BloggerCityMap(props) {
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color,
             });
-            pastCount++;
           }
         }
-      }
-      if (data != null && data[i].Places_visiting.length !== 0) {
-        for (let j = 0; j < data[i].Places_visiting.length; j++) {
-          if (data[i].Places_visiting[j].cityId !== 0) {
-            clickedCityArray.push({
-              id: data[i].Places_visiting[j].id,
-              username: data[i].username,
-              cityId: data[i].Places_visiting[j].cityId,
-              city: data[i].Places_visiting[j].city,
-              latitude: data[i].Places_visiting[j].city_latitude,
-              longitude: data[i].Places_visiting[j].city_longitude,
-              country: data[i].Places_visiting[j].country,
-              countryId: data[i].Places_visiting[j].countryId,
-              days: data[i].Places_visiting[j].days,
-              year: data[i].Places_visiting[j].year,
-              tripTiming: 1,
-              avatarIndex:
-                data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-              color: data[i].color,
-            });
-            futureCount++;
-          }
-        }
-      }
-      if (data != null && data[i].Place_living !== null) {
-        clickedCityArray.push({
-          id: data[i].Place_living.id,
-          username: data[i].username,
-          cityId: data[i].Place_living.cityId,
-          city: data[i].Place_living.city,
-          latitude: data[i].Place_living.city_latitude,
-          longitude: data[i].Place_living.city_longitude,
-          country: data[i].Place_living.country,
-          countryId: data[i].Place_living.countryId,
-          days: data[i].Place_living.days,
-          year: data[i].Place_living.year,
-          tripTiming: 2,
-          avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-          color: data[i].color,
-        });
-        liveCount++;
       }
     }
     let filteredCityArray = clickedCityArray;
     handleClickedCityArray(clickedCityArray);
     props.handleCities(filteredCityArray);
-    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    let newPastCountArray = [];
+    for (let i in clickedCityArray) {
+      if (
+        !newPastCountArray.some((city) => {
+          return city.cityId === clickedCityArray[i].cityId;
+        })
+      ) {
+        newPastCountArray.push(clickedCityArray[i]);
+      }
+    }
+    handleTripTimingCounts([newPastCountArray.length, futureCount, liveCount]);
     handleLoadedMarkers(filteredCityArray);
   }
 
   function handleLoadedMarkers(markers) {
     let markerPastDisplay = [];
-    let markerFutureDisplay = [];
-    let markerLiveDisplay = [];
     markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
-        let color = "red";
         switch (city.tripTiming) {
           case 0:
             handleActiveTimings([0, 0, 0]);
@@ -396,97 +351,7 @@ function BloggerCityMap(props) {
               </Marker>
             );
             break;
-          case 1:
-            color = "rgba(115, 167, 195, 0.25)";
-            handleActiveTimings([0, 0, 0]);
-            if (
-              markerFutureDisplay.some((marker) => {
-                return marker.props.id === city.tripTiming + "-" + city.cityId;
-              })
-            ) {
-              break;
-            }
-            markerFutureDisplay.push(
-              <Marker
-                key={city.id}
-                id={city.tripTiming + "-" + city.cityId}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(115, 167, 195, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
 
-            break;
-          case 2:
-            color = "rgba(150, 177, 168, 0.25)";
-            handleActiveTimings([0, 0, 0]);
-            if (
-              markerLiveDisplay.some((marker) => {
-                return marker.props.id === city.tripTiming + "-" + city.cityId;
-              })
-            ) {
-              break;
-            }
-            markerLiveDisplay.push(
-              <Marker
-                key={city.id}
-                id={city.tripTiming + "-" + city.cityId}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(150, 177, 168, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-            break;
           default:
             break;
         }
@@ -494,8 +359,7 @@ function BloggerCityMap(props) {
       return null;
     });
     handleMarkerPastDisplay(markerPastDisplay);
-    handleMarkerFutureDisplay(markerFutureDisplay);
-    handleMarkerLiveDisplay(markerLiveDisplay);
+
     handleLoaded(false);
     handleActiveTimings([1, 1, 1]);
   }
@@ -517,15 +381,17 @@ function BloggerCityMap(props) {
     } else {
       cityId = parseFloat(typedCity.result.id.slice(10, 16), 10);
     }
-    let filteredData = fakeData.filter(dataCity => dataCity.cityId === cityId);
+    let filteredData = fakeData.filter(
+      (dataCity) => dataCity.cityId === cityId
+    );
     handleFilteredFakeData(filteredData);
-    let unique = clickedCityArray.filter(data => data.cityId === cityId);
+    let unique = clickedCityArray.filter((data) => data.cityId === cityId);
     handleUniqueBloggers(unique.length);
     handleCityTooltip({
       city: typedCity.result["text_en-US"],
       country: countryName,
       latitude: typedCity.result.center[1],
-      longitude: typedCity.result.center[0]
+      longitude: typedCity.result.center[0],
     });
     handleActivePopup(true);
   }
@@ -554,10 +420,11 @@ function BloggerCityMap(props) {
 
   function clickedCity(city) {
     handleCityTooltip(city);
-    let filteredData = fakeData.filter(dataCity => dataCity.cityId === city.cityId);
+    let filteredData = fakeData.filter(
+      (dataCity) => dataCity.cityId === city.cityId
+    );
     handleFilteredFakeData(filteredData);
-    console.log(city)
-    let unique = clickedCityArray.filter(data => data.cityId === city.cityId);
+    let unique = clickedCityArray.filter((data) => data.cityId === city.cityId);
     handleUniqueBloggers(unique.length);
     handleActivePopup(true);
   }
@@ -717,26 +584,7 @@ function BloggerCityMap(props) {
               {markerPastDisplay}
             </Cluster>
           ) : null}
-          {activeTimings[1] ? (
-            <Cluster
-              ref={clusterFuture}
-              radius={40}
-              extent={1024}
-              nodeSize={64}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(115, 167, 195, 0.5)"}
-                  {...cluster}
-                  type={1}
-                />
-              )}
-            >
-              {markerFutureDisplay}
-            </Cluster>
-          ) : null}
-          {activeTimings[2] ? markerLiveDisplay : null}
-          {markerRecentDisplay}
+
           {_renderPopup()}
         </MapGL>
       </div>
@@ -769,7 +617,7 @@ function BloggerCityMap(props) {
             hoveredCityArray: [cityTooltip],
             fakeData: filteredFakeData,
             uniqueBloggers: uniqueBloggers,
-            activeBlogger: props.activeBlogger
+            activeBlogger: props.activeBlogger,
           }}
         />
       ) : null}
@@ -783,7 +631,8 @@ BloggerCityMap.propTypes = {
   handleLeaderboard: PropTypes.func,
   bloggerData: PropTypes.array,
   leaderboard: PropTypes.bool,
-  activeBlogger: PropTypes.number
+  activeBlogger: PropTypes.number,
+  handleCities: PropTypes.func,
 };
 
 export default React.memo(BloggerCityMap);

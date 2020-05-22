@@ -162,7 +162,7 @@ function BloggerCityPopup(props) {
       </div>
       <BloggerPromptNavMenu handleNavPosition={handleNewNavPosition} />
       <div className="friend-trip-container">
-        {userTripTitle}
+        {navPosition !== 0 ? userTripTitle : null}
         {blogPosts.length > 0 ? blogPosts : <div>No blog posts linked yet</div>}
       </div>
     </div>

@@ -94,6 +94,10 @@
   left: calc(50% - 150px);
   bottom: 0px;
   margin-right: 8px;
+  @media screen and (min-width: 1200px) {
+    left: calc(100% - 320px);
+    bottom: calc(50% - 200px);
+  }
   .bloggers {
     display: flex;
     flex-direction: column;
@@ -190,6 +194,17 @@
     @media screen and (min-width: 1000px) {
       width: 540px;
     }
+    .utc-user-info-container {
+      align-items: center;
+      .utc-blogger-name {
+        width: 100%;
+        padding-left: 23px;
+        display: flex;
+      }
+      .bpc-post-title {
+        display: flex;
+      }
+    }
   }
   .clicked-country-header {
     display: flex;
@@ -270,6 +285,35 @@
     font-weight: 550;
     svg {
       fill: #dcdcdc;
+    }
+  }
+}
+.bcc-post-title {
+  color: #818282;
+  font-size: 14px;
+  font-weight: 550;
+  width: 160px;
+  max-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 4px;
+}
+
+.bcc-data-container {
+  min-width: 80px;
+  .bcc-city-posts {
+    font-size: 18px;
+    font-weight: 550;
+    color: rgb(120, 120, 120);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 12px;
+    svg {
+      fill: rgb(180, 180, 180);
+      margin-left: 4px;
+      transform: translate(2px 4px);
     }
   }
 }

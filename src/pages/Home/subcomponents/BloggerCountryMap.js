@@ -123,8 +123,7 @@ const fakeData = [
     tripTiming: 0,
     username: "NomadicMatt",
     year: 2020,
-    url:
-      "https://www.nomadicmatt.com/travel-guides/chile-travel-tips/",
+    url: "https://www.nomadicmatt.com/travel-guides/chile-travel-tips/",
     title: "Chile Travel Guide",
     type: "multi",
   },
@@ -142,8 +141,7 @@ const fakeData = [
     tripTiming: 0,
     username: "NomadicMatt",
     year: 2019,
-    url:
-      "https://www.nomadicmatt.com/travel-blogs/24-hours-in-santiago/",
+    url: "https://www.nomadicmatt.com/travel-blogs/24-hours-in-santiago/",
     title: "How to Spend 24 Hours in Santiago",
     type: "single",
   },
@@ -183,7 +181,7 @@ const fakeData = [
     url:
       "https://www.bucketlistly.blog/posts/two-months-itinerary-argentina-chile",
     title: "2 Months Chile and Argentina Itinerary",
-    type: "multi",
+    type: "single",
   },
   {
     avatarIndex: 2,
@@ -199,8 +197,7 @@ const fakeData = [
     tripTiming: 0,
     username: "UncorneredMarket",
     year: 2019,
-    url:
-      "https://uncorneredmarket.com/torres-del-paine-trek-lessons-photos/",
+    url: "https://uncorneredmarket.com/torres-del-paine-trek-lessons-photos/",
     title: "Torres del Paine Trek: 6 Days, 6 Lessons, Many Photos",
     type: "single",
   },
@@ -232,20 +229,34 @@ const BloggerCountryMap = (props) => {
     let pastCountryArray = [];
     let futureCountryArray = [];
     let liveCountryArray = [];
+
     for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].tripTiming === 0 && pastCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1) {
+      if (
+        clickedCountryArray[i].tripTiming === 0 &&
+        pastCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1
+      ) {
         pastCountryArray.push(clickedCountryArray[i].countryId);
-      } else if (clickedCountryArray[i].tripTiming === 1 && futureCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1) {
+      } else if (
+        clickedCountryArray[i].tripTiming === 1 &&
+        futureCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1
+      ) {
         futureCountryArray.push(clickedCountryArray[i].countryId);
-      } else if (clickedCountryArray[i].tripTiming === 2 && liveCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1) {
+      } else if (
+        clickedCountryArray[i].tripTiming === 2 &&
+        liveCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1
+      ) {
         liveCountryArray.push(clickedCountryArray[i].countryId);
       }
     }
-    handleTripTiming([pastCountryArray.length, futureCountryArray.length, liveCountryArray.length]);
+    handleTripTiming([
+      pastCountryArray.length,
+      futureCountryArray.length,
+      liveCountryArray.length,
+    ]);
   }, [clickedCountryArray]);
 
   useEffect(() => {
-    addCountry(props.clickedCountryArray)
+    addCountry(props.clickedCountryArray);
   }, [props.bloggerData]);
 
   function handleContinentClick(evt) {
@@ -382,13 +393,12 @@ const BloggerCountryMap = (props) => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    console.log(geography)
-    let filteredData = fakeData.filter(dataCity => dataCity.country === geography.properties.name);
-    handleFilteredFakeData(filteredData);
-    const groupedCities = _.groupBy(
-      filteredData,
-      (post) => post.cityId
+    console.log(geography);
+    let filteredData = fakeData.filter(
+      (dataCity) => dataCity.country === geography.properties.name
     );
+    handleFilteredFakeData(filteredData);
+    const groupedCities = _.groupBy(filteredData, (post) => post.cityId);
     console.log(groupedCities);
     handleCityPostArray(groupedCities);
     handleActivePopup(true);
@@ -547,7 +557,7 @@ const BloggerCountryMap = (props) => {
             fakeData: filteredFakeData,
             activeBlogger: props.activeBlogger,
             countryName: countryName,
-            cityPostArray: cityPostArray
+            cityPostArray: cityPostArray,
           }}
         />
       ) : null}
@@ -561,7 +571,7 @@ BloggerCountryMap.propTypes = {
   handleLeaderboard: PropTypes.func,
   leaderboard: PropTypes.bool,
   bloggerData: PropTypes.array,
-  activeBlogger: PropTypes.number
+  activeBlogger: PropTypes.number,
 };
 
 export default BloggerCountryMap;

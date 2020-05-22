@@ -1,107 +1,58 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import _ from "lodash";
 
 import BloggerPromptNavMenu from "../BloggerPromptNavMenu";
 import BlogCityCard from "../BloggerPopup/BlogCityCard";
-import CityIcon from "../../../icons/CityIcon";
-import PersonIcon from "../../../icons/PersonIcon";
 
 function BloggerCountryPopup(props) {
   const [navPosition, handleNavPosition] = useState(0);
-  const [cityHover, handleCityHover] = useState(true);
-  const [uniqueBloggers, handleUniqueBloggers] = useState(0);
   const [blogPosts, handleBlogPosts] = useState([]);
-  const [cityPostArray, handleCityPostArray] = useState([]);
 
-  useEffect(() => {
-
-  }, []);
-
-  function sortYear(a, b) {
-    const yearA = a.year;
-    const yearB = b.year;
-
-    let comparison = 0;
-    if (yearA < yearB) {
-      comparison = 1;
-    } else if (yearA > yearB) {
-      comparison = -1;
-    }
-    return comparison;
-  }
   let userTripTitle = null;
   let filteredBlogPosts = [];
   useEffect(() => {
-    let filteredHoveredCityArray = [];
-    let blogPostArray = [];
-    console.log(Object.entries(props.customProps.cityPostArray))
-    switch (navPosition) {
-      case 0:
-        filteredBlogPosts = Object.entries(props.customProps.cityPostArray).map((city, i) => {
-          if (i === 0) {
-            blogPostArray.push(city[1]);
-            return (
-              <Fragment key={i}>
-                <BlogCityCard cityData={city[1]} key={i} />
-              </Fragment>
-            );
-          } else if (
-            i !== 0 &&
-            city.type !== props.customProps.fakeData[i - 1].type
-          ) {
-            blogPostArray.push(city[1]);
-            return (
-              <Fragment key={i}>
-                <BlogCityCard cityData={city[1]} key={i} />
-              </Fragment>
-            );
-          } else {
-            blogPostArray.push(city[1]);
-            return <BlogCityCard cityData={city[1]} key={i} />;
-          }
-        });
-        break;
-      case 1:
-        filteredHoveredCityArray = props.customProps.fakeData.filter((post) => {
-          return post.type === "single";
-        });
-        userTripTitle = <div className="user-trip-title">SINGLE CITY</div>;
-        filteredBlogPosts = filteredHoveredCityArray
-          .sort(sortYear)
-          .map((post, i) => {
-            return (
+    let newBlogPostArray = [];
+
+    filteredBlogPosts = Object.entries(props.customProps.cityPostArray).map(
+      (city, i) => {
+        if (i === 0) {
+          newBlogPostArray.push(city[1]);
+          return (
+            <Fragment key={i}>
               <BlogCityCard
-                post={post}
+                cityData={city[1]}
                 key={i}
-                metric={<CityIcon />}
-                metricValue={0}
+                navPosition={navPosition}
               />
-            );
-          });
-        break;
-      case 2:
-        filteredHoveredCityArray = props.customProps.fakeData.filter((post) => {
-          return post.type === "multi";
-        });
-        userTripTitle = <div className="user-trip-title">MULTI CITY</div>;
-        filteredBlogPosts = filteredHoveredCityArray
-          .sort(sortYear)
-          .map((post, i) => {
-            return (
+            </Fragment>
+          );
+        } else if (
+          i !== 0 &&
+          city.type !== props.customProps.fakeData[i - 1].type
+        ) {
+          newBlogPostArray.push(city[1]);
+          return (
+            <Fragment key={i}>
               <BlogCityCard
-                post={post}
+                cityData={city[1]}
                 key={i}
-                metric={<CityIcon />}
-                metricValue={0}
+                navPosition={navPosition}
               />
-            );
-          });
-        break;
-      default:
-        break;
-    }
-    console.log(filteredBlogPosts)
+            </Fragment>
+          );
+        } else {
+          newBlogPostArray.push(city[1]);
+          return (
+            <BlogCityCard
+              cityData={city[1]}
+              key={i}
+              navPosition={navPosition}
+            />
+          );
+        }
+      }
+    );
+
     handleBlogPosts(filteredBlogPosts);
   }, [navPosition]);
 
@@ -111,11 +62,7 @@ function BloggerCountryPopup(props) {
   return (
     <div className="blogger-popup-container">
       <div className="clicked-country-header">
-        <div className="clicked-country-info-value">
-          {props.customProps.uniqueBloggers} /{" "}
-          {props.customProps.activeBlogger === null ? 11 : 1}
-          <PersonIcon />
-        </div>
+        <div className="clicked-country-info-value"></div>
       </div>
       <div className="clicked-country-info">
         <div className="blogger-popup-info">
@@ -124,7 +71,13 @@ function BloggerCountryPopup(props) {
       </div>
       <BloggerPromptNavMenu handleNavPosition={handleNewNavPosition} />
       <div className="friend-trip-container">
-        {userTripTitle}
+        {navPosition !== 0 ? (
+          navPosition === 2 ? (
+            <div className="user-trip-title">MULTI CITY</div>
+          ) : (
+            <div className="user-trip-title">SINGLE CITY</div>
+          )
+        ) : null}
         {blogPosts.length > 0 ? (
           blogPosts
         ) : (

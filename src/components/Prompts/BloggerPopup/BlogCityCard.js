@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import CommentaryIcon from "../../../icons/CommentaryIcon";
+import BlogPostIcon from "../../../icons/BlogPostIcon";
+import BlogPostCard from "./BlogPostCard";
 
 function BlogCityCard(props) {
   const [latestYear, handleLatestYear] = useState(null);
+  const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
+  const [clicked, handleClicked] = useState(false);
+
+  console.log(props.cityData);
   useEffect(() => {
     handleLatestYear(
       Math.max.apply(
@@ -15,23 +20,48 @@ function BlogCityCard(props) {
       )
     );
   }, []);
-  console.log(props.cityData);
-  return (
-    <a href={props.cityData[0].url} target="_blank" rel="noopener noreferrer">
-      <div className="blogger-post-card">
+  useEffect(() => {
+    let newFilteredCityData = [];
+    switch (props.navPosition) {
+      case 0:
+        handleFilteredCityData(props.cityData);
+        break;
+      case 1:
+        newFilteredCityData = props.cityData.filter((post) => {
+          return post.type === "single";
+        });
+        handleFilteredCityData(newFilteredCityData);
+        break;
+      case 2:
+        newFilteredCityData = props.cityData.filter((post) => {
+          return post.type === "multi";
+        });
+        handleFilteredCityData(newFilteredCityData);
+        break;
+      default:
+        break;
+    }
+    handleClicked(false);
+  }, [props.navPosition]);
+  return filteredCityData.length > 0 ? (
+    <>
+      <div
+        className="blogger-post-card"
+        onClick={() => handleClicked(!clicked)}
+      >
         <div className="user-profile-image"></div>
         <div className="utc-user-info-container">
           <span
-            className="bpc-post-title"
-            style={{ "font-size": "20px", "min-height": "30px" }}
+            className="bcc-post-title"
+            style={{ fontSize: "20px", minHeight: "30px" }}
           >
             {props.cityData[0].city}
           </span>
         </div>
-        <div className="utc-user-info-container">
-          <span className="utc-duration" style={{ "flex-direction": "row" }}>
-            {props.cityData.length}
-            <CommentaryIcon />
+        <div className="bcc-data-container">
+          <span className="bcc-city-posts" style={{ flexDirection: "row" }}>
+            {filteredCityData.length}
+            <BlogPostIcon />
           </span>
         </div>
         <div
@@ -43,14 +73,18 @@ function BlogCityCard(props) {
           <p className="utc-year">{latestYear}</p>
         </div>
       </div>
-    </a>
-  );
+      {clicked
+        ? filteredCityData.map((post, i) => {
+            return <BlogPostCard post={post} key={i} />;
+          })
+        : null}
+    </>
+  ) : null;
 }
 
 BlogCityCard.propTypes = {
   cityData: PropTypes.array,
-  metricValue: PropTypes.number,
-  metric: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  navPosition: PropTypes.number,
 };
 
 export default BlogCityCard;
