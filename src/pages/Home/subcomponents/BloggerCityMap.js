@@ -14,174 +14,6 @@ import BloggerCityPopup from "../../../components/Prompts/FriendClickedCity/Blog
 import ClusterMarker from "./ClusterMarker";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
-const fakeData = [
-  {
-    avatarIndex: 4,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(100, 40, 40)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 1,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "AdventurousKate",
-    year: 2015,
-    url: "https://www.adventurouskate.com/copenhagen-in-photos/",
-    title: "Copenhagen in Photos",
-    type: "single",
-  },
-  {
-    avatarIndex: 4,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(10, 100, 190)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 2,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "BucketListly",
-    year: 2018,
-    url: "https://www.bucketlistly.blog/posts/copenhagen-10-best-things-to-do",
-    title: "One Day in Copenhagen",
-    type: "single",
-  },
-  {
-    avatarIndex: 2,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(230, 100, 100)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 3,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "NeverendingFootsteps",
-    year: 2019,
-    url: "https://www.neverendingfootsteps.com/copenhagen-in-the-rain",
-    title: "Dodging Downpours in Copenhagen",
-    type: "single",
-  },
-  {
-    avatarIndex: 2,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(230, 100, 100)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 3,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "NeverendingFootsteps",
-    year: 2017,
-    url: "https://www.neverendingfootsteps.com/august-2017-travel-summary/",
-    title: "August + September 2017: Travel Summary and Statistics",
-    type: "multi",
-  },
-  {
-    avatarIndex: 1,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(140, 130, 10)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 4,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "NomadicMatt",
-    year: 2018,
-    url:
-      "https://www.nomadicmatt.com/travel-guides/denmark-travel-tips/copenhagen/",
-    title: "Copenhagen Travel Guide",
-    type: "single",
-  },
-  {
-    avatarIndex: 1,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(140, 130, 10)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "NomadicMatt",
-    year: 2020,
-    url: "https://www.nomadicmatt.com/travel-guides/chile-travel-tips/",
-    title: "Chile Travel Guide",
-    type: "multi",
-  },
-  {
-    avatarIndex: 1,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(140, 130, 10)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "NomadicMatt",
-    year: 2019,
-    url: "https://www.nomadicmatt.com/travel-blogs/24-hours-in-santiago/",
-    title: "How to Spend 24 Hours in Santiago",
-    type: "single",
-  },
-  {
-    avatarIndex: 4,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(10, 100, 190)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "BucketListly",
-    year: 2020,
-    url:
-      "https://www.bucketlistly.blog/posts/patagonia-2-weeks-itinerary-chile-argentina",
-    title: "2 Weeks Itinerary for Patagonia",
-    type: "multi",
-  },
-  {
-    avatarIndex: 4,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(10, 100, 190)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "BucketListly",
-    year: 2020,
-    url:
-      "https://www.bucketlistly.blog/posts/two-months-itinerary-argentina-chile",
-    title: "2 Months Chile and Argentina Itinerary",
-    type: "multi",
-  },
-];
-
 function BloggerCityMap(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
@@ -201,7 +33,6 @@ function BloggerCityMap(props) {
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
-  const [filteredFakeData, handleFilteredFakeData] = useState(fakeData);
   const [uniqueBloggers, handleUniqueBloggers] = useState(0);
 
   useEffect(() => {
@@ -381,14 +212,11 @@ function BloggerCityMap(props) {
     } else {
       cityId = parseFloat(typedCity.result.id.slice(10, 16), 10);
     }
-    let filteredData = fakeData.filter(
-      (dataCity) => dataCity.cityId === cityId
-    );
-    handleFilteredFakeData(filteredData);
     let unique = clickedCityArray.filter((data) => data.cityId === cityId);
     handleUniqueBloggers(unique.length);
     handleCityTooltip({
       city: typedCity.result["text_en-US"],
+      cityId: cityId,
       country: countryName,
       latitude: typedCity.result.center[1],
       longitude: typedCity.result.center[0],
@@ -420,10 +248,6 @@ function BloggerCityMap(props) {
 
   function clickedCity(city) {
     handleCityTooltip(city);
-    let filteredData = fakeData.filter(
-      (dataCity) => dataCity.cityId === city.cityId
-    );
-    handleFilteredFakeData(filteredData);
     let unique = clickedCityArray.filter((data) => data.cityId === city.cityId);
     handleUniqueBloggers(unique.length);
     handleActivePopup(true);
@@ -615,7 +439,6 @@ function BloggerCityMap(props) {
           component={BloggerCityPopup}
           componentProps={{
             hoveredCityArray: [cityTooltip],
-            fakeData: filteredFakeData,
             uniqueBloggers: uniqueBloggers,
             activeBlogger: props.activeBlogger,
           }}

@@ -1,19 +1,39 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
+import { Query } from "react-apollo";
+import { GET_BLOG_POSTS_FROM_COUNTRY } from "../../../GraphQL";
 
 import BloggerPromptNavMenu from "../BloggerPromptNavMenu";
 import BlogCityCard from "../BloggerPopup/BlogCityCard";
+import Loader from "../../common/Loader/Loader";
 
 function BloggerCountryPopup(props) {
+  const [multiUsernames] = useState([
+    { username: "NomadicMatt" },
+    { username: "AdventurousKate" },
+    { username: "Bemytravelmuse" },
+    { username: "iameileen" },
+    { username: "WanderingEarl" },
+    { username: "TheBlondeAbroad" },
+    { username: "NeverendingFootsteps" },
+    { username: "UncorneredMarket" },
+    { username: "TheBrokeBackpacker" },
+    { username: "ThePlanetD" },
+    { username: "BucketListly" },
+  ]);
+  const [country, handleCountryname] = useState(props.customProps.countryName);
   const [navPosition, handleNavPosition] = useState(0);
+  const [blogPostCards, handleBlogPostCards] = useState([]);
   const [blogPosts, handleBlogPosts] = useState([]);
+  const [cityPostArray, handleCityPostArray] = useState([]);
 
   let userTripTitle = null;
   let filteredBlogPosts = [];
   useEffect(() => {
     let newBlogPostArray = [];
 
-    filteredBlogPosts = Object.entries(props.customProps.cityPostArray).map(
+    filteredBlogPosts = Object.entries(cityPostArray).map(
       (city, i) => {
         if (i === 0) {
           newBlogPostArray.push(city[1]);
@@ -28,7 +48,7 @@ function BloggerCountryPopup(props) {
           );
         } else if (
           i !== 0 &&
-          city.type !== props.customProps.fakeData[i - 1].type
+          city.type !== "multi"
         ) {
           newBlogPostArray.push(city[1]);
           return (
@@ -53,38 +73,84 @@ function BloggerCountryPopup(props) {
       }
     );
 
-    handleBlogPosts(filteredBlogPosts);
-  }, [navPosition]);
+    handleBlogPostCards(filteredBlogPosts);
+  }, [navPosition, blogPosts]);
 
   function handleNewNavPosition(position) {
     handleNavPosition(position);
   }
+
+  function handleBlogPostHelper(data) {
+    console.log(data);
+    let newBlogPosts = [];
+    for (let i in data) {
+      for (let j in data[i].Places_visited) {
+        let newBlogPost = {
+          username: data[i].username,
+          avatarIndex: data[i].avatarIndex,
+          color: data[i].color,
+          city: data[i].Places_visited[j].city,
+          cityId: data[i].Places_visited[j].cityId,
+          country: data[i].Places_visited[j].country,
+          countryId: data[i].Places_visited[j].countryId,
+          year: data[i].Places_visited[j].BlogPosts[0].year,
+          tripTiming: 0,
+          url: data[i].Places_visited[j].BlogPosts[0].url,
+          title: data[i].Places_visited[j].BlogPosts[0].name,
+          type: data[i].Places_visited[j].BlogPosts[0].type,
+        };
+        newBlogPosts.push(newBlogPost);
+      }
+    }
+    console.log(newBlogPosts);
+    const groupedCities = _.groupBy(newBlogPosts, (post) => post.cityId);
+    console.log(groupedCities);
+    handleCityPostArray(groupedCities);
+
+    handleBlogPosts(newBlogPosts);
+  }
   return (
-    <div className="blogger-popup-container">
-      <div className="clicked-country-header">
-        <div className="clicked-country-info-value"></div>
-      </div>
-      <div className="clicked-country-info">
-        <div className="blogger-popup-info">
-          <span className="blog-country">{props.customProps.countryName}</span>
-        </div>
-      </div>
-      <BloggerPromptNavMenu handleNavPosition={handleNewNavPosition} />
-      <div className="friend-trip-container">
-        {navPosition !== 0 ? (
-          navPosition === 2 ? (
-            <div className="user-trip-title">MULTI CITY</div>
-          ) : (
-            <div className="user-trip-title">SINGLE CITY</div>
-          )
-        ) : null}
-        {blogPosts.length > 0 ? (
-          blogPosts
-        ) : (
-          <div>No cities with blog posts linked yet</div>
-        )}
-      </div>
-    </div>
+    <Query
+      query={GET_BLOG_POSTS_FROM_COUNTRY}
+      variables={{ multiUsernames, country }}
+      notifyOnNetworkStatusChange
+      partialRefetch={true}
+      onCompleted={(data) => handleBlogPostHelper(data.getPostsFromCountry)}
+    >
+      {({ loading, error, data, refetch }) => {
+        if (loading) return <Loader />;
+        if (error) return `Error! ${error}`;
+        return (
+          <div className="blogger-popup-container">
+            <div className="clicked-country-header">
+              <div className="clicked-country-info-value"></div>
+            </div>
+            <div className="clicked-country-info">
+              <div className="blogger-popup-info">
+                <span className="blog-country">
+                  {props.customProps.countryName}
+                </span>
+              </div>
+            </div>
+            <BloggerPromptNavMenu handleNavPosition={handleNewNavPosition} />
+            <div className="friend-trip-container">
+              {navPosition !== 0 ? (
+                navPosition === 2 ? (
+                  <div className="user-trip-title">MULTI CITY</div>
+                ) : (
+                  <div className="user-trip-title">SINGLE CITY</div>
+                )
+              ) : null}
+              {blogPostCards.length > 0 ? (
+                blogPostCards
+              ) : (
+                <div>No cities with blog posts linked yet</div>
+              )}
+            </div>
+          </div>
+        );
+      }}
+    </Query>
   );
 }
 

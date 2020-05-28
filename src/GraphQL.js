@@ -143,6 +143,14 @@ export const GET_MULTI_USER_PLACES = gql`
         cityId
         city_latitude
         city_longitude
+        BlogPosts {
+          id
+          blogPlaceId
+          PlaceVisitedId
+          url
+          name
+          type
+        }
       }
       Place_living {
         id
@@ -163,6 +171,64 @@ export const GET_MULTI_USER_PLACES = gql`
         cityId
         city_latitude
         city_longitude
+      }
+    }
+  }
+`;
+
+export const GET_BLOG_POSTS_FROM_CITY = gql`
+  query getPostsFromCity($multiUsernames: [SingleUser!], $cityId: Int!) {
+    getPostsFromCity(username: $multiUsernames, cityId: $cityId) {
+      id
+      username
+      avatarIndex
+      color
+      georneyScore
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        BlogPosts {
+          id
+          blogPlaceId
+          PlaceVisitedId
+          url
+          name
+          type
+          year
+        }
+      }
+    }
+  }
+`;
+
+export const GET_BLOG_POSTS_FROM_COUNTRY = gql`
+  query getPostsFromCountry($multiUsernames: [SingleUser!], $country: String!) {
+    getPostsFromCountry(username: $multiUsernames, country: $country) {
+      id
+      username
+      avatarIndex
+      color
+      georneyScore
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        BlogPosts {
+          id
+          blogPlaceId
+          PlaceVisitedId
+          url
+          name
+          type
+          year
+        }
       }
     }
   }

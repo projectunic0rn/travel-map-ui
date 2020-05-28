@@ -9,7 +9,6 @@ function BlogCityCard(props) {
   const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
   const [clicked, handleClicked] = useState(false);
 
-  console.log(props.cityData);
   useEffect(() => {
     handleLatestYear(
       Math.max.apply(
