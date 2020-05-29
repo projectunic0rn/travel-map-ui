@@ -33,45 +33,36 @@ function BloggerCountryPopup(props) {
   useEffect(() => {
     let newBlogPostArray = [];
 
-    filteredBlogPosts = Object.entries(cityPostArray).map(
-      (city, i) => {
-        if (i === 0) {
-          newBlogPostArray.push(city[1]);
-          return (
-            <Fragment key={i}>
-              <BlogCityCard
-                cityData={city[1]}
-                key={i}
-                navPosition={navPosition}
-              />
-            </Fragment>
-          );
-        } else if (
-          i !== 0 &&
-          city.type !== "multi"
-        ) {
-          newBlogPostArray.push(city[1]);
-          return (
-            <Fragment key={i}>
-              <BlogCityCard
-                cityData={city[1]}
-                key={i}
-                navPosition={navPosition}
-              />
-            </Fragment>
-          );
-        } else {
-          newBlogPostArray.push(city[1]);
-          return (
+    filteredBlogPosts = Object.entries(cityPostArray).map((city, i) => {
+      if (i === 0) {
+        newBlogPostArray.push(city[1]);
+        return (
+          <Fragment key={i}>
             <BlogCityCard
               cityData={city[1]}
               key={i}
               navPosition={navPosition}
             />
-          );
-        }
+          </Fragment>
+        );
+      } else if (i !== 0 && city.type !== "multi") {
+        newBlogPostArray.push(city[1]);
+        return (
+          <Fragment key={i}>
+            <BlogCityCard
+              cityData={city[1]}
+              key={i}
+              navPosition={navPosition}
+            />
+          </Fragment>
+        );
+      } else {
+        newBlogPostArray.push(city[1]);
+        return (
+          <BlogCityCard cityData={city[1]} key={i} navPosition={navPosition} />
+        );
       }
-    );
+    });
 
     handleBlogPostCards(filteredBlogPosts);
   }, [navPosition, blogPosts]);
@@ -81,30 +72,29 @@ function BloggerCountryPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
-    console.log(data);
     let newBlogPosts = [];
     for (let i in data) {
       for (let j in data[i].Places_visited) {
-        let newBlogPost = {
-          username: data[i].username,
-          avatarIndex: data[i].avatarIndex,
-          color: data[i].color,
-          city: data[i].Places_visited[j].city,
-          cityId: data[i].Places_visited[j].cityId,
-          country: data[i].Places_visited[j].country,
-          countryId: data[i].Places_visited[j].countryId,
-          year: data[i].Places_visited[j].BlogPosts[0].year,
-          tripTiming: 0,
-          url: data[i].Places_visited[j].BlogPosts[0].url,
-          title: data[i].Places_visited[j].BlogPosts[0].name,
-          type: data[i].Places_visited[j].BlogPosts[0].type,
-        };
-        newBlogPosts.push(newBlogPost);
+        for (let k in data[i].Places_visited[j].BlogPosts) {
+          let newBlogPost = {
+            username: data[i].username,
+            avatarIndex: data[i].avatarIndex,
+            color: data[i].color,
+            city: data[i].Places_visited[j].city,
+            cityId: data[i].Places_visited[j].cityId,
+            country: data[i].Places_visited[j].country,
+            countryId: data[i].Places_visited[j].countryId,
+            year: data[i].Places_visited[j].BlogPosts[k].year,
+            tripTiming: 0,
+            url: data[i].Places_visited[j].BlogPosts[k].url,
+            title: data[i].Places_visited[j].BlogPosts[k].name,
+            type: data[i].Places_visited[j].BlogPosts[k].type,
+          };
+          newBlogPosts.push(newBlogPost);
+        }
       }
     }
-    console.log(newBlogPosts);
     const groupedCities = _.groupBy(newBlogPosts, (post) => post.cityId);
-    console.log(groupedCities);
     handleCityPostArray(groupedCities);
 
     handleBlogPosts(newBlogPosts);

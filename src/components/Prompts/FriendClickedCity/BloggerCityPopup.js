@@ -32,7 +32,6 @@ function BloggerCityPopup(props) {
   const [cityHover, handleCityHover] = useState(true);
   const [blogPostCards, handleBlogPostCards] = useState([]);
   const [blogPosts, handleBlogPosts] = useState([]);
-
   useEffect(() => {
     if (props.customProps.hoveredCityArray.length < 1) {
       handleCityName(props.customProps.clickedCity.result["text_en-US"]);
@@ -162,7 +161,6 @@ function BloggerCityPopup(props) {
 
   function handleBlogPostHelper(data)  {
     let newBlogPosts = [];
-    console.log(data);
     for (let i in data) {
       for (let j in data[i].Places_visited) {
         let newBlogPost = {
@@ -184,7 +182,6 @@ function BloggerCityPopup(props) {
     }
     handleBlogPosts(newBlogPosts);
   }
-  console.log(blogPosts)
   return (
     <Query
       query={GET_BLOG_POSTS_FROM_CITY}

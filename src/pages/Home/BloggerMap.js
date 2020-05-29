@@ -90,7 +90,6 @@ const BloggerMap = () => {
   }
 
   function handleBloggerData(data) {
-    console.log(data);
     handleLoadedCountries(data);
     handleUserData(data);
     handleFilteredUserData(data);
