@@ -18,8 +18,8 @@ function BloggerCountryPopup(props) {
     { username: "TheBlondeAbroad" },
     { username: "NeverendingFootsteps" },
     { username: "UncorneredMarket" },
-    { username: "TheBrokeBackpacker" },
-    { username: "ThePlanetD" },
+    // { username: "TheBrokeBackpacker" },
+    // { username: "ThePlanetD" },
     { username: "BucketListly" },
   ]);
   const [country, handleCountryname] = useState(props.customProps.countryName);

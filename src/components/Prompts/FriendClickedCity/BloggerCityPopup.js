@@ -21,8 +21,8 @@ function BloggerCityPopup(props) {
     { username: "TheBlondeAbroad" },
     { username: "NeverendingFootsteps" },
     { username: "UncorneredMarket" },
-    { username: "TheBrokeBackpacker" },
-    { username: "ThePlanetD" },
+    // { username: "TheBrokeBackpacker" },
+    // { username: "ThePlanetD" },
     { username: "BucketListly" }
   ]);
   const [cityId, handleCityId] = useState(props.customProps.hoveredCityArray[0].cityId)

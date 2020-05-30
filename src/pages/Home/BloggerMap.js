@@ -20,8 +20,8 @@ const BloggerMap = () => {
     { username: "TheBlondeAbroad" },
     { username: "NeverendingFootsteps" },
     { username: "UncorneredMarket" },
-    { username: "TheBrokeBackpacker" },
-    { username: "ThePlanetD" },
+    // { username: "TheBrokeBackpacker" },
+    // { username: "ThePlanetD" },
     { username: "BucketListly" }
   ]);
   const [userData, handleUserData] = useState([]);
