@@ -393,13 +393,11 @@ const BloggerCountryMap = (props) => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    console.log(geography);
     let filteredData = fakeData.filter(
       (dataCity) => dataCity.country === geography.properties.name
     );
     handleFilteredFakeData(filteredData);
     const groupedCities = _.groupBy(filteredData, (post) => post.cityId);
-    console.log(groupedCities);
     handleCityPostArray(groupedCities);
     handleActivePopup(true);
   }
