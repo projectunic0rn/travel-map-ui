@@ -77,7 +77,7 @@ function PotentialFriendCard({ friend }) {
           <span>
             <CountryIcon />
           </span>
-        </span>
+      </span>
         <span>
           {cityArray.length - 1}
           <span>

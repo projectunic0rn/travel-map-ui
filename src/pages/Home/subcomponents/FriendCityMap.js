@@ -367,7 +367,6 @@ function FriendCityMap(props) {
           color: data[i].color,
         });
         liveCount++;
-        // }
       }
     }
     let filteredCityArray = clickedCityArray;

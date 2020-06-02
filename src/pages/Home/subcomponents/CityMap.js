@@ -172,18 +172,21 @@ function CityMap(props) {
   }
 
   function deleteCitySaved(cityTooltip) {
+    let placeVisitedId;
+    let placeVisitingId;
+    let placeLivingId;
     switch (cityTooltip.tripTiming) {
       case 0:
-        let placeVisitedId = cityTooltip.id;
+        placeVisitedId = cityTooltip.id;
         removePlacevisited({ variables: { placeVisitedId } });
         break;
       case 1:
-        let placeVisitingId = cityTooltip.id;
+        placeVisitingId = cityTooltip.id;
         removePlaceVisiting({ variables: { placeVisitingId } });
+        break;
       case 2:
-        let placeLivingId = cityTooltip.id;
+        placeLivingId = cityTooltip.id;
         removePlaceLiving({ variables: { placeLivingId } });
-
         break;
       default:
         break;
@@ -662,6 +665,11 @@ function CityMap(props) {
         (city) =>
           city.cityId === newCityEntry.cityId &&
           city.tripTiming === props.currentTiming
+      ) &&
+      !clickedCityArray.some(
+        (city) =>
+          city.cityId === newCityEntry.cityId &&
+          city.tripTiming === props.currentTiming
       )
     ) {
       handleTripTimingCityHelper(newCityEntry);
@@ -684,18 +692,20 @@ function CityMap(props) {
     }
 
     let previousCity = liveCity[0];
-    let popupText = previousCity.city !== "" ?
-      "You currently live in " +
-       previousCity.city +
-      ", " +
-      previousCity.countryISO +
-      ". Would you like to update this to " +
-      newCity +
-      "?" : "You currently live in " +
-      previousCity.country +
-      ". Would you like to update this to " +
-      newCity +
-      "?"
+    let popupText =
+      previousCity.city !== ""
+        ? "You currently live in " +
+          previousCity.city +
+          ", " +
+          previousCity.countryISO +
+          ". Would you like to update this to " +
+          newCity +
+          "?"
+        : "You currently live in " +
+          previousCity.country +
+          ". Would you like to update this to " +
+          newCity +
+          "?";
 
     const swalParams = {
       type: "question",

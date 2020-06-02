@@ -17,6 +17,7 @@ import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
 import NewUserMap from "./pages/Home/NewUserMap";
+import BloggerMap from "./pages/Home/BloggerMap";
 
 const Landing = lazy(() => import("./pages/Landing/Landing"));
 const MapPage = lazy(() => import("./pages/Home/MapPage"));
@@ -158,6 +159,7 @@ function App({ userAuthenticated }) {
           <>
             <Switch>
               <Route path="/new/" component={NewUserMap} />
+              <Route path="/bloggers/" component={BloggerMap} />
               <Route
                 path="/"
                 render={props => (

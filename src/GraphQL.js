@@ -126,6 +126,114 @@ export const GET_ALL_USER_COUNTRIES = gql`
   }
 `;
 
+export const GET_MULTI_USER_PLACES = gql`
+  query multiUser($multiUsernames: [SingleUser!]) {
+    multiUser(username: $multiUsernames) {
+      id
+      username
+      avatarIndex
+      color
+      georneyScore
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+        BlogPosts {
+          id
+          blogPlaceId
+          PlaceVisitedId
+          url
+          name
+          type
+        }
+      }
+      Place_living {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        city_latitude
+        city_longitude
+      }
+    }
+  }
+`;
+
+export const GET_BLOG_POSTS_FROM_CITY = gql`
+  query getPostsFromCity($multiUsernames: [SingleUser!], $cityId: Int!) {
+    getPostsFromCity(username: $multiUsernames, cityId: $cityId) {
+      id
+      username
+      avatarIndex
+      color
+      georneyScore
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        BlogPosts {
+          id
+          blogPlaceId
+          PlaceVisitedId
+          url
+          name
+          type
+          year
+        }
+      }
+    }
+  }
+`;
+
+export const GET_BLOG_POSTS_FROM_COUNTRY = gql`
+  query getPostsFromCountry($multiUsernames: [SingleUser!], $country: String!) {
+    getPostsFromCountry(username: $multiUsernames, country: $country) {
+      id
+      username
+      avatarIndex
+      color
+      georneyScore
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+        BlogPosts {
+          id
+          blogPlaceId
+          PlaceVisitedId
+          url
+          name
+          type
+          year
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ALL_FRIEND_INFO = gql`
   query {
     users {

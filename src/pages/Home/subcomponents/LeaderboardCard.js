@@ -56,6 +56,7 @@ function LeaderboardCard({ user, rank }) {
 LeaderboardCard.propTypes = {
   user: PropTypes.object,
   rank: PropTypes.number,
+  filterClick: PropTypes.bool
 };
 
 export default withRouter(LeaderboardCard);
