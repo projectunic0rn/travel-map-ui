@@ -16,7 +16,7 @@ export default function Settings({
   userData,
   handlePageRender,
   handleUserDataChange,
-  urlUsername
+  urlUsername,
 }) {
   const [friendPage] = useState(2);
   const [expanded, handleToggle] = useState(false);
@@ -44,10 +44,8 @@ export default function Settings({
         }
       >
         <a onClick={() => handleToggle(!expanded)}>
-          {expanded ? (
-            <div ></div>
-          ) : null}
-          <MenuIcon  />
+          {expanded ? <div></div> : null}
+          <MenuIcon />
         </a>
         <NavLink
           exact
@@ -88,7 +86,7 @@ export default function Settings({
               ? `/profiles/${urlUsername}/settings`
               : "/profile/settings"
           }
-          render={props => (
+          render={(props) => (
             <Basics
               {...props}
               urlUsername={urlUsername}
@@ -113,7 +111,7 @@ export default function Settings({
         />
         <Route
           path="/profile/settings/traveler"
-          render={props => (
+          render={(props) => (
             <TravelerInfo
               {...props}
               userData={userData}
@@ -131,5 +129,5 @@ Settings.propTypes = {
   handlePageRender: PropTypes.func,
   userData: PropTypes.object,
   handleUserDataChange: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
 };

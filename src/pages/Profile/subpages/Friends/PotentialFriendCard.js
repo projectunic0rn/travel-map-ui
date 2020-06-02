@@ -9,7 +9,7 @@ import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
 function PotentialFriendCard({ friend }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
-  const [showAddFriend, handleShowAddFriend] = useState(false);
+  // const [showAddFriend, handleShowAddFriend] = useState(false);
   useEffect(() => {
     let cityArray = [0];
     let countryArray = [0];
@@ -47,11 +47,14 @@ function PotentialFriendCard({ friend }) {
   return (
     <div
       className="potential-friend-card"
-      onMouseOver={() => handleShowAddFriend(true)}
+      // onMouseOver={() => handleShowAddFriend(true)}
     >
-      {showAddFriend ? (
-        <PotentialFriendAdd handleShowAddFriend={handleShowAddFriend} potentialFriend={friend} />
-      ) : null}
+      {/* {showAddFriend ? (
+        <PotentialFriendAdd
+          handleShowAddFriend={handleShowAddFriend}
+          potentialFriend={friend}
+        />
+      ) : null} */}
       <div className="pfc-user-profile">
         <UserAvatar />
       </div>
@@ -59,11 +62,16 @@ function PotentialFriendCard({ friend }) {
         <span className="pfc-username">{friend.username}</span>
         <span className="pfc-location">
           {friend.Place_living !== null
-            ? friend.Place_living.city + ", " + friend.Place_living.countryISO
+            ? friend.Place_living.city !== ""
+              ? friend.Place_living.city + ", " + friend.Place_living.countryISO
+              : friend.Place_living.country
             : null}
         </span>
       </div>
-      <div className="pfc-trip-data">
+      <div className="pfc-request-container">
+        <span className="pfc-request">Request</span>
+      </div>
+      {/* <div className="pfc-trip-data">
         <span>
           {countryArray.length - 1}
           <span>
@@ -76,13 +84,13 @@ function PotentialFriendCard({ friend }) {
             <CityIcon />
           </span>
         </span>
-      </div>
+      </div> */}
     </div>
   );
 }
 
 PotentialFriendCard.propTypes = {
-  friend: PropTypes.object
+  friend: PropTypes.object,
 };
 
 export default PotentialFriendCard;
