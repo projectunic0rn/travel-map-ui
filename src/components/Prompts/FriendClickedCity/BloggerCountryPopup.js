@@ -6,7 +6,7 @@ import { GET_BLOG_POSTS_FROM_COUNTRY } from "../../../GraphQL";
 
 import BloggerPromptNavMenu from "../BloggerPromptNavMenu";
 import BlogCityCard from "../BloggerPopup/BlogCityCard";
-import Loader from "../../common/Loader/Loader";
+import Loader from "../../common/SimpleLoader/SimpleLoader";
 
 function BloggerCountryPopup(props) {
   const [multiUsernames] = useState([
@@ -72,6 +72,7 @@ function BloggerCountryPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
+    console.log(data);
     let newBlogPosts = [];
     for (let i in data) {
       for (let j in data[i].Places_visited) {
@@ -94,8 +95,10 @@ function BloggerCountryPopup(props) {
         }
       }
     }
+    console.log(newBlogPosts);
     const groupedCities = _.groupBy(newBlogPosts, (post) => post.cityId);
     handleCityPostArray(groupedCities);
+    console.log(groupedCities);
 
     handleBlogPosts(newBlogPosts);
   }
@@ -108,7 +111,12 @@ function BloggerCountryPopup(props) {
       onCompleted={(data) => handleBlogPostHelper(data.getPostsFromCountry)}
     >
       {({ loading, error, data, refetch }) => {
-        if (loading) return <Loader />;
+        if (loading)
+          return (
+            <div className="blog-popup-loader">
+              <Loader />
+            </div>
+          );
         if (error) return `Error! ${error}`;
         return (
           <div className="blogger-popup-container">
