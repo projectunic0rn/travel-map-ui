@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 
 import BlogPostIcon from "../../../icons/BlogPostIcon";
 import BlogPostCard from "./BlogPostCard";
+import UserAvatar from "../../UserAvatar/UserAvatar";
 
-function BlogCityCard(props) {
+function BlogUserCard(props) {
   const [latestYear, handleLatestYear] = useState(null);
   const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
   const [clicked, handleClicked] = useState(false);
+  console.log(props)
   useEffect(() => {
     handleLatestYear(
       Math.max.apply(
@@ -47,13 +49,20 @@ function BlogCityCard(props) {
         className="blogger-post-card"
         onClick={() => handleClicked(!clicked)}
       >
-        <div className="user-profile-image"></div>
+        <div className="user-profile-image">
+          <UserAvatar
+            avatarIndex={
+              props.cityData[0].avatarIndex !== null ? props.cityData[0].avatarIndex : 1
+            }
+            color={props.cityData[0].color}
+          />
+        </div>
         <div className="utc-user-info-container">
           <span
             className="bcc-post-title"
             style={{ fontSize: "20px", minHeight: "30px" }}
           >
-            {props.cityData[0].city}
+            {props.cityData[0].username}
           </span>
         </div>
         <div className="bcc-data-container">
@@ -80,9 +89,9 @@ function BlogCityCard(props) {
   ) : null;
 }
 
-BlogCityCard.propTypes = {
+BlogUserCard.propTypes = {
   cityData: PropTypes.array,
   navPosition: PropTypes.number,
 };
 
-export default BlogCityCard;
+export default BlogUserCard;

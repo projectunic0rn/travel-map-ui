@@ -17,191 +17,7 @@ import MapInfoContainer from "./MapInfoContainer";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import BloggerCountryPopup from "../../../components/Prompts/FriendClickedCity/BloggerCountryPopup";
 
-const fakeData = [
-  {
-    avatarIndex: 4,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(100, 40, 40)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 1,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "AdventurousKate",
-    year: 2015,
-    url: "https://www.adventurouskate.com/copenhagen-in-photos/",
-    title: "Copenhagen in Photos",
-    type: "single",
-  },
-  {
-    avatarIndex: 4,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(10, 100, 190)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 2,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "BucketListly",
-    year: 2018,
-    url: "https://www.bucketlistly.blog/posts/copenhagen-10-best-things-to-do",
-    title: "One Day in Copenhagen",
-    type: "single",
-  },
-  {
-    avatarIndex: 2,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(230, 100, 100)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 3,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "NeverendingFootsteps",
-    year: 2019,
-    url: "https://www.neverendingfootsteps.com/copenhagen-in-the-rain",
-    title: "Dodging Downpours in Copenhagen",
-    type: "single",
-  },
-  {
-    avatarIndex: 2,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(230, 100, 100)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 3,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "NeverendingFootsteps",
-    year: 2017,
-    url: "https://www.neverendingfootsteps.com/august-2017-travel-summary/",
-    title: "August + September 2017: Travel Summary and Statistics",
-    type: "multi",
-  },
-  {
-    avatarIndex: 1,
-    city: "Copenhagen",
-    cityId: 1748,
-    color: "rgb(140, 130, 10)",
-    country: "Denmark",
-    countryId: 147792,
-    days: undefined,
-    id: 4,
-    latitude: 55.67611,
-    longitude: 12.56889,
-    tripTiming: 0,
-    username: "NomadicMatt",
-    year: 2018,
-    url:
-      "https://www.nomadicmatt.com/travel-guides/denmark-travel-tips/copenhagen/",
-    title: "Copenhagen Travel Guide",
-    type: "single",
-  },
-  {
-    avatarIndex: 1,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(140, 130, 10)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "NomadicMatt",
-    year: 2020,
-    url: "https://www.nomadicmatt.com/travel-guides/chile-travel-tips/",
-    title: "Chile Travel Guide",
-    type: "multi",
-  },
-  {
-    avatarIndex: 1,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(140, 130, 10)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "NomadicMatt",
-    year: 2019,
-    url: "https://www.nomadicmatt.com/travel-blogs/24-hours-in-santiago/",
-    title: "How to Spend 24 Hours in Santiago",
-    type: "single",
-  },
-  {
-    avatarIndex: 4,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(10, 100, 190)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "BucketListly",
-    year: 2020,
-    url:
-      "https://www.bucketlistly.blog/posts/patagonia-2-weeks-itinerary-chile-argentina",
-    title: "2 Weeks Itinerary for Patagonia",
-    type: "multi",
-  },
-  {
-    avatarIndex: 4,
-    city: "Santiago",
-    cityId: 2887,
-    color: "rgb(10, 100, 190)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -33.45,
-    longitude: -70.6667,
-    tripTiming: 0,
-    username: "BucketListly",
-    year: 2020,
-    url:
-      "https://www.bucketlistly.blog/posts/two-months-itinerary-argentina-chile",
-    title: "2 Months Chile and Argentina Itinerary",
-    type: "single",
-  },
-  {
-    avatarIndex: 2,
-    city: "Torres del Paine",
-    cityId: 200948,
-    color: "rgb(10, 10, 190)",
-    country: "Chile",
-    countryId: 583487,
-    days: undefined,
-    id: 5,
-    latitude: -51.2667,
-    longitude: -72.35,
-    tripTiming: 0,
-    username: "UncorneredMarket",
-    year: 2019,
-    url: "https://uncorneredmarket.com/torres-del-paine-trek-lessons-photos/",
-    title: "Torres del Paine Trek: 6 Days, 6 Lessons, Many Photos",
-    type: "single",
-  },
-];
+
 
 const BloggerCountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -222,7 +38,6 @@ const BloggerCountryMap = (props) => {
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
-  const [filteredFakeData, handleFilteredFakeData] = useState(fakeData);
   const [cityPostArray, handleCityPostArray] = useState([]);
 
   useEffect(() => {
@@ -393,12 +208,6 @@ const BloggerCountryMap = (props) => {
 
   function handleClickedCountry(geography) {
     countryInfo(geography);
-    let filteredData = fakeData.filter(
-      (dataCity) => dataCity.country === geography.properties.name
-    );
-    handleFilteredFakeData(filteredData);
-    const groupedCities = _.groupBy(filteredData, (post) => post.cityId);
-    handleCityPostArray(groupedCities);
     handleActivePopup(true);
   }
 
@@ -552,7 +361,6 @@ const BloggerCountryMap = (props) => {
           showPopup={handleActivePopup}
           component={BloggerCountryPopup}
           componentProps={{
-            fakeData: filteredFakeData,
             activeBlogger: props.activeBlogger,
             countryName: countryName,
             cityPostArray: cityPostArray,

@@ -52,11 +52,7 @@ function BloggerCityMap(props) {
     let oldActiveTimings = [...activeTimings];
     handleActiveTimings([0, 0, 0]);
     handleActiveTimings(oldActiveTimings);
-  }, [
-    clickedCityArray,
-    props.bloggerData,
-    markerPastDisplay
-  ]);
+  }, [clickedCityArray, props.bloggerData, markerPastDisplay]);
 
   function resize() {
     handleViewportChange({
@@ -331,6 +327,26 @@ function BloggerCityMap(props) {
                     <span id="map-change-icon" onClick={goToCountryMap}>
                       <MapChangeIcon />
                     </span>
+                  </span>
+                </div>
+                <div
+                  id={
+                    props.leaderboard
+                      ? "fc-side-leaderboard-active"
+                      : "fc-side-leaderboard"
+                  }
+                  className=" sc-controls-right blogger-controls"
+                  onClick={() => props.handleLeaderboard(!props.leaderboard)}
+                >
+                  <span className="new-map-suggest">
+                    <span
+                      onClick={() =>
+                        props.handleLeaderboard(!props.leaderboard)
+                      }
+                    >
+                      <FilterIcon />
+                    </span>
+                    <span className="sc-control-label">Filter</span>
                   </span>
                 </div>
               </div>
