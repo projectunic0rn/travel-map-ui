@@ -15,17 +15,17 @@ let userTripTitle = null;
 
 function BloggerCityPopup(props) {
   const [multiUsernames] = useState([
-    { username: "NomadicMatt" },
-    { username: "AdventurousKate" },
-    { username: "Bemytravelmuse" },
-    { username: "iameileen" },
     { username: "WanderingEarl" },
-    { username: "TheBlondeAbroad" },
-    { username: "NeverendingFootsteps" },
+    { username: "AdventurousKate" },
     { username: "UncorneredMarket" },
+    { username: "NeverendingFootsteps" },
+    { username: "NomadicMatt" },
+    { username: "TheBlondeAbroad" },
+    { username: "BucketListly" },
+    { username: "iameileen" },
+    { username: "Bemytravelmuse" },
     // { username: "TheBrokeBackpacker" },
     // { username: "ThePlanetD" },
-    { username: "BucketListly" },
   ]);
   const [cityId, handleCityId] = useState(
     props.customProps.hoveredCityArray[0].cityId
@@ -155,38 +155,42 @@ function BloggerCityPopup(props) {
 
   useEffect(() => {
     let newBlogPostArray = [];
-
-    filteredBlogPosts = Object.entries(countryPostArray).map((city, i) => {
-      if (i === 0) {
-        newBlogPostArray.push(city[1]);
-        return (
-          <Fragment key={i}>
+    filteredBlogPosts = Object.entries(countryPostArray)
+      .sort()
+      .map((city, i) => {
+        if (i === 0) {
+          newBlogPostArray.push(city[1]);
+          return (
+            <Fragment key={i}>
+              <BlogUserCard
+                cityData={city[1]}
+                key={i}
+                navPosition={navPosition}
+              />
+            </Fragment>
+          );
+        } else if (i !== 0 && city.type !== "multi") {
+          newBlogPostArray.push(city[1]);
+          return (
+            <Fragment key={i}>
+              <BlogUserCard
+                cityData={city[1]}
+                key={i}
+                navPosition={navPosition}
+              />
+            </Fragment>
+          );
+        } else {
+          newBlogPostArray.push(city[1]);
+          return (
             <BlogUserCard
               cityData={city[1]}
               key={i}
               navPosition={navPosition}
             />
-          </Fragment>
-        );
-      } else if (i !== 0 && city.type !== "multi") {
-        newBlogPostArray.push(city[1]);
-        return (
-          <Fragment key={i}>
-            <BlogUserCard
-              cityData={city[1]}
-              key={i}
-              navPosition={navPosition}
-            />
-          </Fragment>
-        );
-      } else {
-        newBlogPostArray.push(city[1]);
-        return (
-          <BlogUserCard cityData={city[1]} key={i} navPosition={navPosition} />
-        );
-      }
-    });
-
+          );
+        }
+      });
     handleBlogPostCards(filteredBlogPosts);
   }, [navPosition, blogPosts]);
 
@@ -196,11 +200,12 @@ function BloggerCityPopup(props) {
 
   function handleBlogPostHelper(data) {
     let newBlogPosts = [];
+    let newBlogPost = {};
     for (let i in data) {
       for (let j in data[i].Places_visited) {
         for (let k in data[i].Places_visited[j].BlogPosts) {
           if (data[i].Places_visited[j].BlogPosts.length >= 1) {
-            let newBlogPost = {
+            newBlogPost = {
               username: data[i].username,
               avatarIndex: data[i].avatarIndex,
               color: data[i].color,
@@ -214,14 +219,44 @@ function BloggerCityPopup(props) {
               title: data[i].Places_visited[j].BlogPosts[k].name,
               type: data[i].Places_visited[j].BlogPosts[k].type,
             };
-            newBlogPosts.push(newBlogPost);
           }
+          newBlogPosts.push(newBlogPost);
+        }
+        if (data[i].Places_visited[j].BlogPosts.length < 1) {
+          newBlogPost = {
+            username: data[i].username,
+            avatarIndex: data[i].avatarIndex,
+            color: data[i].color,
+            city: data[i].Places_visited[j].city,
+            cityId: data[i].Places_visited[j].cityId,
+            country: data[i].Places_visited[j].country,
+            countryId: data[i].Places_visited[j].countryId,
+            year: null,
+            tripTiming: 0,
+            url: null,
+            title: null,
+            type: null,
+          };
+          newBlogPosts.push(newBlogPost);
         }
       }
     }
-    const groupedCities = _.groupBy(newBlogPosts, (post) => post.username);
+    let filteredPosts = [];
+    if (props.customProps.activeBlogger !== null) {
+      filteredPosts = newBlogPosts.filter(
+        (post) =>
+          post.username ===
+          multiUsernames[props.customProps.activeBlogger].username
+      );
+    } else {
+      filteredPosts = newBlogPosts;
+    }
+    const groupedCities = _.mapValues(
+      _.groupBy(filteredPosts, (post) => post.username),
+      (v) => _.sortBy(v, (v) => v.year * -1)
+    );
     handleCountryPostArray(groupedCities);
-    handleBlogPosts(newBlogPosts);
+    handleBlogPosts(filteredPosts);
   }
   return (
     <Query
@@ -231,7 +266,7 @@ function BloggerCityPopup(props) {
       partialRefetch={true}
       onCompleted={(data) => handleBlogPostHelper(data.getPostsFromCity)}
     >
-      {({ loading, error, data, refetch }) => {
+      {({ loading, error }) => {
         if (loading)
           return (
             <div className="blog-popup-loader">

@@ -9,7 +9,6 @@ function BlogUserCard(props) {
   const [latestYear, handleLatestYear] = useState(null);
   const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
   const [clicked, handleClicked] = useState(false);
-  console.log(props)
   useEffect(() => {
     handleLatestYear(
       Math.max.apply(
@@ -52,7 +51,9 @@ function BlogUserCard(props) {
         <div className="user-profile-image">
           <UserAvatar
             avatarIndex={
-              props.cityData[0].avatarIndex !== null ? props.cityData[0].avatarIndex : 1
+              props.cityData[0].avatarIndex !== null
+                ? props.cityData[0].avatarIndex
+                : 1
             }
             color={props.cityData[0].color}
           />
@@ -67,7 +68,7 @@ function BlogUserCard(props) {
         </div>
         <div className="bcc-data-container">
           <span className="bcc-city-posts" style={{ flexDirection: "row" }}>
-            {filteredCityData.length}
+            {filteredCityData[0].title !== null ? filteredCityData.length : 0}
             <BlogPostIcon />
           </span>
         </div>
@@ -77,7 +78,7 @@ function BlogUserCard(props) {
             props.cityData[0].tripTiming
           }
         >
-          <p className="utc-year">{latestYear}</p>
+          <p className="utc-year">{latestYear !== 0 ? latestYear : ""}</p>
         </div>
       </div>
       {clicked
