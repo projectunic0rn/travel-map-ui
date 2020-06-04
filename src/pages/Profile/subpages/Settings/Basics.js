@@ -9,28 +9,28 @@ const genderOptions = [
   "male",
   "female",
   "transgender female",
-  "transgender male"
+  "transgender male",
 ];
 
 export default function Basics({
   userData,
   handleUserDataChange,
-  urlUsername
+  urlUsername,
 }) {
   const [edit, handleEdit] = useState(false);
   const [userBasics, handleUserBasicChange] = useState({});
   const [errors, setErrors] = useState({
     full_name: "",
-    phone_number: ""
+    phone_number: "",
   });
 
   useEffect(() => {
     let userBasicInfo = {
       full_name: userData.full_name,
-      email: userData.email,
       phone_number: userData.phone_number,
+      email: userData.email,
       birthday: userData.birthday,
-      gender: userData.gender
+      gender: userData.gender,
     };
     handleUserBasicChange(userBasicInfo);
   }, [userData]);
@@ -44,10 +44,15 @@ export default function Basics({
     let editState = edit;
     handleEdit(!editState);
   }
+  function handleCancelButton() {
+    let editState = edit;
+    handleEdit(!editState);
+  }
   function handleDataSave() {
     let newUserData = userData;
     newUserData.full_name = userBasics.full_name;
     newUserData.phone_number = userBasics.phone_number;
+    newUserData.email = userBasics.email;
     newUserData.gender = userBasics.gender;
     newUserData.birthday = userBasics.birthday;
     handleUserDataChange(newUserData);
@@ -57,7 +62,8 @@ export default function Basics({
     let { full_name, phone_number } = err;
     setErrors({ full_name, phone_number });
   }
-  const { full_name, phone_number, gender, birthday } = userBasics;
+
+  const { full_name, phone_number, email, gender, birthday } = userBasics;
   return (
     <div className="basics-container">
       <div className="input-container">
@@ -82,7 +88,9 @@ export default function Basics({
       {!edit ? (
         <div className="input-container">
           <span className="input-header">Phone Number</span>
-          <span className="placeholder">{!phone_number ? "none entered" : phone_number}</span>
+          <span className="placeholder">
+            {!phone_number ? "none entered" : phone_number}
+          </span>
         </div>
       ) : (
         <div className="input-container">
@@ -101,8 +109,28 @@ export default function Basics({
       )}
       {!edit ? (
         <div className="input-container">
+          <span className="input-header">Email</span>
+          <span className="placeholder">{!email ? "none entered" : email}</span>
+        </div>
+      ) : (
+        <div className="input-container">
+          <span className="input-header">Email</span>
+          <input
+            type="email"
+            id="email"
+            className="input"
+            defaultValue={email}
+            onChange={handleInput}
+          />
+          {/*errors.email && <span className="error">{errors.email}</span>*/}
+        </div>
+      )}
+      {!edit ? (
+        <div className="input-container">
           <span className="input-header">Gender</span>
-          <span className="placeholder">{gender === null ? "none selected" : gender}</span>
+          <span className="placeholder">
+            {gender === null ? "none selected" : gender}
+          </span>
         </div>
       ) : (
         <div className="input-container">
@@ -113,7 +141,7 @@ export default function Basics({
             defaultValue={userBasics.gender}
             onChange={handleInput}
           >
-            {genderOptions.map(option => {
+            {genderOptions.map((option) => {
               return (
                 <option value={option} key={option}>
                   {option}
@@ -126,7 +154,9 @@ export default function Basics({
       {!edit ? (
         <div className="input-container">
           <span className="input-header">Birthday</span>
-          <span className="placeholder">{birthday === null ? "none selected" : birthday}</span>
+          <span className="placeholder">
+            {birthday === null ? "none selected" : birthday}
+          </span>
         </div>
       ) : (
         <div className="input-container">
@@ -147,11 +177,20 @@ export default function Basics({
           onCompleted={handleDataSave}
           onInputError={onInputError}
         >
-          {mutation =>
+          {(mutation) =>
             edit ? (
-              <span className="large confirm button" onClick={mutation}>
-                Update
-              </span>
+              <div className="edit button">
+                <span className="large confirm button" onClick={mutation}>
+                  Update
+                </span>
+
+                <span
+                  className="large confirm button"
+                  onClick={handleCancelButton}
+                >
+                  Cancel
+                </span>
+              </div>
             ) : (
               <span className="large button" onClick={handleEditButton}>
                 Edit
@@ -168,5 +207,5 @@ Basics.propTypes = {
   history: PropTypes.object.isRequired,
   userData: PropTypes.object,
   handleUserDataChange: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
 };

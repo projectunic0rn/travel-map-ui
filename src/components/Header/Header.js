@@ -11,10 +11,11 @@ import { resolveFieldValueOrError } from "../../../node_modules/graphql/executio
 
 export default function Header({ userLoggedIn, avatarIndex, color }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn || window.innerWidth < 1200 ? false : true);
+  let [formIsOpen, setFormIsOpen] = useState(
+    userLoggedIn || window.innerWidth < 1200 ? false : true
+  );
 
-  function filler ({som}) {
-  }
+  function filler({ som }) {}
 
   return (
     <Fragment>
@@ -32,7 +33,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             <NavLinks
               formIsOpen={formIsOpen}
               toggleFormIsOpen={setFormIsOpen}
-              handleHamburgerClick = {filler}
+              handleHamburgerClick={filler}
             />
             <div className="nav-hamburger">
               <div
@@ -63,7 +64,11 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
         }
         onClick={() => handleHamburgerClick(!showHamburgerDropdown)}
       >
-        <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} handleHamburgerClick={handleHamburgerClick}/>
+        <NavLinks
+          formIsOpen={formIsOpen}
+          toggleFormIsOpen={setFormIsOpen}
+          handleHamburgerClick={handleHamburgerClick}
+        />
       </div>
     </Fragment>
   );
@@ -73,5 +78,5 @@ Header.propTypes = {
   userLoggedIn: PropTypes.bool,
   setUserLoggedIn: PropTypes.func,
   color: PropTypes.string,
-  avatarIndex: PropTypes.number
+  avatarIndex: PropTypes.number,
 };

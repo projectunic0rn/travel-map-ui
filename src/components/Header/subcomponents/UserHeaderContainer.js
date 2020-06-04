@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import UsernameDropdown from "./UsernameDropdown";
 import { GET_LOGGEDIN_USER } from "../../../GraphQL";
+import Gravatar from "react-gravatar";
 
 function UserHeaderContainer({ color, avatarIndex }) {
   const [dropdown, handleDropdownClick] = useState(false);
@@ -19,9 +20,7 @@ function UserHeaderContainer({ color, avatarIndex }) {
         if (loading) return null;
         if (error) return `Error! ${error}`;
         return (
-          <div
-            className="user-header-container"
-          >
+          <div className="user-header-container">
             <div className="user-link">
               <span
                 className="header-username"
@@ -37,7 +36,9 @@ function UserHeaderContainer({ color, avatarIndex }) {
                 />
               ) : null}
               <NavLink exact to="/profile/cities">
-                <UserAvatar color={color} avatarIndex={avatarIndex} />
+                {/* <UserAvatar color={color} avatarIndex={avatarIndex} /> */}
+
+                <Gravatar email={data.user.email} size={65} />
               </NavLink>
             </div>
           </div>
@@ -50,7 +51,7 @@ function UserHeaderContainer({ color, avatarIndex }) {
 UserHeaderContainer.propTypes = {
   setUserLoggedIn: PropTypes.func,
   color: PropTypes.string,
-  avatarIndex: PropTypes.number
+  avatarIndex: PropTypes.number,
 };
 
 export default UserHeaderContainer;

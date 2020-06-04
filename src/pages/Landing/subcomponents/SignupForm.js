@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Gravatar from "react-gravatar";
 
 import ValidationMutation from "../../../components/common/ValidationMutation/ValidationMutation";
 import { SIGNUP_USER } from "../../../GraphQL";
@@ -17,8 +18,8 @@ class SignupForm extends Component {
         email: "",
         password: "",
         username: "",
-        full_name: ""
-      }
+        full_name: "",
+      },
     };
   }
 
@@ -41,7 +42,11 @@ class SignupForm extends Component {
     const { errors } = this.state;
     const { handleFormSwitch } = this.props;
     return (
-      <form noValidate className="signup-form" onSubmit={(e) => e.preventDefault()}>
+      <form
+        noValidate
+        className="signup-form"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div className="field">
           {errors.username && (
             <span className="validate">{errors.username}</span>
@@ -49,7 +54,7 @@ class SignupForm extends Component {
           <input
             type="text"
             required
-            onChange={e => this.setState({ username: e.target.value })}
+            onChange={(e) => this.setState({ username: e.target.value })}
             name="username"
             id="username"
             placeholder="enter a username"
@@ -64,7 +69,7 @@ class SignupForm extends Component {
           <input
             type="text"
             required
-            onChange={e => this.setState({ fullName: e.target.value })}
+            onChange={(e) => this.setState({ fullName: e.target.value })}
             name="fullname"
             id="fullname"
             placeholder="enter your full name"
@@ -92,7 +97,7 @@ class SignupForm extends Component {
             type="password"
             data-ng-model="password"
             required
-            onChange={e => this.setState({ password: e.target.value })}
+            onChange={(e) => this.setState({ password: e.target.value })}
             name="password"
             id="password"
             placeholder="enter a password"
@@ -126,7 +131,7 @@ SignupForm.contextType = UserContext;
 SignupForm.propTypes = {
   handleFormSwitch: PropTypes.func,
   setUserLoggedIn: PropTypes.func,
-  setFormIsOpen: PropTypes.func
+  setFormIsOpen: PropTypes.func,
 };
 
 export default SignupForm;

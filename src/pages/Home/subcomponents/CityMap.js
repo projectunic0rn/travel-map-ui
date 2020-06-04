@@ -684,18 +684,20 @@ function CityMap(props) {
     }
 
     let previousCity = liveCity[0];
-    let popupText = previousCity.city !== "" ?
-      "You currently live in " +
-       previousCity.city +
-      ", " +
-      previousCity.countryISO +
-      ". Would you like to update this to " +
-      newCity +
-      "?" : "You currently live in " +
-      previousCity.country +
-      ". Would you like to update this to " +
-      newCity +
-      "?"
+    let popupText =
+      previousCity.city !== ""
+        ? "You currently live in " +
+          previousCity.city +
+          ", " +
+          previousCity.countryISO +
+          ". Would you like to update this to " +
+          newCity +
+          "?"
+        : "You currently live in " +
+          previousCity.country +
+          ". Would you like to update this to " +
+          newCity +
+          "?";
 
     const swalParams = {
       type: "question",
