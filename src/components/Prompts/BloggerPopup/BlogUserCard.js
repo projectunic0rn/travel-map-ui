@@ -60,7 +60,7 @@ function BlogUserCard(props) {
         </div>
         <div className="utc-user-info-container">
           <span
-            className="bcc-post-title"
+            className="buc-post-title"
             style={{ fontSize: "20px", minHeight: "30px" }}
           >
             {props.cityData[0].username}

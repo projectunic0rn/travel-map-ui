@@ -27,6 +27,7 @@ function BloggerCityPopup(props) {
     // { username: "TheBrokeBackpacker" },
     // { username: "ThePlanetD" },
   ]);
+  const [loaded, handleLoaded] = useState(false);
   const [cityId, handleCityId] = useState(
     props.customProps.hoveredCityArray[0].cityId
   );
@@ -199,6 +200,7 @@ function BloggerCityPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
+    console.log(data);
     let newBlogPosts = [];
     let newBlogPost = {};
     for (let i in data) {
@@ -257,17 +259,24 @@ function BloggerCityPopup(props) {
     );
     handleCountryPostArray(groupedCities);
     handleBlogPosts(filteredPosts);
+    handleLoaded(true)
   }
   return (
     <Query
       query={GET_BLOG_POSTS_FROM_CITY}
       variables={{ multiUsernames, cityId }}
       notifyOnNetworkStatusChange
-      partialRefetch={true}
+      fetchPolicy={"network-only"}
       onCompleted={(data) => handleBlogPostHelper(data.getPostsFromCity)}
     >
       {({ loading, error }) => {
         if (loading)
+          return (
+            <div className="blog-popup-loader">
+              <Loader />
+            </div>
+          );
+        if (!loaded)
           return (
             <div className="blog-popup-loader">
               <Loader />
