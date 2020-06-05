@@ -81,7 +81,7 @@ function BlogUserCard(props) {
           <p className="utc-year">{latestYear !== 0 ? latestYear : ""}</p>
         </div>
       </div>
-      {clicked
+      {clicked && filteredCityData[0].title !== null
         ? filteredCityData.map((post, i) => {
             return <BlogPostCard post={post} key={i} />;
           })

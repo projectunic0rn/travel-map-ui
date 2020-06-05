@@ -192,6 +192,11 @@ function BloggerCityPopup(props) {
           );
         }
       });
+    filteredBlogPosts.sort(
+      (a, b) =>
+        b.props.children.props.cityData[0].year -
+        a.props.children.props.cityData[0].year
+    );
     handleBlogPostCards(filteredBlogPosts);
   }, [navPosition, blogPosts]);
 
@@ -200,7 +205,6 @@ function BloggerCityPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
-    console.log(data);
     let newBlogPosts = [];
     let newBlogPost = {};
     for (let i in data) {
@@ -259,7 +263,7 @@ function BloggerCityPopup(props) {
     );
     handleCountryPostArray(groupedCities);
     handleBlogPosts(filteredPosts);
-    handleLoaded(true)
+    handleLoaded(true);
   }
   return (
     <Query
