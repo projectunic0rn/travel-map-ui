@@ -72,7 +72,6 @@ function BloggerCountryPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
-    console.log(data);
     let newBlogPosts = [];
     for (let i in data) {
       for (let j in data[i].Places_visited) {
@@ -95,11 +94,8 @@ function BloggerCountryPopup(props) {
         }
       }
     }
-    console.log(newBlogPosts);
     const groupedCities = _.groupBy(newBlogPosts, (post) => post.cityId);
     handleCityPostArray(groupedCities);
-    console.log(groupedCities);
-
     handleBlogPosts(newBlogPosts);
   }
   return (
@@ -107,10 +103,10 @@ function BloggerCountryPopup(props) {
       query={GET_BLOG_POSTS_FROM_COUNTRY}
       variables={{ multiUsernames, country }}
       notifyOnNetworkStatusChange
-      partialRefetch={true}
+      fetchPolicy={"network-only"}
       onCompleted={(data) => handleBlogPostHelper(data.getPostsFromCountry)}
     >
-      {({ loading, error, data, refetch }) => {
+      {({ loading, error }) => {
         if (loading)
           return (
             <div className="blog-popup-loader">

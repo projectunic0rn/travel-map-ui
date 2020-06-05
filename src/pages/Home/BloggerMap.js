@@ -28,7 +28,7 @@ const BloggerMap = () => {
   const [filteredUserData, handleFilteredUserData] = useState([]);
   const [clickedCountryArray, addCountry] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
-  const [leaderboard, handleLeaderboard] = useState(true);
+  const [leaderboard, handleLeaderboard] = useState(false);
   const [activeBlogger, handleActiveBlogger] = useState(null);
   const swalParams = {
     type: "info",

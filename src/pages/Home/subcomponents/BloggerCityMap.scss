@@ -311,16 +311,19 @@
     }
   }
 }
-.bcc-post-title {
+.bcc-post-title, .buc-post-title {
   color: #818282;
   font-size: 14px;
   font-weight: 550;
   width: 160px;
   max-height: 20px;
   white-space: nowrap;
+  margin-right: 4px;
+}
+
+.bcc-post-title {
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-right: 4px;
 }
 
 .bcc-data-container {
