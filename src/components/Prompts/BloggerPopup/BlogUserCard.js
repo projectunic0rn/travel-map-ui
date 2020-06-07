@@ -6,6 +6,7 @@ import BlogPostCard from "./BlogPostCard";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 
 function BlogUserCard(props) {
+  console.log(props);
   const [latestYear, handleLatestYear] = useState(null);
   const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
   const [clicked, handleClicked] = useState(false);
@@ -56,6 +57,7 @@ function BlogUserCard(props) {
                 : 1
             }
             color={props.cityData[0].color}
+            email={props.cityData[0].email}
           />
         </div>
         <div className="utc-user-info-container">

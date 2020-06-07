@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 
 function BlogPostCard(props) {
+  console.log(props)
   return (
     <a href={props.post.url} target="_blank" rel="noopener noreferrer">
       <div className="blogger-post-card">
@@ -12,6 +13,7 @@ function BlogPostCard(props) {
               props.post.avatarIndex !== null ? props.post.avatarIndex : 1
             }
             color={props.post.color}
+            email={props.post.email}
           />
         </div>
         <div className="utc-user-info-container">

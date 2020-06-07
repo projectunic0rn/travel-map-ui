@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Route, NavLink } from "react-router-dom";
 
 import MenuIcon from "../../../icons/MenuIcon";
-import BasicsIcon from "../../../icons/BasicsIcon";
+import BasicsIcon from "../../../icons/InfoIcon";
+import AvatarIcon from "../../../icons/BasicsIcon";
 import ContactIcon from "../../../icons/ContactIcon";
 import SecurityIcon from "../../../icons/SecurityIcon";
 import TravelerIcon from "../../../icons/TravelerIcon";
@@ -11,6 +12,7 @@ import Basics from "./Settings/Basics";
 import Social from "./Settings/Social";
 import Security from "./Settings/Security";
 import TravelerInfo from "./Settings/TravelerInfo";
+import AvatarGrid from '../Sidebar/AvatarGrid';
 
 export default function Settings({
   userData,
@@ -58,6 +60,16 @@ export default function Settings({
           {expanded ? "basics" : null} <BasicsIcon />
         </NavLink>
         <NavLink
+          exact
+          to={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings`
+              : "/profile/settings/avatar"
+          }
+        >
+          {expanded ? "avatar" : null} <AvatarIcon />
+        </NavLink>
+        <NavLink
           to={
             urlUsername
               ? `/profiles/${urlUsername}/settings/social`
@@ -91,6 +103,20 @@ export default function Settings({
               {...props}
               urlUsername={urlUsername}
               userData={userData}
+              handleUserDataChange={handleUserDataChange}
+            />
+          )}
+        />
+        <Route
+          path={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings/avatar`
+              : "/profile/settings/avatar"
+          }
+          render={() => (
+            <AvatarGrid
+              userData={userData}
+              urlUsername={urlUsername}
               handleUserDataChange={handleUserDataChange}
             />
           )}

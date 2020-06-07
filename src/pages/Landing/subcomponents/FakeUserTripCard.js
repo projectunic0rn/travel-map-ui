@@ -10,6 +10,7 @@ function FakeUserTripCard(props) {
           <UserAvatar
             avatarIndex={props.trip.avatarIndex !== null ? props.trip.avatarIndex : 1}
             color={props.trip.color}
+            email={props.trip.email}
           />
         </div>
         <div className="utc-user-info-container">

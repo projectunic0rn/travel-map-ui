@@ -17,6 +17,7 @@ function LeaderboardCard({ user, rank }) {
           <UserAvatar
             avatarIndex={user.avatarIndex !== null ? user.avatarIndex : 1}
             color={user.color}
+            email={user.email}
           />
         </div>
         <div className="utc-user-info-container">

@@ -77,7 +77,7 @@ function FriendCard({ friend, currentFriend }) {
       <div className="friend-card">
         <div className="fc-user-info">
           <span className="fc-user-avatar">
-            <UserAvatar avatarIndex={friend.avatarIndex} color={friend.color} />
+            <UserAvatar avatarIndex={friend.avatarIndex} color={friend.color} email={friend.email}/>
           </span>
           <div className="fc-user-details">
             <span className="fc-username">

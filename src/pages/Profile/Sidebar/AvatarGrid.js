@@ -13,16 +13,17 @@ import AvatarEight from "../../../icons/AvatarIcons/AvatarEight";
 import { UPDATE_USER_AVATAR } from "../../../GraphQL";
 
 export default function AvatarGrid(props) {
+  console.log(props);
   const color =
-    props.customProps.color !== null
-      ? props.customProps.color
+    props.userData.color !== null
+      ? props.userData.color
       : "rgb(100, 100, 100)";
   const colorArray = color
     .substring(4, color.length - 1)
     .replace(/ /g, "")
     .split(",");
   const [avatarIndex, handleAvatarIndex] = useState(
-    props.customProps.avatarIndex !== null ? props.customProps.avatarIndex : 1
+    props.avatarIndex !== null ? props.avatarIndex : 1
   );
   const [red, handleRed] = useState(colorArray[0]);
   const [green, handleGreen] = useState(colorArray[1]);
@@ -41,15 +42,12 @@ export default function AvatarGrid(props) {
   }, [red, blue, green]);
   useEffect(() => {
     let avatar = userAvatar;
-    if (avatarIndex !== props.customProps.avatarIndex) {
+    if (avatarIndex !== props.avatarIndex) {
       avatar.avatarIndex = avatarIndex;
     }
     handleAvatarChange(avatar);
-  }, [avatarIndex, props.customProps.avatarIndex]);
-  function handleAvatarSave() {
-    props.customProps.closePopup();
-    props.customProps.refetch();
-  }
+  }, [avatarIndex, props.avatarIndex]);
+
   return (
     <div className="user-avatar-grid-container">
       <span className="avatar-grid-title">Choose an avatar</span>
@@ -192,7 +190,6 @@ export default function AvatarGrid(props) {
       <Mutation
         mutation={UPDATE_USER_AVATAR}
         variables={{ userAvatar }}
-        onCompleted={handleAvatarSave}
       >
         {mutation => (
           <span className="avatar-save-button" onClick={mutation}>
@@ -205,5 +202,6 @@ export default function AvatarGrid(props) {
 }
 
 AvatarGrid.propTypes = {
-  customProps: PropTypes.object
+  avatarIndex: PropTypes.number,
+  userData: PropTypes.object
 };

@@ -24,6 +24,7 @@ function BloggerCityPopup(props) {
     { username: "BucketListly" },
     { username: "iameileen" },
     { username: "Bemytravelmuse" },
+    { username: "fake" },
     // { username: "TheBrokeBackpacker" },
     // { username: "ThePlanetD" },
   ]);
@@ -213,6 +214,7 @@ function BloggerCityPopup(props) {
           if (data[i].Places_visited[j].BlogPosts.length >= 1) {
             newBlogPost = {
               username: data[i].username,
+              email: data[i].email,
               avatarIndex: data[i].avatarIndex,
               color: data[i].color,
               city: data[i].Places_visited[j].city,
@@ -231,6 +233,7 @@ function BloggerCityPopup(props) {
         if (data[i].Places_visited[j].BlogPosts.length < 1) {
           newBlogPost = {
             username: data[i].username,
+            email: data[i].email,
             avatarIndex: data[i].avatarIndex,
             color: data[i].color,
             city: data[i].Places_visited[j].city,
@@ -271,7 +274,10 @@ function BloggerCityPopup(props) {
       variables={{ multiUsernames, cityId }}
       notifyOnNetworkStatusChange
       fetchPolicy={"network-only"}
-      onCompleted={(data) => handleBlogPostHelper(data.getPostsFromCity)}
+      onCompleted={(data) => {
+        console.log(data);
+        handleBlogPostHelper(data.getPostsFromCity);
+      }}
     >
       {({ loading, error }) => {
         if (loading)

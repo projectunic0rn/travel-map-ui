@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import Gravatar from "react-gravatar";
+
 import AvatarOne from "../../icons/AvatarIcons/AvatarOne";
 import AvatarTwo from "../../icons/AvatarIcons/AvatarTwo";
 import AvatarThree from "../../icons/AvatarIcons/AvatarThree";
@@ -10,7 +12,7 @@ import AvatarSeven from "../../icons/AvatarIcons/AvatarSeven";
 import AvatarEight from "../../icons/AvatarIcons/AvatarEight";
 import SimpleLoader from "../common/SimpleLoader/SimpleLoader";
 
-export default function UserAvatar({ color, avatarIndex }) {
+export default function UserAvatar({ color, avatarIndex, email }) {
   const [avatar, handleAvatar] = useState(<SimpleLoader />);
   useEffect(() => {
     let newAvatar = "";
@@ -40,15 +42,22 @@ export default function UserAvatar({ color, avatarIndex }) {
         newAvatar = <AvatarEight color={color} />;
         break;
       default:
-          newAvatar = <AvatarOne color='rgb(100, 100, 100)' />;
+        newAvatar = <AvatarOne color="rgb(100, 100, 100)" />;
         break;
     }
     handleAvatar(newAvatar);
   }, [avatarIndex]);
-  return <div className="user-avatar">{avatar}</div>;
+
+  return (
+    <div className="user-avatar">
+      {avatar}
+      <Gravatar email={email} default="blank" className="gravatar" />
+    </div>
+  );
 }
 
 UserAvatar.propTypes = {
   color: PropTypes.string,
-  avatarIndex: PropTypes.number
+  avatarIndex: PropTypes.number,
+  email: PropTypes.string,
 };
