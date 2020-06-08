@@ -6,7 +6,6 @@ import BlogPostCard from "./BlogPostCard";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 
 function BlogUserCard(props) {
-  console.log(props);
   const [latestYear, handleLatestYear] = useState(null);
   const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
   const [clicked, handleClicked] = useState(false);
@@ -43,7 +42,6 @@ function BlogUserCard(props) {
     }
     handleClicked(false);
   }, [props.navPosition]);
-  console.log(props)
   return filteredCityData.length > 0 ? (
     <>
       <div

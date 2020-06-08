@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 
 function BlogPostCard(props) {
-  console.log(props)
   return (
     <a href={props.post.url} target="_blank" rel="noopener noreferrer">
       <div className="blogger-post-card">

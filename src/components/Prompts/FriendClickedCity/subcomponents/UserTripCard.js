@@ -4,7 +4,6 @@ import { NavLink, withRouter } from "react-router-dom";
 import UserAvatar from "../../../UserAvatar/UserAvatar";
 
 function UserTripCard(props) {
-  console.log(props)
   return (
     <NavLink
       to={{

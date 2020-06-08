@@ -13,7 +13,6 @@ import AvatarEight from "../../../icons/AvatarIcons/AvatarEight";
 import { UPDATE_USER_AVATAR } from "../../../GraphQL";
 
 export default function AvatarGrid(props) {
-  console.log(props);
   const color =
     props.userData.color !== null ? props.userData.color : "rgb(100, 100, 100)";
   const colorArray = color

@@ -206,7 +206,6 @@ function BloggerCityPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
-    console.log(data)
     let newBlogPosts = [];
     let newBlogPost = {};
     for (let i in data) {
@@ -276,7 +275,6 @@ function BloggerCityPopup(props) {
       notifyOnNetworkStatusChange
       fetchPolicy={"network-only"}
       onCompleted={(data) => {
-        console.log(data);
         handleBlogPostHelper(data.getPostsFromCity);
       }}
     >
