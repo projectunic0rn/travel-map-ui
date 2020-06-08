@@ -43,6 +43,7 @@ function BlogUserCard(props) {
     }
     handleClicked(false);
   }, [props.navPosition]);
+  console.log(props)
   return filteredCityData.length > 0 ? (
     <>
       <div

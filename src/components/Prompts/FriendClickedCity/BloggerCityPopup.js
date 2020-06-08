@@ -206,6 +206,7 @@ function BloggerCityPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
+    console.log(data)
     let newBlogPosts = [];
     let newBlogPost = {};
     for (let i in data) {

@@ -116,7 +116,6 @@ export default function Settings({
           render={() => (
             <AvatarGrid
               userData={userData}
-              urlUsername={urlUsername}
               handleUserDataChange={handleUserDataChange}
             />
           )}
