@@ -302,8 +302,8 @@ export const GET_ALL_USER_INFO = gql`
 export const GET_ALL_FRIEND_REQUESTS = gql`
   query {
     friend_requests {
-      receiver_id
-      sender_id
+      receiverId
+      senderId
       status
     }
   }
