@@ -11,6 +11,8 @@ export default function FriendRequests({ searchText }) {
     []
   );
 
+  console.log('ello?');
+  
   useEffect(() => {
     if (searchText !== "") {
       let potentialFriends = filteredFriendsAvailable.filter((friend) => {

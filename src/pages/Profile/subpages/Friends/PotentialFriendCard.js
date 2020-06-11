@@ -6,10 +6,18 @@ import CityIcon from "../../../../icons/CityIcon";
 import PotentialFriendAdd from "./PotentialFriendAdd";
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
 
+// TODO: Should not show friend card for current user. - TW
 function PotentialFriendCard({ friend }) {
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
-  // const [showAddFriend, handleShowAddFriend] = useState(false);
+  // TODO: Needs to be updated to be conditional on pending status. - TW
+  const [showAddFriend, handleShowAddFriend] = useState(false);
+
+  const clickHandler = (e) => {
+    console.log(e);
+    handleShowAddFriend(true)
+  };
+  
   useEffect(() => {
     let cityArray = [0];
     let countryArray = [0];
@@ -49,12 +57,12 @@ function PotentialFriendCard({ friend }) {
       className="potential-friend-card"
       // onMouseOver={() => handleShowAddFriend(true)}
     >
-      {/* {showAddFriend ? (
+      {showAddFriend ? (
         <PotentialFriendAdd
           handleShowAddFriend={handleShowAddFriend}
           potentialFriend={friend}
         />
-      ) : null} */}
+      ) : null}
       <div className="pfc-user-profile">
         <UserAvatar />
       </div>
@@ -69,7 +77,7 @@ function PotentialFriendCard({ friend }) {
         </span>
       </div>
       <div className="pfc-request-container">
-        <span className="pfc-request">Request</span>
+        <span className="pfc-request" onClick={clickHandler}>Request</span>
       </div>
       {/* <div className="pfc-trip-data">
         <span>
