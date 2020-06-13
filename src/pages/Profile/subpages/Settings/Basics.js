@@ -123,7 +123,6 @@ export default function Basics({
             defaultValue={email}
             onChange={handleInput}
           />
-          {/*errors.email && <span className="error">{errors.email}</span>*/}
         </div>
       )}
       {!edit ? (

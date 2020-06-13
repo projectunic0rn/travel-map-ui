@@ -14,8 +14,6 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
     userLoggedIn || window.innerWidth < 1200 ? false : true
   );
 
-  function filler() {}
-
   return (
     <Fragment>
       <header className="header-container">
@@ -32,7 +30,6 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             <NavLinks
               formIsOpen={formIsOpen}
               toggleFormIsOpen={setFormIsOpen}
-              handleHamburgerClick={filler}
             />
             <div className="nav-hamburger">
               <div
