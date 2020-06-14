@@ -56,6 +56,7 @@ function BlogUserCard(props) {
                 : 1
             }
             color={props.cityData[0].color}
+            email={props.cityData[0].email}
           />
         </div>
         <div className="utc-user-info-container">

@@ -9,6 +9,7 @@ export const GET_USER_AVATAR = gql`
       username
       color
       avatarIndex
+      email
     }
   }
 `;
@@ -131,6 +132,7 @@ export const GET_MULTI_USER_PLACES = gql`
     multiUser(username: $multiUsernames) {
       id
       username
+      email
       avatarIndex
       color
       georneyScore
@@ -181,6 +183,7 @@ export const GET_BLOG_POSTS_FROM_CITY = gql`
     getPostsFromCity(username: $multiUsernames, cityId: $cityId) {
       id
       username
+      email
       avatarIndex
       color
       georneyScore
@@ -210,6 +213,7 @@ export const GET_BLOG_POSTS_FROM_COUNTRY = gql`
     getPostsFromCountry(username: $multiUsernames, country: $country) {
       id
       username
+      email
       avatarIndex
       color
       georneyScore
@@ -261,6 +265,7 @@ export const GET_ALL_USER_INFO = gql`
     users {
       id
       username
+      email
       full_name
       gender
       birthday

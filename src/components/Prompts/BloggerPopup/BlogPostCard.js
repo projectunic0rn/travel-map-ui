@@ -12,6 +12,7 @@ function BlogPostCard(props) {
               props.post.avatarIndex !== null ? props.post.avatarIndex : 1
             }
             color={props.post.color}
+            email={props.post.email}
           />
         </div>
         <div className="utc-user-info-container">
