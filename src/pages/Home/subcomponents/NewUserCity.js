@@ -1099,9 +1099,9 @@ function NewUserCity(props) {
       <div className="new-user-timing-control">
         Enter the
         <select onChange={(e) => handleTimingChange(e.target.value)}>
-          <option value={0}>cities you have visited</option>
-          <option value={1}>cities you want to visit</option>
-          <option value={2}>city you live in</option>
+          <option value={0}>cities you have visited &emsp;</option>
+          <option value={1}>cities you want to visit &emsp;</option>
+          <option value={2}>city you live in &emsp;</option>
         </select>
       </div>
       {activePopup ? (

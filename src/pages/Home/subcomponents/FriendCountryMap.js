@@ -69,6 +69,7 @@ const FriendCountryMap = (props) => {
             countryArray.push({
               id: data[i].Places_visited[j].id,
               username: data[i].username,
+              email: data[i].email,
               cityId: data[i].Places_visited[j].cityId,
               city: data[i].Places_visited[j].city,
               latitude: data[i].Places_visited[j].city_latitude,
@@ -101,6 +102,7 @@ const FriendCountryMap = (props) => {
             countryArray.push({
               id: data[i].Places_visiting[j].id,
               username: data[i].username,
+              email: data[i].email,
               cityId: data[i].Places_visiting[j].cityId,
               city: data[i].Places_visiting[j].city,
               latitude: data[i].Places_visiting[j].city_latitude,
@@ -131,6 +133,7 @@ const FriendCountryMap = (props) => {
         countryArray.push({
           id: data[i].Place_living.id,
           username: data[i].username,
+          email: data[i].email,
           cityId: data[i].Place_living.cityId,
           city: data[i].Place_living.city,
           latitude: data[i].Place_living.city_latitude,

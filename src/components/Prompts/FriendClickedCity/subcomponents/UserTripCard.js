@@ -28,7 +28,7 @@ function UserTripCard(props) {
         <div className="utc-user-info-container">
           <span className="utc-username">{props.trip.username}</span>
           <span className="utc-duration">
-            {props.metricValue} {props.metric}
+            {/* {props.metricValue} {props.metric} */}
           </span>
         </div>
         <div

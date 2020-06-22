@@ -84,6 +84,7 @@ const FriendMapPage = () => {
   }
 
   function handleTripDataHelper(data) {
+    console.log(data);
     handleTripData(data);
     handleLoaded(true);
   }
