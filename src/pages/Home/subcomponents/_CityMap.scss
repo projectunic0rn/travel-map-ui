@@ -569,9 +569,10 @@
     font-size: 20px;
     position: absolute;
     top: 16px;
-    right: 80px;
+    right: 60px;
     background: none;
     cursor: pointer;
+    pointer-events: none;
     -webkit-transition: .25s all ease;
     -o-transition: .25s all ease;
     transition: .25s all ease;

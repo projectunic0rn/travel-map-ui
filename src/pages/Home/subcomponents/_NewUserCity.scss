@@ -87,6 +87,7 @@
     right: 80px;
     background: none;
     cursor: pointer;
+    pointer-events: none;
     -webkit-transition: .25s all ease;
     -o-transition: .25s all ease;
     transition: .25s all ease;
@@ -371,6 +372,9 @@
     transform: none;
     @media (max-height: 900px) {
       top: 0px;
+    }
+    @media (min-height: "900px") {
+      top:0;
     }
   }
   .georney-score {
