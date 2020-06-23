@@ -89,8 +89,7 @@ function App({ userAuthenticated }) {
             notifyOnNetworkStatusChange
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
-            onCompleted={(data) => {
-              console.log(data)
+            onCompleted={() => {
               handleLoaded(true);
             }}
           >

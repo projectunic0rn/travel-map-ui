@@ -49,7 +49,6 @@ function FriendCityMap(props) {
   const clusterPast = useRef();
   const clusterFuture = useRef();
   const clusterLive = useRef();
-  console.log(hoveredCityArray)
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
