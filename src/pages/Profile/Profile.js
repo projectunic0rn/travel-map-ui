@@ -178,7 +178,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                 searchBar={page === "settings" ? false : true}
                 urlUsername={urlUsername}
               />
-              <Route
+              {/* <Route
                 exact
                 path={
                   urlUsername
@@ -214,7 +214,7 @@ export default function Profile({ user, urlUsername, refetch }) {
                     userId={user.id}
                   />
                 )}
-              />
+              /> */}
               <Route
                 exact
                 path={

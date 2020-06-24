@@ -74,13 +74,13 @@
 .user-trip-card, .friend-card {
   .gravatar {
     position: absolute;
-    width: 56px;
-    height: 56px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
   }
   .avatar-icon {
-    width: 56px;
-    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
   }
 }
 .pfc-user-profile {

@@ -310,6 +310,7 @@ function FriendCityMap(props) {
             clickedCityArray.push({
               id: data[i].Places_visited[j].id,
               username: data[i].username,
+              email: data[i].email,
               cityId: data[i].Places_visited[j].cityId,
               city: data[i].Places_visited[j].city,
               latitude: data[i].Places_visited[j].city_latitude,

@@ -79,6 +79,22 @@
       color: rgb(74, 89, 90);
     }
   }
+  &::after {
+    content: '\25BC';
+    font-size: 20px;
+    position: absolute;
+    top: 16px;
+    right: 80px;
+    background: none;
+    cursor: pointer;
+    pointer-events: none;
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+  }
+  &:hover::after {
+    color: #769f93;
+  }
 }
 
 .city-new-map-container {
@@ -356,6 +372,9 @@
     transform: none;
     @media (max-height: 900px) {
       top: 0px;
+    }
+    @media (min-height: "900px") {
+      top:0;
     }
   }
   .georney-score {
