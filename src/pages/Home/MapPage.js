@@ -186,13 +186,13 @@ const MapPage = ({
         Enter the 
         <select onChange={e => handleTimingChange(Number(e.target.value))}>
           <option id="select-past" value={0}>
-            {mapPage ? "cities" : "countries"} you have visited
+            {mapPage ? "cities" : "countries"} you have visited &emsp;
           </option>
           <option id="select-future" value={1}>
-            {mapPage ? "cities" : "countries"} you want to visit
+            {mapPage ? "cities" : "countries"} you want to visit &emsp;
           </option>
           <option id="select-live" value={2}>
-            {mapPage ? "city" : "country"} you live in
+            {mapPage ? "city" : "country"} you live in &emsp;
           </option>
         </select>
       </div>

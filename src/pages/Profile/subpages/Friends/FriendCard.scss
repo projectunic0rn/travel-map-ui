@@ -45,7 +45,7 @@
       .fc-georney-score {
         position: absolute;
         top: -30px;
-        left: calc(50% + 12px);
+        left: calc(50% + 24px);
         width: 200px;
         display: flex;
         flex-direction: column;
@@ -76,7 +76,7 @@
           font-size: 16px;
           font-weight: 550;
           color: #818282;
-          max-width: 150px;
+          max-width: 160px;
           overflow-wrap: break-word;
         }
         .fc-user-location {

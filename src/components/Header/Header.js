@@ -7,14 +7,12 @@ import SiteLogo from "./subcomponents/SiteLogo";
 import SiteText from "../../icons/SiteText";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
-import { resolveFieldValueOrError } from "../../../node_modules/graphql/execution/execute";
 
 export default function Header({ userLoggedIn, avatarIndex, color }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(userLoggedIn || window.innerWidth < 1200 ? false : true);
-
-  function filler ({som}) {
-  }
+  let [formIsOpen, setFormIsOpen] = useState(
+    userLoggedIn || window.innerWidth < 1200 ? false : true
+  );
 
   return (
     <Fragment>
@@ -32,7 +30,6 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
             <NavLinks
               formIsOpen={formIsOpen}
               toggleFormIsOpen={setFormIsOpen}
-              handleHamburgerClick = {filler}
             />
             <div className="nav-hamburger">
               <div
@@ -63,7 +60,11 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
         }
         onClick={() => handleHamburgerClick(!showHamburgerDropdown)}
       >
-        <NavLinks formIsOpen={formIsOpen} toggleFormIsOpen={setFormIsOpen} handleHamburgerClick={handleHamburgerClick}/>
+        <NavLinks
+          formIsOpen={formIsOpen}
+          toggleFormIsOpen={setFormIsOpen}
+          handleHamburgerClick={handleHamburgerClick}
+        />
       </div>
     </Fragment>
   );
@@ -73,5 +74,5 @@ Header.propTypes = {
   userLoggedIn: PropTypes.bool,
   setUserLoggedIn: PropTypes.func,
   color: PropTypes.string,
-  avatarIndex: PropTypes.number
+  avatarIndex: PropTypes.number,
 };

@@ -28,7 +28,6 @@ exports[`Header should render correctly in when the user is logged in 1`] = `
       >
         <NavLinks
           formIsOpen={false}
-          handleHamburgerClick={[Function]}
           toggleFormIsOpen={[Function]}
         />
         <div
@@ -95,7 +94,6 @@ exports[`Header should render correctly in when the user is logged out 1`] = `
       >
         <NavLinks
           formIsOpen={false}
-          handleHamburgerClick={[Function]}
           toggleFormIsOpen={[Function]}
         />
         <div

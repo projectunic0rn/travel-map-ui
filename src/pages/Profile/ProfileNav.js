@@ -13,11 +13,11 @@ function ProfileNav({ handleSearchText, urlUsername, searchText }) {
   return (
     <div className="content-nav">
       <div className="profile-nav-links">
-        <NavLink
+        {/* <NavLink
           to={urlUsername ? `/profiles/${urlUsername}/trips` : "/profile/trips"}
         >
           trips
-        </NavLink>
+        </NavLink> */}
         <NavLink
           to={
             urlUsername ? `/profiles/${urlUsername}/cities` : "/profile/cities"

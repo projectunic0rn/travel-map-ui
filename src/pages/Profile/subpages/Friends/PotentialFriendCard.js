@@ -64,7 +64,7 @@ function PotentialFriendCard({ friend }) {
         />
       ) : null}
       <div className="pfc-user-profile">
-        <UserAvatar />
+        <UserAvatar email={friend.email} avatarIndex={friend.avatarIndex} color={friend.color}/>
       </div>
       <div className="pfc-user-info-container">
         <span className="pfc-username">{friend.username}</span>

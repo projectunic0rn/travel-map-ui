@@ -20,7 +20,7 @@ const BloggerMap = () => {
     { username: "TheBlondeAbroad" },
     { username: "NeverendingFootsteps" },
     { username: "UncorneredMarket" },
-    // { username: "TheBrokeBackpacker" },
+    { username: "TheBrokeBackpacker" },
     // { username: "ThePlanetD" },
     { username: "BucketListly" }
   ]);

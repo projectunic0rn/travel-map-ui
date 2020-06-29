@@ -30,6 +30,7 @@ function FriendClickedCountryContainer(props) {
       userTripArray.push({
         country: clickedCountryArray[i].country,
         username: clickedCountryArray[i].username,
+        email: clickedCountryArray[i].email,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 1,
         avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
@@ -55,6 +56,7 @@ function FriendClickedCountryContainer(props) {
       userTripArray.push({
         country: clickedCountryArray[i].country,
         username: clickedCountryArray[i].username,
+        email: clickedCountryArray[i].email,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 0,
         avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
@@ -64,6 +66,7 @@ function FriendClickedCountryContainer(props) {
       userTripArray.push({
         country: clickedCountryArray[i].country,
         username: clickedCountryArray[i].username,
+        email: clickedCountryArray[i].email,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 1,
         avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
@@ -74,6 +77,7 @@ function FriendClickedCountryContainer(props) {
   let filteredCountryArray = [];
   let friendTrips = null;
   let userTripTitle = null;
+
   switch (navPosition) {
     case 0:
       friendTrips = userTripArray.map((country, i) => {

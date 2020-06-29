@@ -19,9 +19,7 @@ function UserHeaderContainer({ color, avatarIndex }) {
         if (loading) return null;
         if (error) return `Error! ${error}`;
         return (
-          <div
-            className="user-header-container"
-          >
+          <div className="user-header-container">
             <div className="user-link">
               <span
                 className="header-username"
@@ -37,7 +35,11 @@ function UserHeaderContainer({ color, avatarIndex }) {
                 />
               ) : null}
               <NavLink exact to="/profile/cities">
-                <UserAvatar color={color} avatarIndex={avatarIndex} />
+                <UserAvatar
+                  color={color}
+                  avatarIndex={avatarIndex}
+                  email={data.user.email}
+                />
               </NavLink>
             </div>
           </div>
@@ -50,7 +52,7 @@ function UserHeaderContainer({ color, avatarIndex }) {
 UserHeaderContainer.propTypes = {
   setUserLoggedIn: PropTypes.func,
   color: PropTypes.string,
-  avatarIndex: PropTypes.number
+  avatarIndex: PropTypes.number,
 };
 
 export default UserHeaderContainer;
