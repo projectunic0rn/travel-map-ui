@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Route, NavLink } from "react-router-dom";
-import { Query } from "react-apollo";
-import { GET_ALL_USER_INFO } from "../../../GraphQL";
 
 import FriendsIcon from "../../../icons/FriendsIcon";
 import SearchIcon from "../../../icons/SearchIcon";
@@ -11,12 +9,12 @@ import MenuIcon from "../../../icons/MenuIcon";
 import FindFriends from "./Friends/FindFriends";
 import FriendRequests from "./Friends/FriendRequests";
 import CurrentFriends from "./Friends/CurrentFriends";
-import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
 
-export default function Friends({ searchText, urlUsername }) {
-  const [loaded, handleLoaded] = useState(false);
+//Need to also make this work for urlUsername (clicking someone else's profile)
+
+export default function Friends({ searchText, urlUsername, user, refetchApp }) {
   const [expanded, handleToggle] = useState(false);
-  const [friends, handleFriends] = useState(null);
+  const [friends, handleFriends] = useState(user.Friends);
   return (
     <div className="friends content">
       <div
@@ -45,50 +43,32 @@ export default function Friends({ searchText, urlUsername }) {
         <NavLink exact to={urlUsername ? null : "/profile/friends/find"}>
           {expanded ? "find" : null} <SearchIcon />
         </NavLink>
-      </div>{" "}
-      <Query
-        query={GET_ALL_USER_INFO}
-        notifyOnNetworkStatusChange
-        fetchPolicy={"cache-first"}
-        partialRefetch={true}
-        onCompleted={() => handleLoaded(true)}
-      >
-        {({ loading, error, data, refetch }) => {
-          if (loading)
-            return (
-              <div className="content-results friends-content">
-                <div className="centered-loader">
-                  <SimpleLoader />
-                </div>
-              </div>
-            );
-          if (error) return `Error! ${error}`;
-          handleFriends(data.users);
-          return (
-            <div className="content-results friends-content">
-              <Route
-                exact
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/friends`
-                    : "/profile/friends"
-                }
-                component={() => (
-                  <CurrentFriends searchText={searchText} friends={friends} />
-                )}
-              />
-              <Route
-                path="/profile/friends/requests"
-                render={() => <FriendRequests searchText={searchText} />}
-              />
-              <Route
-                path="/profile/friends/find"
-                component={() => <FindFriends searchText={searchText} />}
-              />
-            </div>
-          );
-        }}
-      </Query>
+      </div>
+      <div className="content-results friends-content">
+        <Route
+          exact
+          path={
+            urlUsername
+              ? `/profiles/${urlUsername}/friends`
+              : "/profile/friends"
+          }
+          component={() => (
+            <CurrentFriends
+              searchText={searchText}
+              friends={friends}
+              page={0}
+            />
+          )}
+        />
+        <Route
+          path="/profile/friends/requests"
+          component={() => <FriendRequests searchText={searchText} page={1} refetch={refetchApp}/>}
+        />
+        <Route
+          path="/profile/friends/find"
+          component={() => <FindFriends searchText={searchText} page={2} />}
+        />
+      </div>
     </div>
   );
 }
@@ -97,4 +77,6 @@ Friends.propTypes = {
   searchText: PropTypes.string,
   handlePageRender: PropTypes.func,
   urlUsername: PropTypes.string,
+  user: PropTypes.object,
+  refetchApp: PropTypes.func
 };

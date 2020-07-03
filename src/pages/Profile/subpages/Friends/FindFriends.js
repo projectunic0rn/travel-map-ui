@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
-import { GET_ALL_USER_INFO } from "../../../../GraphQL";
+import { GET_ALL_POTENTIAL_FRIENDS } from "../../../../GraphQL";
 
 import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 import PotentialFriendCard from "./PotentialFriendCard";
@@ -27,13 +27,19 @@ export default function FindFriends({ searchText }) {
     handleFriendsAvailable(data);
     handleFilteredFriendsAvailable(data);
   }
+  function handleCardRemove(cardId) {
+    let newFriendsAvailable = [...friendsAvailable];
+    let arrayIndex = friendsAvailable.findIndex(el => el.id === cardId);
+    newFriendsAvailable.splice(arrayIndex, 1);
+    handleFriendsAvailable(newFriendsAvailable);
+  }
   return (
     <Query
-      query={GET_ALL_USER_INFO}
+      query={GET_ALL_POTENTIAL_FRIENDS}
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
-      onCompleted={(data) => handleTripData(data.users)}
+      onCompleted={(data) => handleTripData(data.loadAllPotentialFriends)}
     >
       {({ loading, error }) => {
         if (loading) return <SimpleLoader />;
@@ -42,7 +48,7 @@ export default function FindFriends({ searchText }) {
           <>
             {filteredFriendsAvailable.map((friend) => {
               if (Array.isArray(friend)) return null;
-              return <PotentialFriendCard key={friend.id} friend={friend} />;
+              return <PotentialFriendCard key={friend.id} friend={friend} handleCardRemove={handleCardRemove}/>;
             })}
           </>
         );

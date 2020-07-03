@@ -260,6 +260,71 @@ export const GET_ALL_FRIEND_INFO = gql`
   }
 `;
 
+export const GET_USER_FRIENDS = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      id
+      Friends {
+        id
+        username
+        georneyScore
+      }
+    }
+  }
+`;
+
+export const GET_USER_FRIEND_REQUESTS = gql`
+  query {
+    getRequestsForUser {
+      id
+      requestId
+      username
+      georneyScore
+      color
+      avatarIndex
+      UserInterests {
+        id
+        name
+      }
+      Place_living {
+        id
+        city
+        cityId
+        countryISO
+        countryId
+      }
+      Places_visited {
+        id
+        city
+        cityId
+        countryId
+      }
+    }
+  }
+`;
+
+export const ACCEPT_FRIEND_REQUEST = gql`
+  mutation acceptFriendRequest($friend_request_id: Int!) {
+    acceptFriendRequest(friend_request_id:$friend_request_id) {
+      id
+      senderId
+      receiverId
+      status
+    }
+  }
+`;
+
+export const REJECT_FRIEND_REQUEST = gql`
+  mutation rejectFriendRequest($friend_request_id: Int!) {
+    rejectFriendRequest(friend_request_id:$friend_request_id) {
+      id
+      senderId
+      receiverId
+      status
+    }
+  }
+`;
+
 export const GET_ALL_USER_INFO = gql`
   query {
     users {
@@ -304,16 +369,44 @@ export const GET_ALL_USER_INFO = gql`
   }
 `;
 
-export const GET_ALL_FRIEND_REQUESTS = gql`
+export const GET_ALL_POTENTIAL_FRIENDS = gql`
   query {
-    friend_requests {
-      receiverId
-      senderId
-      status
-      # senderUsername
-      # requestSentAt
-      User {
-        username
+    loadAllPotentialFriends {
+      id
+      username
+      email
+      gender
+      birthday
+      color
+      avatarIndex
+      georneyScore
+      UserInterests {
+        id
+        name
+      }
+      Places_visited {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+      Places_visiting {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
+      }
+      Place_living {
+        id
+        country
+        countryId
+        countryISO
+        city
+        cityId
       }
     }
   }
@@ -326,7 +419,6 @@ export const SEND_FRIEND_REQUEST = gql`
       senderId
       receiverId
       status
-      UserId
     }
   }
 `;
@@ -445,6 +537,48 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
       UserInterests {
         id
         name
+      }
+      Friends {
+        id
+        username
+        georneyScore
+        color
+        avatarIndex
+        email
+        UserInterests {
+          id
+          name
+        }
+        Places_visited {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
+        Place_living {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
+        Places_visiting {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
       }
       UserSocials {
         id

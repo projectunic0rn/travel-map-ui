@@ -1,9 +1,8 @@
 .friends-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   align-content: flex-start;
-  margin: 28px 20px 28px 0px;
+  margin: 28px 20px 28px 20px;
   min-height: 200px;
   width: calc(100% - 120px);
   .friend-card {
@@ -12,7 +11,7 @@
     align-items: center;
     width: 270px;
     height: 200px;
-    margin: 0px 0px 28px 20px;
+    margin: 0px 20px 28px 20px;
     background: rgb(248, 248, 252);
     border-radius: 16px;
     box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
@@ -50,7 +49,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        z-index: 30;
+        z-index: 5;
         span {
           margin-top: 4px;
           color: #92bad0;
@@ -160,5 +159,48 @@
         }
       }
     }
+  }
+}
+
+.accept-reject-container {
+  position: absolute;
+  top: 82px;
+  width: 320px;
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  svg {
+    width: 60px;
+  }
+  .recommend-icon {
+    fill: $primary-green;
+    background: rgb(248, 248, 252);
+    border-radius: 50%;
+    &:hover {
+      background: $primary-green;
+      fill: rgb(248, 248, 252);
+    }
+  }
+  .do-not-recommend-icon {
+    fill: $primary-red;
+    background: rgb(248, 248, 252);
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    &:hover {
+      background: $primary-red;
+      fill: rgb(248, 248, 252);
+    }
+  }
+  .decline {
+    position: absolute;
+    top: -30px;
+    right: 0;
+  }
+  .checkmark {
+    position: absolute;
+    top: -30px;
+    left: 0;
   }
 }

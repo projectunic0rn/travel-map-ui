@@ -19,6 +19,7 @@ import ClusterMarker from "./ClusterMarker";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
 function FriendCityMap(props) {
+  console.log(props.tripCities)
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -752,6 +753,7 @@ function FriendCityMap(props) {
               : FriendClickedCityContainer
           }
           componentProps={{
+            friends: props.tripData,
             filterSettings: filterSettings,
             handleFilter: handleFilterHelper,
             hoveredCityArray: hoveredCityArray,
@@ -763,7 +765,7 @@ function FriendCityMap(props) {
       ) : null}
       {leaderboard ? (
         <LeaderboardPrompt
-          users={props.data.users}
+          users={props.tripData}
           handleLeaderboard={handleLeaderboard}
         />
       ) : null}

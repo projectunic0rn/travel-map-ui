@@ -7,15 +7,15 @@ import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
 // import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
-import ProfileTrips from "./subpages/UserTrips/ProfileTrips";
+// import ProfileTrips from "./subpages/UserTrips/ProfileTrips";
 import Settings from "./subpages/Settings";
 import Friends from "./subpages/Friends";
 import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
-import TripDetailContainer from "./subpages/UserTrips/TripDetailContainer";
+// import TripDetailContainer from "./subpages/UserTrips/TripDetailContainer";
 import Loader from "../../components/common/Loader/Loader";
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
-export default function Profile({ user, urlUsername, refetch }) {
+export default function Profile({ user, urlUsername, refetchApp }) {
   const [loaded, handleLoaded] = useState(false);
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
@@ -30,7 +30,7 @@ export default function Profile({ user, urlUsername, refetch }) {
   );
   function handleUserDataChange(data) {
     handleUserData(data);
-    refetch();
+    refetchApp();
   }
 
   function handleSelectedCity(selectedCityData, reviews) {
@@ -261,9 +261,11 @@ export default function Profile({ user, urlUsername, refetch }) {
                 render={(props) => (
                   <Friends
                     {...props}
+                    user={user}
                     searchText={searchText}
                     urlUsername={urlUsername}
                     handlePageRender={handlePageRender}
+                    refetchApp={refetchApp}
                   />
                 )}
               />
@@ -294,5 +296,5 @@ export default function Profile({ user, urlUsername, refetch }) {
 Profile.propTypes = {
   user: PropTypes.object,
   urlUsername: PropTypes.string,
-  refetch: PropTypes.func,
+  refetchApp: PropTypes.func,
 };

@@ -37,9 +37,10 @@
 @media (min-width: 1080px) {
   .nav-menu-container {
     order: 2;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: flex-end;
     height: 60px;
+    padding-right: 80px;
     a {
       display: flex;
       justify-content: center;

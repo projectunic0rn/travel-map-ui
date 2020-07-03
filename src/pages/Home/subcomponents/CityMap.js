@@ -191,7 +191,7 @@ function CityMap(props) {
       default:
         break;
     }
-    deleteCity(cityTooltip);
+    deleteLoadedCity(cityTooltip);
   }
 
   function deleteCity(cityTooltip) {
@@ -258,6 +258,7 @@ function CityMap(props) {
     }
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     calculateNewTravelScore(cityTooltip, "delete");
+    props.handleAlteredCityArray(newClickedCityArray.concat(props.clickedCityArray));
   }
 
   function deleteLoadedCity(cityTooltip) {
@@ -290,7 +291,6 @@ function CityMap(props) {
         handleLoadedClickedCityArray(newClickedCityArray);
         handleMarkerPastDisplay(markerDisplay);
         handleCityTooltip(null);
-
         break;
       case 1:
         markerFutureDisplay.filter((city, index) => {
@@ -302,7 +302,7 @@ function CityMap(props) {
         markerDisplay = [...markerFutureDisplay];
         markerDisplay.splice(markerIndex, 1);
         futureCount--;
-        handleClickedCityArray(newClickedCityArray);
+        handleLoadedClickedCityArray(newClickedCityArray);
         handleMarkerFutureDisplay(markerDisplay);
         handleCityTooltip(null);
         break;
@@ -325,6 +325,7 @@ function CityMap(props) {
     }
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     calculateNewTravelScore(cityTooltip, "delete");
+    props.handleAlteredCityArray(newClickedCityArray);
   }
 
   function handleLoadedCities(data) {
@@ -1218,6 +1219,7 @@ CityMap.propTypes = {
   clickedCityArray: PropTypes.array,
   initialTravelScore: PropTypes.number,
   currentTiming: PropTypes.number,
+  handleAlteredCityArray: PropTypes.func
 };
 
 ClusterMarker.propTypes = {
