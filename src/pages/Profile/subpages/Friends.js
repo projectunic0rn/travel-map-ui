@@ -57,6 +57,7 @@ export default function Friends({ searchText, urlUsername, user, refetchApp }) {
               searchText={searchText}
               friends={friends}
               page={0}
+              refetchApp={refetchApp}
             />
           )}
         />

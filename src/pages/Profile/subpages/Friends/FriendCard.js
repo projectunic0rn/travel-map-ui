@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 import {
   ACCEPT_FRIEND_REQUEST,
   REJECT_FRIEND_REQUEST,
+  DELETE_FRIEND
 } from "../../../../GraphQL";
 
 import InterestIcon from "../../../../icons/InterestIcon";
@@ -20,11 +21,15 @@ function FriendCard({ friend, page, handleCardRemove, refetch }) {
   const [rejectFriendRequest] = useMutation(REJECT_FRIEND_REQUEST, {
     variables: { friend_request_id: friend.requestId },
   });
+  const [deleteFriend] = useMutation(DELETE_FRIEND, {
+    variables: { friend_id: friend.id },
+  });
   const [accepted, handleAccepted] = useState(false);
   const [rejected, handleRejected] = useState(false);
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
   const [age, handleAge] = useState(null);
+  const [deletePrompt, handleDeletePrompt] = useState(false);
   useEffect(() => {
     calculateAge(friend.birthday);
     let cityArray = [0];
@@ -82,34 +87,91 @@ function FriendCard({ friend, page, handleCardRemove, refetch }) {
 
   function handleAccept() {
     acceptFriendRequest();
-    refetch();
     if (!rejected) {
       handleAccepted(true);
       setTimeout(() => {
-        handleCardRemove(friend.id)
+        handleCardRemove(friend.id);
+        refetch();
       }, 1400);
     }
   }
   function handleReject() {
-      rejectFriendRequest();
+    rejectFriendRequest();
     if (!accepted) {
       handleRejected(true);
     }
     setTimeout(() => {
-      handleCardRemove(friend.id)
+      handleCardRemove(friend.id);
+    }, 1400);
+  }
+
+  function handleDeleteFriend() {
+    deleteFriend();
+    handleDeletePrompt(false);
+    handleRejected(true);
+    if (!accepted) {
+      handleRejected(true);
+    }
+    setTimeout(() => {
+      refetch();
     }, 1400);
   }
 
   return (
     <>
       {page === 0 ? (
-        <NavLink
-          to={{
-            pathname: `/profiles/${friend.username}/cities`,
-            state: { searchText: "" },
-          }}
-        >
-          <div className="friend-card">
+        <div className="friend-card">
+          <div className="reject-container">
+            {!rejected ? (
+              <DoNotRecommendIcon onClick={() => handleDeletePrompt(true)}/>
+            ) : (
+              <svg
+                className="decline"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 52 52"
+              >
+                <circle
+                  className="decline__circle"
+                  cx="26"
+                  cy="26"
+                  r="25"
+                  fill="none"
+                />
+                <path
+                  className="decline__check"
+                  fill="none"
+                  d="M16 16 36 36 M36 16 16 36"
+                />
+              </svg>
+            )}
+            {deletePrompt ? (
+            <div className="delete-prompt">
+              <span style={{ textAlign: "center" }}>
+                Are you sure you want to delete <strong>{friend.username}</strong> as a friend?
+              </span>
+              <div>
+                <button
+                  className="button deny"
+                  onClick={handleDeleteFriend}
+                >
+                  Yes
+                </button>
+                <button
+                  className="button confirm"
+                  onClick={() => handleDeletePrompt(false)}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          ) : null}
+          </div>
+          <NavLink
+            to={{
+              pathname: `/profiles/${friend.username}/cities`,
+              state: { searchText: "" },
+            }}
+          >
             <div className="fc-user-info">
               <span className="fc-user-avatar">
                 <UserAvatar
@@ -141,53 +203,47 @@ function FriendCard({ friend, page, handleCardRemove, refetch }) {
                 </div>
               ) : null}
             </div>
-            <div className="fc-user-metrics">
-              {/* <span className="fc-user-metric">
+          </NavLink>
+          <div className="fc-user-metrics">
+            {/* <span className="fc-user-metric">
             <span className="fc-user-metric-value">0</span>
             <span className="fc-user-metric-type">friends</span>
           </span> */}
-              <span className="fc-user-metric">
-                <span className="fc-user-metric-value">
-                  {countryArray.length - 1}
-                </span>
-                <span className="fc-user-metric-type">countries</span>
+            <span className="fc-user-metric">
+              <span className="fc-user-metric-value">
+                {countryArray.length - 1}
               </span>
-              <span className="fc-user-metric">
-                <span className="fc-user-metric-value">
-                  {cityArray.length - 1}
-                </span>
-                <span className="fc-user-metric-type">cities</span>
+              <span className="fc-user-metric-type">countries</span>
+            </span>
+            <span className="fc-user-metric">
+              <span className="fc-user-metric-value">
+                {cityArray.length - 1}
               </span>
-            </div>
-
-            <div className="fc-user-interests">
-              {friend.UserInterests.map((interest) =>
-                interest.name !== "" ? (
-                  <span key={interest.name + interest.id}>
-                    <InterestIcon
-                      icon={interest.name}
-                      color={
-                        friend.UserInterests.length > 0
-                          ? interestConsts[
-                              interestConsts.findIndex((obj) => {
-                                return obj.interest === interest.name;
-                              })
-                            ].color
-                          : null
-                      }
-                    />
-                  </span>
-                ) : null
-              )}
-            </div>
-            {page === 1 ? (
-              <div className="accept-reject-container">
-                <RecommendIcon />
-                <DoNotRecommendIcon />
-              </div>
-            ) : null}
+              <span className="fc-user-metric-type">cities</span>
+            </span>
           </div>
-        </NavLink>
+
+          <div className="fc-user-interests">
+            {friend.UserInterests.map((interest) =>
+              interest.name !== "" ? (
+                <span key={interest.name + interest.id}>
+                  <InterestIcon
+                    icon={interest.name}
+                    color={
+                      friend.UserInterests.length > 0
+                        ? interestConsts[
+                            interestConsts.findIndex((obj) => {
+                              return obj.interest === interest.name;
+                            })
+                          ].color
+                        : null
+                    }
+                  />
+                </span>
+              ) : null
+            )}
+          </div>
+        </div>
       ) : (
         <div className="friend-card">
           <div className="fc-user-info">
@@ -307,7 +363,7 @@ FriendCard.propTypes = {
   friend: PropTypes.object,
   page: PropTypes.number,
   refetch: PropTypes.func,
-  handleCardRemove: PropTypes.func
+  handleCardRemove: PropTypes.func,
 };
 
 export default FriendCard;

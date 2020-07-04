@@ -423,6 +423,14 @@ export const SEND_FRIEND_REQUEST = gql`
   }
 `;
 
+export const DELETE_FRIEND = gql`
+  mutation deleteFriend($friend_id: Int!) {
+    deleteFriend(friend_id: $friend_id) {
+      status
+    }
+  }
+`;
+
 export const GET_ALL_CITY_DETAILS = gql`
   query user($username: String!) {
     user(username: $username) {

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Query } from "react-apollo";
-import { GET_ALL_USER_INFO } from "../../../../GraphQL";
-
 import FriendCard from "./FriendCard";
 
-export default function CurrentFriends({ searchText, friends, page }) {
-  const [loaded, handleLoaded] = useState(false);
+export default function CurrentFriends({ searchText, friends, page, refetchApp }) {
   const [results, setResults] = useState([]);
   useEffect(() => {
     if (searchText !== "") {
@@ -32,14 +28,15 @@ export default function CurrentFriends({ searchText, friends, page }) {
     }
     return comparison;
   }
-
+  if (results.length < 1) return <span style={{color: "rgb(248, 248 ,252)"}}>You have no current friends (on this site)</span>;
   return results.sort(compare).map((friend) => (
-    <FriendCard key={friend.id} friend={friend} currentFriend={true} page={page}/>
+    <FriendCard key={friend.id} friend={friend} currentFriend={true} page={page} refetch={refetchApp}/>
   ));
 }
 
 CurrentFriends.propTypes = {
   searchText: PropTypes.string,
   friends: PropTypes.array,
-  page: PropTypes.number
+  page: PropTypes.number,
+  refetchApp: PropTypes.func
 };
