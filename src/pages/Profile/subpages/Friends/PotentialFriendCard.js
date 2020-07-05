@@ -5,7 +5,7 @@ import { SEND_FRIEND_REQUEST } from "../../../../GraphQL";
 
 import CountryIcon from "../../../../icons/CountryIcon";
 import CityIcon from "../../../../icons/CityIcon";
-import PotentialFriendAdd from "./PotentialFriendAdd";
+import PartierIcon from '../../../../icons/InterestIcons/PartierIcon';
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
 
 function PotentialFriendCard({ friend, handleCardRemove }) {
@@ -13,15 +13,54 @@ function PotentialFriendCard({ friend, handleCardRemove }) {
   const [requested, handleRequested] = useState(false);
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
-  // const [showAddFriend, handleShowAddFriend] = useState(false);
+  const [age, handleAge] = useState(null);
   const [sendFriendRequest] = useMutation(SEND_FRIEND_REQUEST, {
     onCompleted() {
       handleRequested(true);
       setTimeout(() => {
-        handleCardRemove(friend.id)
+        handleCardRemove(friend.id);
       }, 2500);
     },
   });
+  let gender = "";
+  switch (friend.gender) {
+    case "male":
+      gender = "M";
+      break;
+    case "female":
+      gender = "F";
+      break;
+    case "transgender male":
+      gender = "TM";
+      break;
+    case "transgender female":
+      gender = "TF";
+      break;
+    default:
+      break;
+  }
+  useEffect(() => {
+    calculateAge(friend.birthday);
+  }, [friend]);
+  function calculateAge(birthDate) {
+    if (birthDate === null) {
+      return;
+    }
+    birthDate = new Date(birthDate);
+    let otherDate = new Date();
+
+    var years = otherDate.getFullYear() - birthDate.getFullYear();
+
+    if (
+      otherDate.getMonth() < birthDate.getMonth() ||
+      (otherDate.getMonth() === birthDate.getMonth() &&
+        otherDate.getDate() < birthDate.getDate())
+    ) {
+      years--;
+    }
+    handleAge(years);
+  }
+
   useEffect(() => {
     let cityArray = [0];
     let countryArray = [0];
@@ -62,15 +101,7 @@ function PotentialFriendCard({ friend, handleCardRemove }) {
   }
 
   return (
-    <div
-      className="potential-friend-card"
-    >
-      {/* {showAddFriend ? (
-        <PotentialFriendAdd
-          handleShowAddFriend={handleShowAddFriend}
-          potentialFriend={friend}
-        />
-      ) : null} */}
+    <div className="potential-friend-card">
       <div className="pfc-user-profile">
         <UserAvatar
           email={friend.email}
@@ -79,6 +110,10 @@ function PotentialFriendCard({ friend, handleCardRemove }) {
         />
       </div>
       <div className="pfc-user-info-container">
+        <div className="pfc-age-container">
+        {age !== null ? <span>{age} <PartierIcon/></span> : null}
+        {gender}
+        </div>
         <span className="pfc-username">{friend.username}</span>
         <span className="pfc-location">
           {friend.Place_living !== null
@@ -88,11 +123,9 @@ function PotentialFriendCard({ friend, handleCardRemove }) {
             : null}
         </span>
       </div>
-      <div className="pfc-request-container"  onClick={sendFriendRequestHelper}>
+      <div className="pfc-request-container" onClick={sendFriendRequestHelper}>
         {!requested ? (
-          <span className="pfc-request">
-            Request
-          </span>
+          <span className="pfc-request">Request</span>
         ) : (
           <svg
             className="checkmark"
@@ -114,7 +147,7 @@ function PotentialFriendCard({ friend, handleCardRemove }) {
           </svg>
         )}
       </div>
-      {/* <div className="pfc-trip-data">
+      <div className="pfc-trip-data">
         <span>
           {countryArray.length - 1}
           <span>
@@ -127,14 +160,14 @@ function PotentialFriendCard({ friend, handleCardRemove }) {
             <CityIcon />
           </span>
         </span>
-      </div> */}
+      </div>
     </div>
   );
 }
 
 PotentialFriendCard.propTypes = {
   friend: PropTypes.object,
-  handleCardRemove: PropTypes.func
+  handleCardRemove: PropTypes.func,
 };
 
 export default PotentialFriendCard;

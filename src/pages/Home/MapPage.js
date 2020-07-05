@@ -19,9 +19,9 @@ const MapPage = ({
   const [tripData, handleTripData] = useState([]);
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
   const [loaded, handleLoaded] = useState(false);
-  const [travelScore, handleTravelScore] = useState(0);
-  const [countryIdArray, handleCountryIdArray] = useState([]);
-  const [travelScoreIndexArray, handleTravelScoreIndexArray] = useState([]);
+  const [handleTravelScore] = useState(0);
+  const [handleCountryIdArray] = useState([]);
+  const [handleTravelScoreIndexArray] = useState([]);
   const [timing, handleTimingChange] = useState(0);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {

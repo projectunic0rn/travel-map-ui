@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Query } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
 import { GET_ALL_POTENTIAL_FRIENDS } from "../../../../GraphQL";
 
 import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
@@ -9,8 +9,14 @@ import PotentialFriendCard from "./PotentialFriendCard";
 export default function FindFriends({ searchText }) {
   const [friendsAvailable, handleFriendsAvailable] = useState([]);
   const [filteredFriendsAvailable, handleFilteredFriendsAvailable] = useState([
-    friendsAvailable
+    friendsAvailable,
   ]);
+  const { loading, error, data } = useQuery(GET_ALL_POTENTIAL_FRIENDS, {
+    onCompleted() {
+     handleTripData(data.loadAllPotentialFriends);
+    },
+  });
+
   useEffect(() => {
     if (searchText !== "") {
       let potentialFriends = friendsAvailable.filter((friend) => {
@@ -29,34 +35,28 @@ export default function FindFriends({ searchText }) {
   }
   function handleCardRemove(cardId) {
     let newFriendsAvailable = [...friendsAvailable];
-    let arrayIndex = friendsAvailable.findIndex(el => el.id === cardId);
+    let arrayIndex = friendsAvailable.findIndex((el) => el.id === cardId);
     newFriendsAvailable.splice(arrayIndex, 1);
     handleFriendsAvailable(newFriendsAvailable);
   }
+  if (loading) return <SimpleLoader />;
+  if (error) return `Error! ${error}`;
   return (
-    <Query
-      query={GET_ALL_POTENTIAL_FRIENDS}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-      onCompleted={(data) => handleTripData(data.loadAllPotentialFriends)}
-    >
-      {({ loading, error }) => {
-        if (loading) return <SimpleLoader />;
-        if (error) return `Error! ${error}`;
+    <>
+      {filteredFriendsAvailable.map((friend) => {
+        if (Array.isArray(friend)) return null;
         return (
-          <>
-            {filteredFriendsAvailable.map((friend) => {
-              if (Array.isArray(friend)) return null;
-              return <PotentialFriendCard key={friend.id} friend={friend} handleCardRemove={handleCardRemove}/>;
-            })}
-          </>
+          <PotentialFriendCard
+            key={friend.id}
+            friend={friend}
+            handleCardRemove={handleCardRemove}
+          />
         );
-      }}
-    </Query>
+      })}
+    </>
   );
 }
 
 FindFriends.propTypes = {
-  searchText: PropTypes.string
+  searchText: PropTypes.string,
 };
