@@ -8,6 +8,17 @@ Travel Map (_aka Geornal_) is a hobby project built as part of the [Project-Unic
 
 ## Development
 
+### Dependencies
+
+All project dependencies, aside from those listed below, are listed within `package.json`.
+
+| Dependency |  Version |
+|---|---|
+| npm | `6.14.4` |
+| node | `12.14.1` |
+
+It is highly encouraged that you use a Node version manager, such as [nodenv](https://github.com/nodenv/nodenv), to easily manage different projects on your machine which are utilizing npm/node.
+
 ### Getting Started
 
 When working on the application locally:
