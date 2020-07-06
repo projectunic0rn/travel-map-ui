@@ -204,7 +204,11 @@ const FriendCountryMap = (props) => {
     let countryTiming = null;
     let countryTimingArray = [];
     for (let i in filteredCountryArray) {
-      if (filteredCountryArray[i].countryId === geography.id) {
+      if (
+        filteredCountryArray[i].countryId === geography.id ||
+        filteredCountryArray[i].country.toLowerCase() ===
+          geography.properties.name.toLowerCase()
+      ) {
         isCountryIncluded = true;
         countryTiming = filteredCountryArray[i].tripTiming;
         if (

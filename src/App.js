@@ -35,7 +35,7 @@ function App({ userAuthenticated }) {
     type: "info",
     text:
       "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally.",
-    confirmButtonColor: "#656F80"
+    confirmButtonColor: "#656F80",
   };
 
   const [swalNotFired, setSwalNotFired] = useState(true);
@@ -89,7 +89,7 @@ function App({ userAuthenticated }) {
             notifyOnNetworkStatusChange
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
-            onCompleted={() => {
+            onCompleted={(data) => {
               handleLoaded(true);
             }}
           >
@@ -111,7 +111,7 @@ function App({ userAuthenticated }) {
                     <Route
                       exact
                       path="/"
-                      render={props => (
+                      render={(props) => (
                         <Suspense fallback={<Loader />}>
                           <MapPage
                             {...props}
@@ -126,24 +126,24 @@ function App({ userAuthenticated }) {
                     />
                     <Route
                       path="/profiles/:username/"
-                      render={props => <UserProfile {...props} />}
+                      render={(props) => <UserProfile {...props} />}
                     />
                     <Route
                       path="/profile/"
-                      render={props => (
+                      render={(props) => (
                         <Profile
                           {...props}
                           user={data.user}
-                          refetch={refetch}
+                          refetchApp={refetch}
                         />
                       )}
                     />
-                    <Route path="/place/" render={props => <Place />} />
+                    <Route path="/place/" render={(props) => <Place />} />
                     <Route
                       path="/friends/"
-                      render={props => (
+                      render={(props) => (
                         <Suspense fallback={<Loader />}>
-                          <FriendMapPage />
+                          <FriendMapPage user={data.user} />
                         </Suspense>
                       )}
                     />
@@ -162,7 +162,7 @@ function App({ userAuthenticated }) {
               <Route path="/bloggers/" component={BloggerMap} />
               <Route
                 path="/"
-                render={props => (
+                render={(props) => (
                   <>
                     <Suspense fallback={<Loader />}>
                       <Header />
@@ -180,7 +180,7 @@ function App({ userAuthenticated }) {
 }
 
 App.propTypes = {
-  userAuthenticated: PropTypes.bool
+  userAuthenticated: PropTypes.bool,
 };
 
 export default withApollo(App);

@@ -12,9 +12,10 @@
   width: 240px;
   min-height: 200px;
   margin: 5px;
-  background: #656f80;
   border-radius: 8px;
   box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
+  background: url("./images/Passport_Topomap_Try2.png") no-repeat center;
+  background-size: cover;
 }
 .pfc-user-profile {
   margin-top: 8px;
@@ -22,6 +23,19 @@
     width: 80px;
     height: 80px;
     background: rgb(248, 248, 252);
+  }
+}
+.pfc-age-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 12px;
+  top: 8px;
+  color: #e9e9f0;
+  font-weight: 700;
+  svg {
+    transform: translateY(1px);
+    fill: #b4b4b4;
   }
 }
 .potential-friend-add {
@@ -33,7 +47,6 @@
   min-width: 100%;
   min-height: 100%;
   background: rgba(#d1dcdb, 0.85);
-
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
@@ -70,31 +83,34 @@
   align-items: center;
   width: 120px;
   height: 40px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
   border-radius: 8px;
-  background: rgb(217, 230, 236);
+  background: $light-green;
   cursor: pointer;
   &:hover {
     background: rgb(248, 248, 252);
   }
   .pfc-request {
     font-weight: 550;
-    color: rgb(62, 143, 187);
+    color: rgb(112, 148, 136);
   }
 }
 
 .pfc-trip-data {
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   min-width: 40px;
   padding-right: 8px;
+  right: 4px;
+  top: 4px;
   span {
     display: flex;
     align-items: center;
     font-weight: 550;
     line-height: 28px;
-    color: rgb(100, 100, 100);
+    color: #e9e9f0;
     span {
       width: 24px;
       fill: rgb(180, 180, 180);

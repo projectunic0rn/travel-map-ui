@@ -59,7 +59,7 @@ export default function Settings({
         >
           {expanded ? "basics" : null} <BasicsIcon />
         </NavLink>
-        <NavLink
+        {urlUsername ? null : <NavLink
           exact
           to={
             urlUsername
@@ -68,7 +68,7 @@ export default function Settings({
           }
         >
           {expanded ? "avatar" : null} <AvatarIcon />
-        </NavLink>
+        </NavLink>}
         <NavLink
           to={
             urlUsername

@@ -107,13 +107,13 @@ function ProfileCityCard({
   if (!loaded) return <SimpleLoader />;
   return (
     <div className="pcc-card-container">
-      <NavLink
+      {/* <NavLink
         to={
           urlUsername !== undefined
             ? `/profiles/${urlUsername}/cities/${cityData.city.toLowerCase()}/`
             : `/profile/cities/${cityData.city.toLowerCase()}/`
         }
-      >
+      > */}
         <div
           className="profile-city-card"
           onClick={() =>
@@ -159,7 +159,7 @@ function ProfileCityCard({
           </div>
           <CircleIcon color={color} />
         </div>
-      </NavLink>
+      {/* </NavLink> */}
       <Mutation
         mutation={mutationToUse}
         variables={
