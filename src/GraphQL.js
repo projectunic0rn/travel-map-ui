@@ -264,10 +264,48 @@ export const GET_USER_FRIENDS = gql`
   query user($username: String!) {
     user(username: $username) {
       id
+      username
       Friends {
         id
         username
         georneyScore
+        color
+        avatarIndex
+        email
+        UserInterests {
+          id
+          name
+        }
+        Places_visited {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
+        Place_living {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
+        Places_visiting {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
       }
     }
   }
@@ -438,6 +476,48 @@ export const GET_ALL_CITY_DETAILS = gql`
       username
       full_name
       georneyScore
+      Friends {
+        id
+        username
+        georneyScore
+        color
+        avatarIndex
+        email
+        UserInterests {
+          id
+          name
+        }
+        Places_visited {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
+        Place_living {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
+        Places_visiting {
+          id
+          country
+          countryId
+          countryISO
+          city
+          cityId
+          city_latitude
+          city_longitude
+        }
+      }
       Places_visited {
         id
         country

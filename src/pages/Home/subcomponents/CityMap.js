@@ -40,7 +40,6 @@ function CityMap(props) {
   });
 
   const [deletePrompt, handleDelete] = useState(false);
-
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
   const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
@@ -77,7 +76,6 @@ function CityMap(props) {
       props.refetch();
     },
   });
-
   const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
   const [removePlaceVisiting] = useMutation(REMOVE_PLACE_VISITING, {});
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
@@ -85,6 +83,30 @@ function CityMap(props) {
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
+  const [clusterParams, handleClusterParams] = useState(
+    {
+      extent: 16384,
+      nodeSize: 1024,
+    },
+  );
+
+  useEffect(() => {
+    let newClusterParams = clusterParams;
+    if (props.clickedCityArray.length > 0) {
+      if (props.clickedCityArray.length > 200) {
+        newClusterParams.extent = 2048;
+        newClusterParams.nodeSize = 128;
+      } else if (props.clickedCityArray.length > 100) {
+        newClusterParams.extent = 4096;
+        newClusterParams.nodeSize = 256;
+      } else if (props.clickedCityArray.length > 50) {
+        newClusterParams.extent = 8192;
+        newClusterParams.nodeSize = 512;
+      } 
+      handleClusterParams(newClusterParams)
+    }
+  }, []);
+
   useEffect(() => {}, [loading]);
   useEffect(() => {
     window.addEventListener("resize", resize);
@@ -258,7 +280,9 @@ function CityMap(props) {
     }
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     calculateNewTravelScore(cityTooltip, "delete");
-    props.handleAlteredCityArray(newClickedCityArray.concat(props.clickedCityArray));
+    props.handleAlteredCityArray(
+      newClickedCityArray.concat(props.clickedCityArray)
+    );
   }
 
   function deleteLoadedCity(cityTooltip) {
@@ -1118,8 +1142,8 @@ function CityMap(props) {
             <Cluster
               ref={clusterPast}
               radius={40}
-              extent={1024}
-              nodeSize={64}
+              extent={clusterParams.extent}
+              nodeSize={clusterParams.nodeSize}
               component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
@@ -1136,8 +1160,8 @@ function CityMap(props) {
             <Cluster
               ref={clusterFuture}
               radius={40}
-              extent={1024}
-              nodeSize={64}
+              extent={clusterParams.extent}
+              nodeSize={clusterParams.nodeSize}
               component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
@@ -1219,7 +1243,7 @@ CityMap.propTypes = {
   clickedCityArray: PropTypes.array,
   initialTravelScore: PropTypes.number,
   currentTiming: PropTypes.number,
-  handleAlteredCityArray: PropTypes.func
+  handleAlteredCityArray: PropTypes.func,
 };
 
 ClusterMarker.propTypes = {

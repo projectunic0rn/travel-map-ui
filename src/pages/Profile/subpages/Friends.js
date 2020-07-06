@@ -14,7 +14,7 @@ import CurrentFriends from "./Friends/CurrentFriends";
 
 export default function Friends({ searchText, urlUsername, user, refetchApp }) {
   const [expanded, handleToggle] = useState(false);
-  const [friends, handleFriends] = useState(user.Friends);
+  const [friends] = useState(user.Friends);
   return (
     <div className="friends content">
       <div
@@ -37,12 +37,12 @@ export default function Friends({ searchText, urlUsername, user, refetchApp }) {
           {expanded ? "current" : null} <FriendsIcon />
         </NavLink>
 
-        <NavLink exact to={urlUsername ? null : "/profile/friends/requests"}>
+        {urlUsername === undefined ? <NavLink exact to={"/profile/friends/requests"}>
           {expanded ? "requests" : null} <AddFriendIcon />
-        </NavLink>
-        <NavLink exact to={urlUsername ? null : "/profile/friends/find"}>
+        </NavLink> : null}
+        {urlUsername === undefined ?<NavLink exact to={urlUsername ?  "" : "/profile/friends/find"}>
           {expanded ? "find" : null} <SearchIcon />
-        </NavLink>
+        </NavLink>: null}
       </div>
       <div className="content-results friends-content">
         <Route
@@ -58,6 +58,8 @@ export default function Friends({ searchText, urlUsername, user, refetchApp }) {
               friends={friends}
               page={0}
               refetchApp={refetchApp}
+              urlUsername={urlUsername}
+              user={user}
             />
           )}
         />

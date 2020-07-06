@@ -19,7 +19,6 @@ import ClusterMarker from "./ClusterMarker";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
 
 function FriendCityMap(props) {
-  console.log(props.tripCities)
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -50,6 +49,14 @@ function FriendCityMap(props) {
   const clusterPast = useRef();
   const clusterFuture = useRef();
   const clusterLive = useRef();
+  const [clusterParams, handleClusterParams] = useState({
+    pastExtent: 16384,
+    pastNodeSize: 1024,
+    futureExtent: 16384,
+    futureNodeSize: 1024,
+    liveExtent: 16384,
+    liveNodeSize: 1024,
+  });
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
@@ -63,6 +70,26 @@ function FriendCityMap(props) {
       window.removeEventListener("resize", resize);
     };
   }, []);
+
+  function setClusterParams(timingCountArray) {
+    let newClusterParams = clusterParams;
+    if (timingCountArray[0] > 0) {
+      if (timingCountArray[0] > 2000) {
+        newClusterParams.pastExtent = 512;
+        newClusterParams.pastNodeSize = 32;
+      } else if (timingCountArray[0] > 1500) {
+        newClusterParams.pastExtent = 1024;
+        newClusterParams.pastNodeSize = 64;
+      } else if (timingCountArray[0] > 500) {
+        newClusterParams.pastExtent = 2048;
+        newClusterParams.pastNodeSize = 128;
+      } else if (timingCountArray[0] > 250) {
+        newClusterParams.pastExtent = 4096;
+        newClusterParams.pastNodeSize = 256;
+      }
+      handleClusterParams(newClusterParams);
+    }
+  }
 
   function calculateTripTimingCounts(cityArray) {
     let pastCount = 0;
@@ -83,6 +110,7 @@ function FriendCityMap(props) {
           break;
       }
     }
+    setClusterParams([pastCount, futureCount, liveCount]);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
   }
 
@@ -655,8 +683,8 @@ function FriendCityMap(props) {
             <Cluster
               ref={clusterPast}
               radius={40}
-              extent={512}
-              nodeSize={64}
+              extent={clusterParams.pastExtent}
+              nodeSize={clusterParams.pastNodeSize}
               component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
@@ -673,8 +701,8 @@ function FriendCityMap(props) {
             <Cluster
               ref={clusterFuture}
               radius={40}
-              extent={1024}
-              nodeSize={64}
+              extent={clusterParams.futureExtent}
+              nodeSize={clusterParams.futureNodeSize}
               component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}
@@ -691,8 +719,8 @@ function FriendCityMap(props) {
             <Cluster
               ref={clusterLive}
               radius={40}
-              extent={1024}
-              nodeSize={64}
+              extent={clusterParams.liveExtent}
+              nodeSize={clusterParams.liveNodeSize}
               component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}

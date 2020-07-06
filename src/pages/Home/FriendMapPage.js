@@ -31,7 +31,6 @@ const FriendMapPage = ({user}) => {
   }
 
   function handleLoadedCountries(data) {
-    console.log(data);
     let countryArray = clickedCountryArray;
     for (let i in data) {
       let userData = data[i];

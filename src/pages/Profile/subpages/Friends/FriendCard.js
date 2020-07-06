@@ -5,7 +5,8 @@ import { useMutation } from "@apollo/react-hooks";
 import {
   ACCEPT_FRIEND_REQUEST,
   REJECT_FRIEND_REQUEST,
-  DELETE_FRIEND
+  DELETE_FRIEND,
+  SEND_FRIEND_REQUEST
 } from "../../../../GraphQL";
 
 import InterestIcon from "../../../../icons/InterestIcon";
@@ -13,8 +14,11 @@ import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
 import { interestConsts } from "../../../../InterestConsts";
 import DoNotRecommendIcon from "../../../../icons/DoNotRecommendIcon";
 import RecommendIcon from "../../../../icons/RecommendIcon";
+import AddFriendIcon from '../../../../icons/AddFriendIcon';
 
-function FriendCard({ friend, page, handleCardRemove, refetch }) {
+function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
+  const [requested, handleRequested] = useState(false);
+  const username = urlUsername === undefined ? "" : urlUsername;
   const [acceptFriendRequest] = useMutation(ACCEPT_FRIEND_REQUEST, {
     variables: { friend_request_id: friend.requestId },
   });
@@ -23,6 +27,14 @@ function FriendCard({ friend, page, handleCardRemove, refetch }) {
   });
   const [deleteFriend] = useMutation(DELETE_FRIEND, {
     variables: { friend_id: friend.id },
+  });
+  const [sendFriendRequest] = useMutation(SEND_FRIEND_REQUEST, {
+    onCompleted() {
+      handleRequested(true);
+      setTimeout(() => {
+        handleCardRemove(friend.id);
+      }, 2500);
+    },
   });
   const [accepted, handleAccepted] = useState(false);
   const [rejected, handleRejected] = useState(false);
@@ -117,13 +129,18 @@ function FriendCard({ friend, page, handleCardRemove, refetch }) {
     }, 1400);
   }
 
+  function sendFriendRequestHelper() {
+    console.log('clicked')
+    sendFriendRequest({ variables: { username } });
+  }
+
   return (
     <>
       {page === 0 ? (
         <div className="friend-card">
           <div className="reject-container">
             {!rejected ? (
-              <DoNotRecommendIcon onClick={() => handleDeletePrompt(true)}/>
+              urlUsername === undefined ? <DoNotRecommendIcon onClick={() => handleDeletePrompt(true)}/> : <AddFriendIcon onClick={sendFriendRequestHelper}/>
             ) : (
               <svg
                 className="decline"
@@ -364,6 +381,7 @@ FriendCard.propTypes = {
   page: PropTypes.number,
   refetch: PropTypes.func,
   handleCardRemove: PropTypes.func,
+  urlUsername: PropTypes.string
 };
 
 export default FriendCard;

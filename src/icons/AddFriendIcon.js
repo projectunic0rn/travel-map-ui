@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function AddFriendIcon() {
+function AddFriendIcon({ onClick }) {
   return (
     <svg
       className="ud-link-icon"
@@ -8,6 +9,7 @@ function AddFriendIcon() {
       viewBox="0 0 22 16"
       width="22"
       height="16"
+      onClick={onClick}
     >
       <path
         id="ic_person_add_24px"
@@ -16,6 +18,10 @@ function AddFriendIcon() {
       />
     </svg>
   );
+}
+
+AddFriendIcon.propTypes = {
+  onClick: PropTypes.func
 }
 
 export default AddFriendIcon;

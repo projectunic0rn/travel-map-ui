@@ -15,7 +15,7 @@ export default function Security({ history }) {
   let [errors, setErrors] = useState({
     oldPassword: null,
     password: null,
-    password2: null
+    password2: null,
   });
 
   function onRemoveUser(setUserLoggedIn) {
@@ -44,7 +44,6 @@ export default function Security({ history }) {
       setPassword2(e.target.value);
     }
   }
-
   function onInputError(err) {
     setErrors(err);
   }
@@ -54,7 +53,7 @@ export default function Security({ history }) {
       type: "success",
       text: "Password changed successfully",
       timer: "1200",
-      showConfirmButton: false
+      showConfirmButton: false,
     });
     setOldPassword("");
     setPassword("");
@@ -66,7 +65,7 @@ export default function Security({ history }) {
       <span className="security-header">Change Password</span>
       <form
         noValidate
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
         }}
       >
@@ -133,7 +132,7 @@ export default function Security({ history }) {
         Delete Account
       </span>
       <UserConsumer>
-        {value => (
+        {(value) => (
           <Mutation
             mutation={DELETE_USER}
             onCompleted={() => onRemoveUser(value.setUserLoggedIn)}

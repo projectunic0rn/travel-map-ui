@@ -90,7 +90,6 @@ function App({ userAuthenticated }) {
             fetchPolicy={"cache-and-network"}
             partialRefetch={true}
             onCompleted={(data) => {
-              console.log(data);
               handleLoaded(true);
             }}
           >
