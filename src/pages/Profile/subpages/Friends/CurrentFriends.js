@@ -18,6 +18,7 @@ export default function CurrentFriends({
   const [results, setResults] = useState([]);
   const { loading, error, data } = useQuery(GET_USER_FRIENDS, {
     variables: { username },
+    skip: urlUsername === undefined,
     onCompleted() {
       setResults(data.user.Friends);
     },
