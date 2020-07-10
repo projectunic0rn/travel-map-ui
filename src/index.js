@@ -6,6 +6,8 @@ import jwt_decode from "jwt-decode";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from 'history';
 import ReactGA from 'react-ga';
+import Bugsnag from '@bugsnag/js'
+import BugsnagPluginReact from '@bugsnag/plugin-react';
 
 import App from "./App";
 import FriendReadonlyMap from "./pages/Home/FriendReadonlyMap";
@@ -13,6 +15,14 @@ import NewUserMap from "./pages/Home/NewUserMap";
 import * as serviceWorker from "./serviceWorker";
 
 require("dotenv").config();
+
+Bugsnag.start({
+  apiKey: '51669e2486c775864ec756656998ad34',
+  plugins: [new BugsnagPluginReact()]
+})
+
+var ErrorBoundary = Bugsnag.getPlugin('react')
+  .createErrorBoundary(React)
 
 const trackingId = "UA-156249933-1"; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
@@ -64,23 +74,25 @@ const client = new ApolloClient({
   }
 });
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Router history={history}>
-      <Switch>
-        <Route path="/new/" component={NewUserMap} />
-        <Route path="/public" component={FriendReadonlyMap} />
-        <Route
-          path="/"
-          render={props => (
-            <App
-              {...props}
-              userAuthenticated={localStorage.getItem("token") !== null}
-            />
-          )}
-        />
-      </Switch>
-    </Router>
-  </ApolloProvider>,
+  <ErrorBoundary>
+    <ApolloProvider client={client}>
+      <Router history={history}>
+        <Switch>
+          <Route path="/new/" component={NewUserMap} />
+          <Route path="/public" component={FriendReadonlyMap} />
+          <Route
+            path="/"
+            render={props => (
+              <App
+                {...props}
+                userAuthenticated={localStorage.getItem("token") !== null}
+              />
+            )}
+          />
+        </Switch>
+      </Router>
+    </ApolloProvider>
+  </ErrorBoundary>,
   document.getElementById("root")
 );
 
