@@ -9,7 +9,7 @@ import FakeClickedFriendCityContainer from "./subcomponents/FakeClickedFriendCit
 import FakeReviewCard from "./subcomponents/FakeReviewCard";
 import FakePlaceReviewCard from "./subcomponents/FakePlaceReviewCard";
 import Footer from "./Footer";
-import ArrowRightIcon from '../../icons/ArrowRightIcon';
+import ArrowRightIcon from "../../icons/ArrowRightIcon";
 
 let incomingCities = [
   {
@@ -17,72 +17,72 @@ let incomingCities = [
     cityId: 8673,
     city_latitude: 6.45,
     city_longitude: 3.4,
-    tripTiming: 0
+    tripTiming: 0,
   },
   {
     city: "Stockholm",
     cityId: 1754,
     city_latitude: 59.32944,
     city_longitude: 18.06861,
-    tripTiming: 1
+    tripTiming: 1,
   },
   {
     city: "Brisbane",
     cityId: 34932,
     city_latitude: -27.469,
     city_longitude: 153.0235,
-    tripTiming: 2
+    tripTiming: 2,
   },
   {
     city: "Shanghai",
     cityId: 8686,
     city_latitude: 31.16667,
     city_longitude: 121.46667,
-    tripTiming: 1
+    tripTiming: 1,
   },
   {
     city: "New York City",
     cityId: 60,
     city_latitude: 40.7648,
     city_longitude: -73.9808,
-    tripTiming: 0
+    tripTiming: 0,
   },
   {
     city: "Salzburg",
     cityId: 34713,
     city_latitude: 47.8,
     city_longitude: 13.03333,
-    tripTiming: 0
+    tripTiming: 0,
   },
   {
     city: "Wellington",
     cityId: 23661,
     city_latitude: -41.28889,
     city_longitude: 174.77722,
-    tripTiming: 1
+    tripTiming: 1,
   },
   {
     city: "Brasília",
     cityId: 2844,
     city_latitude: -15.7934,
     city_longitude: -47.8823,
-    tripTiming: 0
+    tripTiming: 0,
   },
   {
     city: "Panama City",
     cityId: 3306,
     city_latitude: 9,
     city_longitude: -79.5,
-    tripTiming: 1
+    tripTiming: 1,
   },
   {
     city: "Istanbul",
     cityId: 406,
     city_latitude: 41.01,
     city_longitude: 28.96028,
-    tripTiming: 0
+    tripTiming: 0,
   },
-  {}
+  {},
 ];
 
 function NewMarker(city) {
@@ -188,7 +188,7 @@ function Landing() {
     height: window.innerHeight + 120,
     latitude: 0,
     longitude: 0,
-    zoom: setInitialZoom()
+    zoom: setInitialZoom(),
   });
   const [markers, handleMarkers] = useState([]);
   const mapRef = useRef();
@@ -207,8 +207,9 @@ function Landing() {
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   function addMarker() {
     let newMarkers = [...markers];
     if (incomingCities.length > 0) {
@@ -224,7 +225,7 @@ function Landing() {
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight + 120,
-      zoom: setInitialZoom()
+      zoom: setInitialZoom(),
     });
   }
 
@@ -267,7 +268,7 @@ function Landing() {
               width: "100vw",
               minHeight: "calc(100%)",
               maxHeight: "calc(100% + 120px)",
-              position: "relative"
+              position: "relative",
             }}
           >
             <LoadedMarker
@@ -335,14 +336,16 @@ function Landing() {
           <div className="map-search-container" id="landing-search-container">
             <input
               className="map-search"
-              id="map-search-bar"
+              id="map-search-bar2"
               type="text"
               list="country-choice"
               name="country-search"
               value={"Banff, CA"}
               readOnly
             />
-            <span className="arrow"><ArrowRightIcon/></span>
+            <span className="arrow">
+              <ArrowRightIcon />
+            </span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedCityContainer />
@@ -378,7 +381,9 @@ function Landing() {
               value={"Banff, CA"}
               readOnly
             />
-            <span className="arrow"><ArrowRightIcon/></span>
+            <span className="arrow">
+              <ArrowRightIcon />
+            </span>
           </div>
           <div className="landing-graphic-container">
             <FakeClickedFriendCityContainer />
@@ -404,7 +409,7 @@ function Landing() {
 }
 
 Landing.propTypes = {
-  handleUserLogin: PropTypes.func
+  handleUserLogin: PropTypes.func,
 };
 
 export default withRouter(Landing);

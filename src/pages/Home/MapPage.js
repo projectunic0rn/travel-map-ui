@@ -78,7 +78,7 @@ const MapPage = ({
           if (
             !newCountryArray.some((country) => {
               return (
-                country.countryId === userData.Places_visited[i].countryId &&
+                country.country === userData.Places_visited[i].country &&
                 country.tripTiming === 0
               );
             })
@@ -96,7 +96,7 @@ const MapPage = ({
           if (
             !newCountryArray.some((country) => {
               return (
-                country.countryId === userData.Places_visiting[i].countryId &&
+                country.country === userData.Places_visiting[i].country &&
                 country.tripTiming === 1
               );
             })
@@ -113,7 +113,7 @@ const MapPage = ({
         if (
           !newCountryArray.some((country) => {
             return (
-              country.countryId === userData.Place_living.countryId &&
+              country.country === userData.Place_living.country &&
               country.tripTiming === 2
             );
           })

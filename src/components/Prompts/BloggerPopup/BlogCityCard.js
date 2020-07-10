@@ -17,6 +17,7 @@ function BlogCityCard(props) {
         })
       )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     let newFilteredCityData = [];
@@ -40,6 +41,7 @@ function BlogCityCard(props) {
         break;
     }
     handleClicked(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.navPosition]);
   return filteredCityData.length > 0 ? (
     <>

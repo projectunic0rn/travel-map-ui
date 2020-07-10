@@ -142,10 +142,10 @@ function ProfileIndividualCity({
           expanded ? "sidebar-filter sidebar-filter-active" : "sidebar-filter"
         }
       >
-        <a onClick={() => handleToggle(!expanded)}>
+        <nav onClick={() => handleToggle(!expanded)}>
           {expanded ? <div></div> : null}
           <MenuIcon />
-        </a>
+        </nav>
         <button
           onClick={() => handlePage("basics")}
           className={page === "basics" ? "active" : ""}

@@ -6,7 +6,6 @@ import {
   Geographies,
   Geography,
 } from "react-simple-maps";
-import _ from "lodash";
 
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
@@ -38,7 +37,7 @@ const BloggerCountryMap = (props) => {
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
-  const [cityPostArray, handleCityPostArray] = useState([]);
+  const [cityPostArray] = useState([]);
 
   useEffect(() => {
     let pastCountryArray = [];
@@ -233,14 +232,14 @@ const BloggerCountryMap = (props) => {
         style={showSideMenu ? { width: "250px" } : { width: "40px" }}
       >
         {!showSideMenu ? (
-          <a className="opennav" onClick={() => handleSideMenu(true)}>
+          <nav className="opennav" onClick={() => handleSideMenu(true)}>
             &raquo;
-          </a>
+          </nav>
         ) : (
           <>
-            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+            <nav className="closebtn" onClick={() => handleSideMenu(false)}>
               &times;
-            </a>
+            </nav>
             <div className="side-menu-container">
               <div className="city-new-map-scorecard" id="scorecard-side-menu">
                 <MapScorecard

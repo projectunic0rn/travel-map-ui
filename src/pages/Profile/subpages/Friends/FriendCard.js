@@ -17,7 +17,7 @@ import RecommendIcon from "../../../../icons/RecommendIcon";
 import AddFriendIcon from '../../../../icons/AddFriendIcon';
 
 function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
-  const [requested, handleRequested] = useState(false);
+  const [, handleRequested] = useState(false);
   const username = urlUsername === undefined ? "" : urlUsername;
   const [acceptFriendRequest] = useMutation(ACCEPT_FRIEND_REQUEST, {
     variables: { friend_request_id: friend.requestId },
@@ -130,7 +130,6 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
   }
 
   function sendFriendRequestHelper() {
-    console.log('clicked')
     sendFriendRequest({ variables: { username } });
   }
 
