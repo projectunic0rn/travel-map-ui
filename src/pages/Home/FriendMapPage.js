@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import { Query } from "react-apollo";
 import { GET_ALL_USER_COUNTRIES } from "../../GraphQL";
 import FriendCountryMap from "./subcomponents/FriendCountryMap";
@@ -38,7 +39,7 @@ const FriendMapPage = ({user}) => {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
             !countryArray.some(country => {
-              return country.countryId === userData.Places_visited[i].countryId;
+              return country.country === userData.Places_visited[i].country;
             })
           ) {
             countryArray.push({
@@ -54,7 +55,7 @@ const FriendMapPage = ({user}) => {
           if (
             !countryArray.some(country => {
               return (
-                country.countryId === userData.Places_visiting[i].countryId
+                country.country === userData.Places_visiting[i].country
               );
             })
           ) {
@@ -69,7 +70,7 @@ const FriendMapPage = ({user}) => {
       if (userData != null && userData.Place_living !== null) {
         if (
           !countryArray.some(country => {
-            return country.countryId === userData.Place_living.countryId;
+            return country.country === userData.Place_living.country;
           })
         ) {
           countryArray.push({
@@ -138,5 +139,9 @@ const FriendMapPage = ({user}) => {
     </Query>
   );
 };
+
+FriendMapPage.propTypes = {
+  user: PropTypes.object
+}
 
 export default FriendMapPage;

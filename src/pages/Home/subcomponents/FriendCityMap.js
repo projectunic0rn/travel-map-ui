@@ -34,7 +34,7 @@ function FriendCityMap(props) {
     null
   );
   const [clickedCityArray, handleClickedCityArray] = useState(props.tripCities);
-  const [filteredCityArray, handleFilteredCityArray] = useState([]);
+  const [, handleFilteredCityArray] = useState([]);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
   const [activePopup, handleActivePopup] = useState(false);
@@ -98,13 +98,19 @@ function FriendCityMap(props) {
     for (let i in cityArray) {
       switch (cityArray[i].tripTiming) {
         case 0:
-          pastCount++;
+          if (cityArray[i].cityId !== null) {
+            pastCount++;
+          };
           break;
         case 1:
-          futureCount++;
+          if (cityArray[i].cityId !== null) {
+            futureCount++;
+          };
           break;
         case 2:
-          liveCount++;
+          if (cityArray[i].cityId !== null) {
+            liveCount++;
+          };
           break;
         default:
           break;
@@ -592,14 +598,14 @@ function FriendCityMap(props) {
           style={showSideMenu ? { width: "250px" } : { width: "40px" }}
         >
           {!showSideMenu ? (
-            <a className="opennav" onClick={() => handleSideMenu(true)}>
+            <nav className="opennav" onClick={() => handleSideMenu(true)}>
               &raquo;
-            </a>
+            </nav>
           ) : (
             <>
-              <a className="closebtn" onClick={() => handleSideMenu(false)}>
+              <nav className="closebtn" onClick={() => handleSideMenu(false)}>
                 &times;
-              </a>
+              </nav>
               <div className="side-menu-container">
                 <div
                   className="city-new-map-scorecard"

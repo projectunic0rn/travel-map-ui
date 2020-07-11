@@ -8,8 +8,7 @@ function FilterCityMap(props) {
       ? props.customProps.filterSettings.username
       : []
   );
-  const [interestTagArray, handleInterestTag] = useState([]);
-  const [friendDetails, handleFriendDetails] = useState(
+  const [friendDetails] = useState(
     props.customProps.friends
   );
   function handleUsernameChangeHelper(e) {
@@ -29,11 +28,6 @@ function FilterCityMap(props) {
     let newUsernameArray = [...usernameArray];
     newUsernameArray.splice(newUsernameArray.indexOf(username), 1);
     handleUsernameChange(newUsernameArray);
-  }
-  function handleInterestTagHelper(tag) {
-    let newInterestTagArray = interestTagArray;
-    newInterestTagArray.push(tag);
-    handleInterestTag(newInterestTagArray);
   }
   function handleApplyFilter() {
     props.customProps.handleFilter({

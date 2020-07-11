@@ -9,7 +9,7 @@ function FakePlaceReviewCard() {
         <div className="place-review-user">
           <UserAvatar avatarIndex={2} color={"#C8B343"} />
           <span className="pr-username">user4</span>
-          <FeedbackBoxStatic review={{ rating: 2 }} comment={1} />
+          <FeedbackBoxStatic review={{ rating: 2 }} comment={1}  email={null}/>
         </div>
         <div className="pr-card-content">
           <div className="place-review-card">
@@ -38,7 +38,7 @@ function FakePlaceReviewCard() {
       </div>
       <div className="place-review-card-container prcc-past">
         <div className="place-review-user">
-          <UserAvatar avatarIndex={4} color={"rgb(200, 46, 100"} />
+          <UserAvatar avatarIndex={4} color={"rgb(200, 46, 100"} email={null} />
           <span className="pr-username">user1</span>
           <FeedbackBoxStatic review={{ rating: 2 }} comment={1} />
         </div>

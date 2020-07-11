@@ -83,28 +83,30 @@ function CityMap(props) {
   const mapRef = useRef();
   const clusterPast = useRef();
   const clusterFuture = useRef();
-  const [clusterParams, handleClusterParams] = useState(
-    {
-      extent: 16384,
-      nodeSize: 1024,
-    },
-  );
+  const [clusterParams, handleClusterParams] = useState({
+    extent: 16384,
+    nodeSize: 1024,
+  });
 
   useEffect(() => {
-    let newClusterParams = clusterParams;
-    if (props.clickedCityArray.length > 0) {
-      if (props.clickedCityArray.length > 200) {
-        newClusterParams.extent = 2048;
-        newClusterParams.nodeSize = 128;
-      } else if (props.clickedCityArray.length > 100) {
-        newClusterParams.extent = 4096;
-        newClusterParams.nodeSize = 256;
-      } else if (props.clickedCityArray.length > 50) {
-        newClusterParams.extent = 8192;
-        newClusterParams.nodeSize = 512;
-      } 
-      handleClusterParams(newClusterParams)
+    function setClusterParams() {
+      let newClusterParams = clusterParams;
+      if (props.clickedCityArray.length > 0) {
+        if (props.clickedCityArray.length > 200) {
+          newClusterParams.extent = 2048;
+          newClusterParams.nodeSize = 128;
+        } else if (props.clickedCityArray.length > 100) {
+          newClusterParams.extent = 4096;
+          newClusterParams.nodeSize = 256;
+        } else if (props.clickedCityArray.length > 50) {
+          newClusterParams.extent = 8192;
+          newClusterParams.nodeSize = 512;
+        }
+        handleClusterParams(newClusterParams);
+      }
     }
+    setClusterParams();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {}, [loading]);
@@ -115,6 +117,7 @@ function CityMap(props) {
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -126,6 +129,7 @@ function CityMap(props) {
     let oldActiveTimings = [...activeTimings];
     handleActiveTimings([0, 0, 0]);
     handleActiveTimings(oldActiveTimings);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     clickedCityArray,
     markerPastDisplay,
@@ -152,6 +156,7 @@ function CityMap(props) {
         return;
       }
       handleOnResult(newLiveCity);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newLiveCity]);
   }
   function saveClicked() {
@@ -224,7 +229,9 @@ function CityMap(props) {
         city.cityId === cityTooltip.cityId &&
         city.tripTiming === cityTooltip.tripTiming
       ) {
-        cityArrayIndex = index;
+        return cityArrayIndex = index;
+      } else {
+        return false;
       }
     });
     let markerIndex;
@@ -236,7 +243,9 @@ function CityMap(props) {
       case 0:
         markerPastDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
+           return markerIndex = index;
+          } else {
+            return false;
           }
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
@@ -250,7 +259,9 @@ function CityMap(props) {
       case 1:
         markerFutureDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
+           return markerIndex = index;
+          } else {
+            return false;
           }
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
@@ -264,7 +275,9 @@ function CityMap(props) {
       case 2:
         markerLiveDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
+           return markerIndex = index;
+          } else {
+            return false;
           }
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
@@ -293,7 +306,9 @@ function CityMap(props) {
         city.cityId === cityTooltip.cityId &&
         city.tripTiming === cityTooltip.tripTiming
       ) {
-        cityArrayIndex = index;
+        return cityArrayIndex = index;
+      } else {
+        return false;
       }
     });
     let markerIndex;
@@ -305,7 +320,9 @@ function CityMap(props) {
       case 0:
         markerPastDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
+            return markerIndex = index;
+          } else {
+            return false;
           }
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
@@ -319,7 +336,9 @@ function CityMap(props) {
       case 1:
         markerFutureDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
+           return markerIndex = index;
+          } else {
+            return false;
           }
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
@@ -333,7 +352,9 @@ function CityMap(props) {
       case 2:
         markerLiveDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-            markerIndex = index;
+           return markerIndex = index;
+          } else {
+            return false;
           }
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
@@ -371,6 +392,9 @@ function CityMap(props) {
           default:
             break;
         }
+        return false;
+      } else {
+        return false;
       }
     });
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
@@ -547,11 +571,11 @@ function CityMap(props) {
     );
     for (let i in filteredClickedCityArray) {
       if (
-        countryIdArray.indexOf(filteredClickedCityArray[i].countryId) === -1
+        countryIdArray.indexOf(filteredClickedCityArray[i].country) === -1
       ) {
         newTravelScore += 10;
       }
-      countryIdArray.push(filteredClickedCityArray[i].countryId);
+      countryIdArray.push(filteredClickedCityArray[i].country);
       lat = filteredClickedCityArray[i].city_latitude;
       long = filteredClickedCityArray[i].city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
@@ -703,7 +727,7 @@ function CityMap(props) {
 
   function evalLiveClick(newCity, event) {
     let whichArray = "loaded";
-    let liveCityIndex;
+    let liveCityIndex = 0;
     let liveCity = loadedClickedCityArray.filter((city, index) => {
       liveCityIndex = index;
       return city.tripTiming === 2;
@@ -748,6 +772,7 @@ function CityMap(props) {
         handleNewLiveCity(event);
       }
     });
+    return liveCityIndex;
   }
 
   function handleTripTimingCityHelper(city) {
@@ -1014,14 +1039,14 @@ function CityMap(props) {
           style={showSideMenu ? { width: "250px" } : { width: "40px" }}
         >
           {!showSideMenu ? (
-            <a className="opennav" onClick={() => handleSideMenu(true)}>
+            <nav className="opennav" onClick={() => handleSideMenu(true)}>
               &raquo;
-            </a>
+            </nav>
           ) : (
             <>
-              <a className="closebtn" onClick={() => handleSideMenu(false)}>
+              <nav className="closebtn" onClick={() => handleSideMenu(false)}>
                 &times;
-              </a>
+              </nav>
               <div className="side-menu-container">
                 <div
                   className="city-new-map-scorecard"

@@ -22,13 +22,12 @@ function BloggerCountryPopup(props) {
     // { username: "ThePlanetD" },
     { username: "BucketListly" },
   ]);
-  const [country, handleCountryname] = useState(props.customProps.countryName);
+  const [country] = useState(props.customProps.countryName);
   const [navPosition, handleNavPosition] = useState(0);
   const [blogPostCards, handleBlogPostCards] = useState([]);
   const [blogPosts, handleBlogPosts] = useState([]);
   const [cityPostArray, handleCityPostArray] = useState([]);
 
-  let userTripTitle = null;
   let filteredBlogPosts = [];
   useEffect(() => {
     let newBlogPostArray = [];

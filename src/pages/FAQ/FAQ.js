@@ -8,12 +8,12 @@ const FAQItems = [
   {
     title: "What is the purpose of the site",
     text: (
-      <p>
+      <div>
         There are two main purposes of the site:
         <ol>
           <li>
             To allow users to record the cities they have been (and what they
-            liked or didn't like there) to save these memories
+            liked or didn&apos;t like there) to save these memories
           </li>
           <li>
             To help plan trips by seeing where your friends have been and what
@@ -22,17 +22,17 @@ const FAQItems = [
         </ol>
         We anticipate a couple of different use cases. For many people, the site
         may be mainly a means of seeing the countries/cities you have traveled
-        to and sharing it with friends. For other "superusers", we want it to be
+        to and sharing it with friends. For other &quot;superusers&quot;, we want it to be
         possible to store detailed trip reports that you can look back on.
-      </p>
+      </div>
     )
   },
   {
     title: "How can I add cities to my map",
     text: (
-      <p>
+      <div>
         <ol>
-          <li>Click "Personal" in the navigation menu</li>
+          <li>Click &quot;Personal&quot; in the navigation menu</li>
           <li>
             Use the underlined dropdown menu to select the timing of your trip
           </li>
@@ -40,43 +40,43 @@ const FAQItems = [
             Use the underlined dropdown menu to select the timing of your trip
           </li>
           <li>
-            Either type in a city or use the "Tap Cities" prompts to select them
+            Either type in a city or use the &quot;Tap Cities&quot; prompts to select them
           </li>
-          <li>Remember to hit "Save My Map" before you change pages!</li>
+          <li>Remember to hit &quot;Save My Map&quot; before you change pages!</li>
           <li>
             The cities you entered should now be marked on your map when you
             reload the page
           </li>
         </ol>
         <img className="add-cities-gif" src={AddCitiesGif}></img>
-      </p>
+      </div>
     )
   },
   {
     title: "How can I add countries to my map",
     text: (
-      <p>
+      <div>
         If you add cities, the corresponding country will automatically be
         added. However, if all of the cities you want to add are all from one
         country, use the following steps:
         <ol>
-          <li>Click "Personal" in the navigation menu</li>
-          <li>Click the "Country Map" icon to the left of the search bar</li>
+          <li>Click &quot;Personal&quot; in the navigation menu</li>
+          <li>Click the &quot;Country Map&quot; icon to the left of the search bar</li>
           <li>Click or type in the name of the country you want</li>
           <li>Select the timing (past/future/live)</li>
-          <li>Type in cities in that country and then hit the "Save" button</li>
+          <li>Type in cities in that country and then hit the &quot;Save&quot; button</li>
           <li>The country should have been filled in on your map</li>
         </ol>
         <img className="add-cities-gif" src={AddCountriesGif}></img>
-      </p>
+      </div>
     )
   },
   {
     title: "How can I add reviews",
     text: (
-      <p>
+      <div>
         <ol>
-          <li>Click "Profile" in the navigation menu</li>
+          <li>Click &quot;Profile&quot; in the navigation menu</li>
           <li>
             Click on the city you want to add reviews for (or use the
             filters/search bar to find it)
@@ -85,30 +85,30 @@ const FAQItems = [
           <li>
             Click on different icons in the vertical nav menu to get to reviews
           </li>
-          <li>Click "Edit" and then "Add Review"</li>
+          <li>Click &quot;Edit&quot; and then &quot;Add Review&quot;</li>
           <li>
             Select the review category from the dropdown menu, type in the
             specific place/activity, give a rating, leave a comment, and leave a
             cost/person
           </li>
         </ol>
-      </p>
+      </div>
     )
   },
   {
     title: "How can I see my friend's reviews for a city",
     text: (
-      <p>
+      <div>
         <ol>
           <li>
-            Click "Friends" from the navigation menu to see the friends map
+            Click &quot;Friends&quot; from the navigation menu to see the friends map
           </li>
           <li>
             Type in or click on the city you are interested in (can also look at
             reviews for a whole country on the country map)
           </li>
           <li>
-            To see an individual friend's reviews of that city, click on their
+            To see an individual friend&apos;s reviews of that city, click on their
             user card. To see all of the reviews compiled, click the name of the
             city in the popup prompt
           </li>
@@ -117,7 +117,7 @@ const FAQItems = [
             review types
           </li>
         </ol>
-      </p>
+      </div>
     )
   },
   // {

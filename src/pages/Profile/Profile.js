@@ -17,8 +17,8 @@ import Loader from "../../components/common/Loader/Loader";
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ user, urlUsername, refetchApp }) {
   const [loaded, handleLoaded] = useState(false);
-  const [cityArray, handleCityArray] = useState([]);
-  const [countryArray, handleCountryArray] = useState([]);
+  const [, handleCityArray] = useState([]);
+  const [, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
   const [userData, handleUserData] = useState(user);
   const [cityData, handleCityData] = useState();
@@ -152,6 +152,7 @@ export default function Profile({ user, urlUsername, refetchApp }) {
       }
       handleLoaded(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityData]);
   return (
     <Query

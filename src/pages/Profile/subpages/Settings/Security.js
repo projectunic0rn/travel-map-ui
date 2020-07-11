@@ -69,7 +69,7 @@ export default function Security({ history }) {
           e.preventDefault();
         }}
       >
-        <span className="security-subheader">OLD PASSWORD</span>
+        <span className="security-subheader">CURRENT PASSWORD</span>
         <input
           className="input"
           value={oldPassword}
@@ -80,6 +80,7 @@ export default function Security({ history }) {
           required
           name="password"
           id="oldPassword"
+          autoComplete="current password"
         ></input>
         {errors.oldPassword && (
           <span className="validate">{errors.oldPassword}</span>
@@ -95,6 +96,7 @@ export default function Security({ history }) {
           required
           name="password"
           id="password"
+          autoComplete="new password"
         ></input>
         {errors.password && <span className="validate">{errors.password}</span>}
         <span className="security-subheader">CONFIRM NEW PASSWORD</span>
@@ -108,6 +110,7 @@ export default function Security({ history }) {
           required
           name="password"
           id="password2"
+          autoComplete="new password"
         ></input>
         {errors.password2 && (
           <span className="validate">{errors.password2}</span>

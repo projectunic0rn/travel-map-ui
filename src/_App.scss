@@ -82,6 +82,13 @@ code {
   width: $l;
 }
 
+.place-review-user {
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
+
 .page .container {
   height: calc(100vh - 100px);
   padding: 20px;
