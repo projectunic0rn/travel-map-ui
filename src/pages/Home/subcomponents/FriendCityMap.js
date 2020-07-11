@@ -98,13 +98,19 @@ function FriendCityMap(props) {
     for (let i in cityArray) {
       switch (cityArray[i].tripTiming) {
         case 0:
-          pastCount++;
+          if (cityArray[i].cityId !== null) {
+            pastCount++;
+          };
           break;
         case 1:
-          futureCount++;
+          if (cityArray[i].cityId !== null) {
+            futureCount++;
+          };
           break;
         case 2:
-          liveCount++;
+          if (cityArray[i].cityId !== null) {
+            liveCount++;
+          };
           break;
         default:
           break;
