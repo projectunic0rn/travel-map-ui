@@ -8,6 +8,7 @@ import UsernameDropdown from "./UsernameDropdown";
 import { GET_LOGGEDIN_USER } from "../../../GraphQL";
 
 function UserHeaderContainer({ color, avatarIndex }) {
+  console.log("UserHeaderContainer")
   const [dropdown, handleDropdownClick] = useState(false);
   return (
     <Query
@@ -50,7 +51,6 @@ function UserHeaderContainer({ color, avatarIndex }) {
 }
 
 UserHeaderContainer.propTypes = {
-  setUserLoggedIn: PropTypes.func,
   color: PropTypes.string,
   avatarIndex: PropTypes.number,
 };

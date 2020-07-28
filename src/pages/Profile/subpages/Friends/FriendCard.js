@@ -51,8 +51,8 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
-        if (countryArray.indexOf(tripType.countryId) === -1) {
-          countryArray.push(tripType.countryId);
+        if (countryArray.indexOf(tripType.country) === -1) {
+          countryArray.push(tripType.country);
         }
       });
     }
@@ -60,8 +60,8 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
       if (cityArray.indexOf(friend.Place_living) === -1) {
         cityArray.push(friend.Place_living.cityId);
       }
-      if (countryArray.indexOf(friend.Place_living.countryId) === -1) {
-        countryArray.push(friend.Place_living.countryId);
+      if (countryArray.indexOf(friend.Place_living.country) === -1) {
+        countryArray.push(friend.Place_living.country);
       }
     }
     handleCityArray(cityArray);

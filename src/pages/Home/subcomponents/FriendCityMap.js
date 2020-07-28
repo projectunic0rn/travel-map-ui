@@ -100,17 +100,17 @@ function FriendCityMap(props) {
         case 0:
           if (cityArray[i].cityId !== null) {
             pastCount++;
-          };
+          }
           break;
         case 1:
           if (cityArray[i].cityId !== null) {
             futureCount++;
-          };
+          }
           break;
         case 2:
           if (cityArray[i].cityId !== null) {
             liveCount++;
-          };
+          }
           break;
         default:
           break;

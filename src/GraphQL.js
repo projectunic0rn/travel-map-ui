@@ -913,8 +913,8 @@ export const REMOVE_PLACE_VISITING = gql`
 `;
 
 export const REMOVE_PLACES_IN_COUNTRY = gql`
-  mutation removePlacesInCountry($countryISO: String!, $currentTiming: Int!) {
-    removePlacesInCountry(countryISO: $countryISO, tripTiming: $currentTiming) {
+  mutation removePlacesInCountry($country: String!, $currentTiming: Int!) {
+    removePlacesInCountry(country: $country, tripTiming: $currentTiming) {
       id
       city
     }

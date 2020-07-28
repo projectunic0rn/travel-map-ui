@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
-
+import UserContext from "../../../../utils/UserContext";
 import { Mutation } from "react-apollo";
 import {
   REMOVE_PLACE_VISITING,
@@ -20,10 +20,11 @@ import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoade
 function ProfileCityCard({
   cityData,
   color,
-  refetch,
   handleSelectedCity,
-  urlUsername
+  urlUsername,
+  index
 }) {
+  const user = React.useContext(UserContext);
   const [loaded, handleLoaded] = useState(false);
   const [localCityData] = useState(cityData);
   const [placeCount, handlePlaceCount] = useState(0);
@@ -104,6 +105,16 @@ function ProfileCityCard({
     }
     handleLoaded(true);
   }, [cityData]);
+  function handleDeletedCity() {
+    console.log(cityData)
+    let userData = { ...user };
+    console.log(userData.clickedCityArray);
+    let newClickedCityArray = userData.clickedCityArray.filter(city => city.id !== cityData.id);
+    userData.clickedCityArray = newClickedCityArray;
+    console.log(userData);
+    // user.handleUserData(userData.userData);
+    user.handleClickedCityArray(userData.clickedCityArray);
+  }
   if (!loaded) return <SimpleLoader />;
   return (
     <div className="pcc-card-container">
@@ -169,7 +180,7 @@ function ProfileCityCard({
             ? { placeVisitingId }
             : { placeLivingId }
         }
-        onCompleted={() => refetch()}
+        onCompleted={() => handleDeletedCity()}
       >
         {mutation => (
           <div
@@ -204,7 +215,6 @@ ProfileCityCard.propTypes = {
   color: PropTypes.string,
   handleSelectedCity: PropTypes.func,
   urlUsername: PropTypes.string,
-  refetch: PropTypes.func
 };
 
 export default withRouter(ProfileCityCard);

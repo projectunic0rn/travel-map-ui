@@ -12,7 +12,8 @@ import AvatarSeven from "../../icons/AvatarIcons/AvatarSeven";
 import AvatarEight from "../../icons/AvatarIcons/AvatarEight";
 import SimpleLoader from "../common/SimpleLoader/SimpleLoader";
 
-export default function UserAvatar({ color, avatarIndex, email }) {
+const UserAvatar = React.memo(function UserAvatar({ color, avatarIndex, email }) {
+  console.log("UserAvatar")
   const [avatar, handleAvatar] = useState(<SimpleLoader />);
   useEffect(() => {
     let newAvatar = "";
@@ -46,7 +47,7 @@ export default function UserAvatar({ color, avatarIndex, email }) {
         break;
     }
     handleAvatar(newAvatar);
-  }, [avatarIndex]);
+  }, [avatarIndex, color]);
 
   return (
     <div className="user-avatar">
@@ -54,10 +55,12 @@ export default function UserAvatar({ color, avatarIndex, email }) {
       <Gravatar email={email} default="blank" className="gravatar" />
     </div>
   );
-}
+});
 
 UserAvatar.propTypes = {
   color: PropTypes.string,
   avatarIndex: PropTypes.number,
   email: PropTypes.string,
 };
+
+export default React.memo(UserAvatar)

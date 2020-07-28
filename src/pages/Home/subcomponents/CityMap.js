@@ -14,9 +14,8 @@ import {
   REMOVE_PLACE_VISITING,
   REMOVE_PLACE_VISITED,
   REMOVE_PLACE_LIVING,
-  GET_LOGGEDIN_USER_COUNTRIES,
 } from "../../../GraphQL";
-
+import UserContext from "../../../utils/UserContext";
 import { TravelScoreCalculator } from "../../../TravelScore";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
@@ -26,6 +25,7 @@ import SaveIcon from "../../../icons/SaveIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
+
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
 import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
@@ -38,7 +38,9 @@ function CityMap(props) {
     longitude: 8,
     zoom: setInitialZoom(),
   });
-
+  console.log("CityMap");
+  const user = React.useContext(UserContext);
+  console.log(user);
   const [deletePrompt, handleDelete] = useState(false);
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
@@ -46,7 +48,7 @@ function CityMap(props) {
   const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
   const [loadedClickedCityArray, handleLoadedClickedCityArray] = useState(
-    props.clickedCityArray
+    user.clickedCityArray
   );
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
@@ -61,19 +63,27 @@ function CityMap(props) {
   const [newLiveCity, handleNewLiveCity] = useState();
   const [showSideMenu, handleSideMenu] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
-    refetchQueries: [
-      {
-        query: GET_LOGGEDIN_USER_COUNTRIES,
-      },
-    ],
-    awaitRefetchQueries: true,
+    // refetchQueries: [
+    //   {
+    //     query: GET_LOGGEDIN_USER_COUNTRIES,
+    //   },
+    // ],
+    // awaitRefetchQueries: true,
     onCompleted() {
-      props.refetch();
+      // props.refetch();
+      updateGeorneyScore({ variables: { travelScore } });
     },
   });
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
-      props.refetch();
+      let userData = { ...user };
+      userData.userData.georneyScore = travelScore;
+      let newClickedCityArray = userData.clickedCityArray.concat(clickedCityArray);
+      userData.clickedCityArray = newClickedCityArray;
+      console.log(userData);
+      user.handleUserData(userData.userData);
+      user.handleClickedCityArray(userData.clickedCityArray);
+      // props.refetch();
     },
   });
   const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
@@ -87,7 +97,7 @@ function CityMap(props) {
     extent: 16384,
     nodeSize: 1024,
   });
-
+  console.log(clickedCityArray);
   useEffect(() => {
     function setClusterParams() {
       let newClusterParams = clusterParams;
@@ -113,7 +123,7 @@ function CityMap(props) {
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
-    handleLoadedCities(props.clickedCityArray);
+    handleLoadedCities(user.clickedCityArray);
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
@@ -161,7 +171,6 @@ function CityMap(props) {
   }
   function saveClicked() {
     addMultiplePlaces({ variables: { clickedCityArray } });
-    updateGeorneyScore({ variables: { travelScore } });
   }
 
   function resize() {
@@ -229,7 +238,7 @@ function CityMap(props) {
         city.cityId === cityTooltip.cityId &&
         city.tripTiming === cityTooltip.tripTiming
       ) {
-        return cityArrayIndex = index;
+        return (cityArrayIndex = index);
       } else {
         return false;
       }
@@ -243,7 +252,7 @@ function CityMap(props) {
       case 0:
         markerPastDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-           return markerIndex = index;
+            return (markerIndex = index);
           } else {
             return false;
           }
@@ -259,7 +268,7 @@ function CityMap(props) {
       case 1:
         markerFutureDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-           return markerIndex = index;
+            return (markerIndex = index);
           } else {
             return false;
           }
@@ -275,7 +284,7 @@ function CityMap(props) {
       case 2:
         markerLiveDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-           return markerIndex = index;
+            return (markerIndex = index);
           } else {
             return false;
           }
@@ -306,7 +315,7 @@ function CityMap(props) {
         city.cityId === cityTooltip.cityId &&
         city.tripTiming === cityTooltip.tripTiming
       ) {
-        return cityArrayIndex = index;
+        return (cityArrayIndex = index);
       } else {
         return false;
       }
@@ -320,7 +329,7 @@ function CityMap(props) {
       case 0:
         markerPastDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-            return markerIndex = index;
+            return (markerIndex = index);
           } else {
             return false;
           }
@@ -336,7 +345,7 @@ function CityMap(props) {
       case 1:
         markerFutureDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-           return markerIndex = index;
+            return (markerIndex = index);
           } else {
             return false;
           }
@@ -352,7 +361,7 @@ function CityMap(props) {
       case 2:
         markerLiveDisplay.filter((city, index) => {
           if (Number(city.key) === cityTooltip.cityId) {
-           return markerIndex = index;
+            return (markerIndex = index);
           } else {
             return false;
           }
@@ -566,13 +575,12 @@ function CityMap(props) {
     let travelScoreIndex;
     let travelScoreIndexArray = [];
     let countryIdArray = [];
+    console.log(loadedClickedCityArray)
     let filteredClickedCityArray = loadedClickedCityArray.filter(
       (city) => city.tripTiming === 0 || city.tripTiming === 2
     );
     for (let i in filteredClickedCityArray) {
-      if (
-        countryIdArray.indexOf(filteredClickedCityArray[i].country) === -1
-      ) {
+      if (countryIdArray.indexOf(filteredClickedCityArray[i].country) === -1) {
         newTravelScore += 10;
       }
       countryIdArray.push(filteredClickedCityArray[i].country);
@@ -596,13 +604,13 @@ function CityMap(props) {
     let long;
     let travelScoreIndex;
     let newTravelScoreIndexArray = [...travelScoreIndexArray];
-    let newCountryIdArray = [...countryIdArray];
+    let newCountryArray = [...countryIdArray];
     if (type === "add") {
-      if (countryIdArray.indexOf(newCityEntry.countryId) === -1) {
+      if (countryIdArray.indexOf(newCityEntry.country) === -1) {
         newTravelScore += 10;
       }
 
-      newCountryIdArray.push(newCityEntry.countryId);
+      newCountryArray.push(newCityEntry.country);
 
       lat = newCityEntry.city_latitude;
       long = newCityEntry.city_longitude;
@@ -614,10 +622,10 @@ function CityMap(props) {
       newTravelScoreIndexArray.push(travelScoreIndex);
     } else {
       let findCountryIds = [];
-      for (let i in newCountryIdArray) {
+      for (let i in newCountryArray) {
         if (findCountryIds.length > 1) {
-          i = newCountryIdArray.length;
-        } else if (newCountryIdArray[i] === newCityEntry.countryId) {
+          i = newCountryArray.length;
+        } else if (newCountryArray[i] === newCityEntry.country) {
           findCountryIds.push(i);
         }
       }
@@ -625,7 +633,7 @@ function CityMap(props) {
         newTravelScore -= 10;
       }
 
-      newCountryIdArray.splice(Number(findCountryIds[0]), 1);
+      newCountryArray.splice(Number(findCountryIds[0]), 1);
 
       lat = newCityEntry.city_latitude;
       long = newCityEntry.city_longitude;
@@ -647,7 +655,7 @@ function CityMap(props) {
       }
     }
     handleTravelScore(newTravelScore);
-    handleCountryIdArray(newCountryIdArray);
+    handleCountryIdArray(newCountryArray);
     handleTravelScoreIndexArray(newTravelScoreIndexArray);
   }
 

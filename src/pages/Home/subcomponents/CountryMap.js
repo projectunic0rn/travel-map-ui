@@ -8,10 +8,8 @@ import {
 } from "react-simple-maps";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/react-hooks";
-import {
-  ADD_MULTIPLE_PLACES,
-  GET_LOGGEDIN_USER_COUNTRIES,
-} from "../../../GraphQL";
+import { ADD_MULTIPLE_PLACES } from "../../../GraphQL";
+import UserContext from "../../../utils/UserContext";
 
 import jsonData from "../../../world-topo-min.json";
 import ClickedCountryTiming from "../../../components/Prompts/ClickedCountry/ClickedCountryTiming";
@@ -25,6 +23,9 @@ import ShareIcon from "../../../icons/ShareIcon";
 import SaveIcon from "../../../icons/SaveIcon";
 
 const CountryMap = (props) => {
+  console.log("CountryMap");
+  const cityArray = React.useContext(UserContext).clickedCityArray;
+  const user = React.useContext(UserContext);
   const [center, handleChangeCenter] = useState([6, 20]);
   const [zoom, handleChangeZoom] = useState(1);
   const continents = [
@@ -37,10 +38,7 @@ const CountryMap = (props) => {
     { name: "East Asia", coordinates: [121.4737, 31.2304] },
   ];
   const [clickedCountry, handleNewCountry] = useState(0);
-  const [clickedCountryArray, handleClickedCountryArray] = useState([
-    ...props.countryArray,
-  ]);
-  console.log(clickedCountryArray)
+  const [clickedCountryArray, handleClickedCountryArray] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]); // Named this way to re-use graphql mutation
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
@@ -49,16 +47,39 @@ const CountryMap = (props) => {
   const [showSideMenu, handleSideMenu] = useState(false);
   const [activePopup, showPopup] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
-    refetchQueries: [
-      {
-        query: GET_LOGGEDIN_USER_COUNTRIES,
-      },
-    ],
-    awaitRefetchQueries: true,
     onCompleted() {
-      props.refetch();
+      console.log(clickedCityArray);
+      let userData = { ...user };
+      let newClickedCityArray = userData.clickedCityArray.concat(
+        clickedCityArray
+      );
+      userData.clickedCityArray = newClickedCityArray;
+      user.handleClickedCityArray(userData.clickedCityArray);
     },
   });
+
+  useEffect(() => {
+    let newCountryArray = [];
+    if (cityArray !== undefined) {
+      for (let i in cityArray) {
+        if (
+          !newCountryArray.some((country) => {
+            return (
+              country.country === cityArray[i].country &&
+              country.tripTiming === cityArray[i].tripTiming
+            );
+          })
+        ) {
+          newCountryArray.push({
+            countryId: cityArray[i].countryId,
+            country: cityArray[i].country,
+            tripTiming: cityArray[i].tripTiming,
+          });
+        }
+      }
+    }
+    handleClickedCountryArray(newCountryArray);
+  }, [cityArray]);
 
   useEffect(() => {
     let pastCount = 0;
@@ -268,6 +289,7 @@ const CountryMap = (props) => {
   }
 
   function handleDeleteCountry(geography, index) {
+    console.log("handle delete country");
     let countryArray = clickedCountryArray;
     let cityArray = clickedCityArray;
     for (let i in cityArray) {
@@ -319,7 +341,7 @@ const CountryMap = (props) => {
 
   function handleTripTimingHelper(country) {
     let newCountryArray = clickedCountryArray;
-    let cityArray = clickedCityArray;
+    let newCityArray = clickedCityArray;
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -328,7 +350,7 @@ const CountryMap = (props) => {
       country: country.properties.name,
       tripTiming: props.currentTiming,
     });
-    cityArray.push({
+    newCityArray.push({
       countryId: country.id,
       country: country.properties.name,
       tripTiming: props.currentTiming,
@@ -356,7 +378,7 @@ const CountryMap = (props) => {
     }
     handleTripTiming([pastCount, futureCount, liveCount]);
     handleClickedCountryArray(newCountryArray);
-    handleClickedCityArray(cityArray);
+    handleClickedCityArray(newCityArray);
   }
 
   function handleActiveTimings(timings) {
@@ -528,13 +550,7 @@ const CountryMap = (props) => {
           component={ClickedCountryTiming}
           componentProps={{
             countryInfo: clickedCountry,
-            currentTiming:
-              props.currentTiming === 0
-                ? "past"
-                : props.currentTiming === 1
-                ? "future"
-                : "live",
-            previousTrips: checkForPreviousTrips(clickedCountry),
+            currentTiming: props.currentTiming,
             showPopup: showPopup,
             refetch: props.refetch,
           }}

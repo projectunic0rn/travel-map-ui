@@ -381,8 +381,6 @@ const FriendCountryMap = (props) => {
           componentProps={{
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,
-            capitalName: capitalName,
-            refetch: props.refetch,
           }}
         />
       ) : null}
@@ -403,7 +401,6 @@ FriendCountryMap.propTypes = {
   clickedCountryArray: PropTypes.array,
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  refetch: PropTypes.func,
   filterParams: PropTypes.object,
 };
 
