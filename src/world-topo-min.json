@@ -62904,7 +62904,6 @@
           "properties": {
             "name": "Chile",
             "ISO2": "CL",
-            "color": "#ff7f0e",
             "continent": "SouthAmerica",
             "capital": "Santiago"
           }
@@ -62928,9 +62927,8 @@
           ],
           "id": 177139,
           "properties": {
-            "name": "People's Republic of China",
+            "name": "China",
             "ISO2": "CN",
-            "color": "#aec7e8",
             "continent": "Asia",
             "capital": "Beijing"
           }
@@ -62945,7 +62943,6 @@
           "properties": {
             "name": "Ivory Coast",
             "ISO2": "CI",
-            "color": "#ff7f0e",
             "continent": "Africa",
             "capital": "Yamoussoukro"
           }
@@ -62957,7 +62954,6 @@
           "properties": {
             "name": "Cameroon",
             "ISO2": "CH",
-            "color": "#aec7e8",
             "continent": "Africa",
             "capital": "Yaounde"
           }
@@ -62969,7 +62965,6 @@
           "properties": {
             "name": "Democratic Republic of the Congo",
             "ISO2": "CD",
-            "color": "#aec7e8",
             "continent": "Africa",
             "capital": "Kinshasa"
           }

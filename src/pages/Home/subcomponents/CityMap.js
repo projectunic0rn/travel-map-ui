@@ -38,9 +38,7 @@ function CityMap(props) {
     longitude: 8,
     zoom: setInitialZoom(),
   });
-  console.log("CityMap");
   const user = React.useContext(UserContext);
-  console.log(user);
   const [deletePrompt, handleDelete] = useState(false);
   const [markers, handleMarkers] = useState([]);
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
@@ -62,15 +60,9 @@ function CityMap(props) {
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [newLiveCity, handleNewLiveCity] = useState();
   const [showSideMenu, handleSideMenu] = useState(false);
+  const [save, handleSaveClicked] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
-    // refetchQueries: [
-    //   {
-    //     query: GET_LOGGEDIN_USER_COUNTRIES,
-    //   },
-    // ],
-    // awaitRefetchQueries: true,
     onCompleted() {
-      // props.refetch();
       updateGeorneyScore({ variables: { travelScore } });
     },
   });
@@ -78,12 +70,13 @@ function CityMap(props) {
     onCompleted() {
       let userData = { ...user };
       userData.userData.georneyScore = travelScore;
-      let newClickedCityArray = userData.clickedCityArray.concat(clickedCityArray);
+      let newClickedCityArray = userData.clickedCityArray.concat(
+        clickedCityArray
+      );
       userData.clickedCityArray = newClickedCityArray;
-      console.log(userData);
       user.handleUserData(userData.userData);
       user.handleClickedCityArray(userData.clickedCityArray);
-      // props.refetch();
+      handleSaveClicked(false);
     },
   });
   const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
@@ -97,7 +90,6 @@ function CityMap(props) {
     extent: 16384,
     nodeSize: 1024,
   });
-  console.log(clickedCityArray);
   useEffect(() => {
     function setClusterParams() {
       let newClusterParams = clusterParams;
@@ -170,6 +162,7 @@ function CityMap(props) {
     }, [newLiveCity]);
   }
   function saveClicked() {
+    handleSaveClicked(true);
     addMultiplePlaces({ variables: { clickedCityArray } });
   }
 
@@ -305,6 +298,9 @@ function CityMap(props) {
     props.handleAlteredCityArray(
       newClickedCityArray.concat(props.clickedCityArray)
     );
+    user.handleClickedCityArray(
+      newClickedCityArray.concat(props.clickedCityArray)
+    );
   }
 
   function deleteLoadedCity(cityTooltip) {
@@ -380,6 +376,7 @@ function CityMap(props) {
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     calculateNewTravelScore(cityTooltip, "delete");
     props.handleAlteredCityArray(newClickedCityArray);
+    user.handleClickedCityArray(newClickedCityArray);
   }
 
   function handleLoadedCities(data) {
@@ -575,7 +572,6 @@ function CityMap(props) {
     let travelScoreIndex;
     let travelScoreIndexArray = [];
     let countryIdArray = [];
-    console.log(loadedClickedCityArray)
     let filteredClickedCityArray = loadedClickedCityArray.filter(
       (city) => city.tripTiming === 0 || city.tripTiming === 2
     );
@@ -1113,7 +1109,9 @@ function CityMap(props) {
           <div
             className={
               clickedCityArray.length > 0
-                ? "personal-map-save"
+                ? save
+                  ? "personal-map-save loading-animation"
+                  : "personal-map-save"
                 : "personal-map-save personal-map-save-noclick"
             }
             id="city-map-share"

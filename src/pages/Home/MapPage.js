@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useMutation } from "@apollo/react-hooks";
-import { ADD_MULTIPLE_PLACES } from "../../GraphQL";
 import UserContext from "../../utils/UserContext";
 
-import { TravelScoreCalculator } from "../../TravelScore";
 import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
@@ -15,23 +12,12 @@ const MapPage = ({
   handleMapPageChange,
   clickedCityArray,
 }) => {
-  console.log("MapPage")
   const user = React.useContext(UserContext).clickedCityArray;
-  console.log(user)
   const [countryArray, addCountry] = useState([]);
-  const [tripData, handleTripData] = useState([]);
+  const [tripData] = useState([]);
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
   const [loaded, handleLoaded] = useState(false);
-  const [, handleTravelScore] = useState(0);
-  const [, handleCountryArray] = useState([]);
-  const [, handleTravelScoreIndexArray] = useState([]);
   const [timing, handleTimingChange] = useState(0);
-  const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
-    onCompleted() {
-      localStorage.removeItem("clickedCityArray");
-      refetch();
-    },
-  });
   // useEffect(() => {
   //   if (
   //     clickedCityArray !== null &&

@@ -23,7 +23,6 @@ import ShareIcon from "../../../icons/ShareIcon";
 import SaveIcon from "../../../icons/SaveIcon";
 
 const CountryMap = (props) => {
-  console.log("CountryMap");
   const cityArray = React.useContext(UserContext).clickedCityArray;
   const user = React.useContext(UserContext);
   const [center, handleChangeCenter] = useState([6, 20]);
@@ -48,7 +47,6 @@ const CountryMap = (props) => {
   const [activePopup, showPopup] = useState(false);
   const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
     onCompleted() {
-      console.log(clickedCityArray);
       let userData = { ...user };
       let newClickedCityArray = userData.clickedCityArray.concat(
         clickedCityArray
@@ -267,7 +265,6 @@ const CountryMap = (props) => {
       ". Would you like to update this to " +
       newCountry +
       "?";
-
     const swalParams = {
       type: "question",
       customClass: {
@@ -283,13 +280,23 @@ const CountryMap = (props) => {
         let liveCount = tripTimingCounts[2];
         liveCount--;
         handleTripTiming([pastCount, futureCount, liveCount]);
+        let userData = { ...user };
+        let newClickedCityArray = [];
+        for (let i in userData.clickedCityArray) {
+          if (
+            userData.clickedCityArray[i].tripTiming !== 2
+          ) {
+            newClickedCityArray.push(userData.clickedCityArray[i]);
+          }
+        }
+        userData.clickedCityArray = newClickedCityArray;
+        user.handleClickedCityArray(userData.clickedCityArray);
         handleTripTimingHelper(geography);
       }
     });
   }
 
   function handleDeleteCountry(geography, index) {
-    console.log("handle delete country");
     let countryArray = clickedCountryArray;
     let cityArray = clickedCityArray;
     for (let i in cityArray) {
@@ -322,16 +329,6 @@ const CountryMap = (props) => {
       }
     }
     showPopup(true);
-  }
-
-  function checkForPreviousTrips(geography) {
-    let previousTrips = false;
-    for (let i in clickedCountryArray) {
-      if (clickedCountryArray[i].country === geography.properties.name) {
-        previousTrips = true;
-      }
-    }
-    return previousTrips;
   }
 
   function countryInfo(geography) {
