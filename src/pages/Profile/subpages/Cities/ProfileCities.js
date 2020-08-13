@@ -13,32 +13,29 @@ import Loader from "../../../../components/common/Loader/Loader";
 export default function ProfileCities({
   searchText,
   handleSelectedCity,
-  urlUsername,
-  location,
-  handleOriginalSearch,
+  urlUsername
 }) {
   const cityData = React.useContext(UserContext).clickedCityArray;
-  console.log(cityData);
   const [loaded, handleLoaded] = useState(false);
   const [expanded, handleToggle] = useState(false);
   const [results, setResults] = useState();
   const [timing, handleTiming] = useState("");
-  // useEffect(() => {
-  //   if (location.state !== null) {
-  //     handleOriginalSearch(location.state.searchText);
-  //   } else {
-  //     handleOriginalSearch("");
-  //   }
-  // }, [location, handleOriginalSearch]);
   useEffect(() => {
+    let filteredArray = [];
     if (cityData !== undefined) {
-      let filteredArray = cityData.filter(
-        (city) =>
-          (city.city.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
-            city.country.toLowerCase().indexOf(searchText.toLowerCase()) >
-              -1) &&
-          city.tripTiming === 0
-      );
+      if (timing === "") {
+        filteredArray = cityData.filter(
+          (city) =>
+            city.city.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+            city.country.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        );
+      } else {
+        filteredArray = cityData.filter(
+          (city) =>
+            (city.city.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+            city.country.toLowerCase().indexOf(searchText.toLowerCase()) > -1) && city.tripTiming === timing
+        );
+      }
       setResults(filteredArray);
       handleLoaded(true);
     }
@@ -58,44 +55,46 @@ export default function ProfileCities({
         </a>
         <button
           onClick={() => handleTiming("")}
-          className={!timing ? "active" : ""}
+          className={timing === "" ? "active" : ""}
         >
           {expanded ? "all" : null}
           <AllTimingsIcon />
         </button>
         <button
-          onClick={() => handleTiming("past")}
-          className={timing === "past" ? "active" : ""}
+          onClick={() => handleTiming(0)}
+          className={timing === 0 ? "active" : ""}
         >
           {expanded ? "past" : null}
           <PastIcon />
         </button>
         <button
-          onClick={() => handleTiming("future")}
-          className={timing === "future" ? "active" : ""}
+          onClick={() => handleTiming(1)}
+          className={timing === 1 ? "active" : ""}
         >
           {expanded ? "future" : null}
           <FutureIcon />
         </button>
         <button
-          onClick={() => handleTiming("live")}
-          className={timing === "live" ? "active" : ""}
+          onClick={() => handleTiming(2)}
+          className={timing === 2 ? "active" : ""}
         >
           {expanded ? "live" : null}
           <LiveIcon />
         </button>
       </div>
       <div className="content-results">
-        {results.length  < 1 ? <span className = 'no-cities-text'>No cities recorded yet!</span> : null}
+        {results.length < 1 ? (
+          <span className="no-cities-text">No cities recorded yet!</span>
+        ) : null}
         {results.map((city, index) => (
           <ProfileCityCard
-            key={city.city + city.timing + index}
+            key={city.city + city.tripTiming + index}
             urlUsername={urlUsername}
             cityData={city}
             color={
-              city.timing === "past"
+              city.tripTiming === 0
                 ? "#CB7678"
-                : city.timing === "future"
+                : city.tripTiming === 1
                 ? "#73A7C3"
                 : "#96B1A8"
             }

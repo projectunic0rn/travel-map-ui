@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { NavLink, withRouter } from "react-router-dom";
-import UserContext from "../../../../utils/UserContext";
+import { withRouter } from "react-router-dom";
 import { Mutation } from "react-apollo";
+import UserContext from "../../../../utils/UserContext";
+
 import {
   REMOVE_PLACE_VISITING,
   REMOVE_PLACE_VISITED,
@@ -21,8 +22,7 @@ function ProfileCityCard({
   cityData,
   color,
   handleSelectedCity,
-  urlUsername,
-  index
+  urlUsername
 }) {
   const user = React.useContext(UserContext);
   const [loaded, handleLoaded] = useState(false);
@@ -30,7 +30,7 @@ function ProfileCityCard({
   const [placeCount, handlePlaceCount] = useState(0);
   const [activityCount, handleActivityCount] = useState(0);
   const [mealCount, handleMealCount] = useState(0);
-  const [logisticsCount, handleLogisticsCount] = useState(0);
+  const [, handleLogisticsCount] = useState(0);
   const [placeVisitedId] = useState(
     cityData.timing === "past" ? cityData.id : null
   );
@@ -106,13 +106,9 @@ function ProfileCityCard({
     handleLoaded(true);
   }, [cityData]);
   function handleDeletedCity() {
-    console.log(cityData)
     let userData = { ...user };
-    console.log(userData.clickedCityArray);
     let newClickedCityArray = userData.clickedCityArray.filter(city => city.id !== cityData.id);
     userData.clickedCityArray = newClickedCityArray;
-    console.log(userData);
-    // user.handleUserData(userData.userData);
     user.handleClickedCityArray(userData.clickedCityArray);
   }
   if (!loaded) return <SimpleLoader />;
