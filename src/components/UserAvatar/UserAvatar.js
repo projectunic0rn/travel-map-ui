@@ -13,7 +13,6 @@ import AvatarEight from "../../icons/AvatarIcons/AvatarEight";
 import SimpleLoader from "../common/SimpleLoader/SimpleLoader";
 
 const UserAvatar = React.memo(function UserAvatar({ color, avatarIndex, email }) {
-  console.log("UserAvatar")
   const [avatar, handleAvatar] = useState(<SimpleLoader />);
   useEffect(() => {
     let newAvatar = "";

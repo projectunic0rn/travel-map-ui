@@ -32,18 +32,18 @@ function ProfileCityCard({
   const [mealCount, handleMealCount] = useState(0);
   const [, handleLogisticsCount] = useState(0);
   const [placeVisitedId] = useState(
-    cityData.timing === "past" ? cityData.id : null
+    cityData.tripTiming === 0 ? cityData.id : null
   );
   const [placeVisitingId] = useState(
-    cityData.timing === "future" ? cityData.id : null
+    cityData.tripTiming === 1 ? cityData.id : null
   );
   const [placeLivingId] = useState(
-    cityData.timing === "live" ? cityData.id : null
+    cityData.tripTiming === 2 ? cityData.id : null
   );
   const [mutationToUse] = useState(
-    cityData.timing === "past"
+    cityData.tripTiming === 0
       ? REMOVE_PLACE_VISITED
-      : cityData.timing === "future"
+      : cityData.tripTiming === 1
       ? REMOVE_PLACE_VISITING
       : REMOVE_PLACE_LIVING
   );
@@ -170,9 +170,9 @@ function ProfileCityCard({
       <Mutation
         mutation={mutationToUse}
         variables={
-          cityData.timing === "past"
+          cityData.tripTiming === 0
             ? { placeVisitedId }
-            : cityData.timing === "future"
+            : cityData.tripTiming === 1
             ? { placeVisitingId }
             : { placeLivingId }
         }

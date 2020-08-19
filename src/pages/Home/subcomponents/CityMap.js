@@ -28,7 +28,7 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
-import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 function CityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -66,6 +66,7 @@ function CityMap(props) {
       updateGeorneyScore({ variables: { travelScore } });
     },
   });
+  console.log(loadedClickedCityArray)
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
       let userData = { ...user };
@@ -90,6 +91,15 @@ function CityMap(props) {
     extent: 16384,
     nodeSize: 1024,
   });
+  useEffect(() => {
+    handleLoadedClickedCityArray(user.clickedCityArray);
+    handleLoadedCities(user.clickedCityArray);
+  }, [user.clickedCityArray])
+
+  useEffect(() => {
+    calculateTravelScore();
+  }, [loadedClickedCityArray])
+
   useEffect(() => {
     function setClusterParams() {
       let newClusterParams = clusterParams;
@@ -380,6 +390,7 @@ function CityMap(props) {
   }
 
   function handleLoadedCities(data) {
+    console.log(data)
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
@@ -566,6 +577,7 @@ function CityMap(props) {
   }
 
   function calculateTravelScore() {
+    console.log(loadedClickedCityArray)
     let newTravelScore = travelScore;
     let lat;
     let long;
@@ -1130,7 +1142,7 @@ function CityMap(props) {
               type="text"
               defaultValue={
                 "https://geornal.herokuapp.com/public/" +
-                props.tripData.username
+                user.userData.username
               }
               id="myShareLink"
             ></input>
@@ -1267,7 +1279,6 @@ function CityMap(props) {
 }
 
 CityMap.propTypes = {
-  tripData: PropTypes.object,
   handleMapTypeChange: PropTypes.func,
   deleteCity: PropTypes.func,
   refetch: PropTypes.func,

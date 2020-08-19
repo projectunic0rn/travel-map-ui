@@ -391,6 +391,23 @@
     padding: 32px;
     border-radius: 20px;
     box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.25);
+    .user-avatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 8px;
+      overflow: hidden;
+      .gravatar {
+        position: absolute;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+      }
+      .avatar-icon {
+        width: 60px;
+        height: 60px;
+      }
+    }
     @media screen and (max-width: 1000px) {
       max-width: 600px;
       margin-left: 0;

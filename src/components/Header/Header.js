@@ -18,6 +18,9 @@ const Header = React.memo(function Header({
     userLoggedIn || window.innerWidth < 1200 ? false : true
   );
   console.log("header rendered");
+  function toggleFormIsOpen() {
+    setFormIsOpen(!formIsOpen)
+  }
   return (
     <Fragment>
       <header className="header-container">
@@ -33,7 +36,7 @@ const Header = React.memo(function Header({
           <div className="nav-menu-container">
             <NavLinks
               formIsOpen={formIsOpen}
-              toggleFormIsOpen={setFormIsOpen}
+              toggleFormIsOpen={toggleFormIsOpen}
             />
             <div className="nav-hamburger">
               <div
@@ -49,7 +52,7 @@ const Header = React.memo(function Header({
                 <span className="hamburger-b" />
               </div>
             </div>
-            {formIsOpen ? <LandingForm setFormIsOpen={setFormIsOpen} /> : ""}
+            {formIsOpen ? <LandingForm setFormIsOpen={toggleFormIsOpen} /> : ""}
           </div>
           {userLoggedIn ? (
             <UserHeaderContainer color={color} avatarIndex={avatarIndex} />

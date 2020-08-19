@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
+import UserContext from "../../../../utils/UserContext";
+
 import { GET_USER_FRIENDS } from "../../../../GraphQL";
 
 import FriendCard from "./FriendCard";
@@ -12,16 +14,27 @@ export default function CurrentFriends({
   page,
   refetchApp,
   urlUsername,
-  user
 }) {
-  const username = urlUsername !== undefined ? urlUsername : user.username
+  const user = React.useContext(UserContext);
+  const username =
+    urlUsername !== undefined ? urlUsername : user.userData.username;
   const [results, setResults] = useState([]);
-  const { loading, error, data } = useQuery(GET_USER_FRIENDS, {
-    variables: { username },
-    onCompleted() {
-      setResults(data.user.Friends);
-    },
-  });
+  const [getOtherUserFriends, { loading, error, data }] = useLazyQuery(
+    GET_USER_FRIENDS,
+    {
+      onCompleted() {
+        console.log(data.user.Friends);
+        setResults(data.user.Friends);
+      },
+    }
+  );
+  useEffect(() => {
+    if (urlUsername !== undefined) {
+      getOtherUserFriends({ variables: { username } });
+    } else {
+      setResults(user.userData.Friends);
+    }
+  }, []);
   useEffect(() => {
     if (searchText !== "" && urlUsername === undefined) {
       let filteredFriendsArray = friends.filter(
@@ -46,8 +59,8 @@ export default function CurrentFriends({
     }
     return comparison;
   }
-  if (loading) return <SimpleLoader />;
-  if (error) return `Error! ${error}`;
+  // if (loading) return <SimpleLoader />;
+  // if (error) return `Error! ${error}`;
   if (results.length < 1)
     return (
       <span style={{ color: "rgb(248, 248 ,252)" }}>
@@ -58,7 +71,7 @@ export default function CurrentFriends({
     .sort(compare)
     .map((friend) => (
       <FriendCard
-        key={friend.id}
+        key={friend.username}
         friend={friend}
         currentFriend={true}
         page={page}
