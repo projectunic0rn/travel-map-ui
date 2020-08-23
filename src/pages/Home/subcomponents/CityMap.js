@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -29,6 +29,84 @@ import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
+
+class PastMarkers extends PureComponent {
+  render() {
+    const { data, handleCityTooltip } = this.props;
+    return data.map((city) => (
+      <Marker
+      key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+      latitude={city.city_latitude}
+        longitude={city.city_longitude}
+        offsetLeft={-5}
+        offsetTop={-10}
+      >
+        <svg
+          key={"svg" + city.cityId}
+          height={20}
+          width={20}
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            onMouseOver={() => handleCityTooltip(city)}
+            style={{ fill: "rgba(203, 118, 120, 0.25)" }}
+            key={"circle" + city.cityId}
+            cx="50"
+            cy="50"
+            r="50"
+          />
+          <circle
+            style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+            key={"circle2" + city.cityId}
+            cx="50"
+            cy="50"
+            r="20"
+          />
+        </svg>
+      </Marker>
+    ));
+  }
+}
+
+class FutureMarkers extends PureComponent {
+  render() {
+    const { data, handleCityTooltip } = this.props;
+    return data.map((city) => (
+      <Marker
+        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        latitude={city.city_latitude}
+        longitude={city.city_longitude}
+        offsetLeft={-5}
+        offsetTop={-10}
+      >
+        <svg
+          key={"svg" + city.cityId}
+          height={20}
+          width={20}
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            onMouseOver={() => handleCityTooltip(city)}
+            style={{ fill: "rgba(115, 167, 195, 0.25)" }}
+            key={"circle" + city.cityId}
+            cx="50"
+            cy="50"
+            r="50"
+          />
+          <circle
+            style={{ fill: "rgba(115, 167, 195, 1.0)" }}
+            key={"circle2" + city.cityId}
+            cx="50"
+            cy="50"
+            r="20"
+          />
+        </svg>
+      </Marker>
+    ));
+  }
+}
 
 function CityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -66,9 +144,10 @@ function CityMap(props) {
       updateGeorneyScore({ variables: { travelScore } });
     },
   });
-  console.log(loadedClickedCityArray)
+
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
+      console.log("updated georney score");
       let userData = { ...user };
       userData.userData.georneyScore = travelScore;
       let newClickedCityArray = userData.clickedCityArray.concat(
@@ -91,14 +170,32 @@ function CityMap(props) {
     extent: 16384,
     nodeSize: 1024,
   });
-  useEffect(() => {
-    handleLoadedClickedCityArray(user.clickedCityArray);
-    handleLoadedCities(user.clickedCityArray);
-  }, [user.clickedCityArray])
 
-  useEffect(() => {
-    calculateTravelScore();
-  }, [loadedClickedCityArray])
+  useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
+
+  function useEffectSkipFirstUserClickedCityArray() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      handleLoadedClickedCityArray(user.clickedCityArray);
+    }, [user.clickedCityArray]);
+  }
+
+  useEffectSkipFirstLoadedClickedCityArray(() => {}, [loadedClickedCityArray]);
+
+  function useEffectSkipFirstLoadedClickedCityArray() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      handleLoadedCities(user.clickedCityArray);
+    }, [loadedClickedCityArray]);
+  }
 
   useEffect(() => {
     function setClusterParams() {
@@ -390,10 +487,9 @@ function CityMap(props) {
   }
 
   function handleLoadedCities(data) {
-    console.log(data)
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
     data.map((city) => {
       if (city.cityId !== null) {
         switch (city.tripTiming) {
@@ -430,76 +526,12 @@ function CityMap(props) {
           case 0:
             color = "rgba(203, 118, 120, 0.25)";
             handleActiveTimings([0, 0, 0]);
-            markerPastDisplay.push(
-              <Marker
-                key={city.cityId}
-                latitude={city.city_latitude}
-                longitude={city.city_longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.cityId}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: color }}
-                    key={"circle" + city.cityId}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 1.0)" }}
-                    key={"circle2" + city.cityId}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
+            markerPastDisplay.push(city);
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
             handleActiveTimings([0, 0, 0]);
-            markerFutureDisplay.push(
-              <Marker
-                key={city.cityId}
-                latitude={city.city_latitude}
-                longitude={city.city_longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.cityId}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: color }}
-                    key={"circle" + city.cityId}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(115, 167, 195, 1.0)" }}
-                    key={"circle2" + city.cityId}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
+            markerFutureDisplay.push(city);
 
             break;
           case 2:
@@ -577,8 +609,8 @@ function CityMap(props) {
   }
 
   function calculateTravelScore() {
-    console.log(loadedClickedCityArray)
-    let newTravelScore = travelScore;
+    let newTravelScore = 0;
+    let oldTravelScore = user.userData.georneyScore;
     let lat;
     let long;
     let travelScoreIndex;
@@ -600,10 +632,12 @@ function CityMap(props) {
       }
       travelScoreIndexArray.push(travelScoreIndex);
     }
+    if (newTravelScore.toFixed(2) != oldTravelScore.toFixed(2)) {
+      newGeorneyScore({ variables: { newTravelScore } });
+    }
     handleTravelScore(newTravelScore);
     handleCountryIdArray(countryIdArray);
     handleTravelScoreIndexArray(travelScoreIndexArray);
-    newGeorneyScore({ variables: { newTravelScore } });
   }
 
   function calculateNewTravelScore(newCityEntry, type) {
@@ -819,39 +853,7 @@ function CityMap(props) {
         pastCount++;
         tripTimingCounts[0] = pastCount;
         color = "rgba(203, 118, 120, 0.25)";
-        newMarkerPastDisplay.push(
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-          >
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: color,
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle" + city.cityId}
-              className="dot"
-            />
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: "rgba(203, 118, 120, 1)",
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle2" + city.cityId}
-              className="dot-inner"
-            />
-            <div
-              style={{
-                border: "10px solid rgba(203, 118, 120, 1)",
-              }}
-              key={"circle3" + city.cityId}
-              className="pulse"
-            />
-          </Marker>
-        );
+        newMarkerPastDisplay.push(city);
 
         handleClickedCityArray(newClickedCityArray);
         handleTripTimingCounts(tripTimingCounts);
@@ -861,37 +863,7 @@ function CityMap(props) {
         futureCount++;
         tripTimingCounts[1] = futureCount;
         color = "rgba(115, 167, 195, 0.25)";
-        newMarkerFutureDisplay.push(
-          <Marker
-            key={city.cityId}
-            latitude={city.city_latitude}
-            longitude={city.city_longitude}
-          >
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: color,
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle" + city.cityId}
-              className="dot"
-            />
-            <div
-              onMouseOver={() => handleCityTooltip(city)}
-              style={{
-                backgroundColor: "rgba(115, 167, 195, 1.0)",
-                transform: "translate(-10px, -12px)",
-              }}
-              key={"circle2" + city.cityId}
-              className="dot-inner"
-            />
-            <div
-              style={{ border: "10px solid rgba(115, 167, 195, 1.0)" }}
-              key={"circle3" + city.cityId}
-              className="pulse"
-            />
-          </Marker>
-        );
+        newMarkerFutureDisplay.push(city);
         handleClickedCityArray(newClickedCityArray);
         handleTripTimingCounts(tripTimingCounts);
         handleMarkerFutureDisplay(newMarkerFutureDisplay);
@@ -1141,8 +1113,7 @@ function CityMap(props) {
             <input
               type="text"
               defaultValue={
-                "https://geornal.herokuapp.com/public/" +
-                user.userData.username
+                "https://geornal.herokuapp.com/public/" + user.userData.username
               }
               id="myShareLink"
             ></input>
@@ -1182,40 +1153,58 @@ function CityMap(props) {
           }}
         >
           {activeTimings[0] ? (
-            <Cluster
-              ref={clusterPast}
-              radius={40}
-              extent={clusterParams.extent}
-              nodeSize={clusterParams.nodeSize}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(203, 118, 120, 0.5)"}
-                  {...cluster}
-                  type={0}
+            <>
+              <Cluster
+                ref={clusterPast}
+                radius={40}
+                extent={clusterParams.extent}
+                nodeSize={clusterParams.nodeSize}
+                component={(cluster) => (
+                  <ClusterMarker
+                    onClick={clusterClick}
+                    color={"rgba(203, 118, 120, 0.5)"}
+                    {...cluster}
+                    type={0}
+                  />
+                )}
+              >
+                <PastMarkers
+                  data={markerPastDisplay}
+                  handleCityTooltip={handleCityTooltip}
                 />
-              )}
-            >
-              {markerPastDisplay}
-            </Cluster>
+              </Cluster>
+              <PastMarkers
+                data={markerPastDisplay}
+                handleCityTooltip={handleCityTooltip}
+              />
+            </>
           ) : null}
           {activeTimings[1] ? (
-            <Cluster
-              ref={clusterFuture}
-              radius={40}
-              extent={clusterParams.extent}
-              nodeSize={clusterParams.nodeSize}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(115, 167, 195, 0.5)"}
-                  {...cluster}
-                  type={1}
+            <>
+              <Cluster
+                ref={clusterFuture}
+                radius={40}
+                extent={clusterParams.extent}
+                nodeSize={clusterParams.nodeSize}
+                component={(cluster) => (
+                  <ClusterMarker
+                    onClick={clusterClick}
+                    color={"rgba(115, 167, 195, 0.5)"}
+                    {...cluster}
+                    type={1}
+                  />
+                )}
+              >
+                <FutureMarkers
+                  data={markerFutureDisplay}
+                  handleCityTooltip={handleCityTooltip}
                 />
-              )}
-            >
-              {markerFutureDisplay}
-            </Cluster>
+              </Cluster>
+              <FutureMarkers
+                data={markerFutureDisplay}
+                handleCityTooltip={handleCityTooltip}
+              />
+            </>
           ) : null}
           {activeTimings[2] ? markerLiveDisplay : null}
           <Geocoder
@@ -1294,6 +1283,16 @@ ClusterMarker.propTypes = {
   pointCount: PropTypes.number,
   color: PropTypes.string,
   onClick: PropTypes.func,
+};
+
+PastMarkers.propTypes = {
+  data: PropTypes.array,
+  handleCityTooltip: PropTypes.func,
+};
+
+FutureMarkers.propTypes = {
+  data: PropTypes.array,
+  handleCityTooltip: PropTypes.func,
 };
 
 export default CityMap;

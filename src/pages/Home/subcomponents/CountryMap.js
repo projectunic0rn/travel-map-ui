@@ -474,7 +474,7 @@ const CountryMap = (props) => {
               type="text"
               defaultValue={
                 "https://geornal.herokuapp.com/public/" +
-                props.tripData.username
+                user.userData.username
               }
               id="myShareLink"
             ></input>

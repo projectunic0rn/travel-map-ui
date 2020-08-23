@@ -6,7 +6,6 @@ import UserContext from "../../../../utils/UserContext";
 import { GET_USER_FRIENDS } from "../../../../GraphQL";
 
 import FriendCard from "./FriendCard";
-import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 
 export default function CurrentFriends({
   searchText,
@@ -19,11 +18,10 @@ export default function CurrentFriends({
   const username =
     urlUsername !== undefined ? urlUsername : user.userData.username;
   const [results, setResults] = useState([]);
-  const [getOtherUserFriends, { loading, error, data }] = useLazyQuery(
+  const [getOtherUserFriends, { data }] = useLazyQuery(
     GET_USER_FRIENDS,
     {
       onCompleted() {
-        console.log(data.user.Friends);
         setResults(data.user.Friends);
       },
     }
