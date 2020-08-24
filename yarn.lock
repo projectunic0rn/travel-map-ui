@@ -982,15 +982,15 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@bugsnag/browser@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@bugsnag/browser/-/browser-7.3.0.tgz#0e9a051c687fe2618ad58105ce73d51bdd8155e7"
+"@bugsnag/browser@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@bugsnag/browser/-/browser-7.2.0.tgz#b8164ac6d3fd2ba46142d70b0b2b52000df3bcf9"
   dependencies:
-    "@bugsnag/core" "^7.3.0"
+    "@bugsnag/core" "^7.2.0"
 
-"@bugsnag/core@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@bugsnag/core/-/core-7.3.0.tgz#5fd6876a161cb28e8b14364d46b2f58c304356e6"
+"@bugsnag/core@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@bugsnag/core/-/core-7.2.0.tgz#e2fa741fa2b6da210b5e6f27717103477df32de1"
   dependencies:
     "@bugsnag/cuid" "^3.0.0"
     "@bugsnag/safe-json-stringify" "^6.0.0"
@@ -1003,17 +1003,17 @@
   resolved "https://registry.yarnpkg.com/@bugsnag/cuid/-/cuid-3.0.0.tgz#2ee7642a30aee6dc86f5e7f824653741e42e5c35"
 
 "@bugsnag/js@^7.2.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@bugsnag/js/-/js-7.3.0.tgz#b6d8bb4d803d82599d093fea919e2a6db9b75ad9"
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@bugsnag/js/-/js-7.2.0.tgz#50f560b0fca903d77f0a22fa55521a0256724575"
   dependencies:
-    "@bugsnag/browser" "^7.3.0"
-    "@bugsnag/node" "^7.3.0"
+    "@bugsnag/browser" "^7.2.0"
+    "@bugsnag/node" "^7.2.0"
 
-"@bugsnag/node@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@bugsnag/node/-/node-7.3.0.tgz#13d9b4501700f7e9c2a37d315bdbe16b6abd597f"
+"@bugsnag/node@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@bugsnag/node/-/node-7.2.0.tgz#bfb450df2b7275ff73581c2509cceb40589b593e"
   dependencies:
-    "@bugsnag/core" "^7.3.0"
+    "@bugsnag/core" "^7.2.0"
     byline "^5.0.0"
     error-stack-parser "^2.0.2"
     iserror "^0.0.2"
@@ -1021,10 +1021,10 @@
     stack-generator "^2.0.3"
 
 "@bugsnag/plugin-react@^7.2.0":
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/@bugsnag/plugin-react/-/plugin-react-7.3.1.tgz#8334e377e89c5da0409fd740d55e89841864ceef"
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@bugsnag/plugin-react/-/plugin-react-7.2.0.tgz#54ade360d82a58a98bd45d837919795511296576"
   dependencies:
-    "@bugsnag/core" "^7.3.0"
+    "@bugsnag/core" "^7.2.0"
 
 "@bugsnag/safe-json-stringify@^6.0.0":
   version "6.0.0"
