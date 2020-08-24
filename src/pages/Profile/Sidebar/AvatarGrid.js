@@ -20,7 +20,7 @@ export default function AvatarGrid(props) {
     .replace(/ /g, "")
     .split(",");
   const [avatarIndex, handleAvatarIndex] = useState(
-    props.avatarIndex !== null ? props.avatarIndex : 1
+    props.userData.avatarIndex !== null ? props.userData.avatarIndex : 1
   );
   const [red, handleRed] = useState(colorArray[0]);
   const [green, handleGreen] = useState(colorArray[1]);
@@ -29,6 +29,7 @@ export default function AvatarGrid(props) {
     avatarIndex: avatarIndex,
     color: color,
   });
+  console.log(userAvatar.avatarIndex)
   useEffect(() => {
     let avatar = userAvatar;
     if (red !== 100 || blue !== 100 || green !== 100) {

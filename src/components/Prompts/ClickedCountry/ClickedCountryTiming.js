@@ -1,45 +1,67 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
 import Swal from "sweetalert2";
+import UserContext from "../../../utils/UserContext";
+
 import DeleteCitiesPopup from "./DeleteCitiesPopup";
 import TrashIcon from "../../../icons/TrashIcon";
 import ArrowRightIcon from "../../../icons/ArrowRightIcon";
 
 function ClickedCountryTiming(props) {
-  const [countryISO] = useState(props.customProps.countryInfo.properties.ISO2);
+  const cityArray = React.useContext(UserContext).clickedCityArray;
+  const user = React.useContext(UserContext);
+  const [country] = useState(props.customProps.countryInfo.properties.name);
   const [deletePopup, handleDeletePopup] = useState(false);
+  const [timingText] = useState(
+    props.customProps.currentTiming === 0
+      ? "past"
+      : props.customProps.currentTiming === 1
+      ? "future"
+      : "lived in"
+  );
   const [tense] = useState(
-    props.customProps.currentTiming === "past"
+    props.customProps.currentTiming === 0
       ? "have visited"
-      : props.customProps.currentTiming === "future"
+      : props.customProps.currentTiming === 1
       ? "will visit"
       : "live in"
   );
   function handleDeleteButton() {
     let popupText =
       "Do you want to delete all " +
-      props.customProps.currentTiming +
+      timingText +
       " cities associated with " +
       props.customProps.countryInfo.properties.name +
       "?";
     Swal.fire({
       type: "question",
       customClass: {
-        container: "live-swal-prompt"
+        container: "live-swal-prompt",
       },
       text: popupText,
       showCancelButton: true,
-      cancelButtonColor: "#cb7678"
-    }).then(result => {
+      cancelButtonColor: "#cb7678",
+    }).then((result) => {
       if (result.value) {
         handleDeletePopup(true);
       }
     });
   }
   function handleDeleteCities() {
+    let userData = { ...user };
+    let newClickedCityArray = [];
+    for (let i in userData.clickedCityArray) {
+      if (
+        userData.clickedCityArray[i].country !== country ||
+        userData.clickedCityArray[i].tripTiming !==
+          props.customProps.currentTiming
+      ) {
+        newClickedCityArray.push(userData.clickedCityArray[i]);
+      }
+    }
+    userData.clickedCityArray = newClickedCityArray;
+    user.handleClickedCityArray(userData.clickedCityArray);
     handleDeletePopup(false);
-    props.customProps.refetch();
   }
   return (
     <div className="clicked-country-timing-container">
@@ -65,15 +87,9 @@ function ClickedCountryTiming(props) {
       </div>
       {deletePopup ? (
         <DeleteCitiesPopup
-          countryISO={countryISO}
+          country={country}
           handleDeleteCities={handleDeleteCities}
-          currentTiming={
-            props.customProps.currentTiming === "past"
-              ? Number(0)
-              : (props.customProps.currentTiming === "future"
-                  ? Number(1)
-                  : Number(2))
-          }
+          currentTiming={props.customProps.currentTiming}
         />
       ) : null}
     </div>
@@ -81,7 +97,7 @@ function ClickedCountryTiming(props) {
 }
 
 ClickedCountryTiming.propTypes = {
-  customProps: PropTypes.array
+  customProps: PropTypes.object,
 };
 
 export default ClickedCountryTiming;

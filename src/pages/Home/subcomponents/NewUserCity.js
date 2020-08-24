@@ -19,7 +19,7 @@ import NewUserMapSignup from "./NewUserMapSignup";
 import NewUserSuggestions from "./NewUserSuggestions";
 import ImportPopup from "./ImportPopup";
 import ClusterMarker from "./ClusterMarker";
-import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 function NewUserCity(props) {
   const [viewport, handleViewport] = useState({

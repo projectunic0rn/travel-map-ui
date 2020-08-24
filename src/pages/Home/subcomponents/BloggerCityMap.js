@@ -12,7 +12,7 @@ import MapChangeIcon from "../../../icons/MapChangeIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import BloggerCityPopup from "../../../components/Prompts/FriendClickedCity/BloggerCityPopup";
 import ClusterMarker from "./ClusterMarker";
-import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 function BloggerCityMap(props) {
   const [viewport, handleViewport] = useState({

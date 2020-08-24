@@ -25,25 +25,64 @@ const FriendMapPage = lazy(() => import("./pages/Home/FriendMapPage"));
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
+  console.log(userLoggedIn);
   const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
-  const [clickedCityArray, handleClickedCityArray] = useState(
-    JSON.parse(localStorage.getItem("clickedCityArray"))
-  );
+  const [clickedCityArray, handleClickedCityArray] = useState([]);
+  console.log(clickedCityArray);
   const swalParams = {
     type: "info",
     text:
       "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally.",
     confirmButtonColor: "#656F80",
   };
-
   const [swalNotFired, setSwalNotFired] = useState(true);
+
   useEffect(() => {
-    handleClickedCityArray(
-      JSON.parse(localStorage.getItem("clickedCityArray"))
-    );
-  }, [localStorage.getItem("clickedCityArray")]);
+    if (!userLoggedIn) {
+      handleClickedCityArray([]);
+    }
+  }, [userLoggedIn]);
+
+  useEffect(() => {
+    if (loaded) {
+      console.log("use erffect loaded");
+      if (
+        localStorage.getItem("clickedCityArray") !== null &&
+        userData.Place_living === null &&
+        userData.Places_visited.length < 1 &&
+        userData.Places_visiting.length < 1
+      ) {
+        console.log("first if");
+        handleClickedCityArray(
+          JSON.parse(localStorage.getItem("clickedCityArray"))
+        );
+      } else {
+        let placesVisited = userData.Places_visited;
+        let placesVisiting = userData.Places_visiting;
+        let placeLiving = userData.Place_living;
+        for (let i in placesVisited) {
+          placesVisited[i].tripTiming = 0;
+        }
+        for (let i in placesVisiting) {
+          placesVisiting[i].tripTiming = 1;
+        }
+        if (placeLiving !== null) {
+          placeLiving.tripTiming = 2;
+        }
+        let concatCities = placesVisited
+          .concat(placesVisiting)
+          .concat(placeLiving);
+        let filteredCities = concatCities.filter((city) => city !== null);
+        console.log(filteredCities);
+        handleClickedCityArray(filteredCities);
+      }
+    } else {
+      console.log("else");
+      return;
+    }
+  }, [loaded, userData]);
   useEffect(() => {
     if (window.innerWidth < 1000 && swalNotFired) {
       Swal.fire(swalParams);
@@ -66,6 +105,7 @@ function App({ userAuthenticated }) {
       <MetaTags>
         <title>geornal</title>
         <meta name="title" content="Geornal - World Map" />
+
         <meta
           name="description"
           content="World map showing cities I have been to and want to visit"
@@ -82,21 +122,32 @@ function App({ userAuthenticated }) {
         />
         <meta property="og:image" content="%PUBLIC_URL%/SitePreview.PNG" />
       </MetaTags>
-      <UserProvider value={{ userLoggedIn, setUserLoggedIn, userData }}>
+      <UserProvider
+        value={{
+          userLoggedIn,
+          setUserLoggedIn,
+          userData,
+          handleUserData,
+          clickedCityArray,
+          handleClickedCityArray,
+        }}
+      >
         {userLoggedIn ? (
           <Query
             query={GET_LOGGEDIN_USER_COUNTRIES}
             notifyOnNetworkStatusChange
-            fetchPolicy={"cache-and-network"}
+            fetchPolicy={"network-only"}
             partialRefetch={true}
             onCompleted={(data) => {
+              console.log("app query finished");
+              console.log(data.user);
               handleLoaded(true);
+              handleUserData(data.user);
             }}
           >
             {({ loading, error, data, refetch }) => {
               if (loading) return <Loader />;
               if (error) return `Error! ${error}`;
-              handleUserData(data);
               if (!loaded) return null;
               return (
                 <Fragment>
@@ -115,11 +166,9 @@ function App({ userAuthenticated }) {
                         <Suspense fallback={<Loader />}>
                           <MapPage
                             {...props}
-                            user={data.user}
                             refetch={refetch}
                             mapPage={mapPage}
                             handleMapPageChange={handleMapPageChange}
-                            clickedCityArray={clickedCityArray}
                           />
                         </Suspense>
                       )}
@@ -131,11 +180,7 @@ function App({ userAuthenticated }) {
                     <Route
                       path="/profile/"
                       render={(props) => (
-                        <Profile
-                          {...props}
-                          user={data.user}
-                          refetchApp={refetch}
-                        />
+                        <Profile {...props} refetchApp={refetch} />
                       )}
                     />
                     <Route path="/place/" render={(props) => <Place />} />

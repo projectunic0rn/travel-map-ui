@@ -12,7 +12,7 @@ import FriendClickedCityContainer from "../../../components/Prompts/FriendClicke
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import Loader from "../../../components/common/Loader/Loader";
-import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 function ClusterMarker(props) {
   function onClick() {

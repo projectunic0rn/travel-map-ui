@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class SaveIcon extends Component {
+class SaveIcon extends PureComponent {
   render() {
     return (
       <svg

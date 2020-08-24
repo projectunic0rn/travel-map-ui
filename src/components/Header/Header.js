@@ -8,12 +8,19 @@ import SiteText from "../../icons/SiteText";
 import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
 
-export default function Header({ userLoggedIn, avatarIndex, color }) {
+const Header = React.memo(function Header({
+  userLoggedIn,
+  avatarIndex,
+  color,
+}) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
   let [formIsOpen, setFormIsOpen] = useState(
     userLoggedIn || window.innerWidth < 1200 ? false : true
   );
-
+  console.log("header rendered");
+  function toggleFormIsOpen() {
+    setFormIsOpen(!formIsOpen)
+  }
   return (
     <Fragment>
       <header className="header-container">
@@ -29,7 +36,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
           <div className="nav-menu-container">
             <NavLinks
               formIsOpen={formIsOpen}
-              toggleFormIsOpen={setFormIsOpen}
+              toggleFormIsOpen={toggleFormIsOpen}
             />
             <div className="nav-hamburger">
               <div
@@ -45,7 +52,7 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
                 <span className="hamburger-b" />
               </div>
             </div>
-            {formIsOpen ? <LandingForm setFormIsOpen={setFormIsOpen} /> : ""}
+            {formIsOpen ? <LandingForm setFormIsOpen={toggleFormIsOpen} /> : ""}
           </div>
           {userLoggedIn ? (
             <UserHeaderContainer color={color} avatarIndex={avatarIndex} />
@@ -68,11 +75,12 @@ export default function Header({ userLoggedIn, avatarIndex, color }) {
       </div>
     </Fragment>
   );
-}
+});
 
 Header.propTypes = {
   userLoggedIn: PropTypes.bool,
-  setUserLoggedIn: PropTypes.func,
   color: PropTypes.string,
   avatarIndex: PropTypes.number,
 };
+
+export default React.memo(Header);
