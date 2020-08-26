@@ -2,42 +2,32 @@ import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
 import MetaTags from "react-meta-tags";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
 import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
 
-import Beta from "./Beta";
-import FAQ from "./pages/FAQ/FAQ";
-import Profile from "./pages/Profile/Profile";
 import Header from "./components/Header/Header";
-import Place from "./pages/Place/Place";
-import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
-import NewUserMap from "./pages/Home/NewUserMap";
-import BloggerMap from "./pages/Home/BloggerMap";
 
 const Landing = lazy(() => import("./pages/Landing/Landing"));
 const MapPage = lazy(() => import("./pages/Home/MapPage"));
 const FriendMapPage = lazy(() => import("./pages/Home/FriendMapPage"));
+const Beta = lazy(() => import("./Beta"));
+const FAQ = lazy(() => import("./pages/FAQ/FAQ"));
+const Profile = lazy(() => import("./pages/Profile/Profile"));
+const Place = lazy(() => import("./pages/Place/Place"));
+const UserProfile = lazy(() => import("./pages/Profile/UserProfile"));
+const NewUserMap = lazy(() => import("./pages/Home/NewUserMap"));
+const BloggerMap = lazy(() => import("./pages/Home/BloggerMap"));
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
-  console.log(userLoggedIn);
   const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
-  console.log(clickedCityArray);
-  const swalParams = {
-    type: "info",
-    text:
-      "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally.",
-    confirmButtonColor: "#656F80",
-  };
-  const [swalNotFired, setSwalNotFired] = useState(true);
 
   useEffect(() => {
     if (!userLoggedIn) {
@@ -47,14 +37,12 @@ function App({ userAuthenticated }) {
 
   useEffect(() => {
     if (loaded) {
-      console.log("use erffect loaded");
       if (
         localStorage.getItem("clickedCityArray") !== null &&
         userData.Place_living === null &&
         userData.Places_visited.length < 1 &&
         userData.Places_visiting.length < 1
       ) {
-        console.log("first if");
         handleClickedCityArray(
           JSON.parse(localStorage.getItem("clickedCityArray"))
         );
@@ -79,26 +67,9 @@ function App({ userAuthenticated }) {
         handleClickedCityArray(filteredCities);
       }
     } else {
-      console.log("else");
       return;
     }
   }, [loaded, userData]);
-  useEffect(() => {
-    if (window.innerWidth < 1000 && swalNotFired) {
-      Swal.fire(swalParams);
-      setSwalNotFired(false);
-    }
-
-    function resizeListener() {
-      if (window.innerWidth < 1000 && swalNotFired) {
-        Swal.fire(swalParams);
-        setSwalNotFired(false);
-      }
-    }
-
-    window.addEventListener("resize", resizeListener);
-    return () => window.removeEventListener("resize", resizeListener);
-  }, [swalNotFired, swalParams]);
 
   return (
     <Router>
@@ -209,8 +180,8 @@ function App({ userAuthenticated }) {
                 path="/"
                 render={(props) => (
                   <>
+                    <Header />
                     <Suspense fallback={<Loader />}>
-                      <Header />
                       <Landing />
                     </Suspense>
                   </>

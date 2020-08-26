@@ -1,5 +1,6 @@
 import React from "react";
 import UserAvatar from "../../../components/UserAvatar/UserAvatar";
+import avatar from "../../../images/Avatar_trial8_rotate_12_yellow.png";
 import FeedbackBoxStatic from "../../Place/FeedbackBoxStatic";
 
 function FakePlaceReviewCard() {
@@ -7,9 +8,11 @@ function FakePlaceReviewCard() {
     <>
       <div className="place-review-card-container prcc-past">
         <div className="place-review-user">
-          <UserAvatar avatarIndex={2} color={"#C8B343"} email={""} />
+          {/* <UserAvatar avatarIndex={2} color={"#C8B343"} email={""} /> */}
+          <img src={avatar} style={{ width: "60px" }} alt="avatar"/>
+
           <span className="pr-username">user4</span>
-          <FeedbackBoxStatic review={{ rating: 2 }} comment={1}  email={""}/>
+          <FeedbackBoxStatic review={{ rating: 2 }} comment={1} email={""} />
         </div>
         <div className="pr-card-content">
           <div className="place-review-card">
@@ -38,7 +41,8 @@ function FakePlaceReviewCard() {
       </div>
       <div className="place-review-card-container prcc-past">
         <div className="place-review-user">
-          <UserAvatar avatarIndex={4} color={"rgb(200, 46, 100"} email={""} />
+          {/* <UserAvatar avatarIndex={4} color={"rgb(200, 46, 100"} email={""} /> */}
+          <img src={avatar} style={{ width: "60px" }}  alt="avatar"/>
           <span className="pr-username">user1</span>
           <FeedbackBoxStatic review={{ rating: 2 }} comment={1} />
         </div>
