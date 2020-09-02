@@ -1,18 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import avatar from '../../../images/Avatar_trial8_rotate_12_yellow.png';
-import UserAvatar from "../../../components/UserAvatar/UserAvatar";
 
 function FakeUserTripCard(props) {
   return (
 
       <div className="user-trip-card">
         <div className="user-profile-image">
-          {/* <UserAvatar
-            avatarIndex={props.trip.avatarIndex !== null ? props.trip.avatarIndex : 1}
-            color={props.trip.color}
-            email={""}
-          /> */}
           <img src={avatar} style={{width: "50px"}}  alt="avatar"/>
         </div>
         <div className="utc-user-info-container">
@@ -38,4 +32,4 @@ FakeUserTripCard.propTypes = {
   metric: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };
 
-export default FakeUserTripCard;
+export default React.memo(FakeUserTripCard);

@@ -115,4 +115,4 @@ function FakeCityReviewCard() {
   );
 }
 
-export default FakeCityReviewCard;
+export default React.memo(FakeCityReviewCard);

@@ -187,4 +187,4 @@ FakeClickedFriendCityContainer.propTypes = {
   handleTripTiming: PropTypes.func
 };
 
-export default FakeClickedFriendCityContainer;
+export default React.memo(FakeClickedFriendCityContainer);

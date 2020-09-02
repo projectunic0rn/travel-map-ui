@@ -1018,6 +1018,14 @@ function CityMap(props) {
     return { viewport: newViewport };
   }
 
+  function handleSideMenuHelper() {
+    handleSideMenu(!showSideMenu);
+  }
+
+  function handleMapTypeChangeHelper() {
+    props.handleMapTypeChange(0)
+  }
+
   if (loading) return <Loader />;
   return (
     <>
@@ -1027,12 +1035,12 @@ function CityMap(props) {
           style={showSideMenu ? { width: "250px" } : { width: "40px" }}
         >
           {!showSideMenu ? (
-            <nav className="opennav" onClick={() => handleSideMenu(true)}>
+            <nav className="opennav" onClick={handleSideMenuHelper}>
               &raquo;
             </nav>
           ) : (
             <>
-              <nav className="closebtn" onClick={() => handleSideMenu(false)}>
+              <nav className="closebtn" onClick={handleSideMenuHelper}>
                 &times;
               </nav>
               <div className="side-menu-container">
@@ -1049,13 +1057,13 @@ function CityMap(props) {
                 <div
                   id="new-country-map-button-side-menu"
                   className="sc-controls sc-controls-left"
-                  onClick={() => props.handleMapTypeChange(0)}
+                  onClick={handleMapTypeChangeHelper}
                 >
                   <span className="new-map-suggest">
                     <span className="sc-control-label">Country map</span>
                     <span
                       id="map-change-icon"
-                      onClick={() => props.handleMapTypeChange(0)}
+                      onClick={handleMapTypeChangeHelper}
                     >
                       <MapChangeIcon />
                     </span>
@@ -1078,13 +1086,13 @@ function CityMap(props) {
         <div className="map-header-button">
           <div
             className="sc-controls sc-controls-left"
-            onClick={() => props.handleMapTypeChange(0)}
+            onClick={handleMapTypeChangeHelper}
           >
             <span className="new-map-suggest">
               <span className="sc-control-label">Country map</span>
               <span
                 id="map-change-icon"
-                onClick={() => props.handleMapTypeChange(0)}
+                onClick={handleMapTypeChangeHelper}
               >
                 <MapChangeIcon />
               </span>
@@ -1242,7 +1250,7 @@ function CityMap(props) {
           sendActiveTimings={handleActiveTimings}
         />
       </div>
-      <span onClick={() => geoScoreSwal()} className="georney-score">
+      <span onClick={geoScoreSwal} className="georney-score">
         <span className="gs-title">{"GeorneyScore"}</span>
         <span className="gs-score">{Math.ceil(travelScore)}</span>
       </span>

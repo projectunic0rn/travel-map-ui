@@ -3,8 +3,7 @@ import React, {
   useRef,
   useEffect,
   lazy,
-  Suspense,
-  useMemo,
+  Suspense
 } from "react";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
@@ -429,4 +428,4 @@ Landing.propTypes = {
   handleUserLogin: PropTypes.func,
 };
 
-export default withRouter(Landing);
+export default withRouter(React.memo(Landing));

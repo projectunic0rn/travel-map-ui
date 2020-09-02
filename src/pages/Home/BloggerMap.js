@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2";
 import { Query } from "react-apollo";
 import { GET_MULTI_USER_PLACES } from "../../GraphQL";
 
@@ -27,36 +26,14 @@ const BloggerMap = () => {
   const [userData, handleUserData] = useState([]);
   const [filteredUserData, handleFilteredUserData] = useState([]);
   const [clickedCountryArray, addCountry] = useState([]);
-  const [clickedCityArray, handleClickedCityArray] = useState([]);
+  const [, handleClickedCityArray] = useState([]);
   const [leaderboard, handleLeaderboard] = useState(false);
   const [activeBlogger, handleActiveBlogger] = useState(null);
-  const swalParams = {
-    type: "info",
-    text:
-      "This website works best on wider screens, please switch to a bigger screen or hold your device horizontally.",
-    confirmButtonColor: "#656F80",
-  };
 
-  const [swalNotFired, setSwalNotFired] = useState(true);
   useEffect(() => {
     localStorage.removeItem("token");
   }, []);
-  useEffect(() => {
-    if (window.innerWidth < 1000 && swalNotFired) {
-      Swal.fire(swalParams);
-      setSwalNotFired(false);
-    }
 
-    function resizeListener() {
-      if (window.innerWidth < 1000 && swalNotFired) {
-        Swal.fire(swalParams);
-        setSwalNotFired(false);
-      }
-    }
-
-    window.addEventListener("resize", resizeListener);
-    return () => window.removeEventListener("resize", resizeListener);
-  }, [swalNotFired, swalParams]);
 
   function handleCities(cities) {
     handleClickedCityArray(cities);

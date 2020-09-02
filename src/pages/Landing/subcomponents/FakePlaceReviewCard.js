@@ -1,5 +1,4 @@
 import React from "react";
-import UserAvatar from "../../../components/UserAvatar/UserAvatar";
 import avatar from "../../../images/Avatar_trial8_rotate_12_yellow.png";
 import FeedbackBoxStatic from "../../Place/FeedbackBoxStatic";
 
@@ -81,4 +80,4 @@ function FakePlaceReviewCard() {
   );
 }
 
-export default FakePlaceReviewCard;
+export default React.memo(FakePlaceReviewCard);
