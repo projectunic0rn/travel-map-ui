@@ -1,3 +1,5 @@
+import './utils/wdyr';
+
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
@@ -79,7 +81,7 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <Router history={history}>
         <Switch>
-          <Suspense fallback={<div>App loading...</div>}>
+          <Suspense fallback={<div></div>}>
             <Route path="/new/" component={NewUserMap} />
             <Route path="/public" component={FriendReadonlyMap} />
             <Route

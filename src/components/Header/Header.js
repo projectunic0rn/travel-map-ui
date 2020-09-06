@@ -1,7 +1,7 @@
 import React, { Fragment, useState, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-
+import withMemo from '../../utils/withMemo';
 import NavLinks from "./subcomponents/NavLinks";
 import SiteLogo from "./subcomponents/SiteLogo";
 import SiteText from "../../icons/SiteText";
@@ -60,7 +60,7 @@ const Header = React.memo(function Header({
               </div>
             </div>
             {formIsOpen ? (
-              <Suspense fallback={"Loading..."}>
+              <Suspense fallback={<></>}>
                 <LandingForm setFormIsOpen={toggleFormIsOpen} />
               </Suspense>
             ) : (
@@ -96,4 +96,4 @@ Header.propTypes = {
   avatarIndex: PropTypes.number,
 };
 
-export default React.memo(Header);
+export default withMemo(Header, []);

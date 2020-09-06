@@ -256,39 +256,6 @@ function FriendCityMap(props) {
               break;
             }
             markerPastDisplay.push(
-              // <Marker
-              //   key={city.id}
-              //   id={city.tripTiming + "-" + city.cityId}
-              //   latitude={city.latitude}
-              //   longitude={city.longitude}
-              //   offsetLeft={-5}
-              //   offsetTop={-10}
-              //   style={{ background: "rgba(203, 118, 120, 0.25)" }}
-              // >
-              //   <svg
-              //     key={"svg" + city.id}
-              //     height={20}
-              //     width={20}
-              //     viewBox="0 0 100 100"
-              //     xmlns="http://www.w3.org/2000/svg"
-              //   >
-              //     <circle
-              //       onMouseOver={() => handleCityTooltip(city)}
-              //       style={{ fill: "rgba(203, 118, 120, 0.25)" }}
-              //       key={"circle" + city.id}
-              //       cx="50"
-              //       cy="50"
-              //       r="50"
-              //     />
-              //     <circle
-              //       style={{ fill: "rgba(203, 118, 120, 0.75)" }}
-              //       key={"circle2" + city.id}
-              //       cx="50"
-              //       cy="50"
-              //       r="20"
-              //     />
-              //   </svg>
-              // </Marker>
               city
             );
             break;

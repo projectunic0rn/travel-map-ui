@@ -3,12 +3,15 @@ import React, {
   useRef,
   useEffect,
   lazy,
-  Suspense
+  Suspense,
+  PureComponent,
+  useCallback
 } from "react";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker } from "react-map-gl";
+import withMemo from "../../utils/withMemo";
 
 import Loader from "../../components/common/Loader/Loader";
 import ArrowRightIcon from "../../icons/ArrowRightIcon";
@@ -19,232 +22,93 @@ const FakeClickedCityContainer = lazy(() =>
 const FakeClickedFriendCityContainer = lazy(() =>
   import("./subcomponents/FakeClickedFriendCity")
 );
-const FakeReviewCard = lazy(() => import("./subcomponents/FakeReviewCard"));
-const FakePlaceReviewCard = lazy(() =>
-  import("./subcomponents/FakePlaceReviewCard")
-);
+// const FakeReviewCard = lazy(() => import("./subcomponents/FakeReviewCard"));
+// const FakePlaceReviewCard = lazy(() =>
+//   import("./subcomponents/FakePlaceReviewCard")
+// );
 const Footer = lazy(() => import("./Footer"));
 
-let incomingCities = [
-  {
-    city: "Lagos",
-    cityId: 8673,
-    city_latitude: 6.45,
-    city_longitude: 3.4,
-    tripTiming: 0,
-  },
-  {
-    city: "Stockholm",
-    cityId: 1754,
-    city_latitude: 59.32944,
-    city_longitude: 18.06861,
-    tripTiming: 1,
-  },
-  {
-    city: "Brisbane",
-    cityId: 34932,
-    city_latitude: -27.469,
-    city_longitude: 153.0235,
-    tripTiming: 2,
-  },
-  {
-    city: "Shanghai",
-    cityId: 8686,
-    city_latitude: 31.16667,
-    city_longitude: 121.46667,
-    tripTiming: 1,
-  },
-  {
-    city: "New York City",
-    cityId: 60,
-    city_latitude: 40.7648,
-    city_longitude: -73.9808,
-    tripTiming: 0,
-  },
-  {
-    city: "Salzburg",
-    cityId: 34713,
-    city_latitude: 47.8,
-    city_longitude: 13.03333,
-    tripTiming: 0,
-  },
-  {
-    city: "Wellington",
-    cityId: 23661,
-    city_latitude: -41.28889,
-    city_longitude: 174.77722,
-    tripTiming: 1,
-  },
-  {
-    city: "Brasília",
-    cityId: 2844,
-    city_latitude: -15.7934,
-    city_longitude: -47.8823,
-    tripTiming: 0,
-  },
-  {
-    city: "Panama City",
-    cityId: 3306,
-    city_latitude: 9,
-    city_longitude: -79.5,
-    tripTiming: 1,
-  },
-  {
-    city: "Istanbul",
-    cityId: 406,
-    city_latitude: 41.01,
-    city_longitude: 28.96028,
-    tripTiming: 0,
-  },
-  {},
-];
-
-function NewMarker(city) {
-  let color;
-  switch (city.city.tripTiming) {
-    case 0:
-      color = "(203, 118, 120, ";
-      break;
-    case 1:
-      color = "(115, 167, 195, ";
-      break;
-    case 2:
-      color = "(150, 177, 168,";
-      break;
-    default:
-      break;
-  }
-  return (
-    <Marker
-      key={city.city.cityId}
-      latitude={city.city.city_latitude}
-      longitude={city.city.city_longitude}
-      offsetLeft={-5}
-      offsetTop={-10}
-    >
-      <div
-        style={{
-          backgroundColor: "rgba" + color + "0.25)",
-          transform: "translate(-10px, -12px)",
-        }}
-        key={"circle" + city.cityId}
-        className="dot"
-      />
-      <div
-        style={{
-          backgroundColor: "rgba" + color + "1)",
-          transform: "translate(-10px, -12px)",
-        }}
-        key={"circle2" + city.cityId}
-        className="dot-inner"
-      />
-      <div
-        style={{ border: "10px solid rgba" + color + "1)" }}
-        key={"circle3" + city.cityId}
-        className="pulse"
-      />
-    </Marker>
-  );
-}
-
-function LoadedMarker(city) {
-  let color;
-  switch (city.tripTiming) {
-    case 0:
-      color = "(203, 118, 120, ";
-      break;
-    case 1:
-      color = "(115, 167, 195, ";
-      break;
-    case 2:
-      color = "(150, 177, 168,";
-      break;
-    default:
-      break;
-  }
-  return (
-    <Marker
-      key={city.cityId}
-      latitude={city.city_latitude}
-      longitude={city.city_longitude}
-      offsetLeft={-5}
-      offsetTop={-10}
-    >
-      <svg
-        key={"svg" + city.cityId}
-        height={20}
-        width={20}
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
+class LoadedMarker extends PureComponent {
+  render() {
+    const {
+      city,
+      cityId,
+      city_latitude,
+      city_longitude,
+      tripTiming,
+    } = this.props;
+    let color;
+    switch (tripTiming) {
+      case 0:
+        color = "(203, 118, 120, ";
+        break;
+      case 1:
+        color = "(115, 167, 195, ";
+        break;
+      case 2:
+        color = "(150, 177, 168,";
+        break;
+      default:
+        break;
+    }
+    return (
+      <Marker
+        key={cityId}
+        latitude={city_latitude}
+        longitude={city_longitude}
+        offsetLeft={-5}
+        offsetTop={-10}
       >
-        <circle
-          style={{ fill: "rgba" + color + "0.25)" }}
-          key={"circle" + city.cityId}
-          cx="50"
-          cy="50"
-          r="50"
-        />
-        <circle
-          style={{ fill: "rgba" + color + "1.0)" }}
-          key={"circle2" + city.cityId}
-          cx="50"
-          cy="50"
-          r="20"
-        />
-      </svg>
-    </Marker>
-  );
+        <svg
+          key={"svg" + cityId}
+          height={20}
+          width={20}
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            style={{ fill: "rgba" + color + "0.25)" }}
+            key={"circle" + cityId}
+            cx="50"
+            cy="50"
+            r="50"
+          />
+          <circle
+            style={{ fill: "rgba" + color + "1.0)" }}
+            key={"circle2" + cityId}
+            cx="50"
+            cy="50"
+            r="20"
+          />
+        </svg>
+      </Marker>
+    );
+  }
 }
 
 function Landing() {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight + 120,
-    latitude: 0,
-    longitude: 0,
-    zoom: setInitialZoom(),
+    zoom: 0,
   });
-  const [markers, handleMarkers] = useState([]);
   const mapRef = useRef();
 
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
-    if (incomingCities.length > 0) {
-      let newMarkers = setInterval(() => {
-        addMarker();
-        if (incomingCities.length < 1) {
-          clearInterval(newMarkers);
-        }
-      }, 2000);
-    }
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function addMarker() {
-    let newMarkers = [...markers];
-    if (incomingCities.length > 0) {
-      markers.push(
-        <NewMarker key={incomingCities[0].cityId} city={incomingCities[0]} />
-      );
-    }
-    handleMarkers(newMarkers);
-    incomingCities.splice(0, 1);
-  }
-
   function resize() {
-    handleViewportChange({
+    handleViewportChangeMemo({
       width: window.innerWidth,
       height: window.innerHeight + 120,
       zoom: setInitialZoom(),
     });
-  }
-
-  function handleViewportChange(newViewport) {
-    handleViewport({ ...viewport, ...newViewport });
   }
 
   function setInitialZoom() {
@@ -260,6 +124,10 @@ function Landing() {
     }
     return zoom;
   }
+
+  const handleViewportChangeMemo = useCallback((newViewport) => {
+    handleViewport({ ...viewport, ...newViewport });
+  });
 
   return (
     <>
@@ -278,7 +146,7 @@ function Landing() {
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }
-              onViewportChange={handleViewportChange}
+              onViewportChange={handleViewportChangeMemo}
               style={{
                 width: "100vw",
                 minHeight: "calc(100%)",
@@ -307,7 +175,27 @@ function Landing() {
                 city_longitude={12.48278}
                 tripTiming={0}
               />
-              {markers}
+              <LoadedMarker
+                city="Lagos"
+                cityId={8673}
+                city_latitude={6.45}
+                city_longitude={3.4}
+                tripTiming={0}
+              />
+              <LoadedMarker
+                city="Stockholm"
+                cityId={1754}
+                city_latitude={59.32944}
+                city_longitude={18.06861}
+                tripTiming={1}
+              />
+              <LoadedMarker
+                city="Brisbane"
+                cityId={34932}
+                city_latitude={-27.469}
+                city_longitude={153.0235}
+                tripTiming={2}
+              />
             </MapGL>
           </div>
           <div className="landing-motto-container">
@@ -367,7 +255,7 @@ function Landing() {
             </div>
           </div>
         </div>
-        <div className="landing-third-page">
+        {/* <div className="landing-third-page">
           <div className="landing-additional-info-container">
             <div className="lp-additional-info">
               <span>2</span>
@@ -379,11 +267,11 @@ function Landing() {
               <FakeReviewCard />
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="landing-fourth-page">
           <div className="landing-additional-info-container">
             <div className="lp-additional-info">
-              <span>3</span>
+              <span>2</span>
               <span>discover where friends have been</span>
             </div>
             <div className="map-search-container" id="landing-search-container">
@@ -405,7 +293,7 @@ function Landing() {
             </div>
           </div>
         </div>
-        <div className="landing-fifth-page">
+        {/* <div className="landing-fifth-page">
           <div className="landing-additional-info-container">
             <div className="lp-additional-info">
               <span>4</span>
@@ -417,7 +305,7 @@ function Landing() {
               <FakePlaceReviewCard />
             </div>
           </div>
-        </div>
+        </div> */}
         <Footer />
       </Suspense>
     </>
@@ -428,4 +316,4 @@ Landing.propTypes = {
   handleUserLogin: PropTypes.func,
 };
 
-export default withRouter(React.memo(Landing));
+export default withMemo(Landing, []);

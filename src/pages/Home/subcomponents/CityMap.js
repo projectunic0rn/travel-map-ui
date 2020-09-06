@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useRef, PureComponent } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  PureComponent,
+  useCallback,
+} from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
-import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/react-hooks";
@@ -25,9 +31,7 @@ import SaveIcon from "../../../icons/SaveIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-
 import NewUserSuggestions from "./NewUserSuggestions";
-import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 class PastMarkers extends PureComponent {
@@ -35,8 +39,8 @@ class PastMarkers extends PureComponent {
     const { data, handleCityTooltip } = this.props;
     return data.map((city) => (
       <Marker
-      key={city.cityId + "-" + city.tripTiming + "-" + city.id}
-      latitude={city.city_latitude}
+        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        latitude={city.city_latitude}
         longitude={city.city_longitude}
         offsetLeft={-5}
         offsetTop={-10}
@@ -108,6 +112,13 @@ class FutureMarkers extends PureComponent {
   }
 }
 
+const mapStyle = {
+  width: "100vw",
+  minHeight: "calc(100% - 120px)",
+  maxHeight: "calc(100%)",
+  position: "relative",
+};
+
 function CityMap(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
@@ -147,7 +158,6 @@ function CityMap(props) {
 
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
-      console.log("updated georney score");
       let userData = { ...user };
       userData.userData.georneyScore = travelScore;
       let newClickedCityArray = userData.clickedCityArray.concat(
@@ -164,12 +174,6 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-  const clusterPast = useRef();
-  const clusterFuture = useRef();
-  const [clusterParams, handleClusterParams] = useState({
-    extent: 16384,
-    nodeSize: 1024,
-  });
 
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
@@ -196,27 +200,6 @@ function CityMap(props) {
       handleLoadedCities(user.clickedCityArray);
     }, [loadedClickedCityArray]);
   }
-
-  useEffect(() => {
-    function setClusterParams() {
-      let newClusterParams = clusterParams;
-      if (props.clickedCityArray.length > 0) {
-        if (props.clickedCityArray.length > 200) {
-          newClusterParams.extent = 2048;
-          newClusterParams.nodeSize = 128;
-        } else if (props.clickedCityArray.length > 100) {
-          newClusterParams.extent = 4096;
-          newClusterParams.nodeSize = 256;
-        } else if (props.clickedCityArray.length > 50) {
-          newClusterParams.extent = 8192;
-          newClusterParams.nodeSize = 512;
-        }
-        handleClusterParams(newClusterParams);
-      }
-    }
-    setClusterParams();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {}, [loading]);
   useEffect(() => {
@@ -284,6 +267,9 @@ function CityMap(props) {
   function handleViewportChange(newViewport) {
     handleViewport({ ...viewport, ...newViewport });
   }
+  const handleViewportChangeCallback = useCallback(() => {
+    handleViewportChange();
+  }, []);
 
   function setInitialZoom() {
     let zoom;
@@ -674,9 +660,7 @@ function CityMap(props) {
       if (findCountryIds.length === 1) {
         newTravelScore -= 10;
       }
-
       newCountryArray.splice(Number(findCountryIds[0]), 1);
-
       lat = newCityEntry.city_latitude;
       long = newCityEntry.city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
@@ -993,37 +977,12 @@ function CityMap(props) {
     handleSuggestedCountryArray(countryArray);
   }
 
-  function clusterClick(cluster) {
-    const { clusterId, longitude, latitude } = cluster;
-    let supercluster;
-    switch (cluster.type) {
-      case 0:
-        supercluster = clusterPast.current.getCluster();
-        break;
-      case 1:
-        supercluster = clusterFuture.current.getCluster();
-        break;
-      default:
-        break;
-    }
-    const zoom = supercluster.getClusterExpansionZoom(clusterId);
-    const newViewport = {
-      ...viewport,
-      latitude,
-      longitude,
-      zoom,
-    };
-    handleViewport(newViewport);
-
-    return { viewport: newViewport };
-  }
-
   function handleSideMenuHelper() {
     handleSideMenu(!showSideMenu);
   }
 
   function handleMapTypeChangeHelper() {
-    props.handleMapTypeChange(0)
+    props.handleMapTypeChange(0);
   }
 
   if (loading) return <Loader />;
@@ -1090,10 +1049,7 @@ function CityMap(props) {
           >
             <span className="new-map-suggest">
               <span className="sc-control-label">Country map</span>
-              <span
-                id="map-change-icon"
-                onClick={handleMapTypeChangeHelper}
-              >
+              <span id="map-change-icon" onClick={handleMapTypeChangeHelper}>
                 <MapChangeIcon />
               </span>
             </span>
@@ -1142,94 +1098,51 @@ function CityMap(props) {
             </div>
           ) : null}
         </div>
-        <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
-          ref={mapRef}
-          width="100%"
-          height="100%"
-          {...viewport}
-          accessToken={
-            "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
-          }
-          onViewportChange={handleViewportChange}
-          minZoom={0.25}
-          style={{
-            width: "100vw",
-            minHeight: "calc(100% - 120px)",
-            maxHeight: "calc(100%)",
-            position: "relative",
-          }}
-        >
-          {activeTimings[0] ? (
-            <>
-              <Cluster
-                ref={clusterPast}
-                radius={40}
-                extent={clusterParams.extent}
-                nodeSize={clusterParams.nodeSize}
-                component={(cluster) => (
-                  <ClusterMarker
-                    onClick={clusterClick}
-                    color={"rgba(203, 118, 120, 0.5)"}
-                    {...cluster}
-                    type={0}
-                  />
-                )}
-              >
+          <MapGL
+            mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
+            ref={mapRef}
+            width="100%"
+            height="100%"
+            {...viewport}
+            accessToken={
+              "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
+            }
+            onViewportChange={handleViewportChangeCallback}
+            minZoom={0.25}
+            style={mapStyle}
+          >
+            {activeTimings[0] ? (
+              <>
                 <PastMarkers
                   data={markerPastDisplay}
                   handleCityTooltip={handleCityTooltip}
                 />
-              </Cluster>
-              <PastMarkers
-                data={markerPastDisplay}
-                handleCityTooltip={handleCityTooltip}
-              />
-            </>
-          ) : null}
-          {activeTimings[1] ? (
-            <>
-              <Cluster
-                ref={clusterFuture}
-                radius={40}
-                extent={clusterParams.extent}
-                nodeSize={clusterParams.nodeSize}
-                component={(cluster) => (
-                  <ClusterMarker
-                    onClick={clusterClick}
-                    color={"rgba(115, 167, 195, 0.5)"}
-                    {...cluster}
-                    type={1}
-                  />
-                )}
-              >
+              </>
+            ) : null}
+            {activeTimings[1] ? (
+              <>
                 <FutureMarkers
                   data={markerFutureDisplay}
                   handleCityTooltip={handleCityTooltip}
                 />
-              </Cluster>
-              <FutureMarkers
-                data={markerFutureDisplay}
-                handleCityTooltip={handleCityTooltip}
-              />
-            </>
-          ) : null}
-          {activeTimings[2] ? markerLiveDisplay : null}
-          <Geocoder
-            mapRef={mapRef}
-            onResult={(e) => handleOnResult(e)}
-            limit={10}
-            mapboxApiAccessToken={
-              "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
-            }
-            position="top-left"
-            types={"place"}
-            placeholder={"Type a city..."}
-            inputValue={""}
-          />
+              </>
+            ) : null}
+            {activeTimings[2] ? markerLiveDisplay : null}
+            <Geocoder
+              mapRef={mapRef}
+              onResult={(e) => handleOnResult(e)}
+              limit={10}
+              mapboxApiAccessToken={
+                "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
+              }
+              position="top-left"
+              types={"place"}
+              placeholder={"Type a city..."}
+              inputValue={""}
+            />
 
-          {cityTooltip ? _renderPopup() : null}
-        </MapGL>
+            {cityTooltip ? _renderPopup() : null}
+          </MapGL>
       </div>
       <div className="zoom-buttons">
         <ZoomButton
@@ -1283,14 +1196,6 @@ CityMap.propTypes = {
   initialTravelScore: PropTypes.number,
   currentTiming: PropTypes.number,
   handleAlteredCityArray: PropTypes.func,
-};
-
-ClusterMarker.propTypes = {
-  latitude: PropTypes.number,
-  longitude: PropTypes.number,
-  pointCount: PropTypes.number,
-  color: PropTypes.string,
-  onClick: PropTypes.func,
 };
 
 PastMarkers.propTypes = {
