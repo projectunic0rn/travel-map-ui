@@ -8,20 +8,11 @@
 @import "./subpages/Friends/PotentialFriendCard.scss";
 @import "./subpages/Friends/FriendCard.scss";
 @import "./subpages/Cities/ProfileCityCard.scss";
-@import "./subpages/Cities/CityReviewCard.scss";
 @import "./subpages/Cities/ProfileCities.scss";
-@import "./subpages/Cities/LogisticsInputContainer.scss";
-@import "./subpages/Cities/CityBasicsContainer.scss";
-@import "./subpages/Cities/CityCommentaryContainer.scss";
-@import "./subpages/UserTrips/ProfileTrips.scss";
 
 .page-profile {
   .container {
     padding: 10px !important;
-    // display: grid;
-    // grid-template-columns: [sidebar] 350px [content] auto;
-    // grid-template-rows: [nav] 70px [content] auto;
-    // grid-gap: 8px 15px;
     padding-bottom: 25px;
     @media (max-width: 850px) {
       grid-template-columns: [sidebar] 280px [content] auto;

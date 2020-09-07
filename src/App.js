@@ -17,7 +17,6 @@ const FriendMapPage = lazy(() => import("./pages/Home/FriendMapPage"));
 const Beta = lazy(() => import("./Beta"));
 const FAQ = lazy(() => import("./pages/FAQ/FAQ"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
-const Place = lazy(() => import("./pages/Place/Place"));
 const UserProfile = lazy(() => import("./pages/Profile/UserProfile"));
 const NewUserMap = lazy(() => import("./pages/Home/NewUserMap"));
 const BloggerMap = lazy(() => import("./pages/Home/BloggerMap"));
@@ -154,7 +153,6 @@ function App({ userAuthenticated }) {
                         <Profile {...props} refetchApp={refetch} />
                       )}
                     />
-                    <Route path="/place/" render={(props) => <Place />} />
                     <Route
                       path="/friends/"
                       render={(props) => (

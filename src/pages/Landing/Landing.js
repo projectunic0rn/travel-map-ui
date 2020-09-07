@@ -22,10 +22,6 @@ const FakeClickedCityContainer = lazy(() =>
 const FakeClickedFriendCityContainer = lazy(() =>
   import("./subcomponents/FakeClickedFriendCity")
 );
-// const FakeReviewCard = lazy(() => import("./subcomponents/FakeReviewCard"));
-// const FakePlaceReviewCard = lazy(() =>
-//   import("./subcomponents/FakePlaceReviewCard")
-// );
 const Footer = lazy(() => import("./Footer"));
 
 
@@ -258,19 +254,6 @@ function Landing() {
             </div>
           </div>
         </div>
-        {/* <div className="landing-third-page">
-          <div className="landing-additional-info-container">
-            <div className="lp-additional-info">
-              <span>2</span>
-              <span>make geornal entries for your trips</span>
-            </div>
-          </div>
-          <div className="landing-graphic-container">
-            <div className="fake-review-container">
-              <FakeReviewCard />
-            </div>
-          </div>
-        </div> */}
         <div className="landing-fourth-page">
           <div className="landing-additional-info-container">
             <div className="lp-additional-info">
@@ -296,19 +279,6 @@ function Landing() {
             </div>
           </div>
         </div>
-        {/* <div className="landing-fifth-page">
-          <div className="landing-additional-info-container">
-            <div className="lp-additional-info">
-              <span>4</span>
-              <span>see all reviews for a city from multiple friends</span>
-            </div>
-          </div>{" "}
-          <div className="landing-graphic-container">
-            <div className="fake-review-container">
-              <FakePlaceReviewCard />
-            </div>
-          </div>
-        </div> */}
         <Footer />
       </Suspense>
     </>
