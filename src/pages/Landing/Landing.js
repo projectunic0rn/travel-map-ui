@@ -8,7 +8,7 @@ import React, {
   useCallback
 } from "react";
 import PropTypes from "prop-types";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapGL, { Marker } from "react-map-gl";
 import withMemo from "../../utils/withMemo";
@@ -28,10 +28,17 @@ const FakeClickedFriendCityContainer = lazy(() =>
 // );
 const Footer = lazy(() => import("./Footer"));
 
+
+
+const mapStyle = {
+  // minHeight: "calc(100% - 120px)",
+  // maxHeight: "calc(100%)",
+  position: "relative",
+};
+
 class LoadedMarker extends PureComponent {
   render() {
     const {
-      city,
       cityId,
       city_latitude,
       city_longitude,
@@ -87,10 +94,10 @@ class LoadedMarker extends PureComponent {
 }
 
 function Landing() {
-  const [viewport, handleViewport] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight + 120,
-    zoom: 0,
+  const [viewport, handleViewportChange] = useState({
+    width: 0,
+    height: 0,
+    zoom: 0
   });
   const mapRef = useRef();
 
@@ -104,9 +111,9 @@ function Landing() {
   }, []);
 
   function resize() {
-    handleViewportChangeMemo({
+    handleViewportChangeCallback({
       width: window.innerWidth,
-      height: window.innerHeight + 120,
+      height: window.innerHeight,
       zoom: setInitialZoom(),
     });
   }
@@ -125,9 +132,9 @@ function Landing() {
     return zoom;
   }
 
-  const handleViewportChangeMemo = useCallback((newViewport) => {
-    handleViewport({ ...viewport, ...newViewport });
-  });
+  const handleViewportChangeCallback = useCallback(() => {
+    handleViewportChange();
+  }, []);
 
   return (
     <>
@@ -142,17 +149,13 @@ function Landing() {
               mapStyle={"mapbox://styles/mvance43776/ck5d5iota033i1iphduio56d1"}
               ref={mapRef}
               width="100%"
+              height="100%"
               {...viewport}
               mapboxApiAccessToken={
                 "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
               }
-              onViewportChange={handleViewportChangeMemo}
-              style={{
-                width: "100vw",
-                minHeight: "calc(100%)",
-                maxHeight: "calc(100% + 120px)",
-                position: "relative",
-              }}
+              onViewportChange={handleViewportChangeCallback}
+              style={mapStyle}
             >
               <LoadedMarker
                 city="Fremont"
@@ -193,7 +196,7 @@ function Landing() {
                 city="Brisbane"
                 cityId={34932}
                 city_latitude={-27.469}
-                city_longitude={153.0235}
+                city_longitude={173.0235}
                 tripTiming={2}
               />
             </MapGL>

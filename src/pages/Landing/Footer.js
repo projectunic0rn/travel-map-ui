@@ -1,19 +1,21 @@
-import React from "react";
+import React, { PureComponent } from "react";
 
-function Footer() {
-  return (
-    <div className="footer-container">
-      <div className="footer-links-container"></div>
-      <div className="footer-bottom-container">
-        <span>
-          ©Geornal is a hobby project built as part of the{" "}
-          <a href='https://projectunicorn.net/'>Project-Unicorn</a>
-          programming group
-        </span>
-        <span>geornal.contact@gmail.com</span>
+class Footer extends PureComponent {
+  render() {
+    return (
+      <div className="footer-container">
+        <div className="footer-links-container"></div>
+        <div className="footer-bottom-container">
+          <span>
+            ©Geornal is a hobby project built as part of the{" "}
+            <a href="https://projectunicorn.net/">Project-Unicorn</a>
+            programming group
+          </span>
+          <span>geornal.contact@gmail.com</span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Footer;

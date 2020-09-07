@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import PropTypes from "prop-types";
+import whyDidYouRender from "@welldone-software/why-did-you-render";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -137,7 +138,7 @@ function CityMap(props) {
   const [loadedClickedCityArray, handleLoadedClickedCityArray] = useState(
     user.clickedCityArray
   );
-  const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
+  const [activeTimings, handleActiveTimings] = useState([true, true, true]);
   const [loading, handleLoaded] = useState(true);
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
@@ -212,21 +213,47 @@ function CityMap(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    handleSuggestedContinentArray([]);
-    handleSuggestedCountryArray([]);
-  }, [props.currentTiming]);
+  function useEffectSkipFirstCurrentTiming() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      handleSuggestedContinentArray([]);
+      handleSuggestedCountryArray([]);
+    }, [props.currentTiming]);
+  }
 
-  useEffect(() => {
-    let oldActiveTimings = [...activeTimings];
-    handleActiveTimings([0, 0, 0]);
-    handleActiveTimings(oldActiveTimings);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    clickedCityArray,
-    markerPastDisplay,
-    markerFutureDisplay,
-    markerLiveDisplay,
+  useEffectSkipFirstCurrentTiming(() => {}, [props.currentTiming]);
+
+  function useEffectSkipFirstActiveTimings() {
+    const isFirst = useRef(true);
+    useEffect(
+      () => {
+        if (isFirst.current) {
+          isFirst.current = false;
+          return;
+        }
+        let oldActiveTimings = [...activeTimings];
+        handleActiveTimings([0, 0, 0]);
+        handleActiveTimings(oldActiveTimings);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      },
+      [
+        // clickedCityArray,
+        // markerPastDisplay,
+        // markerFutureDisplay,
+        // markerLiveDisplay,
+      ]
+    );
+  }
+
+  useEffectSkipFirstActiveTimings(() => {}, [
+    // clickedCityArray,
+    // markerPastDisplay,
+    // markerFutureDisplay,
+    // markerLiveDisplay,
   ]);
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
 
@@ -265,6 +292,13 @@ function CityMap(props) {
   }
 
   function handleViewportChange(newViewport) {
+    if (
+      newViewport.width === viewport.width &&
+      newViewport.height === viewport.height &&
+      newViewport.zoom === viewport.zoom
+    ) {
+      return;
+    }
     handleViewport({ ...viewport, ...newViewport });
   }
   const handleViewportChangeCallback = useCallback(() => {
@@ -511,18 +545,17 @@ function CityMap(props) {
         switch (city.tripTiming) {
           case 0:
             color = "rgba(203, 118, 120, 0.25)";
-            handleActiveTimings([0, 0, 0]);
+            // handleActiveTimings([0, 0, 0]);
             markerPastDisplay.push(city);
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
-            handleActiveTimings([0, 0, 0]);
+            // handleActiveTimings([0, 0, 0]);
             markerFutureDisplay.push(city);
-
             break;
           case 2:
             color = "rgba(150, 177, 168, 0.25)";
-            handleActiveTimings([0, 0, 0]);
+            // handleActiveTimings([0, 0, 0]);
             markerLiveDisplay.push(
               <Marker
                 key={city.cityId}
@@ -567,7 +600,7 @@ function CityMap(props) {
     handleMarkerFutureDisplay(markerFutureDisplay);
     handleMarkerLiveDisplay(markerLiveDisplay);
     handleLoaded(false);
-    handleActiveTimings([1, 1, 1]);
+    // handleActiveTimings([1, 1, 1]);
   }
 
   function calculateTravelScoreIndex(lat, long) {
@@ -708,7 +741,6 @@ function CityMap(props) {
     } else {
       cityId = parseFloat(event.result.id.slice(10, 16), 10);
     }
-
     if (
       props.currentTiming === 2 &&
       (loadedClickedCityArray.some((city) => city.tripTiming === 2) ||
@@ -773,7 +805,6 @@ function CityMap(props) {
         return city.tripTiming === 2;
       });
     }
-
     let previousCity = liveCity[0];
     let popupText =
       previousCity.city !== ""
@@ -1098,51 +1129,51 @@ function CityMap(props) {
             </div>
           ) : null}
         </div>
-          <MapGL
-            mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
-            ref={mapRef}
-            width="100%"
-            height="100%"
-            {...viewport}
-            accessToken={
+        <MapGL
+          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
+          ref={mapRef}
+          width="100%"
+          height="100%"
+          {...viewport}
+          accessToken={
+            "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
+          }
+          onViewportChange={handleViewportChangeCallback}
+          minZoom={0.25}
+          style={mapStyle}
+        >
+          {activeTimings[0] ? (
+            <>
+              <PastMarkers
+                data={markerPastDisplay}
+                handleCityTooltip={handleCityTooltip}
+              />
+            </>
+          ) : null}
+          {activeTimings[1] ? (
+            <>
+              <FutureMarkers
+                data={markerFutureDisplay}
+                handleCityTooltip={handleCityTooltip}
+              />
+            </>
+          ) : null}
+          {activeTimings[2] ? markerLiveDisplay : null}
+          <Geocoder
+            mapRef={mapRef}
+            onResult={(e) => handleOnResult(e)}
+            limit={10}
+            mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }
-            onViewportChange={handleViewportChangeCallback}
-            minZoom={0.25}
-            style={mapStyle}
-          >
-            {activeTimings[0] ? (
-              <>
-                <PastMarkers
-                  data={markerPastDisplay}
-                  handleCityTooltip={handleCityTooltip}
-                />
-              </>
-            ) : null}
-            {activeTimings[1] ? (
-              <>
-                <FutureMarkers
-                  data={markerFutureDisplay}
-                  handleCityTooltip={handleCityTooltip}
-                />
-              </>
-            ) : null}
-            {activeTimings[2] ? markerLiveDisplay : null}
-            <Geocoder
-              mapRef={mapRef}
-              onResult={(e) => handleOnResult(e)}
-              limit={10}
-              mapboxApiAccessToken={
-                "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
-              }
-              position="top-left"
-              types={"place"}
-              placeholder={"Type a city..."}
-              inputValue={""}
-            />
+            position="top-left"
+            types={"place"}
+            placeholder={"Type a city..."}
+            inputValue={""}
+          />
 
-            {cityTooltip ? _renderPopup() : null}
-          </MapGL>
+          {cityTooltip ? _renderPopup() : null}
+        </MapGL>
       </div>
       <div className="zoom-buttons">
         <ZoomButton
@@ -1208,4 +1239,5 @@ FutureMarkers.propTypes = {
   handleCityTooltip: PropTypes.func,
 };
 
+CityMap.whyDidYouRender = true;
 export default CityMap;

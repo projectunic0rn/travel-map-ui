@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import withMemo from '../../utils/withMemo';
+
 import AllTimingsIcon from '../../icons/AllTimingsIcon';
 import FutureIcon from '../../icons/FutureIcon';
 import PastIcon from '../../icons/PastIcon';
@@ -27,6 +29,7 @@ function PromptNavMenu(props) {
       ? 'col-xs-4 secondary-nav-icon-container secondary-nav-icon-container-active'
       : 'col-xs-4 secondary-nav-icon-container';
   }
+
   return (
     <div className="navbar-secondary">
       <div className="row nav-icons">
@@ -67,4 +70,4 @@ PromptNavMenu.propTypes = {
   handleNavPosition: PropTypes.func
 }
 
-export default PromptNavMenu;
+export default withMemo(PromptNavMenu, []);
