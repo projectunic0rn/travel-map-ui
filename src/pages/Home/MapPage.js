@@ -68,7 +68,7 @@ const MapPage = ({
       <div className={mapPage ? "map city-map" : "map country-map"}>
         {mapPage ? (
           <CityMap
-            handleMapTypeChange={() => handleMapPageChange(0)}
+            handleMapTypeChange={handleMapPageChange}
             refetch={refetch}
             clickedCityArray={newClickedCityArray}
             handleAlteredCityArray={handleAlteredCityArray}
@@ -77,7 +77,7 @@ const MapPage = ({
         ) : (
           <CountryMap
             countryArray={countryArray}
-            handleMapTypeChange={() => handleMapPageChange(1)}
+            handleMapTypeChange={handleMapPageChange}
             refetch={refetch}
             currentTiming={timing}
           />

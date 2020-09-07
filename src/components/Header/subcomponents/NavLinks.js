@@ -4,7 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 import { UserConsumer } from "../../../utils/UserContext";
 import logUserOut from "../../common/CommonFunctions";
 
-export default function NavLinks({ toggleFormIsOpen, formIsOpen }) {
+function NavLinks({ toggleFormIsOpen, formIsOpen }) {
   return (
     <UserConsumer>
       {context => {
@@ -56,3 +56,5 @@ NavLinks.propTypes = {
   formIsOpen: PropTypes.bool,
   handleHamburgerClick: PropTypes.func
 };
+
+export default React.memo(NavLinks);

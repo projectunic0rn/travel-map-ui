@@ -764,20 +764,20 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   }
 `;
 
-export const GET_LOGGEDIN_USER = gql`
-  query {
-    user {
-      id
-      username
-      full_name
-      email
-      UserInterests {
-        id
-        name
-      }
-    }
-  }
-`;
+// export const GET_LOGGEDIN_USER = gql`
+//   query {
+//     user {
+//       id
+//       username
+//       full_name
+//       email
+//       UserInterests {
+//         id
+//         name
+//       }
+//     }
+//   }
+// `;
 
 export const GET_USER_COUNTRIES = gql`
   query user($username: String) {

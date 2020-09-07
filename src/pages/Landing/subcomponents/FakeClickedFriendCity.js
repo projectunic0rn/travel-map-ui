@@ -173,7 +173,7 @@ function FakeClickedFriendCityContainer() {
           <span>Canada</span>
         </div>
       </div>
-      <PromptNavMenu handleNavPosition={handleNewNavPosition} />
+      <PromptNavMenu handleNavPosition={handleNewNavPosition}/>
       <div className="friend-trip-container">
         {userTripTitle}
         {friendTrips}
@@ -187,4 +187,4 @@ FakeClickedFriendCityContainer.propTypes = {
   handleTripTiming: PropTypes.func
 };
 
-export default FakeClickedFriendCityContainer;
+export default React.memo(FakeClickedFriendCityContainer);

@@ -1,12 +1,15 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-
+import withMemo from '../../utils/withMemo';
 import NavLinks from "./subcomponents/NavLinks";
 import SiteLogo from "./subcomponents/SiteLogo";
 import SiteText from "../../icons/SiteText";
-import LandingForm from "../../pages/Landing/subcomponents/LandingForm";
 import UserHeaderContainer from "./subcomponents/UserHeaderContainer";
+
+const LandingForm = lazy(() =>
+  import("../../pages/Landing/subcomponents/LandingForm")
+);
 
 const Header = React.memo(function Header({
   userLoggedIn,
@@ -17,10 +20,14 @@ const Header = React.memo(function Header({
   let [formIsOpen, setFormIsOpen] = useState(
     userLoggedIn || window.innerWidth < 1200 ? false : true
   );
-  console.log("header rendered");
   function toggleFormIsOpen() {
-    setFormIsOpen(!formIsOpen)
+    setFormIsOpen(!formIsOpen);
   }
+
+  function handleHamburgerClickHelper() {
+    handleHamburgerClick(!showHamburgerDropdown);
+  }
+
   return (
     <Fragment>
       <header className="header-container">
@@ -46,13 +53,19 @@ const Header = React.memo(function Header({
                     : "hamburger-icon"
                 }
                 id="ham"
-                onClick={() => handleHamburgerClick(!showHamburgerDropdown)}
+                onClick={handleHamburgerClickHelper}
               >
                 <span className="hamburger-a" />
                 <span className="hamburger-b" />
               </div>
             </div>
-            {formIsOpen ? <LandingForm setFormIsOpen={toggleFormIsOpen} /> : ""}
+            {formIsOpen ? (
+              <Suspense fallback={<></>}>
+                <LandingForm setFormIsOpen={toggleFormIsOpen} />
+              </Suspense>
+            ) : (
+              ""
+            )}
           </div>
           {userLoggedIn ? (
             <UserHeaderContainer color={color} avatarIndex={avatarIndex} />
@@ -83,4 +96,4 @@ Header.propTypes = {
   avatarIndex: PropTypes.number,
 };
 
-export default React.memo(Header);
+export default withMemo(Header, []);

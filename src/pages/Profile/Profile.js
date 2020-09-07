@@ -3,19 +3,15 @@ import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import UserContext from "../../utils/UserContext";
 
-// import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
-// import ProfileTrips from "./subpages/UserTrips/ProfileTrips";
 import Settings from "./subpages/Settings";
 import Friends from "./subpages/Friends";
-import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
-// import TripDetailContainer from "./subpages/UserTrips/TripDetailContainer";
+
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ urlUsername, refetchApp }) {
   const user = React.useContext(UserContext).userData;
-  console.log(user);
   const [loaded, handleLoaded] = useState(false);
   const [, handleCityArray] = useState([]);
   const [, handleCountryArray] = useState([]);
@@ -165,43 +161,6 @@ export default function Profile({ urlUsername, refetchApp }) {
           searchBar={page === "settings" ? false : true}
           urlUsername={urlUsername}
         />
-        {/* <Route
-                exact
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/trips`
-                    : "/profile/trips"
-                }
-                render={({ location }) => (
-                  <ProfileTrips
-                    user={user}
-                    location={location}
-                    cityData={cityData}
-                    searchText={searchText}
-                    handleSelectedCity={handleSelectedCity}
-                    urlUsername={urlUsername}
-                    handleOriginalSearch={handleSearchText}
-                    refetch={refetch}
-                  />
-                )}
-              />
-              <Route
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/trips/${selectedCity.city}/`
-                    : `/profile/trips/new/`
-                }
-                render={(props) => (
-                  <TripDetailContainer
-                    {...props}
-                    city={selectedCity}
-                    cityReviews={cityReviews}
-                    refetch={refetch}
-                    urlUsername={urlUsername}
-                    userId={user.id}
-                  />
-                )}
-              /> */}
         <Route
           exact
           path={
@@ -217,23 +176,6 @@ export default function Profile({ urlUsername, refetchApp }) {
               urlUsername={urlUsername}
               handleOriginalSearch={handleSearchText}
               // refetch={refetch}
-            />
-          )}
-        />
-        <Route
-          path={
-            urlUsername
-              ? `/profiles/${urlUsername}/cities/${selectedCity.city}/`
-              : `/profile/cities/${selectedCity.city}/`
-          }
-          render={(props) => (
-            <ProfileIndividualCity
-              {...props}
-              city={selectedCity}
-              cityReviews={cityReviews}
-              // refetch={refetch}
-              urlUsername={urlUsername}
-              userId={user.id}
             />
           )}
         />
