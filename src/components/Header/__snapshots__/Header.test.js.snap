@@ -26,7 +26,7 @@ exports[`Header should render correctly in when the user is logged in 1`] = `
       <div
         className="nav-menu-container"
       >
-        <NavLinks
+        <Memo(NavLinks)
           formIsOpen={false}
           toggleFormIsOpen={[Function]}
         />
@@ -57,7 +57,7 @@ exports[`Header should render correctly in when the user is logged in 1`] = `
     className="display-none"
     onClick={[Function]}
   >
-    <NavLinks
+    <Memo(NavLinks)
       formIsOpen={false}
       handleHamburgerClick={[Function]}
       toggleFormIsOpen={[Function]}
@@ -92,7 +92,7 @@ exports[`Header should render correctly in when the user is logged out 1`] = `
       <div
         className="nav-menu-container"
       >
-        <NavLinks
+        <Memo(NavLinks)
           formIsOpen={false}
           toggleFormIsOpen={[Function]}
         />
@@ -119,7 +119,7 @@ exports[`Header should render correctly in when the user is logged out 1`] = `
     className="display-none"
     onClick={[Function]}
   >
-    <NavLinks
+    <Memo(NavLinks)
       formIsOpen={false}
       handleHamburgerClick={[Function]}
       toggleFormIsOpen={[Function]}
