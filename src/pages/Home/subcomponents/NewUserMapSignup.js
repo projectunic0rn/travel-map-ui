@@ -9,6 +9,7 @@ export default function NewUserMapSignup(props) {
       JSON.stringify(props.customProps.clickedCityArray)
     );
     localStorage.removeItem('token');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="new-user-signup">

@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
-import { Query } from "react-apollo";
-import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
+import UserContext from "../../utils/UserContext";
 
-// import Sidebar from "./Sidebar";
 import ProfileNav from "./ProfileNav";
 import ProfileCities from "./subpages/Cities/ProfileCities";
-// import ProfileTrips from "./subpages/UserTrips/ProfileTrips";
 import Settings from "./subpages/Settings";
 import Friends from "./subpages/Friends";
-import ProfileIndividualCity from "./subpages/Cities/ProfileIndividualCity";
-// import TripDetailContainer from "./subpages/UserTrips/TripDetailContainer";
-import Loader from "../../components/common/Loader/Loader";
+
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
-export default function Profile({ user, urlUsername, refetchApp }) {
+export default function Profile({ urlUsername, refetchApp }) {
+  const user = React.useContext(UserContext).userData;
   const [loaded, handleLoaded] = useState(false);
-  const [cityArray, handleCityArray] = useState([]);
-  const [countryArray, handleCountryArray] = useState([]);
+  const [, handleCityArray] = useState([]);
+  const [, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
   const [userData, handleUserData] = useState(user);
   const [cityData, handleCityData] = useState();
@@ -152,144 +148,72 @@ export default function Profile({ user, urlUsername, refetchApp }) {
       }
       handleLoaded(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityData]);
   return (
-    <Query
-      query={GET_ALL_CITY_DETAILS}
-      variables={{ username }}
-      notifyOnNetworkStatusChange
-      fetchPolicy={"cache-and-network"}
-      partialRefetch={true}
-    >
-      {({ loading, error, data, refetch }) => {
-        if (loading) return <Loader />;
-        if (error) return `Error! ${error}`;
-        handleCityData(data.user);
-        if (!loaded) return null;
-        return (
-          <div className="page page-profile">
-            <div className="container">
-              <div className="sidebar">
-              </div>
-              <ProfileNav
-                handleSearchText={handleSearchText}
-                searchText={searchText}
-                page={page}
-                searchBar={page === "settings" ? false : true}
-                urlUsername={urlUsername}
-              />
-              {/* <Route
-                exact
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/trips`
-                    : "/profile/trips"
-                }
-                render={({ location }) => (
-                  <ProfileTrips
-                    user={user}
-                    location={location}
-                    cityData={cityData}
-                    searchText={searchText}
-                    handleSelectedCity={handleSelectedCity}
-                    urlUsername={urlUsername}
-                    handleOriginalSearch={handleSearchText}
-                    refetch={refetch}
-                  />
-                )}
-              />
-              <Route
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/trips/${selectedCity.city}/`
-                    : `/profile/trips/new/`
-                }
-                render={(props) => (
-                  <TripDetailContainer
-                    {...props}
-                    city={selectedCity}
-                    cityReviews={cityReviews}
-                    refetch={refetch}
-                    urlUsername={urlUsername}
-                    userId={user.id}
-                  />
-                )}
-              /> */}
-              <Route
-                exact
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/cities`
-                    : "/profile/cities"
-                }
-                render={({ location }) => (
-                  <ProfileCities
-                    user={user}
-                    location={location}
-                    cityData={cityData}
-                    searchText={searchText}
-                    handleSelectedCity={handleSelectedCity}
-                    urlUsername={urlUsername}
-                    handleOriginalSearch={handleSearchText}
-                    refetch={refetch}
-                  />
-                )}
-              />
-              <Route
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/cities/${selectedCity.city}/`
-                    : `/profile/cities/${selectedCity.city}/`
-                }
-                render={(props) => (
-                  <ProfileIndividualCity
-                    {...props}
-                    city={selectedCity}
-                    cityReviews={cityReviews}
-                    refetch={refetch}
-                    urlUsername={urlUsername}
-                    userId={user.id}
-                  />
-                )}
-              />
-              <Route
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/friends`
-                    : "/profile/friends"
-                }
-                render={(props) => (
-                  <Friends
-                    {...props}
-                    user={user}
-                    searchText={searchText}
-                    urlUsername={urlUsername}
-                    handlePageRender={handlePageRender}
-                    refetchApp={refetchApp}
-                  />
-                )}
-              />
-              <Route
-                path={
-                  urlUsername
-                    ? `/profiles/${urlUsername}/settings`
-                    : "/profile/settings"
-                }
-                render={(props) => (
-                  <Settings
-                    urlUsername={urlUsername}
-                    {...props}
-                    handlePageRender={handlePageRender}
-                    userData={userData}
-                    handleUserDataChange={handleUserDataChange}
-                  />
-                )}
-              />
-            </div>
-          </div>
-        );
-      }}
-    </Query>
+    <div className="page page-profile">
+      <div className="container">
+        <div className="sidebar"></div>
+        <ProfileNav
+          handleSearchText={handleSearchText}
+          searchText={searchText}
+          page={page}
+          searchBar={page === "settings" ? false : true}
+          urlUsername={urlUsername}
+        />
+        <Route
+          exact
+          path={
+            urlUsername ? `/profiles/${urlUsername}/cities` : "/profile/cities"
+          }
+          render={({ location }) => (
+            <ProfileCities
+              user={user}
+              location={location}
+              cityData={cityData}
+              searchText={searchText}
+              handleSelectedCity={handleSelectedCity}
+              urlUsername={urlUsername}
+              handleOriginalSearch={handleSearchText}
+              // refetch={refetch}
+            />
+          )}
+        />
+        <Route
+          path={
+            urlUsername
+              ? `/profiles/${urlUsername}/friends`
+              : "/profile/friends"
+          }
+          render={(props) => (
+            <Friends
+              {...props}
+              user={user}
+              searchText={searchText}
+              urlUsername={urlUsername}
+              handlePageRender={handlePageRender}
+              refetchApp={refetchApp}
+            />
+          )}
+        />
+        <Route
+          path={
+            urlUsername
+              ? `/profiles/${urlUsername}/settings`
+              : "/profile/settings"
+          }
+          render={(props) => (
+            <Settings
+              urlUsername={urlUsername}
+              {...props}
+              handlePageRender={handlePageRender}
+              userData={userData}
+              handleUserDataChange={handleUserDataChange}
+            />
+          )}
+        />
+      </div>
+    </div>
   );
 }
 

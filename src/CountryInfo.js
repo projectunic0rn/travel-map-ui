@@ -984,7 +984,7 @@ export const CountryInfo = [
   {
     id: 177139,
     properties: {
-      name: "People's Republic of China",
+      name: "China",
       ISO2: "CN",
       color: "#aec7e8",
       continent: "Asia",

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 
 import ValidationMutation from "../../../components/common/ValidationMutation/ValidationMutation";
 import { LOGIN_USER } from "../../../GraphQL";
 import UserContext from "../../../utils/UserContext";
 
-class LoginForm extends Component {
+class LoginForm extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

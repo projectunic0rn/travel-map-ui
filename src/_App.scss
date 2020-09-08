@@ -2,7 +2,6 @@ $container: 1600px;
 @import "./scss/colors";
 @import "./components/Header/Header";
 @import "./pages/Profile/Profile";
-@import "./pages/Place/Place";
 @import "./pages/Landing/Landing";
 @import "./pages/Home/MapPage";
 @import "./components/Prompts/PopupPrompts";
@@ -80,6 +79,13 @@ code {
   border-radius: 50%;
   height: $l;
   width: $l;
+}
+
+.place-review-user {
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 .page .container {

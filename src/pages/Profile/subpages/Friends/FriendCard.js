@@ -17,7 +17,7 @@ import RecommendIcon from "../../../../icons/RecommendIcon";
 import AddFriendIcon from '../../../../icons/AddFriendIcon';
 
 function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
-  const [requested, handleRequested] = useState(false);
+  const [, handleRequested] = useState(false);
   const username = urlUsername === undefined ? "" : urlUsername;
   const [acceptFriendRequest] = useMutation(ACCEPT_FRIEND_REQUEST, {
     variables: { friend_request_id: friend.requestId },
@@ -51,8 +51,8 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
         if (cityArray.indexOf(tripType.cityId) === -1) {
           cityArray.push(tripType.cityId);
         }
-        if (countryArray.indexOf(tripType.countryId) === -1) {
-          countryArray.push(tripType.countryId);
+        if (countryArray.indexOf(tripType.country) === -1) {
+          countryArray.push(tripType.country);
         }
       });
     }
@@ -60,8 +60,8 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
       if (cityArray.indexOf(friend.Place_living) === -1) {
         cityArray.push(friend.Place_living.cityId);
       }
-      if (countryArray.indexOf(friend.Place_living.countryId) === -1) {
-        countryArray.push(friend.Place_living.countryId);
+      if (countryArray.indexOf(friend.Place_living.country) === -1) {
+        countryArray.push(friend.Place_living.country);
       }
     }
     handleCityArray(cityArray);
@@ -130,7 +130,6 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
   }
 
   function sendFriendRequestHelper() {
-    console.log('clicked')
     sendFriendRequest({ variables: { username } });
   }
 

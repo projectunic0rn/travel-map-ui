@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { NavLink, withRouter } from "react-router-dom";
-
+import { withRouter } from "react-router-dom";
 import { Mutation } from "react-apollo";
+import UserContext from "../../../../utils/UserContext";
+
 import {
   REMOVE_PLACE_VISITING,
   REMOVE_PLACE_VISITED,
@@ -20,29 +21,29 @@ import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoade
 function ProfileCityCard({
   cityData,
   color,
-  refetch,
   handleSelectedCity,
   urlUsername
 }) {
+  const user = React.useContext(UserContext);
   const [loaded, handleLoaded] = useState(false);
   const [localCityData] = useState(cityData);
   const [placeCount, handlePlaceCount] = useState(0);
   const [activityCount, handleActivityCount] = useState(0);
   const [mealCount, handleMealCount] = useState(0);
-  const [logisticsCount, handleLogisticsCount] = useState(0);
+  const [, handleLogisticsCount] = useState(0);
   const [placeVisitedId] = useState(
-    cityData.timing === "past" ? cityData.id : null
+    cityData.tripTiming === 0 ? cityData.id : null
   );
   const [placeVisitingId] = useState(
-    cityData.timing === "future" ? cityData.id : null
+    cityData.tripTiming === 1 ? cityData.id : null
   );
   const [placeLivingId] = useState(
-    cityData.timing === "live" ? cityData.id : null
+    cityData.tripTiming === 2 ? cityData.id : null
   );
   const [mutationToUse] = useState(
-    cityData.timing === "past"
+    cityData.tripTiming === 0
       ? REMOVE_PLACE_VISITED
-      : cityData.timing === "future"
+      : cityData.tripTiming === 1
       ? REMOVE_PLACE_VISITING
       : REMOVE_PLACE_LIVING
   );
@@ -104,6 +105,12 @@ function ProfileCityCard({
     }
     handleLoaded(true);
   }, [cityData]);
+  function handleDeletedCity() {
+    let userData = { ...user };
+    let newClickedCityArray = userData.clickedCityArray.filter(city => city.id !== cityData.id);
+    userData.clickedCityArray = newClickedCityArray;
+    user.handleClickedCityArray(userData.clickedCityArray);
+  }
   if (!loaded) return <SimpleLoader />;
   return (
     <div className="pcc-card-container">
@@ -163,13 +170,13 @@ function ProfileCityCard({
       <Mutation
         mutation={mutationToUse}
         variables={
-          cityData.timing === "past"
+          cityData.tripTiming === 0
             ? { placeVisitedId }
-            : cityData.timing === "future"
+            : cityData.tripTiming === 1
             ? { placeVisitingId }
             : { placeLivingId }
         }
-        onCompleted={() => refetch()}
+        onCompleted={() => handleDeletedCity()}
       >
         {mutation => (
           <div
@@ -204,7 +211,6 @@ ProfileCityCard.propTypes = {
   color: PropTypes.string,
   handleSelectedCity: PropTypes.func,
   urlUsername: PropTypes.string,
-  refetch: PropTypes.func
 };
 
 export default withRouter(ProfileCityCard);

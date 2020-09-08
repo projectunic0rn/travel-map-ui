@@ -764,20 +764,20 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
   }
 `;
 
-export const GET_LOGGEDIN_USER = gql`
-  query {
-    user {
-      id
-      username
-      full_name
-      email
-      UserInterests {
-        id
-        name
-      }
-    }
-  }
-`;
+// export const GET_LOGGEDIN_USER = gql`
+//   query {
+//     user {
+//       id
+//       username
+//       full_name
+//       email
+//       UserInterests {
+//         id
+//         name
+//       }
+//     }
+//   }
+// `;
 
 export const GET_USER_COUNTRIES = gql`
   query user($username: String) {
@@ -913,8 +913,8 @@ export const REMOVE_PLACE_VISITING = gql`
 `;
 
 export const REMOVE_PLACES_IN_COUNTRY = gql`
-  mutation removePlacesInCountry($countryISO: String!, $currentTiming: Int!) {
-    removePlacesInCountry(countryISO: $countryISO, tripTiming: $currentTiming) {
+  mutation removePlacesInCountry($country: String!, $currentTiming: Int!) {
+    removePlacesInCountry(country: $country, tripTiming: $currentTiming) {
       id
       city
     }

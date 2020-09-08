@@ -1,17 +1,25 @@
 import React from "react";
+import PropTypes from "prop-types";
+import withMemo from '../../../utils/withMemo';
 
-// This is a function component that will provided
-// the user with a button to zoom in or out incase
-// they don't have a mouse or keyboard option.
+const ZoomButton = React.memo(function ZoomButton({
+  type,
+  handleViewportChange,
+  currentZoom,
+}) {
+  function handleViewportChangeHelper() {
+    handleViewportChange({
+      zoom: type === "+" ? (currentZoom += 0.5) : (currentZoom -= 0.5),
+    });
+  }
 
-export const ZoomButton = ({ type, handleViewportChange, currentZoom }) => (
-  <span
-    onClick={() =>
-      handleViewportChange({
-        zoom: type === "+" ? (currentZoom += 0.5) : (currentZoom -= 0.5),
-      })
-    }
-  >
-    {type}
-  </span>
-);
+  return <span onClick={handleViewportChangeHelper}>{type}</span>;
+});
+
+ZoomButton.propTypes = {
+  type: PropTypes.string,
+  handleViewportChange: PropTypes.func,
+  currentZoom: PropTypes.number,
+};
+
+export default withMemo(ZoomButton, []);

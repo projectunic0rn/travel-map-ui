@@ -279,14 +279,14 @@ const FriendReadonlyCountry = (props) => {
         style={showSideMenu ? { width: "250px" } : { width: "40px" }}
       >
         {!showSideMenu ? (
-          <a className="opennav" onClick={() => handleSideMenu(true)}>
+          <nav className="opennav" onClick={() => handleSideMenu(true)}>
             &raquo;
-          </a>
+          </nav>
         ) : (
           <>
-            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+            <nav className="closebtn" onClick={() => handleSideMenu(false)}>
               &times;
-            </a>
+            </nav>
             <div className="side-menu-container">
               <div className="city-new-map-scorecard" id="scorecard-side-menu">
                 <MapScorecard

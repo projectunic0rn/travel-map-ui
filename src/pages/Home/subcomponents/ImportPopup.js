@@ -14,6 +14,7 @@ export default function ImportPopup(props) {
     if (importedCities.length > 0) {
       fetchMapbox();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [importedCities]);
 
   function importTripAdvisor() {
@@ -25,7 +26,6 @@ export default function ImportPopup(props) {
       return;
     }
     let getStringBetween = function(str, start, end) {
-      "use strict";
       var left = str.substring(str.indexOf(start) + start.length);
       return left.substring(left.indexOf(end), -left.length);
     };
@@ -119,6 +119,8 @@ export default function ImportPopup(props) {
               return (
                 a.properties.wikidata.length - b.properties.wikidata.length
               );
+            } else {
+              return false;
             }
           });
           let formattedCity;

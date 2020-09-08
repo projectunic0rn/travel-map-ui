@@ -611,6 +611,10 @@
   color: rgb(248, 248, 252);
   background: #73a7c3;
   box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.75);
+  background: linear-gradient(to right, #73a7c3 33.33%, #037DA6 33.33%, #037DA6 66.66%, #73a7c3 66.66%);
+  background-size: 300% 100%;
+  background-position: left bottom;
+  transition: all .2s ease-out;
   svg {
     margin-left: 18px;
     path {
@@ -653,6 +657,14 @@
   z-index: 1;
   font-weight: 700;
   cursor: pointer;
+  &.loading-animation {
+    animation-name: loading-animation-keyframes;
+    animation-duration: 1.5s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    transition: all .1s ease;
+  }
   @media (max-width: "1250px") {
     right: calc(50% - 440px);
     width: 60px;
@@ -754,4 +766,10 @@
     top: 0;
     height: 100%;
   }
+}
+
+@keyframes loading-animation-keyframes {
+  0%   { background-position: 100% 0%; }
+  50%  { background-position: 50% 0%; }
+  100% { background-position: 0% 0%; }
 }

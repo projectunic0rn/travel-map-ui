@@ -12,7 +12,7 @@ import MapChangeIcon from "../../../icons/MapChangeIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import BloggerCityPopup from "../../../components/Prompts/FriendClickedCity/BloggerCityPopup";
 import ClusterMarker from "./ClusterMarker";
-import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 function BloggerCityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -298,14 +298,14 @@ function BloggerCityMap(props) {
           style={showSideMenu ? { width: "250px" } : { width: "40px" }}
         >
           {!showSideMenu ? (
-            <a className="opennav" onClick={() => handleSideMenu(true)}>
+            <nav className="opennav" onClick={() => handleSideMenu(true)}>
               &raquo;
-            </a>
+            </nav>
           ) : (
             <>
-              <a className="closebtn" onClick={() => handleSideMenu(false)}>
+              <nav className="closebtn" onClick={() => handleSideMenu(false)}>
                 &times;
-              </a>
+              </nav>
               <div className="side-menu-container">
                 <div
                   className="city-new-map-scorecard"

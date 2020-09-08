@@ -1,6 +1,9 @@
-import React from "react";
+import React, { PureComponent } from "react";
 
-
-export default function SiteLogo() {
-  return <div className="site-logo"></div>;
+class SiteLogo extends PureComponent {
+  render() {
+    return <div className="site-logo"></div>;
+  }
 }
+
+export default SiteLogo;

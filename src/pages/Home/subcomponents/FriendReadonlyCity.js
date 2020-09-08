@@ -12,7 +12,7 @@ import FriendClickedCityContainer from "../../../components/Prompts/FriendClicke
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import Loader from "../../../components/common/Loader/Loader";
-import { ZoomButton } from "../../../components/common/zoom_button/zoom_button";
+import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 function ClusterMarker(props) {
   function onClick() {
@@ -417,14 +417,14 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
             style={showSideMenu ? { width: "250px" } : { width: "40px" }}
           >
             {!showSideMenu ? (
-              <a className="opennav" onClick={() => handleSideMenu(true)}>
+              <nav className="opennav" onClick={() => handleSideMenu(true)}>
                 &raquo;
-              </a>
+              </nav>
             ) : (
               <>
-                <a className="closebtn" onClick={() => handleSideMenu(false)}>
+                <nav className="closebtn" onClick={() => handleSideMenu(false)}>
                   &times;
-                </a>
+                </nav>
                 <div className="side-menu-container">
                   <div
                     className="city-new-map-scorecard"

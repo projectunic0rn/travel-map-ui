@@ -32,7 +32,7 @@ const FriendCountryMap = (props) => {
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [activePopup, showPopup] = useState(null);
-  const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
+  const [, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
   const [filteredCountryArray, handleFilteredCountries] = useState(null);
@@ -268,14 +268,14 @@ const FriendCountryMap = (props) => {
         style={showSideMenu ? { width: "250px" } : { width: "40px" }}
       >
         {!showSideMenu ? (
-          <a className="opennav" onClick={() => handleSideMenu(true)}>
+          <nav className="opennav" onClick={() => handleSideMenu(true)}>
             &raquo;
-          </a>
+          </nav>
         ) : (
           <>
-            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+            <nav className="closebtn" onClick={() => handleSideMenu(false)}>
               &times;
-            </a>
+            </nav>
             <div className="side-menu-container">
               <div className="city-new-map-scorecard" id="scorecard-side-menu">
                 <MapScorecard
@@ -381,8 +381,6 @@ const FriendCountryMap = (props) => {
           componentProps={{
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,
-            capitalName: capitalName,
-            refetch: props.refetch,
           }}
         />
       ) : null}
@@ -403,7 +401,6 @@ FriendCountryMap.propTypes = {
   clickedCountryArray: PropTypes.array,
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
-  refetch: PropTypes.func,
   filterParams: PropTypes.object,
 };
 

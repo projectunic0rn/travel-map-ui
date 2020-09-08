@@ -1,11 +1,11 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 export default function SuggestedCity({
   city,
   handleCityClick,
   totalCityCount,
-  setTotalCityCount
+  setTotalCityCount,
 }) {
   const [clicked, handleClick] = useState(false);
   const [removed, handleRemoved] = useState(false);
@@ -21,7 +21,8 @@ export default function SuggestedCity({
     if (removed) {
       setTotalCityCount(totalCityCount - 1);
     }
-  }, [removed])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [removed]);
 
   if (totalCityCount > 0) {
     return (
@@ -71,5 +72,5 @@ SuggestedCity.propTypes = {
   handleCityClick: PropTypes.func,
   totalCityCount: PropTypes.number,
   setTotalCityCount: PropTypes.func,
-  index: PropTypes.number
+  index: PropTypes.number,
 };

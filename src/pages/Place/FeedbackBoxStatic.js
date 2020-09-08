@@ -5,7 +5,6 @@ import SimpleLoader from "../../components/common/SimpleLoader/SimpleLoader";
 import RecommendIcon from "../../icons/RecommendIcon";
 import DoNotRecommendIcon from "../../icons/DoNotRecommendIcon";
 import NeutralIcon from "../../icons/NeutralIcon";
-import CostIconModal from "../Profile/subpages/Cities/CostIconModal";
 
 function FeedbackBoxStatic({ review }) {
   const [loaded, handleLoaded] = useState(false);
@@ -45,4 +44,4 @@ FeedbackBoxStatic.propTypes = {
   review: PropTypes.object,
 };
 
-export default FeedbackBoxStatic;
+export default React.memo(FeedbackBoxStatic);

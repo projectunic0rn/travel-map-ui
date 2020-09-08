@@ -25,11 +25,9 @@ const NewUserCountry = (props) => {
     { name: "South America", coordinates: [-58.3816, -20.6037] },
     { name: "East Asia", coordinates: [121.4737, 31.2304] },
   ];
-  const [clickedCountry, handleNewCountry] = useState(0);
-  const [clickedCountryArray, addCountry] = useState(props.clickedCountryArray);
+  const [clickedCountryArray] = useState(props.clickedCountryArray);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
-  const [activePopup, showPopup] = useState(false);
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
@@ -211,14 +209,14 @@ const NewUserCountry = (props) => {
         style={showSideMenu ? { width: "250px" } : { width: "40px" }}
       >
         {!showSideMenu ? (
-          <a className="opennav" onClick={() => handleSideMenu(true)}>
+          <nav className="opennav" onClick={() => handleSideMenu(true)}>
             &raquo;
-          </a>
+          </nav>
         ) : (
           <>
-            <a className="closebtn" onClick={() => handleSideMenu(false)}>
+            <nav className="closebtn" onClick={() => handleSideMenu(false)}>
               &times;
-            </a>
+            </nav>
             <div className="side-menu-container">
               <div className="city-new-map-scorecard" id="scorecard-side-menu">
                 <MapScorecard
