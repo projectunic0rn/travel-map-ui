@@ -9,6 +9,7 @@
     "@urbica/react-map-gl": "^1.12.3",
     "@urbica/react-map-gl-cluster": "^0.2.0",
     "@welldone-software/why-did-you-render": "^5.0.0-alpha.2",
+    "acorn": "^8.0.1",
     "apollo-boost": "^0.4.4",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
