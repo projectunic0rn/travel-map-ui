@@ -668,11 +668,6 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
           city_longitude
         }
       }
-      UserSocials {
-        id
-        link
-        name
-      }
       Places_visited {
         id
         country
@@ -684,23 +679,6 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         city_longitude
         year
         days
-        best_comment
-        hardest_comment
-        trip_purpose
-        trip_company
-        CityReviews {
-          id
-          reviewPlaceId
-          review_latitude
-          review_longitude
-          PlaceVisitedId
-          attraction_type
-          attraction_name
-          comment
-          rating
-          cost
-          currency
-        }
       }
       Place_living {
         id
@@ -713,23 +691,6 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         city_longitude
         year
         days
-        best_comment
-        hardest_comment
-        trip_purpose
-        trip_company
-        CityReviews {
-          id
-          reviewPlaceId
-          review_latitude
-          review_longitude
-          PlaceLivingId
-          attraction_type
-          attraction_name
-          comment
-          rating
-          cost
-          currency
-        }
       }
       Places_visiting {
         id
@@ -742,23 +703,6 @@ export const GET_LOGGEDIN_USER_COUNTRIES = gql`
         city_longitude
         year
         days
-        best_comment
-        hardest_comment
-        trip_purpose
-        trip_company
-        CityReviews {
-          id
-          reviewPlaceId
-          review_latitude
-          review_longitude
-          PlaceVisitingId
-          attraction_type
-          attraction_name
-          comment
-          rating
-          cost
-          currency
-        }
       }
     }
   }

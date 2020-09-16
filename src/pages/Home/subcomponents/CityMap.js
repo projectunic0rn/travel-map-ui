@@ -629,7 +629,7 @@ function CityMap(props) {
 
   function calculateTravelScore() {
     let newTravelScore = 0;
-    let oldTravelScore = user.userData.georneyScore;
+    let oldTravelScore = user.userData.georneyScore !== null ? user.userData.georneyScore : 0;
     let lat;
     let long;
     let travelScoreIndex;

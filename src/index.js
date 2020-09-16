@@ -3,7 +3,7 @@ import './utils/wdyr';
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider } from "@apollo/react-hooks";
 import jwt_decode from "jwt-decode";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -12,6 +12,7 @@ import Bugsnag from "@bugsnag/js";
 import BugsnagPluginReact from "@bugsnag/plugin-react";
 
 import * as serviceWorker from "./serviceWorker";
+import { InMemoryCache } from '../node_modules/apollo-cache-inmemory/lib/index';
 
 const App = lazy(() => import("./App"));
 const FriendReadonlyMap = lazy(() => import("./pages/Home/FriendReadonlyMap"));
@@ -64,6 +65,7 @@ if (process.env.NODE_ENV === "production") {
 }
 const client = new ApolloClient({
   uri: clientUrl,
+  cache: new InMemoryCache(),
   request: async (operation) => {
     {
       const token = await localStorage.getItem("token");
