@@ -5,13 +5,14 @@ import React, {
   lazy,
   Suspense,
   PureComponent,
-  useCallback
+  useCallback,
 } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker } from "react-map-gl";
+// import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+// import MapGL, { Marker } from "react-map-gl";
 import withMemo from "../../utils/withMemo";
+import LandingImage from "../../images/MapLanding.png";
 
 import Loader from "../../components/common/Loader/Loader";
 import ArrowRightIcon from "../../icons/ArrowRightIcon";
@@ -24,76 +25,74 @@ const FakeClickedFriendCityContainer = lazy(() =>
 );
 const Footer = lazy(() => import("./Footer"));
 
+// const mapStyle = {
+//   // minHeight: "calc(100% - 120px)",
+//   // maxHeight: "calc(100%)",
+//   position: "relative",
+// };
 
-
-const mapStyle = {
-  // minHeight: "calc(100% - 120px)",
-  // maxHeight: "calc(100%)",
-  position: "relative",
-};
-
-class LoadedMarker extends PureComponent {
-  render() {
-    const {
-      cityId,
-      city_latitude,
-      city_longitude,
-      tripTiming,
-    } = this.props;
-    let color;
-    switch (tripTiming) {
-      case 0:
-        color = "(203, 118, 120, ";
-        break;
-      case 1:
-        color = "(115, 167, 195, ";
-        break;
-      case 2:
-        color = "(150, 177, 168,";
-        break;
-      default:
-        break;
-    }
-    return (
-      <Marker
-        key={cityId}
-        latitude={city_latitude}
-        longitude={city_longitude}
-        offsetLeft={-5}
-        offsetTop={-10}
-      >
-        <svg
-          key={"svg" + cityId}
-          height={20}
-          width={20}
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            style={{ fill: "rgba" + color + "0.25)" }}
-            key={"circle" + cityId}
-            cx="50"
-            cy="50"
-            r="50"
-          />
-          <circle
-            style={{ fill: "rgba" + color + "1.0)" }}
-            key={"circle2" + cityId}
-            cx="50"
-            cy="50"
-            r="20"
-          />
-        </svg>
-      </Marker>
-    );
-  }
-}
+// class LoadedMarker extends PureComponent {
+//   render() {
+//     const {
+//       cityId,
+//       city_latitude,
+//       city_longitude,
+//       tripTiming,
+//     } = this.props;
+//     let color;
+//     switch (tripTiming) {
+//       case 0:
+//         color = "(203, 118, 120, ";
+//         break;
+//       case 1:
+//         color = "(115, 167, 195, ";
+//         break;
+//       case 2:
+//         color = "(150, 177, 168,";
+//         break;
+//       default:
+//         break;
+//     }
+//     return (
+//       <Marker
+//         key={cityId}
+//         latitude={city_latitude}
+//         longitude={city_longitude}
+//         offsetLeft={-5}
+//         offsetTop={-10}
+//       >
+//         <svg
+//           key={"svg" + cityId}
+//           height={20}
+//           width={20}
+//           viewBox="0 0 100 100"
+//           xmlns="http://www.w3.org/2000/svg"
+//         >
+//           <circle
+//             style={{ fill: "rgba" + color + "0.25)" }}
+//             key={"circle" + cityId}
+//             cx="50"
+//             cy="50"
+//             r="50"
+//           />
+//           <circle
+//             style={{ fill: "rgba" + color + "1.0)" }}
+//             key={"circle2" + cityId}
+//             cx="50"
+//             cy="50"
+//             r="20"
+//           />
+//         </svg>
+//       </Marker>
+//     );
+//   }
+// }
 
 function Landing() {
   const [viewport, handleViewportChange] = useState({
     width: 0,
     height: 0,
-    zoom: 0
+    zoom: 0,
   });
   const mapRef = useRef();
 
@@ -141,7 +140,7 @@ function Landing() {
             id="landing-map"
             style={{ zIndex: "-1" }}
           >
-            <MapGL
+            {/* <MapGL
               mapStyle={"mapbox://styles/mvance43776/ck5d5iota033i1iphduio56d1"}
               ref={mapRef}
               width="100%"
@@ -196,6 +195,12 @@ function Landing() {
                 tripTiming={2}
               />
             </MapGL>
+             */}
+            <img
+              src={LandingImage}
+              alt="World map with markers"
+            ></img>
+            <div className = 'img-below'></div>
           </div>
           <div className="landing-motto-container">
             <div className="landing-motto">

@@ -23,7 +23,7 @@ import {
   REMOVE_PLACE_LIVING,
 } from "../../../GraphQL";
 import UserContext from "../../../utils/UserContext";
-import { TravelScoreCalculator } from "../../../TravelScore";
+import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
@@ -69,6 +69,13 @@ class PastMarkers extends PureComponent {
             r="20"
           />
         </svg>
+        {city.type === "new" ? (
+          <div
+            style={{ border: "10px solid rgba(203, 118, 120, 1.0)", transform: "translate(5px, 10px)" }}
+            key={"circle3" + city.cityId}
+            className="pulse pulse-past"
+          />
+        ) : null}
       </Marker>
     ));
   }
@@ -108,6 +115,13 @@ class FutureMarkers extends PureComponent {
             r="20"
           />
         </svg>
+        {city.type === "new" ? (
+          <div
+            style={{ border: "10px solid rgba(115, 167, 195, 1.0)", transform: "translate(5px, 10px)" }}
+            key={"circle3" + city.cityId}
+            className="pulse pulse-future"
+          />
+        ) : null}
       </Marker>
     ));
   }
@@ -156,6 +170,7 @@ function CityMap(props) {
       updateGeorneyScore({ variables: { travelScore } });
     },
   });
+  console.log("city map render");
 
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
@@ -198,15 +213,29 @@ function CityMap(props) {
         isFirst.current = false;
         return;
       }
-      handleLoadedCities(user.clickedCityArray);
+      if (user.clickedCityArray.length > 0) {
+        handleLoadedCities(user.clickedCityArray);
+      }
     }, [loadedClickedCityArray]);
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("clickedCityArray") !== null) {
+      let clickedCityArray = user.clickedCityArray;
+      addMultiplePlaces({ variables: { clickedCityArray } });
+      localStorage.removeItem("clickedCityArray");
+    }
+  }, []);
 
   useEffect(() => {}, [loading]);
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
-    handleLoadedCities(user.clickedCityArray);
+    if (user.clickedCityArray.length > 0) {
+      handleLoadedCities(user.clickedCityArray);
+    } else {
+      handleLoaded(false);
+    }
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
@@ -220,8 +249,12 @@ function CityMap(props) {
         isFirst.current = false;
         return;
       }
-      handleSuggestedContinentArray([]);
-      handleSuggestedCountryArray([]);
+      if (suggestedContinentArray.length > 0) {
+        handleSuggestedContinentArray([]);
+      }
+      if (suggestedCountryArray.length > 0) {
+        handleSuggestedCountryArray([]);
+      }
     }, [props.currentTiming]);
   }
 
@@ -293,9 +326,10 @@ function CityMap(props) {
 
   function handleViewportChange(newViewport) {
     if (
-      newViewport.width === viewport.width &&
-      newViewport.height === viewport.height &&
-      newViewport.zoom === viewport.zoom
+      newViewport === undefined ||
+      (newViewport.width === viewport.width &&
+        newViewport.height === viewport.height &&
+        newViewport.zoom === viewport.zoom)
     ) {
       return;
     }
@@ -420,7 +454,13 @@ function CityMap(props) {
       default:
         break;
     }
-    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    if (
+      tripTimingCounts[0] !== pastCount ||
+      tripTimingCounts[1] !== futureCount ||
+      tripTimingCounts[2] !== liveCount
+    ) {
+      handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    }
     calculateNewTravelScore(cityTooltip, "delete");
     props.handleAlteredCityArray(
       newClickedCityArray.concat(props.clickedCityArray)
@@ -500,7 +540,13 @@ function CityMap(props) {
       default:
         break;
     }
-    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    if (
+      tripTimingCounts[0] !== pastCount ||
+      tripTimingCounts[1] !== futureCount ||
+      tripTimingCounts[2] !== liveCount
+    ) {
+      handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    }
     calculateNewTravelScore(cityTooltip, "delete");
     props.handleAlteredCityArray(newClickedCityArray);
     user.handleClickedCityArray(newClickedCityArray);
@@ -530,7 +576,13 @@ function CityMap(props) {
         return false;
       }
     });
-    handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    if (
+      tripTimingCounts[0] !== pastCount ||
+      tripTimingCounts[1] !== futureCount ||
+      tripTimingCounts[2] !== liveCount
+    ) {
+      handleTripTimingCounts([pastCount, futureCount, liveCount]);
+    }
     handleLoadedMarkers(data);
     calculateTravelScore();
   }
@@ -596,6 +648,7 @@ function CityMap(props) {
       }
       return null;
     });
+
     handleMarkerPastDisplay(markerPastDisplay);
     handleMarkerFutureDisplay(markerFutureDisplay);
     handleMarkerLiveDisplay(markerLiveDisplay);
@@ -629,34 +682,45 @@ function CityMap(props) {
 
   function calculateTravelScore() {
     let newTravelScore = 0;
-    let oldTravelScore = user.userData.georneyScore !== null ? user.userData.georneyScore : 0;
+    let oldTravelScore =
+      user.userData.georneyScore !== null ? user.userData.georneyScore : 0;
     let lat;
     let long;
     let travelScoreIndex;
-    let travelScoreIndexArray = [];
-    let countryIdArray = [];
+    let newTravelScoreIndexArray = [];
+    let newCountryIdArray = [];
     let filteredClickedCityArray = loadedClickedCityArray.filter(
       (city) => city.tripTiming === 0 || city.tripTiming === 2
     );
     for (let i in filteredClickedCityArray) {
-      if (countryIdArray.indexOf(filteredClickedCityArray[i].country) === -1) {
+      if (
+        newCountryIdArray.indexOf(filteredClickedCityArray[i].country) === -1
+      ) {
         newTravelScore += 10;
       }
-      countryIdArray.push(filteredClickedCityArray[i].country);
+      newCountryIdArray.push(filteredClickedCityArray[i].country);
       lat = filteredClickedCityArray[i].city_latitude;
       long = filteredClickedCityArray[i].city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
-      if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+      if (newTravelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
+        newTravelScore +=
+          TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
-      travelScoreIndexArray.push(travelScoreIndex);
+      newTravelScoreIndexArray.push(travelScoreIndex);
     }
     if (newTravelScore.toFixed(2) != oldTravelScore.toFixed(2)) {
       newGeorneyScore({ variables: { newTravelScore } });
     }
     handleTravelScore(newTravelScore);
-    handleCountryIdArray(countryIdArray);
-    handleTravelScoreIndexArray(travelScoreIndexArray);
+    if (newCountryIdArray.length > 0 || countryIdArray.length > 0) {
+      handleCountryIdArray(newCountryIdArray);
+    }
+    if (
+      newTravelScoreIndexArray.length > 0 ||
+      travelScoreIndexArray.length > 0
+    ) {
+      handleTravelScoreIndexArray(newTravelScoreIndexArray);
+    }
   }
 
   function calculateNewTravelScore(newCityEntry, type) {
@@ -677,7 +741,8 @@ function CityMap(props) {
       long = newCityEntry.city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
       if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+        newTravelScore +=
+          TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
 
       newTravelScoreIndexArray.push(travelScoreIndex);
@@ -708,7 +773,8 @@ function CityMap(props) {
       }
 
       if (findTravelIndexes.length === 1) {
-        newTravelScore -= TravelScoreCalculator[travelScoreIndex];
+        newTravelScore -=
+          TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
 
         newTravelScoreIndexArray.splice(Number(findTravelIndexes[0]), 1);
       }
@@ -863,15 +929,21 @@ function CityMap(props) {
     let newMarkerFutureDisplay = [...markerFutureDisplay];
     let newMarkerLiveDisplay = [...markerLiveDisplay];
     let color = "";
+    city.type = "new";
     switch (props.currentTiming) {
       case 0:
         pastCount++;
         tripTimingCounts[0] = pastCount;
         color = "rgba(203, 118, 120, 0.25)";
         newMarkerPastDisplay.push(city);
-
         handleClickedCityArray(newClickedCityArray);
-        handleTripTimingCounts(tripTimingCounts);
+        if (
+          tripTimingCounts[0] !== pastCount ||
+          tripTimingCounts[1] !== futureCount ||
+          tripTimingCounts[2] !== liveCount
+        ) {
+          handleTripTimingCounts([pastCount, futureCount, liveCount]);
+        }
         handleMarkerPastDisplay(newMarkerPastDisplay);
         break;
       case 1:
@@ -880,7 +952,13 @@ function CityMap(props) {
         color = "rgba(115, 167, 195, 0.25)";
         newMarkerFutureDisplay.push(city);
         handleClickedCityArray(newClickedCityArray);
-        handleTripTimingCounts(tripTimingCounts);
+        if (
+          tripTimingCounts[0] !== pastCount ||
+          tripTimingCounts[1] !== futureCount ||
+          tripTimingCounts[2] !== liveCount
+        ) {
+          handleTripTimingCounts([pastCount, futureCount, liveCount]);
+        }
         handleMarkerFutureDisplay(newMarkerFutureDisplay);
         break;
       case 2:
@@ -914,13 +992,19 @@ function CityMap(props) {
             <div
               style={{ border: "10px solid rgba(150, 177, 168, 1.0)" }}
               key={"circle3" + city.cityId}
-              className="pulse"
+              className="pulse pulse-live"
             />
           </Marker>
         );
 
         handleClickedCityArray(newClickedCityArray);
-        handleTripTimingCounts(tripTimingCounts);
+        if (
+          tripTimingCounts[0] !== pastCount ||
+          tripTimingCounts[1] !== futureCount ||
+          tripTimingCounts[2] !== liveCount
+        ) {
+          handleTripTimingCounts([pastCount, futureCount, liveCount]);
+        }
         handleMarkerLiveDisplay(newMarkerLiveDisplay);
         break;
       default:

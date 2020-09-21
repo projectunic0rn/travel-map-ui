@@ -8,8 +8,8 @@ import AvatarThree from "../../icons/AvatarIcons/AvatarThree";
 import AvatarFour from "../../icons/AvatarIcons/AvatarFour";
 import AvatarFive from "../../icons/AvatarIcons/AvatarFive";
 import AvatarSix from "../../icons/AvatarIcons/AvatarSix";
-import AvatarSeven from "../../icons/AvatarIcons/AvatarSeven";
-import AvatarEight from "../../icons/AvatarIcons/AvatarEight";
+// import AvatarSeven from "../../icons/AvatarIcons/AvatarSeven";
+// import AvatarEight from "../../icons/AvatarIcons/AvatarEight";
 import SimpleLoader from "../common/SimpleLoader/SimpleLoader";
 
 const UserAvatar = React.memo(function UserAvatar({ color, avatarIndex, email }) {
@@ -18,31 +18,31 @@ const UserAvatar = React.memo(function UserAvatar({ color, avatarIndex, email })
     let newAvatar = "";
     switch (avatarIndex) {
       case 1:
-        newAvatar = <AvatarOne color={color} />;
+        newAvatar = <AvatarOne />;
         break;
       case 2:
-        newAvatar = <AvatarTwo color={color} />;
+        newAvatar = <AvatarTwo />;
         break;
       case 3:
-        newAvatar = <AvatarThree color={color} />;
+        newAvatar = <AvatarThree  />;
         break;
       case 4:
-        newAvatar = <AvatarFour color={color} />;
+        newAvatar = <AvatarFour  />;
         break;
       case 5:
-        newAvatar = <AvatarFive color={color} />;
+        newAvatar = <AvatarFive />;
         break;
       case 6:
-        newAvatar = <AvatarSix color={color} />;
+        newAvatar = <AvatarSix />;
         break;
-      case 7:
-        newAvatar = <AvatarSeven color={color} />;
-        break;
-      case 8:
-        newAvatar = <AvatarEight color={color} />;
-        break;
+      // case 7:
+      //   newAvatar = <AvatarSeven />;
+      //   break;
+      // case 8:
+      //   newAvatar = <AvatarEight />;
+      //   break;
       default:
-        newAvatar = <AvatarOne color="rgb(100, 100, 100)" />;
+        newAvatar = <AvatarOne />;
         break;
     }
     handleAvatar(newAvatar);

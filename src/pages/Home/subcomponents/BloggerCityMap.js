@@ -1,18 +1,69 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  PureComponent,
+  useCallback,
+} from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
-import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
-
+import whyDidYouRender from "@welldone-software/why-did-you-render";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import FilterIcon from "../../../icons/FilterIcon";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import BloggerCityPopup from "../../../components/Prompts/FriendClickedCity/BloggerCityPopup";
-import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
+
+class PastMarkers extends PureComponent {
+  render() {
+    const { data, handleCityTooltip } = this.props;
+    return data.map((city) => (
+      <Marker
+        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        latitude={city.latitude}
+        longitude={city.longitude}
+        offsetLeft={-5}
+        offsetTop={-10}
+      >
+        <svg
+          key={"svg" + city.cityId}
+          height={20}
+          width={20}
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            onMouseOver={() => handleCityTooltip(city)}
+            style={{ fill: "rgba(203, 118, 120, 0.25)" }}
+            key={"circle" + city.cityId}
+            cx="50"
+            cy="50"
+            r="50"
+          />
+          <circle
+            style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+            key={"circle2" + city.cityId}
+            cx="50"
+            cy="50"
+            r="20"
+          />
+        </svg>
+      </Marker>
+    ));
+  }
+}
+
+const mapStyle = {
+  width: "100vw",
+  minHeight: "calc(100% - 120px)",
+  maxHeight: "calc(100%)",
+  position: "relative",
+};
 
 function BloggerCityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -20,7 +71,7 @@ function BloggerCityMap(props) {
     height: window.innerHeight,
     latitude: 20,
     longitude: 8,
-    zoom: 1,
+    zoom: setInitialZoom(),
   });
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
@@ -31,8 +82,6 @@ function BloggerCityMap(props) {
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [showSideMenu, handleSideMenu] = useState(false);
   const mapRef = useRef();
-  const clusterPast = useRef();
-  const clusterFuture = useRef();
   const [uniqueBloggers, handleUniqueBloggers] = useState(0);
 
   useEffect(() => {
@@ -58,15 +107,25 @@ function BloggerCityMap(props) {
     handleViewportChange({
       width: window.innerWidth,
       height: window.innerHeight,
-      latitude: 20,
-      longitude: 8,
       zoom: setInitialZoom(),
     });
   }
 
   function handleViewportChange(newViewport) {
+    if (
+      newViewport === undefined ||
+      (newViewport.width === viewport.width &&
+        newViewport.height === viewport.height &&
+        newViewport.zoom === viewport.zoom)
+    ) {
+      return;
+    }
     handleViewport({ ...viewport, ...newViewport });
   }
+
+  const handleViewportChangeCallback = useCallback(() => {
+    handleViewportChange();
+  }, []);
 
   function setInitialZoom() {
     let zoom;
@@ -142,41 +201,7 @@ function BloggerCityMap(props) {
             ) {
               break;
             }
-            markerPastDisplay.push(
-              <Marker
-                key={city.id}
-                id={city.tripTiming + "-" + city.cityId}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-                style={{ background: "rgba(203, 118, 120, 0.25)" }}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: "rgba(203, 118, 120, 0.25)" }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
+            markerPastDisplay.push(city);
             break;
 
           default:
@@ -254,34 +279,9 @@ function BloggerCityMap(props) {
     handleSideMenu(false);
   }
 
-  function clusterClick(cluster) {
-    const { clusterId, longitude, latitude } = cluster;
-    let supercluster;
-    switch (cluster.type) {
-      case 0:
-        supercluster = clusterPast.current.getCluster();
-        break;
-      case 1:
-        supercluster = clusterFuture.current.getCluster();
-        break;
-      default:
-        break;
-    }
-    const zoom = supercluster.getClusterExpansionZoom(clusterId);
-    const newViewport = {
-      ...viewport,
-      latitude,
-      longitude,
-      zoom,
-    };
-    handleViewport(newViewport);
-
-    return { viewport: newViewport };
-  }
-
   function goToCountryMap() {
     props.sendUserData(clickedCityArray);
-    props.handleMapTypeChange(0);
+    props.handleMapTypeChange();
   }
 
   if (loading) return <Loader />;
@@ -382,18 +382,15 @@ function BloggerCityMap(props) {
         <MapGL
           mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
           ref={mapRef}
+          width="100%"
           height="100%"
           {...viewport}
           accessToken={
             "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
           }
-          onViewportChange={handleViewportChange}
-          style={{
-            width: "100%",
-            minHeight: "calc(100% - 120px)",
-            maxHeight: "calc(100%)",
-            position: "relative",
-          }}
+          onViewportChange={handleViewportChangeCallback}
+          minZoom={0.25}
+          style={mapStyle}
         >
           <Geocoder
             mapRef={mapRef}
@@ -407,22 +404,12 @@ function BloggerCityMap(props) {
             placeholder={"Type a city..."}
           />
           {activeTimings[0] ? (
-            <Cluster
-              ref={clusterPast}
-              radius={40}
-              extent={1024}
-              nodeSize={64}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(203, 118, 120, 0.5)"}
-                  {...cluster}
-                  type={0}
-                />
-              )}
-            >
-              {markerPastDisplay}
-            </Cluster>
+            <>
+              <PastMarkers
+                data={markerPastDisplay}
+                handleCityTooltip={handleCityTooltip}
+              />
+            </>
           ) : null}
 
           {_renderPopup()}
@@ -431,12 +418,12 @@ function BloggerCityMap(props) {
       <div className="zoom-buttons">
         <ZoomButton
           type="+"
-          handleViewportChange={handleViewportChange}
+          handleViewportChange={handleViewportChangeCallback}
           currentZoom={viewport.zoom}
         />
         <ZoomButton
           type="-"
-          handleViewportChange={handleViewportChange}
+          handleViewportChange={handleViewportChangeCallback}
           currentZoom={viewport.zoom}
         />
       </div>
@@ -474,4 +461,5 @@ BloggerCityMap.propTypes = {
   handleCities: PropTypes.func,
 };
 
+BloggerCityMap.whyDidYouRender = true;
 export default React.memo(BloggerCityMap);

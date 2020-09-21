@@ -7,7 +7,7 @@ import FacebookIcon from "../../../../icons/SocialIcons/FacebookIcon";
 import InstagramIcon from "../../../../icons/SocialIcons/InstagramIcon";
 import TwitterIcon from "../../../../icons/SocialIcons/TwitterIcon";
 import WhatsappIcon from "../../../../icons/SocialIcons/WhatsappIcon";
-import SimpleLoader from "../../../../components/common/SimpleLoader";
+import SimpleLoader from "../../../../components/common/SimpleLoader/SimpleLoader";
 
 export default function Contact({
   userData,

@@ -85,7 +85,7 @@ ReactDOM.render(
         <Switch>
           <Suspense fallback={<div></div>}>
             <Route path="/new/" component={NewUserMap} />
-            <Route path="/public" component={FriendReadonlyMap} />
+            <Route exact path="/public" component={FriendReadonlyMap} />
             <Route
               path="/"
               render={(props) => (

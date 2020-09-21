@@ -18,7 +18,6 @@ const Beta = lazy(() => import("./Beta"));
 const FAQ = lazy(() => import("./pages/FAQ/FAQ"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
 const UserProfile = lazy(() => import("./pages/Profile/UserProfile"));
-const NewUserMap = lazy(() => import("./pages/Home/NewUserMap"));
 const BloggerMap = lazy(() => import("./pages/Home/BloggerMap"));
 
 function App({ userAuthenticated }) {
@@ -35,6 +34,7 @@ function App({ userAuthenticated }) {
   }, [userLoggedIn]);
 
   useEffect(() => {
+    console.log(userLoggedIn);
     if (loaded) {
       if (
         localStorage.getItem("clickedCityArray") !== null &&
@@ -62,7 +62,6 @@ function App({ userAuthenticated }) {
           .concat(placesVisiting)
           .concat(placeLiving);
         let filteredCities = concatCities.filter((city) => city !== null);
-        console.log(filteredCities);
         handleClickedCityArray(filteredCities);
       }
     } else {
@@ -172,8 +171,7 @@ function App({ userAuthenticated }) {
         ) : (
           <>
             <Switch>
-              <Route path="/new/" component={NewUserMap} />
-              <Route path="/bloggers/" component={BloggerMap} />
+              <Route exact path="/bloggers/" component={BloggerMap} />
               <Route
                 path="/"
                 render={(props) => (

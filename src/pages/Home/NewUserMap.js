@@ -27,7 +27,6 @@ const NewUserMap = () => {
 
   if (!loaded) return <Loader />;
   return (
-    <div className="map-container" id = "new-map">
       <div className={mapPage ? "map city-map" : "map country-map"}>
         {mapPage ? (
           <NewUserCity
@@ -41,7 +40,6 @@ const NewUserMap = () => {
           />
         )}
       </div>
-    </div>
   );
 };
 

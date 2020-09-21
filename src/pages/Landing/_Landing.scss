@@ -11,6 +11,13 @@
   #landing-map {
     height: 100%;
   }
+  .city-map-container .img-below {
+    background: #4b5363;
+    min-width: 100%;
+    height: 80px;
+    position: absolute;
+    bottom: 0;
+  }
   // @media screen and (max-height: 540px) {
   //   min-height: 540px;
   // }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 
-import { TravelScoreCalculator } from "../../../TravelScore";
+import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
@@ -434,7 +435,7 @@ function NewUserCity(props) {
       long = filteredClickedCityArray[i].city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
       if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+        newTravelScore += TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
       travelScoreIndexArray.push(travelScoreIndex);
     }
@@ -493,7 +494,7 @@ function NewUserCity(props) {
       }
 
       if (findTravelIndexes.length === 1) {
-        newTravelScore -= TravelScoreCalculator[travelScoreIndex];
+        newTravelScore -= TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
 
         newTravelScoreIndexArray.splice(Number(findTravelIndexes[0]), 1);
       }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, PureComponent } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -17,86 +17,6 @@ import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCit
 import Loader from "../../../components/common/Loader/Loader";
 import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
-
-class PastMarkers extends PureComponent {
-  render() {
-    const { data, handleCityTooltip } = this.props;
-    return data.map((city) => (
-      <Marker
-        key={city.cityId}
-        // id={city.tripTiming + "-" + city.cityId}
-        latitude={city.latitude}
-        longitude={city.longitude}
-        offsetLeft={-5}
-        offsetTop={-10}
-      >
-        <svg
-          key={"svg" + city.cityId}
-          height={20}
-          width={20}
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            onMouseOver={() => handleCityTooltip(city)}
-            style={{ fill: "rgba(203, 118, 120, 0.25)" }}
-            key={"circle" + city.cityId}
-            cx="50"
-            cy="50"
-            r="50"
-          />
-          <circle
-            style={{ fill: "rgba(203, 118, 120, 1.0)" }}
-            key={"circle2" + city.cityId}
-            cx="50"
-            cy="50"
-            r="20"
-          />
-        </svg>
-      </Marker>
-    ));
-  }
-}
-
-class FutureMarkers extends PureComponent {
-  render() {
-    const { data, handleCityTooltip } = this.props;
-    return data.map((city) => (
-      <Marker
-        key={city.id}
-        // id={city.tripTiming + "-" + city.cityId}
-        latitude={city.latitude}
-        longitude={city.longitude}
-        offsetLeft={-5}
-        offsetTop={-10}
-      >
-        <svg
-          key={"svg" + city.id}
-          height={20}
-          width={20}
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            onMouseOver={() => handleCityTooltip(city)}
-            style={{ fill: "rgba(115, 167, 195, 0.25)" }}
-            key={"circle" + city.id}
-            cx="50"
-            cy="50"
-            r="50"
-          />
-          <circle
-            style={{ fill: "rgba(115, 167, 195, 0.75)" }}
-            key={"circle2" + city.id}
-            cx="50"
-            cy="50"
-            r="20"
-          />
-        </svg>
-      </Marker>
-    ));
-  }
-}
 
 function FriendCityMap(props) {
   const [viewport, handleViewport] = useState({
@@ -155,8 +75,10 @@ function FriendCityMap(props) {
     let newClusterParams = clusterParams;
     if (timingCountArray[0] > 0) {
       if (timingCountArray[0] > 2000) {
-        newClusterParams.pastExtent = 512;
-        newClusterParams.pastNodeSize = 32;
+        // newClusterParams.pastExtent = 512;
+        // newClusterParams.pastNodeSize = 32;
+        newClusterParams.pastExtent = 1024;
+        newClusterParams.pastNodeSize = 64;
       } else if (timingCountArray[0] > 1500) {
         newClusterParams.pastExtent = 1024;
         newClusterParams.pastNodeSize = 64;
@@ -246,17 +168,45 @@ function FriendCityMap(props) {
             handleActiveTimings([0, 0, 0]);
             if (
               markerPastDisplay.some((marker) => {
-                // return marker.props.id === city.tripTiming + "-" + city.cityId;
-                return (
-                  marker.cityId === city.cityId &&
-                  marker.tripTiming === city.tripTiming
-                );
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
               })
             ) {
               break;
             }
             markerPastDisplay.push(
-              city
+              <Marker
+                key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
+                latitude={city.latitude}
+                longitude={city.longitude}
+                offsetLeft={-5}
+                offsetTop={-10}
+                style={{ background: "rgba(203, 118, 120, 0.25)" }}
+              >
+                <svg
+                  key={"svg" + city.id}
+                  height={20}
+                  width={20}
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    onMouseOver={() => handleCityTooltip(city)}
+                    style={{ fill: "rgba(203, 118, 120, 0.25)" }}
+                    key={"circle" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                  <circle
+                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
+                </svg>
+              </Marker>
             );
             break;
           case 1:
@@ -264,15 +214,45 @@ function FriendCityMap(props) {
             handleActiveTimings([0, 0, 0]);
             if (
               markerFutureDisplay.some((marker) => {
-                return (
-                  marker.cityId === city.cityId &&
-                  marker.tripTiming === city.tripTiming
-                );
+                return marker.props.id === city.tripTiming + "-" + city.cityId;
               })
             ) {
               break;
             }
-            markerFutureDisplay.push(city);
+            markerFutureDisplay.push(
+              <Marker
+                key={city.id}
+                id={city.tripTiming + "-" + city.cityId}
+                latitude={city.latitude}
+                longitude={city.longitude}
+                offsetLeft={-5}
+                offsetTop={-10}
+              >
+                <svg
+                  key={"svg" + city.id}
+                  height={20}
+                  width={20}
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    onMouseOver={() => handleCityTooltip(city)}
+                    style={{ fill: color }}
+                    key={"circle" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                  <circle
+                    style={{ fill: "rgba(115, 167, 195, 0.75)" }}
+                    key={"circle2" + city.id}
+                    cx="50"
+                    cy="50"
+                    r="20"
+                  />
+                </svg>
+              </Marker>
+            );
 
             break;
           case 2:
@@ -708,58 +688,40 @@ function FriendCityMap(props) {
         >
           {_renderPopup()}
           {activeTimings[0] ? (
-            <>
-              <Cluster
-                ref={clusterPast}
-                radius={40}
-                extent={clusterParams.pastExtent}
-                nodeSize={clusterParams.pastNodeSize}
-                component={(cluster) => (
-                  <ClusterMarker
-                    onClick={clusterClick}
-                    color={"rgba(203, 118, 120, 0.5)"}
-                    {...cluster}
-                    type={0}
-                  />
-                )}
-              >
-                <PastMarkers
-                  data={markerPastDisplay}
-                  handleCityTooltip={handleCityTooltip}
+            <Cluster
+              ref={clusterPast}
+              radius={40}
+              extent={clusterParams.pastExtent}
+              nodeSize={clusterParams.pastNodeSize}
+              component={(cluster) => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(203, 118, 120, 0.5)"}
+                  {...cluster}
+                  type={0}
                 />
-              </Cluster>
-              <PastMarkers
-                data={markerPastDisplay}
-                handleCityTooltip={handleCityTooltip}
-              />
-            </>
+              )}
+            >
+              {markerPastDisplay}
+            </Cluster>
           ) : null}
           {activeTimings[1] ? (
-            <>
-              <Cluster
-                ref={clusterFuture}
-                radius={40}
-                extent={clusterParams.futureExtent}
-                nodeSize={clusterParams.futureNodeSize}
-                component={(cluster) => (
-                  <ClusterMarker
-                    onClick={clusterClick}
-                    color={"rgba(115, 167, 195, 0.5)"}
-                    {...cluster}
-                    type={1}
-                  />
-                )}
-              >
-                <FutureMarkers
-                  data={markerFutureDisplay}
-                  handleCityTooltip={handleCityTooltip}
+            <Cluster
+              ref={clusterFuture}
+              radius={40}
+              extent={clusterParams.futureExtent}
+              nodeSize={clusterParams.futureNodeSize}
+              component={(cluster) => (
+                <ClusterMarker
+                  onClick={clusterClick}
+                  color={"rgba(115, 167, 195, 0.5)"}
+                  {...cluster}
+                  type={1}
                 />
-              </Cluster>
-              <FutureMarkers
-                data={markerFutureDisplay}
-                handleCityTooltip={handleCityTooltip}
-              />
-            </>
+              )}
+            >
+              {markerFutureDisplay}
+            </Cluster>
           ) : null}
           {activeTimings[2] ? (
             <Cluster
@@ -865,15 +827,5 @@ ClusterMarker.propTypes = {
   color: PropTypes.string,
   onClick: PropTypes.func,
 };
-
-PastMarkers.propTypes = {
-  data: PropTypes.array,
-  handleCityTooltip: PropTypes.func
-}
-
-FutureMarkers.propTypes = {
-  data: PropTypes.array,
-  handleCityTooltip: PropTypes.func
-}
 
 export default FriendCityMap;

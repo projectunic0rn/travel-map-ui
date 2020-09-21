@@ -449,8 +449,6 @@
   position: absolute;
   height: 50px;
   width: 50px;
-  top: -27px;
-  left: -25px;
   z-index: 500;
   opacity: 0;
   background: transparent;
@@ -463,6 +461,14 @@
   -webkit-animation-iteration-count: infinite;
   -moz-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
+}
+.pulse-past, .pulse-future {
+  top: -15px;
+  left: -15px;
+}
+.pulse-live {
+  top: -27px;
+  left: -25px;
 }
 @-webkit-keyframes pulse {
   0% {
