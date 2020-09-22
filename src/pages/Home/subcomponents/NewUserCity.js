@@ -461,7 +461,7 @@ function NewUserCity(props) {
       long = newCityEntry.city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
       if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+        newTravelScore += TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
 
       newTravelScoreIndexArray.push(travelScoreIndex);
@@ -657,7 +657,7 @@ function NewUserCity(props) {
                 border: "10px solid rgba(203, 118, 120, 1)",
               }}
               key={"circle3" + city.cityId}
-              className="pulse"
+              className="pulse pulse-live"
             />
           </Marker>
         );
@@ -707,7 +707,7 @@ function NewUserCity(props) {
             <div
               style={{ border: "10px solid rgba(115, 167, 195, 1.0)" }}
               key={"circle3" + city.cityId}
-              className="pulse"
+              className="pulse pulse-live"
             />
           </Marker>
         );
@@ -757,7 +757,7 @@ function NewUserCity(props) {
             <div
               style={{ border: "10px solid rgba(150, 177, 168, 1.0)" }}
               key={"circle3" + city.cityId}
-              className="pulse"
+              className="pulse pulse-live"
             />
           </Marker>
         );
