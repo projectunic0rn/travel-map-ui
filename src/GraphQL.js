@@ -1006,7 +1006,6 @@ export const UPDATE_USER_AVATAR = gql`
     updateUserAvatar(userAvatar: $userAvatar) {
       id
       avatarIndex
-      color
     }
   }
 `;

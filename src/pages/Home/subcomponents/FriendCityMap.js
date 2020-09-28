@@ -18,6 +18,13 @@ import Loader from "../../../components/common/Loader/Loader";
 import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
+const mapStyle = {
+  width: "100vw",
+  minHeight: "calc(100% - 120px)",
+  maxHeight: "calc(100%)",
+  position: "relative",
+};
+
 function FriendCityMap(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
@@ -139,6 +146,14 @@ function FriendCityMap(props) {
   }
 
   function handleViewportChange(newViewport) {
+    if (
+      newViewport === undefined ||
+      (newViewport.width === viewport.width &&
+        newViewport.height === viewport.height &&
+        newViewport.zoom === viewport.zoom)
+    ) {
+      return;
+    }
     handleViewport({ ...viewport, ...newViewport });
   }
 
@@ -671,7 +686,7 @@ function FriendCityMap(props) {
           )}
         </div>
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p"}
+          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p?optimize=true"}
           ref={mapRef}
           {...viewport}
           accessToken={
@@ -679,12 +694,7 @@ function FriendCityMap(props) {
           }
           onViewportChange={handleViewportChange}
           zoom={viewport.zoom}
-          style={{
-            width: "100vw",
-            minHeight: "calc(100% - 120px)",
-            maxHeight: "calc(100%)",
-            position: "relative",
-          }}
+          style={mapStyle}
         >
           {_renderPopup()}
           {activeTimings[0] ? (
@@ -744,7 +754,6 @@ function FriendCityMap(props) {
           <Geocoder
             mapRef={mapRef}
             onResult={handleOnResult}
-            // onViewportChange={handleGeocoderViewportChange}
             mapboxApiAccessToken={
               "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
             }

@@ -12,34 +12,15 @@ import FriendClickedCityContainer from "../../../components/Prompts/FriendClicke
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import Loader from "../../../components/common/Loader/Loader";
+import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
+import ClusterContainer from "./ClusterContainer";
 
-function ClusterMarker(props) {
-  function onClick() {
-    const { onClick, ...cluster } = props;
-    onClick(cluster);
-  }
-  return (
-    <Marker longitude={props.longitude} latitude={props.latitude}>
-      <div
-        style={{
-          width: props.pointCount * 2 + "px",
-          height: props.pointCount * 2 + "px",
-          minHeight: "20px",
-          minWidth: "20px",
-          color: "#fff",
-          background: props.color,
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        onClick={onClick}
-      >
-        {props.pointCount}
-      </div>
-    </Marker>
-  );
+const mapStyle = {
+  width: "100vw",
+  minHeight: "calc(100% - 120px)",
+  maxHeight: "calc(100%)",
+  position: "relative",
 }
 
 function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
@@ -61,6 +42,14 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [hoveredCityArray, handleHoveredCityArray] = useState([]);
   const [showSideMenu, handleSideMenu] = useState(false);
+  const [clusterParams, handleClusterParams] = useState({
+    pastExtent: 16384,
+    pastNodeSize: 1024,
+    futureExtent: 16384,
+    futureNodeSize: 1024,
+    liveExtent: 16384,
+    liveNodeSize: 1024,
+  });
 
   const mapRef = useRef();
   const clusterPast = useRef();
@@ -90,6 +79,28 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
       window.removeEventListener("resize", resize);
     };
   }, []);
+
+  function setClusterParams(timingCountArray) {
+    let newClusterParams = clusterParams;
+    if (timingCountArray[0] > 0) {
+      if (timingCountArray[0] > 2000) {
+        // newClusterParams.pastExtent = 512;
+        // newClusterParams.pastNodeSize = 32;
+        newClusterParams.pastExtent = 1024;
+        newClusterParams.pastNodeSize = 64;
+      } else if (timingCountArray[0] > 1500) {
+        newClusterParams.pastExtent = 1024;
+        newClusterParams.pastNodeSize = 64;
+      } else if (timingCountArray[0] > 500) {
+        newClusterParams.pastExtent = 2048;
+        newClusterParams.pastNodeSize = 128;
+      } else if (timingCountArray[0] > 250) {
+        newClusterParams.pastExtent = 4096;
+        newClusterParams.pastNodeSize = 256;
+      }
+      handleClusterParams(newClusterParams);
+    }
+  }
 
   function setInitialZoom() {
     let zoom;
@@ -343,8 +354,36 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
       liveCount++;
     }
     handleClickedCityArray(clickedCityArray);
-    handleTripTimingCounts([pastCount, futureCount, liveCount]);
     handleLoadedMarkers(clickedCityArray);
+    calculateTripTimingCounts(clickedCityArray);
+  }
+  function calculateTripTimingCounts(cityArray) {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    for (let i in cityArray) {
+      switch (cityArray[i].tripTiming) {
+        case 0:
+          if (cityArray[i].cityId !== null) {
+            pastCount++;
+          }
+          break;
+        case 1:
+          if (cityArray[i].cityId !== null) {
+            futureCount++;
+          }
+          break;
+        case 2:
+          if (cityArray[i].cityId !== null) {
+            liveCount++;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    setClusterParams([pastCount, futureCount, liveCount]);
+    handleTripTimingCounts([pastCount, futureCount, liveCount]);
   }
 
   function _renderPopup() {
@@ -458,7 +497,7 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
             )}
           </div>
         </div>
-        <div className="map-header-button" id="map-header-readonly">
+      <div className="map-header-button" id="map-header-readonly">
           <div
             className="sc-controls sc-controls-left"
             onClick={() => handleMapTypeChange(0)}
@@ -482,37 +521,24 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
           }
           onViewportChange={handleViewportChange}
           minZoom={0.25}
-          style={{
-            width: "100vw",
-            minHeight: "calc(100% - 120px)",
-            maxHeight: "calc(100%)",
-            position: "relative",
-          }}
+          style={mapStyle}
         >
           {activeTimings[0] ? (
-            <Cluster
-              ref={clusterPast}
-              radius={40}
-              extent={1024}
-              nodeSize={64}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(203, 118, 120, 0.5)"}
-                  {...cluster}
-                  type={0}
-                />
-              )}
-            >
-              {markerPastDisplay}
-            </Cluster>
+            <ClusterContainer
+              mapRef={clusterPast}
+              extent={clusterParams.pastExtent}
+              nodeSize={clusterParams.pastNodeSize}
+              onClick={clusterClick}
+              markerData={markerPastDisplay}
+              color={"rgba(203, 118, 120, 0.5)"}
+            ></ClusterContainer>
           ) : null}
           {activeTimings[1] ? (
             <Cluster
               ref={clusterFuture}
               radius={40}
-              extent={1024}
-              nodeSize={64}
+              extent={clusterParams.pastExtent}
+              nodeSize={clusterParams.pastNodeSize}
               component={(cluster) => (
                 <ClusterMarker
                   onClick={clusterClick}

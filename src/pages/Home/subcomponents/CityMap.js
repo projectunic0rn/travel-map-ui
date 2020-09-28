@@ -22,6 +22,7 @@ import {
   REMOVE_PLACE_VISITED,
   REMOVE_PLACE_LIVING,
 } from "../../../GraphQL";
+import calculateTravelScoreIndex from "../../../commonFunctions";
 import UserContext from "../../../utils/UserContext";
 import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
@@ -71,7 +72,10 @@ class PastMarkers extends PureComponent {
         </svg>
         {city.type === "new" ? (
           <div
-            style={{ border: "10px solid rgba(203, 118, 120, 1.0)", transform: "translate(5px, 10px)" }}
+            style={{
+              border: "10px solid rgba(203, 118, 120, 1.0)",
+              transform: "translate(5px, 10px)",
+            }}
             key={"circle3" + city.cityId}
             className="pulse pulse-past"
           />
@@ -117,7 +121,10 @@ class FutureMarkers extends PureComponent {
         </svg>
         {city.type === "new" ? (
           <div
-            style={{ border: "10px solid rgba(115, 167, 195, 1.0)", transform: "translate(5px, 10px)" }}
+            style={{
+              border: "10px solid rgba(115, 167, 195, 1.0)",
+              transform: "translate(5px, 10px)",
+            }}
             key={"circle3" + city.cityId}
             className="pulse pulse-future"
           />
@@ -171,7 +178,7 @@ function CityMap(props) {
     },
   });
   console.log("city map render");
-
+  console.log(clickedCityArray);
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
       let userData = { ...user };
@@ -182,6 +189,7 @@ function CityMap(props) {
       userData.clickedCityArray = newClickedCityArray;
       user.handleUserData(userData.userData);
       user.handleClickedCityArray(userData.clickedCityArray);
+      handleClickedCityArray([]);
       handleSaveClicked(false);
     },
   });
@@ -190,6 +198,7 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
+  const searchInput=useRef();
 
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
@@ -656,37 +665,11 @@ function CityMap(props) {
     // handleActiveTimings([1, 1, 1]);
   }
 
-  function calculateTravelScoreIndex(lat, long) {
-    let travelScoreIndex;
-    if (lat > 0) {
-      lat = Math.floor(lat);
-    } else {
-      lat = Math.floor(lat) + 1;
-    }
-    if (long > 0) {
-      long = Math.floor(long);
-    } else {
-      long = Math.floor(long) + 1;
-    }
-    if (lat > 0 && long < 0) {
-      travelScoreIndex = (89 - lat) * 360 + 180 + long - 1;
-    } else if (lat > 0 && long >= 0) {
-      travelScoreIndex = (89 - lat) * 360 + 180 + long;
-    } else if (lat <= 0 && long < 0) {
-      travelScoreIndex = (90 - lat) * 360 + 180 + long - 1;
-    } else if (lat <= 0 && long >= 0) {
-      travelScoreIndex = (90 - lat) * 360 + 180 + long;
-    }
-    return travelScoreIndex;
-  }
-
   function calculateTravelScore() {
     let newTravelScore = 0;
     let oldTravelScore =
       user.userData.georneyScore !== null ? user.userData.georneyScore : 0;
-    let lat;
-    let long;
-    let travelScoreIndex;
+    let lat, long, travelScoreIndex;
     let newTravelScoreIndexArray = [];
     let newCountryIdArray = [];
     let filteredClickedCityArray = loadedClickedCityArray.filter(
@@ -784,7 +767,7 @@ function CityMap(props) {
     handleTravelScoreIndexArray(newTravelScoreIndexArray);
   }
 
-  function handleOnResult(event) {
+  function handleOnResult(event, geocoderInstance) {
     markers.push(event);
     let country = "";
     let countryISO = "";
@@ -855,6 +838,9 @@ function CityMap(props) {
     ) {
       handleTripTimingCityHelper(newCityEntry);
     }
+
+    const geocoderInput = document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
+    geocoderInput.focus();
   }
 
   function evalLiveClick(newCity, event) {
