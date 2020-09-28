@@ -12,15 +12,15 @@ import Friends from "./subpages/Friends";
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ urlUsername, refetchApp }) {
   const user = React.useContext(UserContext).userData;
-  const [loaded, handleLoaded] = useState(false);
+  const [, handleLoaded] = useState(false);
   const [, handleCityArray] = useState([]);
   const [, handleCountryArray] = useState([]);
   const [searchText, handleSearchText] = useState("");
   const [userData, handleUserData] = useState(user);
-  const [cityData, handleCityData] = useState();
+  const [cityData] = useState();
   const [page, handlePageRender] = useState("settings");
   const [selectedCity, handleCity] = useState("none");
-  const [cityReviews, handleCityReviews] = useState([]);
+  const [, handleCityReviews] = useState([]);
   const [username] = useState(
     urlUsername !== undefined ? urlUsername : user.username
   );

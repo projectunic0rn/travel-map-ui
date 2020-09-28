@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 
-import { TravelScoreCalculator } from "../../../TravelScore";
+import calculateTravelScoreIndex from '../../../commonFunctions';
+
+import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareIcon from "../../../icons/ShareIcon";
@@ -389,30 +392,6 @@ function NewUserCity(props) {
     handleActiveTimings([1, 1, 1]);
   }
 
-  function calculateTravelScoreIndex(lat, long) {
-    let travelScoreIndex;
-    if (lat > 0) {
-      lat = Math.floor(lat);
-    } else {
-      lat = Math.floor(lat) + 1;
-    }
-    if (long > 0) {
-      long = Math.floor(long);
-    } else {
-      long = Math.floor(long) + 1;
-    }
-    if (lat > 0 && long < 0) {
-      travelScoreIndex = (89 - lat) * 360 + 180 + long - 1;
-    } else if (lat > 0 && long >= 0) {
-      travelScoreIndex = (89 - lat) * 360 + 180 + long;
-    } else if (lat <= 0 && long < 0) {
-      travelScoreIndex = (90 - lat) * 360 + 180 + long - 1;
-    } else if (lat <= 0 && long >= 0) {
-      travelScoreIndex = (90 - lat) * 360 + 180 + long;
-    }
-    return travelScoreIndex;
-  }
-
   function calculateTravelScore(data) {
     let newTravelScore = travelScore;
     let lat;
@@ -434,7 +413,7 @@ function NewUserCity(props) {
       long = filteredClickedCityArray[i].city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
       if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+        newTravelScore += TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
       travelScoreIndexArray.push(travelScoreIndex);
     }
@@ -460,7 +439,7 @@ function NewUserCity(props) {
       long = newCityEntry.city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
       if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator[travelScoreIndex];
+        newTravelScore += TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
 
       newTravelScoreIndexArray.push(travelScoreIndex);
@@ -493,7 +472,7 @@ function NewUserCity(props) {
       }
 
       if (findTravelIndexes.length === 1) {
-        newTravelScore -= TravelScoreCalculator[travelScoreIndex];
+        newTravelScore -= TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
 
         newTravelScoreIndexArray.splice(Number(findTravelIndexes[0]), 1);
       }
@@ -656,7 +635,7 @@ function NewUserCity(props) {
                 border: "10px solid rgba(203, 118, 120, 1)",
               }}
               key={"circle3" + city.cityId}
-              className="pulse"
+              className="pulse pulse-live"
             />
           </Marker>
         );
@@ -706,7 +685,7 @@ function NewUserCity(props) {
             <div
               style={{ border: "10px solid rgba(115, 167, 195, 1.0)" }}
               key={"circle3" + city.cityId}
-              className="pulse"
+              className="pulse pulse-live"
             />
           </Marker>
         );
@@ -756,7 +735,7 @@ function NewUserCity(props) {
             <div
               style={{ border: "10px solid rgba(150, 177, 168, 1.0)" }}
               key={"circle3" + city.cityId}
-              className="pulse"
+              className="pulse pulse-live"
             />
           </Marker>
         );

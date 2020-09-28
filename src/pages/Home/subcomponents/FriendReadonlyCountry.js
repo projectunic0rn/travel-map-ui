@@ -6,6 +6,8 @@ import {
   Geographies,
   Geography,
 } from "react-simple-maps";
+import whyDidYouRender from "@welldone-software/why-did-you-render";
+
 import jsonData from "../../../world-topo-min.json";
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
@@ -416,5 +418,7 @@ FriendReadonlyCountry.propTypes = {
   handleMapTypeChange: PropTypes.func,
   refetch: PropTypes.func,
 };
+
+FriendReadonlyCountry.whyDidYouRender = true;
 
 export default FriendReadonlyCountry;

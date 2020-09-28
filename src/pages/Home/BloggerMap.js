@@ -21,7 +21,7 @@ const BloggerMap = () => {
     { username: "UncorneredMarket" },
     { username: "TheBrokeBackpacker" },
     // { username: "ThePlanetD" },
-    { username: "BucketListly" }
+    { username: "BucketListly" },
   ]);
   const [userData, handleUserData] = useState([]);
   const [filteredUserData, handleFilteredUserData] = useState([]);
@@ -34,25 +34,24 @@ const BloggerMap = () => {
     localStorage.removeItem("token");
   }, []);
 
-
-  function handleCities(cities) {
+  const memoizedHandleCities = React.useCallback((cities) => {
     handleClickedCityArray(cities);
-  }
+  }, []);
 
   function handleUserClicked(userFilter, state) {
-    let filter = userData.filter(user => user.id === userFilter.id);
+    let filter = userData.filter((user) => user.id === userFilter.id);
     if (state) {
       handleFilteredUserData(filter);
       addCountry([]);
-      handleLoadedCountries({users: filter});
+      handleLoadedCountries({ users: filter });
     } else {
       handleFilteredUserData(userData);
       addCountry([]);
-      handleLoadedCountries({users: userData});
+      handleLoadedCountries({ users: userData });
     }
   }
 
-  function sendUserData(data) {
+  const memoizedSendUserData = React.useCallback((data) => {
     let seen = Object.create(null);
     let newClickedCountryArray = data.filter((trip) => {
       let combinedKey = ["countryId", "tripTiming"]
@@ -64,6 +63,10 @@ const BloggerMap = () => {
       }
     });
     addCountry(newClickedCountryArray);
+  }, []);
+
+function handleMapPageHelper() {
+    handleMapPageChange(!mapPage);
   }
 
   function handleBloggerData(data) {
@@ -88,7 +91,7 @@ const BloggerMap = () => {
               username: userData.username,
               countryId: userData.Places_visited[i].countryId,
               country: userData.Places_visited[i].country,
-              tripTiming: 0
+              tripTiming: 0,
             });
           }
         }
@@ -113,10 +116,10 @@ const BloggerMap = () => {
             <div className={mapPage ? "map city-map" : "map country-map"}>
               {mapPage ? (
                 <BloggerCityMap
-                  sendUserData={sendUserData}
-                  handleMapTypeChange={() => handleMapPageChange(0)}
+                  sendUserData={memoizedSendUserData}
+                  handleMapTypeChange={handleMapPageHelper}
                   bloggerData={filteredUserData}
-                  handleCities={handleCities}
+                  handleCities={memoizedHandleCities}
                   handleLeaderboard={handleLeaderboard}
                   leaderboard={leaderboard}
                   activeBlogger={activeBlogger}
@@ -124,7 +127,7 @@ const BloggerMap = () => {
               ) : (
                 <BloggerCountryMap
                   clickedCountryArray={clickedCountryArray}
-                  handleMapTypeChange={() => handleMapPageChange(1)}
+                  handleMapTypeChange={handleMapPageHelper}
                   handleLeaderboard={handleLeaderboard}
                   leaderboard={leaderboard}
                   bloggerData={filteredUserData}

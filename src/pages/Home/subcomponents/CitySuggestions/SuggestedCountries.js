@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { CountryInfo } from "../../../../CountryInfo";
+import CountryInfo from "../../../../CountryInfo.json";
 
 export default function SuggestedCountries({
   contArray,
   countryArray,
-  handleCountries
+  handleCountries,
 }) {
   const [filteredCountryArray, handleFilteredCountryArray] = useState([]);
   const [confirmedCountryArray, handleConfirmedCountryArray] = useState(
     countryArray
   );
   useEffect(() => {
-    let filteredCountries = CountryInfo.filter(country =>
+    let filteredCountries = CountryInfo.countryInfo.filter((country) =>
       contArray.includes(country.properties.continent)
     );
     filteredCountries.sort((a, b) =>
@@ -22,7 +22,7 @@ export default function SuggestedCountries({
     handleFilteredCountryArray(filteredCountries);
   }, [contArray]);
   useEffect(() => {
-    let newArray = countryArray.filter(country => {
+    let newArray = countryArray.filter((country) => {
       return contArray.includes(country.properties.continent);
     });
     handleConfirmedCountryArray(newArray);
@@ -41,7 +41,7 @@ export default function SuggestedCountries({
     handleConfirmedCountryArray(newConfirmedCountryArray);
     handleCountries(newConfirmedCountryArray);
   }
-  let countryDisplay = filteredCountryArray.map(country => {
+  let countryDisplay = filteredCountryArray.map((country) => {
     return (
       <span
         className="sc-country-choice"
@@ -73,5 +73,5 @@ export default function SuggestedCountries({
 SuggestedCountries.propTypes = {
   contArray: PropTypes.array,
   countryArray: PropTypes.array,
-  handleCountries: PropTypes.func
+  handleCountries: PropTypes.func,
 };

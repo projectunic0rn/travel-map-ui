@@ -215,6 +215,7 @@
       display: flex;
       justify-content: center;
       top: -12px;
+      left: -8px;
       font-size: 12px;
       border-radius: 8px;
       min-width: 56px;
@@ -449,8 +450,6 @@
   position: absolute;
   height: 50px;
   width: 50px;
-  top: -27px;
-  left: -25px;
   z-index: 500;
   opacity: 0;
   background: transparent;
@@ -463,6 +462,14 @@
   -webkit-animation-iteration-count: infinite;
   -moz-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
+}
+.pulse-past, .pulse-future {
+  top: -15px;
+  left: -15px;
+}
+.pulse-live {
+  top: -27px;
+  left: -25px;
 }
 @-webkit-keyframes pulse {
   0% {
@@ -637,7 +644,7 @@
   height: 100%; /* 100% Full-height */
   width: 250px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Stay on top of map and buttons layers.*/
+  z-index: 6; /* Stay on top of map and buttons layers.*/
   top: 0; /* Stay at the top */
   left: 0;
   background-color: rgba(#4f5867, 0.95); /* Black*/

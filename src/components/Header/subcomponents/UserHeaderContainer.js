@@ -2,28 +2,37 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import UserContext from "../../../utils/UserContext";
+import withMemo from '../../../utils/withMemo';
+import whyDidYouRender from "@welldone-software/why-did-you-render";
+
 
 import UserAvatar from "../../UserAvatar/UserAvatar";
 import UsernameDropdown from "./UsernameDropdown";
 
-function UserHeaderContainer({ color, avatarIndex }) {
+const UserHeaderContainer = React.memo(function UserHeaderContainer({ color, avatarIndex }) {
   const user = React.useContext(UserContext);
 
   console.log("UserHeaderContainer");
   const [dropdown, handleDropdownClick] = useState(false);
+  function dropdownTrue() {
+    handleDropdownClick(true);
+  }
+  function dropdownFalse() {
+    handleDropdownClick(false);
+  }
   return (
     <div className="user-header-container">
       <div className="user-link">
         <span
           className="header-username"
-          onMouseOver={() => handleDropdownClick(true)}
+          onMouseOver={dropdownTrue}
         >
           <NavLink exact to="/profile/cities">
             {user.userData.username}
           </NavLink>
         </span>
         {dropdown ? (
-          <UsernameDropdown onClickOut={() => handleDropdownClick(false)} />
+          <UsernameDropdown onClickOut={dropdownFalse} />
         ) : null}
         <NavLink exact to="/profile/cities">
           <UserAvatar
@@ -35,11 +44,12 @@ function UserHeaderContainer({ color, avatarIndex }) {
       </div>
     </div>
   );
-}
+});
 
 UserHeaderContainer.propTypes = {
   color: PropTypes.string,
   avatarIndex: PropTypes.number,
 };
 
-export default UserHeaderContainer;
+UserHeaderContainer.whyDidYouRender = true;
+export default withMemo(UserHeaderContainer, []);

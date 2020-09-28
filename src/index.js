@@ -1,21 +1,20 @@
-import './utils/wdyr';
+import "./utils/wdyr";
 
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider } from "@apollo/react-hooks";
 import jwt_decode from "jwt-decode";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import ReactGA from "react-ga";
 import Bugsnag from "@bugsnag/js";
 import BugsnagPluginReact from "@bugsnag/plugin-react";
 
 import * as serviceWorker from "./serviceWorker";
+import { InMemoryCache } from "../node_modules/apollo-cache-inmemory/lib/index";
 
-const App = lazy(() => import("./App"));
-const FriendReadonlyMap = lazy(() => import("./pages/Home/FriendReadonlyMap"));
-const NewUserMap = lazy(() => import("./pages/Home/NewUserMap"));
+import App from "./App";
 
 require("dotenv").config();
 
@@ -64,6 +63,7 @@ if (process.env.NODE_ENV === "production") {
 }
 const client = new ApolloClient({
   uri: clientUrl,
+  cache: new InMemoryCache(),
   request: async (operation) => {
     {
       const token = await localStorage.getItem("token");
@@ -80,21 +80,7 @@ ReactDOM.render(
   <ErrorBoundary>
     <ApolloProvider client={client}>
       <Router history={history}>
-        <Switch>
-          <Suspense fallback={<div></div>}>
-            <Route path="/new/" component={NewUserMap} />
-            <Route path="/public" component={FriendReadonlyMap} />
-            <Route
-              path="/"
-              render={(props) => (
-                <App
-                  {...props}
-                  userAuthenticated={localStorage.getItem("token") !== null}
-                />
-              )}
-            />
-          </Suspense>
-        </Switch>
+        <App userAuthenticated={localStorage.getItem("token") !== null} />
       </Router>
     </ApolloProvider>
   </ErrorBoundary>,

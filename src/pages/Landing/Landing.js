@@ -4,14 +4,12 @@ import React, {
   useEffect,
   lazy,
   Suspense,
-  PureComponent,
-  useCallback
+  useCallback,
 } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import MapGL, { Marker } from "react-map-gl";
 import withMemo from "../../utils/withMemo";
+import LandingImage from "../../images/MapLanding.png";
 
 import Loader from "../../components/common/Loader/Loader";
 import ArrowRightIcon from "../../icons/ArrowRightIcon";
@@ -24,114 +22,7 @@ const FakeClickedFriendCityContainer = lazy(() =>
 );
 const Footer = lazy(() => import("./Footer"));
 
-
-
-const mapStyle = {
-  // minHeight: "calc(100% - 120px)",
-  // maxHeight: "calc(100%)",
-  position: "relative",
-};
-
-class LoadedMarker extends PureComponent {
-  render() {
-    const {
-      cityId,
-      city_latitude,
-      city_longitude,
-      tripTiming,
-    } = this.props;
-    let color;
-    switch (tripTiming) {
-      case 0:
-        color = "(203, 118, 120, ";
-        break;
-      case 1:
-        color = "(115, 167, 195, ";
-        break;
-      case 2:
-        color = "(150, 177, 168,";
-        break;
-      default:
-        break;
-    }
-    return (
-      <Marker
-        key={cityId}
-        latitude={city_latitude}
-        longitude={city_longitude}
-        offsetLeft={-5}
-        offsetTop={-10}
-      >
-        <svg
-          key={"svg" + cityId}
-          height={20}
-          width={20}
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            style={{ fill: "rgba" + color + "0.25)" }}
-            key={"circle" + cityId}
-            cx="50"
-            cy="50"
-            r="50"
-          />
-          <circle
-            style={{ fill: "rgba" + color + "1.0)" }}
-            key={"circle2" + cityId}
-            cx="50"
-            cy="50"
-            r="20"
-          />
-        </svg>
-      </Marker>
-    );
-  }
-}
-
 function Landing() {
-  const [viewport, handleViewportChange] = useState({
-    width: 0,
-    height: 0,
-    zoom: 0
-  });
-  const mapRef = useRef();
-
-  useEffect(() => {
-    window.addEventListener("resize", resize);
-    resize();
-    return function cleanup() {
-      window.removeEventListener("resize", resize);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function resize() {
-    handleViewportChangeCallback({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      zoom: setInitialZoom(),
-    });
-  }
-
-  function setInitialZoom() {
-    let zoom;
-    if (window.innerWidth <= 2 * window.innerHeight) {
-      zoom = window.innerWidth * 0.0009;
-    } else {
-      if (window.innerHeight >= 500) {
-        zoom = window.innerHeight * 0.0017;
-      } else {
-        zoom = window.innerHeight * 0.0008;
-      }
-    }
-    return zoom;
-  }
-
-  const handleViewportChangeCallback = useCallback(() => {
-    handleViewportChange();
-  }, []);
-
   return (
     <>
       <Suspense fallback={<Loader />}>
@@ -141,61 +32,11 @@ function Landing() {
             id="landing-map"
             style={{ zIndex: "-1" }}
           >
-            <MapGL
-              mapStyle={"mapbox://styles/mvance43776/ck5d5iota033i1iphduio56d1"}
-              ref={mapRef}
-              width="100%"
-              height="100%"
-              {...viewport}
-              mapboxApiAccessToken={
-                "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
-              }
-              onViewportChange={handleViewportChangeCallback}
-              style={mapStyle}
-            >
-              <LoadedMarker
-                city="Fremont"
-                cityId={49220}
-                city_latitude={37.5483}
-                city_longitude={-121.9886}
-                tripTiming={0}
-              />
-              <LoadedMarker
-                city="Copenhagen"
-                cityId={1748}
-                city_latitude={55.67611}
-                city_longitude={12.56889}
-                tripTiming={0}
-              />
-              <LoadedMarker
-                city="Rome"
-                cityId={220}
-                city_latitude={41.89306}
-                city_longitude={12.48278}
-                tripTiming={0}
-              />
-              <LoadedMarker
-                city="Lagos"
-                cityId={8673}
-                city_latitude={6.45}
-                city_longitude={3.4}
-                tripTiming={0}
-              />
-              <LoadedMarker
-                city="Stockholm"
-                cityId={1754}
-                city_latitude={59.32944}
-                city_longitude={18.06861}
-                tripTiming={1}
-              />
-              <LoadedMarker
-                city="Brisbane"
-                cityId={34932}
-                city_latitude={-27.469}
-                city_longitude={173.0235}
-                tripTiming={2}
-              />
-            </MapGL>
+            <img
+              src={LandingImage}
+              alt="World map with markers"
+            ></img>
+            <div className = 'img-below'></div>
           </div>
           <div className="landing-motto-container">
             <div className="landing-motto">

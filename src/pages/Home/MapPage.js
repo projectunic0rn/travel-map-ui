@@ -18,16 +18,16 @@ const MapPage = ({
   const [loaded, handleLoaded] = useState(false);
   const [timing, handleTimingChange] = useState(0);
   useEffect(() => {
-    if (
-      clickedCityArray !== null &&
-      localStorage.getItem("clickedCityArray") !== null
-      //  &&
-      // user.Place_living === null &&
-      // user.Places_visited.length < 1 &&
-      // user.Places_visiting.length < 1
-    ) {
-      return;
-    }
+    // if (
+    //   clickedCityArray !== null &&
+    //   localStorage.getItem("clickedCityArray") !== null
+    //   //  &&
+    //   // user.Place_living === null &&
+    //   // user.Places_visited.length < 1 &&
+    //   // user.Places_visiting.length < 1
+    // ) {
+    //   return;
+    // }
     handleLoaded(true);
   }, [user]);
   function handleAlteredCityArray(newCityArray) {

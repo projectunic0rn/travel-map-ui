@@ -16,8 +16,6 @@ import MapInfoContainer from "./MapInfoContainer";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import BloggerCountryPopup from "../../../components/Prompts/FriendClickedCity/BloggerCountryPopup";
 
-
-
 const BloggerCountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
@@ -251,13 +249,13 @@ const BloggerCountryMap = (props) => {
               <div
                 id="new-city-map-button-side-menu"
                 className="sc-controls sc-controls-left"
-                onClick={() => props.handleMapTypeChange(1)}
+                onClick={props.handleMapTypeChange()}
               >
                 <span className="new-map-suggest">
                   <span className="sc-control-label">City map</span>
                   <span
                     id="map-change-icon"
-                    onClick={() => props.handleMapTypeChange(1)}
+                    onClick={props.handleMapTypeChange()}
                   >
                     <MapChangeIcon />
                   </span>
@@ -273,14 +271,11 @@ const BloggerCountryMap = (props) => {
           <div
             id="new-country-map-button"
             className="sc-controls sc-controls-left"
-            onClick={() => props.handleMapTypeChange(1)}
+            onClick={props.handleMapTypeChange()}
           >
             <span className="new-map-suggest">
               <span className="sc-control-label">City map</span>
-              <span
-                id="map-change-icon"
-                onClick={() => props.handleMapTypeChange(1)}
-              >
+              <span id="map-change-icon" onClick={props.handleMapTypeChange()}>
                 <MapChangeIcon />
               </span>
             </span>

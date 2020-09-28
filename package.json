@@ -8,7 +8,6 @@
     "@bugsnag/plugin-react": "^7.2.0",
     "@urbica/react-map-gl": "^1.12.3",
     "@urbica/react-map-gl-cluster": "^0.2.0",
-    "@welldone-software/why-did-you-render": "^5.0.0-alpha.2",
     "apollo-boost": "^0.4.4",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
@@ -19,6 +18,7 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "history": "^4.10.1",
+    "js-levenshtein": "^1.1.6",
     "jwt-decode": "^2.2.0",
     "lazy": "^1.0.11",
     "lodash": "^4.17.15",
@@ -50,7 +50,8 @@
     "test": "react-scripts test",
     "update-snapshots": "react-scripts test --updateSnapshot",
     "eject": "react-scripts eject",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "stats": "source-map-explorer 'build/static/js/*.js'"
   },
   "husky": {
     "hooks": {}
@@ -80,6 +81,7 @@
     "enzyme-to-json": "^3.4.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-jest": "^23.8.2"
+    "eslint-plugin-jest": "^23.8.2",
+    "@welldone-software/why-did-you-render": "^5.0.0-alpha.2"
   }
 }
