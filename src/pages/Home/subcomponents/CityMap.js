@@ -198,7 +198,6 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-  const searchInput=useRef();
 
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
@@ -606,17 +605,14 @@ function CityMap(props) {
         switch (city.tripTiming) {
           case 0:
             color = "rgba(203, 118, 120, 0.25)";
-            // handleActiveTimings([0, 0, 0]);
             markerPastDisplay.push(city);
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
-            // handleActiveTimings([0, 0, 0]);
             markerFutureDisplay.push(city);
             break;
           case 2:
             color = "rgba(150, 177, 168, 0.25)";
-            // handleActiveTimings([0, 0, 0]);
             markerLiveDisplay.push(
               <Marker
                 key={city.cityId}
@@ -767,7 +763,7 @@ function CityMap(props) {
     handleTravelScoreIndexArray(newTravelScoreIndexArray);
   }
 
-  function handleOnResult(event, geocoderInstance) {
+  function handleOnResult(event) {
     markers.push(event);
     let country = "";
     let countryISO = "";
