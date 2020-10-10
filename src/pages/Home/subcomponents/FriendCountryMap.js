@@ -381,6 +381,7 @@ const FriendCountryMap = (props) => {
           componentProps={{
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,
+            capitalName: capitalName
           }}
         />
       ) : null}

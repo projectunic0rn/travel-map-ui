@@ -11,6 +11,7 @@ function LandingForm({ setFormIsOpen }) {
     <div className="landing-form-container">
       <div className="landing-form">
         <div className="landing-choice-container">
+          <span id='guest-login'>Guest Login: fake, password</span>
           <div className="header-text-container">
             <span
               className={

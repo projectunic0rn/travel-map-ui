@@ -14,7 +14,7 @@ function FriendClickedCountryContainer(props) {
   const [countryHover, handleCountryHover] = useState(true);
   useEffect(() => {
     let uniqueFriends = props.customProps.clickedCountryArray
-      .map(trip => trip.username)
+      .map((trip) => trip.username)
       .filter((value, index, self) => self.indexOf(value) === index);
     handleFriendsWithTrips(uniqueFriends);
   }, [props.customProps.clickedCountryArray]);
@@ -33,8 +33,11 @@ function FriendClickedCountryContainer(props) {
         email: clickedCountryArray[i].email,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 1,
-        avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
-        color: clickedCountryArray[i].color
+        avatarIndex:
+          clickedCountryArray[i].avatarIndex !== null
+            ? clickedCountryArray[i].avatarIndex
+            : 1,
+        color: clickedCountryArray[i].color,
       });
     } else if (
       i > 0 &&
@@ -59,8 +62,11 @@ function FriendClickedCountryContainer(props) {
         email: clickedCountryArray[i].email,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 0,
-        avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
-        color: clickedCountryArray[i].color
+        avatarIndex:
+          clickedCountryArray[i].avatarIndex !== null
+            ? clickedCountryArray[i].avatarIndex
+            : 1,
+        color: clickedCountryArray[i].color,
       });
     } else {
       userTripArray.push({
@@ -69,8 +75,11 @@ function FriendClickedCountryContainer(props) {
         email: clickedCountryArray[i].email,
         tripTiming: clickedCountryArray[i].tripTiming,
         cities: 1,
-        avatarIndex: clickedCountryArray[i].avatarIndex !== null ? clickedCountryArray[i].avatarIndex : 1,
-        color: clickedCountryArray[i].color
+        avatarIndex:
+          clickedCountryArray[i].avatarIndex !== null
+            ? clickedCountryArray[i].avatarIndex
+            : 1,
+        color: clickedCountryArray[i].color,
       });
     }
   }
@@ -125,7 +134,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 1:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 0;
       });
       userTripTitle = <div className="user-trip-title">PAST</div>;
@@ -141,7 +150,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 2:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 1;
       });
       userTripTitle = <div className="user-trip-title">FUTURE</div>;
@@ -157,7 +166,7 @@ function FriendClickedCountryContainer(props) {
       });
       break;
     case 3:
-      filteredCountryArray = userTripArray.filter(country => {
+      filteredCountryArray = userTripArray.filter((country) => {
         return country.tripTiming === 2;
       });
       userTripTitle = <div className="user-trip-title">LIVE</div>;
@@ -179,7 +188,7 @@ function FriendClickedCountryContainer(props) {
   function handleNewNavPosition(position) {
     handleNavPosition(position);
   }
-  
+
   return (
     <div className="clicked-country-container">
       <div className="clicked-country-header">
@@ -189,13 +198,13 @@ function FriendClickedCountryContainer(props) {
         </div>
       </div>
       <div className="clicked-country-info">
-        <NavLink to={`/place/country/${props.customProps.clickedCountryArray[0].countryId}/`}>
-          <div
-            className="clicked-country-info-names"
-            onMouseOver={() => handleCountryHover(true)}
-            onMouseOut={() => handleCountryHover(false)}
-          >
-            {countryHover ? (
+        {/* <NavLink to={`/place/country/${props.customProps.clickedCountryArray[0].countryId}/`}> */}
+        <div
+          className="clicked-country-info-names"
+          onMouseOver={() => handleCountryHover(true)}
+          onMouseOut={() => handleCountryHover(false)}
+        >
+          {/* {/* {countryHover ? (
               <span className="click-place-text" style={{ opacity: 1 }}>
                 Click to see all country reviews
               </span>
@@ -203,11 +212,13 @@ function FriendClickedCountryContainer(props) {
               <span className="click-place-text" style={{ opacity: 0 }}>
                 Click to see all country reviews
               </span>
-            )}
-            <span>{props.customProps.countryName}</span>
-            <span>Capital: {props.customProps.capitalName}</span>
-          </div>
-        </NavLink>
+            )} */}
+          <span />
+
+          <span>{props.customProps.countryName}</span>
+          <span>Capital: {props.customProps.capitalName}</span>
+        </div>
+        {/* </NavLink> */}
       </div>
       <PromptNavMenu handleNavPosition={handleNewNavPosition} />
       <div className="friend-trip-container">
@@ -220,7 +231,7 @@ function FriendClickedCountryContainer(props) {
 
 FriendClickedCountryContainer.propTypes = {
   customProps: PropTypes.object,
-  handleTripTiming: PropTypes.func
+  handleTripTiming: PropTypes.func,
 };
 
 export default FriendClickedCountryContainer;

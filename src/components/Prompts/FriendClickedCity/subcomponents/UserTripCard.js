@@ -5,18 +5,18 @@ import UserAvatar from "../../../UserAvatar/UserAvatar";
 
 function UserTripCard(props) {
   return (
-    <NavLink
-      to={{
-        pathname: props.trip.cities === undefined
-          ? `/profiles/${
-              props.trip.username
-            }/cities/${props.trip.city.toLowerCase()}/${
-              props.trip.tripTiming
-            }/${props.trip.id}/`
-          : `/profiles/${props.trip.username}/cities`,
-          state: { searchText: props.trip.country }
-      }}
-    >
+    // <NavLink
+    //   to={{
+    //     pathname: props.trip.cities === undefined
+    //       ? `/profiles/${
+    //           props.trip.username
+    //         }/cities/${props.trip.city.toLowerCase()}/${
+    //           props.trip.tripTiming
+    //         }/${props.trip.id}/`
+    //       : `/profiles/${props.trip.username}/cities`,
+    //       state: { searchText: props.trip.country }
+    //   }}
+    // >
       <div className="user-trip-card">
         <div className="user-profile-image">
           <UserAvatar
@@ -39,7 +39,7 @@ function UserTripCard(props) {
           <p className="utc-year">{props.trip.year}</p>
         </div>
       </div>
-    </NavLink>
+    // </NavLink>
   );
 }
 
