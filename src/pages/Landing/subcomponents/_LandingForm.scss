@@ -1,8 +1,4 @@
-.landing-form {
-  opacity: 1;
-  background: rgba(37, 41, 49, 1) !important;
-  max-width: fit-content;
-}
+
 
 .landing-form-container {
   display: flex;
@@ -11,6 +7,21 @@
   top: 106px;
   width: 100%;
   max-width: 400px;
+  @media screen and (max-width: 1080px) {
+    margin: 0 auto;
+    left: calc(50% - 330px);
+    top: 280px;
+  }
+  @media screen and (max-width: 600px) {
+    margin: 0 auto;
+    left: calc(50% - 200px);
+    top: 106px;
+  }
+  .landing-form {
+    opacity: 1;
+    background: rgba(37, 41, 49, 1) !important;
+    max-width: fit-content;
+  }
 }
 
 .close-icon-container {
