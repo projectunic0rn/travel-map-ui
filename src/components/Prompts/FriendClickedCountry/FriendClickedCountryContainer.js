@@ -214,7 +214,6 @@ function FriendClickedCountryContainer(props) {
               </span>
             )} */}
           <span />
-
           <span>{props.customProps.countryName}</span>
           <span>Capital: {props.customProps.capitalName}</span>
         </div>

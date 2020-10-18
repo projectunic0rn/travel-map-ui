@@ -6,8 +6,7 @@
   width: 100%;
   max-width: 400px;
   @media screen and (max-width: 1080px) {
-    left: calc(50% - 200px);
-    top: 280px;
+    top: 25%;
   }
   .landing-form {
     opacity: 1;
@@ -47,7 +46,7 @@
 
 #guest-login {
   position: absolute;
-  color: rgb(163, 163, 167);
-  transform: translate(16px, -64px);
+  color: rgb(137, 137, 141);
+  transform: translate(16px, -36px);
   width: 100%;
 }
