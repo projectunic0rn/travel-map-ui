@@ -67,7 +67,7 @@ The following is a breakdown of our core features and their status (if applicabl
 | Feature | Status |
 |---------|--------|
 | Allows users to input cities/countries they have visited or plan to visit | ✅ |
-| Allows users to see cities/countries their connections/friends have entered | **In Progress** |
+| Allows users to see cities/countries their connections/friends have entered | ✅ |
 | Potentially some sort of "achievement" system based on how many places you and your friends have been. | _Planned_ |
 
 We are actively grooming and pruning our features using the team's internal [project board](https://github.com/orgs/projectunic0rn/projects/10).
