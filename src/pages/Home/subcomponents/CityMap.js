@@ -673,7 +673,7 @@ function CityMap(props) {
       if (
         newCountryIdArray.indexOf(filteredClickedCityArray[i].country) === -1
       ) {
-        newTravelScore += 10;
+        newTravelScore += 5;
       }
       newCountryIdArray.push(filteredClickedCityArray[i].country);
       lat = filteredClickedCityArray[i].city_latitude;
