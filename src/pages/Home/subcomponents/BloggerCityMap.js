@@ -10,7 +10,6 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
-import whyDidYouRender from "@welldone-software/why-did-you-render";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import FilterIcon from "../../../icons/FilterIcon";
@@ -196,7 +195,7 @@ function BloggerCityMap(props) {
             handleActiveTimings([0, 0, 0]);
             if (
               markerPastDisplay.some((marker) => {
-                return marker.props.id === city.tripTiming + "-" + city.cityId;
+                return marker.id === city.tripTiming + "-" + city.cityId;
               })
             ) {
               break;
