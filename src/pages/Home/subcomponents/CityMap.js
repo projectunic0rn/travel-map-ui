@@ -177,8 +177,6 @@ function CityMap(props) {
       updateGeorneyScore({ variables: { travelScore } });
     },
   });
-  console.log("city map render");
-  console.log(clickedCityArray);
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
       let userData = { ...user };
@@ -711,7 +709,7 @@ function CityMap(props) {
     let newCountryArray = [...countryIdArray];
     if (type === "add") {
       if (countryIdArray.indexOf(newCityEntry.country) === -1) {
-        newTravelScore += 10;
+        newTravelScore += 5;
       }
 
       newCountryArray.push(newCityEntry.country);
@@ -735,7 +733,7 @@ function CityMap(props) {
         }
       }
       if (findCountryIds.length === 1) {
-        newTravelScore -= 10;
+        newTravelScore -= 5;
       }
       newCountryArray.splice(Number(findCountryIds[0]), 1);
       lat = newCityEntry.city_latitude;
