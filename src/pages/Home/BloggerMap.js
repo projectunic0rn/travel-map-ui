@@ -9,7 +9,7 @@ import BloggerLeaderboardPrompt from "./subcomponents/BloggerLeaderboardPrompt";
 
 const BloggerMap = () => {
   const [loaded, handleLoaded] = useState(false);
-  const [mapPage, handleMapPageChange] = useState(1);
+  const [mapPage, handleMapTypeChange] = useState(1);
   const [multiUsernames] = useState([
     { username: "NomadicMatt" },
     { username: "AdventurousKate" },
@@ -23,6 +23,7 @@ const BloggerMap = () => {
     // { username: "ThePlanetD" },
     { username: "AlexinWanderland"},
     { username: "BucketListly" },
+    { username: "heydipyourtoesin"}
   ]);
   const [userData, handleUserData] = useState([]);
   const [filteredUserData, handleFilteredUserData] = useState([]);
@@ -66,10 +67,6 @@ const BloggerMap = () => {
     addCountry(newClickedCountryArray);
   }, []);
 
-function handleMapPageHelper() {
-    handleMapPageChange(!mapPage);
-  }
-
   function handleBloggerData(data) {
     handleLoadedCountries(data);
     handleUserData(data);
@@ -85,7 +82,7 @@ function handleMapPageHelper() {
         for (let i = 0; i < userData.Places_visited.length; i++) {
           if (
             !uniqueCountryArray.some((country) => {
-              return country.countryId === userData.Places_visited[i].countryId;
+              return country.country === userData.Places_visited[i].country;
             })
           ) {
             uniqueCountryArray.push({
@@ -118,7 +115,7 @@ function handleMapPageHelper() {
               {mapPage ? (
                 <BloggerCityMap
                   sendUserData={memoizedSendUserData}
-                  handleMapTypeChange={handleMapPageHelper}
+                  handleMapTypeChange={() => handleMapTypeChange(0)}
                   bloggerData={filteredUserData}
                   handleCities={memoizedHandleCities}
                   handleLeaderboard={handleLeaderboard}
@@ -128,7 +125,7 @@ function handleMapPageHelper() {
               ) : (
                 <BloggerCountryMap
                   clickedCountryArray={clickedCountryArray}
-                  handleMapTypeChange={handleMapPageHelper}
+                  handleMapTypeChange={() => handleMapTypeChange(1)}
                   handleLeaderboard={handleLeaderboard}
                   leaderboard={leaderboard}
                   bloggerData={filteredUserData}

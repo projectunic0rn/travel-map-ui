@@ -31,8 +31,8 @@ class PastMarkers extends PureComponent {
       >
         <svg
           key={"svg" + city.cityId}
-          height={20}
-          width={20}
+          height={15}
+          width={15}
           viewBox="0 0 100 100"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -42,10 +42,49 @@ class PastMarkers extends PureComponent {
             key={"circle" + city.cityId}
             cx="50"
             cy="50"
-            r="50"
+            r="25"
           />
           <circle
             style={{ fill: "rgba(203, 118, 120, 1.0)" }}
+            key={"circle2" + city.cityId}
+            cx="50"
+            cy="50"
+            r="10"
+          />
+        </svg>
+      </Marker>
+    ));
+  }
+}
+
+class LiveMarkers extends PureComponent {
+  render() {
+    const { data, handleCityTooltip } = this.props;
+    return data.map((city) => (
+      <Marker
+        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        latitude={city.latitude}
+        longitude={city.longitude}
+        offsetLeft={-5}
+        offsetTop={-10}
+      >
+        <svg
+          key={"svg" + city.cityId}
+          height={20}
+          width={20}
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            onMouseOver={() => handleCityTooltip(city)}
+            style={{ fill: "rgba(150, 177, 168, 0.25)" }}
+            key={"circle" + city.cityId}
+            cx="50"
+            cy="50"
+            r="50"
+          />
+          <circle
+            style={{ fill: "rgba(150, 177, 168, 1.0)" }}
             key={"circle2" + city.cityId}
             cx="50"
             cy="50"
@@ -73,6 +112,7 @@ function BloggerCityMap(props) {
     zoom: setInitialZoom(),
   });
   const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
+  const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
@@ -100,7 +140,12 @@ function BloggerCityMap(props) {
     let oldActiveTimings = [...activeTimings];
     handleActiveTimings([0, 0, 0]);
     handleActiveTimings(oldActiveTimings);
-  }, [clickedCityArray, props.bloggerData, markerPastDisplay]);
+  }, [
+    clickedCityArray,
+    props.bloggerData,
+    markerPastDisplay,
+    markerLiveDisplay,
+  ]);
 
   function resize() {
     handleViewportChange({
@@ -141,10 +186,7 @@ function BloggerCityMap(props) {
   }
 
   function handleLoadedCities(data) {
-    let futureCount = 0;
-    let liveCount = 0;
     let clickedCityArray = [];
-
     for (let i in data) {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
@@ -158,8 +200,6 @@ function BloggerCityMap(props) {
               longitude: data[i].Places_visited[j].city_longitude,
               country: data[i].Places_visited[j].country,
               countryId: data[i].Places_visited[j].countryId,
-              days: data[i].Places_visited[j].days,
-              year: data[i].Places_visited[j].year,
               tripTiming: 0,
               avatarIndex:
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
@@ -167,12 +207,28 @@ function BloggerCityMap(props) {
             });
           }
         }
+        if (data[i].Place_living !== null) {
+          clickedCityArray.push({
+            id: data[i].Place_living.id,
+            username: data[i].username,
+            cityId: data[i].Place_living.cityId,
+            city: data[i].Place_living.city,
+            latitude: data[i].Place_living.city_latitude,
+            longitude: data[i].Place_living.city_longitude,
+            country: data[i].Place_living.country,
+            countryId: data[i].Place_living.countryId,
+            tripTiming: 2,
+            avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
+            color: data[i].color,
+          });
+        }
       }
     }
     let filteredCityArray = clickedCityArray;
     handleClickedCityArray(clickedCityArray);
     props.handleCities(filteredCityArray);
     let newPastCountArray = [];
+    let newLiveCountArray = 0;
     for (let i in clickedCityArray) {
       if (
         !newPastCountArray.some((city) => {
@@ -181,13 +237,17 @@ function BloggerCityMap(props) {
       ) {
         newPastCountArray.push(clickedCityArray[i]);
       }
+      if (clickedCityArray[i].tripTiming === 2) {
+        newLiveCountArray++;
+      }
     }
-    handleTripTimingCounts([newPastCountArray.length, futureCount, liveCount]);
+    handleTripTimingCounts([newPastCountArray.length, 0, newLiveCountArray]);
     handleLoadedMarkers(filteredCityArray);
   }
 
   function handleLoadedMarkers(markers) {
     let markerPastDisplay = [];
+    let markerLiveDisplay = [];
     markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
         switch (city.tripTiming) {
@@ -202,7 +262,17 @@ function BloggerCityMap(props) {
             }
             markerPastDisplay.push(city);
             break;
-
+          case 2:
+            handleActiveTimings([0, 0, 0]);
+            if (
+              markerLiveDisplay.some((marker) => {
+                return marker.id === city.tripTiming + "-" + city.cityId;
+              })
+            ) {
+              break;
+            }
+            markerLiveDisplay.push(city);
+            break;
           default:
             break;
         }
@@ -210,7 +280,7 @@ function BloggerCityMap(props) {
       return null;
     });
     handleMarkerPastDisplay(markerPastDisplay);
-
+    handleMarkerLiveDisplay(markerLiveDisplay);
     handleLoaded(false);
     handleActiveTimings([1, 1, 1]);
   }
@@ -280,7 +350,7 @@ function BloggerCityMap(props) {
 
   function goToCountryMap() {
     props.sendUserData(clickedCityArray);
-    props.handleMapTypeChange();
+    props.handleMapTypeChange(0);
   }
 
   if (loading) return <Loader />;
@@ -323,7 +393,7 @@ function BloggerCityMap(props) {
                 >
                   <span className="new-map-suggest">
                     <span className="sc-control-label">Country map</span>
-                    <span id="map-change-icon" onClick={goToCountryMap}>
+                    <span id="map-change-icon">
                       <MapChangeIcon />
                     </span>
                   </span>
@@ -360,7 +430,7 @@ function BloggerCityMap(props) {
           >
             <span className="new-map-suggest">
               <span className="sc-control-label">Country map</span>
-              <span id="map-change-icon" onClick={goToCountryMap}>
+              <span id="map-change-icon">
                 <MapChangeIcon />
               </span>
             </span>
@@ -406,6 +476,14 @@ function BloggerCityMap(props) {
             <>
               <PastMarkers
                 data={markerPastDisplay}
+                handleCityTooltip={handleCityTooltip}
+              />
+            </>
+          ) : null}
+          {activeTimings[2] ? (
+            <>
+              <LiveMarkers
+                data={markerLiveDisplay}
                 handleCityTooltip={handleCityTooltip}
               />
             </>
