@@ -23,7 +23,8 @@ const BloggerMap = () => {
     // { username: "ThePlanetD" },
     { username: "AlexinWanderland"},
     { username: "BucketListly" },
-    { username: "heydipyourtoesin"}
+    { username: "heydipyourtoesin"},
+    {username: "WildJunket"}
   ]);
   const [userData, handleUserData] = useState([]);
   const [filteredUserData, handleFilteredUserData] = useState([]);
