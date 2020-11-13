@@ -1,23 +1,41 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-// import { Query } from "react-apollo";
-// import { GET_ALL_USER_COUNTRIES } from "../../GraphQL";
 import FriendCountryMap from "./subcomponents/FriendCountryMap";
 import FriendCityMap from "./subcomponents/FriendCityMap";
 import Loader from "../../components/common/Loader/Loader";
+import BloggerLeaderboardPrompt from "./subcomponents/BloggerLeaderboardPrompt";
+
 
 const FriendMapPage = ({ user }) => {
   const [loaded, handleLoaded] = useState(false);
   const [cityOrCountry, handleMapTypeChange] = useState(1);
   const [clickedCountryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
+  const [filteredTripData, handleFilteredTripData] = useState([]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [filteredCityArray, handleFilteredCityArray] = useState([]);
   const [filterParams, handleFilterParams] = useState(null);
+  const [filteredUserData, handleFilteredUserData] = useState([]);
+  const [leaderboard, handleLeaderboard] = useState(false);
+  const [filteredUser, handleActiveUser] = useState(null);
 
   useEffect(() => {
     handleLoadedCountries(user.Friends);
   }, []);
+
+  function handleUserClicked(userFilter, state) {
+    let filter = tripData.filter((u) => u.id === userFilter.id);
+    console.log(filter)
+    if (state) {
+      handleFilteredTripDataHelper(filter);
+      // addCountry([]);
+      // handleLoadedCountries( filter );
+    } else {
+      handleFilteredUserData(tripData);
+      addCountry([]);
+      handleLoadedCountries( tripData );
+    }
+  }
 
   function handleCities(cities) {
     handleClickedCityArray(cities);
@@ -82,13 +100,24 @@ const FriendMapPage = ({ user }) => {
         }
       }
     }
+    console.log(countryArray)
     addCountry(countryArray);
     handleTripDataHelper(user.Friends);
   }
 
   function handleTripDataHelper(data) {
     handleTripData(data);
+    handleFilteredTripData(data);
     handleLoaded(true);
+  }
+
+  function handleFilteredTripDataHelper(data) {
+    handleFilteredTripData(data);
+    handleLoaded(true);
+  }
+
+  function handleLeaderboardHelper() {
+    handleLeaderboard(!leaderboard);
   }
 
   if (!loaded) return <Loader />;
@@ -115,24 +144,34 @@ const FriendMapPage = ({ user }) => {
             >
               {cityOrCountry ? (
                 <FriendCityMap
-                  tripData={tripData}
+                  tripData={filteredTripData}
                   handleMapTypeChange={handleMapTypeChange}
                   handleFilter={handleFilter}
                   filterParams={filterParams}
                   handleCities={handleCities}
                   tripCities={filteredCityArray}
                   handleFilteredCities={handleFilteredCities}
+                  leaderboard={leaderboard}
+                  handleLeaderboard={handleLeaderboardHelper}
                 />
               ) : (
                 <FriendCountryMap
                   clickedCountryArray={clickedCountryArray}
-                  tripData={tripData}
+                  tripData={filteredTripData}
                   handleMapTypeChange={handleMapTypeChange}
-                  // refetch={refetch}
                   filterParams={filterParams}
                 />
               )}
             </div>
+            {leaderboard ? (
+              <BloggerLeaderboardPrompt
+                users={tripData}
+                handleLeaderboard={handleLeaderboard}
+                sendUserClicked={handleUserClicked}
+                activeBlogger={filteredUser}
+                handleActiveBlogger={handleActiveUser}
+              />
+            ) : null}
           </div>
         // );
     //   }}

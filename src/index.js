@@ -1,5 +1,3 @@
-import "./utils/wdyr";
-
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import ApolloClient from "apollo-boost";

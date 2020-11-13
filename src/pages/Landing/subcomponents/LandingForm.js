@@ -6,11 +6,12 @@ import SignupForm from "./SignupForm";
 import CloseWindowIcon from "../../../icons/CloseWindowIcon";
 
 function LandingForm({ setFormIsOpen }) {
-  const [formActive, handleFormSwitch] = useState(localStorage.clickedCityArray !== undefined || localStorage.friendClickedCityArray !== undefined ? true : false);
+  const [formActive, handleFormSwitch] = useState(false);
   return (
     <div className="landing-form-container">
       <div className="landing-form">
         <div className="landing-choice-container">
+          <span id='guest-login'>Guest Login: fake, password</span>
           <div className="header-text-container">
             <span
               className={

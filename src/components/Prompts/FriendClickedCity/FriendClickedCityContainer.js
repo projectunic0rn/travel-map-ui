@@ -162,13 +162,13 @@ function FriendClickedCityContainer(props) {
         </div>
       </div>
       <div className="clicked-country-info">
-        <NavLink to={`/place/city/${props.customProps.hoveredCityArray[0].cityId}/`}>
+        {/* <NavLink to={`/place/city/${props.customProps.hoveredCityArray[0].cityId}/`}> */}
           <div
             className="clicked-country-info-names"
             onMouseOver={() => handleCityHover(true)}
             onMouseOut={() => handleCityHover(false)}
           >
-            {cityHover ? (
+            {/* {cityHover ? (
               <span className="click-place-text" style={{ opacity: 1 }}>
                 Click to see all city reviews
               </span>
@@ -176,11 +176,12 @@ function FriendClickedCityContainer(props) {
               <span className="click-place-text" style={{ opacity: 0 }}>
                 Click to see all city reviews
               </span>
-            )}
+            )} */}
+            <span />
             <span>{cityName}</span>
             <span>{countryName}</span>
           </div>
-        </NavLink>
+        {/* </NavLink> */}
       </div>
       <PromptNavMenu handleNavPosition={handleNewNavPosition} />
       <div className="friend-trip-container">

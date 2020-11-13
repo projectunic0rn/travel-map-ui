@@ -45,19 +45,19 @@ const BloggerCountryMap = (props) => {
     for (let i in clickedCountryArray) {
       if (
         clickedCountryArray[i].tripTiming === 0 &&
-        pastCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1
+        pastCountryArray.indexOf(clickedCountryArray[i].country) <= -1
       ) {
-        pastCountryArray.push(clickedCountryArray[i].countryId);
+        pastCountryArray.push(clickedCountryArray[i].country);
       } else if (
         clickedCountryArray[i].tripTiming === 1 &&
-        futureCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1
+        futureCountryArray.indexOf(clickedCountryArray[i].country) <= -1
       ) {
-        futureCountryArray.push(clickedCountryArray[i].countryId);
+        futureCountryArray.push(clickedCountryArray[i].country);
       } else if (
         clickedCountryArray[i].tripTiming === 2 &&
-        liveCountryArray.indexOf(clickedCountryArray[i].countryId) <= -1
+        liveCountryArray.indexOf(clickedCountryArray[i].country) <= -1
       ) {
-        liveCountryArray.push(clickedCountryArray[i].countryId);
+        liveCountryArray.push(clickedCountryArray[i].country);
       }
     }
     handleTripTiming([
@@ -217,6 +217,10 @@ const BloggerCountryMap = (props) => {
     handleTimingCheckbox(timings);
   }
 
+  function goToCityMap() {
+    props.handleMapTypeChange(1);
+  }
+
   return (
     <>
       <div className="blogger-country-map-header">
@@ -249,13 +253,13 @@ const BloggerCountryMap = (props) => {
               <div
                 id="new-city-map-button-side-menu"
                 className="sc-controls sc-controls-left"
-                onClick={props.handleMapTypeChange()}
+                onClick={goToCityMap}
               >
                 <span className="new-map-suggest">
                   <span className="sc-control-label">City map</span>
                   <span
                     id="map-change-icon"
-                    onClick={props.handleMapTypeChange()}
+                    onClick={goToCityMap}
                   >
                     <MapChangeIcon />
                   </span>
@@ -271,11 +275,11 @@ const BloggerCountryMap = (props) => {
           <div
             id="new-country-map-button"
             className="sc-controls sc-controls-left"
-            onClick={props.handleMapTypeChange()}
+            onClick={goToCityMap}
           >
             <span className="new-map-suggest">
               <span className="sc-control-label">City map</span>
-              <span id="map-change-icon" onClick={props.handleMapTypeChange()}>
+              <span id="map-change-icon" onClick={goToCityMap}>
                 <MapChangeIcon />
               </span>
             </span>

@@ -41,7 +41,7 @@ function NavLinks({ toggleFormIsOpen, formIsOpen }) {
                 onClick={toggleFormIsOpen}
                 className={formIsOpen ? "active" : ""}
               >
-                Login
+                <span id = 'login-text'>Login</span>
               </Link>
             </>
           );

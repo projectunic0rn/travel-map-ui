@@ -3,10 +3,8 @@ import React, {
   useEffect,
   useRef,
   PureComponent,
-  useCallback,
 } from "react";
 import PropTypes from "prop-types";
-import whyDidYouRender from "@welldone-software/why-did-you-render";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -177,8 +175,6 @@ function CityMap(props) {
       updateGeorneyScore({ variables: { travelScore } });
     },
   });
-  console.log("city map render");
-  console.log(clickedCityArray);
   const [updateGeorneyScore] = useMutation(UPDATE_GEORNEY_SCORE, {
     onCompleted() {
       let userData = { ...user };
@@ -198,7 +194,6 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-  const searchInput=useRef();
 
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
@@ -344,9 +339,7 @@ function CityMap(props) {
     }
     handleViewport({ ...viewport, ...newViewport });
   }
-  const handleViewportChangeCallback = useCallback(() => {
-    handleViewportChange();
-  }, []);
+
 
   function setInitialZoom() {
     let zoom;
@@ -606,17 +599,14 @@ function CityMap(props) {
         switch (city.tripTiming) {
           case 0:
             color = "rgba(203, 118, 120, 0.25)";
-            // handleActiveTimings([0, 0, 0]);
             markerPastDisplay.push(city);
             break;
           case 1:
             color = "rgba(115, 167, 195, 0.25)";
-            // handleActiveTimings([0, 0, 0]);
             markerFutureDisplay.push(city);
             break;
           case 2:
             color = "rgba(150, 177, 168, 0.25)";
-            // handleActiveTimings([0, 0, 0]);
             markerLiveDisplay.push(
               <Marker
                 key={city.cityId}
@@ -679,7 +669,7 @@ function CityMap(props) {
       if (
         newCountryIdArray.indexOf(filteredClickedCityArray[i].country) === -1
       ) {
-        newTravelScore += 10;
+        newTravelScore += 5;
       }
       newCountryIdArray.push(filteredClickedCityArray[i].country);
       lat = filteredClickedCityArray[i].city_latitude;
@@ -715,7 +705,7 @@ function CityMap(props) {
     let newCountryArray = [...countryIdArray];
     if (type === "add") {
       if (countryIdArray.indexOf(newCityEntry.country) === -1) {
-        newTravelScore += 10;
+        newTravelScore += 5;
       }
 
       newCountryArray.push(newCityEntry.country);
@@ -739,7 +729,7 @@ function CityMap(props) {
         }
       }
       if (findCountryIds.length === 1) {
-        newTravelScore -= 10;
+        newTravelScore -= 5;
       }
       newCountryArray.splice(Number(findCountryIds[0]), 1);
       lat = newCityEntry.city_latitude;
@@ -767,7 +757,7 @@ function CityMap(props) {
     handleTravelScoreIndexArray(newTravelScoreIndexArray);
   }
 
-  function handleOnResult(event, geocoderInstance) {
+  function handleOnResult(event) {
     markers.push(event);
     let country = "";
     let countryISO = "";
@@ -1208,7 +1198,8 @@ function CityMap(props) {
           accessToken={
             "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
           }
-          onViewportChange={handleViewportChangeCallback}
+          onViewportChange={handleViewportChange}
+          zoom={viewport.zoom}
           minZoom={0.25}
           style={mapStyle}
         >
@@ -1243,6 +1234,7 @@ function CityMap(props) {
           />
 
           {cityTooltip ? _renderPopup() : null}
+
         </MapGL>
       </div>
       <div className="zoom-buttons">
@@ -1309,5 +1301,4 @@ FutureMarkers.propTypes = {
   handleCityTooltip: PropTypes.func,
 };
 
-CityMap.whyDidYouRender = true;
 export default CityMap;

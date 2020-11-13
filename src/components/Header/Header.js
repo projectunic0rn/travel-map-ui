@@ -17,8 +17,7 @@ const Header = React.memo(function Header({
   color,
 }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(
-    userLoggedIn || window.innerWidth < 1200 ? false : true
+  let [formIsOpen, setFormIsOpen] = useState(false
   );
   function toggleFormIsOpen() {
     setFormIsOpen(!formIsOpen);

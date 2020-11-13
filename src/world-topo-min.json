@@ -62848,7 +62848,6 @@
           "properties": {
             "name": "Canada",
             "ISO2": "CA",
-            "color": "#1f77b4",
             "continent": "NorthAmerica",
             "capital": "Ottawa"
           }
@@ -62860,7 +62859,6 @@
           "properties": {
             "name": "Switzerland",
             "ISO2": "CH",
-            "color": "#aec7e8",
             "continent": "Europe",
             "capital": "Bern"
           }
@@ -62927,7 +62925,7 @@
           ],
           "id": 177139,
           "properties": {
-            "name": "China",
+            "name": "People's Republic of China",
             "ISO2": "CN",
             "continent": "Asia",
             "capital": "Beijing"

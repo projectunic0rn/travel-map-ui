@@ -14,6 +14,8 @@ import FriendClickedCountryBlank from "../../../components/Prompts/FriendClicked
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
+import LeaderboardIcon from "../../../icons/LeaderboardIcon";
+
 
 const FriendCountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
@@ -261,6 +263,12 @@ const FriendCountryMap = (props) => {
   function handleActiveTimings(timings) {
     handleTimingCheckbox(timings);
   }
+
+  function showLeaderboard() {
+    props.handleLeaderboard();
+    handleSideMenu(false);
+  }
+
   return (
     <>
       <div
@@ -299,6 +307,18 @@ const FriendCountryMap = (props) => {
                   </span>
                 </span>
               </div>
+              <div
+                id={props.leaderboard ? "fc-leaderboard-active" : null}
+                className="sc-controls sc-controls-right-two"
+                onClick={props.handleLeaderboard}
+              >
+                <span className="new-map-suggest">
+                  <span className="sc-control-label">Leaders</span>
+                  <span onClick={props.handleLeaderboard}>
+                    <LeaderboardIcon />
+                  </span>
+                </span>
+              </div>
             </div>
           </>
         )}
@@ -319,6 +339,20 @@ const FriendCountryMap = (props) => {
               </span>
             </span>
           </div>
+          <div
+                    id={
+                      props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"
+                    }
+                    className="sc-controls sc-controls-left-two"
+                    onClick={showLeaderboard}
+                  >
+                    <span className="new-map-suggest">
+                      <span className="sc-control-label">Leaders</span>
+                      <span onClick={showLeaderboard}>
+                        <LeaderboardIcon />
+                      </span>
+                    </span>
+                  </div>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />
@@ -381,6 +415,7 @@ const FriendCountryMap = (props) => {
           componentProps={{
             clickedCountryArray: clickedCountryArray,
             countryName: countryName,
+            capitalName: capitalName,
           }}
         />
       ) : null}

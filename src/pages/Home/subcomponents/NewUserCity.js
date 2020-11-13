@@ -532,6 +532,8 @@ function NewUserCity(props) {
     };
     handleMarkers(markers);
     handleTripTimingCityHelper(newCityEntry);
+    const geocoderInput = document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
+    geocoderInput.focus();
   }
 
   function evalLiveClick(newCity, event) {

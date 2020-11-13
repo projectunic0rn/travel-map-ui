@@ -26,7 +26,7 @@ function BloggerLeaderboardPrompt({
       <div onClick={() => handleLeaderboard(false)}>
         <CloseWindowIcon />
       </div>
-      <span className="leaderboard-title">Click to filter bloggers</span>
+      <span className="leaderboard-title">Click to filter</span>
       <div className = 'bloggers'>
         {users
           .sort((a, b) => b.georneyScore - a.georneyScore)
