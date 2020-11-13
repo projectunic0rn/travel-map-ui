@@ -538,5 +538,4 @@ BloggerCityMap.propTypes = {
   handleCities: PropTypes.func,
 };
 
-BloggerCityMap.whyDidYouRender = true;
 export default React.memo(BloggerCityMap);

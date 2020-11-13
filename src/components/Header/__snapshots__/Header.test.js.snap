@@ -47,7 +47,7 @@ exports[`Header should render correctly in when the user is logged in 1`] = `
           </div>
         </div>
       </div>
-      <UserHeaderContainer
+      <Memo([object Object])
         avatarIndex={1}
         color="green"
       />

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import UserContext from "../../../utils/UserContext";
 import withMemo from '../../../utils/withMemo';
-import whyDidYouRender from "@welldone-software/why-did-you-render";
 
 
 import UserAvatar from "../../UserAvatar/UserAvatar";
@@ -51,5 +50,4 @@ UserHeaderContainer.propTypes = {
   avatarIndex: PropTypes.number,
 };
 
-UserHeaderContainer.whyDidYouRender = true;
 export default withMemo(UserHeaderContainer, []);

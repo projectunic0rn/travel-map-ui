@@ -8,7 +8,6 @@ import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FilterCityMap from "../../../components/Prompts/FilterCityMap";
-import LeaderboardPrompt from "../../../components/Prompts/LeaderboardPrompt";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import FilterIcon from "../../../icons/FilterIcon";
 import LeaderboardIcon from "../../../icons/LeaderboardIcon";
@@ -48,7 +47,6 @@ function FriendCityMap(props) {
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [hoveredCityArray, handleHoveredCityArray] = useState(null);
   const [filter, handleFilter] = useState(false);
-  const [leaderboard, handleLeaderboard] = useState(false);
   const [filterSettings, handleFilterSettings] = useState(props.filterParams);
   const [clickedCity, handleClickedCity] = useState(null);
   const [showSideMenu, handleSideMenu] = useState(false);
@@ -64,6 +62,7 @@ function FriendCityMap(props) {
     liveExtent: 16384,
     liveNodeSize: 1024,
   });
+  console.log(clickedCityArray);
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
@@ -77,6 +76,19 @@ function FriendCityMap(props) {
       window.removeEventListener("resize", resize);
     };
   }, []);
+
+  useEffectSkipFirstTripData(() => {}, [props.tripData]);
+
+  function useEffectSkipFirstTripData() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      handleLoadedCities(props.tripData);
+    }, [props.tripData]);
+  }
 
   function setClusterParams(timingCountArray) {
     let newClusterParams = clusterParams;
@@ -352,9 +364,10 @@ function FriendCityMap(props) {
   }
 
   function handleLoadedCities(data) {
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
+    let clickedCityArray = [];
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
     for (let i in data) {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
@@ -437,7 +450,7 @@ function FriendCityMap(props) {
   }
 
   function showLeaderboard() {
-    handleLeaderboard(!leaderboard);
+    props.handleLeaderboard();
     handleSideMenu(false);
   }
 
@@ -596,13 +609,13 @@ function FriendCityMap(props) {
             </span>
           </div>
           <div
-            id={leaderboard ? "fc-leaderboard-active" : null}
+            id={props.leaderboard ? "fc-leaderboard-active" : null}
             className="sc-controls sc-controls-right-two"
-            onClick={() => handleLeaderboard(!leaderboard)}
+            onClick={props.handleLeaderboard}
           >
             <span className="new-map-suggest">
               <span className="sc-control-label">Leaders</span>
-              <span onClick={() => handleLeaderboard(!leaderboard)}>
+              <span onClick={props.handleLeaderboard}>
                 <LeaderboardIcon />
               </span>
             </span>
@@ -668,7 +681,7 @@ function FriendCityMap(props) {
                   </div>
                   <div
                     id={
-                      leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"
+                      props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"
                     }
                     className="sc-controls sc-controls-left-two"
                     onClick={showLeaderboard}
@@ -686,7 +699,9 @@ function FriendCityMap(props) {
           )}
         </div>
         <MapGL
-          mapStyle={"mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p?optimize=true"}
+          mapStyle={
+            "mapbox://styles/mvance43776/ck5nbha9a0xv91ik20bffhq9p?optimize=true"
+          }
           ref={mapRef}
           {...viewport}
           accessToken={
@@ -806,12 +821,6 @@ function FriendCityMap(props) {
             closePopup: showPopup,
             handleFilterCleared: handleFilterCleared,
           }}
-        />
-      ) : null}
-      {leaderboard ? (
-        <LeaderboardPrompt
-          users={props.tripData}
-          handleLeaderboard={handleLeaderboard}
         />
       ) : null}
     </>

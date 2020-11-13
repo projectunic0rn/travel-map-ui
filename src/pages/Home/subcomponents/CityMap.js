@@ -3,10 +3,8 @@ import React, {
   useEffect,
   useRef,
   PureComponent,
-  useCallback,
 } from "react";
 import PropTypes from "prop-types";
-import whyDidYouRender from "@welldone-software/why-did-you-render";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -341,9 +339,7 @@ function CityMap(props) {
     }
     handleViewport({ ...viewport, ...newViewport });
   }
-  const handleViewportChangeCallback = useCallback(() => {
-    handleViewportChange();
-  }, []);
+
 
   function setInitialZoom() {
     let zoom;
@@ -1202,7 +1198,8 @@ function CityMap(props) {
           accessToken={
             "pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
           }
-          onViewportChange={handleViewportChangeCallback}
+          onViewportChange={handleViewportChange}
+          zoom={viewport.zoom}
           minZoom={0.25}
           style={mapStyle}
         >
@@ -1237,6 +1234,7 @@ function CityMap(props) {
           />
 
           {cityTooltip ? _renderPopup() : null}
+
         </MapGL>
       </div>
       <div className="zoom-buttons">
@@ -1303,5 +1301,4 @@ FutureMarkers.propTypes = {
   handleCityTooltip: PropTypes.func,
 };
 
-CityMap.whyDidYouRender = true;
 export default CityMap;
