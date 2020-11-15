@@ -16,7 +16,6 @@ import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import LeaderboardIcon from "../../../icons/LeaderboardIcon";
 
-
 const FriendCountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
@@ -49,6 +48,7 @@ const FriendCountryMap = (props) => {
   }, [props.tripData]);
 
   function handleLoadedCountries(data) {
+    let countryArray = [];
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
@@ -340,19 +340,17 @@ const FriendCountryMap = (props) => {
             </span>
           </div>
           <div
-                    id={
-                      props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"
-                    }
-                    className="sc-controls sc-controls-left-two"
-                    onClick={showLeaderboard}
-                  >
-                    <span className="new-map-suggest">
-                      <span className="sc-control-label">Leaders</span>
-                      <span onClick={showLeaderboard}>
-                        <LeaderboardIcon />
-                      </span>
-                    </span>
-                  </div>
+            id={props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"}
+            className="sc-controls sc-controls-right"
+            onClick={showLeaderboard}
+          >
+            <span className="new-map-suggest">
+              <span className="sc-control-label">Leaders</span>
+              <span onClick={showLeaderboard}>
+                <LeaderboardIcon />
+              </span>
+            </span>
+          </div>
         </div>
         <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />
@@ -437,6 +435,8 @@ FriendCountryMap.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
   filterParams: PropTypes.object,
+  leaderboard: PropTypes.bool, 
+  handleLeaderboard: PropTypes.func
 };
 
 export default FriendCountryMap;

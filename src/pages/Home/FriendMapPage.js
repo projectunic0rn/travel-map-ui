@@ -28,6 +28,7 @@ const FriendMapPage = ({ user }) => {
     console.log(filter)
     if (state) {
       handleFilteredTripDataHelper(filter);
+      filterCountries(filter);
       // addCountry([]);
       // handleLoadedCountries( filter );
     } else {
@@ -50,6 +51,13 @@ const FriendMapPage = ({ user }) => {
     if (filterParams === null) {
       handleFilteredCityArray(clickedCityArray);
     }
+  }
+
+  function filterCountries(data) {
+    let newClickedCountryArray = clickedCountryArray.filter((country) => {
+      return country.username === data.username;
+    })
+    addCountry(newClickedCountryArray)
   }
 
   function handleLoadedCountries(data) {
@@ -160,6 +168,9 @@ const FriendMapPage = ({ user }) => {
                   tripData={filteredTripData}
                   handleMapTypeChange={handleMapTypeChange}
                   filterParams={filterParams}
+                  leaderboard={leaderboard}
+                  handleLeaderboard={handleLeaderboardHelper}
+
                 />
               )}
             </div>

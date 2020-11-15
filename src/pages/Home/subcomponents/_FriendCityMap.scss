@@ -61,6 +61,22 @@
   }
 }
 
+.friend-country-map {
+  .sc-controls-right {
+    left: calc(50% + 308px);
+    svg {
+      transform: translateY(0px);
+      width: 24px;
+    }
+    @media screen and (max-width: 1000px) {
+      left: calc(50% + 806px);
+    }
+    @media screen and (max-width: 900px) {
+      display: none !important;
+    }
+  }
+}
+
 .friend-city-map {
   .new-map-suggest {
     display: flex;
