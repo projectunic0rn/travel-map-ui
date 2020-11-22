@@ -62,7 +62,6 @@ function FriendCityMap(props) {
     liveExtent: 16384,
     liveNodeSize: 1024,
   });
-  console.log(clickedCityArray);
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
@@ -443,12 +442,6 @@ function FriendCityMap(props) {
     handleLoadedMarkers(filteredCityArray);
   }
 
-  function showFilter() {
-    handleFilter(!filter);
-    handleActivePopup(!activePopup);
-    handleSideMenu(false);
-  }
-
   function showLeaderboard() {
     props.handleLeaderboard();
     handleSideMenu(false);
@@ -496,54 +489,6 @@ function FriendCityMap(props) {
         </Popup>
       )
     );
-  }
-
-  function handleFilterCleared() {
-    props.handleFilter(null);
-    let filteredCityArray = [...clickedCityArray];
-    handleFilteredCityArray(filteredCityArray);
-    handleFilteredTripTimingCounts(null);
-    handleLoadedMarkers(filteredCityArray);
-    handleFilterSettings(null);
-  }
-
-  function handleFilterHelper(filterParams) {
-    props.handleFilter(filterParams);
-    let origCityArray = [...clickedCityArray];
-    let filteredCityArray;
-    if (filterParams.username.length > 0) {
-      filteredCityArray = origCityArray.filter(
-        (city) => filterParams.username.indexOf(city.username) !== -1
-      );
-      handleFilteredCityArray(filteredCityArray);
-      props.handleFilteredCities(filteredCityArray);
-      handleLoadedMarkers(filteredCityArray);
-    } else if (filterParams.username.length < 1) {
-      handleFilterCleared();
-      handleFilterSettings(filterParams);
-      return;
-    }
-    let pastCount = 0;
-    let futureCount = 0;
-    let liveCount = 0;
-    for (let i in filteredCityArray) {
-      switch (filteredCityArray[i].tripTiming) {
-        case 0:
-          pastCount++;
-          break;
-        case 1:
-          futureCount++;
-          break;
-        case 2:
-          liveCount++;
-          break;
-        default:
-          break;
-      }
-    }
-
-    handleFilteredTripTimingCounts([pastCount, futureCount, liveCount]);
-    handleFilterSettings(filterParams);
   }
 
   function clusterClick(cluster) {
@@ -597,20 +542,8 @@ function FriendCityMap(props) {
             </span>
           </div>
           <div
-            id={props.filterParams !== null ? "fc-filter-active" : null}
-            className="sc-controls sc-controls-right"
-            onClick={showFilter}
-          >
-            <span className="new-map-suggest">
-              <span className="sc-control-label">Filter</span>
-              <span onClick={showFilter}>
-                <FilterIcon />
-              </span>
-            </span>
-          </div>
-          <div
             id={props.leaderboard ? "fc-leaderboard-active" : null}
-            className="sc-controls sc-controls-right-two"
+            className="sc-controls sc-controls-right"
             onClick={props.handleLeaderboard}
           >
             <span className="new-map-suggest">
@@ -665,23 +598,9 @@ function FriendCityMap(props) {
                   </div>
                   <div
                     id={
-                      props.filterParams !== null
-                        ? "fc-filter-active"
-                        : "fc-filter"
-                    }
-                    className="sc-controls sc-controls-left-two"
-                    onClick={showFilter}
-                  >
-                    <span className="new-map-suggest">
-                      <span className="sc-control-label">Filter</span>
-                      <span onClick={showFilter}>
-                        <FilterIcon />
-                      </span>
-                    </span>
-                  </div>
-                  <div
-                    id={
-                      props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"
+                      props.leaderboard
+                        ? "fc-leaderboard-active"
+                        : "fc-leaderboard"
                     }
                     className="sc-controls sc-controls-left-two"
                     onClick={showLeaderboard}
@@ -806,20 +725,16 @@ function FriendCityMap(props) {
           activePopup={activePopup}
           showPopup={showPopup}
           component={
-            filter
-              ? FilterCityMap
-              : hoveredCityArray.length < 1
+            hoveredCityArray.length < 1
               ? FriendClickedCityBlank
               : FriendClickedCityContainer
           }
           componentProps={{
             friends: props.tripData,
             filterSettings: filterSettings,
-            handleFilter: handleFilterHelper,
             hoveredCityArray: hoveredCityArray,
             clickedCity: clickedCity,
             closePopup: showPopup,
-            handleFilterCleared: handleFilterCleared,
           }}
         />
       ) : null}
@@ -836,6 +751,8 @@ FriendCityMap.propTypes = {
   tripCities: PropTypes.array,
   handleCities: PropTypes.func,
   handleFilteredCities: PropTypes.func,
+  leaderboard: PropTypes.bool,
+  handleLeaderboard: PropTypes.func,
 };
 
 ClusterMarker.propTypes = {

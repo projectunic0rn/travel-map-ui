@@ -9,8 +9,7 @@ import Loader from "../../components/common/Loader/Loader";
 const MapPage = ({
   mapPage,
   refetch,
-  handleMapPageChange,
-  clickedCityArray,
+  handleMapPageChange
 }) => {
   const user = React.useContext(UserContext).clickedCityArray;
   const [countryArray, addCountry] = useState([]);
@@ -55,7 +54,7 @@ const MapPage = ({
         Enter the
         <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
           <option id="select-past" value={0}>
-            {mapPage ? "cities" : "countries"} you have visited &emsp;
+            {mapPage ? "cities" : "countries"} you've visited &emsp;
           </option>
           <option id="select-future" value={1}>
             {mapPage ? "cities" : "countries"} you want to visit &emsp;

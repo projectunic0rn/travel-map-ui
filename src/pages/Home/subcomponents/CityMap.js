@@ -39,7 +39,7 @@ class PastMarkers extends PureComponent {
     const { data, handleCityTooltip } = this.props;
     return data.map((city) => (
       <Marker
-        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        key={city.cityId + "-" + city.tripTiming}
         latitude={city.city_latitude}
         longitude={city.city_longitude}
         offsetLeft={-5}
@@ -88,7 +88,7 @@ class FutureMarkers extends PureComponent {
     const { data, handleCityTooltip } = this.props;
     return data.map((city) => (
       <Marker
-        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        key={city.cityId + "-" + city.tripTiming}
         latitude={city.city_latitude}
         longitude={city.city_longitude}
         offsetLeft={-5}
@@ -179,12 +179,12 @@ function CityMap(props) {
     onCompleted() {
       let userData = { ...user };
       userData.userData.georneyScore = travelScore;
-      let newClickedCityArray = userData.clickedCityArray.concat(
-        clickedCityArray
-      );
-      userData.clickedCityArray = newClickedCityArray;
-      user.handleUserData(userData.userData);
-      user.handleClickedCityArray(userData.clickedCityArray);
+      // let newClickedCityArray = userData.clickedCityArray.concat(
+      //   clickedCityArray
+      // );
+      // userData.clickedCityArray = newClickedCityArray;
+      // user.handleUserData(userData.userData);
+      // user.handleClickedCityArray(userData.clickedCityArray);
       handleClickedCityArray([]);
       handleSaveClicked(false);
     },
@@ -219,6 +219,7 @@ function CityMap(props) {
       }
       if (user.clickedCityArray.length > 0) {
         handleLoadedCities(user.clickedCityArray);
+        props.handleAlteredCityArray(user.clickedCityArray)
       }
     }, [loadedClickedCityArray]);
   }
@@ -237,6 +238,7 @@ function CityMap(props) {
     resize();
     if (user.clickedCityArray.length > 0) {
       handleLoadedCities(user.clickedCityArray);
+      props.handleAlteredCityArray(user.clickedCityArray)
     } else {
       handleLoaded(false);
     }
@@ -389,6 +391,7 @@ function CityMap(props) {
   function deleteCity(cityTooltip) {
     let cityArrayIndex;
     let newClickedCityArray = [...clickedCityArray];
+    console.log(newClickedCityArray)
     newClickedCityArray.filter((city, index) => {
       if (
         city.cityId === cityTooltip.cityId &&
@@ -407,7 +410,7 @@ function CityMap(props) {
     switch (cityTooltip.tripTiming) {
       case 0:
         markerPastDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
+          if (city.key === cityTooltip.cityId + "-0") {
             return (markerIndex = index);
           } else {
             return false;
@@ -415,7 +418,9 @@ function CityMap(props) {
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = [...markerPastDisplay];
+        console.log(markerDisplay)
         markerDisplay.splice(markerIndex, 1);
+        console.log(markerDisplay)
         pastCount--;
         handleClickedCityArray(newClickedCityArray);
         handleMarkerPastDisplay(markerDisplay);
@@ -423,7 +428,7 @@ function CityMap(props) {
         break;
       case 1:
         markerFutureDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
+          if (city.key === cityTooltip.cityId + "-1") {
             return (markerIndex = index);
           } else {
             return false;
@@ -439,7 +444,7 @@ function CityMap(props) {
         break;
       case 2:
         markerLiveDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
+          if (city.key === cityTooltip.cityId + "-2") {
             return (markerIndex = index);
           } else {
             return false;
@@ -470,6 +475,7 @@ function CityMap(props) {
     user.handleClickedCityArray(
       newClickedCityArray.concat(props.clickedCityArray)
     );
+    console.log(newClickedCityArray)
   }
 
   function deleteLoadedCity(cityTooltip) {
@@ -555,6 +561,7 @@ function CityMap(props) {
   }
 
   function handleLoadedCities(data) {
+    console.log(data);
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;

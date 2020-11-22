@@ -20,6 +20,7 @@ $container: 1600px;
 html,
 body {
   height: 100%;
+  overflow-x: hidden;
 }
 body {
   overflow-x: hidden;
@@ -160,7 +161,7 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: calc(100% - 80px);
+  height: calc(100% - 60px);
   width: 100vw;
   margin: 0 auto;
 }
@@ -168,7 +169,7 @@ code {
 .country-map {
   margin: 0px;
   margin-top: 60px;
-  height: calc(100% - 60px);
+  height: calc(100% - 100px);
   position: relative;
   text-align: center;
   .personal-map-share {
