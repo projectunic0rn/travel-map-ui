@@ -179,12 +179,12 @@ function CityMap(props) {
     onCompleted() {
       let userData = { ...user };
       userData.userData.georneyScore = travelScore;
-      // let newClickedCityArray = userData.clickedCityArray.concat(
-      //   clickedCityArray
-      // );
-      // userData.clickedCityArray = newClickedCityArray;
-      // user.handleUserData(userData.userData);
-      // user.handleClickedCityArray(userData.clickedCityArray);
+      let newClickedCityArray = userData.clickedCityArray.concat(
+        clickedCityArray
+      );
+      userData.clickedCityArray = newClickedCityArray;
+      user.handleUserData(userData.userData);
+      user.handleClickedCityArray(userData.clickedCityArray);
       handleClickedCityArray([]);
       handleSaveClicked(false);
     },
@@ -194,7 +194,7 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-
+console.log(markerPastDisplay)
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
   function useEffectSkipFirstUserClickedCityArray() {
@@ -391,7 +391,6 @@ function CityMap(props) {
   function deleteCity(cityTooltip) {
     let cityArrayIndex;
     let newClickedCityArray = [...clickedCityArray];
-    console.log(newClickedCityArray)
     newClickedCityArray.filter((city, index) => {
       if (
         city.cityId === cityTooltip.cityId &&
@@ -418,9 +417,7 @@ function CityMap(props) {
         });
         newClickedCityArray.splice(cityArrayIndex, 1);
         markerDisplay = [...markerPastDisplay];
-        console.log(markerDisplay)
         markerDisplay.splice(markerIndex, 1);
-        console.log(markerDisplay)
         pastCount--;
         handleClickedCityArray(newClickedCityArray);
         handleMarkerPastDisplay(markerDisplay);
@@ -475,7 +472,6 @@ function CityMap(props) {
     user.handleClickedCityArray(
       newClickedCityArray.concat(props.clickedCityArray)
     );
-    console.log(newClickedCityArray)
   }
 
   function deleteLoadedCity(cityTooltip) {
@@ -561,7 +557,6 @@ function CityMap(props) {
   }
 
   function handleLoadedCities(data) {
-    console.log(data);
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
@@ -603,6 +598,10 @@ function CityMap(props) {
     markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
+        console.log(city.__typename)
+        if (city.__typename === undefined) {
+          city.type = "new";
+        }
         switch (city.tripTiming) {
           case 0:
             color = "rgba(203, 118, 120, 0.25)";
@@ -801,7 +800,17 @@ function CityMap(props) {
           city.cityId === cityId && city.tripTiming === props.currentTiming
       )
     ) {
-      return;
+      const swalParams = {
+
+        customClass: {
+          container: "live-swal-prompt",
+        },
+        text: event.result.text + " has already been added",
+      };
+      Swal.fire(swalParams).then(() => {
+        return;
+      });
+
     }
     let newCityEntry = {
       country:
@@ -820,6 +829,7 @@ function CityMap(props) {
       city_longitude: event.result.center[0],
       tripTiming: props.currentTiming,
     };
+
     handleMarkers(markers);
     if (
       !loadedClickedCityArray.some(
@@ -835,7 +845,6 @@ function CityMap(props) {
     ) {
       handleTripTimingCityHelper(newCityEntry);
     }
-
     const geocoderInput = document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
     geocoderInput.focus();
   }
