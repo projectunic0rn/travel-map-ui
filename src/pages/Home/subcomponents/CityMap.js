@@ -39,7 +39,7 @@ class PastMarkers extends PureComponent {
     const { data, handleCityTooltip } = this.props;
     return data.map((city) => (
       <Marker
-        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        key={city.cityId + "-" + city.tripTiming}
         latitude={city.city_latitude}
         longitude={city.city_longitude}
         offsetLeft={-5}
@@ -88,7 +88,7 @@ class FutureMarkers extends PureComponent {
     const { data, handleCityTooltip } = this.props;
     return data.map((city) => (
       <Marker
-        key={city.cityId + "-" + city.tripTiming + "-" + city.id}
+        key={city.cityId + "-" + city.tripTiming}
         latitude={city.city_latitude}
         longitude={city.city_longitude}
         offsetLeft={-5}
@@ -194,7 +194,7 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-
+console.log(markerPastDisplay)
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
   function useEffectSkipFirstUserClickedCityArray() {
@@ -219,6 +219,7 @@ function CityMap(props) {
       }
       if (user.clickedCityArray.length > 0) {
         handleLoadedCities(user.clickedCityArray);
+        props.handleAlteredCityArray(user.clickedCityArray)
       }
     }, [loadedClickedCityArray]);
   }
@@ -237,6 +238,7 @@ function CityMap(props) {
     resize();
     if (user.clickedCityArray.length > 0) {
       handleLoadedCities(user.clickedCityArray);
+      props.handleAlteredCityArray(user.clickedCityArray)
     } else {
       handleLoaded(false);
     }
@@ -407,7 +409,7 @@ function CityMap(props) {
     switch (cityTooltip.tripTiming) {
       case 0:
         markerPastDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
+          if (city.key === cityTooltip.cityId + "-0") {
             return (markerIndex = index);
           } else {
             return false;
@@ -423,7 +425,7 @@ function CityMap(props) {
         break;
       case 1:
         markerFutureDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
+          if (city.key === cityTooltip.cityId + "-1") {
             return (markerIndex = index);
           } else {
             return false;
@@ -439,7 +441,7 @@ function CityMap(props) {
         break;
       case 2:
         markerLiveDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
+          if (city.key === cityTooltip.cityId + "-2") {
             return (markerIndex = index);
           } else {
             return false;
@@ -596,6 +598,10 @@ function CityMap(props) {
     markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
+        console.log(city.__typename)
+        if (city.__typename === undefined) {
+          city.type = "new";
+        }
         switch (city.tripTiming) {
           case 0:
             color = "rgba(203, 118, 120, 0.25)";
@@ -794,7 +800,17 @@ function CityMap(props) {
           city.cityId === cityId && city.tripTiming === props.currentTiming
       )
     ) {
-      return;
+      const swalParams = {
+
+        customClass: {
+          container: "live-swal-prompt",
+        },
+        text: event.result.text + " has already been added",
+      };
+      Swal.fire(swalParams).then(() => {
+        return;
+      });
+
     }
     let newCityEntry = {
       country:
@@ -813,6 +829,7 @@ function CityMap(props) {
       city_longitude: event.result.center[0],
       tripTiming: props.currentTiming,
     };
+
     handleMarkers(markers);
     if (
       !loadedClickedCityArray.some(
@@ -828,7 +845,6 @@ function CityMap(props) {
     ) {
       handleTripTimingCityHelper(newCityEntry);
     }
-
     const geocoderInput = document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
     geocoderInput.focus();
   }

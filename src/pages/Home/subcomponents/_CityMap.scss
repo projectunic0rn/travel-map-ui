@@ -548,6 +548,7 @@
     @media screen and (max-width: 700px) {
       flex-direction: column;
       font-size: 24px;
+      margin-left: 54px;
     }
     option {
       min-height: 80px;
@@ -757,7 +758,7 @@
     bottom: 120px;
     left: 100px;
     @media (max-height: 900px) {
-      transform: translate(-40px, 140px);
+      transform: translate(-40px, 120px);
     }
   }
 }

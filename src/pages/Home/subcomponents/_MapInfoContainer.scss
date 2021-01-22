@@ -7,6 +7,7 @@
     height: fit-content;
     z-index: 0;
     transform: translate(-40px, 40px);
+    pointer-events: none;
     @media (max-width: "900px") {
         transform: translate(-20px, 40px);
       }
@@ -14,7 +15,7 @@
         transform: translate(-40px, 230px);
       }
       @media (max-height: 800px) {
-        display: none;
+        // display: none;
       }
     .map-info-country {
         font-size: 42px;
