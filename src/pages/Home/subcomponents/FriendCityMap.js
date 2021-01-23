@@ -208,6 +208,7 @@ function FriendCityMap(props) {
                 offsetLeft={-5}
                 offsetTop={-10}
                 style={{ background: "rgba(203, 118, 120, 0.25)" }}
+                onClick={() => handleCityTooltip(city)}
               >
                 <svg
                   key={"svg" + city.id}
@@ -215,9 +216,9 @@ function FriendCityMap(props) {
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
+                  style={{cursor: "pointer"}}
                 >
                   <circle
-                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: "rgba(203, 118, 120, 0.25)" }}
                     key={"circle" + city.id}
                     cx="50"
@@ -253,6 +254,7 @@ function FriendCityMap(props) {
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
+                onClick={() => handleCityTooltip(city)}
               >
                 <svg
                   key={"svg" + city.id}
@@ -260,9 +262,9 @@ function FriendCityMap(props) {
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
+                  style={{cursor: "pointer"}}
                 >
                   <circle
-                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -299,6 +301,7 @@ function FriendCityMap(props) {
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
+                onClick={() => handleCityTooltip(city)}
               >
                 <svg
                   key={"svg" + city.id}
@@ -306,9 +309,9 @@ function FriendCityMap(props) {
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
+                  style={{cursor: "pointer"}}
                 >
                   <circle
-                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.id}
                     cx="50"
@@ -472,12 +475,12 @@ function FriendCityMap(props) {
       cityTooltip && (
         <Popup
           className="city-map-tooltip"
-          tipSize={5}
-          anchor="top"
+          anchor="bottom-left"
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
-          closeButton={true}
+          closeButton={false}
+          offset={[0, -5]}
           onClose={() => handleCityTooltip(null)}
         >
           <div

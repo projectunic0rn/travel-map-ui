@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  PureComponent,
-} from "react";
+import React, { useState, useEffect, useRef, PureComponent } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -44,6 +39,7 @@ class PastMarkers extends PureComponent {
         longitude={city.city_longitude}
         offsetLeft={-5}
         offsetTop={-10}
+        onClick={() => handleCityTooltip(city)}
       >
         <svg
           key={"svg" + city.cityId}
@@ -51,9 +47,10 @@ class PastMarkers extends PureComponent {
           width={20}
           viewBox="0 0 100 100"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ cursor: "pointer" }}
         >
           <circle
-            onMouseOver={() => handleCityTooltip(city)}
+            // onClick ={() => handleCityTooltip(city)}
             style={{ fill: "rgba(203, 118, 120, 0.25)" }}
             key={"circle" + city.cityId}
             cx="50"
@@ -93,6 +90,7 @@ class FutureMarkers extends PureComponent {
         longitude={city.city_longitude}
         offsetLeft={-5}
         offsetTop={-10}
+        onClick={() => handleCityTooltip(city)}
       >
         <svg
           key={"svg" + city.cityId}
@@ -100,9 +98,10 @@ class FutureMarkers extends PureComponent {
           width={20}
           viewBox="0 0 100 100"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ cursor: "pointer" }}
         >
           <circle
-            onMouseOver={() => handleCityTooltip(city)}
+            // onClick={() => handleCityTooltip(city)}
             style={{ fill: "rgba(115, 167, 195, 0.25)" }}
             key={"circle" + city.cityId}
             cx="50"
@@ -194,7 +193,7 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-console.log(markerPastDisplay)
+  console.log(markerPastDisplay);
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
   function useEffectSkipFirstUserClickedCityArray() {
@@ -219,7 +218,7 @@ console.log(markerPastDisplay)
       }
       if (user.clickedCityArray.length > 0) {
         handleLoadedCities(user.clickedCityArray);
-        props.handleAlteredCityArray(user.clickedCityArray)
+        props.handleAlteredCityArray(user.clickedCityArray);
       }
     }, [loadedClickedCityArray]);
   }
@@ -238,7 +237,7 @@ console.log(markerPastDisplay)
     resize();
     if (user.clickedCityArray.length > 0) {
       handleLoadedCities(user.clickedCityArray);
-      props.handleAlteredCityArray(user.clickedCityArray)
+      props.handleAlteredCityArray(user.clickedCityArray);
     } else {
       handleLoaded(false);
     }
@@ -341,7 +340,6 @@ console.log(markerPastDisplay)
     }
     handleViewport({ ...viewport, ...newViewport });
   }
-
 
   function setInitialZoom() {
     let zoom;
@@ -598,7 +596,6 @@ console.log(markerPastDisplay)
     markers.map((city) => {
       if (city.city !== undefined && city.city !== "") {
         let color = "red";
-        console.log(city.__typename)
         if (city.__typename === undefined) {
           city.type = "new";
         }
@@ -620,6 +617,7 @@ console.log(markerPastDisplay)
                 longitude={city.city_longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
+                onClick={() => handleCityTooltip(city)}
               >
                 <svg
                   key={"svg" + city.cityId}
@@ -627,9 +625,9 @@ console.log(markerPastDisplay)
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
+                  style={{cursor: "pointer"}}
                 >
                   <circle
-                    onMouseOver={() => handleCityTooltip(city)}
                     style={{ fill: color }}
                     key={"circle" + city.cityId}
                     cx="50"
@@ -801,7 +799,6 @@ console.log(markerPastDisplay)
       )
     ) {
       const swalParams = {
-
         customClass: {
           container: "live-swal-prompt",
         },
@@ -810,7 +807,6 @@ console.log(markerPastDisplay)
       Swal.fire(swalParams).then(() => {
         return;
       });
-
     }
     let newCityEntry = {
       country:
@@ -845,7 +841,9 @@ console.log(markerPastDisplay)
     ) {
       handleTripTimingCityHelper(newCityEntry);
     }
-    const geocoderInput = document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
+    const geocoderInput = document.getElementsByClassName(
+      "mapboxgl-ctrl-geocoder--input"
+    )[0];
     geocoderInput.focus();
   }
 
@@ -1009,12 +1007,12 @@ console.log(markerPastDisplay)
       cityTooltip && (
         <Popup
           className="city-map-tooltip"
-          tipSize={5}
-          anchor="top"
+          anchor="bottom-left"
           longitude={cityTooltip.city_longitude}
           latitude={cityTooltip.city_latitude}
           closeOnClick={false}
-          closeButton={true}
+          closeButton={false}
+          offset={[0, -5]}
           onClose={() => handleCityTooltip(null)}
         >
           {loadedClickedCityArray.some(
@@ -1042,16 +1040,8 @@ console.log(markerPastDisplay)
               </div>
             ) : (
               <div className="city-tooltip-nosave">
-                <NavLink
-                  to={{
-                    pathname: `/profile/cities/${cityTooltip.city.toLowerCase()}/${
-                      cityTooltip.tripTiming
-                    }/${cityTooltip.id}/`,
-                  }}
-                >
-                  {cityTooltip.city}
-                  {deletePrompt}
-                </NavLink>
+                {cityTooltip.city}
+                {deletePrompt}
                 <span onClick={() => handleDelete(true)}>
                   <TrashIcon />
                 </span>
@@ -1250,7 +1240,6 @@ console.log(markerPastDisplay)
           />
 
           {cityTooltip ? _renderPopup() : null}
-
         </MapGL>
       </div>
       <div className="zoom-buttons">
