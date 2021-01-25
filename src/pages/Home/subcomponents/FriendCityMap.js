@@ -481,22 +481,22 @@ function FriendCityMap(props) {
     }
     return (
       cityTooltip && (
-          <Popup
-            className="city-friends-map-tooltip"
-            anchor="bottom-left"
-            longitude={cityTooltip.longitude}
-            latitude={cityTooltip.latitude}
-            closeOnClick={false}
-            closeButton={false}
-            offset={[0, -5]}
+        <Popup
+          className="city-friends-map-tooltip"
+          anchor="bottom-left"
+          longitude={cityTooltip.longitude}
+          latitude={cityTooltip.latitude}
+          closeOnClick={false}
+          closeButton={false}
+          offset={[0, -5]}
+        >
+          <div
+            className="popup-text"
+            onClick={() => handleHoveredCityArrayHelper(hoveredCityArray)}
           >
-            <div
-              className="popup-text"
-              onClick={() => handleHoveredCityArrayHelper(hoveredCityArray)}
-            >
-              {cityTooltip.city}
-            </div>
-          </Popup>
+            {cityTooltip.city}
+          </div>
+        </Popup>
       )
     );
   }

@@ -6,27 +6,13 @@ import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
 
-const MapPage = ({
-  mapPage,
-  refetch,
-  handleMapPageChange
-}) => {
+const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
   const user = React.useContext(UserContext).clickedCityArray;
   const [countryArray, addCountry] = useState([]);
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
   const [loaded, handleLoaded] = useState(false);
   const [timing, handleTimingChange] = useState(0);
   useEffect(() => {
-    // if (
-    //   clickedCityArray !== null &&
-    //   localStorage.getItem("clickedCityArray") !== null
-    //   //  &&
-    //   // user.Place_living === null &&
-    //   // user.Places_visited.length < 1 &&
-    //   // user.Places_visiting.length < 1
-    // ) {
-    //   return;
-    // }
     handleLoaded(true);
   }, [user]);
   function handleAlteredCityArray(newCityArray) {
@@ -50,20 +36,22 @@ const MapPage = ({
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
-      <div className="user-timing-control">
-        Enter the
-        <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
-          <option id="select-past" value={0}>
-            {mapPage ? "cities" : "countries"} you've visited &emsp;
-          </option>
-          <option id="select-future" value={1}>
-            {mapPage ? "cities" : "countries"} you want to visit &emsp;
-          </option>
-          <option id="select-live" value={2}>
-            {mapPage ? "city" : "country"} you live in &emsp;
-          </option>
-        </select>
-      </div>
+      {mapPage ? (
+        <div className="user-timing-control">
+          Enter the
+          <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
+            <option id="select-past" value={0}>
+              cities you've visited &emsp;
+            </option>
+            <option id="select-future" value={1}>
+              cities you want to visit &emsp;
+            </option>
+            <option id="select-live" value={2}>
+              city you live in &emsp;
+            </option>
+          </select>
+        </div>
+      ) : null}
       <div className={mapPage ? "map city-map" : "map country-map"}>
         {mapPage ? (
           <CityMap

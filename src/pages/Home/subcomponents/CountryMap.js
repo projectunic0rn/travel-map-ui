@@ -6,21 +6,14 @@ import {
   Geographies,
   Geography,
 } from "react-simple-maps";
-import Swal from "sweetalert2";
-import { useMutation } from "@apollo/react-hooks";
-import { ADD_MULTIPLE_PLACES } from "../../../GraphQL";
 import UserContext from "../../../utils/UserContext";
 
 import jsonData from "../../../world-topo-min.json";
-import ClickedCountryTiming from "../../../components/Prompts/ClickedCountry/ClickedCountryTiming";
-import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 
-import MapSearch from "./MapSearch";
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import ShareIcon from "../../../icons/ShareIcon";
-import SaveIcon from "../../../icons/SaveIcon";
 
 const CountryMap = (props) => {
   const cityArray = React.useContext(UserContext).clickedCityArray;
@@ -36,25 +29,12 @@ const CountryMap = (props) => {
     { name: "South America", coordinates: [-58.3816, -20.6037] },
     { name: "East Asia", coordinates: [121.4737, 31.2304] },
   ];
-  const [clickedCountry, handleNewCountry] = useState(0);
   const [clickedCountryArray, handleClickedCountryArray] = useState([]);
-  const [clickedCityArray, handleClickedCityArray] = useState([]); // Named this way to re-use graphql mutation
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
-  const [activePopup, showPopup] = useState(false);
-  const [addMultiplePlaces] = useMutation(ADD_MULTIPLE_PLACES, {
-    onCompleted() {
-      let userData = { ...user };
-      let newClickedCityArray = userData.clickedCityArray.concat(
-        clickedCityArray
-      );
-      userData.clickedCityArray = newClickedCityArray;
-      user.handleClickedCityArray(userData.clickedCityArray);
-    },
-  });
 
   useEffect(() => {
     let newCountryArray = [];
@@ -227,163 +207,13 @@ const CountryMap = (props) => {
     return countryStyles;
   }
 
-  function handleClickedCountry(geography) {
-    if (props.currentTiming === 2) {
-      for (let i in clickedCountryArray) {
-        if (
-          clickedCountryArray[i].tripTiming === 2 &&
-          clickedCountryArray[i].country !== geography.properties.name
-        ) {
-          evalLiveClick(
-            geography.properties.name,
-            clickedCountryArray[i].country,
-            i,
-            geography
-          );
-          return;
-        }
-      }
-    }
-    countryInfo(geography);
-    handleNewCountry(geography);
-    for (let i in clickedCountryArray) {
-      if (
-        clickedCountryArray[i].country === geography.properties.name &&
-        clickedCountryArray[i].tripTiming === props.currentTiming
-      ) {
-        handleDeleteCountry(geography, i);
-        return;
-      }
-    }
-    handleTripTimingHelper(geography);
-  }
-
-  function evalLiveClick(newCountry, previousCountry, index, geography) {
-    let popupText =
-      "You currently live in " +
-      previousCountry +
-      ". Would you like to update this to " +
-      newCountry +
-      "?";
-    const swalParams = {
-      type: "question",
-      customClass: {
-        container: "live-swal-prompt",
-      },
-      text: popupText,
-    };
-    Swal.fire(swalParams).then((result) => {
-      if (result.value) {
-        clickedCountryArray.splice(index, 1);
-        let pastCount = tripTimingCounts[0];
-        let futureCount = tripTimingCounts[1];
-        let liveCount = tripTimingCounts[2];
-        liveCount--;
-        handleTripTiming([pastCount, futureCount, liveCount]);
-        let userData = { ...user };
-        let newClickedCityArray = [];
-        for (let i in userData.clickedCityArray) {
-          if (
-            userData.clickedCityArray[i].tripTiming !== 2
-          ) {
-            newClickedCityArray.push(userData.clickedCityArray[i]);
-          }
-        }
-        userData.clickedCityArray = newClickedCityArray;
-        user.handleClickedCityArray(userData.clickedCityArray);
-        handleTripTimingHelper(geography);
-      }
-    });
-  }
-
-  function handleDeleteCountry(geography, index) {
-    let countryArray = clickedCountryArray;
-    let cityArray = clickedCityArray;
-    for (let i in cityArray) {
-      if (
-        cityArray[i].country === geography.properties.name &&
-        cityArray[i].tripTiming === props.currentTiming
-      ) {
-        countryArray.splice(index, 1);
-        cityArray.splice(i, 1);
-        handleClickedCountryArray(countryArray);
-        handleClickedCityArray(cityArray);
-        let pastCount = tripTimingCounts[0];
-        let futureCount = tripTimingCounts[1];
-        let liveCount = tripTimingCounts[2];
-        switch (props.currentTiming) {
-          case 0:
-            pastCount--;
-            break;
-          case 1:
-            futureCount--;
-            break;
-          case 2:
-            liveCount--;
-            break;
-          default:
-            break;
-        }
-        handleTripTiming([pastCount, futureCount, liveCount]);
-        return;
-      }
-    }
-    showPopup(true);
-  }
-
   function countryInfo(geography) {
     handleCountryName(geography.properties.name);
     handleCapitalName(geography.properties.capital);
   }
 
-  function handleTripTimingHelper(country) {
-    let newCountryArray = clickedCountryArray;
-    let newCityArray = clickedCityArray;
-    let pastCount = tripTimingCounts[0];
-    let futureCount = tripTimingCounts[1];
-    let liveCount = tripTimingCounts[2];
-    newCountryArray.push({
-      countryId: country.id,
-      country: country.properties.name,
-      tripTiming: props.currentTiming,
-    });
-    newCityArray.push({
-      countryId: country.id,
-      country: country.properties.name,
-      tripTiming: props.currentTiming,
-      countryISO: country.properties.ISO2,
-      city: "",
-      city_latitude: 0,
-      city_longitude: 0,
-      cityId: null,
-    });
-    switch (props.currentTiming) {
-      case 0:
-        pastCount++;
-        break;
-      case 1:
-        futureCount++;
-        break;
-      case 2:
-        liveCount++;
-        break;
-      default:
-        break;
-    }
-    if (liveCount > 1) {
-      liveCount = 1;
-    }
-    handleTripTiming([pastCount, futureCount, liveCount]);
-    handleClickedCountryArray(newCountryArray);
-    handleClickedCityArray(newCityArray);
-  }
-
   function handleActiveTimings(timings) {
     handleTimingCheckbox(timings);
-  }
-
-  function saveClicked() {
-    addMultiplePlaces({ variables: { clickedCityArray } });
   }
 
   function shareMap() {
@@ -452,18 +282,6 @@ const CountryMap = (props) => {
               </span>
             </span>
           </div>
-          <div
-            className={
-              clickedCityArray.length > 0
-                ? "personal-map-save"
-                : "personal-map-save personal-map-save-noclick"
-            }
-            id="city-map-share"
-            onClick={saveClicked}
-          >
-            <span>SAVE MY MAP</span>
-            <SaveIcon />
-          </div>
 
           <div
             className="personal-map-share"
@@ -473,8 +291,7 @@ const CountryMap = (props) => {
             <input
               type="text"
               defaultValue={
-                "https://geornal.herokuapp.com/public/" +
-                user.userData.username
+                "https://geornal.herokuapp.com/public/" + user.userData.username
               }
               id="myShareLink"
             ></input>
@@ -482,7 +299,6 @@ const CountryMap = (props) => {
             <ShareIcon />
           </div>
         </div>
-        <MapSearch handleClickedCountry={handleClickedCountry} />
         <div className="map-header-filler" />
       </div>
       <div className="continent-container">
@@ -518,7 +334,6 @@ const CountryMap = (props) => {
                   projection={projection}
                   onWheel={handleWheel}
                   onMouseEnter={() => countryInfo(geography)}
-                  onClick={() => handleClickedCountry(geography)}
                   style={computedStyles(geography)}
                 />
               ))
@@ -540,19 +355,7 @@ const CountryMap = (props) => {
         />
         <MapInfoContainer countryName={countryName} capitalName={capitalName} />
       </div>
-      {activePopup ? (
-        <PopupPrompt
-          activePopup={activePopup}
-          showPopup={showPopup}
-          component={ClickedCountryTiming}
-          componentProps={{
-            countryInfo: clickedCountry,
-            currentTiming: props.currentTiming,
-            showPopup: showPopup,
-            refetch: props.refetch,
-          }}
-        />
-      ) : null}
+
     </>
   );
 };
