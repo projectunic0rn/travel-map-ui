@@ -89,7 +89,8 @@
   }
 }
 
-.city-map-tooltip {
+.city-map-tooltip,
+.city-friends-map-tooltip {
   .mapboxgl-popup {
     position: absolute;
     top: 0;
@@ -217,7 +218,7 @@
     padding: 10px;
     pointer-events: auto;
     font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     // background: rgba(230, 230, 232, 0.95);
     background: #3f4b57;
     color: #c2c4c6;
@@ -528,7 +529,7 @@
   color: rgb(248, 248, 252);
   z-index: 5;
   overflow: hidden;
-  border-radius: .25em;
+  border-radius: 0.25em;
   @media screen and (max-width: 700px) {
     flex-direction: column;
     font-size: 24px;
@@ -536,8 +537,9 @@
   @media screen and (max-width: 500px) {
     left: calc(50% - 280px);
   }
-  select:active, select:hover {
-    outline: none
+  select:active,
+  select:hover {
+    outline: none;
   }
   select {
     background: none;
@@ -576,7 +578,7 @@
     }
   }
   &::after {
-    content: '\25BC';
+    content: "\25BC";
     font-size: 20px;
     position: absolute;
     top: 16px;
@@ -584,9 +586,9 @@
     background: none;
     cursor: pointer;
     pointer-events: none;
-    -webkit-transition: .25s all ease;
-    -o-transition: .25s all ease;
-    transition: .25s all ease;
+    -webkit-transition: 0.25s all ease;
+    -o-transition: 0.25s all ease;
+    transition: 0.25s all ease;
   }
   &:hover::after {
     color: #769f93;
@@ -622,10 +624,16 @@
   color: rgb(248, 248, 252);
   background: #73a7c3;
   box-shadow: 0 0 14px 2px rgba(167, 225, 255, 0.75);
-  background: linear-gradient(to right, #73a7c3 33.33%, #037DA6 33.33%, #037DA6 66.66%, #73a7c3 66.66%);
+  background: linear-gradient(
+    to right,
+    #73a7c3 33.33%,
+    #037da6 33.33%,
+    #037da6 66.66%,
+    #73a7c3 66.66%
+  );
   background-size: 300% 100%;
   background-position: left bottom;
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
   svg {
     margin-left: 18px;
     path {
@@ -674,7 +682,7 @@
     animation-timing-function: ease;
     animation-iteration-count: infinite;
     animation-fill-mode: both;
-    transition: all .1s ease;
+    transition: all 0.1s ease;
   }
   @media (max-width: "1250px") {
     right: calc(50% - 440px);
@@ -778,8 +786,37 @@
   }
 }
 
+.city-map-tooltip, .city-friends-map-tooltip {
+  animation: 
+    showTooltip 0.5s 0s 1, 
+    hideTooltip 0.5s 2.5s 1 forwards;
+}
+
 @keyframes loading-animation-keyframes {
-  0%   { background-position: 100% 0%; }
-  50%  { background-position: 50% 0%; }
-  100% { background-position: 0% 0%; }
+  0% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@keyframes showTooltip {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hideTooltip {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

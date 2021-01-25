@@ -208,7 +208,10 @@ function FriendCityMap(props) {
                 offsetLeft={-5}
                 offsetTop={-10}
                 style={{ background: "rgba(203, 118, 120, 0.25)" }}
-                onClick={() => handleCityTooltip(city)}
+                onClick={() => {
+                  handleCityTooltip(null);
+                  handleCityTooltip(city);
+                }}
               >
                 <svg
                   key={"svg" + city.id}
@@ -216,7 +219,7 @@ function FriendCityMap(props) {
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
-                  style={{cursor: "pointer"}}
+                  style={{ cursor: "pointer" }}
                 >
                   <circle
                     style={{ fill: "rgba(203, 118, 120, 0.25)" }}
@@ -254,7 +257,10 @@ function FriendCityMap(props) {
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
-                onClick={() => handleCityTooltip(city)}
+                onClick={() => {
+                  handleCityTooltip(null);
+                  handleCityTooltip(city);
+                }}
               >
                 <svg
                   key={"svg" + city.id}
@@ -262,7 +268,7 @@ function FriendCityMap(props) {
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
-                  style={{cursor: "pointer"}}
+                  style={{ cursor: "pointer" }}
                 >
                   <circle
                     style={{ fill: color }}
@@ -301,7 +307,10 @@ function FriendCityMap(props) {
                 longitude={city.longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
-                onClick={() => handleCityTooltip(city)}
+                onClick={() => {
+                  handleCityTooltip(null);
+                  handleCityTooltip(city);
+                }}
               >
                 <svg
                   key={"svg" + city.id}
@@ -309,7 +318,7 @@ function FriendCityMap(props) {
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
-                  style={{cursor: "pointer"}}
+                  style={{ cursor: "pointer" }}
                 >
                   <circle
                     style={{ fill: color }}
@@ -463,7 +472,6 @@ function FriendCityMap(props) {
     handleHoveredCityArray(hoveredCityArray);
     handleClickedCity(hoveredCityArray);
   }
-
   function _renderPopup() {
     let hoveredCityArray = [];
     if (cityTooltip !== null) {
@@ -473,23 +481,22 @@ function FriendCityMap(props) {
     }
     return (
       cityTooltip && (
-        <Popup
-          className="city-map-tooltip"
-          anchor="bottom-left"
-          longitude={cityTooltip.longitude}
-          latitude={cityTooltip.latitude}
-          closeOnClick={false}
-          closeButton={false}
-          offset={[0, -5]}
-          onClose={() => handleCityTooltip(null)}
-        >
-          <div
-            className="popup-text"
-            onClick={() => handleHoveredCityArrayHelper(hoveredCityArray)}
+          <Popup
+            className="city-friends-map-tooltip"
+            anchor="bottom-left"
+            longitude={cityTooltip.longitude}
+            latitude={cityTooltip.latitude}
+            closeOnClick={false}
+            closeButton={false}
+            offset={[0, -5]}
           >
-            {cityTooltip.city}
-          </div>
-        </Popup>
+            <div
+              className="popup-text"
+              onClick={() => handleHoveredCityArrayHelper(hoveredCityArray)}
+            >
+              {cityTooltip.city}
+            </div>
+          </Popup>
       )
     );
   }

@@ -39,7 +39,10 @@ class PastMarkers extends PureComponent {
         longitude={city.city_longitude}
         offsetLeft={-5}
         offsetTop={-10}
-        onClick={() => handleCityTooltip(city)}
+        onClick={() => {
+          handleCityTooltip(null);
+          handleCityTooltip(city);
+        }}
       >
         <svg
           key={"svg" + city.cityId}
@@ -90,7 +93,10 @@ class FutureMarkers extends PureComponent {
         longitude={city.city_longitude}
         offsetLeft={-5}
         offsetTop={-10}
-        onClick={() => handleCityTooltip(city)}
+        onClick={() => {
+          handleCityTooltip(null);
+          handleCityTooltip(city);
+        }}
       >
         <svg
           key={"svg" + city.cityId}
@@ -617,7 +623,10 @@ function CityMap(props) {
                 longitude={city.city_longitude}
                 offsetLeft={-5}
                 offsetTop={-10}
-                onClick={() => handleCityTooltip(city)}
+                onClick={() => {
+                  handleCityTooltip(null);
+                  handleCityTooltip(city);
+                }}
               >
                 <svg
                   key={"svg" + city.cityId}
@@ -625,7 +634,7 @@ function CityMap(props) {
                   width={20}
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
-                  style={{cursor: "pointer"}}
+                  style={{ cursor: "pointer" }}
                 >
                   <circle
                     style={{ fill: color }}
@@ -1001,7 +1010,6 @@ function CityMap(props) {
         break;
     }
   }
-
   function _renderPopup() {
     return (
       cityTooltip && (
@@ -1013,7 +1021,6 @@ function CityMap(props) {
           closeOnClick={false}
           closeButton={false}
           offset={[0, -5]}
-          onClose={() => handleCityTooltip(null)}
         >
           {loadedClickedCityArray.some(
             (city) => city.cityId === cityTooltip.cityId
