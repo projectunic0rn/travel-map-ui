@@ -6,7 +6,7 @@ import DragIcon from "../../../icons/DragIcon";
 export default function MapScorecard({
   tripTimingCounts,
   sendActiveTimings,
-  activeTimings
+  activeTimings,
 }) {
   const [isPastActive, handlePastActive] = useState(activeTimings[0]);
   const [isFutureActive, handleFutureActive] = useState(activeTimings[1]);
@@ -15,16 +15,28 @@ export default function MapScorecard({
   function handleTimingClicked(timingCategory) {
     switch (timingCategory) {
       case 0:
-        sendActiveTimings([!isPastActive, isFutureActive, isLiveActive]);
-        handlePastActive(!isPastActive);
+        sendActiveTimings([
+          !isPastActive ? 1 : 0,
+          isFutureActive,
+          isLiveActive,
+        ]);
+        handlePastActive(!isPastActive ? 1 : 0);
         break;
       case 1:
-        sendActiveTimings([isPastActive, !isFutureActive, isLiveActive]);
-        handleFutureActive(!isFutureActive);
+        sendActiveTimings([
+          isPastActive,
+          !isFutureActive ? 1 : 0,
+          isLiveActive,
+        ]);
+        handleFutureActive(!isFutureActive ? 1 : 0);
         break;
       case 2:
-        sendActiveTimings([isPastActive, isFutureActive, !isLiveActive]);
-        handleLiveActive(!isLiveActive);
+        sendActiveTimings([
+          isPastActive,
+          isFutureActive,
+          !isLiveActive ? 1 : 0,
+        ]);
+        handleLiveActive(!isLiveActive ? 1 : 0);
         break;
       default:
         break;
@@ -84,7 +96,9 @@ export default function MapScorecard({
   return (
     <div id="map-scorecard-container" className="map-scorecard-container">
       <DragIcon id="scorecard-drag-icon" />
-      <span className = 'scorecard-instructions'>Click checkboxes to filter map</span>
+      <span className="scorecard-instructions">
+        Click checkboxes to filter map
+      </span>
       <input
         className="scorecard-checkbox"
         id="past"
@@ -153,5 +167,5 @@ MapScorecard.propTypes = {
   capitalName: PropTypes.string,
   tripTimingCounts: PropTypes.array,
   activeTimings: PropTypes.array,
-  sendActiveTimings: PropTypes.func
+  sendActiveTimings: PropTypes.func,
 };

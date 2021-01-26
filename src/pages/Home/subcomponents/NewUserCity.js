@@ -7,7 +7,7 @@ import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 
-import calculateTravelScoreIndex from '../../../commonFunctions';
+import { calculateTravelScoreIndex } from "../../../CommonFunctions";
 
 import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
@@ -413,7 +413,8 @@ function NewUserCity(props) {
       long = filteredClickedCityArray[i].city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
       if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
+        newTravelScore +=
+          TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
       travelScoreIndexArray.push(travelScoreIndex);
     }
@@ -439,7 +440,8 @@ function NewUserCity(props) {
       long = newCityEntry.city_longitude;
       travelScoreIndex = calculateTravelScoreIndex(lat, long);
       if (travelScoreIndexArray.indexOf(travelScoreIndex) === -1) {
-        newTravelScore += TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
+        newTravelScore +=
+          TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
       }
 
       newTravelScoreIndexArray.push(travelScoreIndex);
@@ -472,7 +474,8 @@ function NewUserCity(props) {
       }
 
       if (findTravelIndexes.length === 1) {
-        newTravelScore -= TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
+        newTravelScore -=
+          TravelScoreCalculator.travelScoreCalculator[travelScoreIndex];
 
         newTravelScoreIndexArray.splice(Number(findTravelIndexes[0]), 1);
       }
@@ -532,7 +535,9 @@ function NewUserCity(props) {
     };
     handleMarkers(markers);
     handleTripTimingCityHelper(newCityEntry);
-    const geocoderInput = document.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
+    const geocoderInput = document.getElementsByClassName(
+      "mapboxgl-ctrl-geocoder--input"
+    )[0];
     geocoderInput.focus();
   }
 

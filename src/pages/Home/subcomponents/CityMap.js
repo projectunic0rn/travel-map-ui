@@ -15,12 +15,12 @@ import {
   REMOVE_PLACE_VISITED,
   REMOVE_PLACE_LIVING,
 } from "../../../GraphQL";
-import calculateTravelScoreIndex from "../../../commonFunctions";
+import { calculateTravelScoreIndex } from "../../../CommonFunctions";
 import UserContext from "../../../utils/UserContext";
 import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
-import ShareIcon from "../../../icons/ShareIcon";
+import ShareButton from "../../../components/common/buttons/ShareButton";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
 import SaveIcon from "../../../icons/SaveIcon";
 import TrashIcon from "../../../icons/TrashIcon";
@@ -359,14 +359,6 @@ function CityMap(props) {
       }
     }
     return zoom;
-  }
-
-  function shareMap() {
-    let copyText = document.getElementById("myShareLink");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    alert("Copied the text: " + copyText.value);
   }
 
   function deleteCitySaved(cityTooltip) {
@@ -1172,22 +1164,7 @@ function CityMap(props) {
             <span>SAVE MY MAP</span>
             <SaveIcon />
           </div>
-
-          <div
-            className="personal-map-share"
-            id="city-map-share"
-            onClick={shareMap}
-          >
-            <input
-              type="text"
-              defaultValue={
-                "https://geornal.herokuapp.com/public/" + user.userData.username
-              }
-              id="myShareLink"
-            ></input>
-            <span>SHARE MY MAP</span>
-            <ShareIcon />
-          </div>
+          <ShareButton username={user.userData.username} />
           {props.currentTiming !== 2 ? (
             <div
               className="sc-controls sc-controls-right"

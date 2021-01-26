@@ -167,8 +167,7 @@ code {
 }
 
 .country-map {
-  margin: 0px;
-  margin-top: 60px;
+  margin: 20px 0;
   height: calc(100% - 100px);
   position: relative;
   text-align: center;
@@ -227,8 +226,6 @@ code {
   
   .personal-map-share,
   .personal-map-save {
-    position: absolute;
-    right: calc(50% - 600px);
     display: flex;
     align-items: center;
     height: 40px;
@@ -316,10 +313,28 @@ code {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    height: 60px;
     @media (min-width: 1000px) {
       flex-direction: row;
       min-width: 900px;
+      max-width: 1600px;
       margin: 0px auto;
+      margin-bottom: 12px;
+      padding: 0 12px;
+    }
+    .sc-controls-left {
+      flex: 1;
+      justify-content: flex-end;
+      max-height: 60px;
+    }
+    .map-header-button-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      .city-map-button {
+        transform: translateY(2px);
+      }
     }
     .map-header-button {
       display: flex;
@@ -378,16 +393,23 @@ code {
     }
   }
   .continent-container {
+    flex: 2;
     display: flex;
     justify-content: center;
     align-content: center;
-    margin: 8px auto;
-    transform: translateY(8px);
+    min-height: 60px;
+    margin: 0;
+    max-width: 740px;
+    min-width: 740px;
     @media (max-width: 500px) {
       max-width: 200px;
       flex-wrap: wrap;
     }
-    button {
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 8px;
       z-index: 2;
       background: none;
       border: none;

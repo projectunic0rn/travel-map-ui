@@ -8,7 +8,6 @@
 @import "./subcomponents/ImportPopup";
 @import "./subcomponents/BloggerCityMap.scss";
 
-
 #country-header {
   display: flex;
   flex-direction: column-reverse;
@@ -59,13 +58,36 @@
 
 .new-map-suggest {
   display: flex;
+  justify-content: flex-end;
   position: relative;
   fill: #92bad0;
   cursor: pointer;
   font-size: 24px;
   color: rgb(200, 200, 200);
+  .city-map-button {
+    display: flex;
+    flex-direction: column;
+    #map-change-icon, #fc-leaderboard {
+      background: #f8f8fc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      left: calc(50% - 336px);
+      height: 42px;
+      width: 60px;
+      margin-top: 9px;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
+      svg {
+        margin: 0 auto;
+      }
+      div {
+        // transform: translate(0, 6px);
+      }
+    }
+  }
   .sc-control-label {
-    position: absolute;
     display: flex;
     justify-content: center;
     text-align: center;
