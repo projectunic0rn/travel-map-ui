@@ -64,11 +64,11 @@ export default function Friends({ searchText, urlUsername, user, refetchApp }) {
           )}
         />
         <Route
-          path="/profile/friends/requests"
+          exact path="/profile/friends/requests"
           component={() => <FriendRequests searchText={searchText} page={1} refetch={refetchApp}/>}
         />
         <Route
-          path="/profile/friends/find"
+          exact path="/profile/friends/find"
           component={() => <FindFriends searchText={searchText} page={2} />}
         />
       </div>

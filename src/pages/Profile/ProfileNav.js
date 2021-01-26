@@ -13,18 +13,6 @@ function ProfileNav({ handleSearchText, urlUsername, searchText }) {
   return (
     <div className="content-nav">
       <div className="profile-nav-links">
-        {/* <NavLink
-          to={urlUsername ? `/profiles/${urlUsername}/trips` : "/profile/trips"}
-        >
-          trips
-        </NavLink> */}
-        <NavLink
-          to={
-            urlUsername ? `/profiles/${urlUsername}/cities` : "/profile/cities"
-          }
-        >
-          cities
-        </NavLink>
         <NavLink
           to={
             urlUsername
@@ -52,7 +40,7 @@ function ProfileNav({ handleSearchText, urlUsername, searchText }) {
               type="search"
               placeholder="Search"
               defaultValue={localSearchText}
-              onChange={e => handleSearchText(e.target.value)}
+              onChange={(e) => handleSearchText(e.target.value)}
             ></input>
           ) : null}
         </div>
@@ -64,7 +52,7 @@ function ProfileNav({ handleSearchText, urlUsername, searchText }) {
 ProfileNav.propTypes = {
   handleSearchText: PropTypes.func,
   urlUsername: PropTypes.string,
-  searchText: PropTypes.string
+  searchText: PropTypes.string,
 };
 
 export default withRouter(ProfileNav);

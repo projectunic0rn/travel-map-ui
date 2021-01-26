@@ -4,10 +4,8 @@ import { Route } from "react-router-dom";
 import UserContext from "../../utils/UserContext";
 
 import ProfileNav from "./ProfileNav";
-import ProfileCities from "./subpages/Cities/ProfileCities";
 import Settings from "./subpages/Settings";
 import Friends from "./subpages/Friends";
-
 
 // if the username props is passed, it means the profile of a user that is not logged in will be shown.
 export default function Profile({ urlUsername, refetchApp }) {
@@ -160,24 +158,6 @@ export default function Profile({ urlUsername, refetchApp }) {
           page={page}
           searchBar={page === "settings" ? false : true}
           urlUsername={urlUsername}
-        />
-        <Route
-          exact
-          path={
-            urlUsername ? `/profiles/${urlUsername}/cities` : "/profile/cities"
-          }
-          render={({ location }) => (
-            <ProfileCities
-              user={user}
-              location={location}
-              cityData={cityData}
-              searchText={searchText}
-              handleSelectedCity={handleSelectedCity}
-              urlUsername={urlUsername}
-              handleOriginalSearch={handleSearchText}
-              // refetch={refetch}
-            />
-          )}
         />
         <Route
           path={
