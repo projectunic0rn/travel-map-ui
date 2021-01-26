@@ -7,7 +7,7 @@ import logUserOut from "../../common/CommonFunctions";
 function NavLinks({ toggleFormIsOpen, formIsOpen }) {
   return (
     <UserConsumer>
-      {context => {
+      {(context) => {
         if (context.userLoggedIn) {
           return (
             <>
@@ -17,7 +17,16 @@ function NavLinks({ toggleFormIsOpen, formIsOpen }) {
               <NavLink exact to="/friends">
                 Friends
               </NavLink>
-              <NavLink to="/profile/cities">Profile</NavLink>
+              <NavLink
+                to="/profile/friends"
+                isActive={(match, location) => {
+                  if (location.pathname.includes("profile")) {
+                    return true;
+                  }
+                }}
+              >
+                Profile
+              </NavLink>
               <NavLink exact to="/faq">
                 FAQ
               </NavLink>
@@ -41,7 +50,7 @@ function NavLinks({ toggleFormIsOpen, formIsOpen }) {
                 onClick={toggleFormIsOpen}
                 className={formIsOpen ? "active" : ""}
               >
-                <span id = 'login-text'>Login</span>
+                <span id="login-text">Login</span>
               </Link>
             </>
           );
@@ -54,7 +63,7 @@ function NavLinks({ toggleFormIsOpen, formIsOpen }) {
 NavLinks.propTypes = {
   toggleFormIsOpen: PropTypes.func,
   formIsOpen: PropTypes.bool,
-  handleHamburgerClick: PropTypes.func
+  handleHamburgerClick: PropTypes.func,
 };
 
 export default React.memo(NavLinks);

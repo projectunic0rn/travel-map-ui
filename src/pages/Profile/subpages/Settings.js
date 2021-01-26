@@ -50,7 +50,6 @@ export default function Settings({
           <MenuIcon />
         </a>
         <NavLink
-          exact
           to={
             urlUsername
               ? `/profiles/${urlUsername}/settings`
