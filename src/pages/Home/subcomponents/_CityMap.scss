@@ -31,6 +31,25 @@
   }
 }
 
+.city-map {
+  .city-map-header-container {
+    position: absolute;
+    padding-top: 54px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .map-header-button-container {
+    position: absolute;
+    left: calc(50% + 396px);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 88px;
+  }
+}
+
 .mapboxgl-ctrl-top-left {
   top: 5px !important;
   left: calc(50% - 206px) !important;
@@ -280,7 +299,7 @@
       color: #dee2e6;
     }
     #map-change-icon {
-      transform: translateY(-8px);
+
     }
   }
   .sc-controls-left {

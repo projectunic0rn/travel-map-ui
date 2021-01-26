@@ -552,7 +552,7 @@ function FriendCityMap(props) {
             </span>
           </div>
           <div
-            id={props.leaderboard ? "fc-leaderboard-active" : null}
+            id={props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"}
             className="sc-controls sc-controls-right"
             onClick={props.handleLeaderboard}
           >

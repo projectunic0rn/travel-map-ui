@@ -26,7 +26,7 @@ const CountryMap = (props) => {
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
-console.log(activeTimings)
+
   useEffect(() => {
     let newCountryArray = [];
     if (cityArray !== undefined) {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, PureComponent } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
@@ -53,7 +52,6 @@ class PastMarkers extends PureComponent {
           style={{ cursor: "pointer" }}
         >
           <circle
-            // onClick ={() => handleCityTooltip(city)}
             style={{ fill: "rgba(203, 118, 120, 0.25)" }}
             key={"circle" + city.cityId}
             cx="50"
@@ -107,7 +105,6 @@ class FutureMarkers extends PureComponent {
           style={{ cursor: "pointer" }}
         >
           <circle
-            // onClick={() => handleCityTooltip(city)}
             style={{ fill: "rgba(115, 167, 195, 0.25)" }}
             key={"circle" + city.cityId}
             cx="50"
@@ -199,7 +196,7 @@ function CityMap(props) {
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-  console.log(markerPastDisplay);
+
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
   function useEffectSkipFirstUserClickedCityArray() {
@@ -1138,7 +1135,7 @@ function CityMap(props) {
             </>
           )}
         </div>
-        <div className="map-header-button">
+        <div className="city-map-header-container">
           <div
             className="sc-controls sc-controls-left"
             onClick={handleMapTypeChangeHelper}
@@ -1150,21 +1147,23 @@ function CityMap(props) {
               </span>
             </span>
           </div>
-          <div
-            className={
-              clickedCityArray.length > 0
-                ? save
-                  ? "personal-map-save loading-animation"
-                  : "personal-map-save"
-                : "personal-map-save personal-map-save-noclick"
-            }
-            id="city-map-share"
-            onClick={saveClicked}
-          >
-            <span>SAVE MY MAP</span>
-            <SaveIcon />
+          <div className="map-header-button-container">
+            <div
+              className={
+                clickedCityArray.length > 0
+                  ? save
+                    ? "personal-map-save loading-animation"
+                    : "personal-map-save"
+                  : "personal-map-save personal-map-save-noclick"
+              }
+              id="city-map-share"
+              onClick={saveClicked}
+            >
+              <span>SAVE MY MAP</span>
+              <SaveIcon />
+            </div>
+            <ShareButton username={user.userData.username} />
           </div>
-          <ShareButton username={user.userData.username} />
           {props.currentTiming !== 2 ? (
             <div
               className="sc-controls sc-controls-right"

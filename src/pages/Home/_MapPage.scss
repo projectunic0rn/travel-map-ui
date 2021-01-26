@@ -67,6 +67,9 @@
   .city-map-button {
     display: flex;
     flex-direction: column;
+    #map-change-icon, #fc-leaderboard, #fc-leaderboard-active {
+      margin-top: 9px;
+    }
     #map-change-icon, #fc-leaderboard {
       background: #f8f8fc;
       display: flex;
@@ -76,14 +79,10 @@
       left: calc(50% - 336px);
       height: 42px;
       width: 60px;
-      margin-top: 9px;
       border-radius: 8px;
       box-shadow: 0 1px 2px 0 rgba(19, 18, 18, 0.5);
       svg {
         margin: 0 auto;
-      }
-      div {
-        // transform: translate(0, 6px);
       }
     }
   }
