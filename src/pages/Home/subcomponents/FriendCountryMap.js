@@ -7,6 +7,8 @@ import {
   Geography,
 } from "react-simple-maps";
 import jsonData from "../../../world-topo-min.json";
+import { continents } from "../../../CommonConsts";
+
 import MapSearch from "./MapSearch";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import FriendClickedCountryContainer from "../../../components/Prompts/FriendClickedCountry/FriendClickedCountryContainer";
@@ -19,15 +21,6 @@ import LeaderboardIcon from "../../../icons/LeaderboardIcon";
 const FriendCountryMap = (props) => {
   const [center, handleChangeCenter] = useState([0, 20]);
   const [zoom, handleChangeZoom] = useState(1);
-  const continents = [
-    { name: "Europe", coordinates: [16.5417, 47.3769] },
-    { name: "West Asia", coordinates: [103.8198, 1.3521] },
-    { name: "North America", coordinates: [-92.4194, 37.7749] },
-    { name: "Oceania", coordinates: [151.2093, -20.8688] },
-    { name: "Africa", coordinates: [23.3792, 6.5244] },
-    { name: "South America", coordinates: [-58.3816, -20.6037] },
-    { name: "East Asia", coordinates: [121.4737, 31.2304] },
-  ];
   const [clickedCountryArray, handleClickedCountryArray] = useState(0);
   const [countryArray, handleCountryArray] = useState([]);
   const [countryName, handleCountryName] = useState("country");
@@ -201,6 +194,17 @@ const FriendCountryMap = (props) => {
     handleChangeZoom(1);
   }
 
+  function handleWheel(event) {
+    if (event.deltaY > 0) {
+      let newZoom = zoom / 1.1;
+      handleChangeZoom(newZoom);
+    }
+    if (event.deltaY < 0) {
+      let newZoom = zoom * 1.1;
+      handleChangeZoom(newZoom);
+    }
+  }
+
   function computedStyles(geography) {
     let isCountryIncluded = false;
     let countryTiming = null;
@@ -324,54 +328,61 @@ const FriendCountryMap = (props) => {
         )}
       </div>
       <div className="map-header-container" style={{ position: "relative" }}>
-        <div className="map-header-button">
-          <div
-            className="sc-controls sc-controls-left"
-            onClick={() => props.handleMapTypeChange(1)}
-          >
-            <span className="new-map-suggest">
-              <span className="sc-control-label">City map</span>
+        <div
+          className="sc-controls sc-controls-left"
+          onClick={() => props.handleMapTypeChange(1)}
+        >
+          <span className="new-map-suggest">
+            <div className="city-map-button">
               <span
                 id="map-change-icon"
                 onClick={() => props.handleMapTypeChange(1)}
               >
                 <MapChangeIcon />
               </span>
-            </span>
-          </div>
-          <div
-            id={props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"}
-            className="sc-controls sc-controls-right"
-            onClick={showLeaderboard}
-          >
-            <span className="new-map-suggest">
-              <span className="sc-control-label">Leaders</span>
-              <span onClick={showLeaderboard}>
-                <LeaderboardIcon />
-              </span>
-            </span>
-          </div>
+              <span className="sc-control-label">City map</span>
+            </div>
+          </span>
         </div>
-        <MapSearch handleClickedCountry={handleClickedCountry} />
-        <div className="map-header-filler" />
+
+        <div className="continent-container">
+          <span className="continent-button" onClick={handleMapReset}>
+            {"World"}
+          </span>
+          {continents.map((continent, i) => {
+            return (
+              <span
+                key={i}
+                className="continent-button"
+                data-continent={i}
+                onClick={handleContinentClick}
+              >
+                {continent.name}
+              </span>
+            );
+          })}
+        </div>
+        <div className="map-header-button-container">
+          <span className="new-map-suggest">
+            <div className="city-map-button">
+              <div
+                id={
+                  props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"
+                }
+                className="sc-controls sc-controls-right"
+                onClick={showLeaderboard}
+              >
+                <div onClick={showLeaderboard}>
+                  <LeaderboardIcon />
+                </div>
+              </div>
+              <span className="sc-control-label">Leaders</span>
+            </div>
+          </span>
+        </div>
       </div>
-      <div className="continent-container">
-        <button className="continent-button" onClick={handleMapReset}>
-          {"World"}
-        </button>
-        {continents.map((continent, i) => {
-          return (
-            <button
-              key={i}
-              className="continent-button"
-              data-continent={i}
-              onClick={handleContinentClick}
-            >
-              {continent.name}
-            </button>
-          );
-        })}
-      </div>
+      <MapSearch handleClickedCountry={handleClickedCountry} />
+
       <ComposableMap
         projectionConfig={{
           scale: 180,
@@ -386,6 +397,7 @@ const FriendCountryMap = (props) => {
                   cacheId={i}
                   geography={geography}
                   projection={projection}
+                  onWheel={handleWheel}
                   onMouseEnter={() => countryInfo(geography)}
                   onClick={() => handleClickedCountry(geography)}
                   className={computedStyles(geography)}
@@ -435,8 +447,8 @@ FriendCountryMap.propTypes = {
   tripData: PropTypes.array,
   handleMapTypeChange: PropTypes.func,
   filterParams: PropTypes.object,
-  leaderboard: PropTypes.bool, 
-  handleLeaderboard: PropTypes.func
+  leaderboard: PropTypes.bool,
+  handleLeaderboard: PropTypes.func,
 };
 
 export default FriendCountryMap;

@@ -7,35 +7,26 @@ import {
   Geography,
 } from "react-simple-maps";
 import UserContext from "../../../utils/UserContext";
-
 import jsonData from "../../../world-topo-min.json";
+import { continents } from "../../../CommonConsts";
 
 import MapScorecard from "./MapScorecard";
 import MapInfoContainer from "./MapInfoContainer";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
-import ShareIcon from "../../../icons/ShareIcon";
+import ShareButton from "../../../components/common/buttons/ShareButton";
 
 const CountryMap = (props) => {
   const cityArray = React.useContext(UserContext).clickedCityArray;
   const user = React.useContext(UserContext);
   const [center, handleChangeCenter] = useState([6, 20]);
   const [zoom, handleChangeZoom] = useState(1);
-  const continents = [
-    { name: "Europe", coordinates: [16.5417, 47.3769] },
-    { name: "West Asia", coordinates: [103.8198, 1.3521] },
-    { name: "North America", coordinates: [-92.4194, 37.7749] },
-    { name: "Oceania", coordinates: [151.2093, -20.8688] },
-    { name: "Africa", coordinates: [23.3792, 6.5244] },
-    { name: "South America", coordinates: [-58.3816, -20.6037] },
-    { name: "East Asia", coordinates: [121.4737, 31.2304] },
-  ];
   const [clickedCountryArray, handleClickedCountryArray] = useState([]);
   const [countryName, handleCountryName] = useState("country");
   const [capitalName, handleCapitalName] = useState("Capital");
   const [tripTimingCounts, handleTripTiming] = useState([0, 0, 0]);
   const [activeTimings, handleTimingCheckbox] = useState([1, 1, 1]);
   const [showSideMenu, handleSideMenu] = useState(false);
-
+console.log(activeTimings)
   useEffect(() => {
     let newCountryArray = [];
     if (cityArray !== undefined) {
@@ -216,14 +207,6 @@ const CountryMap = (props) => {
     handleTimingCheckbox(timings);
   }
 
-  function shareMap() {
-    let copyText = document.getElementById("myShareLink");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    alert("Copied the text: " + copyText.value);
-  }
-
   return (
     <>
       <div
@@ -267,57 +250,44 @@ const CountryMap = (props) => {
         )}
       </div>
       <div className="map-header-container">
-        <div className="map-header-button">
-          <div
-            className="sc-controls sc-controls-left"
-            onClick={() => props.handleMapTypeChange(1)}
-          >
-            <span className="new-map-suggest">
-              <span className="sc-control-label">City map</span>
+        <div
+          className="sc-controls sc-controls-left"
+          onClick={() => props.handleMapTypeChange(1)}
+        >
+          <span className="new-map-suggest">
+            <div className="city-map-button">
               <span
                 id="map-change-icon"
                 onClick={() => props.handleMapTypeChange(1)}
               >
                 <MapChangeIcon />
               </span>
-            </span>
-          </div>
-
-          <div
-            className="personal-map-share"
-            id="city-map-share"
-            onClick={shareMap}
-          >
-            <input
-              type="text"
-              defaultValue={
-                "https://geornal.herokuapp.com/public/" + user.userData.username
-              }
-              id="myShareLink"
-            ></input>
-            <span>SHARE MY MAP</span>
-            <ShareIcon />
-          </div>
+              <span className="sc-control-label">City map</span>
+            </div>
+          </span>
         </div>
-        <div className="map-header-filler" />
+        <div className="continent-container">
+          <span className="continent-button" onClick={handleMapReset}>
+            {"World"}
+          </span>
+          {continents.map((continent, i) => {
+            return (
+              <span
+                key={i}
+                className="continent-button"
+                data-continent={i}
+                onClick={handleContinentClick}
+              >
+                {continent.name}
+              </span>
+            );
+          })}
+        </div>
+        <div className="map-header-button-container">
+          <ShareButton username={user.userData.username} />
+        </div>
       </div>
-      <div className="continent-container">
-        <button className="continent-button" onClick={handleMapReset}>
-          {"World"}
-        </button>
-        {continents.map((continent, i) => {
-          return (
-            <button
-              key={i}
-              className="continent-button"
-              data-continent={i}
-              onClick={handleContinentClick}
-            >
-              {continent.name}
-            </button>
-          );
-        })}
-      </div>
+
       <ComposableMap
         projectionConfig={{
           scale: 180,
@@ -355,7 +325,6 @@ const CountryMap = (props) => {
         />
         <MapInfoContainer countryName={countryName} capitalName={capitalName} />
       </div>
-
     </>
   );
 };
