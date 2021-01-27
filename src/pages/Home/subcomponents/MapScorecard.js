@@ -108,7 +108,7 @@ export default function MapScorecard({
         checked={!!isPastActive}
       />
       <label className="scorecard-checkbox-label" htmlFor="past">
-        <span style={{ background: "#CB7678" }}>
+        <span className = 'scorecard-label' style={{ background: "#CB7678" }}>
           <svg width="12px" height="10px">
             <use xlinkHref="#check" />
           </svg>
@@ -126,7 +126,7 @@ export default function MapScorecard({
         checked={!!isFutureActive}
       />
       <label className="scorecard-checkbox-label" htmlFor="future">
-        <span style={{ background: "#73A7C3" }}>
+        <span className = 'scorecard-label'  style={{ background: "#73A7C3" }}>
           <svg width="12px" height="10px">
             <use xlinkHref="#check" />
           </svg>
@@ -144,7 +144,7 @@ export default function MapScorecard({
         checked={!!isLiveActive}
       />
       <label className="scorecard-checkbox-label" htmlFor="live">
-        <span style={{ background: "#96B1A8" }}>
+        <span className = 'scorecard-label' style={{ background: "#96B1A8" }}>
           <svg width="12px" height="10px">
             <use xlinkHref="#check" />
           </svg>
