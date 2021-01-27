@@ -82,6 +82,9 @@
     &:hover {
       background: rgba(blue, 0.06);
     }
+    .scorecard-label {
+      transform: translateY(2px);
+    }
     span {
       float: left;
       vertical-align: middle;
@@ -92,7 +95,6 @@
         width: 20px;
         height: 20px;
         border-radius: 4px;
-        transform: scale(1);
         transition: all 0.2s ease;
         svg {
           position: absolute;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import BloggerFilterCard from "./BloggerFilterCard";
 import CloseWindowIcon from "../../../icons/CloseWindowIcon";
@@ -7,9 +7,19 @@ function BloggerLeaderboardPrompt({
   users,
   handleLeaderboard,
   sendUserClicked,
-  activeBlogger, 
-  handleActiveBlogger
+  activeBlogger,
+  handleActiveBlogger,
 }) {
+  const [filteredUsers, handleFilteredUsers] = useState([]);
+  const [searchText, handleSearchText] = useState("");
+
+  useEffect(() => {
+    let newFilteredUsers = users.filter(
+      (friend) =>
+        friend.username.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+    );
+    handleFilteredUsers(newFilteredUsers);
+  }, [searchText]);
 
   function handleClick(user, rank) {
     let state = true;
@@ -18,7 +28,7 @@ function BloggerLeaderboardPrompt({
       rank = null;
     }
     sendUserClicked(user, state);
-    handleActiveBlogger(rank);
+    handleActiveBlogger(user.id);
   }
 
   return (
@@ -26,9 +36,16 @@ function BloggerLeaderboardPrompt({
       <div onClick={() => handleLeaderboard(false)}>
         <CloseWindowIcon />
       </div>
-      <span className="leaderboard-title">Click to filter</span>
-      <div className = 'bloggers'>
-        {users
+      <span className="leaderboard-title">
+        <input
+          className="leaderboard-profile-search"
+          type="search"
+          placeholder="Type or click name to filter"
+          onChange={(e) => handleSearchText(e.target.value)}
+        ></input>
+      </span>
+      <div className="bloggers">
+        {filteredUsers
           .sort((a, b) => b.georneyScore - a.georneyScore)
           .map((user, index) => {
             return (
@@ -51,7 +68,7 @@ BloggerLeaderboardPrompt.propTypes = {
   handleLeaderboard: PropTypes.func,
   sendUserClicked: PropTypes.func,
   activeBlogger: PropTypes.number,
-  handleActiveBlogger: PropTypes.func
+  handleActiveBlogger: PropTypes.func,
 };
 
 export default BloggerLeaderboardPrompt;

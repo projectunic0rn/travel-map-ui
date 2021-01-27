@@ -8,7 +8,7 @@ function BloggerFilterCard({ user, rank, handleClick, activeCard }) {
 
   return (
     <div
-      id={activeCard === rank ? "blogger-card-clicked" : null}
+      id={activeCard === user.id ? "blogger-card-clicked" : null}
       className="user-trip-card leaderboard-card blogger-card"
       onClick={() => handleClickHelper(user)}
     >
@@ -27,6 +27,7 @@ BloggerFilterCard.propTypes = {
   user: PropTypes.object,
   rank: PropTypes.number,
   handleClick: PropTypes.func,
+  activeCard: PropTypes.array
 };
 
 export default BloggerFilterCard;
