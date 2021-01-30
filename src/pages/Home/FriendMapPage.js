@@ -25,7 +25,6 @@ const FriendMapPage = ({ user }) => {
 
   function handleUserClicked(userFilter, state) {
     let filter = tripData.filter((u) => u.id === userFilter.id);
-    console.log(filter)
     if (state) {
       handleFilteredTripDataHelper(filter);
       filterCountries(filter);
@@ -108,7 +107,6 @@ const FriendMapPage = ({ user }) => {
         }
       }
     }
-    console.log(countryArray)
     addCountry(countryArray);
     handleTripDataHelper(user.Friends);
   }

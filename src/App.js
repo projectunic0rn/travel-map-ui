@@ -38,14 +38,12 @@ function App({ userAuthenticated }) {
 
   useEffect(() => {
     if (loaded) {
-      console.log("use erffect loaded");
       if (
         localStorage.getItem("clickedCityArray") !== null &&
         userData.Place_living === null &&
         userData.Places_visited.length < 1 &&
         userData.Places_visiting.length < 1
       ) {
-        console.log("first if");
         handleClickedCityArray(
           JSON.parse(localStorage.getItem("clickedCityArray"))
         );
@@ -66,11 +64,9 @@ function App({ userAuthenticated }) {
           .concat(placesVisiting)
           .concat(placeLiving);
         let filteredCities = concatCities.filter((city) => city !== null);
-        console.log(filteredCities);
         handleClickedCityArray(filteredCities);
       }
     } else {
-      console.log("else");
       return;
     }
   }, [loaded, userData]);
@@ -114,8 +110,6 @@ function App({ userAuthenticated }) {
             fetchPolicy={"network-only"}
             partialRefetch={true}
             onCompleted={(data) => {
-              console.log("app query finished");
-              console.log(data.user);
               handleLoaded(true);
               handleUserData(data.user);
             }}

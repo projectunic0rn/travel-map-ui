@@ -41,7 +41,7 @@
     "react-simple-maps": "^0.12.1",
     "socket.io-client": "^2.3.0",
     "supercluster": "^7.0.0",
-    "sweetalert2": "^8.19.0"
+    "sweetalert2": "^10.14.0"
   },
   "scripts": {
     "start": "node --max-old-space-size=4096 server.js",
@@ -77,11 +77,11 @@
     ]
   },
   "devDependencies": {
+    "@welldone-software/why-did-you-render": "^5.0.0-alpha.2",
     "babel-jest": "^24.8.0",
     "enzyme-to-json": "^3.4.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-jest": "^23.8.2",
-    "@welldone-software/why-did-you-render": "^5.0.0-alpha.2"
+    "eslint-plugin-jest": "^23.8.2"
   }
 }
