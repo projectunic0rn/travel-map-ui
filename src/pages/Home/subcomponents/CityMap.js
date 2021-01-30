@@ -191,12 +191,11 @@ function CityMap(props) {
       handleSaveClicked(false);
     },
   });
-  const [removePlacevisited] = useMutation(REMOVE_PLACE_VISITED, {});
+  const [removePlaceVisited] = useMutation(REMOVE_PLACE_VISITED, {});
   const [removePlaceVisiting] = useMutation(REMOVE_PLACE_VISITING, {});
   const [removePlaceLiving] = useMutation(REMOVE_PLACE_LIVING, {});
   const [newGeorneyScore] = useMutation(NEW_GEORNEY_SCORE, {});
   const mapRef = useRef();
-
   useEffectSkipFirstUserClickedCityArray(() => {}, [user.clickedCityArray]);
 
   function useEffectSkipFirstUserClickedCityArray() {
@@ -290,12 +289,6 @@ function CityMap(props) {
     );
   }
 
-  useEffectSkipFirstActiveTimings(() => {}, [
-    // clickedCityArray,
-    // markerPastDisplay,
-    // markerFutureDisplay,
-    // markerLiveDisplay,
-  ]);
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
 
   function geoScoreSwal() {
@@ -358,6 +351,27 @@ function CityMap(props) {
     return zoom;
   }
 
+  function updateMarkersAndLoadedCities(
+    markerDisplay,
+    newClickedCityArray,
+    timing
+  ) {
+    handleClickedCityArray(newClickedCityArray);
+    switch (timing) {
+      case 0:
+        handleMarkerPastDisplay(markerDisplay);
+        break;
+      case 1:
+        handleMarkerFutureDisplay(markerDisplay);
+        break;
+      case 2:
+        handleMarkerLiveDisplay(markerDisplay);
+        break;
+      default:
+        break;
+    }
+  }
+
   function deleteCitySaved(cityTooltip) {
     let placeVisitedId;
     let placeVisitingId;
@@ -365,7 +379,7 @@ function CityMap(props) {
     switch (cityTooltip.tripTiming) {
       case 0:
         placeVisitedId = cityTooltip.id;
-        removePlacevisited({ variables: { placeVisitedId } });
+        removePlaceVisited({ variables: { placeVisitedId } });
         break;
       case 1:
         placeVisitingId = cityTooltip.id;
@@ -412,8 +426,7 @@ function CityMap(props) {
         markerDisplay = [...markerPastDisplay];
         markerDisplay.splice(markerIndex, 1);
         pastCount--;
-        handleClickedCityArray(newClickedCityArray);
-        handleMarkerPastDisplay(markerDisplay);
+        updateMarkersAndLoadedCities(markerDisplay, newClickedCityArray, 0);
         handleCityTooltip(null);
         break;
       case 1:
@@ -428,8 +441,7 @@ function CityMap(props) {
         markerDisplay = [...markerFutureDisplay];
         markerDisplay.splice(markerIndex, 1);
         futureCount--;
-        handleClickedCityArray(newClickedCityArray);
-        handleMarkerFutureDisplay(markerDisplay);
+        updateMarkersAndLoadedCities(markerDisplay, newClickedCityArray, 1);
         handleCityTooltip(null);
         break;
       case 2:
@@ -444,8 +456,7 @@ function CityMap(props) {
         markerDisplay = [...markerLiveDisplay];
         markerDisplay.splice(markerIndex, 1);
         liveCount--;
-        handleClickedCityArray(newClickedCityArray);
-        handleMarkerLiveDisplay(markerDisplay);
+        updateMarkersAndLoadedCities(markerDisplay, newClickedCityArray, 2);
         handleCityTooltip(null);
         break;
       default:
@@ -488,7 +499,7 @@ function CityMap(props) {
     switch (cityTooltip.tripTiming) {
       case 0:
         markerPastDisplay.filter((city, index) => {
-          if (Number(city.key) === cityTooltip.cityId) {
+          if (Number(city.cityId) === cityTooltip.cityId) {
             return (markerIndex = index);
           } else {
             return false;
@@ -498,8 +509,7 @@ function CityMap(props) {
         markerDisplay = [...markerPastDisplay];
         markerDisplay.splice(markerIndex, 1);
         pastCount--;
-        handleLoadedClickedCityArray(newClickedCityArray);
-        handleMarkerPastDisplay(markerDisplay);
+        updateMarkersAndLoadedCities(markerDisplay, newClickedCityArray, 0);
         handleCityTooltip(null);
         break;
       case 1:
@@ -514,8 +524,7 @@ function CityMap(props) {
         markerDisplay = [...markerFutureDisplay];
         markerDisplay.splice(markerIndex, 1);
         futureCount--;
-        handleLoadedClickedCityArray(newClickedCityArray);
-        handleMarkerFutureDisplay(markerDisplay);
+        updateMarkersAndLoadedCities(markerDisplay, newClickedCityArray, 1);
         handleCityTooltip(null);
         break;
       case 2:
@@ -530,8 +539,7 @@ function CityMap(props) {
         markerDisplay = [...markerLiveDisplay];
         markerDisplay.splice(markerIndex, 1);
         liveCount--;
-        handleLoadedClickedCityArray(newClickedCityArray);
-        handleMarkerLiveDisplay(markerDisplay);
+        updateMarkersAndLoadedCities(markerDisplay, newClickedCityArray, 2);
         handleCityTooltip(null);
         break;
       default:
@@ -765,6 +773,7 @@ function CityMap(props) {
     let countryISO = "";
     let context = 0;
     let cityId;
+    let newCityEntry;
     for (let i in event.result.context) {
       context = 0;
       if (event.result.context.length === 1) {
@@ -790,23 +799,7 @@ function CityMap(props) {
       evalLiveClick(event.result.text, event);
       return;
     }
-    if (
-      loadedClickedCityArray.some(
-        (city) =>
-          city.cityId === cityId && city.tripTiming === props.currentTiming
-      )
-    ) {
-      const swalParams = {
-        customClass: {
-          container: "live-swal-prompt",
-        },
-        text: event.result.text + " has already been added",
-      };
-      Swal.fire(swalParams).then(() => {
-        return;
-      });
-    }
-    let newCityEntry = {
+    newCityEntry = {
       country:
         event.result.context !== undefined ? country : event.result.place_name,
       countryId:
@@ -823,7 +816,57 @@ function CityMap(props) {
       city_longitude: event.result.center[0],
       tripTiming: props.currentTiming,
     };
-
+    if (
+      loadedClickedCityArray.some(
+        (city) =>
+          city.cityId === cityId && city.tripTiming === props.currentTiming
+      ) ||
+      clickedCityArray.some(
+        (city) =>
+          city.cityId === cityId && city.tripTiming === props.currentTiming
+      )
+    ) {
+      Swal.fire({
+        title:
+          event.result.text +
+          ", " +
+          countryISO +
+          " has already been added. Do you want to delete it?",
+        showDenyButton: true,
+        confirmButtonText: `Yes`,
+        cancelButtonText: `No`,
+        customClass: {
+          popup: "city-map-popup-duplicate",
+          header: "city-map-popup-header",
+          title: "city-map-popup-title",
+          confirmButton: "city-map-popup-confirm",
+          denyButton: "city-map-popup-deny",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let deleteCityIndex = loadedClickedCityArray.findIndex(
+            (city) =>
+              city.cityId === cityId && city.tripTiming === props.currentTiming
+          );
+          if (deleteCityIndex !== -1) {
+            newCityEntry.id = loadedClickedCityArray[deleteCityIndex].id;
+            deleteCitySaved(newCityEntry);
+          } else {
+            let deleteNewCityIndex = clickedCityArray.findIndex(
+              (city) =>
+                city.cityId === cityId &&
+                city.tripTiming === props.currentTiming
+            );
+            if (deleteNewCityIndex !== -1) {
+              newCityEntry.id = clickedCityArray[deleteNewCityIndex].id;
+              deleteCity(newCityEntry);
+            }
+          }
+        } else if (result.isDenied) {
+          return;
+        }
+      });
+    }
     handleMarkers(markers);
     if (
       !loadedClickedCityArray.some(
@@ -839,6 +882,7 @@ function CityMap(props) {
     ) {
       handleTripTimingCityHelper(newCityEntry);
     }
+
     const geocoderInput = document.getElementsByClassName(
       "mapboxgl-ctrl-geocoder--input"
     )[0];
@@ -878,9 +922,16 @@ function CityMap(props) {
     const swalParams = {
       type: "question",
       customClass: {
-        container: "live-swal-prompt",
+        popup: "city-map-popup-duplicate",
+        header: "city-map-popup-header",
+        title: "city-map-popup-title",
+        confirmButton: "city-map-popup-confirm",
+        denyButton: "city-map-popup-deny",
       },
-      text: popupText,
+      showDenyButton: true,
+      confirmButtonText: `Yes`,
+      cancelButtonText: `No`,
+      title: popupText,
     };
     Swal.fire(swalParams).then((result) => {
       if (result.value && whichArray === "new") {
@@ -1046,7 +1097,7 @@ function CityMap(props) {
           ) : (
             <div className="city-tooltip-nosave">
               <span>{cityTooltip.city}</span>
-              <span>(Save map to view)</span>
+              <span>&ensp;(Save map to view)</span>
               <span onClick={() => deleteCity(cityTooltip)}>
                 <TrashIcon />
               </span>

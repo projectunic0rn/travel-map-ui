@@ -11,7 +11,6 @@ import UsernameDropdown from "./UsernameDropdown";
 const UserHeaderContainer = React.memo(function UserHeaderContainer({ color, avatarIndex }) {
   const user = React.useContext(UserContext);
 
-  console.log("UserHeaderContainer");
   const [dropdown, handleDropdownClick] = useState(false);
   function dropdownTrue() {
     handleDropdownClick(true);
