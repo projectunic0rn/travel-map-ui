@@ -39,6 +39,7 @@ const FriendMapPage = ({ user }) => {
 
   function handleCities(cities) {
     handleClickedCityArray(cities);
+    handleFilteredCityArray(cities);
   }
 
   function handleFilteredCities(cities) {

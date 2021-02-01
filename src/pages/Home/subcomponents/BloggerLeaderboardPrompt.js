@@ -21,14 +21,15 @@ function BloggerLeaderboardPrompt({
     handleFilteredUsers(newFilteredUsers);
   }, [searchText]);
 
-  function handleClick(user, rank) {
+  function handleClick(user) {
     let state = true;
-    if (rank === activeBlogger) {
+    if (user.id === activeBlogger) {
       state = false;
-      rank = null;
+      handleActiveBlogger(null);
+    } else {
+      handleActiveBlogger(user.id);
     }
     sendUserClicked(user, state);
-    handleActiveBlogger(user.id);
   }
 
   return (
