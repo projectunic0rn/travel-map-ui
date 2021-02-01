@@ -1,6 +1,6 @@
 .username-dropdown-container {
   position: absolute;
-  z-index: 2000;
+  z-index: 1000;
   top: 60px;
   right: 0%;
   width: 212px;
@@ -18,7 +18,7 @@
   position: absolute;
   width: 0;
   height: 0;
-  transform: translate(120px, -10px);
+  transform: translate(104px, -10px);
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-bottom: 10px solid #e6e6f0;
