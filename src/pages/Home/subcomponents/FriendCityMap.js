@@ -7,9 +7,7 @@ import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
-import FilterCityMap from "../../../components/Prompts/FilterCityMap";
 import MapChangeIcon from "../../../icons/MapChangeIcon";
-import FilterIcon from "../../../icons/FilterIcon";
 import LeaderboardIcon from "../../../icons/LeaderboardIcon";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
@@ -93,8 +91,6 @@ function FriendCityMap(props) {
     let newClusterParams = clusterParams;
     if (timingCountArray[0] > 0) {
       if (timingCountArray[0] > 2000) {
-        // newClusterParams.pastExtent = 512;
-        // newClusterParams.pastNodeSize = 32;
         newClusterParams.pastExtent = 1024;
         newClusterParams.pastNodeSize = 64;
       } else if (timingCountArray[0] > 1500) {

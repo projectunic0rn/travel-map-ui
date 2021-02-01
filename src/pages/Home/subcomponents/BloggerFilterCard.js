@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function BloggerFilterCard({ user, rank, handleClick, activeCard }) {
+function BloggerFilterCard({ user, handleClick, activeCard }) {
   function handleClickHelper(user) {
-    handleClick(user, rank);
+    handleClick(user);
   }
 
   return (
@@ -12,7 +12,6 @@ function BloggerFilterCard({ user, rank, handleClick, activeCard }) {
       className="user-trip-card leaderboard-card blogger-card"
       onClick={() => handleClickHelper(user)}
     >
-      {/* <span className="blogger-rank">{rank + 1}</span> */}
       <div className="utc-user-info-container">
         <span className="utc-username">{user.username}</span>
       </div>
