@@ -25,14 +25,14 @@ const UserHeaderContainer = React.memo(function UserHeaderContainer({ color, ava
           className="header-username"
           onMouseOver={dropdownTrue}
         >
-          <NavLink exact to="/profile/cities">
+          <NavLink exact to="/profile/friends">
             {user.userData.username}
           </NavLink>
         </span>
         {dropdown ? (
           <UsernameDropdown onClickOut={dropdownFalse} />
         ) : null}
-        <NavLink exact to="/profile/cities">
+        <NavLink exact to="/profile/friends">
           <UserAvatar
             color={color}
             avatarIndex={avatarIndex}

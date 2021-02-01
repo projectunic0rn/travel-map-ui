@@ -8,8 +8,6 @@ import AvatarThree from "../../icons/AvatarIcons/AvatarThree";
 import AvatarFour from "../../icons/AvatarIcons/AvatarFour";
 import AvatarFive from "../../icons/AvatarIcons/AvatarFive";
 import AvatarSix from "../../icons/AvatarIcons/AvatarSix";
-// import AvatarSeven from "../../icons/AvatarIcons/AvatarSeven";
-// import AvatarEight from "../../icons/AvatarIcons/AvatarEight";
 import SimpleLoader from "../common/SimpleLoader/SimpleLoader";
 
 const UserAvatar = React.memo(function UserAvatar({ color, avatarIndex, email }) {
@@ -35,12 +33,6 @@ const UserAvatar = React.memo(function UserAvatar({ color, avatarIndex, email })
       case 6:
         newAvatar = <AvatarSix />;
         break;
-      // case 7:
-      //   newAvatar = <AvatarSeven />;
-      //   break;
-      // case 8:
-      //   newAvatar = <AvatarEight />;
-      //   break;
       default:
         newAvatar = <AvatarOne />;
         break;

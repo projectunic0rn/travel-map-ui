@@ -43,7 +43,7 @@ function UsernameDropdown({ onClickOut }) {
             <div className="username-dropdown-container">
               <span className="username-dropdown-triangle" />
               <ul className="username-dropdown-links" onClick={onClickOut}>
-                <NavLink to="/profile/cities" className="ud-link">
+                <NavLink to="/profile/friends" className="ud-link">
                   <PersonIcon />
                   Profile
                 </NavLink>
