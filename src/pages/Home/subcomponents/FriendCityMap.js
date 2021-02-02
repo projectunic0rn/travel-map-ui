@@ -2,8 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
-import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
-import Cluster from "@urbica/react-map-gl-cluster";
+import MapGL, {
+  Source,
+  Layer,
+  Popup,
+  FeatureState,
+} from "@urbica/react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
@@ -12,7 +16,6 @@ import LeaderboardIcon from "../../../icons/LeaderboardIcon";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
 import Loader from "../../../components/common/Loader/Loader";
-import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
 
 const mapStyle = {
@@ -20,6 +23,42 @@ const mapStyle = {
   minHeight: "calc(100% - 120px)",
   maxHeight: "calc(100%)",
   position: "relative",
+};
+
+const pastLayer = {
+  id: "past",
+  type: "circle",
+  paint: {
+    "circle-radius": 4,
+    "circle-color": "rgba(203, 118, 120, 0.75)",
+    "circle-stroke-color": "rgba(203, 118, 120, 0.25)",
+    "circle-stroke-width": 4,
+  },
+  filter: ["==", "icon", "past"],
+};
+
+const futureLayer = {
+  id: "future",
+  type: "circle",
+  paint: {
+    "circle-radius": 4,
+    "circle-color": "rgba(115, 167, 195, 0.75)",
+    "circle-stroke-color": "rgba(115, 167, 195, 0.25)",
+    "circle-stroke-width": 4,
+  },
+  filter: ["==", "icon", "future"],
+};
+
+const liveLayer = {
+  id: "live",
+  type: "circle",
+  paint: {
+    "circle-radius": 4,
+    "circle-color": "rgba(150, 177, 168, 0.75)",
+    "circle-stroke-color": "rgba(150, 177, 168, 0.25)",
+    "circle-stroke-width": 4,
+  },
+  filter: ["==", "icon", "live"],
 };
 
 function FriendCityMap(props) {
@@ -30,13 +69,7 @@ function FriendCityMap(props) {
     longitude: 8,
     zoom: setInitialZoom(),
   });
-  const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
-  const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
-  const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
-  const [filteredTripTimingCounts, handleFilteredTripTimingCounts] = useState(
-    null
-  );
   const [clickedCityArray, handleClickedCityArray] = useState(props.tripCities);
   const [, handleFilteredCityArray] = useState([]);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
@@ -44,22 +77,16 @@ function FriendCityMap(props) {
   const [activePopup, handleActivePopup] = useState(false);
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [hoveredCityArray, handleHoveredCityArray] = useState(null);
-  const [filter, handleFilter] = useState(false);
-  const [filterSettings, handleFilterSettings] = useState(props.filterParams);
+  const [, handleFilter] = useState(false);
+  const [filterSettings] = useState(props.filterParams);
   const [clickedCity, handleClickedCity] = useState(null);
   const [showSideMenu, handleSideMenu] = useState(false);
   const mapRef = useRef();
-  const clusterPast = useRef();
-  const clusterFuture = useRef();
-  const clusterLive = useRef();
-  const [clusterParams, handleClusterParams] = useState({
-    pastExtent: 16384,
-    pastNodeSize: 1024,
-    futureExtent: 16384,
-    futureNodeSize: 1024,
-    liveExtent: 16384,
-    liveNodeSize: 1024,
-  });
+
+  const geojson = {
+    type: "FeatureCollection",
+    features: props.geoJsonArray,
+  };
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
@@ -87,26 +114,6 @@ function FriendCityMap(props) {
     }, [props.tripData]);
   }
 
-  function setClusterParams(timingCountArray) {
-    let newClusterParams = clusterParams;
-    if (timingCountArray[0] > 0) {
-      if (timingCountArray[0] > 2000) {
-        newClusterParams.pastExtent = 1024;
-        newClusterParams.pastNodeSize = 64;
-      } else if (timingCountArray[0] > 1500) {
-        newClusterParams.pastExtent = 1024;
-        newClusterParams.pastNodeSize = 64;
-      } else if (timingCountArray[0] > 500) {
-        newClusterParams.pastExtent = 2048;
-        newClusterParams.pastNodeSize = 128;
-      } else if (timingCountArray[0] > 250) {
-        newClusterParams.pastExtent = 4096;
-        newClusterParams.pastNodeSize = 256;
-      }
-      handleClusterParams(newClusterParams);
-    }
-  }
-
   function calculateTripTimingCounts(cityArray) {
     let pastCount = 0;
     let futureCount = 0;
@@ -132,7 +139,6 @@ function FriendCityMap(props) {
           break;
       }
     }
-    setClusterParams([pastCount, futureCount, liveCount]);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
   }
 
@@ -157,7 +163,8 @@ function FriendCityMap(props) {
       newViewport === undefined ||
       (newViewport.width === viewport.width &&
         newViewport.height === viewport.height &&
-        newViewport.zoom === viewport.zoom)
+        newViewport.zoom === viewport.zoom &&
+        newViewport.latitude === viewport.latitude)
     ) {
       return;
     }
@@ -178,171 +185,7 @@ function FriendCityMap(props) {
     return zoom;
   }
 
-  function handleLoadedMarkers(markers) {
-    let markerPastDisplay = [];
-    let markerFutureDisplay = [];
-    let markerLiveDisplay = [];
-    markers.map((city) => {
-      if (city.city !== undefined && city.city !== "") {
-        let color = "red";
-        switch (city.tripTiming) {
-          case 0:
-            handleActiveTimings([0, 0, 0]);
-            if (
-              markerPastDisplay.some((marker) => {
-                return marker.props.id === city.tripTiming + "-" + city.cityId;
-              })
-            ) {
-              break;
-            }
-            markerPastDisplay.push(
-              <Marker
-                key={city.id}
-                id={city.tripTiming + "-" + city.cityId}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-                style={{ background: "rgba(203, 118, 120, 0.25)" }}
-                onClick={() => {
-                  handleCityTooltip(null);
-                  handleCityTooltip(city);
-                }}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={{ cursor: "pointer" }}
-                >
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 0.25)" }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-            break;
-          case 1:
-            color = "rgba(115, 167, 195, 0.25)";
-            handleActiveTimings([0, 0, 0]);
-            if (
-              markerFutureDisplay.some((marker) => {
-                return marker.props.id === city.tripTiming + "-" + city.cityId;
-              })
-            ) {
-              break;
-            }
-            markerFutureDisplay.push(
-              <Marker
-                key={city.id}
-                id={city.tripTiming + "-" + city.cityId}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-                onClick={() => {
-                  handleCityTooltip(null);
-                  handleCityTooltip(city);
-                }}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={{ cursor: "pointer" }}
-                >
-                  <circle
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(115, 167, 195, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-
-            break;
-          case 2:
-            color = "rgba(150, 177, 168, 0.25)";
-            handleActiveTimings([0, 0, 0]);
-            if (
-              markerLiveDisplay.some((marker) => {
-                return marker.props.id === city.tripTiming + "-" + city.cityId;
-              })
-            ) {
-              break;
-            }
-            markerLiveDisplay.push(
-              <Marker
-                key={city.id}
-                id={city.tripTiming + "-" + city.cityId}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-                onClick={() => {
-                  handleCityTooltip(null);
-                  handleCityTooltip(city);
-                }}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={{ cursor: "pointer" }}
-                >
-                  <circle
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(150, 177, 168, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-            break;
-          default:
-            break;
-        }
-      }
-      return null;
-    });
-    handleMarkerPastDisplay(markerPastDisplay);
-    handleMarkerFutureDisplay(markerFutureDisplay);
-    handleMarkerLiveDisplay(markerLiveDisplay);
+  function handleLoadedMarkers() {
     handleLoaded(false);
     handleActiveTimings([1, 1, 1]);
   }
@@ -497,33 +340,13 @@ function FriendCityMap(props) {
     );
   }
 
-  function clusterClick(cluster) {
-    const { clusterId, longitude, latitude } = cluster;
-    let supercluster;
-    switch (cluster.type) {
-      case 0:
-        supercluster = clusterPast.current.getCluster();
-        break;
-      case 1:
-        supercluster = clusterFuture.current.getCluster();
-        break;
-      case 2:
-        supercluster = clusterLive.current.getCluster();
-        break;
-      default:
-        break;
+  let cityClick = (obj) => {
+    handleCityTooltip(null);
+    if (obj.features.length !== 0) {
+      let parsedJson = JSON.parse(obj.features[0].properties.city);
+      handleCityTooltip(parsedJson);
     }
-    const zoom = supercluster.getClusterExpansionZoom(clusterId);
-    const newViewport = {
-      ...viewport,
-      latitude,
-      longitude,
-      zoom,
-    };
-    handleViewport(newViewport);
-
-    return { viewport: newViewport };
-  }
+  };
 
   if (loading) return <Loader />;
   return (
@@ -635,62 +458,8 @@ function FriendCityMap(props) {
           onViewportChange={handleViewportChange}
           zoom={viewport.zoom}
           style={mapStyle}
+          interactiveLayerIds={["past", "future", "live"]}
         >
-          {_renderPopup()}
-          {activeTimings[0] ? (
-            <Cluster
-              ref={clusterPast}
-              radius={40}
-              extent={clusterParams.pastExtent}
-              nodeSize={clusterParams.pastNodeSize}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(203, 118, 120, 0.5)"}
-                  {...cluster}
-                  type={0}
-                />
-              )}
-            >
-              {markerPastDisplay}
-            </Cluster>
-          ) : null}
-          {activeTimings[1] ? (
-            <Cluster
-              ref={clusterFuture}
-              radius={40}
-              extent={clusterParams.futureExtent}
-              nodeSize={clusterParams.futureNodeSize}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(115, 167, 195, 0.5)"}
-                  {...cluster}
-                  type={1}
-                />
-              )}
-            >
-              {markerFutureDisplay}
-            </Cluster>
-          ) : null}
-          {activeTimings[2] ? (
-            <Cluster
-              ref={clusterLive}
-              radius={40}
-              extent={clusterParams.liveExtent}
-              nodeSize={clusterParams.liveNodeSize}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(150, 177, 168, 0.5)"}
-                  {...cluster}
-                  type={2}
-                />
-              )}
-            >
-              {markerLiveDisplay}
-            </Cluster>
-          ) : null}
           <Geocoder
             mapRef={mapRef}
             onResult={handleOnResult}
@@ -701,6 +470,18 @@ function FriendCityMap(props) {
             types={"place"}
             placeholder={"Type a city..."}
           />
+          <Source type="geojson" id="route" data={geojson}></Source>
+          {activeTimings[0] ? (
+            <Layer {...pastLayer} source="route" onClick={cityClick} />
+          ) : null}
+          {activeTimings[1] ? (
+            <Layer {...futureLayer} source="route" onClick={cityClick} />
+          ) : null}
+          {activeTimings[2] ? (
+            <Layer {...liveLayer} source="route" onClick={cityClick} />
+          ) : null}
+          <FeatureState id={100} source="route" state={{ hover: true }} />
+          {_renderPopup()}
         </MapGL>
       </div>
       <div className="zoom-buttons">
@@ -717,11 +498,7 @@ function FriendCityMap(props) {
       </div>
       <div className="city-map-scorecard">
         <MapScorecard
-          tripTimingCounts={
-            filteredTripTimingCounts !== null
-              ? filteredTripTimingCounts
-              : tripTimingCounts
-          }
+          tripTimingCounts={tripTimingCounts}
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
         />
@@ -759,14 +536,7 @@ FriendCityMap.propTypes = {
   handleFilteredCities: PropTypes.func,
   leaderboard: PropTypes.bool,
   handleLeaderboard: PropTypes.func,
-};
-
-ClusterMarker.propTypes = {
-  latitude: PropTypes.number,
-  longitude: PropTypes.number,
-  pointCount: PropTypes.number,
-  color: PropTypes.string,
-  onClick: PropTypes.func,
+  geoJsonArray: PropTypes.array,
 };
 
 export default FriendCityMap;
