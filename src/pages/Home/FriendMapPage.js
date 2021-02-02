@@ -5,7 +5,6 @@ import FriendCityMap from "./subcomponents/FriendCityMap";
 import Loader from "../../components/common/Loader/Loader";
 import BloggerLeaderboardPrompt from "./subcomponents/BloggerLeaderboardPrompt";
 
-
 const FriendMapPage = ({ user }) => {
   const [loaded, handleLoaded] = useState(false);
   const [cityOrCountry, handleMapTypeChange] = useState(1);
@@ -18,7 +17,7 @@ const FriendMapPage = ({ user }) => {
   const [filteredUserData, handleFilteredUserData] = useState([]);
   const [leaderboard, handleLeaderboard] = useState(false);
   const [filteredUser, handleActiveUser] = useState(null);
-
+  const [geoJsonArray, handleGeoJsonArray] = useState([]);
   useEffect(() => {
     handleLoadedCountries(user.Friends);
   }, []);
@@ -33,13 +32,47 @@ const FriendMapPage = ({ user }) => {
     } else {
       handleFilteredUserData(tripData);
       addCountry([]);
-      handleLoadedCountries( tripData );
+      handleLoadedCountries(tripData);
     }
   }
 
   function handleCities(cities) {
     handleClickedCityArray(cities);
     handleFilteredCityArray(cities);
+    console.log(cities);
+    let newGeoJsonArray = [];
+    cities.map((city) => {
+      let item = {
+        type: "Feature",
+        properties: {
+          city: {
+            city: city.city,
+            cityId: city.cityId,
+            latitude: city.latitude,
+            longitude: city.longitude,
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [city.longitude, city.latitude],
+        },
+      };
+      switch (city.tripTiming) {
+        case 0:
+          item.properties.icon = "past";
+          break;
+        case 1:
+          item.properties.icon = "future";
+          break;
+        case 2:
+          item.properties.icon = "live";
+          break;
+        default:
+          break;
+      }
+      newGeoJsonArray.push(item);
+    });
+    handleGeoJsonArray(newGeoJsonArray);
   }
 
   function handleFilteredCities(cities) {
@@ -56,8 +89,8 @@ const FriendMapPage = ({ user }) => {
   function filterCountries(data) {
     let newClickedCountryArray = clickedCountryArray.filter((country) => {
       return country.username === data.username;
-    })
-    addCountry(newClickedCountryArray)
+    });
+    addCountry(newClickedCountryArray);
   }
 
   function handleLoadedCountries(data) {
@@ -138,52 +171,52 @@ const FriendMapPage = ({ user }) => {
     //   {({ loading, error, data, refetch }) => {
     //     if (loading) return <Loader />;
     //     if (error) return `Error! ${error}`;
-        // handleLoadedCountries(data);
-        // if (!loaded) return <Loader />;
-        // return (
-          <div className="map-container">
-            <div
-              className={
-                cityOrCountry
-                  ? "map city-map friend-city-map"
-                  : "map country-map friend-country-map"
-              }
-            >
-              {cityOrCountry ? (
-                <FriendCityMap
-                  tripData={filteredTripData}
-                  handleMapTypeChange={handleMapTypeChange}
-                  handleFilter={handleFilter}
-                  filterParams={filterParams}
-                  handleCities={handleCities}
-                  tripCities={filteredCityArray}
-                  handleFilteredCities={handleFilteredCities}
-                  leaderboard={leaderboard}
-                  handleLeaderboard={handleLeaderboardHelper}
-                />
-              ) : (
-                <FriendCountryMap
-                  clickedCountryArray={clickedCountryArray}
-                  tripData={filteredTripData}
-                  handleMapTypeChange={handleMapTypeChange}
-                  filterParams={filterParams}
-                  leaderboard={leaderboard}
-                  handleLeaderboard={handleLeaderboardHelper}
-
-                />
-              )}
-            </div>
-            {leaderboard ? (
-              <BloggerLeaderboardPrompt
-                users={tripData}
-                handleLeaderboard={handleLeaderboard}
-                sendUserClicked={handleUserClicked}
-                activeBlogger={filteredUser}
-                handleActiveBlogger={handleActiveUser}
-              />
-            ) : null}
-          </div>
-        // );
+    // handleLoadedCountries(data);
+    // if (!loaded) return <Loader />;
+    // return (
+    <div className="map-container">
+      <div
+        className={
+          cityOrCountry
+            ? "map city-map friend-city-map"
+            : "map country-map friend-country-map"
+        }
+      >
+        {cityOrCountry ? (
+          <FriendCityMap
+            tripData={filteredTripData}
+            handleMapTypeChange={handleMapTypeChange}
+            handleFilter={handleFilter}
+            filterParams={filterParams}
+            handleCities={handleCities}
+            tripCities={filteredCityArray}
+            handleFilteredCities={handleFilteredCities}
+            leaderboard={leaderboard}
+            handleLeaderboard={handleLeaderboardHelper}
+            geoJsonArray={geoJsonArray}
+          />
+        ) : (
+          <FriendCountryMap
+            clickedCountryArray={clickedCountryArray}
+            tripData={filteredTripData}
+            handleMapTypeChange={handleMapTypeChange}
+            filterParams={filterParams}
+            leaderboard={leaderboard}
+            handleLeaderboard={handleLeaderboardHelper}
+          />
+        )}
+      </div>
+      {leaderboard ? (
+        <BloggerLeaderboardPrompt
+          users={tripData}
+          handleLeaderboard={handleLeaderboard}
+          sendUserClicked={handleUserClicked}
+          activeBlogger={filteredUser}
+          handleActiveBlogger={handleActiveUser}
+        />
+      ) : null}
+    </div>
+    // );
     //   }}
     // </Query>
   );
