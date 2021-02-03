@@ -19,7 +19,7 @@ function BloggerLeaderboardPrompt({
         friend.username.toLowerCase().indexOf(searchText.toLowerCase()) > -1
     );
     handleFilteredUsers(newFilteredUsers);
-  }, [searchText]);
+  }, [searchText, users]);
 
   function handleClick(user) {
     let state = true;
@@ -68,7 +68,7 @@ BloggerLeaderboardPrompt.propTypes = {
   users: PropTypes.array,
   handleLeaderboard: PropTypes.func,
   sendUserClicked: PropTypes.func,
-  activeBlogger: PropTypes.number,
+  activeBlogger: PropTypes.string,
   handleActiveBlogger: PropTypes.func,
 };
 
