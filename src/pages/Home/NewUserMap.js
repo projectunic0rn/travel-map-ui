@@ -22,6 +22,8 @@ const NewUserMap = () => {
       if (!seen[combinedKey]) {
         seen[combinedKey] = true;
         return true;
+      } else {
+        return false;
       }
     });
     handleClickedCountryArray(newClickedCountryArray);

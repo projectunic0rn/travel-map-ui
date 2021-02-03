@@ -25,7 +25,7 @@ export default function ImportPopup(props) {
     if (taUrl.length < 1) {
       return;
     }
-    let getStringBetween = function(str, start, end) {
+    let getStringBetween = function (str, start, end) {
       var left = str.substring(str.indexOf(start) + start.length);
       return left.substring(left.indexOf(end), -left.length);
     };
@@ -39,9 +39,9 @@ export default function ImportPopup(props) {
           "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4",
           "Upgrade-Insecure-Requests": "1",
           "User-Agent":
-            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({}),
       });
       if (Response.status === 404) {
         handleImportStarted(false);
@@ -102,8 +102,8 @@ export default function ImportPopup(props) {
           longLat +
           ".json?types=place&access_token=pk.eyJ1IjoibXZhbmNlNDM3NzYiLCJhIjoiY2pwZ2wxMnJ5MDQzdzNzanNwOHhua3h6cyJ9.xOK4SCGMDE8C857WpCFjIQ"
       )
-        .then(res => res.json())
-        .then(result => {
+        .then((res) => res.json())
+        .then((result) => {
           if (result.features.length < 1) {
             let newUnimportedCities = unimportedCities;
             if (newUnimportedCities.indexOf(importedCities[i].name) === -1) {
@@ -133,7 +133,7 @@ export default function ImportPopup(props) {
           loading = false;
           return formattedCity;
         })
-        .then(formattedCity => {
+        .then((formattedCity) => {
           if (!loading) {
             importedCitiesFormatted.push(formattedCity);
             if (importedCitiesFormatted.length === importedCities.length) {
@@ -186,7 +186,7 @@ export default function ImportPopup(props) {
         cityId,
         city_latitude: event.result.center[1],
         city_longitude: event.result.center[0],
-        tripTiming: timing
+        tripTiming: timing,
       };
       return newCity;
     } catch (err) {
@@ -204,7 +204,7 @@ export default function ImportPopup(props) {
           type="text"
           className="import-input input"
           id="ta-input"
-          onChange={e => handleTaUrl(e.target.value)}
+          onChange={(e) => handleTaUrl(e.target.value)}
           placeholder="https://www.tripadvisor.com/TravelMap-a_uid..."
         ></input>
 
@@ -216,7 +216,7 @@ export default function ImportPopup(props) {
       {importComplete ? (
         <div className="import-results-container">
           <span className="import-results-title">Unable to import</span>
-          {unimportedCities.map(city => {
+          {unimportedCities.map((city) => {
             return <span key={city}>{city}</span>;
           })}
         </div>
@@ -226,5 +226,5 @@ export default function ImportPopup(props) {
 }
 
 ImportPopup.propTypes = {
-  customProps: PropTypes.object
+  customProps: PropTypes.object,
 };

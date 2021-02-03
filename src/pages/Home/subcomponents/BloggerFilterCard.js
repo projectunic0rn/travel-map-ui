@@ -26,7 +26,7 @@ BloggerFilterCard.propTypes = {
   user: PropTypes.object,
   rank: PropTypes.number,
   handleClick: PropTypes.func,
-  activeCard: PropTypes.array
+  activeCard: PropTypes.string
 };
 
 export default BloggerFilterCard;

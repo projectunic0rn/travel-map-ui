@@ -7,8 +7,6 @@ import AvatarThree from "../../../icons/AvatarIcons/AvatarThree";
 import AvatarFour from "../../../icons/AvatarIcons/AvatarFour";
 import AvatarFive from "../../../icons/AvatarIcons/AvatarFive";
 import AvatarSix from "../../../icons/AvatarIcons/AvatarSix";
-import AvatarSeven from "../../../icons/AvatarIcons/AvatarSeven";
-import AvatarEight from "../../../icons/AvatarIcons/AvatarEight";
 
 import { UPDATE_USER_AVATAR } from "../../../GraphQL";
 
@@ -22,14 +20,14 @@ export default function AvatarGrid(props) {
   useEffect(() => {
     let avatar = userAvatar;
     handleAvatarChange(avatar);
-  }, []);
+  }, [userAvatar]);
   useEffect(() => {
     let avatar = userAvatar;
     if (avatarIndex !== props.avatarIndex) {
       avatar.avatarIndex = avatarIndex;
     }
     handleAvatarChange(avatar);
-  }, [avatarIndex, props.avatarIndex]);
+  }, [avatarIndex, props.avatarIndex, userAvatar]);
 
   return (
     <div className="user-avatar-grid-container">

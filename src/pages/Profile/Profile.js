@@ -19,9 +19,7 @@ export default function Profile({ urlUsername, refetchApp }) {
   const [page, handlePageRender] = useState("settings");
   const [selectedCity, handleCity] = useState("none");
   const [, handleCityReviews] = useState([]);
-  const [username] = useState(
-    urlUsername !== undefined ? urlUsername : user.username
-  );
+  
   function handleUserDataChange(data) {
     handleUserData(data);
     refetchApp();

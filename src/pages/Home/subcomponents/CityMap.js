@@ -267,27 +267,27 @@ function CityMap(props) {
 
   useEffectSkipFirstCurrentTiming(() => {}, [props.currentTiming]);
 
-  function useEffectSkipFirstActiveTimings() {
-    const isFirst = useRef(true);
-    useEffect(
-      () => {
-        if (isFirst.current) {
-          isFirst.current = false;
-          return;
-        }
-        let oldActiveTimings = [...activeTimings];
-        handleActiveTimings([0, 0, 0]);
-        handleActiveTimings(oldActiveTimings);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      },
-      [
-        // clickedCityArray,
-        // markerPastDisplay,
-        // markerFutureDisplay,
-        // markerLiveDisplay,
-      ]
-    );
-  }
+  // function useEffectSkipFirstActiveTimings() {
+  //   const isFirst = useRef(true);
+  //   useEffect(
+  //     () => {
+  //       if (isFirst.current) {
+  //         isFirst.current = false;
+  //         return;
+  //       }
+  //       let oldActiveTimings = [...activeTimings];
+  //       handleActiveTimings([0, 0, 0]);
+  //       handleActiveTimings(oldActiveTimings);
+  //       // eslint-disable-next-line react-hooks/exhaustive-deps
+  //     },
+  //     [
+  //       // clickedCityArray,
+  //       // markerPastDisplay,
+  //       // markerFutureDisplay,
+  //       // markerLiveDisplay,
+  //     ]
+  //   );
+  // }
 
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
 

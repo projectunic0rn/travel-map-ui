@@ -18,7 +18,7 @@ function BlogUserCard(props) {
         })
       )
     );
-  }, []);
+  }, [props.cityData]);
   useEffect(() => {
     let newFilteredCityData = [];
     switch (props.navPosition) {
@@ -41,7 +41,7 @@ function BlogUserCard(props) {
         break;
     }
     handleClicked(false);
-  }, [props.navPosition]);
+  }, [props.navPosition, props.cityData]);
   return filteredCityData.length > 0 ? (
     <>
       <div

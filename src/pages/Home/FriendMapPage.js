@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import FriendCountryMap from "./subcomponents/FriendCountryMap";
 import FriendCityMap from "./subcomponents/FriendCityMap";
@@ -14,21 +14,16 @@ const FriendMapPage = ({ user }) => {
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [filteredCityArray, handleFilteredCityArray] = useState([]);
   const [filterParams, handleFilterParams] = useState(null);
-  const [filteredUserData, handleFilteredUserData] = useState([]);
+  const [, handleFilteredUserData] = useState([]);
   const [leaderboard, handleLeaderboard] = useState(false);
   const [filteredUser, handleActiveUser] = useState(null);
   const [geoJsonArray, handleGeoJsonArray] = useState([]);
-  useEffect(() => {
-    handleLoadedCountries(user.Friends);
-  }, []);
 
   function handleUserClicked(userFilter, state) {
     let filter = tripData.filter((u) => u.id === userFilter.id);
     if (state) {
       handleFilteredTripDataHelper(filter);
       filterCountries(filter);
-      // addCountry([]);
-      // handleLoadedCountries( filter );
     } else {
       handleFilteredUserData(tripData);
       addCountry([]);
@@ -39,9 +34,8 @@ const FriendMapPage = ({ user }) => {
   function handleCities(cities) {
     handleClickedCityArray(cities);
     handleFilteredCityArray(cities);
-    console.log(cities);
     let newGeoJsonArray = [];
-    cities.map((city) => {
+    cities.forEach((city) => {
       let item = {
         type: "Feature",
         properties: {
@@ -71,6 +65,7 @@ const FriendMapPage = ({ user }) => {
           break;
       }
       newGeoJsonArray.push(item);
+      return;
     });
     handleGeoJsonArray(newGeoJsonArray);
   }
@@ -93,57 +88,64 @@ const FriendMapPage = ({ user }) => {
     addCountry(newClickedCountryArray);
   }
 
-  function handleLoadedCountries(data) {
-    let countryArray = clickedCountryArray;
-    for (let i in data) {
-      let userData = data[i];
-      if (userData != null && userData.Places_visited.length !== 0) {
-        for (let i = 0; i < userData.Places_visited.length; i++) {
+  const handleLoadedCountries = useCallback(
+    (data) => {
+      let countryArray = [...clickedCountryArray];
+      for (let i in data) {
+        let userData = data[i];
+        if (userData != null && userData.Places_visited.length !== 0) {
+          for (let i = 0; i < userData.Places_visited.length; i++) {
+            if (
+              !countryArray.some((country) => {
+                return country.country === userData.Places_visited[i].country;
+              })
+            ) {
+              countryArray.push({
+                username: userData.username,
+                countryId: userData.Places_visited[i].countryId,
+                tripTiming: 0,
+              });
+            }
+          }
+        }
+        if (userData != null && userData.Places_visiting.length !== 0) {
+          for (let i = 0; i < userData.Places_visiting.length; i++) {
+            if (
+              !countryArray.some((country) => {
+                return country.country === userData.Places_visiting[i].country;
+              })
+            ) {
+              countryArray.push({
+                username: userData.username,
+                countryId: userData.Places_visiting[i].countryId,
+                tripTiming: 1,
+              });
+            }
+          }
+        }
+        if (userData != null && userData.Place_living !== null) {
           if (
             !countryArray.some((country) => {
-              return country.country === userData.Places_visited[i].country;
+              return country.country === userData.Place_living.country;
             })
           ) {
             countryArray.push({
               username: userData.username,
-              countryId: userData.Places_visited[i].countryId,
-              tripTiming: 0,
+              countryId: userData.Place_living.countryId,
+              tripTiming: 2,
             });
           }
         }
       }
-      if (userData != null && userData.Places_visiting.length !== 0) {
-        for (let i = 0; i < userData.Places_visiting.length; i++) {
-          if (
-            !countryArray.some((country) => {
-              return country.country === userData.Places_visiting[i].country;
-            })
-          ) {
-            countryArray.push({
-              username: userData.username,
-              countryId: userData.Places_visiting[i].countryId,
-              tripTiming: 1,
-            });
-          }
-        }
-      }
-      if (userData != null && userData.Place_living !== null) {
-        if (
-          !countryArray.some((country) => {
-            return country.country === userData.Place_living.country;
-          })
-        ) {
-          countryArray.push({
-            username: userData.username,
-            countryId: userData.Place_living.countryId,
-            tripTiming: 2,
-          });
-        }
-      }
-    }
-    addCountry(countryArray);
-    handleTripDataHelper(user.Friends);
-  }
+      addCountry(countryArray);
+      handleTripDataHelper(user.Friends);
+    },
+    [user.Friends]
+  );
+
+  useEffect(() => {
+    handleLoadedCountries(user.Friends);
+  }, [user.Friends, handleLoadedCountries]);
 
   function handleTripDataHelper(data) {
     handleTripData(data);
@@ -162,18 +164,6 @@ const FriendMapPage = ({ user }) => {
 
   if (!loaded) return <Loader />;
   return (
-    // <Query
-    //   query={GET_ALL_USER_COUNTRIES}
-    //   notifyOnNetworkStatusChange
-    //   partialRefetch={true}
-    //   // onCompleted={data => handleTripDataHelper(data.users)}
-    // >
-    //   {({ loading, error, data, refetch }) => {
-    //     if (loading) return <Loader />;
-    //     if (error) return `Error! ${error}`;
-    // handleLoadedCountries(data);
-    // if (!loaded) return <Loader />;
-    // return (
     <div className="map-container">
       <div
         className={
@@ -216,9 +206,6 @@ const FriendMapPage = ({ user }) => {
         />
       ) : null}
     </div>
-    // );
-    //   }}
-    // </Query>
   );
 };
 
