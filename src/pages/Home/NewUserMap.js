@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import NewUserCountry from "./subcomponents/NewUserCountry";
 import NewUserCity from "./subcomponents/NewUserCity";
 import Loader from "../../components/common/Loader/Loader";
 
-const NewUserMap = () => {
+const NewUserMap = ({handleMapPageChange, mapPage}) => {
   const [loaded] = useState(true);
-  const [mapPage, handleMapPageChange] = useState(1);
   const [clickedCountryArray, handleClickedCountryArray] = useState([]);
+  const [timing, handleTimingChange] = useState(0);
 
   useEffect(() => {
     localStorage.removeItem("token");
@@ -31,20 +32,45 @@ const NewUserMap = () => {
 
   if (!loaded) return <Loader />;
   return (
-    <div className={mapPage ? "map city-map" : "map country-map"}>
+    <div className="map-container">
       {mapPage ? (
-        <NewUserCity
-          sendUserData={sendUserData}
-          handleMapTypeChange={() => handleMapPageChange(0)}
-        />
-      ) : (
-        <NewUserCountry
-          clickedCountryArray={clickedCountryArray}
-          handleMapTypeChange={() => handleMapPageChange(1)}
-        />
-      )}
+        <div className="user-timing-control">
+          Enter the
+          <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
+            <option id="select-past" value={0}>
+              cities you've visited &emsp;
+            </option>
+            <option id="select-future" value={1}>
+              cities you want to visit &emsp;
+            </option>
+            <option id="select-live" value={2}>
+              city you live in &emsp;
+            </option>
+          </select>
+        </div>
+      ) : null}
+      <div className={mapPage ? "map city-map" : "map country-map"}>
+        {mapPage ? (
+          <NewUserCity
+            sendUserData={sendUserData}
+            handleMapTypeChange={handleMapPageChange}
+            currentTiming={timing}
+          />
+        ) : (
+          <NewUserCountry
+            clickedCountryArray={clickedCountryArray}
+            handleMapTypeChange={handleMapPageChange}
+            currentTiming={timing}
+          />
+        )}
+      </div>
     </div>
   );
+};
+
+NewUserMap.propTypes = {
+  mapPage: PropTypes.number,
+  handleMapPageChange: PropTypes.func,
 };
 
 export default NewUserMap;

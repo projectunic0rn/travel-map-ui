@@ -171,7 +171,15 @@ function App({ userAuthenticated }) {
         ) : (
           <>
             <Switch>
-              <Route path="/new/" component={NewUserMap} />
+              <Route
+                path="/new/"
+                render={(props) => (
+                  <NewUserMap
+                    mapPage={mapPage}
+                    handleMapPageChange={handleMapPageChange}
+                  />
+                )}
+              />
               <Route path="/bloggers/" component={BloggerMap} />
               <Route path="/public/" component={FriendReadonlyMap} />
               <Route

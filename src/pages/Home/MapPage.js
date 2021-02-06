@@ -12,9 +12,51 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
   const [loaded, handleLoaded] = useState(false);
   const [timing, handleTimingChange] = useState(0);
+  const [geoJsonArray, handleGeoJsonArray] = useState([]);
+
   useEffect(() => {
     handleLoaded(true);
   }, [user]);
+  useEffect(() => {
+    let newGeoJsonArray = [];
+    console.log(user)
+    user.forEach((city) => {
+      let item = {
+        type: "Feature",
+        properties: {
+          city: {
+            id: city.id,
+            city: city.city,
+            cityId: city.cityId,
+            latitude: city.city_latitude,
+            longitude: city.city_longitude,
+            tripTiming: city.tripTiming
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [city.city_longitude, city.city_latitude],
+        },
+      };
+      switch (city.tripTiming) {
+        case 0:
+          item.properties.icon = "past";
+          break;
+        case 1:
+          item.properties.icon = "future";
+          break;
+        case 2:
+          item.properties.icon = "live";
+          break;
+        default:
+          break;
+      }
+      newGeoJsonArray.push(item);
+      return;
+    });
+    handleGeoJsonArray(newGeoJsonArray);
+    console.log(newGeoJsonArray)
+  }, [user])
   function handleAlteredCityArray(newCityArray) {
     handleClickedCityArray(newCityArray);
     let newCountryArray = [];
@@ -60,6 +102,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
             clickedCityArray={newClickedCityArray}
             handleAlteredCityArray={handleAlteredCityArray}
             currentTiming={timing}
+            geoJsonArray={geoJsonArray}
           />
         ) : (
           <CountryMap
