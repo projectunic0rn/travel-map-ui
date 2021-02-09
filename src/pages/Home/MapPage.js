@@ -17,9 +17,9 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
   useEffect(() => {
     handleLoaded(true);
   }, [user]);
+
   useEffect(() => {
     let newGeoJsonArray = [];
-    console.log(user)
     user.forEach((city) => {
       let item = {
         type: "Feature",
@@ -55,8 +55,8 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
       return;
     });
     handleGeoJsonArray(newGeoJsonArray);
-    console.log(newGeoJsonArray)
-  }, [user])
+  }, [user]);
+
   function handleAlteredCityArray(newCityArray) {
     handleClickedCityArray(newCityArray);
     let newCountryArray = [];
@@ -75,6 +75,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
     }
     addCountry(newCountryArray);
   }
+
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
@@ -83,7 +84,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
           Enter the
           <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
             <option id="select-past" value={0}>
-              cities you've visited &emsp;
+              cities you&apos;ve visited &emsp;
             </option>
             <option id="select-future" value={1}>
               cities you want to visit &emsp;
