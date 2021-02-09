@@ -87,6 +87,7 @@ function FriendCityMap(props) {
     type: "FeatureCollection",
     features: props.geoJsonArray,
   };
+  
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();

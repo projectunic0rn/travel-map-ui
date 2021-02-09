@@ -12,9 +12,51 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
   const [loaded, handleLoaded] = useState(false);
   const [timing, handleTimingChange] = useState(0);
+  const [geoJsonArray, handleGeoJsonArray] = useState([]);
+
   useEffect(() => {
     handleLoaded(true);
   }, [user]);
+
+  useEffect(() => {
+    let newGeoJsonArray = [];
+    user.forEach((city) => {
+      let item = {
+        type: "Feature",
+        properties: {
+          city: {
+            id: city.id,
+            city: city.city,
+            cityId: city.cityId,
+            latitude: city.city_latitude,
+            longitude: city.city_longitude,
+            tripTiming: city.tripTiming
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [city.city_longitude, city.city_latitude],
+        },
+      };
+      switch (city.tripTiming) {
+        case 0:
+          item.properties.icon = "past";
+          break;
+        case 1:
+          item.properties.icon = "future";
+          break;
+        case 2:
+          item.properties.icon = "live";
+          break;
+        default:
+          break;
+      }
+      newGeoJsonArray.push(item);
+      return;
+    });
+    handleGeoJsonArray(newGeoJsonArray);
+  }, [user]);
+
   function handleAlteredCityArray(newCityArray) {
     handleClickedCityArray(newCityArray);
     let newCountryArray = [];
@@ -33,6 +75,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
     }
     addCountry(newCountryArray);
   }
+
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
@@ -41,7 +84,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
           Enter the
           <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
             <option id="select-past" value={0}>
-              cities you've visited &emsp;
+              cities you&apos;ve visited &emsp;
             </option>
             <option id="select-future" value={1}>
               cities you want to visit &emsp;
@@ -60,6 +103,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
             clickedCityArray={newClickedCityArray}
             handleAlteredCityArray={handleAlteredCityArray}
             currentTiming={timing}
+            geoJsonArray={geoJsonArray}
           />
         ) : (
           <CountryMap
