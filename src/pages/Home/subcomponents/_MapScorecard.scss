@@ -24,7 +24,7 @@
   flex-direction: column;
   min-width: 160px;
   max-width: 200px;
-  height: 120px;
+  height: 140px;
   padding: 8px;
   border-radius: 8px;
   border: none;
@@ -44,7 +44,7 @@
   .scorecard-instructions {
     position: absolute;
     top: -24px;
-    color: #DEE2E6;
+    color: #dee2e6;
     font-size: 14px;
   }
   .drag-icon {
@@ -62,11 +62,33 @@
     display: block;
   }
 
+  .map-scorecard-headers {
+    font-size: 14px;
+    color: #9c9ea0;
+    display: flex;
+    span {
+      width: 92px;
+      padding-left: 4px;
+    }
+    span:nth-child(1) {
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 24px;
+    }
+    span:nth-child(2) {
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 20px;
+    }
+  }
+
   .scorecard-checkbox-label {
     display: flex;
+    justify-content: space-between;
+    width: 100%;
     flex: 1;
     opacity: 0.5;
-    min-height: 36px;
+    min-height: 34px;
     align-items: center;
     -webkit-user-select: none;
     user-select: none;
@@ -83,7 +105,7 @@
       background: rgba(blue, 0.06);
     }
     .scorecard-label {
-      transform: translateY(2px);
+      transform: translate(70px, 2px);
     }
     span {
       float: left;
@@ -92,10 +114,11 @@
       font-size: 24px;
       &:first-child {
         position: relative;
-        width: 20px;
+        min-width: 20px;
         height: 20px;
         border-radius: 4px;
         transition: all 0.2s ease;
+        margin-right: 8px;
         svg {
           position: absolute;
           top: 5px;
@@ -120,9 +143,19 @@
     }
     .scorecard-label-name {
       display: flex;
+      width: 100%;
     }
     .scorecard-count {
       color: #c2c4c6;
+    }
+    #scorecard-country-count {
+      padding-right: 32px;
+      width: 48px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    #scorecard-city-count {
+      padding-left: 16px;
     }
   }
   .scorecard-checkbox:checked + .scorecard-checkbox-label {

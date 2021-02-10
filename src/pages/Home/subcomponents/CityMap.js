@@ -48,6 +48,16 @@ const pastLayer = {
   filter: ["==", "icon", "past"],
 };
 
+const pastCountryLayer = {
+  id: "pastCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(200, 100, 100, 0.25)",
+    "fill-outline-color": "rgba(255, 0, 0, 0.25)",
+  },
+  filter: ["==", "icon", "pastCountry"],
+};
+
 const futureLayer = {
   id: "future",
   type: "circle",
@@ -60,6 +70,16 @@ const futureLayer = {
   filter: ["==", "icon", "future"],
 };
 
+const futureCountryLayer = {
+  id: "futureCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(100, 100, 200, 0.25)",
+    "fill-outline-color": "rgba(0, 0, 255, 0.25)",
+  },
+  filter: ["==", "icon", "futureCountry"],
+};
+
 const liveLayer = {
   id: "live",
   type: "circle",
@@ -70,6 +90,16 @@ const liveLayer = {
     "circle-stroke-width": 6,
   },
   filter: ["==", "icon", "live"],
+};
+
+const liveCountryLayer = {
+  id: "liveCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(100, 200, 100, 0.25)",
+    "fill-outline-color": "rgba(0, 255, 0, 0.25)",
+  },
+  filter: ["==", "icon", "liveCountry"],
 };
 
 const mapStyle = {
@@ -90,12 +120,14 @@ function CityMap(props) {
   const user = React.useContext(UserContext);
   const [deletePrompt, handleDelete] = useState(false);
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
+  const [countryTimingCounts, handleCountryTimingCounts] = useState([0, 0, 0]);
   const [loadedClickedCityArray, handleLoadedClickedCityArray] = useState(
     user.clickedCityArray
   );
   const [activeTimings, handleActiveTimings] = useState([true, true, true]);
   const [loading, handleLoaded] = useState(false);
   const [cityTooltip, handleCityTooltip] = useState(null);
+  const [countryTooltip, handleCountryTooltip] = useState(null);
   const [suggestPopup, handleSuggestedPopup] = useState(false);
   const [suggestedCountryArray, handleSuggestedCountryArray] = useState([]);
   const [suggestedContinentArray, handleSuggestedContinentArray] = useState([]);
@@ -120,7 +152,10 @@ function CityMap(props) {
         }
       }
       addMutationId(data);
-      if ( newClickedCityArray.length < 1 || newClickedCityArray[newClickedCityArray.length - 1].id === undefined) {
+      if (
+        newClickedCityArray.length < 1 ||
+        newClickedCityArray[newClickedCityArray.length - 1].id === undefined
+      ) {
         setTimeout(() => {
           addMutationId(data);
         }, 1000);
@@ -145,7 +180,10 @@ function CityMap(props) {
         }
       }
       addMutationId(data);
-      if ( newClickedCityArray.length < 1 || newClickedCityArray[newClickedCityArray.length - 1].id === undefined) {
+      if (
+        newClickedCityArray.length < 1 ||
+        newClickedCityArray[newClickedCityArray.length - 1].id === undefined
+      ) {
         setTimeout(() => {
           addMutationId(data);
         }, 1000);
@@ -198,6 +236,12 @@ function CityMap(props) {
     type: "FeatureCollection",
     features: props.geoJsonArray,
   };
+
+  const countryJson = {
+    type: "FeatureCollection",
+    features: props.filteredCountryJsonData,
+  };
+
   function useEffectSkipFirstUserClickedCityArray() {
     const isFirst = useRef(true);
     useEffect(() => {
@@ -268,6 +312,23 @@ function CityMap(props) {
   useEffectSkipFirstCurrentTiming(() => {}, [props.currentTiming]);
 
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
+
+  useEffect(() => {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    let countryArray = props.countryArray;
+    for (let i in countryArray) {
+      if (countryArray[i].tripTiming === 0) {
+        pastCount++;
+      } else if (countryArray[i].tripTiming === 1) {
+        futureCount++;
+      } else if (countryArray[i].tripTiming === 2) {
+        liveCount++;
+      }
+    }
+    handleCountryTimingCounts([pastCount, futureCount, liveCount]);
+  }, [props.countryArray]);
 
   function geoScoreSwal() {
     const swalParams = {
@@ -764,7 +825,28 @@ function CityMap(props) {
         break;
     }
   }
-
+  function _renderCountryPopup() {
+    return (
+      <Popup
+        className="city-map-tooltip"
+        anchor={null}
+        latitude={countryTooltip.latitude}
+        longitude={countryTooltip.longitude}
+        closeOnClick={false}
+        closeButton={false}
+        offset={[0, -5]}
+      >
+        <div className="city-tooltip-nosave" id="country-map-tooltip">
+          <span className="country-map-tooltip-country">
+            {countryTooltip.name}
+          </span>
+          <span className="country-map-tooltip-capital">
+            {countryTooltip.capital}
+          </span>
+        </div>
+      </Popup>
+    );
+  }
   function _renderPopup() {
     return (
       cityTooltip && (
@@ -834,9 +916,20 @@ function CityMap(props) {
 
   let cityClick = (obj) => {
     handleCityTooltip(null);
+    handleCountryTooltip(null);
     if (obj.features.length !== 0) {
       let parsedJson = JSON.parse(obj.features[0].properties.city);
       handleCityTooltip(parsedJson);
+    }
+  };
+
+  let countryClick = (obj) => {
+    handleCountryTooltip(null);
+    if (obj.features.length !== 0) {
+      let parsedJson = obj.features[0].properties;
+      parsedJson.latitude = obj.lngLat.lat;
+      parsedJson.longitude = obj.lngLat.lng;
+      handleCountryTooltip(parsedJson);
     }
   };
 
@@ -864,6 +957,7 @@ function CityMap(props) {
                 >
                   <MapScorecard
                     tripTimingCounts={tripTimingCounts}
+                    countryTimingCounts={countryTimingCounts}
                     activeTimings={activeTimings}
                     sendActiveTimings={handleActiveTimings}
                   />
@@ -874,10 +968,9 @@ function CityMap(props) {
                   onClick={handleMapTypeChangeHelper}
                 >
                   <span className="new-map-suggest">
-                    <span className="sc-control-label">Country map</span>
+                    <span className="sc-control-label">Import</span>
                     <span
                       id="map-change-icon"
-                      onClick={handleMapTypeChangeHelper}
                     >
                       <MapChangeIcon />
                     </span>
@@ -903,17 +996,13 @@ function CityMap(props) {
             onClick={handleMapTypeChangeHelper}
           >
             <span className="new-map-suggest">
-              <span className="sc-control-label">Country map</span>
-              <span id="map-change-icon" onClick={handleMapTypeChangeHelper}>
+              <span className="sc-control-label">Import</span>
+              <span id="map-change-icon">
                 <MapChangeIcon />
               </span>
             </span>
           </div>
           <div className="map-header-button-container">
-            <div className={"personal-map-save"} id="city-map-share">
-              <span>IMPORT CITIES</span>
-              <SaveIcon />
-            </div>
             <ShareButton username={user.userData.username} />
           </div>
           {props.currentTiming !== 2 ? (
@@ -943,7 +1032,14 @@ function CityMap(props) {
           zoom={viewport.zoom}
           minZoom={0.25}
           style={mapStyle}
-          interactiveLayerIds={["past", "future", "live"]}
+          interactiveLayerIds={[
+            "past",
+            "future",
+            "live",
+            "pastCountries",
+            "futureCountries",
+            "liveCountries",
+          ]}
         >
           <Geocoder
             mapRef={mapRef}
@@ -957,7 +1053,31 @@ function CityMap(props) {
             placeholder={"Type a city..."}
             inputValue={""}
           />
+          <Source type="geojson" id="route2" data={countryJson}></Source>
+
+          <FeatureState id="route2" source="route2" state={{ hover: true }} />
           <Source type="geojson" id="route" data={geojson}></Source>
+          {activeTimings[0] ? (
+            <Layer
+              {...pastCountryLayer}
+              source="route2"
+              onClick={countryClick}
+            />
+          ) : null}
+          {activeTimings[1] ? (
+            <Layer
+              {...futureCountryLayer}
+              source="route2"
+              onClick={countryClick}
+            />
+          ) : null}
+          {activeTimings[2] ? (
+            <Layer
+              {...liveCountryLayer}
+              source="route2"
+              onClick={countryClick}
+            />
+          ) : null}
           {activeTimings[0] ? (
             <Layer {...pastLayer} source="route" onClick={cityClick} />
           ) : null}
@@ -969,6 +1089,7 @@ function CityMap(props) {
           ) : null}
           <FeatureState id={100} source="route" state={{ hover: true }} />
           {cityTooltip ? _renderPopup() : null}
+          {countryTooltip ? _renderCountryPopup() : null}
         </MapGL>
       </div>
       <div className="zoom-buttons">
@@ -986,6 +1107,7 @@ function CityMap(props) {
       <div className="city-map-scorecard">
         <MapScorecard
           tripTimingCounts={tripTimingCounts}
+          countryTimingCounts={countryTimingCounts}
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
         />

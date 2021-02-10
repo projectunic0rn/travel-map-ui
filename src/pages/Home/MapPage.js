@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import UserContext from "../../utils/UserContext";
+import jsonData from "../../geoJsonCountries.json";
 
-import CountryMap from "./subcomponents/CountryMap";
 import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
 
@@ -13,6 +13,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
   const [loaded, handleLoaded] = useState(false);
   const [timing, handleTimingChange] = useState(0);
   const [geoJsonArray, handleGeoJsonArray] = useState([]);
+  const [filteredCountryJsonData, handleFilteredCountryJsonData] = useState();
 
   useEffect(() => {
     handleLoaded(true);
@@ -30,7 +31,7 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
             cityId: city.cityId,
             latitude: city.city_latitude,
             longitude: city.city_longitude,
-            tripTiming: city.tripTiming
+            tripTiming: city.tripTiming,
           },
         },
         geometry: {
@@ -60,20 +61,49 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
   function handleAlteredCityArray(newCityArray) {
     handleClickedCityArray(newCityArray);
     let newCountryArray = [];
+    let newFilteredCountryData = [];
     for (let i = 0; i < newCityArray.length; i++) {
+      var newGeoJson = {};
       if (
         !newCountryArray.some((country) => {
-          return country.countryId === newCityArray[i].countryId;
+          return (
+            country.countryId === newCityArray[i].countryId &&
+            country.tripTiming === newCityArray[i].tripTiming
+          );
         })
       ) {
         newCountryArray.push({
           countryId: newCityArray[i].countryId,
           country: newCityArray[i].country,
           tripTiming: newCityArray[i].tripTiming,
+          countryISO: newCityArray[i].countryISO,
         });
+        let geoJson = jsonData.features.find(
+          (jsonCountry) =>
+            newCityArray[i].countryISO === jsonCountry.properties.ISO2
+        );
+        if (geoJson) {
+          newGeoJson = JSON.parse(JSON.stringify(geoJson));
+          switch (newCityArray[i].tripTiming) {
+            case 0:
+              newGeoJson.properties.icon = "pastCountry";
+              break;
+            case 1:
+              newGeoJson.properties.icon = "futureCountry";
+              break;
+            case 2:
+              newGeoJson.properties.icon = "liveCountry";
+              break;
+            default:
+              break;
+          }
+
+          newFilteredCountryData.push(newGeoJson);
+        }
       }
     }
     addCountry(newCountryArray);
+    handleFilteredCountryJsonData(newFilteredCountryData);
   }
 
   if (!loaded) return <Loader />;
@@ -96,23 +126,16 @@ const MapPage = ({ mapPage, refetch, handleMapPageChange }) => {
         </div>
       ) : null}
       <div className={mapPage ? "map city-map" : "map country-map"}>
-        {mapPage ? (
-          <CityMap
-            handleMapTypeChange={handleMapPageChange}
-            refetch={refetch}
-            clickedCityArray={newClickedCityArray}
-            handleAlteredCityArray={handleAlteredCityArray}
-            currentTiming={timing}
-            geoJsonArray={geoJsonArray}
-          />
-        ) : (
-          <CountryMap
-            countryArray={countryArray}
-            handleMapTypeChange={handleMapPageChange}
-            refetch={refetch}
-            currentTiming={timing}
-          />
-        )}
+        <CityMap
+          handleMapTypeChange={handleMapPageChange}
+          refetch={refetch}
+          clickedCityArray={newClickedCityArray}
+          countryArray={countryArray}
+          handleAlteredCityArray={handleAlteredCityArray}
+          currentTiming={timing}
+          geoJsonArray={geoJsonArray}
+          filteredCountryJsonData={filteredCountryJsonData}
+        />
       </div>
     </div>
   );
