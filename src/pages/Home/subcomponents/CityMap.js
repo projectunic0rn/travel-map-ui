@@ -22,7 +22,6 @@ import {
   REMOVE_PLACE_VISITED,
   REMOVE_PLACE_LIVING,
 } from "../../../GraphQL";
-import { calculateTravelScoreIndex } from "../../../CommonFunctions";
 import UserContext from "../../../utils/UserContext";
 import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
@@ -243,7 +242,6 @@ function CityMap(props) {
     type: "FeatureCollection",
     features: props.filteredCountryJsonData,
   };
-  console.log(countryJson);
 
   function useEffectSkipFirstUserClickedCityArray() {
     const isFirst = useRef(true);
@@ -491,6 +489,12 @@ function CityMap(props) {
       handleTripTimingCounts([pastCount, futureCount, liveCount]);
     }
     calculateTravelScore();
+  }
+
+  function calculateTravelScoreIndex(lat, long) {
+    let travelScoreIndex;
+    travelScoreIndex = (89 - Math.floor(lat)) * 360 + 180 + Math.floor(long);
+    return travelScoreIndex;
   }
 
   function calculateTravelScore() {

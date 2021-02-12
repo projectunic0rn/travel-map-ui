@@ -95,22 +95,19 @@ const FriendMapPage = ({ user }) => {
   }
 
   function filterCountries(filterParams) {
-    console.log(clickedCountryArray);
     let filteredCountryArray = clickedCountryArray.filter(
       (country) => filterParams[0].username.indexOf(country.username) !== -1
     );
-    console.log(filteredCountryArray);
-    console.log(countryJsonData);
     let newFilteredCountryJsonData = countryJsonData.filter((jsonCountry) => {
       return filteredCountryArray.some((country) => {
         return (
-          (jsonCountry.properties.ISO2 === country.countryISO || jsonCountry.properties.name === country.country) &&
+          (jsonCountry.properties.ISO2 === country.countryISO ||
+            jsonCountry.properties.name === country.country) &&
           Number(jsonCountry.properties.icon) === country.tripTiming
         );
       });
     });
 
-    console.log(newFilteredCountryJsonData);
     handleFilteredCountries(filteredCountryArray);
     handleFilteredCountryJsonData(newFilteredCountryJsonData);
   }
@@ -121,7 +118,6 @@ const FriendMapPage = ({ user }) => {
       let newFilteredCountryData = [];
       let geoJson = {};
       var newGeoJson = {};
-      console.log(data);
       for (let i in data) {
         let userData = data[i];
         if (userData != null && userData.Places_visited.length !== 0) {
@@ -146,7 +142,9 @@ const FriendMapPage = ({ user }) => {
                 geoJson = jsonData.features.find(
                   (jsonCountry) =>
                     userData.Places_visited[j].country ===
-                    jsonCountry.properties.name || userData.Places_visited[j].countryISO === jsonCountry.properties.ISO2
+                      jsonCountry.properties.name ||
+                    userData.Places_visited[j].countryISO ===
+                      jsonCountry.properties.ISO2
                 );
                 if (geoJson) {
                   newGeoJson = JSON.parse(JSON.stringify(geoJson));
@@ -186,9 +184,9 @@ const FriendMapPage = ({ user }) => {
                 geoJson = jsonData.features.find(
                   (jsonCountry) =>
                     userData.Places_visiting[j].country ===
-                    jsonCountry.properties.name || userData.Places_visiting[j].countryISO ===
-                    jsonCountry.properties.ISO2
-
+                      jsonCountry.properties.name ||
+                    userData.Places_visiting[j].countryISO ===
+                      jsonCountry.properties.ISO2
                 );
                 if (geoJson) {
                   newGeoJson = JSON.parse(JSON.stringify(geoJson));
@@ -226,7 +224,10 @@ const FriendMapPage = ({ user }) => {
             ) {
               geoJson = jsonData.features.find(
                 (jsonCountry) =>
-                  userData.Place_living.country === jsonCountry.properties.name || userData.Place_living.countryISO === jsonCountry.properties.ISO2
+                  userData.Place_living.country ===
+                    jsonCountry.properties.name ||
+                  userData.Place_living.countryISO ===
+                    jsonCountry.properties.ISO2
               );
               if (geoJson) {
                 newGeoJson = JSON.parse(JSON.stringify(geoJson));
@@ -246,7 +247,6 @@ const FriendMapPage = ({ user }) => {
       }
       addCountry(countryArray);
       handleFilteredCountries(countryArray);
-      console.log(countryArray);
       handleCountryJsonData(newFilteredCountryData);
       handleFilteredCountryJsonData(newFilteredCountryData);
       handleTripDataHelper(user.Friends);

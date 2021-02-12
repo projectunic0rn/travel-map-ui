@@ -395,8 +395,6 @@ function FriendCityMap(props) {
     handleClickedCity(hoveredCityArray);
   }
   function handleClickedCountryTooltip() {
-    console.log(countryTooltip);
-    console.log(props.countryArray);
     let filterByCountry = props.countryArray.filter((country) => {
       return (
         country.countryISO === countryTooltip.ISO2 ||
@@ -406,8 +404,6 @@ function FriendCityMap(props) {
     let reFilter = filterByCountry.filter((country) => {
       return country.country.slice(0, 6) === countryTooltip.name.slice(0, 6);
     });
-    console.log(filterByCountry);
-    console.log(reFilter);
     handleActivePopup(true);
     handleHoveredCityArray(reFilter);
     handleClickedCity(reFilter);
@@ -722,6 +718,7 @@ FriendCityMap.propTypes = {
   handleLeaderboard: PropTypes.func,
   geoJsonArray: PropTypes.array,
   filteredCountryJsonData: PropTypes.array,
+  countryArray: PropTypes.array
 };
 
 export default FriendCityMap;

@@ -7,8 +7,6 @@ import Cluster from "@urbica/react-map-gl-cluster";
 import Geocoder from "react-map-gl-geocoder";
 import Swal from "sweetalert2";
 
-import { calculateTravelScoreIndex } from "../../../CommonFunctions";
-
 import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
@@ -133,6 +131,12 @@ function NewUserCity(props) {
 
   function handleViewportChange(newViewport) {
     handleViewport({ ...viewport, ...newViewport });
+  }
+
+  function calculateTravelScoreIndex(lat, long) {
+    let travelScoreIndex;
+    travelScoreIndex = (89 - Math.floor(lat)) * 360 + 180 + Math.floor(long);
+    return travelScoreIndex;
   }
 
   function setInitialZoom() {

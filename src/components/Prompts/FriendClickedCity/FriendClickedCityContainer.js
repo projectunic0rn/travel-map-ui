@@ -13,7 +13,7 @@ function FriendClickedCityContainer(props) {
   const [cityName, handleCityName] = useState(null);
   const [countryName, handleCountryName] = useState(null);
   const [friendsWithTrips, handleFriendsWithTrips] = useState(0);
-  const [cityHover, handleCityHover] = useState(true);
+  const [, handleCityHover] = useState(true);
   useEffect(() => {
     if (props.customProps.hoveredCityArray.length < 1) {
       handleCityName(props.customProps.clickedCity.result["text_en-US"]);
