@@ -141,6 +141,7 @@ const FriendCountryMap = (props) => {
         });
       }
     }
+    console.log(countryArray)
     handleCountryArray(countryArray);
     handleFilteredCountries(countryArray);
     handleTripTiming([pastCount, futureCount, liveCount]);
@@ -290,11 +291,11 @@ const FriendCountryMap = (props) => {
             </nav>
             <div className="side-menu-container">
               <div className="city-new-map-scorecard" id="scorecard-side-menu">
-                <MapScorecard
+                {/* <MapScorecard
                   tripTimingCounts={filteredTripTimingCounts}
                   activeTimings={activeTimings}
                   sendActiveTimings={handleActiveTimings}
-                />
+                /> */}
               </div>
               <div
                 id="new-city-map-button-side-menu"
@@ -430,11 +431,11 @@ const FriendCountryMap = (props) => {
         />
       ) : null}
       <div id="new-country-scorecard">
-        <MapScorecard
+        {/* <MapScorecard
           tripTimingCounts={filteredTripTimingCounts}
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
-        />
+        /> */}
         <MapInfoContainer countryName={countryName} capitalName={capitalName} />
       </div>
     </>

@@ -8,6 +8,8 @@ export default function MapScorecard({
   sendActiveTimings,
   activeTimings,
   countryTimingCounts,
+  handleScorecardFilterClick,
+  activeFilters,
 }) {
   const [isPastActive, handlePastActive] = useState(activeTimings[0]);
   const [isFutureActive, handleFutureActive] = useState(activeTimings[1]);
@@ -94,15 +96,39 @@ export default function MapScorecard({
     }
   }
 
+  function handleScorecardFilterClickHelper(e) {
+    if (activeFilters === Number(e.target.value)) {
+      handleScorecardFilterClick(0);
+    } else {
+      handleScorecardFilterClick(Number(e.target.value));
+    }
+  }
+
   return (
     <div id="map-scorecard-container" className="map-scorecard-container">
       <DragIcon id="scorecard-drag-icon" />
       <span className="scorecard-instructions">
         Click checkboxes to filter map
       </span>
-      <span className = 'map-scorecard-headers'>
-        <span>Countries</span>
-        <span>Cities</span>
+      <span className="map-scorecard-headers">
+        <button
+          className={
+            activeFilters !== 2 ? "scorecard-button-active" : "scorecard-button"
+          }
+          value={2}
+          onClick={handleScorecardFilterClickHelper}
+        >
+          Nations
+        </button>
+        <button
+          className={
+            activeFilters !== 1 ? "scorecard-button-active" : "scorecard-button"
+          }
+          value={1}
+          onClick={handleScorecardFilterClickHelper}
+        >
+          Cities
+        </button>
       </span>
       <input
         className="scorecard-checkbox"
@@ -120,8 +146,12 @@ export default function MapScorecard({
         </span>
         <span className="scorecard-label-name" style={{ color: "#CB7678" }}>
           {/* past: */}
-          <span className="scorecard-count" id ="scorecard-country-count">{countryTimingCounts[0]}</span>
-          <span className="scorecard-count"id ="scorecard-city-count">{tripTimingCounts[0]}</span>
+          <span className="scorecard-count" id="scorecard-country-count">
+            {countryTimingCounts[0]}
+          </span>
+          <span className="scorecard-count" id="scorecard-city-count">
+            {tripTimingCounts[0]}
+          </span>
         </span>
       </label>
       <input
@@ -140,8 +170,12 @@ export default function MapScorecard({
         </span>
         <span className="scorecard-label-name" style={{ color: "#73A7C3" }}>
           {/* future: */}
-          <span className="scorecard-count" id ="scorecard-country-count">{countryTimingCounts[1]}</span>
-          <span className="scorecard-count" id ="scorecard-city-count">{tripTimingCounts[1]}</span>
+          <span className="scorecard-count" id="scorecard-country-count">
+            {countryTimingCounts[1]}
+          </span>
+          <span className="scorecard-count" id="scorecard-city-count">
+            {tripTimingCounts[1]}
+          </span>
         </span>
       </label>
       <input
@@ -160,8 +194,12 @@ export default function MapScorecard({
         </span>
         <span className="scorecard-label-name" style={{ color: "#96B1A8" }}>
           {/* live: */}
-          <span className="scorecard-count" id ="scorecard-country-count">{countryTimingCounts[2]}</span>
-          <span className="scorecard-count" id ="scorecard-city-count">{tripTimingCounts[2]}</span>
+          <span className="scorecard-count" id="scorecard-country-count">
+            {countryTimingCounts[2]}
+          </span>
+          <span className="scorecard-count" id="scorecard-city-count">
+            {tripTimingCounts[2]}
+          </span>
         </span>
       </label>
       <svg className="inline-svg">
@@ -174,10 +212,10 @@ export default function MapScorecard({
 }
 
 MapScorecard.propTypes = {
-  countryName: PropTypes.string,
-  capitalName: PropTypes.string,
   tripTimingCounts: PropTypes.array,
   countryTimingCounts: PropTypes.array,
   activeTimings: PropTypes.array,
   sendActiveTimings: PropTypes.func,
+  handleScorecardFilterClick: PropTypes.func,
+  activeFilters: PropTypes.number,
 };

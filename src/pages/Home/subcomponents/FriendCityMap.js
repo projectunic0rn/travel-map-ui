@@ -34,7 +34,37 @@ const pastLayer = {
     "circle-stroke-color": "rgba(203, 118, 120, 0.25)",
     "circle-stroke-width": 4,
   },
-  filter: ["==", "icon", "past"],
+  filter: ["==", "icon", "0"],
+};
+
+const pastCountryLayer = {
+  id: "pastCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(200, 100, 100, 0.25)",
+    "fill-outline-color": "rgba(255, 0, 0, 0.25)",
+  },
+  filter: ["==", "icon", "0"],
+};
+
+const futureCountryLayer = {
+  id: "futureCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(100, 100, 220, 0.25)",
+    "fill-outline-color": "rgba(0, 0, 255, 0.25)",
+  },
+  filter: ["==", "icon", "1"],
+};
+
+const liveCountryLayer = {
+  id: "liveCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(100, 200, 100, 0.25)",
+    "fill-outline-color": "rgba(0, 255, 0, 0.25)",
+  },
+  filter: ["==", "icon", "2"],
 };
 
 const futureLayer = {
@@ -46,7 +76,7 @@ const futureLayer = {
     "circle-stroke-color": "rgba(115, 167, 195, 0.25)",
     "circle-stroke-width": 4,
   },
-  filter: ["==", "icon", "future"],
+  filter: ["==", "icon", "1"],
 };
 
 const liveLayer = {
@@ -58,7 +88,7 @@ const liveLayer = {
     "circle-stroke-color": "rgba(150, 177, 168, 0.25)",
     "circle-stroke-width": 4,
   },
-  filter: ["==", "icon", "live"],
+  filter: ["==", "icon", "2"],
 };
 
 function FriendCityMap(props) {
@@ -70,12 +100,15 @@ function FriendCityMap(props) {
     zoom: setInitialZoom(),
   });
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
+  const [countryTimingCounts, handleCountryTimingCounts] = useState([0, 0, 0]);
   const [clickedCityArray, handleClickedCityArray] = useState(props.tripCities);
   const [, handleFilteredCityArray] = useState([]);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
+  const [activeFilters, handleScorecardFilterClick] = useState(0);
   const [loading, handleLoaded] = useState(true);
   const [activePopup, handleActivePopup] = useState(false);
   const [cityTooltip, handleCityTooltip] = useState(null);
+  const [countryTooltip, handleCountryTooltip] = useState(null);
   const [hoveredCityArray, handleHoveredCityArray] = useState(null);
   const [, handleFilter] = useState(false);
   const [filterSettings] = useState(props.filterParams);
@@ -87,7 +120,12 @@ function FriendCityMap(props) {
     type: "FeatureCollection",
     features: props.geoJsonArray,
   };
-  
+
+  const countryJson = {
+    type: "FeatureCollection",
+    features: props.filteredCountryJsonData,
+  };
+
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
@@ -114,6 +152,23 @@ function FriendCityMap(props) {
       handleLoadedCities(props.tripData);
     }, [props.tripData]);
   }
+
+  useEffect(() => {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    let countryArray = props.filteredCountryJsonData;
+    for (let i in countryArray) {
+      if (countryArray[i].properties.icon === "0") {
+        pastCount++;
+      } else if (countryArray[i].properties.icon === "1") {
+        futureCount++;
+      } else if (countryArray[i].properties.icon === "2") {
+        liveCount++;
+      }
+    }
+    handleCountryTimingCounts([pastCount, futureCount, liveCount]);
+  }, [props.filteredCountryJsonData]);
 
   function calculateTripTimingCounts(cityArray) {
     let pastCount = 0;
@@ -147,7 +202,7 @@ function FriendCityMap(props) {
     handleClickedCityArray(props.tripCities);
     if (props.tripCities.length >= 1 && props.tripCities !== undefined) {
       handleLoadedMarkers(props.tripCities);
-      calculateTripTimingCounts(props.tripCities);
+      // calculateTripTimingCounts(props.tripCities);
     }
   }, [props.tripCities]);
 
@@ -223,6 +278,16 @@ function FriendCityMap(props) {
       if (data != null && data[i].Places_visited.length !== 0) {
         for (let j = 0; j < data[i].Places_visited.length; j++) {
           if (data[i].Places_visited[j].cityId !== 0) {
+            if (
+              !clickedCityArray.some((city) => {
+                return (
+                  data[i].Places_visited[j].cityId === city.cityId &&
+                  city.tripTiming === 0
+                );
+              })
+            ) {
+              pastCount++;
+            }
             clickedCityArray.push({
               id: data[i].Places_visited[j].id,
               username: data[i].username,
@@ -240,13 +305,22 @@ function FriendCityMap(props) {
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color,
             });
-            pastCount++;
           }
         }
       }
       if (data != null && data[i].Places_visiting.length !== 0) {
         for (let j = 0; j < data[i].Places_visiting.length; j++) {
           if (data[i].Places_visiting[j].cityId !== 0) {
+            if (
+              !clickedCityArray.some((city) => {
+                return (
+                  data[i].Places_visiting[j].cityId === city.cityId &&
+                  city.tripTiming === 1
+                );
+              })
+            ) {
+              futureCount++;
+            }
             clickedCityArray.push({
               id: data[i].Places_visiting[j].id,
               username: data[i].username,
@@ -263,11 +337,20 @@ function FriendCityMap(props) {
                 data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
               color: data[i].color,
             });
-            futureCount++;
           }
         }
       }
       if (data != null && data[i].Place_living !== null) {
+        if (
+          !clickedCityArray.some((city) => {
+            return (
+              data[i].Place_living.cityId === city.cityId &&
+              city.tripTiming === 2
+            );
+          })
+        ) {
+          liveCount++;
+        }
         clickedCityArray.push({
           id: data[i].Place_living.id,
           username: data[i].username,
@@ -283,7 +366,6 @@ function FriendCityMap(props) {
           avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
           color: data[i].color,
         });
-        liveCount++;
       }
     }
     let filteredCityArray = clickedCityArray;
@@ -311,6 +393,51 @@ function FriendCityMap(props) {
     handleActivePopup(true);
     handleHoveredCityArray(hoveredCityArray);
     handleClickedCity(hoveredCityArray);
+  }
+  function handleClickedCountryTooltip() {
+    console.log(countryTooltip);
+    console.log(props.countryArray);
+    let filterByCountry = props.countryArray.filter((country) => {
+      return (
+        country.countryISO === countryTooltip.ISO2 ||
+        country.country === countryTooltip.name
+      );
+    });
+    let reFilter = filterByCountry.filter((country) => {
+      return country.country.slice(0, 6) === countryTooltip.name.slice(0, 6);
+    });
+    console.log(filterByCountry);
+    console.log(reFilter);
+    handleActivePopup(true);
+    handleHoveredCityArray(reFilter);
+    handleClickedCity(reFilter);
+  }
+
+  function _renderCountryPopup() {
+    return (
+      <Popup
+        className="city-map-tooltip"
+        anchor={null}
+        latitude={countryTooltip.latitude}
+        longitude={countryTooltip.longitude}
+        closeOnClick={false}
+        closeButton={false}
+        offset={[0, -5]}
+      >
+        <div
+          className="city-tooltip-nosave"
+          id="country-map-tooltip"
+          onClick={handleClickedCountryTooltip}
+        >
+          <span className="country-map-tooltip-country">
+            {countryTooltip.name}
+          </span>
+          <span className="country-map-tooltip-capital">
+            {countryTooltip.capital}
+          </span>
+        </div>
+      </Popup>
+    );
   }
   function _renderPopup() {
     let hoveredCityArray = [];
@@ -343,9 +470,20 @@ function FriendCityMap(props) {
 
   let cityClick = (obj) => {
     handleCityTooltip(null);
+    handleCountryTooltip(null);
     if (obj.features.length !== 0) {
       let parsedJson = JSON.parse(obj.features[0].properties.city);
       handleCityTooltip(parsedJson);
+    }
+  };
+
+  let countryClick = (obj) => {
+    handleCountryTooltip(null);
+    if (obj.features.length !== 0) {
+      let parsedJson = obj.features[0].properties;
+      parsedJson.latitude = obj.lngLat.lat;
+      parsedJson.longitude = obj.lngLat.lng;
+      handleCountryTooltip(parsedJson);
     }
   };
 
@@ -357,20 +495,7 @@ function FriendCityMap(props) {
         style={{ position: "absolute", left: "calc(50% - 500px)" }}
       >
         <div className="map-header-button">
-          <div
-            className="sc-controls sc-controls-left"
-            onClick={() => props.handleMapTypeChange(0)}
-          >
-            <span className="new-map-suggest">
-              <span className="sc-control-label">Country map</span>
-              <span
-                id="map-change-icon"
-                onClick={() => props.handleMapTypeChange(0)}
-              >
-                <MapChangeIcon />
-              </span>
-            </span>
-          </div>
+          
           <div
             id={props.leaderboard ? "fc-leaderboard-active" : "fc-leaderboard"}
             className="sc-controls sc-controls-right"
@@ -406,8 +531,11 @@ function FriendCityMap(props) {
                 >
                   <MapScorecard
                     tripTimingCounts={tripTimingCounts}
+                    countryTimingCounts={countryTimingCounts}
                     activeTimings={activeTimings}
                     sendActiveTimings={handleActiveTimings}
+                    handleScorecardFilterClick={handleScorecardFilterClick}
+                    activeFilters={activeFilters}
                   />
                 </div>
                 <div className="side-menu-buttons-container">
@@ -459,7 +587,14 @@ function FriendCityMap(props) {
           onViewportChange={handleViewportChange}
           zoom={viewport.zoom}
           style={mapStyle}
-          interactiveLayerIds={["past", "future", "live"]}
+          interactiveLayerIds={[
+            "past",
+            "future",
+            "live",
+            "pastCountries",
+            "futureCountries",
+            "liveCountries",
+          ]}
         >
           <Geocoder
             mapRef={mapRef}
@@ -471,18 +606,63 @@ function FriendCityMap(props) {
             types={"place"}
             placeholder={"Type a city..."}
           />
+          <Source type="geojson" id="route2" data={countryJson}></Source>
+          <FeatureState id="route2" source="route2" />
           <Source type="geojson" id="route" data={geojson}></Source>
-          {activeTimings[0] ? (
-            <Layer {...pastLayer} source="route" onClick={cityClick} />
+          {activeTimings[0] & (activeFilters !== 2) ? (
+            <Layer
+              {...pastCountryLayer}
+              source="route2"
+              onClick={countryClick}
+              id="above3"
+              before="below3"
+            />
           ) : null}
-          {activeTimings[1] ? (
-            <Layer {...futureLayer} source="route" onClick={cityClick} />
+          {activeTimings[1] & (activeFilters !== 2) ? (
+            <Layer
+              {...futureCountryLayer}
+              source="route2"
+              onClick={countryClick}
+              id="above2"
+              before="below3"
+            />
           ) : null}
-          {activeTimings[2] ? (
-            <Layer {...liveLayer} source="route" onClick={cityClick} />
+          {activeTimings[2] & (activeFilters !== 2) ? (
+            <Layer
+              {...liveCountryLayer}
+              source="route2"
+              onClick={countryClick}
+              id="above1"
+              before="below3"
+            />
+          ) : null}
+          {activeTimings[0] & (activeFilters !== 1) ? (
+            <Layer
+              {...pastLayer}
+              source="route"
+              onClick={cityClick}
+              id="below3"
+            />
+          ) : null}
+          {activeTimings[1] & (activeFilters !== 1) ? (
+            <Layer
+              {...futureLayer}
+              source="route"
+              onClick={cityClick}
+              id="below2"
+            />
+          ) : null}
+          {activeTimings[2] & (activeFilters !== 1) ? (
+            <Layer
+              {...liveLayer}
+              source="route"
+              onClick={cityClick}
+              id="below1"
+            />
           ) : null}
           <FeatureState id={100} source="route" state={{ hover: true }} />
-          {_renderPopup()}
+          {cityTooltip ? _renderPopup() : null}
+          {countryTooltip ? _renderCountryPopup() : null}
         </MapGL>
       </div>
       <div className="zoom-buttons">
@@ -502,6 +682,9 @@ function FriendCityMap(props) {
           tripTimingCounts={tripTimingCounts}
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
+          countryTimingCounts={countryTimingCounts}
+          handleScorecardFilterClick={handleScorecardFilterClick}
+          activeFilters={activeFilters}
         />
       </div>
       {activePopup ? (
@@ -538,6 +721,7 @@ FriendCityMap.propTypes = {
   leaderboard: PropTypes.bool,
   handleLeaderboard: PropTypes.func,
   geoJsonArray: PropTypes.array,
+  filteredCountryJsonData: PropTypes.array,
 };
 
 export default FriendCityMap;

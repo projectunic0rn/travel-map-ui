@@ -66,19 +66,29 @@
     font-size: 14px;
     color: #9c9ea0;
     display: flex;
-    span {
+    button {
       width: 92px;
       padding-left: 4px;
+      background: none;
+      display: flex;
+      justify-content: center;
+      border: none;
+      color: #67696b;
+      margin: 0 6px;
+      cursor: pointer;
     }
-    span:nth-child(1) {
+    button:nth-child(1) {
       display: flex;
       justify-content: flex-end;
-      padding-right: 24px;
+      padding-right: 20px;
     }
-    span:nth-child(2) {
+    button:nth-child(2) {
       display: flex;
       justify-content: flex-start;
-      padding-left: 20px;
+      padding-left: 12px;
+    }
+    .scorecard-button-active {
+      color: #9c9ea0;
     }
   }
 
