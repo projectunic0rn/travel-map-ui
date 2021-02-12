@@ -10,6 +10,7 @@
     "@urbica/react-map-gl-cluster": "^0.2.0",
     "apollo-boost": "^0.4.4",
     "compression": "^1.7.4",
+    "data.js": "^0.12.11",
     "dotenv": "^8.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
