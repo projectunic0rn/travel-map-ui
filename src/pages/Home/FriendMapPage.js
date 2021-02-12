@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import FriendCountryMap from "./subcomponents/FriendCountryMap";
 import FriendCityMap from "./subcomponents/FriendCityMap";
 import Loader from "../../components/common/Loader/Loader";
 import BloggerLeaderboardPrompt from "./subcomponents/BloggerLeaderboardPrompt";
@@ -301,31 +300,20 @@ const FriendMapPage = ({ user }) => {
             : "map country-map friend-country-map"
         }
       >
-        {cityOrCountry ? (
-          <FriendCityMap
-            tripData={filteredTripData}
-            handleMapTypeChange={handleMapTypeChange}
-            handleFilter={handleFilter}
-            filterParams={filterParams}
-            handleCities={handleCities}
-            tripCities={filteredCityArray}
-            handleFilteredCities={handleFilteredCities}
-            leaderboard={leaderboard}
-            handleLeaderboard={handleLeaderboardHelper}
-            geoJsonArray={geoJsonArray}
-            filteredCountryJsonData={filteredCountryJsonData}
-            countryArray={filteredCountryArray}
-          />
-        ) : (
-          <FriendCountryMap
-            clickedCountryArray={clickedCountryArray}
-            tripData={filteredTripData}
-            handleMapTypeChange={handleMapTypeChange}
-            filterParams={filterParams}
-            leaderboard={leaderboard}
-            handleLeaderboard={handleLeaderboardHelper}
-          />
-        )}
+        <FriendCityMap
+          tripData={filteredTripData}
+          handleMapTypeChange={handleMapTypeChange}
+          handleFilter={handleFilter}
+          filterParams={filterParams}
+          handleCities={handleCities}
+          tripCities={filteredCityArray}
+          handleFilteredCities={handleFilteredCities}
+          leaderboard={leaderboard}
+          handleLeaderboard={handleLeaderboardHelper}
+          geoJsonArray={geoJsonArray}
+          filteredCountryJsonData={filteredCountryJsonData}
+          countryArray={filteredCountryArray}
+        />
       </div>
       {leaderboard ? (
         <BloggerLeaderboardPrompt

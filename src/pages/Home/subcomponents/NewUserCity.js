@@ -1090,7 +1090,7 @@ function NewUserCity(props) {
       <div className="new-user-timing-control">
         Enter the
         <select onChange={(e) => handleTimingChange(e.target.value)}>
-          <option value={0}>cities you've visited &emsp;</option>
+          <option value={0}>cities you&apos;ve visited &emsp;</option>
           <option value={1}>cities you want to visit &emsp;</option>
           <option value={2}>city you live in &emsp;</option>
         </select>

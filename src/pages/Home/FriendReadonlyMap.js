@@ -3,7 +3,6 @@ import { NavLink, withRouter } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Query } from "react-apollo";
 import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
-import FriendReadonlyCountry from "./subcomponents/FriendReadonlyCountry";
 import FriendReadonlyCity from "./subcomponents/FriendReadonlyCity";
 import Loader from "../../components/common/Loader/Loader";
 import PageNotFound from "../../components/common/PageNotFound/PageNotFound";
@@ -25,14 +24,14 @@ const FriendReadonlyMap = () => {
     if (userData != null && userData.Places_visited.length !== 0) {
       for (let i = 0; i < userData.Places_visited.length; i++) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return country.countryId === userData.Places_visited[i].countryId;
           })
         ) {
           countryArray.push({
             username: userData.username,
             countryId: userData.Places_visited[i].countryId,
-            tripTiming: 0
+            tripTiming: 0,
           });
         }
       }
@@ -40,28 +39,28 @@ const FriendReadonlyMap = () => {
     if (userData != null && userData.Places_visiting.length !== 0) {
       for (let i = 0; i < userData.Places_visiting.length; i++) {
         if (
-          !countryArray.some(country => {
+          !countryArray.some((country) => {
             return country.countryId === userData.Places_visiting[i].countryId;
           })
         ) {
           countryArray.push({
             username: userData.username,
             countryId: userData.Places_visiting[i].countryId,
-            tripTiming: 1
+            tripTiming: 1,
           });
         }
       }
     }
     if (userData != null && userData.Place_living !== null) {
       if (
-        !countryArray.some(country => {
+        !countryArray.some((country) => {
           return country.countryId === userData.Place_living.countryId;
         })
       ) {
         countryArray.push({
           username: userData.username,
           countryId: userData.Place_living.countryId,
-          tripTiming: 2
+          tripTiming: 2,
         });
       }
     }
@@ -78,10 +77,10 @@ const FriendReadonlyMap = () => {
       type: "content",
       text:
         "GeorneyScore is a representation of how much of the world you have seen, the higher you score the more points you gain. We use a special metric to calculate this, which you can check out in the FAQ page!",
-      confirmButtonColor: "#656F80", 
-      closeOnClickOutside: true 
+      confirmButtonColor: "#656F80",
+      closeOnClickOutside: true,
     };
-    Swal.fire(swalParams)
+    Swal.fire(swalParams);
   }
   if (window.location.pathname.split("/")[2] === undefined) {
     return <PageNotFound />;
@@ -94,9 +93,9 @@ const FriendReadonlyMap = () => {
       notifyOnNetworkStatusChange
       fetchPolicy={"cache-and-network"}
       partialRefetch={true}
-      onCompleted={data => handleTripDataHelper(data.user)}
+      onCompleted={(data) => handleTripDataHelper(data.user)}
     >
-      {({ loading, error, data, refetch }) => {
+      {({ loading, error, data }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
         handleLoadedCountries(data);
@@ -110,19 +109,10 @@ const FriendReadonlyMap = () => {
               </NavLink>
             ) : null}
             <div className={cityOrCountry ? "map city-map" : "map country-map"}>
-              {cityOrCountry ? (
-                <FriendReadonlyCity
-                  tripData={tripData}
-                  handleMapTypeChange={handleMapTypeChange}
-                />
-              ) : (
-                <FriendReadonlyCountry
-                  clickedCountryArray={clickedCountryArray}
-                  tripData={tripData}
-                  handleMapTypeChange={handleMapTypeChange}
-                  refetch={refetch}
-                />
-              )}
+              <FriendReadonlyCity
+                tripData={tripData}
+                handleMapTypeChange={handleMapTypeChange}
+              />
             </div>
             <span className="georney-score" onClick={() => geoScoreSwal()}>
               <span className="gs-title">{"GeorneyScore"}</span>
