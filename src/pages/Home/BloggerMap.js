@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Query } from "react-apollo";
 import { GET_MULTI_USER_PLACES } from "../../GraphQL";
 
-import BloggerCountryMap from "./subcomponents/BloggerCountryMap";
 import BloggerCityMap from "./subcomponents/BloggerCityMap";
 import Loader from "../../components/common/Loader/Loader";
 import BloggerLeaderboardPrompt from "./subcomponents/BloggerLeaderboardPrompt";
@@ -21,14 +20,14 @@ const BloggerMap = () => {
     { username: "UncorneredMarket" },
     { username: "TheBrokeBackpacker" },
     // { username: "ThePlanetD" },
-    { username: "AlexinWanderland"},
+    { username: "AlexinWanderland" },
     { username: "BucketListly" },
-    { username: "heydipyourtoesin"},
-    {username: "WildJunket"}
+    { username: "heydipyourtoesin" },
+    { username: "WildJunket" },
   ]);
   const [userData, handleUserData] = useState([]);
   const [filteredUserData, handleFilteredUserData] = useState([]);
-  const [clickedCountryArray, addCountry] = useState([]);
+  const [, addCountry] = useState([]);
   const [, handleClickedCityArray] = useState([]);
   const [leaderboard, handleLeaderboard] = useState(false);
   const [activeBlogger, handleActiveBlogger] = useState(null);
@@ -106,33 +105,22 @@ const BloggerMap = () => {
       partialRefetch={true}
       onCompleted={(data) => handleBloggerData(data.multiUser)}
     >
-      {({ loading, error, data, refetch }) => {
+      {({ loading, error }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
         if (!loaded) return <Loader />;
         return (
           <div className="map-container" id="new-map">
             <div className={mapPage ? "map city-map" : "map country-map"}>
-              {mapPage ? (
-                <BloggerCityMap
-                  sendUserData={memoizedSendUserData}
-                  handleMapTypeChange={() => handleMapTypeChange(0)}
-                  bloggerData={filteredUserData}
-                  handleCities={memoizedHandleCities}
-                  handleLeaderboard={handleLeaderboard}
-                  leaderboard={leaderboard}
-                  activeBlogger={activeBlogger}
-                />
-              ) : (
-                <BloggerCountryMap
-                  clickedCountryArray={clickedCountryArray}
-                  handleMapTypeChange={() => handleMapTypeChange(1)}
-                  handleLeaderboard={handleLeaderboard}
-                  leaderboard={leaderboard}
-                  bloggerData={filteredUserData}
-                  activeBlogger={activeBlogger}
-                />
-              )}
+              <BloggerCityMap
+                sendUserData={memoizedSendUserData}
+                handleMapTypeChange={() => handleMapTypeChange(0)}
+                bloggerData={filteredUserData}
+                handleCities={memoizedHandleCities}
+                handleLeaderboard={handleLeaderboard}
+                leaderboard={leaderboard}
+                activeBlogger={activeBlogger}
+              />
             </div>
             {leaderboard ? (
               <BloggerLeaderboardPrompt

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import NewUserCountry from "./subcomponents/NewUserCountry";
 import NewUserCity from "./subcomponents/NewUserCity";
 import Loader from "../../components/common/Loader/Loader";
 
-const NewUserMap = ({handleMapPageChange, mapPage}) => {
+const NewUserMap = ({ handleMapPageChange, mapPage }) => {
   const [loaded] = useState(true);
-  const [clickedCountryArray, handleClickedCountryArray] = useState([]);
+  const [, handleClickedCountryArray] = useState([]);
   const [timing, handleTimingChange] = useState(0);
 
   useEffect(() => {
@@ -38,7 +37,7 @@ const NewUserMap = ({handleMapPageChange, mapPage}) => {
           Enter the
           <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
             <option id="select-past" value={0}>
-              cities you've visited &emsp;
+              cities you&apos;ve visited &emsp;
             </option>
             <option id="select-future" value={1}>
               cities you want to visit &emsp;
@@ -50,19 +49,11 @@ const NewUserMap = ({handleMapPageChange, mapPage}) => {
         </div>
       ) : null}
       <div className={mapPage ? "map city-map" : "map country-map"}>
-        {mapPage ? (
-          <NewUserCity
-            sendUserData={sendUserData}
-            handleMapTypeChange={handleMapPageChange}
-            currentTiming={timing}
-          />
-        ) : (
-          <NewUserCountry
-            clickedCountryArray={clickedCountryArray}
-            handleMapTypeChange={handleMapPageChange}
-            currentTiming={timing}
-          />
-        )}
+        <NewUserCity
+          sendUserData={sendUserData}
+          handleMapTypeChange={handleMapPageChange}
+          currentTiming={timing}
+        />
       </div>
     </div>
   );

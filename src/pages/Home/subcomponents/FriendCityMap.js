@@ -243,7 +243,7 @@ function FriendCityMap(props) {
 
   function handleLoadedMarkers() {
     handleLoaded(false);
-    handleActiveTimings([1, 1, 1]);
+    // handleActiveTimings([1, 1, 1]);
   }
 
   function handleOnResult(event) {
