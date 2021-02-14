@@ -23,9 +23,12 @@
       box-shadow: 1px 2px 1px rgba(#000, 0.16);
       border-radius: 4px;
       display: flex;
-      margin: 4px 20px;
+      margin: 4px 8px;
       min-height: calc(96%);
       // max-width: 800px;
+      @media (min-width: 800px) {
+        margin: 4px 20px;
+      }
       @media (min-width: 1400px) {
         max-width: 1560px;
       }

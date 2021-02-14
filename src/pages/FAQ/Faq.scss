@@ -10,6 +10,9 @@
   text-align: left;
   border: none;
   box-shadow: none;
+  @media screen and (max-width: 900px){
+    transform: translateY(80px);
+  }
 }
 
 .panel-group {

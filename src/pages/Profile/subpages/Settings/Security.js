@@ -146,7 +146,7 @@ export default function Security({ history }) {
                 className={`warning button ${loading ? "disabled" : ""}`}
                 onClick={() => onRemoveUserClick(loading, mutation)}
               >
-                Delete your account
+                Delete
               </div>
             )}
           </Mutation>
