@@ -153,9 +153,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgb(248, 248, 252);
+  background: none;
   border-radius: 8px;
-margin: 8px;
+  margin: 8px;
   .gravatar-info-container {
     display: flex;
     flex-direction: column;
@@ -164,14 +164,14 @@ margin: 8px;
     margin-top: 10px;
     margin-bottom: 10px;
     border-bottom: 0.5px solid rgb(200, 200, 200);
-    padding: 10px 40px 20px 40px;
-    color: rgb(74, 89, 90);
+    padding: 10px 20px 20px 20px;
+    color: rgb(204, 204, 204);
   }
   .avatar-grid-title {
     font-size: 24px;
     font-family: "Segoe UI", sans-serif;
     font-weight: 100;
-    color: rgb(150, 150, 150);
+    color: rgb(220, 220, 220);
     margin-top: 16px;
   }
   .user-avatar-grid {
@@ -186,13 +186,23 @@ margin: 8px;
     svg {
       width: 120px;
     }
+    div:nth-child(3) {
+      img {
+        transform: translateY(-5px);
+      }
+    }
     .avatar-grid-single {
       border-radius: 12px;
-      margin-top: 8px;
-      max-width: 80px;
+      margin: 8px 4px 4px 4px;
+      padding: 4px 2px 4px 2px;
+      max-width: 72px;
+      height: 76px;
+      background: rgb(248, 248, 252);
+      border:  2px solid rgb(248, 248, 252);
     }
     .avatar-grid-active {
-      box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0px 20px 0px rgba(0, 0,0, 0.5);
+      border: 2px solid rgba(120, 120, 120, 0.5);
     }
   }
 
@@ -243,4 +253,8 @@ margin: 8px;
   background: #c2d7e5;
   color: #5791b7;
   box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
+  &:hover {
+    background: #5791b7;
+    color: #c2d7e5;
+  }
 }

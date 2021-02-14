@@ -7,6 +7,9 @@
     padding-bottom: 4px;
     border-bottom: 1px solid rgba(248, 248, 252, 0.2);
     display: block;
+    @media screen and (max-width: 900px){
+      width: 232px;
+    }
   }
   form {
     display: flex;
@@ -34,6 +37,9 @@
     }
     input {
       width: 300px;
+      @media screen and (max-width: 600px){
+        width: 228px;
+      }
     }
   }
   .warning {
@@ -41,5 +47,9 @@
     display: flex;
     justify-content: center;
     margin: 8px;
+    @media screen and (max-width: 900px){
+      width: 228px;
+      font-size: 18px;
+    }
   }
 }

@@ -16,6 +16,9 @@
     background: rgb(248, 248, 252);
     border-radius: 16px;
     box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.16);
+    @media screen and (max-width: 900px) {
+      margin: 0 0px 28px 0px;
+    }
     .fc-user-interests {
       display: flex;
       flex-wrap: wrap;

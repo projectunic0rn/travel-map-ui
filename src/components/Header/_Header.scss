@@ -12,6 +12,8 @@
   background: $off-white;
   min-height: $height;
   max-height: $height;
+  position: fixed;
+  width: 100vw;
   .header-content {
     display: flex;
     align-items: center;
@@ -135,6 +137,7 @@
   padding-bottom: 4px;
   background: rgb(248, 248, 252);
   z-index: 2000;
+  transform: translateY(60px);
   @media (min-width: 1080px) {
     display: none;
   }
