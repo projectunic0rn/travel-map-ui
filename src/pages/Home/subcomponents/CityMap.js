@@ -1153,7 +1153,6 @@ function CityMap(props) {
 
 CityMap.propTypes = {
   deleteCity: PropTypes.func,
-  refetch: PropTypes.func,
   clickedCityArray: PropTypes.array,
   initialTravelScore: PropTypes.number,
   currentTiming: PropTypes.number,

@@ -1,7 +1,6 @@
-import React, { Fragment, useState, lazy, Suspense } from "react";
+import React, { Fragment, useState, useEffect, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import withMemo from '../../utils/withMemo';
 import NavLinks from "./subcomponents/NavLinks";
 import SiteLogo from "./subcomponents/SiteLogo";
 import SiteText from "../../icons/SiteText";
@@ -11,17 +10,15 @@ const LandingForm = lazy(() =>
   import("../../pages/Landing/subcomponents/LandingForm")
 );
 
-const Header = React.memo(function Header({
+const Header = function Header({
   userLoggedIn,
   avatarIndex,
   color,
+  setFormIsOpen,
+  formIsOpen
 }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-  let [formIsOpen, setFormIsOpen] = useState(false
-  );
-  function toggleFormIsOpen() {
-    setFormIsOpen(!formIsOpen);
-  }
+useEffect(() => console.log(formIsOpen), [])
 
   function handleHamburgerClickHelper() {
     handleHamburgerClick(!showHamburgerDropdown);
@@ -42,7 +39,7 @@ const Header = React.memo(function Header({
           <div className="nav-menu-container">
             <NavLinks
               formIsOpen={formIsOpen}
-              toggleFormIsOpen={toggleFormIsOpen}
+              toggleFormIsOpen={setFormIsOpen}
             />
             <div className="nav-hamburger">
               <div
@@ -60,7 +57,7 @@ const Header = React.memo(function Header({
             </div>
             {formIsOpen ? (
               <Suspense fallback={<></>}>
-                <LandingForm setFormIsOpen={toggleFormIsOpen} />
+                <LandingForm setFormIsOpen={setFormIsOpen} />
               </Suspense>
             ) : (
               ""
@@ -87,7 +84,7 @@ const Header = React.memo(function Header({
       </div>
     </Fragment>
   );
-});
+};
 
 Header.propTypes = {
   userLoggedIn: PropTypes.bool,
@@ -95,4 +92,4 @@ Header.propTypes = {
   avatarIndex: PropTypes.number,
 };
 
-export default withMemo(Header, []);
+export default Header;

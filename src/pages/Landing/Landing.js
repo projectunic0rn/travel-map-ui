@@ -1,14 +1,8 @@
 import React, {
-  useState,
-  useRef,
-  useEffect,
   lazy,
   Suspense,
-  useCallback,
 } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
-import withMemo from "../../utils/withMemo";
 import LandingImage from "../../images/MapLanding.png";
 
 import Loader from "../../components/common/Loader/Loader";
@@ -22,7 +16,7 @@ const FakeClickedFriendCityContainer = lazy(() =>
 );
 const Footer = lazy(() => import("./Footer"));
 
-function Landing() {
+function Landing({ setFormIsOpen, formIsOpen }) {
   return (
     <>
       <Suspense fallback={<Loader />}>
@@ -32,11 +26,8 @@ function Landing() {
             id="landing-map"
             style={{ zIndex: "-1" }}
           >
-            <img
-              src={LandingImage}
-              alt="World map with markers"
-            ></img>
-            <div className = 'img-below'></div>
+            <img src={LandingImage} alt="World map with markers"></img>
+            <div className="img-below"></div>
           </div>
           <div className="landing-motto-container">
             <div className="landing-motto">
@@ -55,9 +46,11 @@ function Landing() {
                 have been to help guide decisions on where to go next.
               </p>
             </div>
-            <NavLink exact to={`/new`}>
-              <button className="button new-map-button">Make my map</button>
-            </NavLink>
+            {!formIsOpen ? <button className="button new-map-button" onClick={setFormIsOpen}>
+              Make my map
+            </button> : <button className="button new-map-button">
+              Login
+            </button>}
             <div className="border-bar-container">
               <span className="landing-green-bar" />
               <span className="landing-red-bar" />
@@ -130,4 +123,4 @@ Landing.propTypes = {
   handleUserLogin: PropTypes.func,
 };
 
-export default withMemo(Landing, []);
+export default Landing;

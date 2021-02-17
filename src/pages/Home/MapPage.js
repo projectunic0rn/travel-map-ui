@@ -6,7 +6,7 @@ import jsonData from "../../geoJsonCountries.json";
 import CityMap from "./subcomponents/CityMap";
 import Loader from "../../components/common/Loader/Loader";
 
-const MapPage = ({ mapPage, refetch }) => {
+const MapPage = () => {
   const user = React.useContext(UserContext).clickedCityArray;
   const [countryArray, addCountry] = useState([]);
   const [newClickedCityArray, handleClickedCityArray] = useState([]);
@@ -108,7 +108,6 @@ const MapPage = ({ mapPage, refetch }) => {
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
-      {mapPage ? (
         <div className="user-timing-control">
           Enter the
           <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
@@ -123,10 +122,8 @@ const MapPage = ({ mapPage, refetch }) => {
             </option>
           </select>
         </div>
-      ) : null}
-      <div className={mapPage ? "map city-map" : "map country-map"}>
+      <div className="map city-map">
         <CityMap
-          refetch={refetch}
           clickedCityArray={newClickedCityArray}
           countryArray={countryArray}
           handleAlteredCityArray={handleAlteredCityArray}
@@ -140,9 +137,6 @@ const MapPage = ({ mapPage, refetch }) => {
 };
 
 MapPage.propTypes = {
-  refetch: PropTypes.func,
-  mapPage: PropTypes.number,
-  handleMapPageChange: PropTypes.func,
   clickedCityArray: PropTypes.array,
 };
 
