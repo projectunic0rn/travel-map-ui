@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import {
   ACCEPT_FRIEND_REQUEST,
   REJECT_FRIEND_REQUEST,
   DELETE_FRIEND,
-  SEND_FRIEND_REQUEST
+  SEND_FRIEND_REQUEST,
 } from "../../../../GraphQL";
 
-import InterestIcon from "../../../../icons/InterestIcon";
 import UserAvatar from "../../../../components/UserAvatar/UserAvatar";
-import { interestConsts } from "../../../../InterestConsts";
 import DoNotRecommendIcon from "../../../../icons/DoNotRecommendIcon";
 import RecommendIcon from "../../../../icons/RecommendIcon";
-import AddFriendIcon from '../../../../icons/AddFriendIcon';
+import AddFriendIcon from "../../../../icons/AddFriendIcon";
 
 function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
   const [, handleRequested] = useState(false);
@@ -40,10 +37,8 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
   const [rejected, handleRejected] = useState(false);
   const [cityArray, handleCityArray] = useState([]);
   const [countryArray, handleCountryArray] = useState([]);
-  const [age, handleAge] = useState(null);
   const [deletePrompt, handleDeletePrompt] = useState(false);
   useEffect(() => {
-    calculateAge(friend.birthday);
     let cityArray = [0];
     let countryArray = [0];
     if (friend.Places_visited !== null) {
@@ -67,24 +62,7 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
     handleCityArray(cityArray);
     handleCountryArray(countryArray);
   }, [friend]);
-  function calculateAge(birthDate) {
-    if (birthDate === null) {
-      return;
-    }
-    birthDate = new Date(birthDate);
-    let otherDate = new Date();
 
-    var years = otherDate.getFullYear() - birthDate.getFullYear();
-
-    if (
-      otherDate.getMonth() < birthDate.getMonth() ||
-      (otherDate.getMonth() === birthDate.getMonth() &&
-        otherDate.getDate() < birthDate.getDate())
-    ) {
-      years--;
-    }
-    handleAge(years);
-  }
   function splitLongUsername(username) {
     let splitUsername = username.split("");
     for (let i = 1; i < splitUsername.length - 1; i++) {
@@ -139,7 +117,11 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
         <div className="friend-card">
           <div className="reject-container">
             {!rejected ? (
-              urlUsername === undefined ? <DoNotRecommendIcon onClick={() => handleDeletePrompt(true)}/> : <AddFriendIcon onClick={sendFriendRequestHelper}/>
+              urlUsername === undefined ? (
+                <DoNotRecommendIcon onClick={() => handleDeletePrompt(true)} />
+              ) : (
+                <AddFriendIcon onClick={sendFriendRequestHelper} />
+              )
             ) : (
               <svg
                 className="decline"
@@ -161,107 +143,25 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
               </svg>
             )}
             {deletePrompt ? (
-            <div className="delete-prompt">
-              <span style={{ textAlign: "center" }}>
-                Are you sure you want to delete <strong>{friend.username}</strong> as a friend?
-              </span>
-              <div>
-                <button
-                  className="button deny"
-                  onClick={handleDeleteFriend}
-                >
-                  Yes
-                </button>
-                <button
-                  className="button confirm"
-                  onClick={() => handleDeletePrompt(false)}
-                >
-                  No
-                </button>
-              </div>
-            </div>
-          ) : null}
-          </div>
-          <NavLink
-            to={{
-              pathname: `/profiles/${friend.username}/cities`,
-              state: { searchText: "" },
-            }}
-          >
-            <div className="fc-user-info">
-              <span className="fc-user-avatar">
-                <UserAvatar
-                  avatarIndex={friend.avatarIndex}
-                  color={friend.color}
-                  email={friend.email}
-                />
-              </span>
-              <div className="fc-user-details">
-                <span className="fc-username">
-                  {friend.username.length > 18
-                    ? splitLongUsername(friend.username)
-                    : friend.username}
-                  {age ? ", " + age : null}
+              <div className="delete-prompt">
+                <span style={{ textAlign: "center" }}>
+                  Are you sure you want to delete{" "}
+                  <strong>{friend.username}</strong> as a friend?
                 </span>
-                <span className="fc-user-location">
-                  {friend.Place_living !== null
-                    ? friend.Place_living.city !== ""
-                      ? friend.Place_living.city +
-                        ", " +
-                        friend.Place_living.countryISO
-                      : "City, " + friend.Place_living.countryISO
-                    : "City, Country"}
-                </span>
-              </div>
-              {page === 0 ? (
-                <div className="fc-georney-score">
-                  <span>{Math.ceil(friend.georneyScore)}</span>
+                <div>
+                  <button className="button deny" onClick={handleDeleteFriend}>
+                    Yes
+                  </button>
+                  <button
+                    className="button confirm"
+                    onClick={() => handleDeletePrompt(false)}
+                  >
+                    No
+                  </button>
                 </div>
-              ) : null}
-            </div>
-          </NavLink>
-          <div className="fc-user-metrics">
-            {/* <span className="fc-user-metric">
-            <span className="fc-user-metric-value">0</span>
-            <span className="fc-user-metric-type">friends</span>
-          </span> */}
-            <span className="fc-user-metric">
-              <span className="fc-user-metric-value">
-                {countryArray.length - 1}
-              </span>
-              <span className="fc-user-metric-type">countries</span>
-            </span>
-            <span className="fc-user-metric">
-              <span className="fc-user-metric-value">
-                {cityArray.length - 1}
-              </span>
-              <span className="fc-user-metric-type">cities</span>
-            </span>
+              </div>
+            ) : null}
           </div>
-
-          <div className="fc-user-interests">
-            {friend.UserInterests.map((interest) =>
-              interest.name !== "" ? (
-                <span key={interest.name + interest.id}>
-                  <InterestIcon
-                    icon={interest.name}
-                    color={
-                      friend.UserInterests.length > 0
-                        ? interestConsts[
-                            interestConsts.findIndex((obj) => {
-                              return obj.interest === interest.name;
-                            })
-                          ].color
-                        : null
-                    }
-                  />
-                </span>
-              ) : null
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="friend-card">
           <div className="fc-user-info">
             <span className="fc-user-avatar">
               <UserAvatar
@@ -275,7 +175,6 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
                 {friend.username.length > 18
                   ? splitLongUsername(friend.username)
                   : friend.username}
-                {age ? ", " + age : null}
               </span>
               <span className="fc-user-location">
                 {friend.Place_living !== null
@@ -304,25 +203,56 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
           </div>
 
           <div className="fc-user-interests">
-            {friend.UserInterests.map((interest) =>
-              interest.name !== "" ? (
-                <span key={interest.name + interest.id}>
-                  <InterestIcon
-                    icon={interest.name}
-                    color={
-                      friend.UserInterests.length > 0
-                        ? interestConsts[
-                            interestConsts.findIndex((obj) => {
-                              return obj.interest === interest.name;
-                            })
-                          ].color
-                        : null
-                    }
-                  />
-                </span>
-              ) : null
-            )}
+            {page === 0 ? (
+              <div className="fc-georney-score">
+                <span>{Math.ceil(friend.georneyScore)}</span>
+              </div>
+            ) : null}
           </div>
+        </div>
+      ) : (
+        <div className="friend-card">
+          <div className="fc-user-info">
+            <span className="fc-user-avatar">
+              <UserAvatar
+                avatarIndex={friend.avatarIndex}
+                color={friend.color}
+                email={friend.email}
+              />
+            </span>
+            <div className="fc-user-details">
+              <span className="fc-username">
+                {friend.username.length > 18
+                  ? splitLongUsername(friend.username)
+                  : friend.username}
+              </span>
+              <span className="fc-user-location">
+                {friend.Place_living !== null
+                  ? friend.Place_living.city !== ""
+                    ? friend.Place_living.city +
+                      ", " +
+                      friend.Place_living.countryISO
+                    : "City, " + friend.Place_living.countryISO
+                  : "City, Country"}
+              </span>
+            </div>
+          </div>
+          <div className="fc-user-metrics">
+            <span className="fc-user-metric">
+              <span className="fc-user-metric-value">
+                {countryArray.length - 1}
+              </span>
+              <span className="fc-user-metric-type">countries</span>
+            </span>
+            <span className="fc-user-metric">
+              <span className="fc-user-metric-value">
+                {cityArray.length - 1}
+              </span>
+              <span className="fc-user-metric-type">cities</span>
+            </span>
+          </div>
+
+          <div className="fc-user-interests"></div>
           <div className="accept-reject-container">
             {!accepted ? (
               <RecommendIcon onClick={handleAccept} />
@@ -380,7 +310,7 @@ FriendCard.propTypes = {
   page: PropTypes.number,
   refetch: PropTypes.func,
   handleCardRemove: PropTypes.func,
-  urlUsername: PropTypes.string
+  urlUsername: PropTypes.string,
 };
 
 export default FriendCard;

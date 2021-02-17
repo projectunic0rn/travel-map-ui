@@ -185,7 +185,7 @@ export default function Basics({
                 </span>
 
                 <span
-                  className="large confirm button"
+                  className="large cancel button"
                   onClick={handleCancelButton}
                 >
                   Cancel

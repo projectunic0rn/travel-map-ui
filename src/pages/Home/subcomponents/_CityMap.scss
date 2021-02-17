@@ -232,14 +232,11 @@
   .mapboxgl-popup-content {
     position: relative;
     border-radius: 12px;
-    // border-top: 1px solid white;
-    // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 16px 1px rgba(255, 255, 255, 0.15);
     padding: 10px;
     pointer-events: auto;
     font-weight: 400;
     font-family: "Open Sans", sans-serif;
-    // background: rgba(230, 230, 232, 0.95);
     background: #3f4b57;
     color: #c2c4c6;
     cursor: pointer;

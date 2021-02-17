@@ -31,7 +31,6 @@ function PotentialFriendAdd({
     <div
       className="potential-friend-add"
       onClick={sendFriendRequestHelper}
-      // onMouseOut={handleShowAddFriendHelper}
     >
       {!requested ? (
         <span className="pfc-request">Request</span>

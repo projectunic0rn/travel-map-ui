@@ -99,7 +99,7 @@ export default function Security({ history }) {
           autoComplete="new password"
         ></input>
         {errors.password && <span className="validate">{errors.password}</span>}
-        <span className="security-subheader">CONFIRM NEW PASSWORD</span>
+        <span className="security-subheader">CONFIRM PASSWORD</span>
         <input
           className="input"
           value={password2}

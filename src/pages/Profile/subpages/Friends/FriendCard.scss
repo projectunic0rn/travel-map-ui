@@ -19,14 +19,41 @@
     @media screen and (max-width: 900px) {
       margin: 0 0px 28px 0px;
     }
+    @media screen and (max-width: 350px) {
+      transform: translateX(-8px);
+      width: 200px;
+    }
     .fc-user-interests {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       width: 100%;
-      margin-top: 12px;
+      margin-top: 6px;
       span {
         margin: 1px 16px;
+      }
+      .fc-georney-score {
+        width: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 0;
+        span {
+          margin-top: 4px;
+          color: $primary-blue;
+          font-weight: 10000;
+          font-size: 24px;
+          line-height: 32px;
+          border-radius: 24px;
+          height: 36px;
+          width: 60px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: white;
+          box-shadow: 0 1px 8px 4px rgba($primary-blue, 0.35);
+          padding-bottom: 3px;
+        }
       }
     }
     a {
@@ -39,6 +66,10 @@
       width: 100%;
       margin-top: 8px;
       margin-left: 16px;
+      @media screen and (max-width: 350px) {
+        flex-direction: column;
+        margin: 4px 0 0 0;
+      }
       .fc-user-avatar {
         display: flex;
         justify-content: center;
@@ -48,48 +79,32 @@
           height: 60px;
         }
       }
-      .fc-georney-score {
-        position: absolute;
-        top: -32px;
-        left: calc(50% - 38px);
-        width: 60px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 0;
-        span {
-          margin-top: 4px;
-          color: rgb(120, 120, 120);
-          font-weight: 10000;
-          font-size: 24px;
-          line-height: 32px;
-          border-radius: 24px;
-          height: 36px;
-          width: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: $light-blue;
-          border: 2px solid rgb(248, 248, 252);
-          padding-bottom: 3px;
-        }
-      }
       .fc-user-details {
         display: flex;
         flex-direction: column;
         margin-top: 8px;
         margin-left: 4px;
+        @media screen and (max-width: 350px) {
+          margin-top: 4px;
+        }
         .fc-username {
           font-size: 16px;
           font-weight: 550;
           color: #818282;
           max-width: 160px;
           overflow-wrap: break-word;
+          @media screen and (max-width: 350px) {
+            font-size: 14px;
+           text-align: center;
+          }
         }
         .fc-user-location {
           font-size: 12px;
           font-weight: 400;
           color: #b4b4b4;
+          @media screen and (max-width: 350px) {
+            text-align: center;
+           }
         }
       }
     }
@@ -102,6 +117,10 @@
       margin-top: 12px;
       border-top: 1px solid #b4b4b4;
       border-bottom: 1px solid #b4b4b4;
+      @media screen and (max-width: 350px) {
+        width: 200px;
+        padding: 4px 0;
+      }
       .fc-user-metric {
         display: flex;
         flex-direction: column;
@@ -114,7 +133,11 @@
         }
         .fc-user-metric-type {
           font-size: 16px;
-          color: #b4b4b4;
+          color: #b4b4b4;          
+          @media screen and (max-width: 350px) {
+            text-align: center;
+            font-size: 14px;
+           }
         }
       }
     }

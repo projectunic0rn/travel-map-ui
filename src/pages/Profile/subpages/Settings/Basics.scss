@@ -6,8 +6,27 @@
   .input-container {
     margin: 10px 0 10px 0;
     width: 400px;
+    @media screen and (max-width: 350px) {
+      min-width: 200px;
+      max-width: 200px;
+
+      span {
+        text-overflow: ellipsis;
+        width: 180px;
+        overflow: hidden;
+
+        white-space: nowrap;
+      }
+    }
     .input-header {
       color: #a1a9b7;
+    }
+    input,
+    select {
+      @media screen and (max-width: 350px) {
+        min-width: 200px;
+        max-width: 200px;
+      }
     }
     .placeholder {
       color: white;
@@ -35,5 +54,17 @@
     margin-top: 40px;
     display: block;
     width: fit-content;
+    @media screen and (max-width: 350px) {
+      min-width: 200px;
+      max-width: 200px;
+      margin: 40px 0px 10px 0;
+    }
+    .large {
+      @media screen and (max-width: 350px) {
+        min-width: 160px;
+        max-width: 160px;
+        margin: 10px 0 10px 0;
+      }
+    }
   }
 }
