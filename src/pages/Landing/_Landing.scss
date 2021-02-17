@@ -113,16 +113,16 @@
         display: none;
       }
     }
-    a {
+
+    button {
       margin-left: 231px;
       margin-top: 40px;
       max-width: 200px;
-      button {
-        &:hover {
-          background: #a7e1ff;
-          color: #528fb1;
-        }
+      &:hover {
+        background: #a7e1ff;
+        color: #528fb1;
       }
+
       @media screen and (max-width: 1080px) {
         position: absolute;
         top: 200px;
@@ -143,10 +143,9 @@
         }
       }
       @media screen and (max-width: 400px) {
-        top: 560px;
-        button {
-          transform: translateX(-12px);
-        }
+        top: 260px;
+        max-width: 200px;
+        left: calc(50% - 100px);
       }
     }
   }

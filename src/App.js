@@ -15,7 +15,6 @@ import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
-import NewUserMap from "./pages/Home/NewUserMap";
 import FriendReadonlyMap from "./pages/Home/FriendReadonlyMap";
 import BloggerMap from "./pages/Home/BloggerMap";
 
@@ -25,11 +24,13 @@ const FriendMapPage = lazy(() => import("./pages/Home/FriendMapPage"));
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
-  const [mapPage, handleMapPageChange] = useState(1);
   const [userData, handleUserData] = useState();
   const [loaded, handleLoaded] = useState(false);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
-
+  const [formIsOpen, setFormIsOpen] = useState(false);
+  function toggleFormIsOpen() {
+    setFormIsOpen(!formIsOpen);
+  }
   useEffect(() => {
     if (!userLoggedIn) {
       handleClickedCityArray([]);
@@ -76,7 +77,6 @@ function App({ userAuthenticated }) {
       <MetaTags>
         <title>geornal</title>
         <meta name="title" content="Geornal - World Map" />
-
         <meta
           name="description"
           content="World map showing cities I have been to and want to visit"
@@ -133,12 +133,7 @@ function App({ userAuthenticated }) {
                       path="/"
                       render={(props) => (
                         <Suspense fallback={<Loader />}>
-                          <MapPage
-                            {...props}
-                            refetch={refetch}
-                            mapPage={mapPage}
-                            handleMapPageChange={handleMapPageChange}
-                          />
+                          <MapPage {...props} />
                         </Suspense>
                       )}
                     />
@@ -171,15 +166,6 @@ function App({ userAuthenticated }) {
         ) : (
           <>
             <Switch>
-              <Route
-                path="/new/"
-                render={(props) => (
-                  <NewUserMap
-                    mapPage={mapPage}
-                    handleMapPageChange={handleMapPageChange}
-                  />
-                )}
-              />
               <Route path="/bloggers/" component={BloggerMap} />
               <Route path="/public/" component={FriendReadonlyMap} />
               <Route
@@ -187,8 +173,14 @@ function App({ userAuthenticated }) {
                 render={(props) => (
                   <>
                     <Suspense fallback={<Loader />}>
-                      <Header />
-                      <Landing />
+                      <Header
+                        formIsOpen={formIsOpen}
+                        setFormIsOpen={toggleFormIsOpen}
+                      />
+                      <Landing
+                        formIsOpen={formIsOpen}
+                        setFormIsOpen={toggleFormIsOpen}
+                      />
                     </Suspense>
                   </>
                 )}

@@ -556,6 +556,10 @@
   @media screen and (max-width: 500px) {
     left: calc(50% - 280px);
   }
+  @media screen and (max-width: 350px) {
+    left: calc(50% - 240px);
+    min-width: 400px;
+  }
   select:active,
   select:hover {
     outline: none;

@@ -8,7 +8,6 @@ import { SEND_FRIEND_REQUEST } from "../../../../GraphQL";
 function PotentialFriendAdd({
   username,
   handleCardRemove,
-  handleShowAddFriend,
 }) {
   const [requested, handleRequested] = useState(false);
   const [sendFriendRequest] = useMutation(SEND_FRIEND_REQUEST, {
@@ -22,11 +21,7 @@ function PotentialFriendAdd({
   function sendFriendRequestHelper() {
     sendFriendRequest({ variables: { username } });
   }
-  function handleShowAddFriendHelper() {
-    setTimeout(() => {
-      handleShowAddFriend(false);
-    }, 200);
-  }
+
   return (
     <div
       className="potential-friend-add"
