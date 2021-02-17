@@ -9,7 +9,6 @@ export default function ImportPopup(props) {
   const [importStarted, handleImportStarted] = useState(false);
   const [importedCities, handleImportedCities] = useState([]);
   const [unimportedCities, handleUnimportedCities] = useState([]);
-
   useEffect(() => {
     if (importedCities.length > 0) {
       fetchMapbox();
@@ -137,7 +136,7 @@ export default function ImportPopup(props) {
           if (!loading) {
             importedCitiesFormatted.push(formattedCity);
             if (importedCitiesFormatted.length === importedCities.length) {
-              props.customProps.handleLoadedCities(importedCitiesFormatted);
+              // props.customProps.handleLoadedCities(importedCitiesFormatted);
               handleImportStarted(false);
               handleImportComplete(true);
             }
