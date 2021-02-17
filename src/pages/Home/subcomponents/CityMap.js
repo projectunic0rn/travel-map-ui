@@ -27,7 +27,6 @@ import TravelScoreCalculator from "../../../TravelScore.json";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import ShareButton from "../../../components/common/buttons/ShareButton";
-import MapChangeIcon from "../../../icons/MapChangeIcon";
 import TrashIcon from "../../../icons/TrashIcon";
 import SuggestionsIcon from "../../../icons/SuggestionsIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
@@ -748,6 +747,7 @@ function CityMap(props) {
   }
 
   function handleTripTimingCityHelper(city) {
+    alert('Reached')
     if (props.currentTiming !== 1) {
       calculateNewTravelScore(city, "add");
     }
@@ -780,7 +780,6 @@ function CityMap(props) {
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
 
-    city.type = "new";
     switch (props.currentTiming) {
       case 0:
         pastCount++;
@@ -960,17 +959,7 @@ function CityMap(props) {
                     activeFilters={activeFilters}
                   />
                 </div>
-                <div
-                  id="new-country-map-button-side-menu"
-                  className="sc-controls sc-controls-left"
-                >
-                  <span className="new-map-suggest">
-                    <span className="sc-control-label">Import</span>
-                    <span id="map-change-icon">
-                      <MapChangeIcon />
-                    </span>
-                  </span>
-                </div>
+
                 <div className="sc-controls" id="sc-controls-city-side-menu">
                   {props.currentTiming !== 2 ? (
                     <span className="new-map-suggest" onClick={showSuggest}>
@@ -986,14 +975,6 @@ function CityMap(props) {
           )}
         </div>
         <div className="city-map-header-container">
-          <div className="sc-controls sc-controls-left">
-            <span className="new-map-suggest">
-              <span className="sc-control-label">Import</span>
-              <span id="map-change-icon">
-                <MapChangeIcon />
-              </span>
-            </span>
-          </div>
           <div className="map-header-button-container">
             <ShareButton username={user.userData.username} />
           </div>
