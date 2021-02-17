@@ -10,6 +10,7 @@
   @media screen and (max-width: 900px){
     flex-direction: column;
   }
+
   .profile-nav-links {
     flex: 1;
     a {
@@ -24,6 +25,9 @@
       margin: 8px 20px 0;
       &.active {
         border-bottom: 4px solid #a7e1ff;
+      }
+      @media screen and (max-width: 350px){
+          margin: 8px;
       }
     }
   }

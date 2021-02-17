@@ -7,11 +7,9 @@ import BasicsIcon from "../../../icons/InfoIcon";
 import AvatarIcon from "../../../icons/BasicsIcon";
 import ContactIcon from "../../../icons/ContactIcon";
 import SecurityIcon from "../../../icons/SecurityIcon";
-import TravelerIcon from "../../../icons/TravelerIcon";
 import Basics from "./Settings/Basics";
 import Social from "./Settings/Social";
 import Security from "./Settings/Security";
-import TravelerInfo from "./Settings/TravelerInfo";
 import AvatarGrid from '../Sidebar/AvatarGrid';
 
 export default function Settings({
@@ -79,9 +77,6 @@ export default function Settings({
         </NavLink>
         {urlUsername ? null : (
           <>
-            <NavLink to="/profile/settings/traveler">
-              {expanded ? "traveler" : null} <TravelerIcon />
-            </NavLink>
             <NavLink to="/profile/settings/security">
               {expanded ? "security" : null}
               <SecurityIcon />
@@ -129,16 +124,6 @@ export default function Settings({
             <Social
               userData={userData}
               urlUsername={urlUsername}
-              handleUserDataChange={handleUserDataChange}
-            />
-          )}
-        />
-        <Route
-          path="/profile/settings/traveler"
-          render={(props) => (
-            <TravelerInfo
-              {...props}
-              userData={userData}
               handleUserDataChange={handleUserDataChange}
             />
           )}

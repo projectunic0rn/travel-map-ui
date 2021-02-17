@@ -22,6 +22,13 @@
     display: inline-block;
     width: fit-content;
     margin: 10px;
+    @media screen and (max-width: 400px){
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      height: 132px;
+    }
     .icon {
       fill: #a7e1ff;
       svg {
@@ -39,6 +46,13 @@
         position: relative;
         top: -14px;
         margin: 0 0 5px 10px;
+        @media screen and (max-width: 400px){
+          max-width: 200px;
+          transform: translateX(-8px);
+        }
+        @media screen and (max-width: 350px){
+          max-width: 180px;
+        }
       }
     }
   }
