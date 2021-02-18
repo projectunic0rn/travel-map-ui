@@ -782,13 +782,13 @@ function CityMap(props) {
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-    alert('switch')
     switch (props.currentTiming) {
       case 0:
         pastCount++;
         tripTimingCounts[0] = pastCount;
         handleClickedCityArray(newClickedCityArray);
-        alert('addPlaceVisited')
+        alert(country.country)
+        alert(city.city)
         addPlaceVisited({ variables: { country, cities } });
         if (
           tripTimingCounts[0] !== pastCount ||
