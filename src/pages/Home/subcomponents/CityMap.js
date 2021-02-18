@@ -628,6 +628,8 @@ function CityMap(props) {
       evalLiveClick(event.result.text, event);
       return;
     }
+    alert(event.result.place_name)
+    alert(event.result.context[1]["text_en-US"])
     newCityEntry = {
       country:
         event.result.context !== undefined ? country : event.result.place_name,
@@ -645,7 +647,7 @@ function CityMap(props) {
       city_longitude: event.result.center[0],
       tripTiming: props.currentTiming,
     };
-    alert("country: ", newCityEntry.country)
+    alert(newCityEntry.country)
     if (
       props.geoJsonArray.some(
         (city) =>
