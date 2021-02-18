@@ -598,6 +598,7 @@ function CityMap(props) {
   }
 
   function handleOnResult(event) {
+    console.log(event)
     let country = "";
     let countryISO = "";
     let context = 0;
@@ -609,7 +610,7 @@ function CityMap(props) {
         countryISO = event.result.context[0].short_code.toUpperCase();
         country = event.result.context[0]["text_en-US"];
       }
-      if (event.result.context[i].id.slice(0, 7) === "country") {
+      else if (event.result.context[i].id.slice(0, 7) === "country") {
         context = i;
         country = event.result.context[i]["text_en-US"];
         countryISO = event.result.context[i]["short_code"].toUpperCase();
@@ -644,6 +645,7 @@ function CityMap(props) {
       city_longitude: event.result.center[0],
       tripTiming: props.currentTiming,
     };
+    alert("country: ", newCityEntry.country)
     if (
       props.geoJsonArray.some(
         (city) =>
@@ -689,6 +691,7 @@ function CityMap(props) {
           city.properties.city.tripTiming === props.currentTiming
       )
     ) {
+      alert('geoJsonReached')
       handleTripTimingCityHelper(newCityEntry);
     }
   }
@@ -754,9 +757,6 @@ function CityMap(props) {
     if (props.currentTiming !== 1) {
       calculateNewTravelScore(city, "add");
     }
-alert(city.country)
-alert(city.countryISO)
-alert(city.countryId)
     let country = {
       country: city.country,
       countryISO: city.countryISO,
