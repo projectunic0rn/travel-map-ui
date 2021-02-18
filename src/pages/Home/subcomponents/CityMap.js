@@ -138,6 +138,7 @@ function CityMap(props) {
   const [addPlaceVisited] = useMutation(ADD_PLACE_VISITED, {
     ignoreResults: false,
     onCompleted(data) {
+      alert("add Place Visited complete")
       updateGeorneyScore({ variables: { travelScore } });
       let newClickedCityArray = [...clickedCityArray];
       function addMutationId(data) {
@@ -154,7 +155,10 @@ function CityMap(props) {
         newClickedCityArray.length < 1 ||
         newClickedCityArray[newClickedCityArray.length - 1].id === undefined
       ) {
+        alert('reached timeout')
         setTimeout(() => {
+          alert('reached inside timeout')
+
           addMutationId(data);
         }, 1000);
       } else {
