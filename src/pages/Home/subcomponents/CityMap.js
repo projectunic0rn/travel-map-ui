@@ -628,7 +628,9 @@ function CityMap(props) {
       evalLiveClick(event.result.text, event);
       return;
     }
-    alert(event.result.place_name)
+    alert(event.result.context)
+    alert(event.result.context["text_en-US"])
+    alert(event.result.context[0]["text_en-US"])
     alert(event.result.context[1]["text_en-US"])
     newCityEntry = {
       country:
