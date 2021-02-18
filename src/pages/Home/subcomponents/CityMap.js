@@ -754,7 +754,9 @@ function CityMap(props) {
     if (props.currentTiming !== 1) {
       calculateNewTravelScore(city, "add");
     }
-
+alert(city.country)
+alert(city.countryISO)
+alert(city.countryId)
     let country = {
       country: city.country,
       countryISO: city.countryISO,
@@ -787,8 +789,6 @@ function CityMap(props) {
         pastCount++;
         tripTimingCounts[0] = pastCount;
         handleClickedCityArray(newClickedCityArray);
-        alert(country.country)
-        alert(city.city)
         addPlaceVisited({ variables: { country, cities } });
         if (
           tripTimingCounts[0] !== pastCount ||
