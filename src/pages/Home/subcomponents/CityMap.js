@@ -138,7 +138,7 @@ function CityMap(props) {
   const [addPlaceVisited] = useMutation(ADD_PLACE_VISITED, {
     ignoreResults: false,
     onCompleted(data) {
-      alert("add Place Visited complete")
+      alert("add Place Visited complete");
       updateGeorneyScore({ variables: { travelScore } });
       let newClickedCityArray = [...clickedCityArray];
       function addMutationId(data) {
@@ -155,9 +155,9 @@ function CityMap(props) {
         newClickedCityArray.length < 1 ||
         newClickedCityArray[newClickedCityArray.length - 1].id === undefined
       ) {
-        alert('reached timeout')
+        alert("reached timeout");
         setTimeout(() => {
-          alert('reached inside timeout')
+          alert("reached inside timeout");
 
           addMutationId(data);
         }, 1000);
@@ -598,7 +598,7 @@ function CityMap(props) {
   }
 
   function handleOnResult(event) {
-    console.log(event)
+    console.log(event);
     let country = "";
     let countryISO = "";
     let context = 0;
@@ -608,11 +608,15 @@ function CityMap(props) {
       context = 0;
       if (event.result.context.length === 1) {
         countryISO = event.result.context[0].short_code.toUpperCase();
-        country = event.result.context[0]["text_en-US"];
-      }
-      else if (event.result.context[i].id.slice(0, 7) === "country") {
+        country =           event.result.context[0]["text_en-US"] !== undefined
+        ? event.result.context[0]["text_en-US"]
+        : event.result.context[0]["text"];
+      } else if (event.result.context[i].id.slice(0, 7) === "country") {
         context = i;
-        country = event.result.context[i]["text_en-US"];
+        country =
+          event.result.context[i]["text_en-US"] !== undefined
+            ? event.result.context[i]["text_en-US"]
+            : event.result.context[i]["text"];
         countryISO = event.result.context[i]["short_code"].toUpperCase();
       }
     }
@@ -628,10 +632,6 @@ function CityMap(props) {
       evalLiveClick(event.result.text, event);
       return;
     }
-    alert(event.result.context[1].id)
-    alert(event.result.context[1].wikidata)
-    alert(event.result.context[1]["wikidata"])
-    alert(event.result.context[1].text)
     newCityEntry = {
       country:
         event.result.context !== undefined ? country : event.result.place_name,
@@ -649,7 +649,7 @@ function CityMap(props) {
       city_longitude: event.result.center[0],
       tripTiming: props.currentTiming,
     };
-    alert(newCityEntry.country)
+    alert(newCityEntry.country);
     if (
       props.geoJsonArray.some(
         (city) =>
@@ -695,7 +695,7 @@ function CityMap(props) {
           city.properties.city.tripTiming === props.currentTiming
       )
     ) {
-      alert('geoJsonReached')
+      alert("geoJsonReached");
       handleTripTimingCityHelper(newCityEntry);
     }
   }
