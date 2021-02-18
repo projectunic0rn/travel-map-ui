@@ -628,10 +628,10 @@ function CityMap(props) {
       evalLiveClick(event.result.text, event);
       return;
     }
-    alert(event.result.context)
-    alert(event.result.context["text_en-US"])
-    alert(event.result.context[0]["text_en-US"])
-    alert(event.result.context[1]["text_en-US"])
+    alert(event.result.context[1].id)
+    alert(event.result.context[1].wikidata)
+    alert(event.result.context[1]["wikidata"])
+    alert(event.result.context[1].text)
     newCityEntry = {
       country:
         event.result.context !== undefined ? country : event.result.place_name,
