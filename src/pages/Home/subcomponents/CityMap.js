@@ -314,6 +314,7 @@ function CityMap(props) {
   useEffectSkipFirstLive(() => {}, [newLiveCity]);
 
   useEffect(() => {
+    alert('props country array')
     let pastCount = 0;
     let futureCount = 0;
     let liveCount = 0;
@@ -747,7 +748,6 @@ function CityMap(props) {
   }
 
   function handleTripTimingCityHelper(city) {
-    alert('Reached')
     if (props.currentTiming !== 1) {
       calculateNewTravelScore(city, "add");
     }

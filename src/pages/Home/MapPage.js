@@ -20,6 +20,7 @@ const MapPage = () => {
   }, [user]);
 
   useEffect(() => {
+    alert('new geojson city')
     let newGeoJsonArray = [];
     user.forEach((city) => {
       let item = {
@@ -59,6 +60,7 @@ const MapPage = () => {
   }, [user]);
 
   function handleAlteredCityArray(newCityArray) {
+    alert ('altered city')
     handleClickedCityArray(newCityArray);
     let newCountryArray = [];
     let newFilteredCountryData = [];
