@@ -155,6 +155,7 @@ function CityMap(props) {
         newClickedCityArray[newClickedCityArray.length - 1].id === undefined
       ) {
         setTimeout(() => {
+
           addMutationId(data);
         }, 1000);
       } else {
@@ -603,11 +604,15 @@ function CityMap(props) {
       context = 0;
       if (event.result.context.length === 1) {
         countryISO = event.result.context[0].short_code.toUpperCase();
-        country = event.result.context[0]["text_en-US"];
-      }
-      if (event.result.context[i].id.slice(0, 7) === "country") {
+        country =           event.result.context[0]["text_en-US"] !== undefined
+        ? event.result.context[0]["text_en-US"]
+        : event.result.context[0]["text"];
+      } else if (event.result.context[i].id.slice(0, 7) === "country") {
         context = i;
-        country = event.result.context[i]["text_en-US"];
+        country =
+          event.result.context[i]["text_en-US"] !== undefined
+            ? event.result.context[i]["text_en-US"]
+            : event.result.context[i]["text"];
         countryISO = event.result.context[i]["short_code"].toUpperCase();
       }
     }
@@ -747,11 +752,9 @@ function CityMap(props) {
   }
 
   function handleTripTimingCityHelper(city) {
-    alert('Reached')
     if (props.currentTiming !== 1) {
       calculateNewTravelScore(city, "add");
     }
-
     let country = {
       country: city.country,
       countryISO: city.countryISO,
@@ -779,7 +782,6 @@ function CityMap(props) {
     let pastCount = tripTimingCounts[0];
     let futureCount = tripTimingCounts[1];
     let liveCount = tripTimingCounts[2];
-
     switch (props.currentTiming) {
       case 0:
         pastCount++;

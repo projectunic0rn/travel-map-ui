@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import SimpleLoader from "../../../components/common/SimpleLoader/SimpleLoader";
 
-export default function ImportPopup(props) {
+export default function ImportPopup() {
   const [taUrl, handleTaUrl] = useState("");
   const [importComplete, handleImportComplete] = useState(false);
   const [importStarted, handleImportStarted] = useState(false);
