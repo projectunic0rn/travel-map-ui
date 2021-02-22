@@ -853,7 +853,7 @@ function CityMap(props) {
       cityTooltip && (
         <Popup
           className="city-map-tooltip"
-          anchor="bottom-left"
+          anchor="bottom"
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
@@ -936,7 +936,7 @@ function CityMap(props) {
       <div className="city-map-container">
         <div
           className="city-new-side-menu"
-          style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+          style={showSideMenu ? { width: "300px" } : { width: "40px" }}
         >
           {!showSideMenu ? (
             <nav className="opennav" onClick={handleSideMenuHelper}>

@@ -2,28 +2,95 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
-import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
-import Cluster from "@urbica/react-map-gl-cluster";
+import MapGL, {
+  Source,
+  Layer,
+  Popup,
+  FeatureState,
+} from "@urbica/react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ReadonlySignupPrompt from "../../../components/Prompts/ReadonlySignupPrompt";
 import FriendClickedCityContainer from "../../../components/Prompts/FriendClickedCity/FriendClickedCityContainer";
 import FriendClickedCityBlank from "../../../components/Prompts/FriendClickedCity/FriendClickedCityBlank";
-import MapChangeIcon from "../../../icons/MapChangeIcon";
 import Loader from "../../../components/common/Loader/Loader";
-import ClusterMarker from "./ClusterMarker";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
-import ClusterContainer from "./ClusterContainer";
 
 const mapStyle = {
   width: "100vw",
   minHeight: "calc(100% - 120px)",
   maxHeight: "calc(100%)",
   position: "relative",
-}
+};
 
-function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
+const pastLayer = {
+  id: "past",
+  type: "circle",
+  paint: {
+    "circle-radius": 5,
+    "circle-color": "rgba(203, 118, 120, 0.75)",
+    "circle-stroke-color": "rgba(203, 118, 120, 0.25)",
+    "circle-stroke-width": 6,
+  },
+  filter: ["==", "icon", "0"],
+};
+
+const pastCountryLayer = {
+  id: "pastCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(200, 100, 100, 0.25)",
+    "fill-outline-color": "rgba(255, 0, 0, 0.25)",
+  },
+  filter: ["==", "icon", "0"],
+};
+
+const futureLayer = {
+  id: "future",
+  type: "circle",
+  paint: {
+    "circle-radius": 5,
+    "circle-color": "rgba(115, 167, 195, 0.75)",
+    "circle-stroke-color": "rgba(115, 167, 195, 0.25)",
+    "circle-stroke-width": 6,
+  },
+  filter: ["==", "icon", "1"],
+};
+
+const futureCountryLayer = {
+  id: "futureCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(100, 100, 200, 0.25)",
+    "fill-outline-color": "rgba(0, 0, 255, 0.25)",
+  },
+  filter: ["==", "icon", "1"],
+};
+
+const liveLayer = {
+  id: "live",
+  type: "circle",
+  paint: {
+    "circle-radius": 5,
+    "circle-color": "rgba(150, 177, 168, 0.75)",
+    "circle-stroke-color": "rgba(150, 177, 168, 0.25)",
+    "circle-stroke-width": 6,
+  },
+  filter: ["==", "icon", "2"],
+};
+
+const liveCountryLayer = {
+  id: "liveCountries",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(100, 200, 100, 0.25)",
+    "fill-outline-color": "rgba(0, 255, 0, 0.25)",
+  },
+  filter: ["==", "icon", "2"],
+};
+
+function FriendReadonlyCity(props) {
   const [viewport, handleViewport] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -31,76 +98,72 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     longitude: 8,
     zoom: setInitialZoom(),
   });
-  const [markerPastDisplay, handleMarkerPastDisplay] = useState([]);
-  const [markerFutureDisplay, handleMarkerFutureDisplay] = useState([]);
-  const [markerLiveDisplay, handleMarkerLiveDisplay] = useState([]);
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
+  const [countryTimingCounts, handleCountryTimingCounts] = useState([0, 0, 0]);
   const [clickedCityArray, handleClickedCityArray] = useState([]);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
+  const [activeFilters, handleScorecardFilterClick] = useState(0);
   const [loading, handleLoaded] = useState(true);
   const [activePopup, handleActivePopup] = useState(false);
   const [cityTooltip, handleCityTooltip] = useState(null);
+  const [countryTooltip, handleCountryTooltip] = useState(null);
   const [hoveredCityArray, handleHoveredCityArray] = useState([]);
   const [showSideMenu, handleSideMenu] = useState(false);
-  const [clusterParams, handleClusterParams] = useState({
-    pastExtent: 16384,
-    pastNodeSize: 1024,
-    futureExtent: 16384,
-    futureNodeSize: 1024,
-    liveExtent: 16384,
-    liveNodeSize: 1024,
-  });
+  const [clickedCity, handleClickedCity] = useState(null);
 
   const mapRef = useRef();
-  const clusterPast = useRef();
-  const clusterFuture = useRef();
+  const geojson = {
+    type: "FeatureCollection",
+    features: props.geoJsonArray,
+  };
+
+  const countryJson = {
+    type: "FeatureCollection",
+    features: props.filteredCountryJsonData,
+  };
 
   useEffect(() => {
     window.addEventListener("resize", resize);
     resize();
-    handleLoadedCities(tripData);
-    for (let i in tripData.Places_visited) {
-      tripData.Places_visited[i].tripTiming = 0;
-    }
-    for (let i in tripData.Places_visiting) {
-      tripData.Places_visiting[i].tripTiming = 1;
-    }
-    if (tripData.Place_living !== null) {
-      tripData.Place_living.tripTiming = 2;
-    }
-    let clickedCityArray = tripData.Places_visited.concat(
-      tripData.Places_visiting
-    ).concat(tripData.Place_living);
-    localStorage.setItem(
-      "friendClickedCityArray",
-      JSON.stringify(clickedCityArray)
-    );
+    handleLoadedCities(props.tripData);
+    // for (let i in tripData.Places_visited) {
+    //   tripData.Places_visited[i].tripTiming = 0;
+    // }
+    // for (let i in tripData.Places_visiting) {
+    //   tripData.Places_visiting[i].tripTiming = 1;
+    // }
+    // if (tripData.Place_living !== null) {
+    //   tripData.Place_living.tripTiming = 2;
+    // }
+    // let clickedCityArray = tripData.Places_visited.concat(
+    //   tripData.Places_visiting
+    // ).concat(tripData.Place_living);
+    // localStorage.setItem(
+    //   "friendClickedCityArray",
+    //   JSON.stringify(clickedCityArray)
+    // );
+    handleLoaded(false);
     return function cleanup() {
       window.removeEventListener("resize", resize);
     };
   }, []);
 
-  function setClusterParams(timingCountArray) {
-    let newClusterParams = clusterParams;
-    if (timingCountArray[0] > 0) {
-      if (timingCountArray[0] > 2000) {
-        // newClusterParams.pastExtent = 512;
-        // newClusterParams.pastNodeSize = 32;
-        newClusterParams.pastExtent = 1024;
-        newClusterParams.pastNodeSize = 64;
-      } else if (timingCountArray[0] > 1500) {
-        newClusterParams.pastExtent = 1024;
-        newClusterParams.pastNodeSize = 64;
-      } else if (timingCountArray[0] > 500) {
-        newClusterParams.pastExtent = 2048;
-        newClusterParams.pastNodeSize = 128;
-      } else if (timingCountArray[0] > 250) {
-        newClusterParams.pastExtent = 4096;
-        newClusterParams.pastNodeSize = 256;
+  useEffect(() => {
+    let pastCount = 0;
+    let futureCount = 0;
+    let liveCount = 0;
+    let countryArray = props.filteredCountryJsonData;
+    for (let i in countryArray) {
+      if (countryArray[i].properties.icon === "0") {
+        pastCount++;
+      } else if (countryArray[i].properties.icon === "1") {
+        futureCount++;
+      } else if (countryArray[i].properties.icon === "2") {
+        liveCount++;
       }
-      handleClusterParams(newClusterParams);
     }
-  }
+    handleCountryTimingCounts([pastCount, futureCount, liveCount]);
+  }, [props.filteredCountryJsonData]);
 
   function setInitialZoom() {
     let zoom;
@@ -130,139 +193,6 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
 
   function handleViewportChange(newViewport) {
     handleViewport({ ...viewport, ...newViewport });
-  }
-
-  function handleLoadedMarkers(markers) {
-    let markerPastDisplay = [];
-    let markerFutureDisplay = [];
-    let markerLiveDisplay = [];
-    markers.map((city) => {
-      if (city.city !== undefined && city.city !== "") {
-        let color = "red";
-        switch (city.tripTiming) {
-          case 0:
-            color = "rgba(203, 118, 120, 0.25)";
-            handleActiveTimings([0, 0, 0]);
-            markerPastDisplay.push(
-              <Marker
-                key={city.id}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(203, 118, 120, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-            break;
-          case 1:
-            color = "rgba(115, 167, 195, 0.25)";
-            handleActiveTimings([0, 0, 0]);
-            markerFutureDisplay.push(
-              <Marker
-                key={city.id}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(115, 167, 195, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-
-            break;
-          case 2:
-            color = "rgba(150, 177, 168, 0.25)";
-            handleActiveTimings([0, 0, 0]);
-            markerLiveDisplay.push(
-              <Marker
-                key={city.id}
-                latitude={city.latitude}
-                longitude={city.longitude}
-                offsetLeft={-5}
-                offsetTop={-10}
-              >
-                <svg
-                  key={"svg" + city.id}
-                  height={20}
-                  width={20}
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    onMouseOver={() => handleCityTooltip(city)}
-                    style={{ fill: color }}
-                    key={"circle" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    style={{ fill: "rgba(150, 177, 168, 0.75)" }}
-                    key={"circle2" + city.id}
-                    cx="50"
-                    cy="50"
-                    r="20"
-                  />
-                </svg>
-              </Marker>
-            );
-            break;
-          default:
-            break;
-        }
-      }
-      return null;
-    });
-    handleMarkerPastDisplay(markerPastDisplay);
-    handleMarkerFutureDisplay(markerFutureDisplay);
-    handleMarkerLiveDisplay(markerLiveDisplay);
-    handleLoaded(false);
-    handleActiveTimings([1, 1, 1]);
   }
 
   function handleOnResult(typedCity) {
@@ -354,7 +284,6 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
       liveCount++;
     }
     handleClickedCityArray(clickedCityArray);
-    handleLoadedMarkers(clickedCityArray);
     calculateTripTimingCounts(clickedCityArray);
   }
   function calculateTripTimingCounts(cityArray) {
@@ -382,32 +311,30 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
           break;
       }
     }
-    setClusterParams([pastCount, futureCount, liveCount]);
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
   }
 
   function _renderPopup() {
-    let newHoveredCityArray = [];
+    let hoveredCityArray = [];
     if (cityTooltip !== null) {
-      newHoveredCityArray = clickedCityArray.filter(
+      hoveredCityArray = clickedCityArray.filter(
         (city) => city.cityId === cityTooltip.cityId
       );
     }
     return (
       cityTooltip && (
         <Popup
-          className="city-map-tooltip"
-          tipSize={5}
-          anchor="top"
+          className="city-friends-map-tooltip"
+          anchor="bottom"
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
-          closeButton={true}
-          onClose={() => handleCityTooltip(null)}
+          closeButton={false}
+          offset={[0, -5]}
         >
           <div
             className="popup-text"
-            onClick={() => hoveredCityHelper(newHoveredCityArray)}
+            onClick={() => handleHoveredCityArrayHelper(hoveredCityArray)}
           >
             {cityTooltip.city}
           </div>
@@ -416,35 +343,72 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
     );
   }
 
-  function hoveredCityHelper(newHoveredCityArray) {
+  function _renderCountryPopup() {
+    return (
+      <Popup
+        className="city-map-tooltip"
+        anchor={null}
+        latitude={countryTooltip.latitude}
+        longitude={countryTooltip.longitude}
+        closeOnClick={false}
+        closeButton={false}
+        offset={[0, -5]}
+      >
+        <div
+          className="city-tooltip-nosave"
+          id="country-map-tooltip"
+          onClick={handleClickedCountryTooltip}
+        >
+          <span className="country-map-tooltip-country">
+            {countryTooltip.name}
+          </span>
+          <span className="country-map-tooltip-capital">
+            {countryTooltip.capital}
+          </span>
+        </div>
+      </Popup>
+    );
+  }
+
+  function handleHoveredCityArrayHelper(hoveredCityArray) {
     handleActivePopup(true);
-    handleHoveredCityArray(newHoveredCityArray);
+    handleHoveredCityArray(hoveredCityArray);
+    handleClickedCity(hoveredCityArray);
   }
 
-  function clusterClick(cluster) {
-    const { clusterId, longitude, latitude } = cluster;
-    let supercluster;
-    switch (cluster.type) {
-      case 0:
-        supercluster = clusterPast.current.getCluster();
-        break;
-      case 1:
-        supercluster = clusterFuture.current.getCluster();
-        break;
-      default:
-        break;
+  function handleClickedCountryTooltip() {
+    let filterByCountry = props.countryArray.filter((country) => {
+      return (
+        country.countryISO === countryTooltip.ISO2 ||
+        country.country === countryTooltip.name
+      );
+    });
+    let reFilter = filterByCountry.filter((country) => {
+      return country.country.slice(0, 6) === countryTooltip.name.slice(0, 6);
+    });
+    handleActivePopup(true);
+    handleHoveredCityArray(reFilter);
+    handleClickedCity(reFilter);
+  }
+
+  let cityClick = (obj) => {
+    handleCityTooltip(null);
+    handleCountryTooltip(null);
+    if (obj.features.length !== 0) {
+      let parsedJson = JSON.parse(obj.features[0].properties.city);
+      handleCityTooltip(parsedJson);
     }
-    const zoom = supercluster.getClusterExpansionZoom(clusterId);
-    const newViewport = {
-      ...viewport,
-      latitude,
-      longitude,
-      zoom,
-    };
-    handleViewport(newViewport);
+  };
 
-    return { viewport: newViewport };
-  }
+  let countryClick = (obj) => {
+    handleCountryTooltip(null);
+    if (obj.features.length !== 0) {
+      let parsedJson = obj.features[0].properties;
+      parsedJson.latitude = obj.lngLat.lat;
+      parsedJson.longitude = obj.lngLat.lng;
+      handleCountryTooltip(parsedJson);
+    }
+  };
 
   if (loading) return <Loader />;
   return (
@@ -473,41 +437,14 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
                       tripTimingCounts={tripTimingCounts}
                       activeTimings={activeTimings}
                       sendActiveTimings={handleActiveTimings}
+                      countryTimingCounts={countryTimingCounts}
+                      handleScorecardFilterClick={handleScorecardFilterClick}
+                      activeFilters={activeFilters}
                     />
-                  </div>
-                  <div className="side-menu-buttons-container">
-                    <div
-                      id="new-country-map-button-side-menu"
-                      className="sc-controls sc-controls-left-two"
-                      onClick={() => handleMapTypeChange(0)}
-                    >
-                      <span className="new-map-suggest">
-                        <span className="sc-control-label">Country map</span>
-                        <span
-                          id="map-change-icon"
-                          onClick={() => handleMapTypeChange(0)}
-                        >
-                          <MapChangeIcon />
-                        </span>
-                      </span>
-                    </div>
                   </div>
                 </div>
               </>
             )}
-          </div>
-        </div>
-      <div className="map-header-button" id="map-header-readonly">
-          <div
-            className="sc-controls sc-controls-left"
-            onClick={() => handleMapTypeChange(0)}
-          >
-            <span className="new-map-suggest">
-              <span className="sc-control-label">Country map</span>
-              <span id="map-change-icon" onClick={() => handleMapTypeChange(0)}>
-                <MapChangeIcon />
-              </span>
-            </span>
           </div>
         </div>
         <MapGL
@@ -522,38 +459,15 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
           onViewportChange={handleViewportChange}
           minZoom={0.25}
           style={mapStyle}
+          interactiveLayerIds={[
+            "past",
+            "future",
+            "live",
+            "pastCountries",
+            "futureCountries",
+            "liveCountries",
+          ]}
         >
-          {activeTimings[0] ? (
-            <ClusterContainer
-              mapRef={clusterPast}
-              extent={clusterParams.pastExtent}
-              nodeSize={clusterParams.pastNodeSize}
-              onClick={clusterClick}
-              markerData={markerPastDisplay}
-              color={"rgba(203, 118, 120, 0.5)"}
-            ></ClusterContainer>
-          ) : null}
-          {activeTimings[1] ? (
-            <Cluster
-              ref={clusterFuture}
-              radius={40}
-              extent={clusterParams.pastExtent}
-              nodeSize={clusterParams.pastNodeSize}
-              component={(cluster) => (
-                <ClusterMarker
-                  onClick={clusterClick}
-                  color={"rgba(115, 167, 195, 0.5)"}
-                  {...cluster}
-                  type={1}
-                />
-              )}
-            >
-              {markerFutureDisplay}
-            </Cluster>
-          ) : null}
-          {activeTimings[2] ? markerLiveDisplay : null}
-          {activeTimings[2] ? markerLiveDisplay : null}
-          {_renderPopup()}
           <Geocoder
             mapRef={mapRef}
             onResult={handleOnResult}
@@ -564,6 +478,63 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
             types={"place"}
             placeholder={"Type a city..."}
           />
+          <Source type="geojson" id="route2" data={countryJson}></Source>
+          <FeatureState id="route2" source="route2" />
+          <Source type="geojson" id="route" data={geojson}></Source>
+          {activeTimings[0] && activeFilters !== 2 ? (
+            <Layer
+              {...pastCountryLayer}
+              source="route2"
+              onClick={countryClick}
+              id="above3"
+              before="below3"
+            />
+          ) : null}
+          {activeTimings[1] && activeFilters !== 2 ? (
+            <Layer
+              {...futureCountryLayer}
+              source="route2"
+              onClick={countryClick}
+              id="above2"
+              before="below3"
+            />
+          ) : null}
+          {activeTimings[2] && activeFilters !== 2 ? (
+            <Layer
+              {...liveCountryLayer}
+              source="route2"
+              onClick={countryClick}
+              id="above1"
+              before="below3"
+            />
+          ) : null}
+          {activeTimings[0] && activeFilters !== 1 ? (
+            <Layer
+              {...pastLayer}
+              source="route"
+              onClick={cityClick}
+              id="below3"
+            />
+          ) : null}
+          {activeTimings[1] && activeFilters !== 1 ? (
+            <Layer
+              {...futureLayer}
+              source="route"
+              onClick={cityClick}
+              id="below2"
+            />
+          ) : null}
+          {activeTimings[2] && activeFilters !== 1 ? (
+            <Layer
+              {...liveLayer}
+              source="route"
+              onClick={cityClick}
+              id="below1"
+            />
+          ) : null}
+          <FeatureState id={100} source="route" />
+          {cityTooltip ? _renderPopup() : null}
+          {countryTooltip ? _renderCountryPopup() : null}
         </MapGL>
       </div>
       <div className="zoom-buttons">
@@ -583,6 +554,9 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
           tripTimingCounts={tripTimingCounts}
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
+          countryTimingCounts={countryTimingCounts}
+          handleScorecardFilterClick={handleScorecardFilterClick}
+          activeFilters={activeFilters}
         />
       </div>
       {activePopup ? (
@@ -608,15 +582,9 @@ function FriendReadonlyCity({ tripData, handleMapTypeChange }) {
 
 FriendReadonlyCity.propTypes = {
   tripData: PropTypes.object,
-  handleMapTypeChange: PropTypes.func,
-};
-
-ClusterMarker.propTypes = {
-  latitude: PropTypes.number,
-  longitude: PropTypes.number,
-  pointCount: PropTypes.number,
-  color: PropTypes.string,
-  onClick: PropTypes.func,
+  geoJsonArray: PropTypes.array,
+  filteredCountryJsonData: PropTypes.array,
+  countryArray: PropTypes.array
 };
 
 export default FriendReadonlyCity;

@@ -110,6 +110,11 @@ export default function MapScorecard({
       <span className="scorecard-instructions">
         Click checkboxes to filter map
       </span>
+      <div className="scorecard-timing-labels">
+        <h3 style={{ color: "rgb(203, 118, 120)" }}>past:</h3>
+        <h3 style={{ color: "rgb(115, 167, 195)" }}>future:</h3>
+        <h3 style={{ color: "rgb(150, 177, 168)" }}>live:</h3>
+      </div>
       <span className="map-scorecard-headers">
         <button
           className={
@@ -145,7 +150,6 @@ export default function MapScorecard({
           </svg>
         </span>
         <span className="scorecard-label-name" style={{ color: "#CB7678" }}>
-          {/* past: */}
           <span className="scorecard-count" id="scorecard-country-count">
             {countryTimingCounts[0]}
           </span>
@@ -169,7 +173,6 @@ export default function MapScorecard({
           </svg>
         </span>
         <span className="scorecard-label-name" style={{ color: "#73A7C3" }}>
-          {/* future: */}
           <span className="scorecard-count" id="scorecard-country-count">
             {countryTimingCounts[1]}
           </span>
@@ -193,7 +196,6 @@ export default function MapScorecard({
           </svg>
         </span>
         <span className="scorecard-label-name" style={{ color: "#96B1A8" }}>
-          {/* live: */}
           <span className="scorecard-count" id="scorecard-country-count">
             {countryTimingCounts[2]}
           </span>

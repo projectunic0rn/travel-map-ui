@@ -33,7 +33,7 @@
   transform: translate(-40px, 140px);
   order: 1;
   @media (min-width: "100px") {
-    transform: translate(-40px, -140px);
+    transform: translate(20px, -140px);
   }
   @media (max-width: "900px") {
     transform: translate(-20px, -140px);
@@ -46,6 +46,19 @@
     top: -24px;
     color: #dee2e6;
     font-size: 14px;
+  }
+  .scorecard-timing-labels {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    top: 26px;
+    left: -60px;
+    h3 {
+      line-height: 34px;
+      margin: 0;
+      font-weight: 400;
+    }
   }
   .drag-icon {
     fill: $light-green;
@@ -94,6 +107,7 @@
 
   .scorecard-checkbox-label {
     display: flex;
+    position: relative;
     justify-content: space-between;
     width: 100%;
     flex: 1;

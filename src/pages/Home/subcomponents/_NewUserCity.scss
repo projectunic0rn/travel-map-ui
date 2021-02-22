@@ -642,7 +642,7 @@
 
 .city-new-side-menu {
   height: 100%; /* 100% Full-height */
-  width: 250px; /* 0 width - change this with JavaScript */
+  width: 300px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 6; /* Stay on top of map and buttons layers.*/
   top: 0; /* Stay at the top */
@@ -685,13 +685,14 @@
     #scorecard-side-menu {
       position: relative;
       display: flex;
+      justify-content: center;
       top: 80px;
       left: 25px;
     }
     #new-country-map-button-side-menu {
       display: flex;
       position: relative;
-      top: 140px;
+      top: 160px;
       left: 0px;
       width: 60px;
       height: 42px;
