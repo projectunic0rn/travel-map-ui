@@ -23,7 +23,7 @@ function FriendCard({ friend, page, handleCardRemove, refetch, urlUsername }) {
     variables: { friend_request_id: friend.requestId },
   });
   const [deleteFriend] = useMutation(DELETE_FRIEND, {
-    variables: { friend_id: friend.id },
+    variables: { friend_id: Number(friend.id) },
   });
   const [sendFriendRequest] = useMutation(SEND_FRIEND_REQUEST, {
     onCompleted() {

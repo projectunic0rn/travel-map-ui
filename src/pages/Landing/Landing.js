@@ -1,7 +1,4 @@
-import React, {
-  lazy,
-  Suspense,
-} from "react";
+import React, { lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import LandingImage from "../../images/MapLanding.png";
 
@@ -46,11 +43,13 @@ function Landing({ setFormIsOpen, formIsOpen }) {
                 have been to help guide decisions on where to go next.
               </p>
             </div>
-            {!formIsOpen ? <button className="button new-map-button" onClick={setFormIsOpen}>
-              Make my map
-            </button> : <button className="button new-map-button">
-              Login
-            </button>}
+            {!formIsOpen ? (
+              <button className="button new-map-button" onClick={setFormIsOpen}>
+                Make my map
+              </button>
+            ) : (
+              <button className="button new-map-button">Login</button>
+            )}
             <div className="border-bar-container">
               <span className="landing-green-bar" />
               <span className="landing-red-bar" />

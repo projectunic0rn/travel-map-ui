@@ -3,74 +3,209 @@ import { NavLink, withRouter } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Query } from "react-apollo";
 import { GET_ALL_CITY_DETAILS } from "../../GraphQL";
+import jsonData from "../../geoJsonCountries.json";
+
 import FriendReadonlyCity from "./subcomponents/FriendReadonlyCity";
 import Loader from "../../components/common/Loader/Loader";
 import PageNotFound from "../../components/common/PageNotFound/PageNotFound";
 
 const FriendReadonlyMap = () => {
   const [loaded, handleLoaded] = useState(false);
-  const [cityOrCountry, handleMapTypeChange] = useState(1);
-  const [clickedCountryArray, addCountry] = useState([]);
+  const [cityOrCountry, ] = useState(1);
+  const [countryArray, addCountry] = useState([]);
   const [tripData, handleTripData] = useState([]);
+  const [geoJsonArray, handleGeoJsonArray] = useState([]);
+  const [filteredCountryJsonData, handleFilteredCountryJsonData] = useState();
+
   const username = window.location.pathname.split("/")[2];
 
   useEffect(() => {
     localStorage.removeItem("token");
   }, []);
 
-  function handleLoadedCountries(data) {
-    let countryArray = clickedCountryArray;
-    let userData = data.user;
-    if (userData != null && userData.Places_visited.length !== 0) {
-      for (let i = 0; i < userData.Places_visited.length; i++) {
-        if (
-          !countryArray.some((country) => {
-            return country.countryId === userData.Places_visited[i].countryId;
-          })
-        ) {
-          countryArray.push({
-            username: userData.username,
-            countryId: userData.Places_visited[i].countryId,
+  function getJsonData(data) {
+    let newGeoJsonArray = [];
+
+    data.Places_visited.forEach((city) => {
+      let item = {
+        type: "Feature",
+        properties: {
+          city: {
+            id: city.id,
+            city: city.city,
+            cityId: city.cityId,
+            latitude: city.city_latitude,
+            longitude: city.city_longitude,
             tripTiming: 0,
-          });
-        }
-      }
-    }
-    if (userData != null && userData.Places_visiting.length !== 0) {
-      for (let i = 0; i < userData.Places_visiting.length; i++) {
-        if (
-          !countryArray.some((country) => {
-            return country.countryId === userData.Places_visiting[i].countryId;
-          })
-        ) {
-          countryArray.push({
-            username: userData.username,
-            countryId: userData.Places_visiting[i].countryId,
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [city.city_longitude, city.city_latitude],
+        },
+      };
+      item.properties.icon = "0";
+
+      newGeoJsonArray.push(item);
+      return;
+    });
+    data.Places_visiting.forEach((city) => {
+      let item = {
+        type: "Feature",
+        properties: {
+          city: {
+            id: city.id,
+            city: city.city,
+            cityId: city.cityId,
+            latitude: city.city_latitude,
+            longitude: city.city_longitude,
             tripTiming: 1,
-          });
-        }
-      }
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [city.city_longitude, city.city_latitude],
+        },
+      };
+      item.properties.icon = "1";
+
+      newGeoJsonArray.push(item);
+      return;
+    });
+    if (data.Place_living !== undefined) {
+      let item = {
+        type: "Feature",
+        properties: {
+          city: {
+            id: data.Place_living.id,
+            city: data.Place_living.city,
+            cityId: data.Place_living.cityId,
+            latitude: data.Place_living.city_latitude,
+            longitude: data.Place_living.city_longitude,
+            tripTiming: 2,
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [data.Place_living.city_longitude, data.Place_living.city_latitude],
+        },
+      };
+      item.properties.icon = "2";
+
+      newGeoJsonArray.push(item);
     }
-    if (userData != null && userData.Place_living !== null) {
+    handleGeoJsonArray(newGeoJsonArray);
+    getJsonCountries(data);
+  }
+
+  function getJsonCountries(data) {
+    let userCities = [];
+    data.Places_visited.map((city) => {
+      city.tripTiming = 0;
+    })
+    data.Places_visiting.map((city) => {
+      city.tripTiming = 1;
+    })
+    data.Place_living.tripTiming = 2;
+    userCities = [data.Place_living].concat(data.Places_visited).concat(data.Places_visiting);
+    let newCountryArray = [];
+    let newFilteredCountryData = [];
+    for (let i = 0; i < userCities.length; i++) {
+      var newGeoJson = {};
       if (
-        !countryArray.some((country) => {
-          return country.countryId === userData.Place_living.countryId;
+        !newCountryArray.some((country) => {
+          return (
+            country.countryISO === userCities[i].countryISO &&
+            country.tripTiming === userCities[i].tripTiming
+          );
         })
       ) {
-        countryArray.push({
-          username: userData.username,
-          countryId: userData.Place_living.countryId,
-          tripTiming: 2,
+        newCountryArray.push({
+          countryId: userCities[i].countryId,
+          country: userCities[i].country,
+          tripTiming: userCities[i].tripTiming,
+          countryISO: userCities[i].countryISO,
         });
+        let geoJson = jsonData.features.find(
+          (jsonCountry) => userCities[i].countryISO === jsonCountry.properties.ISO2
+        );
+        if (geoJson) {
+          newGeoJson = JSON.parse(JSON.stringify(geoJson));
+          switch (userCities[i].tripTiming) {
+            case 0:
+              newGeoJson.properties.icon = "0";
+              break;
+            case 1:
+              newGeoJson.properties.icon = "1";
+              break;
+            case 2:
+              newGeoJson.properties.icon = "2";
+              break;
+            default:
+              break;
+          }
+          newFilteredCountryData.push(newGeoJson);
+        }
       }
     }
-
-    addCountry(countryArray);
+    addCountry(newCountryArray);
+    handleFilteredCountryJsonData(newFilteredCountryData);
+    handleLoaded(true);
   }
+
+  // function handleLoadedCountries(data) {
+  //   let countryArray = clickedCountryArray;
+  //   let userData = data.user;
+  //   if (userData != null && userData.Places_visited.length !== 0) {
+  //     for (let i = 0; i < userData.Places_visited.length; i++) {
+  //       if (
+  //         !countryArray.some((country) => {
+  //           return country.countryId === userData.Places_visited[i].countryId;
+  //         })
+  //       ) {
+  //         countryArray.push({
+  //           username: userData.username,
+  //           countryId: userData.Places_visited[i].countryId,
+  //           tripTiming: 0,
+  //         });
+  //       }
+  //     }
+  //   }
+  //   if (userData != null && userData.Places_visiting.length !== 0) {
+  //     for (let i = 0; i < userData.Places_visiting.length; i++) {
+  //       if (
+  //         !countryArray.some((country) => {
+  //           return country.countryId === userData.Places_visiting[i].countryId;
+  //         })
+  //       ) {
+  //         countryArray.push({
+  //           username: userData.username,
+  //           countryId: userData.Places_visiting[i].countryId,
+  //           tripTiming: 1,
+  //         });
+  //       }
+  //     }
+  //   }
+  //   if (userData != null && userData.Place_living !== null) {
+  //     if (
+  //       !countryArray.some((country) => {
+  //         return country.countryId === userData.Place_living.countryId;
+  //       })
+  //     ) {
+  //       countryArray.push({
+  //         username: userData.username,
+  //         countryId: userData.Place_living.countryId,
+  //         tripTiming: 2,
+  //       });
+  //     }
+  //   }
+
+  //   addCountry(countryArray);
+  // }
 
   function handleTripDataHelper(data) {
     handleTripData(data);
-    handleLoaded(true);
+    getJsonData(data);
   }
   function geoScoreSwal() {
     const swalParams = {
@@ -98,20 +233,22 @@ const FriendReadonlyMap = () => {
       {({ loading, error, data }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error}`;
-        handleLoadedCountries(data);
+        // handleLoadedCountries(data);
         if (!loaded) return <Loader />;
         return (
           <div className="map-container" id="map-readonly">
             <span className="user-map-name">{username + "'s Map"}</span>
             {cityOrCountry ? (
-              <NavLink to={`/new`}>
+              <NavLink to={`/`}>
                 <button className="create-map">CREATE MY MAP</button>
               </NavLink>
             ) : null}
             <div className={cityOrCountry ? "map city-map" : "map country-map"}>
               <FriendReadonlyCity
                 tripData={tripData}
-                handleMapTypeChange={handleMapTypeChange}
+                geoJsonArray={geoJsonArray}
+                filteredCountryJsonData={filteredCountryJsonData}
+                countryArray={countryArray}
               />
             </div>
             <span className="georney-score" onClick={() => geoScoreSwal()}>

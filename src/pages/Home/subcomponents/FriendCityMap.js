@@ -243,7 +243,6 @@ function FriendCityMap(props) {
 
   function handleLoadedMarkers() {
     handleLoaded(false);
-    // handleActiveTimings([1, 1, 1]);
   }
 
   function handleOnResult(event) {
@@ -446,7 +445,7 @@ function FriendCityMap(props) {
       cityTooltip && (
         <Popup
           className="city-friends-map-tooltip"
-          anchor="bottom-left"
+          anchor="bottom"
           longitude={cityTooltip.longitude}
           latitude={cityTooltip.latitude}
           closeOnClick={false}
@@ -509,7 +508,7 @@ function FriendCityMap(props) {
       <div className="city-map-container" id="friend-city-map-container">
         <div
           className="city-new-side-menu"
-          style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+          style={showSideMenu ? { width: "300px" } : { width: "40px" }}
         >
           {!showSideMenu ? (
             <nav className="opennav" onClick={() => handleSideMenu(true)}>
