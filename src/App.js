@@ -6,21 +6,22 @@ import PropTypes from "prop-types";
 import { Query, withApollo } from "react-apollo";
 import { GET_LOGGEDIN_USER_COUNTRIES } from "./GraphQL";
 
-import Beta from "./Beta";
-import FAQ from "./pages/FAQ/FAQ";
-import Profile from "./pages/Profile/Profile";
 import Header from "./components/Header/Header";
 import UserProfile from "./pages/Profile/UserProfile";
 import PageNotFound from "./components/common/PageNotFound/PageNotFound";
 import Loader from "./components/common/Loader/Loader";
 import "./_App.scss";
 import { UserProvider } from "./utils/UserContext";
-import FriendReadonlyMap from "./pages/Home/FriendReadonlyMap";
-import BloggerMap from "./pages/Home/BloggerMap";
 
 const Landing = lazy(() => import("./pages/Landing/Landing"));
 const MapPage = lazy(() => import("./pages/Home/MapPage"));
 const FriendMapPage = lazy(() => import("./pages/Home/FriendMapPage"));
+const Profile = lazy(() => import("./pages/Profile/Profile"));
+const Beta = lazy(() => import("./Beta"));
+const FAQ = lazy(() => import("./pages/FAQ/FAQ"));
+
+const FriendReadonlyMap = lazy(() => import("./pages/Home/FriendReadonlyMap"));
+const BloggerMap = lazy(() => import("./pages/Home/BloggerMap"));
 
 function App({ userAuthenticated }) {
   const [userLoggedIn, setUserLoggedIn] = useState(userAuthenticated);
@@ -127,54 +128,50 @@ function App({ userAuthenticated }) {
                       data.user.avatarIndex !== null ? data.user.avatarIndex : 1
                     }
                   />
-                  <Switch>
-                    <Route
-                      exact
-                      path="/"
-                      render={(props) => (
-                        <Suspense fallback={<Loader />}>
-                          <MapPage {...props} />
-                        </Suspense>
-                      )}
-                    />
-                    <Route
-                      path="/profiles/:username/"
-                      render={(props) => <UserProfile {...props} />}
-                    />
-                    <Route
-                      path="/profile/"
-                      render={(props) => (
-                        <Profile {...props} refetchApp={refetch} />
-                      )}
-                    />
-                    <Route
-                      path="/friends/"
-                      render={(props) => (
-                        <Suspense fallback={<Loader />}>
-                          <FriendMapPage user={data.user} />
-                        </Suspense>
-                      )}
-                    />
-                    <Route path="/beta/" component={Beta} />
-                    <Route path="/faq/" component={FAQ} />
-                    <Route path="/public/" component={FriendReadonlyMap} />
-
-                    <Route component={PageNotFound} />
-                  </Switch>
+                  <Suspense fallback={<Loader />}>
+                    <Switch>
+                      <Route
+                        exact
+                        path="/"
+                        render={(props) => <MapPage {...props} />}
+                      />
+                      <Route
+                        path="/profiles/:username/"
+                        render={(props) => <UserProfile {...props} />}
+                      />
+                      <Route
+                        path="/profile/"
+                        render={(props) => (
+                          <Profile {...props} refetchApp={refetch} />
+                        )}
+                      />
+                      <Route
+                        path="/friends/"
+                        render={(props) => (
+                          <Suspense fallback={<Loader />}>
+                            <FriendMapPage user={data.user} />
+                          </Suspense>
+                        )}
+                      />
+                      <Route path="/beta/" component={Beta} />
+                      <Route path="/faq/" component={FAQ} />
+                      <Route path="/public/" component={FriendReadonlyMap} />
+                      <Route component={PageNotFound} />
+                    </Switch>
+                  </Suspense>
                 </Fragment>
               );
             }}
           </Query>
         ) : (
           <>
-            <Switch>
-              <Route path="/bloggers/" component={BloggerMap} />
-              <Route path="/public/" component={FriendReadonlyMap} />
-              <Route
-                path="/"
-                render={(props) => (
-                  <>
-                    <Suspense fallback={<Loader />}>
+            <Suspense fallback={<Loader />}>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={(props) => (
+                    <>
                       <Header
                         formIsOpen={formIsOpen}
                         setFormIsOpen={toggleFormIsOpen}
@@ -183,11 +180,13 @@ function App({ userAuthenticated }) {
                         formIsOpen={formIsOpen}
                         setFormIsOpen={toggleFormIsOpen}
                       />
-                    </Suspense>
-                  </>
-                )}
-              />
-            </Switch>
+                    </>
+                  )}
+                />
+                <Route path="/bloggers/" component={BloggerMap} />
+                <Route path="/public/" component={FriendReadonlyMap} />
+              </Switch>
+            </Suspense>
           </>
         )}
       </UserProvider>

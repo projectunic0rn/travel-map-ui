@@ -15,6 +15,7 @@ const MapPage = () => {
   const [geoJsonArray, handleGeoJsonArray] = useState([]);
   const [filteredCountryJsonData, handleFilteredCountryJsonData] = useState();
 
+
   useEffect(() => {
     handleLoaded(true);
   }, [user]);
@@ -108,20 +109,20 @@ const MapPage = () => {
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
-        <div className="user-timing-control">
-          Enter the
-          <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
-            <option id="select-past" value={0}>
-              cities you&apos;ve visited &emsp;
-            </option>
-            <option id="select-future" value={1}>
-              cities you want to visit &emsp;
-            </option>
-            <option id="select-live" value={2}>
-              city you live in &emsp;
-            </option>
-          </select>
-        </div>
+      <div className="user-timing-control">
+        Enter the
+        <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
+          <option id="select-past" value={0}>
+            cities you&apos;ve visited &emsp;
+          </option>
+          <option id="select-future" value={1}>
+            cities you want to visit &emsp;
+          </option>
+          <option id="select-live" value={2}>
+            city you live in &emsp;
+          </option>
+        </select>
+      </div>
       <div className="map city-map">
         <CityMap
           clickedCityArray={newClickedCityArray}
