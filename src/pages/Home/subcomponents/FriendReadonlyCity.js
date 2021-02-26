@@ -8,7 +8,7 @@ import MapGL, {
   Popup,
   FeatureState,
 } from "@urbica/react-map-gl";
-import Geocoder from "react-map-gl-geocoder";
+// import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import ReadonlySignupPrompt from "../../../components/Prompts/ReadonlySignupPrompt";
@@ -28,10 +28,10 @@ const pastLayer = {
   id: "past",
   type: "circle",
   paint: {
-    "circle-radius": 5,
+    "circle-radius": 4,
     "circle-color": "rgba(203, 118, 120, 0.75)",
     "circle-stroke-color": "rgba(203, 118, 120, 0.25)",
-    "circle-stroke-width": 6,
+    "circle-stroke-width": 4,
   },
   filter: ["==", "icon", "0"],
 };
@@ -46,38 +46,14 @@ const pastCountryLayer = {
   filter: ["==", "icon", "0"],
 };
 
-const futureLayer = {
-  id: "future",
-  type: "circle",
-  paint: {
-    "circle-radius": 5,
-    "circle-color": "rgba(115, 167, 195, 0.75)",
-    "circle-stroke-color": "rgba(115, 167, 195, 0.25)",
-    "circle-stroke-width": 6,
-  },
-  filter: ["==", "icon", "1"],
-};
-
 const futureCountryLayer = {
   id: "futureCountries",
   type: "fill",
   paint: {
-    "fill-color": "rgba(100, 100, 200, 0.25)",
+    "fill-color": "rgba(100, 100, 220, 0.25)",
     "fill-outline-color": "rgba(0, 0, 255, 0.25)",
   },
   filter: ["==", "icon", "1"],
-};
-
-const liveLayer = {
-  id: "live",
-  type: "circle",
-  paint: {
-    "circle-radius": 5,
-    "circle-color": "rgba(150, 177, 168, 0.75)",
-    "circle-stroke-color": "rgba(150, 177, 168, 0.25)",
-    "circle-stroke-width": 6,
-  },
-  filter: ["==", "icon", "2"],
 };
 
 const liveCountryLayer = {
@@ -89,6 +65,31 @@ const liveCountryLayer = {
   },
   filter: ["==", "icon", "2"],
 };
+
+const futureLayer = {
+  id: "future",
+  type: "circle",
+  paint: {
+    "circle-radius": 4,
+    "circle-color": "rgba(115, 167, 195, 0.75)",
+    "circle-stroke-color": "rgba(115, 167, 195, 0.25)",
+    "circle-stroke-width": 4,
+  },
+  filter: ["==", "icon", "1"],
+};
+
+const liveLayer = {
+  id: "live",
+  type: "circle",
+  paint: {
+    "circle-radius": 4,
+    "circle-color": "rgba(150, 177, 168, 0.75)",
+    "circle-stroke-color": "rgba(150, 177, 168, 0.25)",
+    "circle-stroke-width": 4,
+  },
+  filter: ["==", "icon", "2"],
+};
+
 
 function FriendReadonlyCity(props) {
   const [viewport, handleViewport] = useState({
@@ -195,23 +196,23 @@ function FriendReadonlyCity(props) {
     handleViewport({ ...viewport, ...newViewport });
   }
 
-  function handleOnResult(typedCity) {
-    let newHoveredCityArray = [];
-    if (typedCity.result.properties.wikidata !== undefined) {
-      newHoveredCityArray = clickedCityArray.filter(
-        (city) =>
-          city.cityId ===
-          parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
-      );
-    } else {
-      newHoveredCityArray = clickedCityArray.filter(
-        (city) =>
-          city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
-      );
-    }
-    handleActivePopup(true);
-    handleHoveredCityArray(newHoveredCityArray);
-  }
+  // function handleOnResult(typedCity) {
+  //   let newHoveredCityArray = [];
+  //   if (typedCity.result.properties.wikidata !== undefined) {
+  //     newHoveredCityArray = clickedCityArray.filter(
+  //       (city) =>
+  //         city.cityId ===
+  //         parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
+  //     );
+  //   } else {
+  //     newHoveredCityArray = clickedCityArray.filter(
+  //       (city) =>
+  //         city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
+  //     );
+  //   }
+  //   handleActivePopup(true);
+  //   handleHoveredCityArray(newHoveredCityArray);
+  // }
 
   function handleLoadedCities(data) {
     let pastCount = tripTimingCounts[0];
@@ -468,7 +469,7 @@ function FriendReadonlyCity(props) {
             "liveCountries",
           ]}
         >
-          <Geocoder
+          {/* <Geocoder
             mapRef={mapRef}
             onResult={handleOnResult}
             mapboxApiAccessToken={
@@ -477,7 +478,7 @@ function FriendReadonlyCity(props) {
             position="top-left"
             types={"place"}
             placeholder={"Type a city..."}
-          />
+          /> */}
           <Source type="geojson" id="route2" data={countryJson}></Source>
           <FeatureState id="route2" source="route2" />
           <Source type="geojson" id="route" data={geojson}></Source>

@@ -157,6 +157,8 @@ function App({ userAuthenticated }) {
                     />
                     <Route path="/beta/" component={Beta} />
                     <Route path="/faq/" component={FAQ} />
+                    <Route path="/public/" component={FriendReadonlyMap} />
+
                     <Route component={PageNotFound} />
                   </Switch>
                 </Fragment>
