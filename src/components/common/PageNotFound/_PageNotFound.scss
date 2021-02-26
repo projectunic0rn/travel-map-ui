@@ -1,6 +1,7 @@
 .page-not-found.container {
   color: $light-blue;
   font-size: 1.4em;
+  transform: translateY(60px);
   p {
     a {
       color: white;
@@ -8,8 +9,6 @@
   }
   h2 {
     color: $grey;
-  }
-  ul {
   }
 
   @media (max-width: 600px) {
