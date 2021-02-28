@@ -18,7 +18,6 @@ const Header = function Header({
   formIsOpen
 }) {
   let [showHamburgerDropdown, handleHamburgerClick] = useState(false);
-useEffect(() => console.log(formIsOpen), [])
 
   function handleHamburgerClickHelper() {
     handleHamburgerClick(!showHamburgerDropdown);

@@ -238,6 +238,9 @@ function CityMap(props) {
     features: props.geoJsonArray,
   };
 
+  console.log(props.geoJsonArray)
+  console.log(user)
+
   const countryJson = {
     type: "FeatureCollection",
     features: props.filteredCountryJsonData,

@@ -10,6 +10,7 @@ export default function MapScorecard({
   countryTimingCounts,
   handleScorecardFilterClick,
   activeFilters,
+  loaded,
 }) {
   const [isPastActive, handlePastActive] = useState(activeTimings[0]);
   const [isFutureActive, handleFutureActive] = useState(activeTimings[1]);
@@ -48,11 +49,13 @@ export default function MapScorecard({
 
   // make the scorecard draggable
   useEffect(() => {
-    dragElement(
-      document.querySelector(".map-scorecard-container"),
-      document.querySelector("#scorecard-drag-icon")
-    );
-  });
+    if (loaded) {
+      dragElement(
+        document.querySelector(".map-scorecard-container"),
+        document.querySelector("#scorecard-drag-icon")
+      );
+    }
+  }, [loaded]);
 
   function dragElement(elmnt, dragIcon) {
     var pos1 = 0,
