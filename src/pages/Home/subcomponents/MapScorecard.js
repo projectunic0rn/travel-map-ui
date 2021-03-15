@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import DragIcon from "../../../icons/DragIcon";
 
 export default function MapScorecard({
   tripTimingCounts,
@@ -9,8 +8,7 @@ export default function MapScorecard({
   activeTimings,
   countryTimingCounts,
   handleScorecardFilterClick,
-  activeFilters,
-  loaded,
+  activeFilters
 }) {
   const [isPastActive, handlePastActive] = useState(activeTimings[0]);
   const [isFutureActive, handleFutureActive] = useState(activeTimings[1]);
@@ -47,57 +45,8 @@ export default function MapScorecard({
     }
   }
 
-  // make the scorecard draggable
-  useEffect(() => {
-    if (loaded) {
-      dragElement(
-        document.querySelector(".map-scorecard-container"),
-        document.querySelector("#scorecard-drag-icon")
-      );
-    }
-  }, [loaded]);
 
-  function dragElement(elmnt, dragIcon) {
-    var pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
-
-    dragIcon.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-      document.querySelector("body").classList.add("noselect");
-      e = e || window.event;
-      e.preventDefault();
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-      e = e || window.event;
-      e.preventDefault();
-      // calculate the new cursor position:
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      // set the element's new position:
-      elmnt.style.top = elmnt.offsetTop - pos2 + "px";
-      elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
-    }
-
-    function closeDragElement() {
-      document.querySelector("body").classList.remove("noselect");
-
-      // stop moving when mouse button is released:
-      document.onmouseup = null;
-      document.onmousemove = null;
-    }
-  }
+  
 
   function handleScorecardFilterClickHelper(e) {
     if (activeFilters === Number(e.target.value)) {
@@ -109,7 +58,6 @@ export default function MapScorecard({
 
   return (
     <div id="map-scorecard-container" className="map-scorecard-container">
-      <DragIcon id="scorecard-drag-icon" />
       <span className="scorecard-instructions">
         Click checkboxes to filter map
       </span>

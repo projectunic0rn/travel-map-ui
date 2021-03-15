@@ -37,10 +37,10 @@ const pastLayer = {
   id: "past",
   type: "circle",
   paint: {
-    "circle-radius": 5,
+    "circle-radius": 4,
     "circle-color": "rgba(203, 118, 120, 0.75)",
     "circle-stroke-color": "rgba(203, 118, 120, 0.25)",
-    "circle-stroke-width": 6,
+    "circle-stroke-width": 4,
   },
   filter: ["==", "icon", "0"],
 };
@@ -59,10 +59,10 @@ const futureLayer = {
   id: "future",
   type: "circle",
   paint: {
-    "circle-radius": 5,
+    "circle-radius": 4,
     "circle-color": "rgba(115, 167, 195, 0.75)",
     "circle-stroke-color": "rgba(115, 167, 195, 0.25)",
-    "circle-stroke-width": 6,
+    "circle-stroke-width": 4,
   },
   filter: ["==", "icon", "1"],
 };
@@ -81,10 +81,10 @@ const liveLayer = {
   id: "live",
   type: "circle",
   paint: {
-    "circle-radius": 5,
+    "circle-radius": 4,
     "circle-color": "rgba(150, 177, 168, 0.75)",
     "circle-stroke-color": "rgba(150, 177, 168, 0.25)",
-    "circle-stroke-width": 6,
+    "circle-stroke-width": 4,
   },
   filter: ["==", "icon", "2"],
 };
@@ -155,7 +155,6 @@ function CityMap(props) {
         newClickedCityArray[newClickedCityArray.length - 1].id === undefined
       ) {
         setTimeout(() => {
-
           addMutationId(data);
         }, 1000);
       } else {
@@ -238,8 +237,8 @@ function CityMap(props) {
     features: props.geoJsonArray,
   };
 
-  console.log(props.geoJsonArray)
-  console.log(user)
+  console.log(props.geoJsonArray);
+  console.log(user);
 
   const countryJson = {
     type: "FeatureCollection",
@@ -598,6 +597,7 @@ function CityMap(props) {
   }
 
   function handleOnResult(event) {
+    console.log(event);
     let country = "";
     let countryISO = "";
     let context = 0;
@@ -606,10 +606,31 @@ function CityMap(props) {
     for (let i in event.result.context) {
       context = 0;
       if (event.result.context.length === 1) {
-        countryISO = event.result.context[0].short_code.toUpperCase();
-        country =           event.result.context[0]["text_en-US"] !== undefined
-        ? event.result.context[0]["text_en-US"]
-        : event.result.context[0]["text"];
+        if (event.result.context[0].short_code === undefined) {
+          switch (event.result.context[0]["text_en-US"]) {
+            case "French Guiana":
+              countryISO = "GF";
+              break;
+            case "Cocos":
+              countryISO = "CC";
+              break;
+            case "Christmas Island":
+              countryISO = "CX";
+              break;
+            default:
+              break;
+          }
+          country =
+            event.result.context[0]["text_en-US"] !== undefined
+              ? event.result.context[0]["text_en-US"]
+              : event.result.context[0]["text"];
+        } else {
+          countryISO = event.result.context[0].short_code.toUpperCase();
+        }
+        country =
+          event.result.context[0]["text_en-US"] !== undefined
+            ? event.result.context[0]["text_en-US"]
+            : event.result.context[0]["text"];
       } else if (event.result.context[i].id.slice(0, 7) === "country") {
         context = i;
         country =

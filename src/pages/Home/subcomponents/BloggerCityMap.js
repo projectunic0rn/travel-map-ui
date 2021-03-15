@@ -382,6 +382,7 @@ function BloggerCityMap(props) {
                 >
                   <MapScorecard
                     tripTimingCounts={tripTimingCounts}
+                    countryTimingCounts={[0, 0, 0]}
                     activeTimings={activeTimings}
                     sendActiveTimings={handleActiveTimings}
                   />
@@ -507,6 +508,7 @@ function BloggerCityMap(props) {
       <div className="city-new-map-scorecard">
         <MapScorecard
           tripTimingCounts={tripTimingCounts}
+          countryTimingCounts={[0, 0, 0]}
           activeTimings={activeTimings}
           sendActiveTimings={handleActiveTimings}
         />

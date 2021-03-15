@@ -15,7 +15,6 @@ const MapPage = () => {
   const [geoJsonArray, handleGeoJsonArray] = useState([]);
   const [filteredCountryJsonData, handleFilteredCountryJsonData] = useState();
 
-
   useEffect(() => {
     handleLoaded(true);
   }, [user]);
@@ -68,7 +67,7 @@ const MapPage = () => {
       if (
         !newCountryArray.some((country) => {
           return (
-            country.countryISO === newCityArray[i].countryISO &&
+            country.country === newCityArray[i].country &&
             country.tripTiming === newCityArray[i].tripTiming
           );
         })
@@ -81,8 +80,14 @@ const MapPage = () => {
         });
         let geoJson = jsonData.features.find(
           (jsonCountry) =>
-            newCityArray[i].countryISO === jsonCountry.properties.ISO2
+            newCityArray[i].country === jsonCountry.properties.name
         );
+        if (!geoJson) {
+          geoJson = jsonData.features.find(
+            (jsonCountry) =>
+              newCityArray[i].countryISO === jsonCountry.properties.ISO2
+          );
+        }
         if (geoJson) {
           newGeoJson = JSON.parse(JSON.stringify(geoJson));
           switch (newCityArray[i].tripTiming) {
@@ -103,6 +108,8 @@ const MapPage = () => {
       }
     }
     addCountry(newCountryArray);
+    console.log(newCountryArray)
+    console.log(newFilteredCountryData)
     handleFilteredCountryJsonData(newFilteredCountryData);
   }
 
