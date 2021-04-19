@@ -230,7 +230,7 @@ function FriendCityMap(props) {
   function setInitialZoom() {
     let zoom;
     if (window.innerWidth <= 2 * window.innerHeight) {
-      zoom = window.innerWidth * 0.0009;
+      zoom = window.innerWidth * 0.0008;
     } else {
       if (window.innerHeight >= 500) {
         zoom = window.innerHeight * 0.0017;

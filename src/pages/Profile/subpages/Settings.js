@@ -10,7 +10,7 @@ import SecurityIcon from "../../../icons/SecurityIcon";
 import Basics from "./Settings/Basics";
 import Social from "./Settings/Social";
 import Security from "./Settings/Security";
-import AvatarGrid from '../Sidebar/AvatarGrid';
+import AvatarGrid from "../Sidebar/AvatarGrid";
 
 export default function Settings({
   userData,
@@ -48,7 +48,8 @@ export default function Settings({
           <MenuIcon />
         </a>
         <NavLink
-          exact to={
+          exact
+          to={
             urlUsername
               ? `/profiles/${urlUsername}/settings`
               : "/profile/settings"
@@ -56,16 +57,18 @@ export default function Settings({
         >
           {expanded ? "basics" : null} <BasicsIcon />
         </NavLink>
-        {urlUsername ? null : <NavLink
-          exact
-          to={
-            urlUsername
-              ? `/profiles/${urlUsername}/settings`
-              : "/profile/settings/avatar"
-          }
-        >
-          {expanded ? "avatar" : null} <AvatarIcon />
-        </NavLink>}
+        {urlUsername ? null : (
+          <NavLink
+            exact
+            to={
+              urlUsername
+                ? `/profiles/${urlUsername}/settings`
+                : "/profile/settings/avatar"
+            }
+          >
+            {expanded ? "avatar" : null} <AvatarIcon />
+          </NavLink>
+        )}
         <NavLink
           to={
             urlUsername
@@ -85,50 +88,56 @@ export default function Settings({
         )}
       </div>
       <div className="content-results">
-        <Route
-          exact
-          path={
-            urlUsername
-              ? `/profiles/${urlUsername}/settings`
-              : "/profile/settings"
-          }
-          render={(props) => (
-            <Basics
-              {...props}
-              urlUsername={urlUsername}
-              userData={userData}
-              handleUserDataChange={handleUserDataChange}
+        {userData.username === "test" ? (
+          <p style={{color: "rgb(248, 248, 252)", margin: "24px"}}>Test Profile cannot edit settings</p>
+        ) : (
+          <>
+            <Route
+              exact
+              path={
+                urlUsername
+                  ? `/profiles/${urlUsername}/settings`
+                  : "/profile/settings"
+              }
+              render={(props) => (
+                <Basics
+                  {...props}
+                  urlUsername={urlUsername}
+                  userData={userData}
+                  handleUserDataChange={handleUserDataChange}
+                />
+              )}
             />
-          )}
-        />
-        <Route
-          path={
-            urlUsername
-              ? `/profiles/${urlUsername}/settings/avatar`
-              : "/profile/settings/avatar"
-          }
-          render={() => (
-            <AvatarGrid
-              userData={userData}
-              handleUserDataChange={handleUserDataChange}
+            <Route
+              path={
+                urlUsername
+                  ? `/profiles/${urlUsername}/settings/avatar`
+                  : "/profile/settings/avatar"
+              }
+              render={() => (
+                <AvatarGrid
+                  userData={userData}
+                  handleUserDataChange={handleUserDataChange}
+                />
+              )}
             />
-          )}
-        />
-        <Route
-          path={
-            urlUsername
-              ? `/profiles/${urlUsername}/settings/social`
-              : "/profile/settings/social"
-          }
-          render={() => (
-            <Social
-              userData={userData}
-              urlUsername={urlUsername}
-              handleUserDataChange={handleUserDataChange}
+            <Route
+              path={
+                urlUsername
+                  ? `/profiles/${urlUsername}/settings/social`
+                  : "/profile/settings/social"
+              }
+              render={() => (
+                <Social
+                  userData={userData}
+                  urlUsername={urlUsername}
+                  handleUserDataChange={handleUserDataChange}
+                />
+              )}
             />
-          )}
-        />
-        <Route path="/profile/settings/security" component={Security} />
+            <Route path="/profile/settings/security" component={Security} />
+          </>
+        )}
       </div>
     </div>
   );
