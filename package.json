@@ -52,7 +52,8 @@
     "update-snapshots": "react-scripts test --updateSnapshot",
     "eject": "react-scripts eject",
     "lint": "eslint src",
-    "stats": "source-map-explorer 'build/static/js/*.js'"
+    "stats": "source-map-explorer 'build/static/js/*.js' --json tree.json",
+    "analyze": "node src/analyze.js"
   },
   "husky": {
     "hooks": {}
@@ -83,6 +84,7 @@
     "enzyme-to-json": "^3.4.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-jest": "^23.8.2"
+    "eslint-plugin-jest": "^23.8.2",
+    "webpack-bundle-analyzer": "^4.4.0"
   }
 }

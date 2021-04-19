@@ -56,8 +56,15 @@
     color: #818282;
     font-size: 16px;
     font-weight: 600;
-    @media screen and (max-width: 350px) {
+    max-width: 100px;
+    @media screen and (max-width: 650px) {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
       font-size: 14px;
+    }
+    @media screen and (max-width: 350px) {
+      font-size: 12px;
     }
   }
 

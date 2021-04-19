@@ -67,7 +67,7 @@ const MapPage = () => {
       if (
         !newCountryArray.some((country) => {
           return (
-            country.countryISO === newCityArray[i].countryISO &&
+            country.country === newCityArray[i].country &&
             country.tripTiming === newCityArray[i].tripTiming
           );
         })
@@ -80,8 +80,14 @@ const MapPage = () => {
         });
         let geoJson = jsonData.features.find(
           (jsonCountry) =>
-            newCityArray[i].countryISO === jsonCountry.properties.ISO2
+            newCityArray[i].country === jsonCountry.properties.name
         );
+        if (!geoJson) {
+          geoJson = jsonData.features.find(
+            (jsonCountry) =>
+              newCityArray[i].countryISO === jsonCountry.properties.ISO2
+          );
+        }
         if (geoJson) {
           newGeoJson = JSON.parse(JSON.stringify(geoJson));
           switch (newCityArray[i].tripTiming) {
@@ -102,26 +108,28 @@ const MapPage = () => {
       }
     }
     addCountry(newCountryArray);
+    console.log(newCountryArray)
+    console.log(newFilteredCountryData)
     handleFilteredCountryJsonData(newFilteredCountryData);
   }
 
   if (!loaded) return <Loader />;
   return (
     <div className="map-container">
-        <div className="user-timing-control">
-          Enter the
-          <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
-            <option id="select-past" value={0}>
-              cities you&apos;ve visited &emsp;
-            </option>
-            <option id="select-future" value={1}>
-              cities you want to visit &emsp;
-            </option>
-            <option id="select-live" value={2}>
-              city you live in &emsp;
-            </option>
-          </select>
-        </div>
+      <div className="user-timing-control">
+        Enter the
+        <select onChange={(e) => handleTimingChange(Number(e.target.value))}>
+          <option id="select-past" value={0}>
+            cities you&apos;ve visited &emsp;
+          </option>
+          <option id="select-future" value={1}>
+            cities you want to visit &emsp;
+          </option>
+          <option id="select-live" value={2}>
+            city you live in &emsp;
+          </option>
+        </select>
+      </div>
       <div className="map city-map">
         <CityMap
           clickedCityArray={newClickedCityArray}

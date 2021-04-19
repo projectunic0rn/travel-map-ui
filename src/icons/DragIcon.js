@@ -1,9 +1,8 @@
 import React from "react";
 
-function DragIcon(props) {
+function DragIcon() {
   return (
     <svg
-      {...props}
       className="drag-icon"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 30 30"

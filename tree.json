@@ -1,0 +1,1603 @@
+{
+  "results": [
+    {
+      "bundleName": "build/static/js/0.dee17d3f.chunk.js",
+      "totalBytes": 802758,
+      "mappedBytes": 802578,
+      "unmappedBytes": 135,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "../node_modules/@urbica/react-map-gl/dist/react-map-gl.esm.js": {
+          "size": 38747
+        },
+        "../node_modules/mapbox-gl/dist/mapbox-gl.js": {
+          "size": 763106
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/defineProperty.js": {
+          "size": 120
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectSpread2.js": {
+          "size": 605
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 135
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/1.22e6166a.chunk.js",
+      "totalBytes": 190590,
+      "mappedBytes": 190441,
+      "unmappedBytes": 104,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "../node_modules/@babel/runtime/helpers/esm/classCallCheck.js": {
+          "size": 156
+        },
+        "../node_modules/@babel/runtime/helpers/esm/createClass.js": {
+          "size": 285
+        },
+        "../node_modules/@babel/runtime/helpers/esm/defineProperty.js": {
+          "size": 168
+        },
+        "../node_modules/xtend/immutable.js": {
+          "size": 209
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/constants.js": {
+          "size": 276
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/globals.js": {
+          "size": 318
+        },
+        "../node_modules/@babel/runtime/helpers/esm/typeof.js": {
+          "size": 232
+        },
+        "../node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js": {
+          "size": 123
+        },
+        "../node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js": {
+          "size": 72
+        },
+        "../node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js": {
+          "size": 142
+        },
+        "../node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js": {
+          "size": 92
+        },
+        "../node_modules/@babel/runtime/helpers/esm/inherits.js": {
+          "size": 242
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/style-utils.js": {
+          "size": 1313
+        },
+        "../node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js": {
+          "size": 106
+        },
+        "../node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js": {
+          "size": 287
+        },
+        "../node_modules/@babel/runtime/helpers/esm/toConsumableArray.js": {
+          "size": 40
+        },
+        "../node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js": {
+          "size": 44
+        },
+        "../node_modules/@babel/runtime/helpers/esm/iterableToArray.js": {
+          "size": 94
+        },
+        "../node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js": {
+          "size": 167
+        },
+        "../node_modules/@babel/runtime/helpers/esm/slicedToArray.js": {
+          "size": 46
+        },
+        "../node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js": {
+          "size": 41
+        },
+        "../node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js": {
+          "size": 299
+        },
+        "../node_modules/@babel/runtime/helpers/esm/nonIterableRest.js": {
+          "size": 172
+        },
+        "../node_modules/gl-matrix/esm/common.js": {
+          "size": 209
+        },
+        "../node_modules/gl-matrix/esm/vec4.js": {
+          "size": 377
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/math-utils.js": {
+          "size": 243
+        },
+        "../node_modules/gl-matrix/esm/mat4.js": {
+          "size": 4000
+        },
+        "../node_modules/gl-matrix/esm/vec2.js": {
+          "size": 432
+        },
+        "../node_modules/gl-matrix/esm/vec3.js": {
+          "size": 157
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/assert.js": {
+          "size": 85
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/web-mercator-utils.js": {
+          "size": 2037
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/get-bounds.js": {
+          "size": 468
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/web-mercator-viewport.js": {
+          "size": 3671
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/fit-bounds.js": {
+          "size": 897
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/normalize-viewport-props.js": {
+          "size": 609
+        },
+        "../node_modules/@math.gl/web-mercator/dist/esm/fly-to-viewport.js": {
+          "size": 2382
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/math-utils.js": {
+          "size": 380
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/assert.js": {
+          "size": 77
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/transition/transition-interpolator.js": {
+          "size": 626
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/transition/transition-utils.js": {
+          "size": 185
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/transition/viewport-fly-to-interpolator.js": {
+          "size": 1464
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/transition/linear-interpolator.js": {
+          "size": 1359
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/map-state.js": {
+          "size": 4496
+        },
+        "../node_modules/react-map-gl/dist/esm/components/map-context.js": {
+          "size": 152
+        },
+        "../node_modules/react-map-gl/dist/esm/components/static-map.js": {
+          "size": 5003
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/map-constraints.js": {
+          "size": 233
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/transition-manager.js": {
+          "size": 3792
+        },
+        "../node_modules/mjolnir.js/dist/esm/utils/hammer-overrides.js": {
+          "size": 553
+        },
+        "../node_modules/mjolnir.js/dist/esm/utils/hammer.browser.js": {
+          "size": 69
+        },
+        "../node_modules/mjolnir.js/dist/esm/constants.js": {
+          "size": 1704
+        },
+        "../node_modules/mjolnir.js/dist/esm/inputs/wheel-input.js": {
+          "size": 1159
+        },
+        "../node_modules/mjolnir.js/dist/esm/inputs/move-input.js": {
+          "size": 1882
+        },
+        "../node_modules/mjolnir.js/dist/esm/inputs/key-input.js": {
+          "size": 1117
+        },
+        "../node_modules/mjolnir.js/dist/esm/inputs/contextmenu-input.js": {
+          "size": 675
+        },
+        "../node_modules/mjolnir.js/dist/esm/utils/event-utils.js": {
+          "size": 771
+        },
+        "../node_modules/mjolnir.js/dist/esm/utils/event-registrar.js": {
+          "size": 1921
+        },
+        "../node_modules/mjolnir.js/dist/esm/event-manager.js": {
+          "size": 4444
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/map-controller.js": {
+          "size": 6947
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/debounce.js": {
+          "size": 140
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/deprecate-warn.js": {
+          "size": 569
+        },
+        "../node_modules/react-map-gl/dist/esm/components/interactive-map.js": {
+          "size": 6765
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/deep-equal.js": {
+          "size": 446
+        },
+        "../node_modules/react-map-gl/dist/esm/components/source.js": {
+          "size": 1735
+        },
+        "../node_modules/react-map-gl/dist/esm/components/layer.js": {
+          "size": 2070
+        },
+        "../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js": {
+          "size": 250
+        },
+        "../node_modules/react-map-gl/dist/esm/components/base-control.js": {
+          "size": 1554
+        },
+        "../node_modules/@babel/runtime/helpers/esm/get.js": {
+          "size": 208
+        },
+        "../node_modules/@babel/runtime/helpers/esm/superPropBase.js": {
+          "size": 90
+        },
+        "../node_modules/react-map-gl/dist/esm/components/draggable-control.js": {
+          "size": 2597
+        },
+        "../node_modules/react-map-gl/dist/esm/components/marker.js": {
+          "size": 1384
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/dynamic-position.js": {
+          "size": 625
+        },
+        "../node_modules/react-map-gl/dist/esm/components/popup.js": {
+          "size": 3002
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/geolocate-utils.js": {
+          "size": 247
+        },
+        "../node_modules/react-map-gl/dist/esm/components/fullscreen-control.js": {
+          "size": 1889
+        },
+        "../node_modules/react-map-gl/dist/esm/components/geolocate-control.js": {
+          "size": 4385
+        },
+        "../node_modules/react-map-gl/dist/esm/components/navigation-control.js": {
+          "size": 2352
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/version.js": {
+          "size": 166
+        },
+        "../node_modules/react-map-gl/dist/esm/components/scale-control.js": {
+          "size": 1020
+        },
+        "../node_modules/react-map-gl/dist/esm/overlays/canvas-overlay.js": {
+          "size": 1223
+        },
+        "../node_modules/react-map-gl/dist/esm/overlays/html-overlay.js": {
+          "size": 711
+        },
+        "../node_modules/react-map-gl/dist/esm/overlays/svg-overlay.js": {
+          "size": 711
+        },
+        "../node_modules/react-map-gl/dist/esm/utils/set-rtl-text-plugin.js": {
+          "size": 28
+        },
+        "../node_modules/viewport-mercator-project/dist/esm/math-utils.js": {
+          "size": 226
+        },
+        "../node_modules/viewport-mercator-project/dist/esm/assert.js": {
+          "size": 90
+        },
+        "../node_modules/viewport-mercator-project/dist/esm/web-mercator-utils.js": {
+          "size": 2177
+        },
+        "../node_modules/viewport-mercator-project/dist/esm/viewport.js": {
+          "size": 2283
+        },
+        "../node_modules/viewport-mercator-project/dist/esm/web-mercator-viewport.js": {
+          "size": 1689
+        },
+        "../node_modules/viewport-mercator-project/dist/esm/fit-bounds.js": {
+          "size": 779
+        },
+        "../node_modules/react-map-gl-geocoder/dist/index.m.js": {
+          "size": 4903
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/browser/browser-client.js": {
+          "size": 263
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/classes/mapi-client.js": {
+          "size": 318
+        },
+        "../node_modules/@mapbox/parse-mapbox-token/index.js": {
+          "size": 583
+        },
+        "../node_modules/webpack/buildin/module.js": {
+          "size": 318
+        },
+        "../node_modules/@mapbox/mapbox-gl-geocoder/lib/index.js": {
+          "size": 14366
+        },
+        "../node_modules/suggestions/index.js": {
+          "size": 107
+        },
+        "../node_modules/suggestions/src/suggestions.js": {
+          "size": 3255
+        },
+        "../node_modules/fuzzy/lib/fuzzy.js": {
+          "size": 843
+        },
+        "../node_modules/suggestions/src/list.js": {
+          "size": 1804
+        },
+        "../node_modules/lodash.debounce/index.js": {
+          "size": 1691
+        },
+        "../node_modules/events/events.js": {
+          "size": 5642
+        },
+        "../node_modules/@mapbox/mapbox-gl-geocoder/lib/exceptions.js": {
+          "size": 326
+        },
+        "../node_modules/@mapbox/mapbox-sdk/index.js": {
+          "size": 55
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/browser/browser-layer.js": {
+          "size": 1271
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/classes/mapi-response.js": {
+          "size": 428
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/helpers/parse-link-header.js": {
+          "size": 546
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/classes/mapi-error.js": {
+          "size": 402
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/helpers/parse-headers.js": {
+          "size": 256
+        },
+        "../node_modules/base-64/base64.js": {
+          "size": 1330
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/classes/mapi-request.js": {
+          "size": 2031
+        },
+        "../node_modules/eventemitter3/index.js": {
+          "size": 2756
+        },
+        "../node_modules/@mapbox/mapbox-sdk/lib/helpers/url-utils.js": {
+          "size": 863
+        },
+        "../node_modules/@mapbox/mapbox-sdk/services/geocoding.js": {
+          "size": 1391
+        },
+        "../node_modules/@mapbox/mapbox-sdk/services/service-helpers/validator.js": {
+          "size": 583
+        },
+        "../node_modules/@mapbox/fusspot/lib/index.js": {
+          "size": 3371
+        },
+        "../node_modules/is-plain-obj/index.js": {
+          "size": 197
+        },
+        "../node_modules/@mapbox/mapbox-sdk/services/service-helpers/pick.js": {
+          "size": 245
+        },
+        "../node_modules/@mapbox/mapbox-sdk/services/service-helpers/stringify-booleans.js": {
+          "size": 140
+        },
+        "../node_modules/@mapbox/mapbox-sdk/services/service-helpers/object-map.js": {
+          "size": 127
+        },
+        "../node_modules/@mapbox/mapbox-sdk/services/service-helpers/create-service-factory.js": {
+          "size": 182
+        },
+        "../node_modules/@mapbox/mapbox-gl-geocoder/lib/events.js": {
+          "size": 3537
+        },
+        "../node_modules/nanoid/index.browser.js": {
+          "size": 266
+        },
+        "../node_modules/@mapbox/mapbox-gl-geocoder/lib/localization.js": {
+          "size": 525
+        },
+        "../node_modules/subtag/subtag.js": {
+          "size": 729
+        },
+        "../node_modules/react-virtualized-auto-sizer/dist/index.esm.js": {
+          "size": 6759
+        },
+        "../node_modules/react-map-gl/dist/esm/mapbox/mapbox.js": {
+          "size": 6315
+        },
+        "../node_modules/hammerjs/hammer.js": {
+          "size": 20344
+        },
+        "../node_modules/mjolnir.js/dist/esm/utils/globals.js": {
+          "size": 462
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 104
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/10.f3443c92.chunk.js",
+      "totalBytes": 5019,
+      "mappedBytes": 4895,
+      "unmappedBytes": 78,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "Gifs/Gif_SaveCities.gif": {
+          "size": 78
+        },
+        "Gifs/Gif_SaveCountries.gif": {
+          "size": 128
+        },
+        "pages/FAQ/subcomponents/AccordionFAQ.js": {
+          "size": 490
+        },
+        "pages/FAQ/FAQ.js": {
+          "size": 4199
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 78
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/11.85ba1825.chunk.js",
+      "totalBytes": 262152,
+      "mappedBytes": 26346,
+      "unmappedBytes": 235760,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "icons/ShareIcon.js": {
+          "size": 645
+        },
+        "components/common/buttons/ShareButton.js": {
+          "size": 475
+        },
+        "icons/TrashIcon.js": {
+          "size": 634
+        },
+        "icons/SuggestionsIcon.js": {
+          "size": 781
+        },
+        "pages/Home/subcomponents/CitySuggestions/SuggestedContinents.js": {
+          "size": 590
+        },
+        "pages/Home/subcomponents/CitySuggestions/SuggestedCountries.js": {
+          "size": 1058
+        },
+        "pages/Home/subcomponents/CitySuggestions/SuggestedCity.js": {
+          "size": 952
+        },
+        "pages/Home/subcomponents/CitySuggestions/SuggestedCities.js": {
+          "size": 1174
+        },
+        "pages/Home/subcomponents/NewUserSuggestions.js": {
+          "size": 1058
+        },
+        "pages/Home/subcomponents/CityMap.js": {
+          "size": 16843
+        },
+        "pages/Home/MapPage.js": {
+          "size": 2136
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 235760
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/12.d6063ffd.chunk.js",
+      "totalBytes": 6893,
+      "mappedBytes": 6756,
+      "unmappedBytes": 91,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "icons/CloseWindowIcon.js": {
+          "size": 284
+        },
+        "pages/Landing/subcomponents/LoginForm.js": {
+          "size": 2318
+        },
+        "pages/Landing/subcomponents/SignupForm.js": {
+          "size": 3037
+        },
+        "pages/Landing/subcomponents/LandingForm.js": {
+          "size": 1117
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 91
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/13.f82b83d9.chunk.js",
+      "totalBytes": 4135,
+      "mappedBytes": 4011,
+      "unmappedBytes": 78,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "images/MapLanding.png": {
+          "size": 172
+        },
+        "icons/ArrowRightIcon.js": {
+          "size": 471
+        },
+        "pages/Landing/Landing.js": {
+          "size": 3368
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 78
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/14.8023772e.chunk.js",
+      "totalBytes": 4160,
+      "mappedBytes": 4023,
+      "unmappedBytes": 91,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "Beta.js": {
+          "size": 4023
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 91
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/15.5a9f3be3.chunk.js",
+      "totalBytes": 839,
+      "mappedBytes": 643,
+      "unmappedBytes": 150,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "pages/Landing/Footer.js": {
+          "size": 643
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 150
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/16.be525a32.chunk.js",
+      "totalBytes": 902,
+      "mappedBytes": 765,
+      "unmappedBytes": 91,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "pages/Landing/subcomponents/FakeClickedCityContainer.js": {
+          "size": 765
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 91
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/17.8c93982d.chunk.js",
+      "totalBytes": 71535,
+      "mappedBytes": 71410,
+      "unmappedBytes": 79,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 45,
+      "files": {
+        "../node_modules/lodash/lodash.js": {
+          "size": 71410
+        },
+        "[sourceMappingURL]": {
+          "size": 45
+        },
+        "[unmapped]": {
+          "size": 79
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/2.7724f034.chunk.js",
+      "totalBytes": 2717444,
+      "mappedBytes": 2717309,
+      "unmappedBytes": 90,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "components/Prompts/PopupPrompt.js": {
+          "size": 408
+        },
+        "components/common/zoom_button/zoom_button.js": {
+          "size": 239
+        },
+        "icons/DragIcon.js": {
+          "size": 280
+        },
+        "pages/Home/subcomponents/MapScorecard.js": {
+          "size": 2716382
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 90
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/5.287638c0.chunk.js",
+      "totalBytes": 510791,
+      "mappedBytes": 510660,
+      "unmappedBytes": 86,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "../node_modules/react/index.js": {
+          "size": 46
+        },
+        "../node_modules/tslib/tslib.es6.js": {
+          "size": 6530
+        },
+        "../node_modules/apollo-utilities/lib/bundle.esm.js": {
+          "size": 15132
+        },
+        "../node_modules/ts-invariant/lib/invariant.esm.js": {
+          "size": 862
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/slicedToArray.js": {
+          "size": 105
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js": {
+          "size": 41
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js": {
+          "size": 299
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js": {
+          "size": 172
+        },
+        "../node_modules/prop-types/index.js": {
+          "size": 35
+        },
+        "../node_modules/graphql-tag/src/index.js": {
+          "size": 1776
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/taggedTemplateLiteral.js": {
+          "size": 176
+        },
+        "../node_modules/react-router-dom/esm/react-router-dom.js": {
+          "size": 2639
+        },
+        "../node_modules/@apollo/react-common/lib/react-common.esm.js": {
+          "size": 1824
+        },
+        "../node_modules/react-router/esm/react-router.js": {
+          "size": 3917
+        },
+        "../node_modules/@babel/runtime/helpers/esm/extends.js": {
+          "size": 269
+        },
+        "../node_modules/@wry/equality/lib/equality.esm.js": {
+          "size": 1145
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js": {
+          "size": 156
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js": {
+          "size": 285
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js": {
+          "size": 129
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/typeof.js": {
+          "size": 232
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js": {
+          "size": 71
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js": {
+          "size": 121
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createSuper.js": {
+          "size": 224
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/isNativeReflectConstruct.js": {
+          "size": 248
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js": {
+          "size": 92
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js": {
+          "size": 291
+        },
+        "../node_modules/apollo-link/lib/bundle.esm.js": {
+          "size": 2333
+        },
+        "../node_modules/zen-observable-ts/lib/bundle.esm.js": {
+          "size": 59
+        },
+        "../node_modules/@apollo/react-hooks/lib/react-hooks.esm.js": {
+          "size": 15560
+        },
+        "../node_modules/graphql/language/visitor.mjs": {
+          "size": 3405
+        },
+        "../node_modules/resolve-pathname/esm/resolve-pathname.js": {
+          "size": 605
+        },
+        "../node_modules/value-equal/esm/value-equal.js": {
+          "size": 435
+        },
+        "../node_modules/history/esm/history.js": {
+          "size": 8753
+        },
+        "../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js": {
+          "size": 157
+        },
+        "../node_modules/tiny-invariant/dist/tiny-invariant.esm.js": {
+          "size": 150
+        },
+        "../node_modules/@wry/context/lib/context.esm.js": {
+          "size": 1368
+        },
+        "../node_modules/optimism/lib/bundle.esm.js": {
+          "size": 5223
+        },
+        "../node_modules/apollo-client/bundle.esm.js": {
+          "size": 39417
+        },
+        "../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js": {
+          "size": 196
+        },
+        "../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js": {
+          "size": 982
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js": {
+          "size": 168
+        },
+        "../node_modules/graphql/jsutils/nodejsCustomInspectSymbol.mjs": {
+          "size": 150
+        },
+        "../node_modules/@apollo/react-components/lib/react-components.esm.js": {
+          "size": 1419
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js": {
+          "size": 97
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js": {
+          "size": 54
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/iterableToArray.js": {
+          "size": 94
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js": {
+          "size": 167
+        },
+        "../node_modules/process/browser.js": {
+          "size": 1693
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js": {
+          "size": 382
+        },
+        "../node_modules/graphql/jsutils/inspect.mjs": {
+          "size": 1530
+        },
+        "../node_modules/graphql/language/blockString.mjs": {
+          "size": 1436
+        },
+        "../node_modules/react-ga/dist/esm/utils/console/warn.js": {
+          "size": 43
+        },
+        "../node_modules/react-ga/dist/esm/components/OutboundLink.js": {
+          "size": 3238
+        },
+        "../node_modules/react-ga/dist/esm/utils/trim.js": {
+          "size": 48
+        },
+        "../node_modules/react-ga/dist/esm/utils/toTitleCase.js": {
+          "size": 394
+        },
+        "../node_modules/react-ga/dist/esm/utils/format.js": {
+          "size": 135
+        },
+        "../node_modules/react-ga/dist/esm/utils/mightBeEmail.js": {
+          "size": 59
+        },
+        "../node_modules/react-ga/dist/esm/utils/loadGA.js": {
+          "size": 432
+        },
+        "../node_modules/react-ga/dist/esm/utils/console/log.js": {
+          "size": 43
+        },
+        "../node_modules/react-ga/dist/esm/utils/testModeAPI.js": {
+          "size": 163
+        },
+        "../node_modules/react-ga/dist/esm/core.js": {
+          "size": 7477
+        },
+        "../node_modules/react-ga/dist/esm/utils/removeLeadingSlash.js": {
+          "size": 43
+        },
+        "../node_modules/react-ga/dist/esm/index.js": {
+          "size": 774
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/regenerator/index.js": {
+          "size": 46
+        },
+        "../node_modules/object-assign/index.js": {
+          "size": 947
+        },
+        "../node_modules/react-dom/index.js": {
+          "size": 252
+        },
+        "../node_modules/apollo-cache-inmemory/lib/depTrackingCache.js": {
+          "size": 978
+        },
+        "../node_modules/apollo-cache-inmemory/lib/objectCache.js": {
+          "size": 570
+        },
+        "../node_modules/apollo-cache/lib/bundle.esm.js": {
+          "size": 2191
+        },
+        "../node_modules/@bugsnag/js/browser/notifier.js": {
+          "size": 48
+        },
+        "../node_modules/mini-create-react-context/dist/esm/index.js": {
+          "size": 1970
+        },
+        "../node_modules/react-router/node_modules/path-to-regexp/index.js": {
+          "size": 3162
+        },
+        "../node_modules/webpack/buildin/global.js": {
+          "size": 163
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js": {
+          "size": 363
+        },
+        "../node_modules/sweetalert2/dist/sweetalert2.all.js": {
+          "size": 74098
+        },
+        "../node_modules/react-is/index.js": {
+          "size": 32
+        },
+        "../node_modules/charenc/charenc.js": {
+          "size": 444
+        },
+        "../node_modules/react-meta-tags/lib/meta_tags.js": {
+          "size": 3380
+        },
+        "../node_modules/apollo-cache-inmemory/lib/fragmentMatcher.js": {
+          "size": 2402
+        },
+        "../node_modules/apollo-cache-inmemory/lib/readFromStore.js": {
+          "size": 5796
+        },
+        "../node_modules/apollo-cache-inmemory/lib/writeToStore.js": {
+          "size": 4948
+        },
+        "../node_modules/jwt-decode/lib/index.js": {
+          "size": 369
+        },
+        "../node_modules/@bugsnag/plugin-react/dist/bugsnag-react.js": {
+          "size": 2609
+        },
+        "../node_modules/react-gravatar/dist/index.js": {
+          "size": 2963
+        },
+        "../node_modules/symbol-observable/es/index.js": {
+          "size": 209
+        },
+        "../node_modules/symbol-observable/es/ponyfill.js": {
+          "size": 190
+        },
+        "../node_modules/zen-observable/index.js": {
+          "size": 58
+        },
+        "../node_modules/fast-json-stable-stringify/index.js": {
+          "size": 889
+        },
+        "../node_modules/react-meta-tags/lib/index.js": {
+          "size": 478
+        },
+        "../node_modules/apollo-cache-inmemory/lib/index.js": {
+          "size": 353
+        },
+        "../node_modules/apollo-cache-inmemory/lib/bundle.esm.js": {
+          "size": 16163
+        },
+        "../node_modules/graphql/language/printer.mjs": {
+          "size": 4625
+        },
+        "../node_modules/apollo-link-http-common/lib/bundle.esm.js": {
+          "size": 1739
+        },
+        "../node_modules/apollo-link-http/lib/bundle.esm.js": {
+          "size": 1963
+        },
+        "../node_modules/apollo-link-error/lib/bundle.esm.js": {
+          "size": 841
+        },
+        "../node_modules/apollo-boost/lib/bundle.esm.js": {
+          "size": 1412
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js": {
+          "size": 290
+        },
+        "../node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js": {
+          "size": 132
+        },
+        "../node_modules/regenerator-runtime/runtime.js": {
+          "size": 6420
+        },
+        "../node_modules/react/cjs/react.production.min.js": {
+          "size": 6204
+        },
+        "../node_modules/react-dom/cjs/react-dom.production.min.js": {
+          "size": 117165
+        },
+        "../node_modules/scheduler/index.js": {
+          "size": 46
+        },
+        "../node_modules/scheduler/cjs/scheduler.production.min.js": {
+          "size": 4605
+        },
+        "../node_modules/jwt-decode/lib/base64_url_decode.js": {
+          "size": 404
+        },
+        "../node_modules/jwt-decode/lib/atob.js": {
+          "size": 553
+        },
+        "../node_modules/prop-types/factoryWithThrowingShims.js": {
+          "size": 651
+        },
+        "../node_modules/prop-types/lib/ReactPropTypesSecret.js": {
+          "size": 74
+        },
+        "../node_modules/@bugsnag/browser/dist/bugsnag.js": {
+          "size": 40484
+        },
+        "../node_modules/react-router/node_modules/isarray/index.js": {
+          "size": 126
+        },
+        "../node_modules/react-is/cjs/react-is.production.min.js": {
+          "size": 2134
+        },
+        "../node_modules/md5/md5.js": {
+          "size": 3373
+        },
+        "../node_modules/crypt/crypt.js": {
+          "size": 1284
+        },
+        "../node_modules/is-buffer/index.js": {
+          "size": 301
+        },
+        "../node_modules/query-string/index.js": {
+          "size": 1927
+        },
+        "../node_modules/strict-uri-encode/index.js": {
+          "size": 153
+        },
+        "../node_modules/is-retina/index.js": {
+          "size": 472
+        },
+        "../node_modules/webpack/buildin/harmony-module.js": {
+          "size": 357
+        },
+        "../node_modules/zen-observable/lib/Observable.js": {
+          "size": 6682
+        },
+        "../node_modules/react-meta-tags/lib/meta_tags_context.js": {
+          "size": 1789
+        },
+        "../node_modules/react-meta-tags/lib/utils.js": {
+          "size": 1785
+        },
+        "../node_modules/react-meta-tags/lib/react_title.js": {
+          "size": 2071
+        },
+        "../node_modules/dotenv/lib/main.js": {
+          "size": 1369
+        },
+        "../node_modules/path-browserify/index.js": {
+          "size": 2490
+        },
+        "../node_modules/apollo-cache-inmemory/lib/inMemoryCache.js": {
+          "size": 4970
+        },
+        "../node_modules/apollo-cache-inmemory/lib/fixPolyfills.js": {
+          "size": 726
+        },
+        "../node_modules/graphql/jsutils/devAssert.mjs": {
+          "size": 62
+        },
+        "../node_modules/graphql/jsutils/defineToJSON.mjs": {
+          "size": 165
+        },
+        "../node_modules/graphql/jsutils/isObjectLike.mjs": {
+          "size": 259
+        },
+        "../node_modules/graphql/language/location.mjs": {
+          "size": 141
+        },
+        "../node_modules/graphql/language/printLocation.mjs": {
+          "size": 869
+        },
+        "../node_modules/graphql/error/GraphQLError.mjs": {
+          "size": 1358
+        },
+        "../node_modules/graphql/error/syntaxError.mjs": {
+          "size": 72
+        },
+        "../node_modules/graphql/language/kinds.mjs": {
+          "size": 1454
+        },
+        "../node_modules/graphql/language/source.mjs": {
+          "size": 297
+        },
+        "../node_modules/graphql/jsutils/defineToStringTag.mjs": {
+          "size": 165
+        },
+        "../node_modules/graphql/language/tokenKind.mjs": {
+          "size": 294
+        },
+        "../node_modules/graphql/language/lexer.mjs": {
+          "size": 5363
+        },
+        "../node_modules/graphql/language/directiveLocation.mjs": {
+          "size": 525
+        },
+        "../node_modules/graphql/language/parser.mjs": {
+          "size": 17269
+        },
+        "../node_modules/@apollo/react-hoc/lib/react-hoc.esm.js": {
+          "size": 1180
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 86
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/6.39c6efaa.chunk.js",
+      "totalBytes": 30694,
+      "mappedBytes": 30507,
+      "unmappedBytes": 142,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "icons/AllTimingsIcon.js": {
+          "size": 2211
+        },
+        "icons/CalendarIcon.js": {
+          "size": 658
+        },
+        "icons/CloseWindowIcon.js": {
+          "size": 245
+        },
+        "icons/FutureIcon.js": {
+          "size": 482
+        },
+        "icons/PastIcon.js": {
+          "size": 658
+        },
+        "icons/LiveIcon.js": {
+          "size": 463
+        },
+        "components/Prompts/PromptNavMenu.js": {
+          "size": 1565
+        },
+        "icons/MapChangeIcon.js": {
+          "size": 653
+        },
+        "components/Prompts/FriendClickedCity/FriendClickedCityBlank.js": {
+          "size": 1172
+        },
+        "pages/Home/subcomponents/BloggerFilterCard.js": {
+          "size": 493
+        },
+        "pages/Home/subcomponents/BloggerLeaderboardPrompt.js": {
+          "size": 1131
+        },
+        "components/Prompts/FriendClickedCity/subcomponents/UserTripCard.js": {
+          "size": 629
+        },
+        "components/Prompts/FriendClickedCity/FriendClickedCityContainer.js": {
+          "size": 3299
+        },
+        "icons/LeaderboardIcon.js": {
+          "size": 649
+        },
+        "pages/Home/subcomponents/FriendCityMap.js": {
+          "size": 11542
+        },
+        "pages/Home/FriendMapPage.js": {
+          "size": 4657
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 142
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/7.6276b7b8.chunk.js",
+      "totalBytes": 32991,
+      "mappedBytes": 32804,
+      "unmappedBytes": 142,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "icons/AllTimingsIcon.js": {
+          "size": 2211
+        },
+        "components/Prompts/PopupPrompt.js": {
+          "size": 408
+        },
+        "components/common/zoom_button/zoom_button.js": {
+          "size": 212
+        },
+        "icons/CloseWindowIcon.js": {
+          "size": 196
+        },
+        "icons/DragIcon.js": {
+          "size": 280
+        },
+        "pages/Home/subcomponents/MapScorecard.js": {
+          "size": 4334
+        },
+        "icons/MapChangeIcon.js": {
+          "size": 645
+        },
+        "pages/Home/subcomponents/BloggerFilterCard.js": {
+          "size": 493
+        },
+        "pages/Home/subcomponents/BloggerLeaderboardPrompt.js": {
+          "size": 1229
+        },
+        "icons/FilterIcon.js": {
+          "size": 504
+        },
+        "icons/InterestIcons/GuidedTouristIcon.js": {
+          "size": 518
+        },
+        "icons/CityIcon.js": {
+          "size": 697
+        },
+        "components/Prompts/BloggerPromptNavMenu.js": {
+          "size": 1205
+        },
+        "components/Prompts/BloggerPopup/BlogPostCard.js": {
+          "size": 712
+        },
+        "icons/BlogPostIcon.js": {
+          "size": 403
+        },
+        "components/Prompts/BloggerPopup/BlogUserCard.js": {
+          "size": 1584
+        },
+        "components/Prompts/FriendClickedCity/BloggerCityPopup.js": {
+          "size": 5522
+        },
+        "pages/Home/subcomponents/BloggerCityMap.js": {
+          "size": 9221
+        },
+        "pages/Home/BloggerMap.js": {
+          "size": 2430
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 142
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/8.a5f99111.chunk.js",
+      "totalBytes": 24138,
+      "mappedBytes": 23951,
+      "unmappedBytes": 142,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "icons/AllTimingsIcon.js": {
+          "size": 2211
+        },
+        "icons/CalendarIcon.js": {
+          "size": 734
+        },
+        "icons/FutureIcon.js": {
+          "size": 482
+        },
+        "icons/PastIcon.js": {
+          "size": 658
+        },
+        "icons/LiveIcon.js": {
+          "size": 463
+        },
+        "components/Prompts/PromptNavMenu.js": {
+          "size": 1548
+        },
+        "components/Prompts/FriendClickedCity/FriendClickedCityBlank.js": {
+          "size": 1197
+        },
+        "components/Prompts/FriendClickedCity/subcomponents/UserTripCard.js": {
+          "size": 629
+        },
+        "components/Prompts/FriendClickedCity/FriendClickedCityContainer.js": {
+          "size": 3298
+        },
+        "components/Prompts/ReadonlySignupPrompt.js": {
+          "size": 384
+        },
+        "pages/Home/subcomponents/FriendReadonlyCity.js": {
+          "size": 8648
+        },
+        "pages/Home/FriendReadonlyMap.js": {
+          "size": 3699
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 142
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/9.42e98d48.chunk.js",
+      "totalBytes": 9474,
+      "mappedBytes": 9287,
+      "unmappedBytes": 142,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 44,
+      "files": {
+        "icons/AllTimingsIcon.js": {
+          "size": 2211
+        },
+        "icons/CalendarIcon.js": {
+          "size": 734
+        },
+        "icons/FutureIcon.js": {
+          "size": 482
+        },
+        "icons/PastIcon.js": {
+          "size": 658
+        },
+        "icons/LiveIcon.js": {
+          "size": 463
+        },
+        "components/Prompts/PromptNavMenu.js": {
+          "size": 1573
+        },
+        "pages/Landing/subcomponents/FakeUserTripCard.js": {
+          "size": 600
+        },
+        "pages/Landing/subcomponents/FakeClickedFriendCity.js": {
+          "size": 2566
+        },
+        "[sourceMappingURL]": {
+          "size": 44
+        },
+        "[unmapped]": {
+          "size": 142
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/main.ed1a50e5.chunk.js",
+      "totalBytes": 96923,
+      "mappedBytes": 72296,
+      "unmappedBytes": 24579,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 47,
+      "files": {
+        "GraphQL.js": {
+          "size": 758
+        },
+        "serviceWorker.js": {
+          "size": 377
+        },
+        "components/common/CommonFunctions.js": {
+          "size": 53
+        },
+        "components/Header/subcomponents/NavLinks.js": {
+          "size": 814
+        },
+        "components/Header/subcomponents/SiteLogo.js": {
+          "size": 249
+        },
+        "icons/SiteText.js": {
+          "size": 12921
+        },
+        "icons/LogoutIcon.js": {
+          "size": 1172
+        },
+        "icons/SettingsIcon.js": {
+          "size": 1655
+        },
+        "components/Header/subcomponents/UsernameDropdown.js": {
+          "size": 1081
+        },
+        "components/Header/subcomponents/UserHeaderContainer.js": {
+          "size": 619
+        },
+        "components/Header/Header.js": {
+          "size": 1412
+        },
+        "pages/Profile/subpages/UserNotFound.js": {
+          "size": 188
+        },
+        "pages/Profile/UserProfile.js": {
+          "size": 465
+        },
+        "App.js": {
+          "size": 4131
+        },
+        "index.js": {
+          "size": 1084
+        },
+        "utils/UserContext.js": {
+          "size": 172
+        },
+        "components/common/SimpleLoader/SimpleLoader.js": {
+          "size": 590
+        },
+        "components/common/Loader/Loader.js": {
+          "size": 390
+        },
+        "components/UserAvatar/UserAvatar.js": {
+          "size": 755
+        },
+        "icons/AvatarIcons/AvatarOne.js": {
+          "size": 344
+        },
+        "components/common/ValidationMutation/ValidationMutation.js": {
+          "size": 527
+        },
+        "icons/AvatarIcons/AvatarTwo.js": {
+          "size": 377
+        },
+        "icons/AvatarIcons/AvatarThree.js": {
+          "size": 377
+        },
+        "icons/AvatarIcons/AvatarFour.js": {
+          "size": 377
+        },
+        "icons/AvatarIcons/AvatarFive.js": {
+          "size": 377
+        },
+        "icons/AvatarIcons/AvatarSix.js": {
+          "size": 360
+        },
+        "icons/PersonIcon.js": {
+          "size": 1125
+        },
+        "utils/withMemo.js": {
+          "size": 203
+        },
+        "images/Avatar_trial8_rotate_12_yellow.png": {
+          "size": 106
+        },
+        "components/common/PageNotFound/PageNotFound.js": {
+          "size": 706
+        },
+        "images/Avatar_trial1_rotate_12_purple.png": {
+          "size": 93
+        },
+        "images/Avatar_trial2_rotate_0_red.png": {
+          "size": 89
+        },
+        "images/Avatar_trial3_rotate_12_blue.png": {
+          "size": 91
+        },
+        "images/Avatar_trial4_rotate_12_yellow.png": {
+          "size": 93
+        },
+        "images/Avatar_trial6_rotate_12_blue.png": {
+          "size": 161
+        },
+        "pages/Profile/ProfileNav.js": {
+          "size": 841
+        },
+        "icons/MenuIcon.js": {
+          "size": 303
+        },
+        "icons/InfoIcon.js": {
+          "size": 302
+        },
+        "icons/BasicsIcon.js": {
+          "size": 441
+        },
+        "icons/ContactIcon.js": {
+          "size": 395
+        },
+        "icons/SecurityIcon.js": {
+          "size": 501
+        },
+        "pages/Profile/subpages/Settings/Basics.js": {
+          "size": 3519
+        },
+        "icons/SocialIcons/FacebookIcon.js": {
+          "size": 588
+        },
+        "icons/SocialIcons/InstagramIcon.js": {
+          "size": 2341
+        },
+        "icons/SocialIcons/TwitterIcon.js": {
+          "size": 1119
+        },
+        "icons/SocialIcons/WhatsappIcon.js": {
+          "size": 1290
+        },
+        "pages/Profile/subpages/Settings/Social.js": {
+          "size": 2341
+        },
+        "pages/Profile/subpages/Settings/Security.js": {
+          "size": 2784
+        },
+        "pages/Profile/Sidebar/AvatarGrid.js": {
+          "size": 2051
+        },
+        "pages/Profile/subpages/Settings.js": {
+          "size": 1834
+        },
+        "icons/FriendsIcon.js": {
+          "size": 523
+        },
+        "icons/SearchIcon.js": {
+          "size": 1027
+        },
+        "icons/AddFriendIcon.js": {
+          "size": 463
+        },
+        "pages/Profile/subpages/Friends/PotentialFriendCard.js": {
+          "size": 1056
+        },
+        "pages/Profile/subpages/Friends/FindFriends.js": {
+          "size": 735
+        },
+        "icons/DoNotRecommendIcon.js": {
+          "size": 895
+        },
+        "icons/RecommendIcon.js": {
+          "size": 770
+        },
+        "pages/Profile/subpages/Friends/FriendCard.js": {
+          "size": 5502
+        },
+        "pages/Profile/subpages/Friends/FriendRequests.js": {
+          "size": 722
+        },
+        "pages/Profile/subpages/Friends/CurrentFriends.js": {
+          "size": 934
+        },
+        "pages/Profile/subpages/Friends.js": {
+          "size": 1422
+        },
+        "pages/Profile/Profile.js": {
+          "size": 3305
+        },
+        "[sourceMappingURL]": {
+          "size": 47
+        },
+        "[unmapped]": {
+          "size": 24579
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    },
+    {
+      "bundleName": "build/static/js/runtime~main.764cd40c.js",
+      "totalBytes": 3472,
+      "mappedBytes": 3409,
+      "unmappedBytes": 13,
+      "eolBytes": 1,
+      "sourceMapCommentBytes": 49,
+      "files": {
+        "../webpack/bootstrap": {
+          "size": 3409
+        },
+        "[sourceMappingURL]": {
+          "size": 49
+        },
+        "[unmapped]": {
+          "size": 13
+        },
+        "[EOLs]": {
+          "size": 1
+        }
+      }
+    }
+  ]
+}
