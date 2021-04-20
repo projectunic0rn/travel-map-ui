@@ -12,7 +12,6 @@ import Geocoder from "react-map-gl-geocoder";
 import MapScorecard from "./MapScorecard";
 import Loader from "../../../components/common/Loader/Loader";
 import FilterIcon from "../../../icons/FilterIcon";
-import MapChangeIcon from "../../../icons/MapChangeIcon";
 import PopupPrompt from "../../../components/Prompts/PopupPrompt";
 import BloggerCityPopup from "../../../components/Prompts/FriendClickedCity/BloggerCityPopup";
 import ZoomButton from "../../../components/common/zoom_button/zoom_button";
@@ -28,10 +27,10 @@ const pastLayer = {
   id: "past",
   type: "circle",
   paint: {
-    "circle-radius": 4,
+    "circle-radius": 3,
     "circle-color": "rgba(203, 118, 120, 0.75)",
     "circle-stroke-color": "rgba(203, 118, 120, 0.25)",
-    "circle-stroke-width": 4,
+    "circle-stroke-width": 3,
   },
   filter: ["==", "icon", "0"],
 };
@@ -70,10 +69,10 @@ const futureLayer = {
   id: "future",
   type: "circle",
   paint: {
-    "circle-radius": 4,
+    "circle-radius": 3,
     "circle-color": "rgba(115, 167, 195, 0.75)",
     "circle-stroke-color": "rgba(115, 167, 195, 0.25)",
-    "circle-stroke-width": 4,
+    "circle-stroke-width": 3,
   },
   filter: ["==", "icon", "1"],
 };
@@ -82,10 +81,10 @@ const liveLayer = {
   id: "live",
   type: "circle",
   paint: {
-    "circle-radius": 4,
+    "circle-radius": 3,
     "circle-color": "rgba(150, 177, 168, 0.75)",
     "circle-stroke-color": "rgba(150, 177, 168, 0.25)",
-    "circle-stroke-width": 4,
+    "circle-stroke-width": 3,
   },
   filter: ["==", "icon", "2"],
 };

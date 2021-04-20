@@ -245,8 +245,9 @@
   height: 406px;
   max-height: 406px;
   @media screen and (max-width: 1250px) {
-    top: calc(50% - 140px);
+    bottom: calc(500px);
     left: calc(50% - 150px);
+    max-height: 260px;
   }
   .close-window-icon {
     cursor: pointer;

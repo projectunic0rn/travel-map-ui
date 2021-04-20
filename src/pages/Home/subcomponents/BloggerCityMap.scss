@@ -18,15 +18,21 @@
   padding: 8px;
   border-radius: 8px;
   font-family: "Segoe UI", sans-serif;
-  font-size: 30px;
+  font-size: 24px;
   color: #f8f8fc;
   z-index: 2;
+  @media screen and (min-width: 1000px) {
+    font-size: 30px;
+  }
 }
 
 .blogger-controls {
   left: calc(50% + 306px);
   right: calc(50% - 560px);
   top: 74px;
+  .new-map-suggest .sc-control-label {
+    left: -16px;
+  }
   .filter-icon {
     max-width: 24px;
   }
@@ -58,7 +64,7 @@
     transform: translateY(0px);
     width: 12px;
   }
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 750px) {
     display: none;
   }
   .new-map-suggest {
@@ -116,7 +122,7 @@
 }
 .blogger-filter-container {
   left: calc(50% - 150px);
-  bottom: 0px;
+  bottom: 20px;
   margin-right: 8px;
   @media screen and (min-width: 1200px) {
     left: calc(100% - 320px);
@@ -128,7 +134,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     padding-right: 8px;
-    max-height: 360px;
+    max-height: 220px;
     &::-webkit-scrollbar {
       width: 11px;
     }
@@ -141,6 +147,9 @@
       background-color: #90a4ae;
       border-radius: 6px;
       border: 3px solid #cfd8dc;
+    }
+    @media screen and (min-width: 1200px) {
+      max-height: 360px;
     }
   }
   .blogger-card {
@@ -163,12 +172,22 @@
       font-weight: 700;
     }
     .utc-username {
-      font-size: 18px;
+      font-size: 15px;
       color: rgb(230, 230, 235);
-      padding-left: 8px;
+      padding-left: 4px;
+      @media screen and (min-width: 1000px) {
+        font-size: 18px;
+        padding-left: 8px;
+      }
     }
     .user-georney-score span {
       color: white;
+    }
+    .user-georney-score span {
+      font-size: 20px;
+      @media screen and (min-width: 1000px) {
+        font-size: 24px;
+      }
     }
   }
 }
