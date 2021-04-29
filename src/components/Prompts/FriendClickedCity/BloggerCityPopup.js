@@ -24,43 +24,39 @@ function BloggerCityPopup(props) {
     { username: "BucketListly" },
     { username: "iameileen" },
     { username: "Bemytravelmuse" },
-    { username: "fake" },
-    // { username: "TheBrokeBackpacker" },
+    { username: "TheBrokeBackpacker" },
+    { username: "WildJunket" },
+    { username: "Nomadasaurus" },
     // { username: "ThePlanetD" },
   ]);
   const [loaded, handleLoaded] = useState(false);
+  console.log(props.customProps);
   const [cityId, handleCityId] = useState(
-    props.customProps.hoveredCityArray[0].cityId
+    props.customProps.hoveredCityArray[0] !== null
+      ? props.customProps.hoveredCityArray[0].cityId
+      : null
   );
+
   const [navPosition, handleNavPosition] = useState(0);
-  const [cityName, handleCityName] = useState(null);
-  const [countryName, handleCountryName] = useState(null);
+  const [cityName, handleCityName] = useState(props.customProps.clickedCity.city);
+  const [countryName, handleCountryName] = useState(props.customProps.clickedCity.country);
   const [cityHover, handleCityHover] = useState(true);
   const [blogPostCards, handleBlogPostCards] = useState([]);
   const [blogPosts, handleBlogPosts] = useState([]);
   const [countryPostArray, handleCountryPostArray] = useState([]);
-  useEffect(() => {
-    if (props.customProps.hoveredCityArray.length < 1) {
-      handleCityName(props.customProps.clickedCity.result["text_en-US"]);
-      if (props.customProps.cityInfo.result.context !== undefined) {
-        for (let i in props.customProps.clickedCity.result.context) {
-          if (
-            props.customProps.clickedCity.result.context[i].id.slice(0, 7) ===
-            "country"
-          ) {
-            handleCountryName(
-              props.customProps.clickedCity.result.context[i]["text_en-US"]
-            );
-          }
-        }
-      } else {
-        handleCountryName(props.customProps.cityInfo.result.place_name);
-      }
-    } else {
-      handleCityName(props.customProps.hoveredCityArray[0].city);
-      handleCountryName(props.customProps.hoveredCityArray[0].country);
-    }
-  }, [props.customProps.hoveredCityArray]);
+  // useEffect(() => {
+  //   handleCityName(props.customProps.clickedCity.result["text_en-US"]);
+  //   for (let i in props.customProps.clickedCity.result.context) {
+  //     if (
+  //       props.customProps.clickedCity.result.context[i].id.slice(0, 7) ===
+  //       "country"
+  //     ) {
+  //       handleCountryName(
+  //         props.customProps.clickedCity.result.context[i]["text_en-US"]
+  //       );
+  //     }
+  //   }
+  // }, [props.customProps.hoveredCityArray]);
 
   function sortYear(a, b) {
     const yearA = a.year;
@@ -296,8 +292,8 @@ function BloggerCityPopup(props) {
           <div className="blogger-popup-container">
             <div className="clicked-country-header">
               <div className="clicked-country-info-value">
-                {props.customProps.uniqueBloggers} /{" "}
-                {props.customProps.activeBlogger === null ? 11 : 1}
+                {props.customProps.uniqueBloggers} / {" "}
+                {props.customProps.activeBlogger === null ? 15 : 1}
                 <PersonIcon />
               </div>
             </div>

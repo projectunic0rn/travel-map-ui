@@ -100,19 +100,20 @@ function BloggerCityMap(props) {
   const [tripTimingCounts, handleTripTimingCounts] = useState([0, 0, 0]);
   const [countryTimingCounts, handleCountryTimingCounts] = useState([0, 0, 0]);
   const [clickedCityArray, handleClickedCityArray] = useState(props.tripCities);
+  const [clickedCityId, handleClickedCityId] = useState(null);
   const [, handleFilteredCityArray] = useState([]);
   const [activeFilters, handleScorecardFilterClick] = useState(0);
   const [activeTimings, handleActiveTimings] = useState([1, 1, 1]);
   const [loading, handleLoaded] = useState(true);
   const [cityTooltip, handleCityTooltip] = useState(null);
   const [countryTooltip, handleCountryTooltip] = useState(null);
-  const [hoveredCityArray, handleHoveredCityArray] = useState(null);
   const [activePopup, handleActivePopup] = useState(false);
   const [showSideMenu, handleSideMenu] = useState(false);
   const [uniqueBloggers, handleUniqueBloggers] = useState(0);
   const [filterSettings] = useState(props.filterParams);
   const [clickedCity, handleClickedCity] = useState(null);
   const [, handleFilter] = useState(false);
+  const [uniqueBloggerArray, handleUniqueBloggerArray] = useState([]);
 
   const mapRef = useRef();
 
@@ -145,16 +146,29 @@ function BloggerCityMap(props) {
     handleLoadedCities(props.bloggerData);
   }, [props.bloggerData]);
 
-  // useEffect(() => {
-  //   let oldActiveTimings = [...activeTimings];
-  //   handleActiveTimings([0, 0, 0]);
-  //   handleActiveTimings(oldActiveTimings);
-  // }, [
-  //   clickedCityArray,
-  //   props.bloggerData,
-  //   markerPastDisplay,
-  //   markerLiveDisplay,
-  // ]);
+  function useEffectSkipFirstClickedCity() {
+    const isFirst = useRef(true);
+    useEffect(() => {
+      if (isFirst.current) {
+        isFirst.current = false;
+        return;
+      }
+      let unique = clickedCityArray.filter(
+        (data) => data.cityId === clickedCityId
+      );
+      handleUniqueBloggers(unique.length);
+      handleUniqueBloggerArray(unique);
+      if (unique.length > 0) {
+        handleClickedCity({
+          city: unique[0].city,
+          cityId: clickedCityId,
+          country: unique[0].country,
+        });
+      }
+    }, [clickedCityId]);
+  }
+
+  useEffectSkipFirstClickedCity(() => {}, [clickedCityId]);
 
   useEffect(() => {
     let pastCount = 0;
@@ -256,21 +270,34 @@ function BloggerCityMap(props) {
   }
 
   function handleTypedCity(typedCity) {
-    let hoveredCityArray = [];
+    let parsedCityId;
     if (typedCity.result.properties.wikidata !== undefined) {
-      hoveredCityArray = clickedCityArray.filter(
-        (city) =>
-          city.cityId ===
-          parseFloat(typedCity.result.properties.wikidata.slice(1), 10)
+      parsedCityId = parseFloat(
+        typedCity.result.properties.wikidata.slice(1),
+        10
       );
     } else {
-      hoveredCityArray = clickedCityArray.filter(
-        (city) =>
-          city.cityId === parseFloat(typedCity.result.id.slice(10, 16), 10)
-      );
+      parsedCityId = parseFloat(typedCity.result.id.slice(10, 16), 10);
     }
-    handleClickedCity(typedCity);
-    handleHoveredCityArray(hoveredCityArray);
+    let city = typedCity.result["text_en-US"];
+    let country;
+    for (let i in typedCity.result.context) {
+      if (typedCity.result.context[i].id.slice(0, 7) === "country") {
+        country = typedCity.result.context[i]["text_en-US"];
+      }
+    }
+    handleClickedCity({
+      city: city,
+      country: country,
+      cityId: parsedCityId
+    })
+    handleCityTooltip({
+      city: typedCity.result.text,
+      cityId: parsedCityId,
+      latitude: typedCity.result.center[1],
+      longitude: typedCity.result.center[0],
+    });
+    handleClickedCityId(parsedCityId);
     handleActivePopup(true);
   }
 
@@ -380,139 +407,6 @@ function BloggerCityMap(props) {
     handleTripTimingCounts([pastCount, futureCount, liveCount]);
     handleLoadedMarkers(filteredCityArray);
   }
-  // function handleLoadedCities(data) {
-  //   let clickedCityArray = [];
-  //   for (let i in data) {
-  //     if (data != null && data[i].Places_visited.length !== 0) {
-  //       for (let j = 0; j < data[i].Places_visited.length; j++) {
-  //         if (data[i].Places_visited[j].cityId !== 0) {
-  //           clickedCityArray.push({
-  //             id: data[i].Places_visited[j].id,
-  //             username: data[i].username,
-  //             cityId: data[i].Places_visited[j].cityId,
-  //             city: data[i].Places_visited[j].city,
-  //             latitude: data[i].Places_visited[j].city_latitude,
-  //             longitude: data[i].Places_visited[j].city_longitude,
-  //             country: data[i].Places_visited[j].country,
-  //             countryId: data[i].Places_visited[j].countryId,
-  //             tripTiming: 0,
-  //             avatarIndex:
-  //               data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-  //             color: data[i].color,
-  //           });
-  //         }
-  //       }
-  //       if (data[i].Place_living !== null) {
-  //         clickedCityArray.push({
-  //           id: data[i].Place_living.id,
-  //           username: data[i].username,
-  //           cityId: data[i].Place_living.cityId,
-  //           city: data[i].Place_living.city,
-  //           latitude: data[i].Place_living.city_latitude,
-  //           longitude: data[i].Place_living.city_longitude,
-  //           country: data[i].Place_living.country,
-  //           countryId: data[i].Place_living.countryId,
-  //           tripTiming: 2,
-  //           avatarIndex: data[i].avatarIndex !== null ? data[i].avatarIndex : 1,
-  //           color: data[i].color,
-  //         });
-  //       }
-  //     }
-  //   }
-  //   let filteredCityArray = clickedCityArray;
-  //   handleClickedCityArray(clickedCityArray);
-  //   props.handleCities(filteredCityArray);
-  //   let newPastCountArray = [];
-  //   let newLiveCountArray = 0;
-  //   for (let i in clickedCityArray) {
-  //     if (
-  //       !newPastCountArray.some((city) => {
-  //         return city.cityId === clickedCityArray[i].cityId;
-  //       })
-  //     ) {
-  //       newPastCountArray.push(clickedCityArray[i]);
-  //     }
-  //     if (clickedCityArray[i].tripTiming === 2) {
-  //       newLiveCountArray++;
-  //     }
-  //   }
-  //   handleTripTimingCounts([newPastCountArray.length, 0, newLiveCountArray]);
-  //   handleLoadedMarkers(filteredCityArray);
-  // }
-
-  // function handleLoadedMarkers(markers) {
-  //   let markerPastDisplay = [];
-  //   let markerLiveDisplay = [];
-  //   markers.map((city) => {
-  //     if (city.city !== undefined && city.city !== "") {
-  //       switch (city.tripTiming) {
-  //         case 0:
-  //           handleActiveTimings([0, 0, 0]);
-  //           if (
-  //             markerPastDisplay.some((marker) => {
-  //               return marker.id === city.tripTiming + "-" + city.cityId;
-  //             })
-  //           ) {
-  //             break;
-  //           }
-  //           markerPastDisplay.push(city);
-  //           break;
-  //         case 2:
-  //           handleActiveTimings([0, 0, 0]);
-  //           if (
-  //             markerLiveDisplay.some((marker) => {
-  //               return marker.id === city.tripTiming + "-" + city.cityId;
-  //             })
-  //           ) {
-  //             break;
-  //           }
-  //           markerLiveDisplay.push(city);
-  //           break;
-  //         default:
-  //           break;
-  //       }
-  //     }
-  //     return null;
-  //   });
-  //   handleMarkerPastDisplay(markerPastDisplay);
-  //   handleMarkerLiveDisplay(markerLiveDisplay);
-  //   handleLoaded(false);
-  //   handleActiveTimings([1, 1, 1]);
-  // }
-
-  // function handleOnResult(typedCity) {
-  //   let countryName;
-  //   let cityId;
-  //   if (typedCity.result.context !== undefined) {
-  //     for (let i in typedCity.result.context) {
-  //       if (typedCity.result.context[i].id.slice(0, 7) === "country") {
-  //         countryName = typedCity.result.context[i]["text_en-US"];
-  //       }
-  //     }
-  //   } else {
-  //     countryName = typedCity.result.place_name;
-  //   }
-  //   if (typedCity.result.properties.wikidata !== undefined) {
-  //     cityId = parseFloat(typedCity.result.properties.wikidata.slice(1), 10);
-  //   } else {
-  //     cityId = parseFloat(typedCity.result.id.slice(10, 16), 10);
-  //   }
-  //   let unique = clickedCityArray.filter((data) => data.cityId === cityId);
-  //   handleUniqueBloggers(unique.length);
-  //   handleCityTooltip({
-  //     city: typedCity.result["text_en-US"],
-  //     cityId: cityId,
-  //     country: countryName,
-  //     latitude: typedCity.result.center[1],
-  //     longitude: typedCity.result.center[0],
-  //   });
-  //   handleActivePopup(true);
-  // }
-
-  function showLeaderboard() {
-    props.handleLeaderboard();
-    handleSideMenu(false);
-  }
 
   function showPopup() {
     if (activePopup) {
@@ -524,8 +418,7 @@ function BloggerCityMap(props) {
 
   function handleHoveredCityArrayHelper(hoveredCityArray) {
     handleActivePopup(true);
-    handleHoveredCityArray(hoveredCityArray);
-    handleClickedCity(hoveredCityArray);
+    // handleClickedCity(hoveredCityArray);
   }
   function handleClickedCountryTooltip() {
     let filterByCountry = props.countryArray.filter((country) => {
@@ -538,7 +431,6 @@ function BloggerCityMap(props) {
       return country.country.slice(0, 6) === countryTooltip.name.slice(0, 6);
     });
     handleActivePopup(true);
-    handleHoveredCityArray(reFilter);
     handleClickedCity(reFilter);
   }
 
@@ -636,6 +528,7 @@ function BloggerCityMap(props) {
     if (obj.features.length !== 0) {
       let parsedJson = JSON.parse(obj.features[0].properties.city);
       handleCityTooltip(parsedJson);
+      handleClickedCityId(parsedJson.cityId);
     }
   };
 
@@ -660,7 +553,7 @@ function BloggerCityMap(props) {
       <div className="city-new-map-container">
         <div
           className="city-new-side-menu"
-          style={showSideMenu ? { width: "250px" } : { width: "40px" }}
+          style={showSideMenu ? { width: "300px" } : { width: "40px" }}
         >
           {!showSideMenu ? (
             <nav className="opennav" onClick={() => handleSideMenu(true)}>
@@ -840,7 +733,9 @@ function BloggerCityMap(props) {
           componentProps={{
             hoveredCityArray: [cityTooltip],
             uniqueBloggers: uniqueBloggers,
+            uniqueBloggerArray: uniqueBloggerArray,
             activeBlogger: props.activeBlogger,
+            clickedCity: clickedCity,
           }}
         />
       ) : null}
