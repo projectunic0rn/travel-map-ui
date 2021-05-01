@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -156,13 +156,23 @@ function BloggerCityMap(props) {
       let unique = clickedCityArray.filter(
         (data) => data.cityId === clickedCityId
       );
-      handleUniqueBloggers(unique.length);
-      handleUniqueBloggerArray(unique);
-      if (unique.length > 0) {
+
+      let bloggerNames = [];
+      let uniqueBloggerArray = [];
+      for (let i = 0; i <= unique.length - 1; i++) {
+        if (bloggerNames.indexOf(unique[i].username) === -1) {
+          uniqueBloggerArray.push(unique[i]);
+          bloggerNames.push(unique[i].username);
+        }
+      }
+
+      handleUniqueBloggers(uniqueBloggerArray.length);
+      handleUniqueBloggerArray(uniqueBloggerArray);
+      if (uniqueBloggerArray.length > 0) {
         handleClickedCity({
-          city: unique[0].city,
+          city: uniqueBloggerArray[0].city,
           cityId: clickedCityId,
-          country: unique[0].country,
+          country: uniqueBloggerArray[0].country,
         });
       }
     }, [clickedCityId]);
@@ -243,9 +253,6 @@ function BloggerCityMap(props) {
     }
     handleViewport({ ...viewport, ...newViewport });
   }
-  const handleViewportChangeCallback = useCallback(() => {
-    handleViewportChange();
-  }, []);
 
   function setInitialZoom() {
     let zoom;
@@ -289,8 +296,8 @@ function BloggerCityMap(props) {
     handleClickedCity({
       city: city,
       country: country,
-      cityId: parsedCityId
-    })
+      cityId: parsedCityId,
+    });
     handleCityTooltip({
       city: typedCity.result.text,
       cityId: parsedCityId,
@@ -411,12 +418,13 @@ function BloggerCityMap(props) {
   function showPopup() {
     if (activePopup) {
       handleFilter(false);
+      handleClickOut();
     }
     handleActivePopup(!activePopup);
     handleSideMenu(false);
   }
 
-  function handleHoveredCityArrayHelper(hoveredCityArray) {
+  function handleHoveredCityArrayHelper() {
     handleActivePopup(true);
     // handleClickedCity(hoveredCityArray);
   }
@@ -431,7 +439,9 @@ function BloggerCityMap(props) {
       return country.country.slice(0, 6) === countryTooltip.name.slice(0, 6);
     });
     handleActivePopup(true);
-    handleClickedCity(reFilter);
+    handleClickedCity({
+      country: reFilter[0].country,
+    });
   }
 
   function _renderCountryPopup() {
@@ -489,39 +499,6 @@ function BloggerCityMap(props) {
     );
   }
 
-  // function _renderPopup() {
-  //   return (
-  //     cityTooltip && (
-  //       <Popup
-  //         className="city-map-tooltip"
-  //         tipSize={5}
-  //         anchor="top"
-  //         longitude={cityTooltip.longitude}
-  //         latitude={cityTooltip.latitude}
-  //         closeOnClick={false}
-  //         closeButton={true}
-  //         onClose={() => handleCityTooltip(null)}
-  //       >
-  //         <span onClick={() => clickedCity(cityTooltip)}>
-  //           {cityTooltip.city}
-  //         </span>{" "}
-  //         <br />
-  //       </Popup>
-  //     )
-  //   );
-  // }
-
-  // function clickedCity(city) {
-  //   handleCityTooltip(city);
-  //   let unique = clickedCityArray.filter((data) => data.cityId === city.cityId);
-  //   handleUniqueBloggers(unique.length);
-  //   handleActivePopup(true);
-  // }
-
-  // function showPopup() {
-  //   handleActivePopup(!activePopup);
-  //   handleSideMenu(false);
-  // }
   let cityClick = (obj) => {
     handleCityTooltip(null);
     handleCountryTooltip(null);
@@ -533,14 +510,33 @@ function BloggerCityMap(props) {
   };
 
   let countryClick = (obj) => {
+    handleCityTooltip(null);
     handleCountryTooltip(null);
     if (obj.features.length !== 0) {
       let parsedJson = obj.features[0].properties;
       parsedJson.latitude = obj.lngLat.lat;
       parsedJson.longitude = obj.lngLat.lng;
       handleCountryTooltip(parsedJson);
+      let uniqueBloggers = clickedCityArray.filter((city) => {
+        return city.country === parsedJson.name;
+      });
+      let bloggerNames = [];
+      let uniqueBloggerArray = [];
+      for (let i = 0; i <= uniqueBloggers.length - 1; i++) {
+        if (bloggerNames.indexOf(uniqueBloggers[i].username) === -1) {
+          uniqueBloggerArray.push(uniqueBloggers[i]);
+          bloggerNames.push(uniqueBloggers[i].username);
+        }
+      }
+      handleUniqueBloggers(uniqueBloggerArray.length);
+      handleUniqueBloggerArray(uniqueBloggerArray);
     }
   };
+
+  function handleClickOut() {
+    handleCityTooltip(null);
+    handleCountryTooltip(null);
+  }
 
   if (loading) return <Loader />;
   return (
@@ -705,12 +701,12 @@ function BloggerCityMap(props) {
       <div className="zoom-buttons">
         <ZoomButton
           type="+"
-          handleViewportChange={handleViewportChangeCallback}
+          handleViewportChange={handleViewportChange}
           currentZoom={viewport.zoom}
         />
         <ZoomButton
           type="-"
-          handleViewportChange={handleViewportChangeCallback}
+          handleViewportChange={handleViewportChange}
           currentZoom={viewport.zoom}
         />
       </div>
@@ -751,6 +747,8 @@ BloggerCityMap.propTypes = {
   leaderboard: PropTypes.bool,
   activeBlogger: PropTypes.number,
   handleCities: PropTypes.func,
+  geoJsonArray: PropTypes.array,
+  filterParams: PropTypes.object,
 };
 
 export default React.memo(BloggerCityMap);

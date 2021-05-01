@@ -2,98 +2,169 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import BlogPostIcon from "../../../icons/BlogPostIcon";
-import BlogPostCard from "./BlogPostCard";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 
 function BlogUserCard(props) {
-  const [latestYear, handleLatestYear] = useState(null);
+  console.log(props);
   const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
   const [clicked, handleClicked] = useState(false);
+  const [url, handleBloggerUrl] = useState("");
+
+
   useEffect(() => {
-    handleLatestYear(
-      Math.max.apply(
-        Math,
-        props.cityData.map((o) => {
-          return o.year;
-        })
-      )
-    );
-  }, [props.cityData]);
-  useEffect(() => {
-    let newFilteredCityData = [];
-    switch (props.navPosition) {
-      case 0:
-        handleFilteredCityData(props.cityData);
+    let bloggerUrlPrefix = "";
+    let bloggerUrlSuffix = "";
+    switch (props.cityData.username) {
+      case "BucketListly":
+        bloggerUrlPrefix = "https://www.bucketlistly.blog/search?query=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
         break;
-      case 1:
-        newFilteredCityData = props.cityData.filter((post) => {
-          return post.type === "single";
-        });
-        handleFilteredCityData(newFilteredCityData);
+      case "WanderingEarl":
+        bloggerUrlPrefix = "https://www.wanderingearl.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
         break;
-      case 2:
-        newFilteredCityData = props.cityData.filter((post) => {
-          return post.type === "multi";
-        });
-        handleFilteredCityData(newFilteredCityData);
+      case "AdventurousKate":
+        bloggerUrlPrefix = "https://www.adventurouskate.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "Nomadasaurus":
+        bloggerUrlPrefix = "https://www.nomadasaurus.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "iameileen":
+        bloggerUrlPrefix = "https://iamaileen.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "Bemytravelmuse":
+        bloggerUrlPrefix = "https://www.bemytravelmuse.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "heydipyourtoesin":
+        bloggerUrlPrefix = "https://heydipyourtoesin.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "AlexinWanderland":
+        bloggerUrlPrefix = "https://www.alexinwanderland.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "TheBlondeAbroad":
+        bloggerUrlPrefix = "https://www.theblondeabroad.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "WildJunket":
+        bloggerUrlPrefix = "https://www.wildjunket.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "NomadicMatt":
+        bloggerUrlPrefix = "https://www.nomadicmatt.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "UncorneredMarket":
+        bloggerUrlPrefix = "https://uncorneredmarket.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "TheBrokeBackpacker":
+        bloggerUrlPrefix = "https://www.thebrokebackpacker.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
+        break;
+      case "NeverendingFootsteps":
+        bloggerUrlPrefix = "https://www.neverendingfootsteps.com/?s=";
+        bloggerUrlSuffix =
+          props.cityName === undefined
+            ? props.cityData.country
+            : props.cityData.city;
         break;
       default:
         break;
     }
-    handleClicked(false);
-  }, [props.navPosition, props.cityData]);
-  return filteredCityData.length > 0 ? (
+    handleBloggerUrl(bloggerUrlPrefix + bloggerUrlSuffix);
+  }, [props.cityData]);
+
+  useEffect(() => {
+    handleFilteredCityData(props.cityData);
+  }, [props.cityData]);
+
+  return (
     <>
-      <div
-        className="blogger-post-card"
-        onClick={() => handleClicked(!clicked)}
-      >
-        <div className="user-profile-image">
-          <UserAvatar
-            avatarIndex={
-              props.cityData[0].avatarIndex !== null
-                ? props.cityData[0].avatarIndex
-                : 1
-            }
-            color={props.cityData[0].color}
-            email={props.cityData[0].email}
-          />
-        </div>
-        <div className="utc-user-info-container">
-          <span
-            className="buc-post-title"
-            style={{ fontSize: "20px", minHeight: "30px" }}
-          >
-            {props.cityData[0].username}
-          </span>
-        </div>
-        <div className="bcc-data-container">
-          <span className="bcc-city-posts" style={{ flexDirection: "row" }}>
-            {filteredCityData[0].title !== null ? filteredCityData.length : 0}
-            <BlogPostIcon />
-          </span>
-        </div>
+      {" "}
+      <a href={url} target="_blank" rel="noopener noreferrer">
         <div
-          className={
-            "utc-year-container utc-year-container-" +
-            props.cityData[0].tripTiming
-          }
+          className="blogger-post-card"
+          onClick={() => handleClicked(!clicked)}
         >
-          <p className="utc-year">{latestYear !== 0 ? latestYear : ""}</p>
+          <div className="user-profile-image">
+            <UserAvatar
+              avatarIndex={
+                props.cityData.avatarIndex !== null
+                  ? props.cityData.avatarIndex
+                  : 1
+              }
+              color={props.cityData.color}
+              email={props.cityData.email}
+            />
+          </div>
+          <div className="utc-user-info-container">
+            <span
+              className="buc-post-title"
+              style={{ fontSize: "20px", minHeight: "30px" }}
+            >
+              {props.cityData.username}
+            </span>
+          </div>
+          <div className="bcc-data-container">
+            <span className="bcc-city-posts" style={{ flexDirection: "row" }}>
+              <BlogPostIcon />
+            </span>
+          </div>
         </div>
-      </div>
-      {clicked && filteredCityData[0].title !== null
-        ? filteredCityData.map((post, i) => {
-            return <BlogPostCard post={post} key={i} />;
-          })
-        : null}
+      </a>
     </>
-  ) : null;
+  );
 }
 
 BlogUserCard.propTypes = {
-  cityData: PropTypes.array,
+  cityData: PropTypes.object,
   navPosition: PropTypes.number,
+  cityName: PropTypes.string,
 };
 
 export default BlogUserCard;
