@@ -237,12 +237,9 @@ function CityMap(props) {
     features: props.geoJsonArray,
   };
 
-  console.log(props.geoJsonArray);
-  console.log(user);
-
   const countryJson = {
     type: "FeatureCollection",
-    features: props.filteredCountryJsonData,
+    features: props.filteredCountryJsonData !== undefined ? props.filteredCountryJsonData : [],
   };
 
   function useEffectSkipFirstUserClickedCityArray() {
@@ -597,7 +594,6 @@ function CityMap(props) {
   }
 
   function handleOnResult(event) {
-    console.log(event);
     let country = "";
     let countryISO = "";
     let context = 0;

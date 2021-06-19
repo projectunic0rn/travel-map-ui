@@ -24,6 +24,8 @@ const BloggerMap = () => {
     { username: "BucketListly" },
     { username: "heydipyourtoesin" },
     { username: "WildJunket" },
+    { username: "Nomadasaurus" },
+    { username: "NomadicChica" },
   ]);
   const [tripData, handleTripData] = useState([]);
   const [filteredTripData, handleFilteredTripData] = useState([]);
@@ -38,7 +40,6 @@ const BloggerMap = () => {
   const [countryJsonData, handleCountryJsonData] = useState();
   const [filteredCountryJsonData, handleFilteredCountryJsonData] = useState();
   const [, handleFilteredUserData] = useState([]);
-  console.log(filteredTripData)
 
   useEffect(() => {
     localStorage.removeItem("token");
@@ -168,7 +169,6 @@ const BloggerMap = () => {
       let newFilteredCountryData = [];
       let geoJson = {};
       var newGeoJson = {};
-      console.log(data);
       for (let i in data) {
         let userData = data[i];
         if (userData != null && userData.Places_visited.length !== 0) {

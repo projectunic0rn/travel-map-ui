@@ -108,8 +108,6 @@ const MapPage = () => {
       }
     }
     addCountry(newCountryArray);
-    console.log(newCountryArray)
-    console.log(newFilteredCountryData)
     handleFilteredCountryJsonData(newFilteredCountryData);
   }
 

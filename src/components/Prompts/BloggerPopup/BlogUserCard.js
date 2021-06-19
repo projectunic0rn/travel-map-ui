@@ -5,11 +5,9 @@ import BlogPostIcon from "../../../icons/BlogPostIcon";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 
 function BlogUserCard(props) {
-  console.log(props);
-  const [filteredCityData, handleFilteredCityData] = useState(props.cityData);
+  const [, handleFilteredCityData] = useState(props.cityData);
   const [clicked, handleClicked] = useState(false);
   const [url, handleBloggerUrl] = useState("");
-
 
   useEffect(() => {
     let bloggerUrlPrefix = "";
@@ -113,6 +111,13 @@ function BlogUserCard(props) {
             ? props.cityData.country
             : props.cityData.city;
         break;
+        case "NomadicChica":
+          bloggerUrlPrefix = "https://www.nomadicchica.com/?s=";
+          bloggerUrlSuffix =
+            props.cityName === undefined
+              ? props.cityData.country
+              : props.cityData.city;
+          break;
       default:
         break;
     }

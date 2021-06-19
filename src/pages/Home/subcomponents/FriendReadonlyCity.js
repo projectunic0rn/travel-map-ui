@@ -418,7 +418,7 @@ function FriendReadonlyCity(props) {
         <div className="city-map-container" id="friend-city-map-container">
           <div
             className="city-new-side-menu"
-            style={showSideMenu ? { width: "300px" } : { width: "40px" }}
+            style={showSideMenu ? { width: "30px" } : { width: "40px" }}
           >
             {!showSideMenu ? (
               <nav className="opennav" onClick={() => handleSideMenu(true)}>
