@@ -21,7 +21,19 @@ This will run the application in development mode, which will ensure the updates
 
 ### Running the API
 
-In many cases you will need to also run the Travel Map API alongside this project.
+When running the application locally you must connect to a valid API for handling requests. You can either utilize a local backend server or the production website. To toggle between these configurations, update the the following line in your `.env` file:
+
+**To Use Locally Hosted API**
+
+```
+REACT_APP_API=DEV
+```
+
+**To Use Production Website's API**
+
+```
+REACT_APP_API=PROD
+```
 
 Please see [travel-map-api](https://github.com/projectunic0rn/travel-map-api) for more information on how to setup and install the API.
 
