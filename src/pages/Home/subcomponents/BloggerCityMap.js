@@ -165,6 +165,8 @@ function BloggerCityMap(props) {
           bloggerNames.push(unique[i].username);
         }
       }
+      console.log(uniqueBloggerArray)
+      console.log(bloggerNames);
 
       handleUniqueBloggers(uniqueBloggerArray.length);
       handleUniqueBloggerArray(uniqueBloggerArray);
@@ -522,6 +524,7 @@ function BloggerCityMap(props) {
       });
       let bloggerNames = [];
       let uniqueBloggerArray = [];
+      console.log(uniqueBloggers)
       for (let i = 0; i <= uniqueBloggers.length - 1; i++) {
         if (bloggerNames.indexOf(uniqueBloggers[i].username) === -1) {
           uniqueBloggerArray.push(uniqueBloggers[i]);
@@ -529,7 +532,7 @@ function BloggerCityMap(props) {
         }
       }
       handleUniqueBloggers(uniqueBloggerArray.length);
-      handleUniqueBloggerArray(uniqueBloggerArray);
+      handleUniqueBloggerArray(uniqueBloggers);
     }
   };
 

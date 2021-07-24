@@ -41,7 +41,7 @@ function BloggerLeaderboardPrompt({
         <input
           className="leaderboard-profile-search"
           type="search"
-          placeholder="Type or click name to filter"
+          placeholder="Type/click name to filter"
           onChange={(e) => handleSearchText(e.target.value)}
         ></input>
       </span>

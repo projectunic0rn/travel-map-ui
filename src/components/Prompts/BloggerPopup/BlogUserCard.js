@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import BlogPostIcon from "../../../icons/BlogPostIcon";
+import CityIcon from "../../../icons/CityIcon";
 import UserAvatar from "../../UserAvatar/UserAvatar";
 
 function BlogUserCard(props) {
@@ -157,7 +157,7 @@ function BlogUserCard(props) {
           </div>
           <div className="bcc-data-container">
             <span className="bcc-city-posts" style={{ flexDirection: "row" }}>
-              <BlogPostIcon />
+              { props.cityData.city} <CityIcon />
             </span>
           </div>
         </div>

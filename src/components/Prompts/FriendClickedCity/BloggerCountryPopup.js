@@ -71,6 +71,7 @@ function BloggerCountryPopup(props) {
   }
 
   function handleBlogPostHelper(data) {
+    console.log(data);
     let newBlogPosts = [];
     for (let i in data) {
       for (let j in data[i].Places_visited) {
