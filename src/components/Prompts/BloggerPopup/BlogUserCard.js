@@ -18,105 +18,105 @@ function BlogUserCard(props) {
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "WanderingEarl":
         bloggerUrlPrefix = "https://www.wanderingearl.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "AdventurousKate":
         bloggerUrlPrefix = "https://www.adventurouskate.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "Nomadasaurus":
         bloggerUrlPrefix = "https://www.nomadasaurus.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "iameileen":
         bloggerUrlPrefix = "https://iamaileen.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "Bemytravelmuse":
         bloggerUrlPrefix = "https://www.bemytravelmuse.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "heydipyourtoesin":
         bloggerUrlPrefix = "https://heydipyourtoesin.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "AlexinWanderland":
         bloggerUrlPrefix = "https://www.alexinwanderland.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "TheBlondeAbroad":
         bloggerUrlPrefix = "https://www.theblondeabroad.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "WildJunket":
         bloggerUrlPrefix = "https://www.wildjunket.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "NomadicMatt":
         bloggerUrlPrefix = "https://www.nomadicmatt.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "UncorneredMarket":
         bloggerUrlPrefix = "https://uncorneredmarket.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "TheBrokeBackpacker":
         bloggerUrlPrefix = "https://www.thebrokebackpacker.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
       case "NeverendingFootsteps":
         bloggerUrlPrefix = "https://www.neverendingfootsteps.com/?s=";
         bloggerUrlSuffix =
           props.cityName === undefined
             ? props.cityData.country
-            : props.cityData.city;
+            : props.cityName;
         break;
         case "NomadicChica":
           bloggerUrlPrefix = "https://www.nomadicchica.com/?s=";
           bloggerUrlSuffix =
             props.cityName === undefined
               ? props.cityData.country
-              : props.cityData.city;
+              : props.cityName;
           break;
       default:
         break;
